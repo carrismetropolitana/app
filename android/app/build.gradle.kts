@@ -10,6 +10,7 @@ plugins {
     id("kotlinx-serialization")
     id("com.google.devtools.ksp")
     id("com.google.gms.google-services")
+    id("com.facebook.react")
 }
 
 android {
@@ -119,4 +120,12 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 
     implementation("sh.calvin.reorderable:reorderable:2.3.3")
+
+    implementation("com.facebook.react:react-android")
+    implementation("com.facebook.react:hermes-android")
+}
+
+react {
+    // Needed to enable Autolinking - https://github.com/react-native-community/cli/blob/master/docs/autolinking.md
+    autolinkLibrariesWithApp()
 }

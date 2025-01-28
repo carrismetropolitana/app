@@ -99,3 +99,6 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# -------- JS gitignore --------
+node_modules/

@@ -10,6 +10,7 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+    includeBuild("../node_modules/@react-native/gradle-plugin")
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -19,5 +20,13 @@ dependencyResolutionManagement {
     }
 }
 
+plugins {
+    id("com.facebook.react.settings") 
+}
+
+extensions.configure<com.facebook.react.ReactSettingsExtension> { autolinkLibrariesFromCommand() }
+
 rootProject.name = "CarrisMetropolitana"
 include(":app")
+
+includeBuild("../node_modules/@react-native/gradle-plugin")
