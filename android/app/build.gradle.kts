@@ -16,6 +16,7 @@ plugins {
 android {
     namespace = "pt.carrismetropolitana.mobile"
     compileSdk = 34
+    ndkVersion = "28.0.12916984"
 
     defaultConfig {
         applicationId = "pt.carrismetropolitana.mobile"
