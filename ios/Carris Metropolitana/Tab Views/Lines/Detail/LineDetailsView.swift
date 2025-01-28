@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MapKit
+import AmplitudeSwift
 
 
 struct LineDetailsView: View {
@@ -127,6 +128,9 @@ struct LineDetailsView: View {
             }
         }
         .onAppear {
+            Amplitude.shared.track(eventType: "LINE_VIEWED", eventProperties: [
+                "entityId": line.id
+            ])
             LinesSearchHistoryManager.shared.addSearchResult(line.id)
             if patterns.count == 0 {
                 Task {
@@ -577,7 +581,7 @@ struct NextEtasView: View {
 }
 
 struct StopOptionsButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
+    func makeBody(configuration: ButtonStyleConfiguration) -> some View {
         configuration.label
             .padding(10)
             .foregroundColor(.secondary)

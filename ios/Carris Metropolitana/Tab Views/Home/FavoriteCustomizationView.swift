@@ -8,6 +8,7 @@
 import SwiftUI
 import FirebaseCore
 import FirebaseMessaging
+import AmplitudeSwift
 
 enum CustomizationViewType {
     case stop, line
@@ -205,6 +206,12 @@ struct FavoriteCustomizationView: View {
                                             favoritesManager.addFavorite(
                                                 FavoriteItem(type: .stop, patternIds: selectedPatternIds, stopId: selectedStopId ?? overrideFavoriteItem?.stopId ?? overrideItemId, receiveNotifications: sendNotifications)
                                                 )
+                                            Amplitude.shared.track(eventType: "ADD_FAVORITE", eventProperties: [
+                                                "entityType": "STOP",
+                                                "entityId": selectedStopId ?? overrideFavoriteItem?.stopId ?? overrideItemId,
+                                                "subEntitiesIds": selectedPatternIds,
+                                                "willNotify": sendNotifications
+                                            ])
                                             isSelfPresented.toggle()
                                         } else {
                                             errorTitle = String(localized: "Selecione pelo menos um destino.")
@@ -225,6 +232,11 @@ struct FavoriteCustomizationView: View {
                                                     receiveNotifications: sendNotifications
                                                 )
                                             )
+                                            Amplitude.shared.track(eventType: "ADD_FAVORITE", eventProperties: [
+                                                "entityType": "PATTERN",
+                                                "entityId": selectedPatternIds[0],
+                                                "willNotify": sendNotifications
+                                            ])
                                             
                                             isSelfPresented.toggle()
                                         } else {
@@ -247,8 +259,19 @@ struct FavoriteCustomizationView: View {
     //                        favoritesManager.removeFavorite()
                             if let fav = overrideFavoriteItem { // is editing, exists and should be removed
                                 favoritesManager.removeFavorite(fav)
+                                let eventProperties =
+                                Amplitude.shared.track(eventType: "REMOVE_FAVORITE", eventProperties: [
+                                    "entityType": fav.type == .pattern ? "PATTERN" : "STOP",
+                                    "entityId": fav.type == .pattern ? fav.patternIds[0] : fav.stopId,
+                                    "subEntitiesIds": fav.type == .stop ? fav.patternIds : nil,
+                                    "willNotify": fav.receiveNotifications
+                                ])
                             } else if let itemId = overrideItemId {
                                 favoritesManager.fuzzyRemove(itemId: itemId, itemType: type == .stop ? .stop : .pattern)
+                                Amplitude.shared.track(eventType: "REMOVE_FAVORITE_FUZZY", eventProperties: [
+                                    "entityType": type == .pattern ? "PATTERN" : "STOP",
+                                    "entityId": itemId
+                                ])
                             }
                             
                             // creating new, haven't saved yet, just ignore and don't save

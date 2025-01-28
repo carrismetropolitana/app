@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AmplitudeSwift
 
 @main
 struct cmet_ios_demoApp: App {

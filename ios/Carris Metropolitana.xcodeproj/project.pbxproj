@@ -87,6 +87,8 @@
 		79CA0A712BA2F4E4000F4900 /* FavoriteStopWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CA0A702BA2F4E4000F4900 /* FavoriteStopWidgetView.swift */; };
 		79CA0A732BA2F4F0000F4900 /* FavoriteLineWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CA0A722BA2F4F0000F4900 /* FavoriteLineWidgetView.swift */; };
 		79CA0A752BA2F4FD000F4900 /* SmartNotificationWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CA0A742BA2F4FD000F4900 /* SmartNotificationWidgetView.swift */; };
+		79CD47652D1F08BA007A2A90 /* AmplitudeSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 79CD47642D1F08BA007A2A90 /* AmplitudeSwift */; };
+		79CD47672D1F0C10007A2A90 /* AmplitudeSingletonHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CD47662D1F0C0C007A2A90 /* AmplitudeSingletonHelper.swift */; };
 		79CD78A12BA73767003D30F2 /* FacilityIconsPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CD78A02BA73767003D30F2 /* FacilityIconsPreviewView.swift */; };
 		79CD78A72BA78001003D30F2 /* AnotherMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CD78A62BA78001003D30F2 /* AnotherMapView.swift */; };
 		79CD78AA2BA78233003D30F2 /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = 79CD78A92BA78233003D30F2 /* MapLibre */; };
@@ -262,6 +264,7 @@
 		79CA0A722BA2F4F0000F4900 /* FavoriteLineWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteLineWidgetView.swift; sourceTree = "<group>"; };
 		79CA0A742BA2F4FD000F4900 /* SmartNotificationWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartNotificationWidgetView.swift; sourceTree = "<group>"; };
 		79CCB5582C91965900A3D39C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		79CD47662D1F0C0C007A2A90 /* AmplitudeSingletonHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmplitudeSingletonHelper.swift; sourceTree = "<group>"; };
 		79CD78A02BA73767003D30F2 /* FacilityIconsPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityIconsPreviewView.swift; sourceTree = "<group>"; };
 		79CD78A62BA78001003D30F2 /* AnotherMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnotherMapView.swift; sourceTree = "<group>"; };
 		79CD78AB2BA78256003D30F2 /* StopsMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopsMapView.swift; sourceTree = "<group>"; };
@@ -337,6 +340,7 @@
 				7960AC882C48446B00E0B615 /* FirebaseMessaging in Frameworks */,
 				79CD78AA2BA78233003D30F2 /* MapLibre in Frameworks */,
 				7988613A2BA5AF2B002C1170 /* SwiftSoup in Frameworks */,
+				79CD47652D1F08BA007A2A90 /* AmplitudeSwift in Frameworks */,
 				791A706E2C3D349800E789E5 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -788,6 +792,7 @@
 			isa = PBXGroup;
 			children = (
 				79E920AA2C7BF89100BD2440 /* ArrivalsHelpers.swift */,
+				79CD47662D1F0C0C007A2A90 /* AmplitudeSingletonHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -853,6 +858,7 @@
 				79CD78A92BA78233003D30F2 /* MapLibre */,
 				791A706D2C3D349800E789E5 /* Lottie */,
 				7960AC872C48446B00E0B615 /* FirebaseMessaging */,
+				79CD47642D1F08BA007A2A90 /* AmplitudeSwift */,
 			);
 			productName = "Carris Metropolitana";
 			productReference = 79DB83662BA19A5D0023DD93 /* Carris Metropolitana.app */;
@@ -914,6 +920,7 @@
 				79CD78A82BA78233003D30F2 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */,
 				791A706C2C3D349800E789E5 /* XCRemoteSwiftPackageReference "lottie-spm" */,
 				7960AC862C48446B00E0B615 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				79CD47632D1F08BA007A2A90 /* XCRemoteSwiftPackageReference "Amplitude-Swift" */,
 			);
 			productRefGroup = 79DB83672BA19A5D0023DD93 /* Products */;
 			projectDirPath = "";
@@ -1069,6 +1076,7 @@
 				7971D1D22BB3668500112BBC /* ShapeAndVehiclesMapView.swift in Sources */,
 				79DB837F2BA19B9B0023DD93 /* StopsView.swift in Sources */,
 				79DB837D2BA19B8C0023DD93 /* HomeView.swift in Sources */,
+				79CD47672D1F0C10007A2A90 /* AmplitudeSingletonHelper.swift in Sources */,
 				791A70722C3D5FF400E789E5 /* ExpandedMapView.swift in Sources */,
 				79EE5FC52BB7BE980060820F /* GenericMapView.swift in Sources */,
 				79323FAB2C49A14700AE9D50 /* VehicleLookup.swift in Sources */,
@@ -1519,6 +1527,14 @@
 				minimumVersion = 2.7.1;
 			};
 		};
+		79CD47632D1F08BA007A2A90 /* XCRemoteSwiftPackageReference "Amplitude-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/amplitude/Amplitude-Swift";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		79CD78A82BA78233003D30F2 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/maplibre/maplibre-gl-native-distribution";
@@ -1544,6 +1560,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 798861382BA5AF2B002C1170 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
 			productName = SwiftSoup;
+		};
+		79CD47642D1F08BA007A2A90 /* AmplitudeSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 79CD47632D1F08BA007A2A90 /* XCRemoteSwiftPackageReference "Amplitude-Swift" */;
+			productName = AmplitudeSwift;
 		};
 		79CD78A92BA78233003D30F2 /* MapLibre */ = {
 			isa = XCSwiftPackageProductDependency;

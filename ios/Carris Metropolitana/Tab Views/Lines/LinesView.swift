@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreLocation
+import AmplitudeSwift
 
 struct LinesView: View {
     @EnvironmentObject var linesManager: LinesManager
@@ -58,6 +59,7 @@ struct LinesView: View {
             .toolbarColorScheme(.light)
             .onAppear {
                 vehiclesManager.stopFetching()
+                Amplitude.shared.track(event: ScreenViewedEvent(screenName: "LINES_TAB"))
             }
             // .toolbar(.hidden) // for now, default title too big
 //            .onAppear {
