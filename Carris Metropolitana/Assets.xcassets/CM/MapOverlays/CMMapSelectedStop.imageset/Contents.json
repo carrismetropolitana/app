@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "map-stop-selected.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

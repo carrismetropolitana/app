@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyCO3tX7ESNwj39YOFjsgG0HloBbe0_wsIA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>608789277063</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>pt.carrismetropolitana.app</string>
+	<key>PROJECT_ID</key>
+	<string>carrismetropolitana-mobile</string>
+	<key>STORAGE_BUCKET</key>
+	<string>carrismetropolitana-mobile.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:608789277063:ios:e83fdeb154ccc7b1cbcb22</string>
+</dict>
+</plist>
