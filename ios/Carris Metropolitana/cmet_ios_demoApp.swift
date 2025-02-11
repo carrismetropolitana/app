@@ -29,7 +29,7 @@ struct cmet_ios_demoApp: App {
         let _ = locationManager.requestAuthorization() // later this should be done in a controlled manner
         WindowGroup {
             ZStack {
-                ContentView()
+                ContentView(appDelegate: delegate)
                     .environmentObject(alertsManager)
                     .environmentObject(vehiclesManager)
                     .environmentObject(locationManager)

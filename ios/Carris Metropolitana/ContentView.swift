@@ -8,6 +8,9 @@
 import SwiftUI
 import MapKit
 
+import React
+import React_RCTAppDelegate
+
 enum Tab {
     case home, lines, stops, more
 }
@@ -21,6 +24,7 @@ class TabCoordinator: ObservableObject {
 }
 
 struct ContentView: View {
+    let appDelegate: AppDelegate
     @StateObject private var tabCoordinator = TabCoordinator()
     
     @State private var applicableStartupMessage: StartupMessage? = nil
@@ -50,7 +54,11 @@ struct ContentView: View {
                     }
                     .tag(Tab.stops)
                 
-                MoreView()
+//                MoreView()
+                ReactNativeView(
+                    moduleName: "HelloWorld",
+                    rootViewFactory: appDelegate.rootViewFactory
+                )
                     .tabItem {
                         Label("Mais", systemImage: "ellipsis")
                     }
@@ -109,6 +117,6 @@ struct ContentView: View {
     }
 }
 
-#Preview {
-    ContentView()
-}
+//#Preview {
+//    ContentView()
+//}

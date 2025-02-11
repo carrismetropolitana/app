@@ -10,8 +10,11 @@ import FirebaseCore
 import FirebaseMessaging
 import UserNotifications
 
-class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+import React
+import React_RCTAppDelegate
+
+class AppDelegate: RCTAppDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
+    override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             if granted {
@@ -24,16 +27,33 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         UNUserNotificationCenter.current().delegate = self
         Messaging.messaging().delegate = self
         
+        self.automaticallyLoadReactNativeWindow = false
+        
+        super.application(application, didFinishLaunchingWithOptions: launchOptions)
+        
         return true
     }
     
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    override func sourceURL(for bridge: RCTBridge) -> URL? {
+        self.bundleURL()
+    }
+    
+    override func bundleURL() -> URL? {
+        #if DEBUG
+            RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index")
+        #else
+            Bundle.main.url(forResource: "main", withExtension: "jsbundle")
+        #endif
+    }
+    
+    
+    override func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let tokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         print("Device push notification (APNs) token: \(tokenString)")
         
     }
     
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    override func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Failed to register for remote notifications: \(error)")
     }
     

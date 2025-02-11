@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E6D83C2E9E0DD21FE2072A0 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = E02309417970FF95966157FD /* PrivacyInfo.xcprivacy */; };
+		653F1BC7B24E41C2ED464708 /* libPods-Carris Metropolitana.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 76C306E8692C8A6920E5539C /* libPods-Carris Metropolitana.a */; };
 		790817D92BEE1EF000EC0C82 /* PersistentDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790817D82BEE1EF000EC0C82 /* PersistentDataController.swift */; };
 		790817DB2BEE277C00EC0C82 /* CMLoadingAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790817DA2BEE277C00EC0C82 /* CMLoadingAnimation.swift */; };
 		790817DD2BEE2F7700EC0C82 /* UserProfileSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790817DC2BEE2F7700EC0C82 /* UserProfileSheetView.swift */; };
@@ -76,6 +78,7 @@
 		79A89F3E2BDBDBD100DB5068 /* LoginSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A89F3D2BDBDBD100DB5068 /* LoginSheetView.swift */; };
 		79AB3C9E2C72CC5900122AA1 /* StopsFilterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AB3C9D2C72CC5900122AA1 /* StopsFilterTest.swift */; };
 		79AC71F12CB9136800BA7EDF /* MediaUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AC71F02CB9135700BA7EDF /* MediaUIView.swift */; };
+		79B572A22D4AE90D00021460 /* ReactNativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B572A12D4AE90C00021460 /* ReactNativeView.swift */; };
 		79B7C5B72C584075007A2D9D /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B7C5B62C584075007A2D9D /* NetworkMonitor.swift */; };
 		79B8BE4B2C9645CF00313253 /* StopsSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B8BE4A2C9645CF00313253 /* StopsSearchBar.swift */; };
 		79B8BE4D2C9645FD00313253 /* StopSearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B8BE4C2C9645FD00313253 /* StopSearchResultsView.swift */; };
@@ -177,6 +180,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7564D02D1DA62541C1CAEB89 /* Pods-Carris Metropolitana.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carris Metropolitana.release.xcconfig"; path = "Target Support Files/Pods-Carris Metropolitana/Pods-Carris Metropolitana.release.xcconfig"; sourceTree = "<group>"; };
+		76C306E8692C8A6920E5539C /* libPods-Carris Metropolitana.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Carris Metropolitana.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		790817D82BEE1EF000EC0C82 /* PersistentDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentDataController.swift; sourceTree = "<group>"; };
 		790817DA2BEE277C00EC0C82 /* CMLoadingAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMLoadingAnimation.swift; sourceTree = "<group>"; };
 		790817DC2BEE2F7700EC0C82 /* UserProfileSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileSheetView.swift; sourceTree = "<group>"; };
@@ -250,6 +255,7 @@
 		79AB3C9D2C72CC5900122AA1 /* StopsFilterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopsFilterTest.swift; sourceTree = "<group>"; };
 		79AC71F02CB9135700BA7EDF /* MediaUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaUIView.swift; sourceTree = "<group>"; };
 		79B4A53B2C48976000E13D3E /* Carris Metropolitana.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Carris Metropolitana.entitlements"; sourceTree = "<group>"; };
+		79B572A12D4AE90C00021460 /* ReactNativeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactNativeView.swift; sourceTree = "<group>"; };
 		79B7C5B62C584075007A2D9D /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		79B8BE4A2C9645CF00313253 /* StopsSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopsSearchBar.swift; sourceTree = "<group>"; };
 		79B8BE4C2C9645FD00313253 /* StopSearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopSearchResultsView.swift; sourceTree = "<group>"; };
@@ -318,6 +324,8 @@
 		79F982442BB724E7002B3997 /* IMLModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMLModel.swift; sourceTree = "<group>"; };
 		79FA6A242C1DF5B600E043C8 /* LinesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinesManager.swift; sourceTree = "<group>"; };
 		79FA6A262C1DF79300E043C8 /* VehicleInfoAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleInfoAPI.swift; sourceTree = "<group>"; };
+		CC603ADA92D5DCA73C37E698 /* Pods-Carris Metropolitana.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Carris Metropolitana.debug.xcconfig"; path = "Target Support Files/Pods-Carris Metropolitana/Pods-Carris Metropolitana.debug.xcconfig"; sourceTree = "<group>"; };
+		E02309417970FF95966157FD /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = ../PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -338,6 +346,7 @@
 				79CD78AA2BA78233003D30F2 /* MapLibre in Frameworks */,
 				7988613A2BA5AF2B002C1170 /* SwiftSoup in Frameworks */,
 				791A706E2C3D349800E789E5 /* Lottie in Frameworks */,
+				653F1BC7B24E41C2ED464708 /* libPods-Carris Metropolitana.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -634,6 +643,7 @@
 				79D3B1652C77E56300E0AE52 /* VehicleLivePattern */,
 				79DB83672BA19A5D0023DD93 /* Products */,
 				79DE90562C493DFE00D3E859 /* Frameworks */,
+				F00F05E1FD6D09FE808CAFCD /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -656,6 +666,7 @@
 				79DB83692BA19A5D0023DD93 /* cmet_ios_demoApp.swift */,
 				7960AC892C488CC300E0B615 /* AppDelegate.swift */,
 				79DB836B2BA19A5D0023DD93 /* ContentView.swift */,
+				79B572A12D4AE90C00021460 /* ReactNativeView.swift */,
 				790CB9842BE29E800011B0EA /* Assets */,
 				79DB83822BA1B2600023DD93 /* Components */,
 				79DB83772BA19B4C0023DD93 /* Tab Views */,
@@ -663,6 +674,7 @@
 				79E920A92C7BF87100BD2440 /* Helpers */,
 				79A1904C2C3EC0AD00752D80 /* Utils */,
 				79DB836F2BA19A5E0023DD93 /* Preview Content */,
+				E02309417970FF95966157FD /* PrivacyInfo.xcprivacy */,
 			);
 			path = "Carris Metropolitana";
 			sourceTree = "<group>";
@@ -780,6 +792,7 @@
 			children = (
 				79D3B1612C77E56300E0AE52 /* WidgetKit.framework */,
 				79D3B1632C77E56300E0AE52 /* SwiftUI.framework */,
+				76C306E8692C8A6920E5539C /* libPods-Carris Metropolitana.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -811,6 +824,15 @@
 			path = IMLAPI;
 			sourceTree = "<group>";
 		};
+		F00F05E1FD6D09FE808CAFCD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CC603ADA92D5DCA73C37E698 /* Pods-Carris Metropolitana.debug.xcconfig */,
+				7564D02D1DA62541C1CAEB89 /* Pods-Carris Metropolitana.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -835,11 +857,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 79DB83742BA19A5E0023DD93 /* Build configuration list for PBXNativeTarget "Carris Metropolitana" */;
 			buildPhases = (
+				06F6BE3ABDFCDA55CBCDA104 /* [CP] Check Pods Manifest.lock */,
 				79DB83622BA19A5D0023DD93 /* Sources */,
 				79DB83632BA19A5D0023DD93 /* Frameworks */,
 				79DB83642BA19A5D0023DD93 /* Resources */,
 				79DE90522C493C5D00D3E859 /* Embed Foundation Extensions */,
 				79184FD72C9265AE002884D1 /* Set App Version and Build Number (CalVer) */,
+				E005665E2A9CEF2F7866C874 /* [CP] Embed Pods Frameworks */,
+				9425963DBBD6909125CDCDFC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -946,6 +971,7 @@
 				79A1904E2C3F32F800752D80 /* CMLogoLoopDark.json in Resources */,
 				791A70742C3DBA4000E789E5 /* Launch Screen.storyboard in Resources */,
 				791A70702C3D353B00E789E5 /* CMLogoLoop.json in Resources */,
+				1E6D83C2E9E0DD21FE2072A0 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -959,6 +985,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		06F6BE3ABDFCDA55CBCDA104 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Carris Metropolitana-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		79184FD72C9265AE002884D1 /* Set App Version and Build Number (CalVer) */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -977,6 +1025,40 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# https://medium.com/@SteveBarnegren/better-xcode-build-numbers-e999aac6254d\n\n# Set App Version to current date\nversionNumber=$(date \"+%Y.%m.%d\")\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $versionNumber\" \"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\n\n# Set Build Number to current unix timestamp in seconds\nbuildNumber=$(date \"+%s\")\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\n";
+		};
+		9425963DBBD6909125CDCDFC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Carris Metropolitana/Pods-Carris Metropolitana-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Carris Metropolitana/Pods-Carris Metropolitana-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Carris Metropolitana/Pods-Carris Metropolitana-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E005665E2A9CEF2F7866C874 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Carris Metropolitana/Pods-Carris Metropolitana-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Carris Metropolitana/Pods-Carris Metropolitana-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Carris Metropolitana/Pods-Carris Metropolitana-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1083,6 +1165,7 @@
 				799E63B62C02C71C00BCBEB8 /* AlertsSheetView.swift in Sources */,
 				79CA0A752BA2F4FD000F4900 /* SmartNotificationWidgetView.swift in Sources */,
 				79DB838C2BA1B6320023DD93 /* CMWModels.swift in Sources */,
+				79B572A22D4AE90D00021460 /* ReactNativeView.swift in Sources */,
 				79DB836C2BA19A5D0023DD93 /* ContentView.swift in Sources */,
 				7956B04C2CB9191700106A5F /* DisplayType.swift in Sources */,
 				797C32E52C2A25B500E5860D /* CustomerSupportView.swift in Sources */,
@@ -1195,9 +1278,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CC = "";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -1224,6 +1308,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				CXX = "";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -1243,13 +1328,21 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD = "";
+				LDPLUSPLUS = "";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				USE_HERMES = true;
 			};
 			name = Debug;
 		};
@@ -1258,9 +1351,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CC = "";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -1287,6 +1381,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				CXX = "";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1300,17 +1395,26 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD = "";
+				LDPLUSPLUS = "";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				USE_HERMES = true;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		79DB83752BA19A5E0023DD93 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CC603ADA92D5DCA73C37E698 /* Pods-Carris Metropolitana.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1357,6 +1461,7 @@
 		};
 		79DB83762BA19A5E0023DD93 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7564D02D1DA62541C1CAEB89 /* Pods-Carris Metropolitana.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
