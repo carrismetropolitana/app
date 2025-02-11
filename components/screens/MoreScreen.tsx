@@ -33,9 +33,18 @@ import useThemedCMColor from "../../hooks/useThemedCMColor";
 
 import { useQuery } from "@tanstack/react-query";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import InAppBrowser from "react-native-inappbrowser-reborn";
 // import { Skeleton } from "moti/skeleton";
 // import { openURL } from "expo-linking";
 // import { useTheme } from "@react-navigation/native";
+
+async function openInAppBrowser(url: string) {
+    await InAppBrowser.open(url, {
+        modalPresentationStyle: "formSheet",
+        modalEnabled: true,
+        animated: true,
+    });
+}
 
 export default function MoreScreen({
     releaseVersionNumber,
@@ -113,7 +122,12 @@ export default function MoreScreen({
                     true,
                     false,
                     false,
-                    styles
+                    styles,
+                    async () => {
+                        await openInAppBrowser(
+                            "https://www.carrismetropolitana.pt/faq"
+                        );
+                    }
                 )}
                 {renderMenuItem(
                     "Perdidos e Achados",
@@ -121,7 +135,12 @@ export default function MoreScreen({
                     true,
                     false,
                     false,
-                    styles
+                    styles,
+                    async () => {
+                        await openInAppBrowser(
+                            "https://www.carrismetropolitana.pt/lost-and-found"
+                        );
+                    }
                 )}
                 {renderMenuItem(
                     "Lojas e Rede de Agentes",
@@ -129,7 +148,12 @@ export default function MoreScreen({
                     true,
                     false,
                     false,
-                    styles
+                    styles,
+                    async () => {
+                        await openInAppBrowser(
+                            "https://www.carrismetropolitana.pt/stores"
+                        );
+                    }
                 )}
                 {renderMenuItem(
                     "Contactos",
@@ -137,7 +161,12 @@ export default function MoreScreen({
                     true,
                     true,
                     false,
-                    styles
+                    styles,
+                    async () => {
+                        await openInAppBrowser(
+                            "https://www.carrismetropolitana.pt/contacts"
+                        );
+                    }
                 )}
 
                 {/* tarifas */}
@@ -152,7 +181,12 @@ export default function MoreScreen({
                     true,
                     false,
                     false,
-                    styles
+                    styles,
+                    async () => {
+                        await openInAppBrowser(
+                            "https://www.carrismetropolitana.pt/tickets"
+                        );
+                    }
                 )}
                 {renderMenuItem(
                     "Passe Mensal",
@@ -160,7 +194,12 @@ export default function MoreScreen({
                     true,
                     false,
                     false,
-                    styles
+                    styles,
+                    async () => {
+                        await openInAppBrowser(
+                            "https://www.carrismetropolitana.pt/cards"
+                        );
+                    }
                 )}
                 {renderMenuItem(
                     "Onde comprar",
@@ -168,7 +207,12 @@ export default function MoreScreen({
                     true,
                     true,
                     false,
-                    styles
+                    styles,
+                    async () => {
+                        await openInAppBrowser(
+                            "https://www.carrismetropolitana.pt/helpdesks"
+                        );
+                    }
                 )}
 
                 {/* about */}
@@ -184,7 +228,12 @@ export default function MoreScreen({
                     true,
                     false,
                     true,
-                    styles
+                    styles,
+                    async () => {
+                        await openInAppBrowser(
+                            "https://carrismetropolitana.pt/about"
+                        );
+                    }
                 )}
                 {renderMenuItem(
                     "A nossa operação ao vivo",
@@ -192,7 +241,12 @@ export default function MoreScreen({
                     true,
                     false,
                     false,
-                    styles
+                    styles,
+                    async () => {
+                        await openInAppBrowser(
+                            "https://carrismetropolitana.pt/metrics"
+                        );
+                    }
                 )}
                 {renderMenuItem(
                     "Dados Abertos",
@@ -200,7 +254,12 @@ export default function MoreScreen({
                     true,
                     false,
                     false,
-                    styles
+                    styles,
+                    async () => {
+                        await openInAppBrowser(
+                            "https://carrismetropolitana.pt/opendata"
+                        );
+                    }
                 )}
                 {renderMenuItem(
                     "Recrutamento",
@@ -208,7 +267,12 @@ export default function MoreScreen({
                     true,
                     false,
                     false,
-                    styles
+                    styles,
+                    async () => {
+                        await openInAppBrowser(
+                            "https://carrismetropolitana.pt/motoristas"
+                        );
+                    }
                 )}
 
                 {/* legal/privacy */}
@@ -218,7 +282,12 @@ export default function MoreScreen({
                     true,
                     false,
                     false,
-                    styles
+                    styles,
+                    async () => {
+                        await openInAppBrowser(
+                            "https://www.carrismetropolitana.pt/privacy"
+                        );
+                    }
                 )}
                 {renderMenuItem(
                     "Aviso legal",
@@ -226,7 +295,12 @@ export default function MoreScreen({
                     true,
                     true,
                     false,
-                    styles
+                    styles,
+                    async () => {
+                        await openInAppBrowser(
+                            "https://www.carrismetropolitana.pt/legal"
+                        );
+                    }
                 )}
 
                 {/* version */}
@@ -247,7 +321,8 @@ function renderMenuItem(
     top = false,
     bottom = false,
     external = false,
-    styles: any = {}
+    styles: any = {},
+    onPress?: () => void
 ) {
     const menuItemContent = (
         <>
@@ -277,6 +352,7 @@ function renderMenuItem(
                 top && styles.topBorderMenuItem,
                 bottom && styles.bottomBorderMenuItem,
             ]}
+            onPress={onPress}
         >
             {menuItemContent}
         </Pressable>
@@ -288,6 +364,7 @@ function renderMenuItem(
                 top && styles.topBorderMenuItem,
                 bottom && styles.bottomBorderMenuItem,
             ]}
+            onPress={onPress}
         >
             {menuItemContent}
         </TouchableOpacity>
