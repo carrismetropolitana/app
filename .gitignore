@@ -131,3 +131,5 @@ node_modules/
 vendor/
 
 **/*.lock
+
+.bundle
