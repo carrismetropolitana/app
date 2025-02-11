@@ -10,11 +10,12 @@ import React
 import React_RCTAppDelegate
 
 struct ReactNativeView: UIViewRepresentable {
-  var moduleName: String
-  var rootViewFactory: RCTRootViewFactory
+    var moduleName: String
+    var rootViewFactory: RCTRootViewFactory
+    var initialProperties: [AnyHashable: Any]?
   
   func makeUIView(context: Context) -> UIView {
-    return rootViewFactory.view(withModuleName: moduleName)
+      return rootViewFactory.view(withModuleName: moduleName, initialProperties: initialProperties)
   }
   
   func updateUIView(_ uiView: UIView, context: Context) { }

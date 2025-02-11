@@ -56,9 +56,14 @@ struct ContentView: View {
                 
 //                MoreView()
                 ReactNativeView(
-                    moduleName: "HelloWorld",
-                    rootViewFactory: appDelegate.rootViewFactory
+                    moduleName: "MoreScreen",
+                    rootViewFactory: appDelegate.rootViewFactory,
+                    initialProperties: [
+                        "releaseVersionNumber": Bundle.main.releaseVersionNumber,
+                        "buildVersionNumber": Bundle.main.buildVersionNumber
+                    ]
                 )
+                .ignoresSafeArea()
                     .tabItem {
                         Label("Mais", systemImage: "ellipsis")
                     }
