@@ -47,9 +47,9 @@ async function openInAppBrowser(url: string) {
 }
 
 export default function MoreScreen({
-    navigation,
     releaseVersionNumber,
     buildVersionNumber,
+    navigation,
 }) {
     const {
         isPending,

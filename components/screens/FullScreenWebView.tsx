@@ -19,9 +19,9 @@ export default function FullScreenWebView({ navigation, route }) {
                 flex: 1,
                 backgroundColor: useThemedCMColor("systemBackground200"),
             }}
-            injectedJavaScript="document.querySelector('h1').remove();true;"
-            onMessage={(event) => {}}
-            ref={() => {}}
+            // injectedJavaScript="document.querySelector('h1').remove();true;"
+            // onMessage={(event) => {}}
+            // ref={() => {}}
             onShouldStartLoadWithRequest={(event) => {
                 if (
                     event.url !== route.params.url &&
