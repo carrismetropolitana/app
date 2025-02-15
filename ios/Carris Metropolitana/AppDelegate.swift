@@ -12,6 +12,8 @@ import UserNotifications
 
 import React
 import React_RCTAppDelegate
+import ReactAppDependencyProvider
+
 
 class AppDelegate: RCTAppDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
@@ -27,7 +29,10 @@ class AppDelegate: RCTAppDelegate, UNUserNotificationCenterDelegate, MessagingDe
         UNUserNotificationCenter.current().delegate = self
         Messaging.messaging().delegate = self
         
+        self.dependencyProvider = RCTAppDependencyProvider()
         self.automaticallyLoadReactNativeWindow = false
+        // force early react bridge init
+        // self.bridge = RCTBridge(delegate: self, launchOptions: launchOptions)
         
         super.application(application, didFinishLaunchingWithOptions: launchOptions)
         

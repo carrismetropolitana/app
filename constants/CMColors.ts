@@ -1,4 +1,7 @@
 export const CMColors = {
+    static: {
+        brandYellow: "#ffdd00",
+    },
     light: {
         systemBackground100: "#fff",
         systemBackground200: "#f5f5f5",

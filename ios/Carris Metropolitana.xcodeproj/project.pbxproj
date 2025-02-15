@@ -864,6 +864,7 @@
 				79DE90522C493C5D00D3E859 /* Embed Foundation Extensions */,
 				79184FD72C9265AE002884D1 /* Set App Version and Build Number (CalVer) */,
 				E005665E2A9CEF2F7866C874 /* [CP] Embed Pods Frameworks */,
+				79EAA5C92D5BD6D900BB5DF5 /* Bundle React Native code and images */,
 				9425963DBBD6909125CDCDFC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -1025,6 +1026,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# https://medium.com/@SteveBarnegren/better-xcode-build-numbers-e999aac6254d\n\n# Set App Version to current date\nversionNumber=$(date \"+%Y.%m.%d\")\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $versionNumber\" \"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\n\n# Set Build Number to current unix timestamp in seconds\nbuildNumber=$(date \"+%s\")\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\n";
+		};
+		79EAA5C92D5BD6D900BB5DF5 /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native code and images";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
 		9425963DBBD6909125CDCDFC /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;

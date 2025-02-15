@@ -47,6 +47,7 @@ async function openInAppBrowser(url: string) {
 }
 
 export default function MoreScreen({
+    navigation,
     releaseVersionNumber,
     buildVersionNumber,
 }) {
@@ -81,10 +82,10 @@ export default function MoreScreen({
     const insets = useSafeAreaInsets();
 
     return (
-        <View style={styles.safeArea}>
+        <SafeAreaView style={styles.safeArea}>
             <ScrollView
                 style={styles.container}
-                contentInsetAdjustmentBehavior="automatic"
+                // contentInsetAdjustmentBehavior="automatic"
                 showsVerticalScrollIndicator={false}
             >
                 {/* top banner */}
@@ -101,8 +102,8 @@ export default function MoreScreen({
                                 ? news.map((n: any) => n.cover_image_src)
                                 : null
                         }
-                        onImagePress={(index) => {
-                            Linking.openURL(
+                        onImagePress={async (index) => {
+                            await openInAppBrowser(
                                 `https://carrismetropolitana.pt/news/${news[index]._id}`
                             );
                         }}
@@ -149,10 +150,12 @@ export default function MoreScreen({
                     false,
                     false,
                     styles,
-                    async () => {
-                        await openInAppBrowser(
-                            "https://www.carrismetropolitana.pt/stores"
-                        );
+                    () => {
+                        navigation.navigate("FullScreenWebView", {
+                            url: "https://www.carrismetropolitana.pt/app-ios/stores?locale=pt", // TODO: get device's locale
+                            title: "Lojas e Rede de Agentes",
+                            openExternalLinksInWebView: false,
+                        });
                     }
                 )}
                 {renderMenuItem(
@@ -311,7 +314,7 @@ export default function MoreScreen({
                         : "desconhecida"}
                 </Text>
             </ScrollView>
-        </View>
+        </SafeAreaView>
     );
 }
 
