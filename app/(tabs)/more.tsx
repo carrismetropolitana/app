@@ -1,12 +1,12 @@
-import { Link } from "expo-router";
+import MoreScreen from "@/components/screens/MoreScreen";
 import { View, Text, StyleSheet } from "react-native";
 
-export default function HomeScreen() {
+export default function More() {
 	return (
-		<View style={styles.container}>
-			<Text style={styles.text}>Home</Text>
-			<Link href="/profile">Open profile</Link>
-		</View>
+		// <View style={styles.container}>
+		// 	<Text style={styles.text}>More</Text>
+		// </View>
+		<MoreScreen />
 	);
 }
 

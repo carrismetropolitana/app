@@ -1,12 +1,13 @@
-import { Link } from "expo-router";
-import { View, Text, StyleSheet } from "react-native";
+import StopsScreen from "@/components/screens/StopsScreen";
+import { useVehicles } from "@/hooks/dataFetching/useVehicles";
+import { View, Text, StyleSheet, SafeAreaView, TextInput } from "react-native";
 
-export default function HomeScreen() {
+export default function Stops() {
 	return (
 		<View style={styles.container}>
-			<Text style={styles.text}>Home</Text>
-			<Link href="/profile">Open profile</Link>
+			<Text style={styles.text}>Stops</Text>
 		</View>
+		// <StopsScreen />
 	);
 }
 

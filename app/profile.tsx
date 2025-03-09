@@ -1,13 +1,9 @@
-import { Link } from "expo-router";
-import { View, Text, StyleSheet } from "react-native";
+import FullWidthList from "@/components/cmui/FullWidthList";
+import ProfileScreen from "@/components/screens/ProfileScreen";
+import { StyleSheet, View, Text } from "react-native";
 
-export default function HomeScreen() {
-	return (
-		<View style={styles.container}>
-			<Text style={styles.text}>Home</Text>
-			<Link href="/profile">Open profile</Link>
-		</View>
-	);
+export default function Profile() {
+	return <ProfileScreen />;
 }
 
 const styles = StyleSheet.create({
