@@ -43,7 +43,11 @@ export default function RootLayout() {
 					<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 					<Stack.Screen
 						name="profile"
-						options={{ headerShown: false, presentation: "modal" }}
+						options={{
+							headerShown: false,
+							presentation: "formSheet",
+							sheetGrabberVisible: true,
+						}}
 					/>
 					<Stack.Screen name="+not-found" />
 				</Stack>

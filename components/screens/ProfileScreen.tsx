@@ -1,4 +1,3 @@
-import React from "react";
 import { ScrollView, View, Text, StyleSheet } from "react-native";
 import {
 	IconArrowLoopRight,
@@ -7,16 +6,14 @@ import {
 	IconBusStop,
 	IconGripVertical,
 } from "@tabler/icons-react-native";
-import RemoteImageCarousel from "../cmui/RemoteImageCarousel";
-import { SafeAreaView } from "react-native-safe-area-context";
 import useThemedCMColor from "@/hooks/useThemedCMColor";
 
-import { useWebsiteNews } from "@/services/website/queries/useNews";
 import * as WebBrowser from "expo-web-browser";
 import FullWidthList from "../cmui/FullWidthList";
 import { CMColors } from "@/constants/Colors";
-import Svg, { Path } from "react-native-svg";
 import IconCirclePlusFilled from "../icons/IconCirclePlusFilled";
+
+import Avatar from "@zamplyy/react-native-nice-avatar";
 
 async function openInAppBrowser(url: string) {
 	await WebBrowser.openBrowserAsync(url, {
@@ -49,6 +46,37 @@ export default function ProfileScreen() {
 			{/* <View style={styles.banner}>
 
 			</View> */}
+
+			<View style={styles.userSection}>
+				<Avatar
+					size={200}
+					shape="circle"
+					sex="man"
+					faceColor="#FFDD00"
+					earSize="small"
+					glassesStyle="none"
+					hairColor="black"
+					hairStyle="thick"
+					hatStyle="none"
+					shirtStyle="polo"
+					shirtColor="white"
+					mouthStyle="peace"
+					eyeStyle="smile"
+					bgColor="#ECF3F8"
+					style={{
+						borderWidth: 10,
+						borderColor: "#3D85C6",
+					}}
+				/>
+
+				<View style={styles.userDetails}>
+					<Text style={styles.userFullNameText}>António Soares</Text>
+					<Text style={[styles.userTypeText, { color: "#3D85C6" }]}>
+						Entusiasta
+					</Text>
+				</View>
+			</View>
+
 			<FullWidthList>
 				<FullWidthList.Section
 					title="Editar e ordenar favoritos"
@@ -124,8 +152,26 @@ const makeStyles = ({
 			flex: 1,
 			fontFamily: "Inter",
 		},
-		banner: {
-			borderRadius: 8,
+		userSection: {
+			backgroundColor: systemBackground100,
+			justifyContent: "center",
+			alignItems: "center",
+			paddingTop: 36,
+		},
+		userDetails: {
+			justifyContent: "center",
+			alignItems: "center",
+			paddingVertical: 24,
+			gap: 6,
+		},
+		userFullNameText: {
+			fontSize: 26,
+			color: systemText100,
+			fontWeight: 700,
+		},
+		userTypeText: {
+			fontSize: 14,
+			fontWeight: 700,
 		},
 		version: {
 			marginTop: 8,
