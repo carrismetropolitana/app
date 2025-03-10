@@ -276,12 +276,14 @@ const makeStyles = ({
 			justifyContent: "center",
 		},
 		topText: {
-			fontSize: 14,
+			fontSize: 12,
+			fontWeight: 600,
 			color: systemText300,
 			marginBottom: 2,
 		},
 		bottomText: {
-			fontSize: 14,
+			fontSize: 12,
+			fontWeight: 500,
 			color: systemText300,
 			marginTop: 2,
 		},

@@ -86,7 +86,7 @@ export default function ProfileScreen() {
 
 					<FullWidthList.Item
 						title="Notificações Inteligentes"
-						bottomText="Disponíveis em breve"
+						bottomText="Disponível em breve"
 						leadingIcon={<IconBellRinging size={32} color={systemText100} />}
 						trailingIcon={<IconCirclePlusFilled color="#3CB43C" />}
 						onPress={() =>
