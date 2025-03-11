@@ -115,7 +115,7 @@ export default function ProfileScreen() {
 					<FullWidthList.Item
 						title="Notificações Inteligentes"
 						bottomText="Disponível em breve"
-						leadingIcon={<IconBellRinging size={32} color={systemText100} />}
+						leadingIcon={<IconBellRinging size={32} color="#0C807E" />}
 						trailingIcon={<IconCirclePlusFilled color="#3CB43C" />}
 						onPress={() =>
 							openInAppBrowser("https://www.carrismetropolitana.pt/helpdesks")

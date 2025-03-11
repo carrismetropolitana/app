@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, cloneElement } from "react";
 import {
 	View,
 	Text,
@@ -152,7 +152,7 @@ const Item: React.FC<ItemProps> = ({
 	externalAction,
 	onPress,
 	style,
-	disabled = false, // TODO: grayscale-ify the contents when disabled
+	disabled = false,
 }) => {
 	const context = useContext(FullWidthListContext);
 	if (!context) throw new Error("Item must be used within a List");
@@ -169,14 +169,34 @@ const Item: React.FC<ItemProps> = ({
 	const menuItemContent = (
 		<>
 			<View style={styles.menuDescriptor}>
-				{leadingIcon}
+				{/* avoid this cloneElement shit */}
+				{cloneElement(leadingIcon as React.ReactElement, {
+					color: disabled ? styles.primaryDisabled.color : (leadingIcon as React.ReactElement).props.color,
+				})}
 				<View style={styles.textContainer}>
-					{topText && <Text style={styles.topText}>{topText}</Text>}
-					<Text style={styles.menuText}>{title}</Text>
-					{bottomText && <Text style={styles.bottomText}>{bottomText}</Text>}
+					{topText && (
+						<Text
+							style={[styles.topText, disabled && styles.secondaryDisabled]}
+						>
+							{topText} {disabled && "(Disabled)"}
+						</Text>
+					)}
+					<Text style={[styles.menuText, disabled && styles.primaryDisabled]}>
+						{title}
+					</Text>
+					{bottomText && (
+						<Text
+							style={[styles.bottomText, disabled && styles.secondaryDisabled]}
+						>
+							{bottomText}
+						</Text>
+					)}
 				</View>
 			</View>
-			{resolvedTrailingIcon}
+			{/* avoid this cloneElement shit */}
+			{cloneElement(resolvedTrailingIcon as React.ReactElement, {
+				color: disabled ? styles.tertiaryDisabled.color : (resolvedTrailingIcon as React.ReactElement).props.color,
+			})}
 		</>
 	);
 
@@ -286,6 +306,15 @@ const makeStyles = ({
 			fontWeight: 500,
 			color: systemText300,
 			marginTop: 2,
+		},
+		primaryDisabled: {
+			color: "#9696A0",
+		},
+		secondaryDisabled: {
+			color: "#D2D2DC",
+		},
+		tertiaryDisabled: {
+			color: "#F0F0F0",
 		},
 	});
 
