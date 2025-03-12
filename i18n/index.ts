@@ -1,32 +1,26 @@
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
-import * as Localization from "expo-localization";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import translationEn from "./translations/en.json";
-import translationPt from "./translations/pt.json";
+// i18n.ts
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import * as Localization from 'expo-localization';
+
+// Import your translation JSON files
+import en from './translations/en.json';
+import pt from './translations/pt.json';
 
 const resources = {
-  "pt": { translation: translationPt },
-  "en": { translation: translationEn },
+  en: { translation: en },
+  pt: { translation: pt },
 };
 
-const initI18n = async () => {
-  let savedLanguage = await AsyncStorage.getItem("language");
+const matchedLocale = Localization.locale.startsWith('pt') ? 'pt' : 'en';
 
-  // if (!savedLanguage) {
-  //   savedLanguage = Localization.locale;
-  // }
-
-  i18n.use(initReactI18next).init({
-    resources,
-    lng: 'pt',
-    fallbackLng: "pt",
-    interpolation: {
-      escapeValue: false,
-    },
-  });
-};
-
-initI18n();
+i18n.use(initReactI18next).init({
+  resources,
+  lng: matchedLocale,
+  fallbackLng: 'en',
+  interpolation: {
+    escapeValue: false,
+  },
+});
 
 export default i18n;

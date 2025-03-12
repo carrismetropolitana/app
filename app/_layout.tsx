@@ -15,12 +15,11 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConfigProviders } from "@/providers/config-providers";
 import { DataProviders } from "@/providers/data-providers";
-import '@/i18n'; 
+import '@/i18n';
 
 
 const queryClient = new QueryClient();
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
