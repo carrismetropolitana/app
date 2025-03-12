@@ -1,11 +1,16 @@
+import { useConsentContext } from "@/contexts/Consent.context";
 import { Link } from "expo-router";
 import { View, Text, StyleSheet } from "react-native";
 
+
+
 export default function HomeScreen() {
+	const consentContext = useConsentContext();
 	return (
 		<View style={styles.container}>
 			<Text style={styles.text}>Home</Text>
 			<Link href="/profile">Open profile</Link>
+			<Text>{consentContext.data.init_status}</Text>
 		</View>
 	);
 }

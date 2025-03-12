@@ -13,11 +13,15 @@ import {
 	IconDots,
 	IconUserCircle,
 } from "@tabler/icons-react-native";
+import { PrivacyProviders } from "@/providers/privacy-providers";
 
-export default function TabLayout() {
+
+export default async function TabLayout() {
+
 	const colorScheme = useColorScheme();
 
 	return (
+		<PrivacyProviders>
 		<Tabs
 			screenOptions={{
 				tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
@@ -68,5 +72,6 @@ export default function TabLayout() {
 				}}
 			/>
 		</Tabs>
+		</PrivacyProviders>
 	);
 }
