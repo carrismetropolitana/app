@@ -1,3 +1,5 @@
+/* * */
+
 import { HapticTab } from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
@@ -12,8 +14,18 @@ import {
 import { Tabs } from 'expo-router';
 import { Platform } from 'react-native';
 
+/* * */
+
 export default async function TabLayout() {
+	//
+
+	//
+	// A. Setup variables
+
 	const colorScheme = useColorScheme();
+
+	//
+	// B. Render components
 
 	return (
 		<PrivacyProviders>
@@ -69,4 +81,6 @@ export default async function TabLayout() {
 			</Tabs>
 		</PrivacyProviders>
 	);
+
+	//
 }
