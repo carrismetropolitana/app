@@ -16,8 +16,6 @@
   },
   "dependencies": {
     "@amplitude/analytics-react-native": "^1.4.13",
-    "@carrismetropolitana/api-types": "20250307.2229.14",
-    "@carrismetropolitana/eslint": "^20250303.2009.45",
     "@expo/vector-icons": "^14.0.2",
     "@maplibre/maplibre-react-native": "^10.1.0",
     "@react-native-async-storage/async-storage": "1.23.1",
@@ -26,7 +24,6 @@
     "@tabler/icons-react-native": "^3.31.0",
     "@tanstack/react-query": "^5.67.2",
     "@turf/turf": "^7.2.0",
-    "@types/geojson": "^7946.0.16",
     "@zamplyy/react-native-nice-avatar": "^1.1.2",
     "expo": "~52.0.37",
     "expo-blur": "~14.0.3",
@@ -62,10 +59,13 @@
     "swr": "^2.3.3"
   },
   "devDependencies": {
+    "@carrismetropolitana/api-types": "20250307.2229.14",
+    "@carrismetropolitana/eslint": "^20250303.2009.45",
     "@babel/core": "^7.25.2",
     "@biomejs/biome": "1.9.4",
     "@types/jest": "^29.5.12",
     "@types/luxon": "^3.4.2",
+    "@types/geojson": "^7946.0.16",
     "@types/react": "~18.3.12",
     "@types/react-test-renderer": "^18.3.0",
     "jest": "^29.2.1",
