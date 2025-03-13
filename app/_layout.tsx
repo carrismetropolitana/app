@@ -41,8 +41,8 @@ export default function RootLayout() {
 
 	return (
 		<ConfigProviders>
-			{/* <DataProviders> */}
-			{/* <ProfileProviders>
+			<DataProviders>
+			{/* {/* <ProfileProviders>
 						<MapProviders> */}
 							<QueryClientProvider client={queryClient}>
 								<ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
@@ -63,7 +63,7 @@ export default function RootLayout() {
 						</QueryClientProvider>
 					{/* </MapProviders>
 			</ProfileProviders> */}
-			{/* </DataProviders> */}
+			</DataProviders>
 		</ConfigProviders>
 	);
 }

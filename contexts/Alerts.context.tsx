@@ -3,7 +3,7 @@ import type { Alert, SimplifiedAlert } from '@/types/alerts.types.js';
 
 import convertToSimplifiedAlert from '@/utils/convertToSimplifiedAlert';
 import { Routes } from '@/utils/routes';
-import { getLocales, Localization } from 'expo-localization';
+import { getLocales } from 'expo-localization';
 import { createContext, useContext, useEffect, useState } from 'react';
 import useSWR from 'swr';
 

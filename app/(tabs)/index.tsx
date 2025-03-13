@@ -1,18 +1,12 @@
-import { useConsentContext } from "@/contexts/Consent.context";
 import { Link } from "expo-router";
 import { View, Text, StyleSheet, Button } from "react-native";
 import { useTranslation } from 'react-i18next';
-import i18n from "@/i18n";
 import { useLocaleContext } from "@/contexts/Locale.context";
 
 export default function HomeScreen() {
 
 	const { t } = useTranslation();
-  const localeContext = useLocaleContext();
-
-	const changeLocale = (locale: string) => {
-		i18n.changeLanguage(locale);
-	  };
+	const localeContext = useLocaleContext();
 
 	return (
 		<View style={styles.container}>
@@ -20,9 +14,9 @@ export default function HomeScreen() {
 			<Link href="/profile">Open profile</Link>
 			<Text>{t('hello')}</Text>
 			<Button title="Switch to English" onPress={localeContext.actions.changeToEnglish} />
-     		 <View style={{ marginTop: 10 }}>
-        		<Button title="Switch to Portuguese" onPress={localeContext.actions.changeToPortuguese} />
-     	 </View>	
+			<View style={{ marginTop: 10 }}>
+				<Button title="Switch to Portuguese" onPress={localeContext.actions.changeToPortuguese} />
+			</View>
 		</View>
 	);
 }
