@@ -1,6 +1,6 @@
-import StopsScreen from "@/components/screens/StopsScreen";
-import { useVehicles } from "@/hooks/dataFetching/useVehicles";
-import { View, Text, StyleSheet, SafeAreaView, TextInput } from "react-native";
+import StopsScreen from '@/components/screens/StopsScreen';
+import { useVehicles } from '@/hooks/dataFetching/useVehicles';
+import { SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 export default function Stops() {
 	return (
@@ -13,16 +13,16 @@ export default function Stops() {
 
 const styles = StyleSheet.create({
 	container: {
-		fontFamily: "Inter",
+		alignItems: 'center',
+		backgroundColor: '#fff',
 		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		backgroundColor: "#fff",
+		fontFamily: 'Inter',
+		justifyContent: 'center',
 	},
 	text: {
+		color: 'rgba(150, 150, 160, 1)',
 		fontSize: 20,
-		textTransform: "uppercase",
 		fontWeight: 900,
-		color: "rgba(150, 150, 160, 1)",
+		textTransform: 'uppercase',
 	},
 });

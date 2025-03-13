@@ -7,7 +7,7 @@ import { getLocales } from 'expo-localization';
 import { createContext, useContext, useEffect, useState } from 'react';
 import useSWR from 'swr';
 
-//import { useAnalyticsContext } from './Analytics.context';
+// import { useAnalyticsContext } from './Analytics.context';
 
 /* * */
 
@@ -47,7 +47,7 @@ export const AlertsContextProvider = ({ children }) => {
 	// A. Setup variables
 
 	const currentLocale = getLocales()[0].languageCode;
-	//const analyticsContext = useAnalyticsContext();
+	// const analyticsContext = useAnalyticsContext();
 
 	const [dataSimplifiedState, setDataSimplifiedState] = useState<SimplifiedAlert[]>([]);
 
@@ -63,7 +63,7 @@ export const AlertsContextProvider = ({ children }) => {
 		// if (!allAlertsData) return;
 		const allSimplifiedAlerts = allAlertsData?.map(alert => convertToSimplifiedAlert(alert, currentLocale || 'pt'));
 		setDataSimplifiedState(allSimplifiedAlerts || []);
-		//analyticsContext.actions.capture(ampli => ampli.captureAlertsReferer({ page_referer: document.referrer }));
+		// analyticsContext.actions.capture(ampli => ampli.captureAlertsReferer({ page_referer: document.referrer }));
 	}, [allAlertsData]);
 
 	//

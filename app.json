@@ -1,46 +1,55 @@
 {
-  "expo": {
-    "name": "cm-mobile",
-    "slug": "cm-mobile",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "carrismetropolitana",
-    "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "pt.carrismetropolitana.app",
-      "appleTeamId": "QGATT2W97P"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "pt.carrismetropolitana.mobile"
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
-    },
-    "plugins": [
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ],
-      "@maplibre/maplibre-react-native",
-      "expo-localization"
-    ],
-    "experiments": {
-      "typedRoutes": true
-    }
-  }
+	"expo": {
+		"android": {
+			"adaptiveIcon": {
+				"backgroundColor": "#ffffff",
+				"foregroundImage": "./assets/images/adaptive-icon.png"
+			},
+			"package": "pt.carrismetropolitana.mobile"
+		},
+		"experiments": {
+			"typedRoutes": true
+		},
+		"icon": "./assets/images/icon.png",
+		"ios": {
+			"appleTeamId": "QGATT2W97P",
+			"bundleIdentifier": "pt.carrismetropolitana.app",
+			"supportsTablet": true
+		},
+		"name": "cm-mobile",
+		"newArchEnabled": true,
+		"orientation": "portrait",
+		"plugins": [
+			"expo-router",
+			[
+				"expo-splash-screen",
+				{
+					"backgroundColor": "#ffffff",
+					"image": "./assets/images/splash-icon.png",
+					"imageWidth": 200,
+					"resizeMode": "contain"
+				}
+			],
+			[
+				"expo-font",
+				{
+					"fonts": [
+						"../assets/fonts/Inter-VariableFont_opsz,wght.ttf",
+						"../assets/fonts/SpaceMono-Regular.ttf"
+					]
+				}
+			],
+			"@maplibre/maplibre-react-native",
+			"expo-localization"
+		],
+		"scheme": "carrismetropolitana",
+		"slug": "cm-mobile",
+		"userInterfaceStyle": "automatic",
+		"version": "1.0.0",
+		"web": {
+			"bundler": "metro",
+			"favicon": "./assets/images/favicon.png",
+			"output": "static"
+		}
+	}
 }

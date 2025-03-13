@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet, Text, View } from 'react-native';
 
 export default function LinesScreen() {
 	return (
@@ -10,16 +10,16 @@ export default function LinesScreen() {
 
 const styles = StyleSheet.create({
 	container: {
-		fontFamily: "Inter",
+		alignItems: 'center',
+		backgroundColor: '#fff',
 		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		backgroundColor: "#fff",
+		fontFamily: 'Inter',
+		justifyContent: 'center',
 	},
 	text: {
+		color: 'rgba(150, 150, 160, 1)',
 		fontSize: 20,
-		textTransform: "uppercase",
 		fontWeight: 900,
-		color: "rgba(150, 150, 160, 1)",
+		textTransform: 'uppercase',
 	},
 });

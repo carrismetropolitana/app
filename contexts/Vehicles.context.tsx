@@ -1,5 +1,3 @@
-
-
 /* * */
 import type { Vehicle } from '@carrismetropolitana/api-types/vehicles';
 

@@ -1,5 +1,4 @@
 {
-
 	"[css]": {
 		"editor.codeActionsOnSave": {
 			"source.fixAll.stylelint": "explicit"
@@ -7,6 +6,12 @@
 		"editor.defaultFormatter": "stylelint.vscode-stylelint"
 	},
 
+	"[json]": {
+		"editor.defaultFormatter": "vscode.json-language-features"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "vscode.typescript-language-features"
+	},
 	// Disable the default CSS formatter, use stylelint instead
 	"css.validate": false,
 
@@ -44,16 +49,10 @@
 
 	"scss.validate": false,
 
-	"workbench.editor.customLabels.enabled": true,
+	"workbench.editor.customLabels.enabled": false,
 	"workbench.editor.customLabels.patterns": {
 		"**/app/**/*.js": "${dirname} (${extname})",
 		"**/app/**/*.tsx": "${dirname} (${extname})"
-	},
-	"[typescriptreact]": {
-		"editor.defaultFormatter": "vscode.typescript-language-features"
-	},
-	"[json]": {
-		"editor.defaultFormatter": "vscode.json-language-features"
 	}
 
 }

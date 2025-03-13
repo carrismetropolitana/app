@@ -1,5 +1,5 @@
-import MoreScreen from "@/components/screens/MoreScreen";
-import { View, Text, StyleSheet } from "react-native";
+import MoreScreen from '@/components/screens/MoreScreen';
+import { StyleSheet, Text, View } from 'react-native';
 
 export default function More() {
 	return (
@@ -12,16 +12,16 @@ export default function More() {
 
 const styles = StyleSheet.create({
 	container: {
-		fontFamily: "Inter",
+		alignItems: 'center',
+		backgroundColor: '#fff',
 		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		backgroundColor: "#fff",
+		fontFamily: 'Inter',
+		justifyContent: 'center',
 	},
 	text: {
+		color: 'rgba(150, 150, 160, 1)',
 		fontSize: 20,
-		textTransform: "uppercase",
 		fontWeight: 900,
-		color: "rgba(150, 150, 160, 1)",
+		textTransform: 'uppercase',
 	},
 });

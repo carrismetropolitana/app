@@ -27,7 +27,7 @@ export function ConfigProviders({ children }) {
 			}
 			return res.json();
 		},
-		refreshInterval: 900000, // 15 minutes
+		refreshInterval: 900000,
 		revalidateOnFocus: true,
 		revalidateOnMount: true,
 	};
@@ -37,9 +37,9 @@ export function ConfigProviders({ children }) {
 
 	return (
 		<SWRConfig value={swrSettings}>
-			<LocaleContextProvider>			
+			<LocaleContextProvider>
 				<DebugContextProvider>
-				{children}
+					{children}
 				</DebugContextProvider>
 			</LocaleContextProvider>
 		</SWRConfig>

@@ -1,6 +1,6 @@
-import FullWidthList from "@/components/cmui/FullWidthList";
-import ProfileScreen from "@/components/screens/ProfileScreen";
-import { StyleSheet, View, Text } from "react-native";
+import FullWidthList from '@/components/cmui/FullWidthList';
+import ProfileScreen from '@/components/screens/ProfileScreen';
+import { StyleSheet, Text, View } from 'react-native';
 
 export default function Profile() {
 	return <ProfileScreen />;
@@ -8,16 +8,16 @@ export default function Profile() {
 
 const styles = StyleSheet.create({
 	container: {
-		fontFamily: "Inter",
+		alignItems: 'center',
+		backgroundColor: '#fff',
 		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		backgroundColor: "#fff",
+		fontFamily: 'Inter',
+		justifyContent: 'center',
 	},
 	text: {
+		color: 'rgba(150, 150, 160, 1)',
 		fontSize: 20,
-		textTransform: "uppercase",
 		fontWeight: 900,
-		color: "rgba(150, 150, 160, 1)",
+		textTransform: 'uppercase',
 	},
 });
