@@ -1,17 +1,59 @@
 {
-    "[typescript]": {
-        "editor.defaultFormatter": "biomejs.biome"
-    },
-    "[typescriptreact]": {
-        "editor.defaultFormatter": "biomejs.biome"
-    },
-    "[javascript]": {
-        "editor.defaultFormatter": "biomejs.biome"
-    },
-    "[javascriptreact]": {
-        "editor.defaultFormatter": "biomejs.biome"
-    },
-    "[json]": {
-        "editor.defaultFormatter": "biomejs.biome"
-    }
+
+	"[css]": {
+		"editor.codeActionsOnSave": {
+			"source.fixAll.stylelint": "explicit"
+		},
+		"editor.defaultFormatter": "stylelint.vscode-stylelint"
+	},
+
+	// Disable the default CSS formatter, use stylelint instead
+	"css.validate": false,
+
+	// Auto fix
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit"
+	},
+	"editor.defaultFormatter": "dbaeumer.vscode-eslint",
+	"editor.formatOnSave": false,
+	"editor.tabSize": 4,
+
+	"eslint.format.enable": true,
+
+	// Enable eslint for all supported languages
+	"eslint.validate": [
+		"javascript",
+		"javascriptreact",
+		"typescript",
+		"typescriptreact",
+		"vue",
+		"html",
+		"markdown",
+		"json",
+		"jsonc",
+		"yaml",
+		"toml",
+		"astro"
+	],
+	"eslint.workingDirectories": ["auto"],
+	"files.eol": "\n",
+
+	"less.validate": false,
+	// Disable the default formatter, use eslint instead
+	"prettier.enable": false,
+
+	"scss.validate": false,
+
+	"workbench.editor.customLabels.enabled": true,
+	"workbench.editor.customLabels.patterns": {
+		"**/app/**/*.js": "${dirname} (${extname})",
+		"**/app/**/*.tsx": "${dirname} (${extname})"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "vscode.typescript-language-features"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "vscode.json-language-features"
+	}
+
 }

@@ -1,12 +1,27 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true,
+   "allowJs": true,
+		"baseUrl": ".",
+		"esModuleInterop": true,
+		"incremental": true,
+		"isolatedModules": true,
+		"jsx": "preserve",
+    "strict": false,
     "paths": {
       "@/*": [
         "./*"
       ]
-    }
+    },
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "resolveJsonModule": true,
+		"rootDir": ".",
+		"skipLibCheck": true,
+		"sourceMap": true,
+		"strictNullChecks": true,
+		"target": "ES2017"
   },
   "include": [
     "**/*.ts",
@@ -14,6 +29,12 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
   ],
-  "module": "esnext",
-	"moduleResolution": "bundler",
+  "exclude": [
+		"**/node_modules",
+		"**/.*/",
+		"**/build/",
+	],
+	"typingOptions": {
+		"enableAutoDiscovery": true
+	}
 }
