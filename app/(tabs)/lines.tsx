@@ -1,9 +1,17 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { useLinesContext } from '@/contexts/Lines.context';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 
 export default function LinesScreen() {
+	const linesContext = useLinesContext();
 	return (
 		<View style={styles.container}>
 			<Text style={styles.text}>Lines</Text>
+
+			<FlatList
+				data={linesContext.data.lines}
+				keyExtractor={item => item.id.toString()}
+				renderItem={({ item }) => <Text>{item.long_name}</Text>}
+			/>
 		</View>
 	);
 }

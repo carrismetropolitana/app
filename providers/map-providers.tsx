@@ -1,9 +1,7 @@
-'use client';
-
 /* * */
 
+import { MapProvider } from '@/contexts/Map.context';
 import { MapOptionsContextProvider } from '@/contexts/MapOptions.context';
-import { MapProvider } from '@vis.gl/react-maplibre';
 
 /* * */
 

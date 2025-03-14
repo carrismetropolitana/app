@@ -11,18 +11,18 @@ import { VehiclesContextProvider } from '@/contexts/Vehicles.context';
 
 export function DataProviders({ children }) {
 	return (
-		// <OperationalDayContextProvider>
-		<LocationsContextProvider>
-			<AlertsContextProvider>
-				<StopsContextProvider>
-					<LinesContextProvider>
-						<VehiclesContextProvider>
-							{children}
-						</VehiclesContextProvider>
-					</LinesContextProvider>
-				</StopsContextProvider>
-			</AlertsContextProvider>
-		</LocationsContextProvider>
-		// </OperationalDayContextProvider>
+		<OperationalDayContextProvider>
+			<LocationsContextProvider>
+				<AlertsContextProvider>
+					<StopsContextProvider>
+						<LinesContextProvider>
+							<VehiclesContextProvider>
+								{children}
+							</VehiclesContextProvider>
+						</LinesContextProvider>
+					</StopsContextProvider>
+				</AlertsContextProvider>
+			</LocationsContextProvider>
+		</OperationalDayContextProvider>
 	);
 }

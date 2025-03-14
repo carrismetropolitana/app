@@ -1,13 +1,10 @@
-'use client';
+import type { FeatureCollection, Point } from 'geojson';
 
 import { MapStyle } from '@/components/map/MapView';
 import { MapViewRef } from '@maplibre/maplibre-react-native';
-/* * */
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as turf from '@turf/turf';
-import { createContext, useContext, useEffect, useState } from 'react';
-
-/* * */
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 const ASYNC_STORAGE_KEYS = {
 	viewport_height: 'map|viewport_height',
@@ -17,17 +14,24 @@ const DEFAULT_OPTIONS = {
 	viewport_height: { max: 600, min: 300 },
 };
 
-/* * */
+// Extend MapViewRef to include setCamera
+interface ExtendedMapViewRef extends MapViewRef {
+	setCamera: (options: {
+		animationDuration: number
+		centerCoordinate: [number, number]
+		zoom: number
+	}) => void
+}
 
 interface MapOptionsContextState {
 	actions: {
-		centerMap: (source?: string) => void
-		setMap: (map: MapViewRef) => void
+		centerMap: (coordinates: [number, number][]) => void
+		setMap: (map: ExtendedMapViewRef) => void
 		setStyle: (value: MapStyle) => void
 		setViewportHeight: (value: number) => void
 	}
 	data: {
-		map: MapViewRef | undefined
+		map: ExtendedMapViewRef | undefined
 		style: string
 		viewport_height: null | number
 	}
@@ -35,8 +39,6 @@ interface MapOptionsContextState {
 		is_loading: boolean
 	}
 }
-
-/* * */
 
 const MapOptionsContext = createContext<MapOptionsContextState | undefined>(undefined);
 
@@ -48,39 +50,38 @@ export function useMapOptionsContext() {
 	return context;
 }
 
-/* * */
-
-export const MapOptionsContextProvider = ({ children }) => {
-	//
-
-	//
-	// A. Setup variables
-
+export const MapOptionsContextProvider = ({ children }: { children: React.ReactNode }) => {
 	const [dataViewportHeightState, setDataViewportHeightState] = useState<MapOptionsContextState['data']['viewport_height']>(null);
 	const [dataStyleState, setDataStyleState] = useState<MapOptionsContextState['data']['style']>('map');
-	const [dataMapState, setDataMapState] = useState<MapOptionsContextState['data']['map']>(undefined);
-
-	//
-	// B. Transform data
+	const [dataMapState, setDataMapState] = useState<ExtendedMapViewRef | undefined>(undefined);
 
 	useEffect(() => {
-		// Get viewport height from local storage
-		if (typeof window === 'undefined') return;
-		const viewportHeightLocal = localStorage.getItem(ASYNC_STORAGE_KEYS.viewport_height);
-		if (viewportHeightLocal) {
-			setDataViewportHeightState(Number(viewportHeightLocal));
-		}
+		const getViewportHeight = async () => {
+			try {
+				const storedHeight = await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.viewport_height);
+				if (storedHeight !== null) {
+					setDataViewportHeightState(Number(storedHeight));
+				}
+			}
+			catch (error) {
+				console.error('Error reading viewport height from storage', error);
+			}
+		};
+		getViewportHeight();
 	}, []);
 
 	useEffect(() => {
-		// Save viewport height to local storage
-		if (typeof window === 'undefined' || dataViewportHeightState === null) return;
-		const viewportHeightTxt = String(dataViewportHeightState);
-		localStorage.setItem(ASYNC_STORAGE_KEYS.viewport_height, viewportHeightTxt);
+		const saveViewportHeight = async () => {
+			if (dataViewportHeightState === null) return;
+			try {
+				await AsyncStorage.setItem(ASYNC_STORAGE_KEYS.viewport_height, String(dataViewportHeightState));
+			}
+			catch (error) {
+				console.error('Error saving viewport height to storage', error);
+			}
+		};
+		saveViewportHeight();
 	}, [dataViewportHeightState]);
-
-	//
-	// C. Handle actions
 
 	const setViewportHeight = (value: number) => {
 		if (value < DEFAULT_OPTIONS.viewport_height.min) value = DEFAULT_OPTIONS.viewport_height.min;
@@ -92,34 +93,37 @@ export const MapOptionsContextProvider = ({ children }) => {
 		setDataStyleState(value);
 	};
 
-	const setMap = (map: MapViewRef) => {
+	const setMap = (map: ExtendedMapViewRef) => {
 		setDataMapState(map);
 	};
 
-	const centerMap = (sourceId: string) => {
-		if (!dataMapState || !sourceId) return;
+	const centerMap = (coordinates: [number, number][]) => {
+		if (!dataMapState || !coordinates.length) return;
 
-		const sourceData = dataMapState.getSource(sourceId);
-		if (!sourceData) return;
+		const featureCollection: FeatureCollection<Point> = {
+			features: coordinates.map(coord => ({
+				geometry: {
+					coordinates: coord,
+					type: 'Point',
+				},
+				properties: {},
+				type: 'Feature',
+			})),
+			type: 'FeatureCollection',
+		};
 
-		const combine = turf.combine(sourceData.serialize().data);
-		const coordinates = combine.features[0].geometry.coordinates;
+		const bbox = turf.bbox(featureCollection);
+		// Derive center from bbox.
+		const [minLng, minLat, maxLng, maxLat] = bbox;
+		const center: [number, number] = [(minLng + maxLng) / 2, (minLat + maxLat) / 2];
+		const zoom = 10;
 
-		// Calculate bounds
-		const bounds = coordinates.reduce((bounds, coord) => {
-			return bounds.extend(coord as [number, number]);
-		}, new maplibregl.LngLatBounds(coordinates[0] as [number, number], coordinates[0] as [number, number]));
-
-		dataMapState.fitBounds(
-			bounds,
-			{ padding: 25 },
-		);
-
-		// return;
+		dataMapState.setCamera({
+			animationDuration: 1000,
+			centerCoordinate: center,
+			zoom,
+		});
 	};
-
-	//
-	// D. Define context value
 
 	const contextValue: MapOptionsContextState = {
 		actions: {
@@ -138,14 +142,10 @@ export const MapOptionsContextProvider = ({ children }) => {
 		},
 	};
 
-	//
-	// E. Render components
-
+	// E. Render the context provider
 	return (
 		<MapOptionsContext.Provider value={contextValue}>
 			{children}
 		</MapOptionsContext.Provider>
 	);
-
-	//
 };

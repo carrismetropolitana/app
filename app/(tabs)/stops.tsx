@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { useStopsContext } from '@/contexts/Stops.context';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 
 export default function Stops() {
 	//
-
+	const stopsContext = useStopsContext();
 	//
 	// A. Setup variables
 
@@ -28,6 +29,11 @@ export default function Stops() {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.text}>Stops</Text>
+			<FlatList
+				data={stopsContext.data.stops}
+				keyExtractor={item => item.id.toString()}
+				renderItem={({ item }) => <Text>{item.long_name}</Text>}
+			/>
 		</View>
 	);
 

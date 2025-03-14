@@ -1,17 +1,13 @@
-import { Camera, MapView } from "@maplibre/maplibre-react-native";
-
-// interface StyledMapViewProps {
-
-// }
+import { Camera, MapView } from '@maplibre/maplibre-react-native';
 
 export function StyledMapView() {
 	return (
 		<MapView
-			style={{ flex: 1 }}
 			mapStyle="https://maps.carrismetropolitana.pt/styles/default/style.json"
+			style={{ flex: 1 }}
 		>
 			{/* roughly amL :) */}
-			<Camera zoomLevel={8.9} centerCoordinate={[-9.0, 38.7]} />
+			<Camera centerCoordinate={[-9.0, 38.7]} zoomLevel={8.9} />
 		</MapView>
 	);
 }

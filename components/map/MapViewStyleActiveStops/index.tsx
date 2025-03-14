@@ -2,110 +2,122 @@
 
 /* * */
 
-import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
-import { Layer, Source } from '@vis.gl/react-maplibre';
+import { MapViewToolbar } from '@/components/map/MapViewToolbar';
+import { useMapOptionsContext } from '@/contexts/MapOptions.context';
+import { useMap } from '@/hooks/useMap';
+import { IconsMap } from '@/settings/assets.settings';
+import { mapDefaultConfig } from '@/settings/map.settings';
+import Map, { FullscreenControl, GeolocateControl, Image, NavigationControl, ScaleControl } from '@maplibre/maplibre-react-native';
+import { useCallback, useState } from 'react';
+
+import styles from './styles.module.css';
 
 /* * */
 
-export const MapViewStyleActiveStopsPrimaryLayerId = 'default-layer-active-stops-circle';
-export const MapViewStyleActiveStopsInteractiveLayerId = '';
+const MAP_LOAD_ASSETS = [
+	{ name: 'cmet-bus-delay', sdf: false, url: IconsMap.bus_delay },
+	{ name: 'cmet-bus-regular', sdf: false, url: IconsMap.bus_regular },
+	{ name: 'cmet-bus-error', sdf: false, url: IconsMap.bus_error },
+	{ name: 'cmet-pin', sdf: false, url: IconsMap.pin },
+	{ name: 'cmet-shape-direction', sdf: true, url: IconsMap.shape_direction },
+	{ name: 'cmet-stop-selected', sdf: false, url: IconsMap.stop_selected },
+	{ name: 'cmet-store-busy', sdf: false, url: IconsMap.store_busy },
+	{ name: 'cmet-store-closed', sdf: false, url: IconsMap.store_closed },
+	{ name: 'cmet-store-open', sdf: false, url: IconsMap.store_open },
+];
 
 /* * */
+
+export type MapStyle = 'map' | 'satellite';
 
 interface Props {
-	presentBeforeId?: string
-	stopsData?: GeoJSON.FeatureCollection
+	children: React.ReactNode
+	fullscreen?: boolean
+	geolocate?: boolean
+	interactiveLayerIds?: string[]
+	mapStyle?: MapStyle
+	navigation?: boolean
+	onCenterMap?: () => void
+	onClick?: (event: unknown) => void
+	onMoveEnd?: () => void
+	onMoveStart?: () => void
+	scale?: boolean
+	scrollZoom?: boolean
+	toolbar?: boolean
 }
 
 /* * */
 
-const baseGeoJsonFeatureCollection = getBaseGeoJsonFeatureCollection();
+export function MapView({
+	children,
+	fullscreen = true,
+	geolocate = true,
+	interactiveLayerIds = [],
+	mapStyle,
+	navigation = true,
+	onCenterMap,
+	onClick,
+	onMoveEnd,
+	onMoveStart,
+	scale = false,
+	scrollZoom = true,
+	toolbar = true,
+}: Props) {
+	const mapRef = useMap();
+	const mapOptionsContext = useMapOptionsContext();
+	const [cursor, setCursor] = useState<string>('auto');
+	const mapStyleValue = mapStyle ?? mapOptionsContext.data.style;
 
-/* * */
+	const handleMoveStart = useCallback(() => {
+		setCursor('grab');
+		onMoveStart?.();
+	}, [onMoveStart]);
 
-export function MapViewStyleActiveStops({ presentBeforeId, stopsData = baseGeoJsonFeatureCollection }: Props) {
+	const handleMoveEnd = useCallback(() => {
+		setCursor('auto');
+		onMoveEnd?.();
+	}, [onMoveEnd]);
+
 	return (
-		<Source data={stopsData} generateId={true} id="default-source-active-stops" type="geojson">
+		<div className={styles.container}>
+			{toolbar && <MapViewToolbar className={styles.toolbar} onCenterMap={onCenterMap} />}
 
-			<Layer
-				beforeId={presentBeforeId}
-				id="default-layer-active-stops-pole"
-				source="default-source-active-stops"
-				type="symbol"
-				layout={{
-					'icon-allow-overlap': true,
-					'icon-anchor': 'bottom',
-					'icon-ignore-placement': true,
-					'icon-image': 'cmet-stop-selected',
-					'icon-offset': [0, 5],
-					'icon-size': [
-						'interpolate',
-						['linear'],
-						['zoom'],
-						10,
-						0.1,
-						20,
-						0.25,
-					],
-					'symbol-placement': 'point',
-				}}
-				paint={{
-					'icon-opacity': [
-						'interpolate',
-						['linear'],
-						['zoom'],
-						7,
-						0,
-						10,
-						1,
-					],
-				}}
-			/>
+			<Map
+				ref={mapRef}
+				attributionEnabled={false}
+				initialViewState={mapDefaultConfig.initialViewState}
+				onPress={onClick}
+				onTouchEnd={handleMoveEnd}
+				onTouchStart={handleMoveStart}
+				scrollZoom={scrollZoom}
+				style={{ height: '100%', width: '100%' }}
+				styleUrl={mapDefaultConfig.styles[mapStyleValue]}
+			>
+				{/* Directly add Image components without Images wrapper */}
+				{MAP_LOAD_ASSETS.map(asset => (
+					<Image
+						key={asset.name}
+						image={asset.url}
+						name={asset.name}
+						sdf={asset.sdf}
+					/>
+				))}
 
-			<Layer
-				beforeId="default-layer-active-stops-pole"
-				id="default-layer-active-stops-circle"
-				source="default-source-active-stops"
-				type="circle"
-				paint={{
-					'circle-color': [
-						'match',
-						['get', 'current_status'],
-						'inactive',
-						'#e6e6e6',
-						'#ffdd01',
-					],
-					'circle-pitch-alignment': 'map',
-					'circle-radius': [
-						'interpolate',
-						['linear'],
-						['zoom'],
-						9,
-						3,
-						26,
-						20,
-					],
-					'circle-stroke-color': [
-						'match',
-						['get', 'current_status'],
-						'inactive',
-						'#969696',
-						'voided',
-						'#cc5533',
-						'#000000',
-					],
-					'circle-stroke-width': [
-						'interpolate',
-						['linear'],
-						['zoom'],
-						9,
-						0.01,
-						26,
-						7,
-					],
-				}}
-			/>
+				{navigation && <NavigationControl />}
+				{fullscreen && <FullscreenControl />}
+				{geolocate && <GeolocateControl />}
+				{scale && <ScaleControl />}
 
-		</Source>
+				<div className={styles.childrenWrapper}>
+					{children}
+				</div>
+			</Map>
+
+			<div className={styles.attributionWrapper}>
+				<a href="https://maplibre.org/" target="_blank">MapLibre</a>
+				<a href="https://www.openmaptiles.org/" target="_blank">© OpenMapTiles</a>
+				<a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>
+			</div>
+		</div>
 	);
 }
