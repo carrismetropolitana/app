@@ -16,7 +16,7 @@ import { Platform } from 'react-native';
 
 /* * */
 
-export default async function TabLayout() {
+export default function TabLayout() {
 	//
 
 	//

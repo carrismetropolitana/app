@@ -1,5 +1,3 @@
-
-
 /* * */
 
 import { Ampli, ampli } from '@/amplitude';
@@ -44,7 +42,7 @@ export const AnalyticsContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		if (consentContext.data.init_status && consentContext.data.enabled_analytics && !ampli?.isLoaded) {
-			ampli.load({ client: { configuration: { appVersion: pjson.version} }, environment: 'default' });
+			ampli.load({ client: { configuration: { appVersion: pjson.version } }, environment: 'default' });
 			ampli.client.setOptOut(false);
 		}
 		else if (consentContext.data.init_status && ampli?.isLoaded) {

@@ -1,9 +1,7 @@
-
-
 /* * */
 
+import { useLocalSearchParams } from 'expo-router';
 import { DateTime } from 'luxon';
-import { useQueryState } from 'nuqs';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 import { useAnalyticsContext } from './Analytics.context';
@@ -51,14 +49,18 @@ export const OperationalDayContextProvider = ({ children }) => {
 	//
 	// A. Setup variables
 
-	const [selectedDayQuery, setSelectedDayQuery] = useQueryState('day');
+	const [selectedDayQuery, setSelectedDayQuery] = useState<null | string>('');
 	const [selectedDay, setSelectedDay] = useState<null | string>(selectedDayQuery);
 	const [selectedDayJsDate, setSelectedDayJsDate] = useState<Date | null>(null);
+	const { day } = useLocalSearchParams();
 
 	const analyticsContext = useAnalyticsContext();
 
 	//
 	// B. Transform data
+	useEffect(() => {
+		if (day && typeof day === 'string') setSelectedDayQuery(day);
+	}, [day]);
 
 	const todayDateString = (() => {
 		const now = DateTime.now();
@@ -104,12 +106,12 @@ export const OperationalDayContextProvider = ({ children }) => {
 		const valueAsString = DateTime.fromJSDate(value).toFormat('yyyyMMdd');
 		setSelectedDay(valueAsString);
 
-		if (valueAsString > todayDateString) {
-			analyticsContext.actions.capture(ampli => ampli.datePeriodSelected({ date_value: 'Future' }));
-		}
-		else if (valueAsString < todayDateString) {
-			analyticsContext.actions.capture(ampli => ampli.datePeriodSelected({ date_value: 'Past' }));
-		}
+		// if (valueAsString > todayDateString) {
+		// 	analyticsContext.actions.capture(ampli => ampli.datePeriodSelected({ date_value: 'Future' }));
+		// }
+		// else if (valueAsString < todayDateString) {
+		// 	analyticsContext.actions.capture(ampli => ampli.datePeriodSelected({ date_value: 'Past' }));
+		// }
 	};
 
 	const updateSelectedDayToToday = () => {

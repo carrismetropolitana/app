@@ -1,15 +1,16 @@
 {
   "name": "cm-mobile",
-  "main": "expo-router/entry",
   "version": "1.0.0",
+  "private": true,
+  "main": "expo-router/entry",
   "scripts": {
-    "start": "expo start",
-    "reset-project": "node ./scripts/reset-project.js",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web",
+    "lint": "expo lint",
+    "reset-project": "node ./scripts/reset-project.js",
+    "start": "expo start --dev-client",
     "test": "jest --watchAll",
-    "lint": "expo lint"
+    "web": "expo start --web"
   },
   "jest": {
     "preset": "jest-expo"
@@ -17,7 +18,7 @@
   "dependencies": {
     "@amplitude/analytics-react-native": "^1.4.13",
     "@expo/vector-icons": "^14.0.2",
-    "@maplibre/maplibre-react-native": "^10.1.0",
+    "@maplibre/maplibre-react-native": "^10.1.4",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/native": "^7.0.14",
@@ -25,9 +26,11 @@
     "@tanstack/react-query": "^5.67.2",
     "@turf/turf": "^7.2.0",
     "@zamplyy/react-native-nice-avatar": "^1.1.2",
+    "classnames": "^2.5.1",
     "expo": "~52.0.37",
     "expo-blur": "~14.0.3",
     "expo-constants": "~17.0.7",
+    "expo-dev-client": "^5.0.14",
     "expo-font": "~13.0.4",
     "expo-haptics": "~14.0.1",
     "expo-linking": "~7.0.5",
@@ -42,6 +45,7 @@
     "i18next": "^24.2.2",
     "i18next-browser-languagedetector": "^8.0.4",
     "i18next-http-backend": "^3.0.2",
+    "i18next-icu": "^2.3.0",
     "luxon": "^3.5.0",
     "npm": "^11.2.0",
     "react": "18.3.1",
@@ -56,22 +60,23 @@
     "react-native-svg": "15.8.0",
     "react-native-web": "~0.19.13",
     "react-native-webview": "13.12.5",
-    "swr": "^2.3.3"
+    "swr": "^2.3.3",
+    "expo-updates": "~0.27.3"
   },
   "devDependencies": {
-    "@carrismetropolitana/api-types": "20250307.2229.14",
-    "@carrismetropolitana/eslint": "^20250303.2009.45",
     "@babel/core": "^7.25.2",
     "@biomejs/biome": "1.9.4",
+    "@carrismetropolitana/api-types": "20250307.2229.14",
+    "@carrismetropolitana/eslint": "^20250303.2009.45",
+    "@types/geojson": "^7946.0.16",
     "@types/jest": "^29.5.12",
     "@types/luxon": "^3.4.2",
-    "@types/geojson": "^7946.0.16",
     "@types/react": "~18.3.12",
+    "@types/react-native": "^0.72.8",
     "@types/react-test-renderer": "^18.3.0",
     "jest": "^29.2.1",
     "jest-expo": "~52.0.4",
     "react-test-renderer": "18.3.1",
     "typescript": "^5.3.3"
-  },
-  "private": true
+  }
 }

@@ -10,17 +10,32 @@
 		"experiments": {
 			"typedRoutes": true
 		},
+		"extra": {
+			"eas": {
+				"projectId": "43d60702-1266-4217-8cb8-54e1f9a722fe"
+			},
+			"router": {
+				"origin": false
+			}
+		},
 		"icon": "./assets/images/icon.png",
 		"ios": {
 			"appleTeamId": "QGATT2W97P",
 			"bundleIdentifier": "pt.carrismetropolitana.app",
+			"infoPlist": {
+				"ITSAppUsesNonExemptEncryption": false
+			},
+			"jsEngine": "jsc",
 			"supportsTablet": true
 		},
+		"jsEngine": "hermes",
 		"name": "cm-mobile",
 		"newArchEnabled": true,
 		"orientation": "portrait",
+		"owner": "skasix00",
 		"plugins": [
 			"expo-router",
+			"@maplibre/maplibre-react-native",
 			[
 				"expo-splash-screen",
 				{
@@ -34,16 +49,22 @@
 				"expo-font",
 				{
 					"fonts": [
-						"../assets/fonts/Inter-VariableFont_opsz,wght.ttf",
-						"../assets/fonts/SpaceMono-Regular.ttf"
+						"./assets/fonts/Inter-VariableFont_opsz,wght.ttf",
+						"./assets/fonts/SpaceMono-Regular.ttf"
 					]
 				}
 			],
 			"@maplibre/maplibre-react-native",
 			"expo-localization"
 		],
+		"runtimeVersion": {
+			"policy": "appVersion"
+		},
 		"scheme": "carrismetropolitana",
 		"slug": "cm-mobile",
+		"updates": {
+			"url": "https://u.expo.dev/43d60702-1266-4217-8cb8-54e1f9a722fe"
+		},
 		"userInterfaceStyle": "automatic",
 		"version": "1.0.0",
 		"web": {

@@ -1,30 +1,24 @@
-
+'use client';
 
 /* * */
 
-import { useLocationsContext } from '@/contexts/Locations.context';
+import type { Stop } from '@carrismetropolitana/api-types/network';
+
 import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
 import { Routes } from '@/utils/routes';
-import { type ExtendStopsWorkerData } from '@/workers/extend-stops.worker';
-import { type Stop } from '@carrismetropolitana/api-types/network';
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, useContext } from 'react';
 import useSWR from 'swr';
 
 /* * */
 
-export interface ExtendedStop extends Stop {
-	locality_name?: string
-	municipality_name?: string
-}
-
 interface StopsContextState {
 	actions: {
+		getAllStopsGeoJsonFC: () => GeoJSON.FeatureCollection | undefined
 		getStopById: (stopId: string) => Stop | undefined
 		getStopByIdGeoJsonFC: (stopId: string) => GeoJSON.FeatureCollection | undefined
 	}
 	data: {
-		stops: ExtendedStop[]
-		stops_fc: GeoJSON.FeatureCollection<GeoJSON.Point, GeoJSON.GeoJsonProperties> | undefined
+		stops: Stop[]
 	}
 	flags: {
 		is_loading: boolean
@@ -49,65 +43,25 @@ export const StopsContextProvider = ({ children }) => {
 	//
 
 	//
-	// A. Setup variables
+	// A. Fetch data
 
-	const locationsContext = useLocationsContext();
-
-	const workerRef = useRef<null | Worker>(null);
-
-	const [dataStopsState, setDataStopsState] = useState<StopsContextState['data']['stops']>([]);
-	const [dataStopsFCState, setDataStopsFCState] = useState<StopsContextState['data']['stops_fc']>();
+	const { data: allStopsData, isLoading: allStopsLoading } = useSWR<Stop[], Error>(`${Routes.API}/stops`);
 
 	//
-	// B. Fetch data
-
-	const { data: allStopsData, isLoading: allStopsLoading } = useSWR<Stop[]>(`${Routes.API}/stops`);
-
-	//
-	// C. Transform data
-
-	useEffect(() => {
-		// Check if all data is available
-		if (!locationsContext.data.localitites || !allStopsData) return;
-		// Initialize worker if not already initialized
-		if (!workerRef.current) {
-			workerRef.current = new Worker(new URL('../workers/extend-stops.worker.ts', import.meta.url));
-			workerRef.current.onmessage = (event: MessageEvent<ExtendedStop[]>) => setDataStopsState(event.data);
-			workerRef.current.onerror = error => console.error('Worker error:', error);
-		}
-		// Extend data for worker and send message
-		const eventMessage: ExtendStopsWorkerData = {
-			localities: locationsContext.data.localitites,
-			municipalities: locationsContext.data.municipalities,
-			stops: allStopsData,
-		};
-		workerRef.current.postMessage(eventMessage);
-		// Cleanup worker
-		return () => {
-			workerRef.current?.terminate();
-			workerRef.current = null;
-		};
-	}, [locationsContext.data.localitites, allStopsData]);
-
-	useEffect(() => {
-		// Check if all data is available
-		if (!dataStopsState) return;
-		// Transform data into GeoJSON FeatureCollection
-		const collection = getBaseGeoJsonFeatureCollection();
-		dataStopsState.forEach((stop) => {
-			const stopFC = transformStopDataIntoGeoJsonFeature(stop);
-			if (stopFC) collection.features.push(stopFC);
-		});
-		// Set state value
-		setDataStopsFCState(collection);
-		//
-	}, [dataStopsState]);
-
-	//
-	// D. Handle actions
+	// B. Handle actions
 
 	const getStopById = (stopId: string): Stop | undefined => {
 		return allStopsData?.find(stop => stop.id === stopId);
+	};
+
+	const getAllStopsGeoJsonFC = (): GeoJSON.FeatureCollection | undefined => {
+		if (!allStopsData) return;
+		const collection = getBaseGeoJsonFeatureCollection();
+		allStopsData.forEach((stop) => {
+			const stopFC = transformStopDataIntoGeoJsonFeature(stop);
+			if (stopFC) collection.features.push(stopFC);
+		});
+		return collection;
 	};
 
 	const getStopByIdGeoJsonFC = (stopId: string): GeoJSON.FeatureCollection | undefined => {
@@ -120,16 +74,16 @@ export const StopsContextProvider = ({ children }) => {
 	};
 
 	//
-	// E. Define context value
+	// C. Define context value
 
 	const contextValue: StopsContextState = {
 		actions: {
+			getAllStopsGeoJsonFC,
 			getStopById,
 			getStopByIdGeoJsonFC,
 		},
 		data: {
-			stops: dataStopsState,
-			stops_fc: dataStopsFCState,
+			stops: allStopsData || [],
 		},
 		flags: {
 			is_loading: allStopsLoading,
@@ -137,7 +91,7 @@ export const StopsContextProvider = ({ children }) => {
 	};
 
 	//
-	// F. Render components
+	// D. Render components
 
 	return (
 		<StopsContext.Provider value={contextValue}>
@@ -150,7 +104,7 @@ export const StopsContextProvider = ({ children }) => {
 
 /* * */
 
-export function transformStopDataIntoGeoJsonFeature(stopData: Stop): GeoJSON.Feature<GeoJSON.Point, GeoJSON.GeoJsonProperties> {
+export function transformStopDataIntoGeoJsonFeature(stopData: Stop): GeoJSON.Feature<GeoJSON.Point> {
 	return {
 		geometry: {
 			coordinates: [stopData.lon, stopData.lat],

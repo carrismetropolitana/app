@@ -1,11 +1,9 @@
-
-
 /* * */
 
 import { expireAllCookies } from '@/utils/expire-all-cookies.util';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DateTime } from 'luxon';
 import { createContext, useContext, useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 /* * */
 
 const DECISION_EXPIRATION_IN_DAYS_YES = 365;
@@ -74,7 +72,7 @@ export const ConsentContextProvider = ({ children }) => {
 	useEffect(() => {
 		// Get previously stored decision values from async storage
 		// on a regular interval to accomodate changes made in other tabs.
-		const interval = setInterval( async () => {
+		const interval = setInterval(async () => {
 			if (typeof localStorage === 'undefined') return;
 			const decisionDate = await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.decision_date);
 			const enabledAnalytics = await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.enabled_analytics);
