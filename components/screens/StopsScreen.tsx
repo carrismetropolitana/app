@@ -29,7 +29,7 @@ export default function StopsScreen() {
 	return (
 		<SafeAreaProvider>
 			<SafeAreaView style={styles.container}>
-				<VirtualizedListing data={stops} />
+				<VirtualizedListing data={stops} items={15} />
 			</SafeAreaView>
 		</SafeAreaProvider>
 	);

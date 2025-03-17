@@ -1,5 +1,6 @@
 /* * */
 import { CMColors } from '@/constants/Colors';
+import { useLocaleContext } from '@/contexts/Locale.context';
 import useThemedCMColor from '@/hooks/useThemedCMColor';
 import { useWebsiteNews } from '@/services/website/queries/useNews';
 import {
@@ -19,7 +20,7 @@ import {
 } from '@tabler/icons-react-native';
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import FullWidthList from '../cmui/FullWidthList';
@@ -41,6 +42,8 @@ export default function MoreScreen() {
 	//
 	// A. Setup varibles
 	const { data: news, error, isPending } = useWebsiteNews();
+
+	const localeContext = useLocaleContext();
 
 	const systemText100 = useThemedCMColor('systemText100');
 	const systemText400 = useThemedCMColor('systemText400');
@@ -217,7 +220,8 @@ export default function MoreScreen() {
 						/>
 					</FullWidthList.Section>
 				</FullWidthList>
-
+				<Button onPress={localeContext.actions.changeToEnglish} title="Switch to English" />
+				<Button onPress={localeContext.actions.changeToPortuguese} title="Switch to Portuguese" />
 				{/* version */}
 				<Text style={styles.version}>Versão 2024.09.12-015</Text>
 			</ScrollView>

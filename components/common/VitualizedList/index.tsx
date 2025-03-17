@@ -1,31 +1,26 @@
 /* * */
 
-import { NoDatabLabel } from '@/components/common/NoDataLabel';
+import { NoDatabLabel } from '@/components/common/layout/NoDataLabel';
 import { StyleSheet, Text, View, VirtualizedList } from 'react-native';
 
 /* * */
 interface Props {
 	data: unknown[]
+	items: number
 }
 /* * */
-export function VirtualizedListing({ data }: Props) {
+export function VirtualizedListing({ data, items }: Props) {
 	//
 
 	//
 	// A. Setup variables
 
 	const styles = StyleSheet.create({
-		container: {
-			flex: 1,
-			width: '100%',
-		},
 		itemContainer: {
-			borderBottomColor: '#eee',
-			borderBottomWidth: 1,
-			padding: 16,
+			padding: 20,
 		},
 		itemText: {
-			fontSize: 16,
+			fontSize: 20,
 		},
 	});
 
@@ -48,7 +43,7 @@ export function VirtualizedListing({ data }: Props) {
 			data={data}
 			getItem={getItem}
 			getItemCount={data => data?.length || 0}
-			initialNumToRender={15}
+			initialNumToRender={items}
 			keyExtractor={item => item.id}
 			renderItem={renderItem}
 			ListEmptyComponent={(

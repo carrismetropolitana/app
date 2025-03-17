@@ -11,7 +11,8 @@ const resources = {
 	pt: { translation: pt },
 };
 
-const matchedLocale = Localization.locale.startsWith('pt') ? 'pt' : 'en';
+const locales = Localization.getLocales();
+const matchedLocale = locales[0].languageCode?.startsWith('pt') ? 'pt' : 'en';
 
 i18n.use(ICU).use(initReactI18next).init({
 	fallbackLng: 'pt',
