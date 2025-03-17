@@ -1,6 +1,6 @@
 /* * */
 
-import { useStopsContext } from '@/contexts/Stops.context';
+import { useLinesContext } from '@/contexts/Lines.context';
 import { SafeAreaView, StyleSheet, Text, View, VirtualizedList } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -12,14 +12,14 @@ interface Stop {
 }
 
 /* * */
-export default function StopsScreen() {
+export default function LinesScreen() {
 	//
 
 	//
 	// A. Setup variables
 
-	const stopsContext = useStopsContext();
-	const stops = stopsContext.data.stops;
+	const linesContext = useLinesContext();
+	const lines = linesContext.data.lines;
 
 	const styles = StyleSheet.create({
 		container: {
@@ -52,7 +52,7 @@ export default function StopsScreen() {
 		<SafeAreaProvider>
 			<SafeAreaView style={styles.container}>
 				<VirtualizedList
-					data={stops}
+					data={lines}
 					getItem={getItem}
 					getItemCount={data => data?.length || 0}
 					initialNumToRender={15}
@@ -60,7 +60,7 @@ export default function StopsScreen() {
 					renderItem={renderItem}
 					ListEmptyComponent={(
 						<View style={styles.itemContainer}>
-							<Text>No stops available</Text>
+							<Text>No Lines available</Text>
 						</View>
 					)}
 				/>

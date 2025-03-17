@@ -6,8 +6,7 @@
 // import { IconsMap } from '@/settings/assets.settings';
 // import { mapDefaultConfig } from '@/settings/map.settings';
 import { useVehiclesContext } from '@/contexts/Vehicles.context';
-import { useVehicles } from '@/hooks/dataFetching/useVehicles';
-import { Camera, CircleLayer, FillLayer, MapView, ShapeSource, UserLocation } from '@maplibre/maplibre-react-native';
+import { Camera, CircleLayer, MapView, ShapeSource } from '@maplibre/maplibre-react-native';
 // import { useCallback, useState } from 'react';
 
 // import styles from './styles.module.css';
