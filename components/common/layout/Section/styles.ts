@@ -26,8 +26,17 @@ export const sectionStyles = StyleSheet.create({
 		flexDirection: 'column',
 		gap: 5,
 		justifyContent: 'flex-start',
-		padding: 20,
-		paddingLeft: 25,
+		padding: 10,
+		paddingLeft: 15,
+		width: '100%',
+	},
+	headingWrapperWithPadding: {
+		alignItems: 'flex-start',
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 5,
+		justifyContent: 'flex-start',
+		paddingBottom: 0,
 		width: '100%',
 	},
 	/* * */
@@ -74,6 +83,7 @@ export const sectionStyles = StyleSheet.create({
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'flex-start',
+		padding: 20,
 		width: '100%',
 	},
 	/* * */
@@ -81,4 +91,9 @@ export const sectionStyles = StyleSheet.create({
 	childrenWrapperWithGap: {
 		gap: 15,
 	},
+
+	childrenWrapperWithPadding: {
+		padding: 20,
+	},
+
 });

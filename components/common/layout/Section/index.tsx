@@ -30,20 +30,24 @@ export function Section({ children, heading, href, subheading, target, variant =
 		// variant === 'default' && sectionStyles.stylesDefault,
 		withBottomDivider && sectionStyles.withBottomDivider,
 		withGap && sectionStyles.withGap,
+		withPadding && sectionStyles.childrenWrapperWithPadding,
 		// variant === 'default' && sectionStyles.stylesDefault,
 		// variant === 'muted' && sectionStyles.stylesMuted,
 		// variant === 'standout' && sectionStyles.stylesStandout,
 		// variant === 'success' && sectionStyles.stylesSuccess,
 		// variant === 'warning' && sectionStyles.stylesWarning,
 	];
+	const headerStyles = [
+		withPadding && sectionStyles.headingWrapperWithPadding,
+	];
 
 	//
 	// B. Render components
 
 	return (
-		<View data-with-padding-mobile={withPadding === 'mobile' || withPadding === true} style={[sectionStyles.container, styles]}>
+		<View data-with-padding-mobile={withPadding === true} style={[sectionStyles.container, styles]}>
 			{(heading || subheading) && (
-				<View style={sectionStyles.headingWrapper}>
+				<View style={[sectionStyles.headingWrapper, headerStyles]}>
 					{heading && !href && <Text style={sectionStyles.heading}>{heading}</Text>}
 					{heading && href && (
 						<Link href={href} style={sectionStyles.href} target={target}>
