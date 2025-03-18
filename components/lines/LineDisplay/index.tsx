@@ -1,0 +1,58 @@
+/* * */
+
+import type { Line } from '@carrismetropolitana/api-types/network';
+
+import { LineBadge } from '@/components/lines/LineBadge';
+import { LineName } from '@/components/lines/LineName';
+import { Text, View } from 'react-native';
+
+import { lineDisplayStyles } from './styles';
+
+/* * */
+
+interface Props {
+	color?: string
+	lineData?: Line
+	longName?: string
+	shortName?: string
+	size?: 'lg' | 'md'
+	textColor?: string
+	width?: number
+}
+
+/* * */
+
+export function LineDisplay({ color, lineData, longName, shortName, size = 'md', textColor, width = 200 }: Props) {
+	//
+
+	if (lineData) {
+		return (
+			<View style={lineDisplayStyles.container}>
+				<LineBadge color={lineData.color} shortName={lineData.short_name} size={size} textColor={lineData.text_color} />
+				<LineName longName={lineData.long_name} />
+			</View>
+		);
+	}
+
+	if (longName && shortName && color && textColor) {
+		return (
+			<View style={lineDisplayStyles.container}>
+				<LineBadge color={color} shortName={shortName} size={size} textColor={textColor} />
+				<LineName align="left" longName={longName} />
+			</View>
+		);
+	}
+
+	return (
+		<View>
+			<Text>000</Text>
+		</View>
+		// TODO Add skeleton loader
+		// <div className={lineDisplayStyles.container}>
+		// 	<Skeleton height={24} radius={9999} width={65} />
+		// 	<Skeleton height={24} width={width} />
+		// </div>
+	);
+
+	//
+}

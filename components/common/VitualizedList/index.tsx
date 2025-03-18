@@ -1,15 +1,19 @@
 /* * */
 
 import { NoDatabLabel } from '@/components/common/layout/NoDataLabel';
-import { StyleSheet, Text, View, VirtualizedList } from 'react-native';
+import { LineDisplay } from '@/components/lines/LineDisplay';
+import { RegularListItem } from '@/components/RegularListItem';
+import { StyleSheet, Text, VirtualizedList } from 'react-native';
 
 /* * */
 interface Props {
 	data: unknown[]
 	items: number
+	variant?: 'lines' | 'stops'
 }
 /* * */
-export function VirtualizedListing({ data, items }: Props) {
+export function VirtualizedListing({ data, items, variant,
+}: Props) {
 	//
 
 	//
@@ -33,9 +37,18 @@ export function VirtualizedListing({ data, items }: Props) {
 	// C. Render components
 
 	const renderItem = ({ item }) => (
-		<View style={styles.itemContainer}>
-			<Text style={styles.itemText}>{item.long_name}</Text>
-		</View>
+		variant === 'lines'
+			? (
+				<RegularListItem href="#">
+					<LineDisplay lineData={item} />
+				</RegularListItem>
+			)
+			: (
+				<RegularListItem href="#">
+					<Text style={styles.itemText}>{item.long_name}</Text>
+				</RegularListItem>
+			)
+
 	);
 
 	return (
