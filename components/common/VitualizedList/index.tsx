@@ -9,11 +9,11 @@ import { StyleSheet, Text, VirtualizedList } from 'react-native';
 interface Props {
 	data: unknown[]
 	items: number
+	size?: 'lg' | 'md'
 	variant?: 'lines' | 'stops'
 }
 /* * */
-export function VirtualizedListing({ data, items, variant,
-}: Props) {
+export function VirtualizedListing({ data, items, size, variant }: Props) {
 	//
 
 	//
@@ -40,7 +40,7 @@ export function VirtualizedListing({ data, items, variant,
 		variant === 'lines'
 			? (
 				<RegularListItem href="#">
-					<LineDisplay lineData={item} />
+					<LineDisplay lineData={item} size={size} />
 				</RegularListItem>
 			)
 			: (

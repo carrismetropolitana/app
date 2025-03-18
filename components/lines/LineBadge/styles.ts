@@ -5,12 +5,9 @@ const container = {
 	backgroundColor: '#5a5a64',
 	borderRadius: 999,
 	color: '#fff',
-	display: 'flex',
 	fontWeight: 800,
 	justifyContent: 'center',
-	letterSpacing: 1,
-	lineHeight: 1,
-	position: 'relative',
+	textAlign: 'center',
 } as const;
 
 export const lineBadgeStyles = StyleSheet.create({
@@ -27,7 +24,8 @@ export const lineBadgeStyles = StyleSheet.create({
 		top: -10,
 		width: 20,
 	},
-	clickable: { cursor: 'pointer',
+	clickable: {
+		cursor: 'pointer',
 		transitionDuration: '0.2s',
 		transitionProperty: 'all',
 		transitionTimingFunction: 'ease',
@@ -37,12 +35,13 @@ export const lineBadgeStyles = StyleSheet.create({
 	},
 	sizeLg: {
 		...container,
-		fontSize: 16,
+		fontSize: 22,
 		maxHeight: 26,
 		maxWidth: 65,
 		minHeight: 26,
 		minWidth: 65 },
 	sizeMd: {
+		...container,
 		fontSize: 16,
 		maxHeight: 26,
 		maxWidth: 65,

@@ -28,7 +28,7 @@ export default function LinesScreen() {
 	return (
 		<SafeAreaProvider>
 			<SafeAreaView style={styles.container}>
-				<VirtualizedListing data={lines} items={30} variant="lines" />
+				<VirtualizedListing data={lines} items={30} size="lg" variant="lines" />
 			</SafeAreaView>
 		</SafeAreaProvider>
 	);
