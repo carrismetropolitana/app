@@ -22,6 +22,7 @@ export default function HomeScreen() {
 						<CustomMapView />
 					</View> */}
 					<Link href="/profile">Open profile</Link>
+					<Link href="/lines/10001">LINE 1001</Link>
 					<Text>Some text</Text>
 				</Section>
 			</Surface>

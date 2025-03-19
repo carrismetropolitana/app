@@ -3,7 +3,6 @@
 import { VirtualizedListing } from '@/components/common/VitualizedList';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 /* * */
 export default function LinesScreen() {
@@ -26,11 +25,9 @@ export default function LinesScreen() {
 	// C. Render components
 
 	return (
-		<SafeAreaProvider>
-			<SafeAreaView style={styles.container}>
-				<VirtualizedListing data={lines} items={30} size="lg" variant="lines" />
-			</SafeAreaView>
-		</SafeAreaProvider>
+		<SafeAreaView style={styles.container}>
+			<VirtualizedListing data={lines} items={30} size="lg" variant="lines" />
+		</SafeAreaView>
 	);
 
 	//

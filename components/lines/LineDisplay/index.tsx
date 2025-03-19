@@ -29,7 +29,7 @@ export function LineDisplay({ color, lineData, longName, shortName, size = 'md',
 		return (
 			<View style={lineDisplayStyles.container}>
 				<LineBadge color={lineData.color} shortName={lineData.short_name} size={size} textColor={lineData.text_color} />
-				<LineName longName={lineData.long_name} />
+				<LineName align="left" longName={lineData.long_name} />
 			</View>
 		);
 	}

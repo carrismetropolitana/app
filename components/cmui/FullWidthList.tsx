@@ -1,52 +1,52 @@
-import React, { createContext, useContext, cloneElement } from "react";
+import useThemedCMColor from '@/hooks/useThemedCMColor';
+import React, { cloneElement, createContext, useContext } from 'react';
 import {
-	View,
-	Text,
-	TouchableOpacity,
-	StyleSheet,
 	Pressable,
 	type StyleProp,
-	type ViewStyle,
+	StyleSheet,
+	Text,
 	type TextStyle,
-} from "react-native";
-import useThemedCMColor from "@/hooks/useThemedCMColor";
+	TouchableOpacity,
+	View,
+	type ViewStyle,
+} from 'react-native';
 
 // to share styling and theme information
-type FullWidthListContextType = {
-	styles: ReturnType<typeof makeStyles>;
-	systemText100: string;
-	systemText400: string;
-};
+interface FullWidthListContextType {
+	styles: ReturnType<typeof makeStyles>
+	systemText100: string
+	systemText400: string
+}
 
 const FullWidthListContext = createContext<FullWidthListContextType | null>(
 	null,
 );
 
 interface FullWidthListProps {
-	style?: StyleProp<ViewStyle>;
-	children: React.ReactNode;
+	children: React.ReactNode
+	style?: StyleProp<ViewStyle>
 }
 
 export const FullWidthList: React.FC<FullWidthListProps> & {
-	Section: typeof Section;
-	Item: typeof Item;
-	Divider: typeof Divider;
-} = ({ style, children }) => {
-	const systemText100 = useThemedCMColor("systemText100");
-	const systemText200 = useThemedCMColor("systemText200");
-	const systemText300 = useThemedCMColor("systemText300");
-	const systemText400 = useThemedCMColor("systemText400");
-	const systemBackground100 = useThemedCMColor("systemBackground100");
-	const systemBackground200 = useThemedCMColor("systemBackground200");
-	const systemBorder100 = useThemedCMColor("systemBorder100");
+	Divider: typeof Divider
+	Item: typeof Item
+	Section: typeof Section
+} = ({ children, style }) => {
+	const systemText100 = useThemedCMColor('systemText100');
+	const systemText200 = useThemedCMColor('systemText200');
+	const systemText300 = useThemedCMColor('systemText300');
+	const systemText400 = useThemedCMColor('systemText400');
+	const systemBackground100 = useThemedCMColor('systemBackground100');
+	const systemBackground200 = useThemedCMColor('systemBackground200');
+	const systemBorder100 = useThemedCMColor('systemBorder100');
 
 	const styles = makeStyles({
 		systemBackground100,
 		systemBackground200,
+		systemBorder100,
 		systemText100,
 		systemText200,
 		systemText300,
-		systemBorder100,
 	});
 
 	return (
@@ -60,12 +60,12 @@ export const FullWidthList: React.FC<FullWidthListProps> & {
 
 // ---- divider component ----
 interface DividerProps {
-	style?: StyleProp<ViewStyle>;
+	style?: StyleProp<ViewStyle>
 }
 
 const Divider: React.FC<DividerProps> = ({ style }) => {
 	const context = useContext(FullWidthListContext);
-	if (!context) throw new Error("Divider must be used within a List");
+	if (!context) throw new Error('Divider must be used within a List');
 	const { styles } = context;
 
 	return <View style={[styles.divider, style]} />;
@@ -73,29 +73,29 @@ const Divider: React.FC<DividerProps> = ({ style }) => {
 
 // ---- section component ----
 interface SectionProps {
-	title?: string;
-	subtitle?: string;
-	titleStyle?: StyleProp<TextStyle>;
-	subtitleStyle?: StyleProp<TextStyle>;
-	style?: StyleProp<ViewStyle>;
-	children: React.ReactNode;
+	children: React.ReactNode
+	style?: StyleProp<ViewStyle>
+	subtitle?: string
+	subtitleStyle?: StyleProp<TextStyle>
+	title?: string
+	titleStyle?: StyleProp<TextStyle>
 }
 
 const Section: React.FC<SectionProps> = ({
-	title,
-	subtitle,
-	titleStyle,
-	subtitleStyle,
-	style,
 	children,
+	style,
+	subtitle,
+	subtitleStyle,
+	title,
+	titleStyle,
 }) => {
 	const context = useContext(FullWidthListContext);
-	if (!context) throw new Error("Section must be used within a List");
+	if (!context) throw new Error('Section must be used within a List');
 	const { styles } = context;
 
 	// process children to insert dividers
 	const childrenArray = React.Children.toArray(children).filter(
-		(child) => React.isValidElement(child) && child.type !== Divider,
+		child => React.isValidElement(child) && child.type !== Divider,
 	);
 
 	const processedChildren: React.ReactNode[] = [];
@@ -130,41 +130,41 @@ const Section: React.FC<SectionProps> = ({
 
 // ---- item component ----
 interface BaseItemProps {
-	title: string;
-	topText?: string;
-	bottomText?: string;
-	leadingIcon?: React.ReactNode;
-	onPress?: () => void;
-	style?: StyleProp<ViewStyle>;
-	disabled?: boolean;
+	bottomText?: string
+	disabled?: boolean
+	leadingIcon?: React.ReactNode
+	onPress?: () => void
+	style?: StyleProp<ViewStyle>
+	title: string
+	topText?: string
 }
 
 type ItemProps =
-	| (BaseItemProps & { trailingIcon?: React.ReactNode; externalAction?: never })
-	| (BaseItemProps & { externalAction?: boolean; trailingIcon?: never });
+	| (BaseItemProps & { externalAction?: boolean, trailingIcon?: never })
+	| (BaseItemProps & { externalAction?: never, trailingIcon?: React.ReactNode });
 
 const Item: React.FC<ItemProps> = ({
-	title,
-	topText,
 	bottomText,
-	leadingIcon,
-	trailingIcon,
+	disabled = false,
 	externalAction,
+	leadingIcon,
 	onPress,
 	style,
-	disabled = false,
+	title,
+	topText,
+	trailingIcon,
 }) => {
 	const context = useContext(FullWidthListContext);
-	if (!context) throw new Error("Item must be used within a List");
+	if (!context) throw new Error('Item must be used within a List');
 	const { styles, systemText100, systemText400 } = context;
 
-	const resolvedTrailingIcon =
-		trailingIcon ||
-		(externalAction ? (
-			<IconExternalLink size={20} color={systemText400} />
-		) : (
-			<IconChevronRight size={20} color={systemText400} />
-		));
+	const resolvedTrailingIcon
+		= trailingIcon
+		  || (externalAction ? (
+			<IconExternalLink color={systemText400} size={20} />
+		  ) : (
+			<IconChevronRight color={systemText400} size={20} />
+		  ));
 
 	const menuItemContent = (
 		<>
@@ -178,7 +178,7 @@ const Item: React.FC<ItemProps> = ({
 						<Text
 							style={[styles.topText, disabled && styles.secondaryDisabled]}
 						>
-							{topText} {disabled && "(Disabled)"}
+							{topText} {disabled && '(Disabled)'}
 						</Text>
 					)}
 					<Text style={[styles.menuText, disabled && styles.primaryDisabled]}>
@@ -200,21 +200,21 @@ const Item: React.FC<ItemProps> = ({
 		</>
 	);
 
-	return process.env.EXPO_OS === "android" ? (
+	return process.env.EXPO_OS === 'android' ? (
 		<Pressable
-			android_ripple={{ color: "#eee" }}
-			style={[styles.menuItem, style]}
-			onPress={onPress}
+			android_ripple={{ color: '#eee' }}
 			disabled={disabled}
+			onPress={onPress}
+			style={[styles.menuItem, style]}
 		>
 			{menuItemContent}
 		</Pressable>
 	) : (
 		<TouchableOpacity
 			activeOpacity={0.7}
-			style={[styles.menuItem, style]}
-			onPress={onPress}
 			disabled={disabled}
+			onPress={onPress}
+			style={[styles.menuItem, style]}
 		>
 			{menuItemContent}
 		</TouchableOpacity>
@@ -227,94 +227,94 @@ FullWidthList.Item = Item;
 FullWidthList.Divider = Divider;
 
 // default trailing icons
-import { IconChevronRight, IconExternalLink } from "@tabler/icons-react-native";
+import { IconChevronRight, IconExternalLink } from '@tabler/icons-react-native';
 
 const makeStyles = ({
 	systemBackground100,
 	systemBackground200,
+	systemBorder100,
 	systemText100,
 	systemText200,
 	systemText300,
-	systemBorder100,
 }: {
-	systemBackground100: string;
-	systemBackground200: string;
-	systemText100: string;
-	systemText200: string;
-	systemText300: string;
-	systemBorder100: string;
+	systemBackground100: string
+	systemBackground200: string
+	systemBorder100: string
+	systemText100: string
+	systemText200: string
+	systemText300: string
 }) =>
 	StyleSheet.create({
-		container: {},
-		sectionHeader: {
-			marginTop: 24,
-			fontWeight: "600",
-			fontSize: 16,
-			color: systemText200,
-			marginLeft: 16,
-		},
-		sectionSubHeader: {
-			fontSize: 12,
-			fontWeight: "500",
+		bottomText: {
 			color: systemText300,
-			marginLeft: 16,
-			marginBottom: 10,
-			width: "90%",
+			fontSize: 12,
+			fontWeight: 500,
+			marginTop: 2,
+		},
+		container: {},
+		divider: {
+			backgroundColor: systemBorder100,
+			height: 1,
+		},
+		menuDescriptor: {
+			alignItems: 'center',
+			display: 'flex',
+			flexDirection: 'row',
+			gap: 14,
+			justifyContent: 'space-between',
+		},
+		menuItem: {
+			alignItems: 'center',
+			backgroundColor: systemBackground100,
+			display: 'flex',
+			flexDirection: 'row',
+			gap: 8,
+			justifyContent: 'space-between',
+			paddingHorizontal: 16,
+			paddingVertical: 12,
+		},
+		menuText: {
+			color: systemText100,
+			fontSize: 18,
+			fontWeight: '700',
+		},
+		primaryDisabled: {
+			color: '#9696A0',
+		},
+		secondaryDisabled: {
+			color: '#D2D2DC',
 		},
 		sectionContent: {
 			backgroundColor: systemBackground100,
-			overflow: "hidden",
+			overflow: 'hidden',
 		},
-		menuItem: {
-			backgroundColor: systemBackground100,
-			display: "flex",
-			flexDirection: "row",
-			alignItems: "center",
-			justifyContent: "space-between",
-			gap: 8,
-			paddingVertical: 12,
-			paddingHorizontal: 16,
+		sectionHeader: {
+			color: systemText200,
+			fontSize: 16,
+			fontWeight: '600',
+			marginLeft: 16,
+			marginTop: 24,
 		},
-		divider: {
-			height: 1,
-			backgroundColor: systemBorder100,
-		},
-		menuDescriptor: {
-			display: "flex",
-			flexDirection: "row",
-			alignItems: "center",
-			justifyContent: "space-between",
-			gap: 14,
-		},
-		menuText: {
-			fontSize: 18,
-			fontWeight: "700",
-			color: systemText100,
-		},
-		textContainer: {
-			flexDirection: "column",
-			justifyContent: "center",
-		},
-		topText: {
-			fontSize: 12,
-			fontWeight: 600,
+		sectionSubHeader: {
 			color: systemText300,
-			marginBottom: 2,
-		},
-		bottomText: {
 			fontSize: 12,
-			fontWeight: 500,
-			color: systemText300,
-			marginTop: 2,
-		},
-		primaryDisabled: {
-			color: "#9696A0",
-		},
-		secondaryDisabled: {
-			color: "#D2D2DC",
+			fontWeight: '500',
+			marginBottom: 10,
+			marginLeft: 16,
+			width: '90%',
 		},
 		tertiaryDisabled: {
-			color: "#F0F0F0",
+			color: '#F0F0F0',
+		},
+		textContainer: {
+			flexDirection: 'column',
+			justifyContent: 'center',
+		},
+		topText: {
+			color: systemText300,
+			fontSize: 12,
+			fontWeight: 600,
+			marginBottom: 2,
 		},
 	});
 

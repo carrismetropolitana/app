@@ -12,11 +12,10 @@ interface Props {
 	align?: 'center' | 'left' | 'right'
 	lineData?: Line
 	longName?: string
-	size?: 'lg' | 'md'
 }
 /* * */
 
-export function LineName({ align = 'left', lineData, longName, size = 'md' }: Props) {
+export function LineName({ align = 'left', lineData, longName }: Props) {
 	//
 
 	//
@@ -26,8 +25,6 @@ export function LineName({ align = 'left', lineData, longName, size = 'md' }: Pr
 		align === 'center' && lineNameStyles.alignCenter,
 		align === 'right' && lineNameStyles.alignRight,
 		align === 'left' && lineNameStyles.alignleft,
-		size === 'lg' && lineNameStyles.sizeLg,
-		size === 'md' && lineNameStyles.sizeMd,
 	];
 
 	//

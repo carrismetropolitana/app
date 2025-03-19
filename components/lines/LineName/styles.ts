@@ -26,16 +26,7 @@ export const lineNameStyles = StyleSheet.create({
 		textAlign: 'right',
 	},
 	name: {
-
-	},
-	sizeLg: {
-		...name,
-		fontSize: 20,
-		fontWeight: 700,
-	},
-	sizeMd: {
-		...name,
-		fontSize: 15,
+		fontSize: 16,
 		fontWeight: 700,
 	},
 });

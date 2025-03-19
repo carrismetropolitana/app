@@ -45,7 +45,7 @@ export function LineBadge({ color, lineData, lineId, onPress, shortName, size = 
 
 	//
 	// C. Render components
-	console.log(size);
+
 	return (
 		<Pressable onPress={onPress} style={[lineBadgeStyles.default, ...badgeStyles]}>
 			<Text style={[badgeStyles, { backgroundColor: color || lineData?.color, color: textColor || lineData?.text_color || fetchedLineData?.text_color }]}>{shortName || lineData?.short_name || fetchedLineData?.short_name || '• • •'}</Text>

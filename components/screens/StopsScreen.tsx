@@ -2,7 +2,6 @@
 
 import { useStopsContext } from '@/contexts/Stops.context';
 import { SafeAreaView, StyleSheet } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { VirtualizedListing } from '../common/VitualizedList';
 
@@ -27,11 +26,9 @@ export default function StopsScreen() {
 	// C. Render components
 
 	return (
-		<SafeAreaProvider>
-			<SafeAreaView style={styles.container}>
-				<VirtualizedListing data={stops} items={15} />
-			</SafeAreaView>
-		</SafeAreaProvider>
+		<SafeAreaView style={styles.container}>
+			<VirtualizedListing data={stops} items={15} />
+		</SafeAreaView>
 	);
 
 	//
