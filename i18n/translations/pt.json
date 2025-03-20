@@ -1,6 +1,7 @@
 {
 	"hello": "Olá",
 	"layout": {
+		"BackButton": "Voltar",
 		"NoDataLabel": {
 			"default": "Sem dados disponíveis"
 		}

@@ -24,11 +24,14 @@ interface Props {
 
 export function LineDisplay({ color, lineData, longName, shortName, size = 'md', textColor, width = 200 }: Props) {
 	//
+	const onPress = () => {
+		alert('clicked');
+	};
 
 	if (lineData) {
 		return (
 			<View style={lineDisplayStyles.container}>
-				<LineBadge color={lineData.color} shortName={lineData.short_name} size={size} textColor={lineData.text_color} />
+				<LineBadge color={lineData.color} onPress={onPress} shortName={lineData.short_name} size={size} textColor={lineData.text_color} />
 				<LineName align="left" longName={lineData.long_name} />
 			</View>
 		);

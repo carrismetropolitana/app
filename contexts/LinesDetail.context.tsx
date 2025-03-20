@@ -1,5 +1,3 @@
-'use client';
-
 /* * */
 
 import type { SimplifiedAlert } from '@/types/alerts.types';
@@ -12,6 +10,7 @@ import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { Routes } from '@/utils/routes';
+import { Lines } from '@turf/turf';
 import { useLocalSearchParams } from 'expo-router';
 import { createContext, useContext, useEffect, useState } from 'react';
 
@@ -74,6 +73,10 @@ export const LinesDetailContextProvider = ({ children, lineId }) => {
 	const profileContext = useProfileContext();
 	const operationalDayContext = useOperationalDayContext();
 
+	const { active_pattern_id } = useLocalSearchParams<{ active_pattern_id: string }>();
+	const { active_waypoint_stop_id } = useLocalSearchParams<{ active_waypoint_stop_id: string }>();
+	const { active_waypoint_stop_sequence } = useLocalSearchParams<{ active_waypoint_stop_sequence: string }>();
+
 	const [dataLineState, setDataLineState] = useState<LinesDetailContextState['data']['line']>();
 	const [dataDemandMetricsState, setDataDemandMetricsState] = useState<LinesDetailContextState['data']['demand_metrics']>();
 	const [dataServiceMetricsState, setDataServiceMetricsState] = useState<LinesDetailContextState['data']['service_metrics']>([]);
@@ -86,22 +89,15 @@ export const LinesDetailContextProvider = ({ children, lineId }) => {
 	const [dataActiveShapeState, setDataActiveShapeState] = useState<LinesDetailContextState['data']['active_shape']>(null);
 	const [dataActiveWaypointState, setDataActiveWaypointState] = useState<LinesDetailContextState['data']['active_waypoint']>(null);
 	const [dataHighlightedTripIdsState, setDataHighlightedTripIdsState] = useState<LinesDetailContextState['data']['highlighted_trip_ids']>([]);
-
-	const [filterActivePatternIdState, setFilterActivePatternIdState] = useState<string>('');
-	const [filterActiveWaypointStopIdState, setFilterActiveWaypointStopIdState] = useState<string>('');
-	const [filterActiveWaypointStopSequenceState, setFilterActiveWaypointStopSequenceState] = useState<string>('');
+	const [filterActivePatternIdState, setFilterActivePatternIdState] = useState(active_pattern_id);
+	const [filterActiveWaypointStopIdState, setFilterActiveWaypointStopIdState] = useState(active_waypoint_stop_id);
+	const [filterActiveWaypointStopSequenceState, setFilterActiveWaypointStopSequenceState] = useState(active_waypoint_stop_sequence);
 
 	const [flagIsFavoriteState, setFlagIsFavoriteState] = useState<LinesDetailContextState['flags']['is_favorite']>(false);
 	const [flagIsInteractiveModeState, setFlagIsInteractiveModeState] = useState<LinesDetailContextState['flags']['is_interactive_mode']>(false);
-	const { active_pattern_id, active_waypoint_stop_id, active_waypoint_stop_sequence } = useLocalSearchParams();
+
 	//
 	// B. Fetch data
-
-	useEffect(() => {
-		if (active_pattern_id && typeof active_pattern_id === 'string') setFilterActivePatternIdState(active_pattern_id);
-		if (active_waypoint_stop_id && typeof active_waypoint_stop_id === 'string') setFilterActiveWaypointStopIdState(active_waypoint_stop_id);
-		if (active_waypoint_stop_sequence && typeof active_waypoint_stop_sequence === 'string') setFilterActiveWaypointStopSequenceState(active_waypoint_stop_sequence);
-	}, [linesContext.data.lines]);
 
 	useEffect(() => {
 		const lineData = linesContext.actions.getLineDataById(lineId);
@@ -220,16 +216,14 @@ export const LinesDetailContextProvider = ({ children, lineId }) => {
 		if (!alertsContext.data.simplified) return;
 		const activeAlerts = alertsContext.data.simplified.filter((simplifiedAlertData) => {
 			return simplifiedAlertData.informed_entity.some((informedEntity) => {
-				// Skip if no routeId and no stopId in line
-				if (!informedEntity.route_id) return false;
 				// Check if the alert is active and has a matching route
 				const hasMatchingRoute = dataLineState?.route_ids.includes(informedEntity.route_id || '');
-				const isActive = simplifiedAlertData.end_date ? simplifiedAlertData.end_date >= new Date() : true;
+				const isActive = (simplifiedAlertData.end_date && !isNaN(simplifiedAlertData.end_date.getTime())) ? new Date(simplifiedAlertData.end_date).getTime() >= new Date().getTime() : true;
 				return hasMatchingRoute && isActive;
 			});
 		});
 		setDataActiveAlertsState(activeAlerts);
-	}, [alertsContext.data.simplified, dataLineState, lineId]);
+	}, [alertsContext.data.simplified, dataLineState]);
 
 	//
 	// D. Handle actions

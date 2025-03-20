@@ -39,7 +39,7 @@ export function VirtualizedListing({ data, items, size, variant }: Props) {
 	const renderItem = ({ item }) => (
 		variant === 'lines'
 			? (
-				<RegularListItem href="#">
+				<RegularListItem href={`/line/${item.id}`}>
 					<LineDisplay lineData={item} size={size} />
 				</RegularListItem>
 			)

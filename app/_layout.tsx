@@ -20,6 +20,7 @@ import 'expo-dev-client';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 /* * */
 
@@ -43,6 +44,8 @@ export default function RootLayout() {
 		// eslint-disable-next-line
 		SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),  
 	});
+
+	const { t } = useTranslation('translation', { keyPrefix: 'layout' });
 
 	//
 	// B. Fetch data
@@ -75,6 +78,20 @@ export default function RootLayout() {
 												headerShown: false,
 												presentation: 'formSheet',
 												sheetGrabberVisible: true,
+											}}
+										/>
+										<Stack.Screen
+											name="line/[line_id]"
+											options={{
+												headerBackTitle: `${t('BackButton')}`,
+												headerTitle: '',
+											}}
+										/>
+										<Stack.Screen
+											name="stop/[stop_id]"
+											options={{
+												headerBackTitle: `${t('BackButton')}`,
+												headerTitle: '',
 											}}
 										/>
 										<Stack.Screen name="+not-found" />

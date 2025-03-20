@@ -29,6 +29,7 @@ export default function TabLayout() {
 	return (
 		<Tabs
 			screenOptions={{
+				headerBackButtonDisplayMode: 'generic',
 				headerShown: false,
 				tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
 				tabBarBackground: TabBarBackground,

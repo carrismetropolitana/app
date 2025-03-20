@@ -6,7 +6,7 @@ import type { Line } from '@carrismetropolitana/api-types/network';
 
 import { useLinesContext } from '@/contexts/Lines.context';
 import { IconInfoTriangleFilled } from '@tabler/icons-react-native';
-import { Pressable, Text, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 
 import { lineBadgeStyles } from './styles';
 
@@ -47,14 +47,16 @@ export function LineBadge({ color, lineData, lineId, onPress, shortName, size = 
 	// C. Render components
 
 	return (
-		<Pressable onPress={onPress} style={[lineBadgeStyles.default, ...badgeStyles]}>
-			<Text style={[badgeStyles, { backgroundColor: color || lineData?.color, color: textColor || lineData?.text_color || fetchedLineData?.text_color }]}>{shortName || lineData?.short_name || fetchedLineData?.short_name || '• • •'}</Text>
+		<View>
+			<Text style={[badgeStyles, { backgroundColor: color || lineData?.color, color: textColor || lineData?.text_color || fetchedLineData?.text_color }]}>
+				{shortName || lineData?.short_name || fetchedLineData?.short_name || '• • •'}
+			</Text>
 			{withAlertIcon && (
 				<View style={lineBadgeStyles.alertIcon}>
 					<IconInfoTriangleFilled size={12} />
 				</View>
 			)}
-		</Pressable>
+		</View>
 	);
 
 	//
