@@ -1,4 +1,10 @@
 {
+	"common": {
+		"SelectOperationalDay": {
+			"today": "Today",
+			"tomorrow": "Tomorrow"
+		}
+	},
 	"layout": {
 		"BackButton": "Back",
 		"NoDataLabel": {
@@ -10,6 +16,128 @@
 			"More": "More",
 			"Stops": "Stops"
 
+		}
+	},
+	"lines": {
+		"AlertsCarousel": {
+			"heading": "Service Alerts"
+		},
+		"LinesDetail": {
+			"heading": "Search by Lines",
+			"toggle_favorite_error": "Error adding line to favorites. {error}"
+		},
+		"LinesDetailAlerts": {
+			"heading": "Active alerts for this line"
+		},
+		"LinesDetailMetricsDemand": {
+			"big_number": "{value, number}",
+			"chart": {
+				"series": {
+					"average": {
+						"label": "Média = {value, number}"
+					},
+					"qty": {
+						"label": "Passageiros transportados / dia"
+					}
+				}
+			},
+			"description": "Valor apurado com base no total de validações e vendas a bordo em todas as viagens desta linha nos últimos 15 dias.",
+			"footnote": "O valor de passageiros transportados é atualizado de 5 em 5 minutos, sendo que pode demorar até 30 minutos para refletir a realidade.",
+			"title": "passageiros transportados nesta linha nos últimos 15 dias"
+		},
+		"LinesDetailMetricsService": {
+			"big_number": "{value, number, percentage}",
+			"chart": {
+				"series": {
+					"fail_trip_count": {
+						"label": "Viagens não executadas"
+					},
+					"pass_trip_count": {
+						"label": "Viagens executadas"
+					},
+					"pass_trip_percentage": {
+						"label": "Taxa de execução %"
+					},
+					"total_trip_count": {
+						"label": "Viagens planeadas"
+					}
+				}
+			},
+			"description": "Taxa de execução calculada com base no total de viagens executadas face ao total de viagens planeadas para os últimos 15 dias. Para esta análise são considerados dados de posição dos veículos em tempo real e dados das validações e vendas a bordo.",
+			"footnote": "A fórmula utilizada para calcular a taxa de execução aqui apresentada reflete apenas parte do conjunto de indicadores definidos contratualmente para a avaliação do desempenho e qualidade do serviço prestado pelos Operadores.",
+			"title": "das {total_trip_count, number} viagens planeadas para os últimos 15 dias, {pass_trip_count, number} foram corretamente realizadas"
+		},
+		"LinesDetailPath": {
+			"no_data": "Select a Path / Destination",
+			"summary": "Line <lineNumber>{line_number}</lineNumber> headed towards <destinationName>{destination_name}</destinationName> on <dayName>{day_name, date, long}</dayName>. <changeDay>Change day ›</changeDay>"
+		},
+		"LinesListToolbar": {
+			"by_current_view": {
+				"all": "All Lines",
+				"favorites": "Favorites ({count})"
+			},
+			"by_search": {
+				"placeholder": "Search by name, number..."
+			},
+			"found_items_counter": {
+				"all": "{count, plural, =0 {No lines found.} one {Found # line:} other {Found # lines:}}",
+				"favorites": "{count, plural, =0 {No favorite lines found.} one {Found # favorite line:} other {Found # favorite lines:}}"
+			},
+			"heading": "Search Lines"
+		},
+		"LinesListViewAll": {
+			"no_data": "Nenhuma linha encontrada para esta pesquisa"
+		},
+		"LinesListViewFavorites": {
+			"no_favorites": "No favorite lines yet"
+		},
+		"PathStopNextArrivals": {
+			"title": "Next circulations"
+		},
+		"PathStopTimetable": {
+			"next_date": "Next times available from {value, date, dayShort} {value, date, monthLong} {value, date, yearLong}",
+			"no_data": "Timetables unavailable for this date.",
+			"title": "Scheduled times at this stop:"
+		},
+		"SelectActivePatternGroup": {
+			"placeholder": "Select route/destination..."
+		},
+		"SelectActivePatternGroupExplainer": {
+			"toggle": "What is the path/destination of a line?"
+		},
+		"collapse_filters": "Hide Filters",
+		"expand_filters": "Expand Filters"
+	},
+	"lost-and-found": {
+		"OperatorSection": {
+			"email": {
+				"label": "Send Email"
+			},
+			"form": {
+				"label": "Fill Form"
+			}
+		},
+		"Page": {
+			"heading": "Lost and Found",
+			"operator_sections": {
+				"41": {
+					"description": "Send an email to passenger@viacaoalvorada.pt with information about the line used, timetable and description of the object. If possible, include the vehicle number or license plate.",
+					"title": "Area 1 | Viação Alvorada"
+				},
+				"42": {
+					"description": "Fill out the Online Form available on the operator's website with information about the line used, time and description of the object. If possible, include the vehicle number or license plate.",
+					"title": "Area 2 | Rodoviária de Lisboa"
+				},
+				"43": {
+					"description": "Fill out the Online Form available on the operator's website with information about the line used, time and description of the object. If possible, include the vehicle number or license plate.",
+					"title": "Area 3 | TST"
+				},
+				"44": {
+					"description": "Fill out the Online Form available on the operator's website or send an email to passageiros@alsa.com with information about the line used, time and description of the object. If possible, include the vehicle number or license plate.",
+					"title": "Area 4 | Alsa Todi"
+				}
+			},
+			"subheading": "Carris Metropolitana's transport service is provided by 4 transport operators, each operating in their own area of the Lisbon Metropolitan Area, as shown in the image below. Therefore, the best way to recover your object is to directly contact the operator of the area you used."
 		}
 	}
 }

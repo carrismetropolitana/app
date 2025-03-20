@@ -17,7 +17,6 @@ export default function Profile() {
 	useEffect(() => {
 		navigation.setOptions({
 			headerBackTitle: `${t('BackButton')}`,
-			headerShown: false,
 			headerTitle: '',
 			presentation: 'formSheet',
 			sheetGrabberVisible: true,

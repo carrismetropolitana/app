@@ -20,6 +20,7 @@
     "@expo/vector-icons": "^14.0.2",
     "@maplibre/maplibre-react-native": "^10.1.4",
     "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-native-segmented-control/segmented-control": "^2.5.4",
     "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/native": "^7.0.14",
     "@tabler/icons-react-native": "^3.31.0",
@@ -30,6 +31,7 @@
     "classnames": "^2.5.1",
     "expo": "~52.0.37",
     "expo-blur": "~14.0.3",
+    "expo-clipboard": "~7.0.1",
     "expo-constants": "~17.0.7",
     "expo-dev-client": "^5.0.14",
     "expo-font": "~13.0.4",
@@ -62,8 +64,7 @@
     "react-native-svg": "^15.8.0",
     "react-native-web": "~0.19.13",
     "react-native-webview": "13.12.5",
-    "swr": "^2.3.3",
-    "expo-clipboard": "~7.0.1"
+    "swr": "^2.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

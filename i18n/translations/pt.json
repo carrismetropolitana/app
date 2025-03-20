@@ -1,4 +1,10 @@
 {
+	"common": {
+		"SelectOperationalDay": {
+			"today": "Today",
+			"tomorrow": "Tomorrow"
+		}
+	},
 	"layout": {
 		"BackButton": "Voltar",
 		"NoDataLabel": {
@@ -11,5 +17,96 @@
 			"Stops": "Paragens"
 
 		}
+	},
+	"lines": {
+		"AlertsCarousel": {
+			"heading": "Alertas de Serviço"
+		},
+		"LinesDetail": {
+			"heading": "Pesquisar Linhas",
+			"toggle_favorite_error": "Erro ao adicionar a linha aos favoritos. {error}"
+		},
+		"LinesDetailAlerts": {
+			"heading": "Alertas ativos para esta linha"
+		},
+		"LinesDetailMetricsDemand": {
+			"big_number": "{value, number}",
+			"chart": {
+				"series": {
+					"average": {
+						"label": "Média = {value, number}"
+					},
+					"qty": {
+						"label": "Passageiros transportados / dia"
+					}
+				}
+			},
+			"description": "Valor apurado com base no total de validações e vendas a bordo em todas as viagens desta linha nos últimos 15 dias.",
+			"footnote": "O valor de passageiros transportados é atualizado de 5 em 5 minutos, sendo que pode demorar até 30 minutos para refletir a realidade.",
+			"title": "passageiros transportados nesta linha nos últimos 15 dias"
+		},
+		"LinesDetailMetricsService": {
+			"big_number": "{value, number, percentage}",
+			"chart": {
+				"series": {
+					"fail_trip_count": {
+						"label": "Viagens não executadas"
+					},
+					"pass_trip_count": {
+						"label": "Viagens executadas"
+					},
+					"pass_trip_percentage": {
+						"label": "Taxa de execução %"
+					},
+					"total_trip_count": {
+						"label": "Viagens planeadas"
+					}
+				}
+			},
+			"description": "Taxa de execução calculada com base no total de viagens executadas face ao total de viagens planeadas para os últimos 15 dias. Para esta análise são considerados dados de posição dos veículos em tempo real e dados das validações e vendas a bordo.",
+			"footnote": "A fórmula utilizada para calcular a taxa de execução aqui apresentada reflete apenas parte do conjunto de indicadores definidos contratualmente para a avaliação do desempenho e qualidade do serviço prestado pelos Operadores.",
+			"title": "das {total_trip_count, number} viagens planeadas para os últimos 15 dias, {pass_trip_count, number} foram realizadas"
+		},
+		"LinesDetailPath": {
+			"no_data": "Selecione um Percurso / Destino",
+			"summary": "Linha <lineNumber>{line_number}</lineNumber> com destino a <destinationName>{destination_name}</destinationName> no dia <dayName>{day_name, date, long}</dayName>. <changeDay>Alterar dia ›</changeDay>"
+
+		},
+		"LinesListToolbar": {
+			"by_current_view": {
+				"all": "Todas as Linhas",
+				"favorites": "Favoritas ({count})"
+			},
+			"by_search": {
+				"placeholder": "Pesquisar por nome, número..."
+			},
+			"found_items_counter": {
+				"all": "{count, plural, =0 {Nenhuma linha encontrada.} one {Encontrada # linha:} other {Encontradas # linhas:}}",
+				"favorites": "{count, plural, =0 {Nenhuma linha favorita encontrada.} one {Encontrada # linha favorita:} other {Encontradas # linhas favoritas:}}"
+			},
+			"heading": "Pesquisar Linhas"
+		},
+		"LinesListViewAll": {
+			"no_data": "Nenhuma linha encontrada para esta pesquisa"
+		},
+		"LinesListViewFavorites": {
+			"no_favorites": "Ainda não tem linhas favoritas"
+		},
+		"PathStopNextArrivals": {
+			"title": "Próximas circulações"
+		},
+		"PathStopTimetable": {
+			"next_date": "Próximos horários disponíveis a partir de {value, date, dayShort} {value, date, monthLong} {value, date, yearLong}",
+			"no_data": "Horários indisponíveis para esta data.",
+			"title": "Horários planeados nesta paragem:"
+		},
+		"SelectActivePatternGroup": {
+			"placeholder": "Selecionar percurso/destino..."
+		},
+		"SelectActivePatternGroupExplainer": {
+			"toggle": "O que é o percurso/destino de uma linha?"
+		},
+		"collapse_filters": "Esconder Filtros",
+		"expand_filters": "Expandir Filtros"
 	}
 }

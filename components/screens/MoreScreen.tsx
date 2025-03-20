@@ -1,5 +1,6 @@
 /* * */
 import { CMColors } from '@/constants/Colors';
+import { useDebugContext } from '@/contexts/Debug.context';
 import { useLocaleContext } from '@/contexts/Locale.context';
 import useThemedCMColor from '@/hooks/useThemedCMColor';
 import { useWebsiteNews } from '@/services/website/queries/useNews';
@@ -25,6 +26,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import FullWidthList from '../cmui/FullWidthList';
 import RemoteImageCarousel from '../cmui/RemoteImageCarousel';
+
 /* * */
 
 /* * */
@@ -44,6 +46,7 @@ export default function MoreScreen() {
 	const { data: news, error, isPending } = useWebsiteNews();
 
 	const localeContext = useLocaleContext();
+	const debugContext = useDebugContext();
 
 	const systemText100 = useThemedCMColor('systemText100');
 	const systemText400 = useThemedCMColor('systemText400');
@@ -129,10 +132,12 @@ export default function MoreScreen() {
 						<FullWidthList.Item
 							leadingIcon={<IconUmbrella color={systemText100} size={32} />}
 							title="Perdidos e Achados"
-							onPress={() =>
-								openInAppBrowser(
-									'https://www.carrismetropolitana.pt/lost-and-found',
-							)}
+							onPress={
+								() =>
+									openInAppBrowser(
+										'https://www.carrismetropolitana.pt/lost-and-found',
+									)
+							}
 						/>
 						<FullWidthList.Item
 							title="Lojas e Rede de Agentes"
@@ -222,6 +227,8 @@ export default function MoreScreen() {
 				</FullWidthList>
 				<Button onPress={localeContext.actions.changeToEnglish} title="Switch to English" />
 				<Button onPress={localeContext.actions.changeToPortuguese} title="Switch to Portuguese" />
+				<Button onPress={debugContext.actions.toggleDebugMode} title="Toggle Debug" />
+
 				{/* version */}
 				<Text style={styles.version}>Versão 2024.09.12-015</Text>
 			</ScrollView>

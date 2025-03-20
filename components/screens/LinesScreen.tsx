@@ -2,7 +2,7 @@
 
 import { VirtualizedListing } from '@/components/common/VitualizedList';
 import { useLinesContext } from '@/contexts/Lines.context';
-import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native';
 
 /* * */
 export default function LinesScreen() {
