@@ -1,9 +1,15 @@
 {
-	"hello": "Olá",
 	"layout": {
 		"BackButton": "Voltar",
 		"NoDataLabel": {
 			"default": "Sem dados disponíveis"
+		},
+		"TabStack": {
+			"Home": "ínicio",
+			"Lines": "Linhas",
+			"More": "Mais",
+			"Stops": "Paragens"
+
 		}
 	}
 }

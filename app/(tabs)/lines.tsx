@@ -7,7 +7,7 @@ export default function Lines() {
 	//
 
 	//
-	// A. Render components
+	// . Render components
 
 	return (
 		<LinesScreen />

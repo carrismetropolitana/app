@@ -11,6 +11,7 @@ import {
 	IconUserCircle,
 } from '@tabler/icons-react-native';
 import { Tabs } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { Platform } from 'react-native';
 
 /* * */
@@ -22,6 +23,7 @@ export default function TabLayout() {
 	// A. Setup variables
 
 	const colorScheme = useColorScheme();
+	const { t } = useTranslation('translation', { keyPrefix: 'layout.TabStack' });
 
 	//
 	// B. Render components
@@ -29,7 +31,7 @@ export default function TabLayout() {
 	return (
 		<Tabs
 			screenOptions={{
-				headerBackButtonDisplayMode: 'generic',
+				headerBackButtonDisplayMode: 'default',
 				headerShown: false,
 				tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
 				tabBarBackground: TabBarBackground,
@@ -48,7 +50,7 @@ export default function TabLayout() {
 				name="home"
 				options={{
 					tabBarIcon: ({ color }) => <IconUserCircle color={color} size={28} />,
-					title: 'Home',
+					title: `${t('Home')}`,
 				}}
 			/>
 
@@ -58,7 +60,7 @@ export default function TabLayout() {
 					tabBarIcon: ({ color }) => (
 						<IconArrowLoopRight color={color} size={28} />
 					),
-					title: 'Linhas',
+					title: `${t('Lines')}`,
 				}}
 			/>
 
@@ -66,7 +68,7 @@ export default function TabLayout() {
 				name="stops"
 				options={{
 					tabBarIcon: ({ color }) => <IconBusStop color={color} size={28} />,
-					title: 'Paragens',
+					title: `${t('Stops')}`,
 				}}
 			/>
 
@@ -74,7 +76,7 @@ export default function TabLayout() {
 				name="more"
 				options={{
 					tabBarIcon: ({ color }) => <IconDots color={color} size={28} />,
-					title: 'Mais',
+					title: `${t('More')}`,
 				}}
 			/>
 		</Tabs>

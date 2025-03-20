@@ -1,8 +1,15 @@
 {
-	"hello": "Hi there!",
 	"layout": {
 		"BackButton": "Back",
 		"NoDataLabel": {
 			"default": "No data available"
-		}	}
+		},
+		"TabStack": {
+			"Home": "Home",
+			"Lines": "Lines",
+			"More": "More",
+			"Stops": "Stops"
+
+		}
+	}
 }

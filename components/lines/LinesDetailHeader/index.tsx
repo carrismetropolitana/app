@@ -69,7 +69,7 @@ export function LinesDetailHeader() {
 					</View>
 				</Section>
 
-				<Section withPadding>
+				{/* <Section withPadding>
 					<View style={lineDetailsHeaderStyles.container}>
 						<View>
 							<SelectOperationalDay />
@@ -79,7 +79,7 @@ export function LinesDetailHeader() {
 						</View>
 
 					</View>
-				</Section>
+				</Section> */}
 			</Surface>
 
 			{debugContext.flags.is_debug_mode && (

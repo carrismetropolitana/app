@@ -72,29 +72,6 @@ export default function RootLayout() {
 								<ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
 									<Stack>
 										<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-										<Stack.Screen
-											name="profile"
-											options={{
-												headerShown: false,
-												presentation: 'formSheet',
-												sheetGrabberVisible: true,
-											}}
-										/>
-										<Stack.Screen
-											name="line/[line_id]"
-											options={{
-												headerBackTitle: `${t('BackButton')}`,
-												headerTitle: '',
-											}}
-										/>
-										<Stack.Screen
-											name="stop/[stop_id]"
-											options={{
-												headerBackTitle: `${t('BackButton')}`,
-												headerTitle: '',
-											}}
-										/>
-										<Stack.Screen name="+not-found" />
 									</Stack>
 									<StatusBar style="auto" />
 								</ThemeProvider>

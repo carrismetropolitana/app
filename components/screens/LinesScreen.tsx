@@ -14,18 +14,11 @@ export default function LinesScreen() {
 	const linesContext = useLinesContext();
 	const lines = linesContext.data.lines;
 
-	const styles = StyleSheet.create({
-		container: {
-			flex: 1,
-			marginTop: StatusBar.currentHeight,
-		},
-	});
-
 	//
 	// C. Render components
 
 	return (
-		<SafeAreaView style={styles.container}>
+		<SafeAreaView>
 			<VirtualizedListing data={lines} items={30} size="lg" variant="lines" />
 		</SafeAreaView>
 	);
