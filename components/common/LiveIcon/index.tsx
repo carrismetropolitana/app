@@ -1,5 +1,7 @@
 /* * */
 
+import { View } from 'react-native';
+
 import styles from './style.module.css';
 
 /* * */
@@ -13,9 +15,9 @@ interface Props {
 
 export function LiveIcon({ className, color = 'var(--color-realtime-100)' }: Props) {
 	return (
-		<div className={`${styles.container} ${!!className && className}`}>
-			<div className={styles.ripple} style={{ backgroundColor: color }} />
-			<div className={styles.dot} style={{ backgroundColor: color }} />
-		</div>
+		<View className={`${styles.container} ${!!className && className}`}>
+			<View className={styles.ripple} style={{ backgroundColor: color }} />
+			<View className={styles.dot} style={{ backgroundColor: color }} />
+		</View>
 	);
 }

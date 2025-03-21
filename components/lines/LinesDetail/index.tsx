@@ -13,7 +13,6 @@ export function LinesDetail() {
 		<SafeAreaView>
 			<LinesDetailHeader />
 			{/* <LinesDetailAlerts />
-			<LinesDetailAlerts />
 			<LinesDetailMetrics /> */}
 		</SafeAreaView>
 

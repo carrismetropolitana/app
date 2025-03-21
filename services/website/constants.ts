@@ -1,4 +1,4 @@
-import { Platform } from "react-native";
+import { Platform } from 'react-native';
 
 const WEBSITE_API_URL = `https://www.carrismetropolitana.pt/api/app-${Platform.OS}`;
 

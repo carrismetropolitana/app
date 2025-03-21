@@ -72,7 +72,7 @@ export function LinesDetailHeader() {
 							<SelectOperationalDay />
 						</View>
 						<View>
-							{/* 	<SelectActivePatternGroup /> */}
+							<SelectActivePatternGroup />
 						</View>
 					</View>
 				</Section>

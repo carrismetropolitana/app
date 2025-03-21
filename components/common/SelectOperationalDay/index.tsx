@@ -1,5 +1,3 @@
-// 'use client';
-
 // /* * */
 
 // import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
@@ -105,18 +103,19 @@
 // }
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 
 export function SelectOperationalDay() {
 	const [selectedIndex, setSelectedIndex] = useState(0);
 
 	return (
-		<View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-			<SegmentedControl
+		<View style={{ alignItems: 'center', justifyContent: 'center' }}>
+			<Text>OOOO</Text>
+			{/* <SegmentedControl
 				onChange={event => setSelectedIndex(event.nativeEvent.selectedSegmentIndex)}
 				selectedIndex={selectedIndex}
 				values={['One', 'Two']}
-			/>
+			/> */}
 		</View>
 	);
 }
