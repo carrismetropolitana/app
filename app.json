@@ -54,7 +54,6 @@
 					]
 				}
 			],
-			"@maplibre/maplibre-react-native",
 			"expo-localization"
 		],
 		"runtimeVersion": {

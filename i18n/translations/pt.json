@@ -1,8 +1,8 @@
 {
 	"common": {
 		"SelectOperationalDay": {
-			"today": "Today",
-			"tomorrow": "Tomorrow"
+			"today": "Hoje",
+			"tomorrow": "Amanhã"
 		}
 	},
 	"layout": {

@@ -17,7 +17,7 @@ export function SelectActivePatternGroup() {
 	//
 	// A. Setup variables
 
-	const { t } = useTranslation('translations', { keyPrefix: 'lines.SelectActivePatternGroup' });
+	const { t } = useTranslation('translation', { keyPrefix: 'lines.SelectActivePatternGroup' });
 	const linesDetailContext = useLinesDetailContext();
 
 	//
@@ -36,11 +36,10 @@ export function SelectActivePatternGroup() {
 	}
 
 	return (
-		// <SelectPattern
-		<>
-			<Button title="DAMN" />
-			<SelectPattern />
-		</>
+	// <SelectPattern
+
+		<SelectPattern />
+
 	// leftSection={<IconArrowBarToRight size={20} />}
 	// onChange={linesDetailContext.actions.setActivePattern}
 	// patterns={validPatternGroupsSelectOptions}

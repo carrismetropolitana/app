@@ -1,6 +1,6 @@
 import type { FeatureCollection, Point } from 'geojson';
 
-import { MapStyle } from '@/components/map/MapView';
+import Style from '@/components/map/MapView';
 import { MapViewRef } from '@maplibre/maplibre-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as turf from '@turf/turf';

@@ -6,11 +6,12 @@ import { useLocationsContext } from '@/contexts/Locations.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { Pattern } from '@carrismetropolitana/api-types/network';
 // import { ComboboxItem, ComboboxItemGroup, Flex, Group, Select, SelectProps, Text } from '@mantine/core';
+import { Section } from '@/components/common/layout/Section';
 import { Picker, PickerItemProps, PickerProps } from '@react-native-picker/picker';
 import { IconAlertTriangle } from '@tabler/icons-react-native';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text } from 'react-native';
+import { View } from 'react-native';
 
 /* * */
 
@@ -144,9 +145,10 @@ export function SelectPattern() {
 	// };
 
 	return (
-		<>
+		<View>
 			<Picker
 				selectedValue={selectedLanguage}
+				style={{ height: 50, width: 150 }}
 				onValueChange={(itemValue, itemPosition) =>
 					setSelectedLanguage(itemValue)}
 			>
@@ -154,7 +156,7 @@ export function SelectPattern() {
 				<Picker.Item label="JavaScript" value="js" />
 			</Picker>
 
-		</>
+		</View>
 		// <Select
 		// 	allowDeselect={false}
 		// 	data={validPatternsSelectOptions}

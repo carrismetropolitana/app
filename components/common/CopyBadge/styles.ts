@@ -6,7 +6,7 @@ const container = {
 	color: 'rgb(150, 150, 165)',
 	cursor: 'pointer',
 	flexWrap: 'wrap',
-	fontWeight: '700px',
+	fontWeight: 700,
 	justifyContent: 'center',
 	lineHeight: 1,
 	padding: 20,
@@ -32,7 +32,6 @@ export const copyBadgeStyles = StyleSheet.create({
 		fontSize: 10,
 		letterSpacing: 0.5,
 		paddingRight: 15,
-		paddingTop: 3,
 	},
 	sizeMd: {
 		...container,

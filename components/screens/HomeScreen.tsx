@@ -15,7 +15,7 @@ export default function HomeScreen() {
 		<SafeAreaView>
 			<Surface>
 				<Section heading="Bem-Vindo" subheading="Hoje o tempo está limpo" withPadding>
-					{/* <CustomMapView /> */}
+					<CustomMapView />
 					<Link href="/profile">Open profile</Link>
 				</Section>
 			</Surface>
