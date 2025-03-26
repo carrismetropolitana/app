@@ -4,6 +4,7 @@ import { HapticTab } from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import tamaguiConfig from '@/tamagui.config';
 import {
 	IconArrowLoopRight,
 	IconBusStop,
@@ -13,6 +14,7 @@ import {
 import { Tabs } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Platform } from 'react-native';
+import { TamaguiProvider } from 'tamagui';
 
 /* * */
 

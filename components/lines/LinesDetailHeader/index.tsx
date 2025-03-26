@@ -57,9 +57,8 @@ export function LinesDetailHeader() {
 					<View style={lineDetailsHeaderStyles.headingSection}>
 						<View style={lineDetailsHeaderStyles.headingSectionRow}>
 							<LineBadge lineData={linesDetailContext.data.line} size="lg" />
-							<FavoriteToggle color={linesDetailContext.data.line.color} isActive={linesDetailContext.flags.is_favorite} onToggle={() => handleToggleFavorite} />
+							<FavoriteToggle color={linesDetailContext.data.line.color} isActive={linesDetailContext.flags.is_favorite} onToggle={handleToggleFavorite} />
 						</View>
-						{/*  */}
 						<View style={lineDetailsHeaderStyles.lineName}>
 							<Text>{linesDetailContext.data.line.long_name}</Text>
 						</View>
