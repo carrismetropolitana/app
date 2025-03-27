@@ -250,7 +250,7 @@ const makeStyles = ({
 			fontWeight: 500,
 			marginTop: 2,
 		},
-		container: {},
+		container: { width: '100%' },
 		divider: {
 			backgroundColor: systemBorder100,
 			height: 1,
