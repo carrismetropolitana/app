@@ -5,21 +5,11 @@ import { theming } from './Variables';
 const lightThemeDefinition = {
 	components: {
 		Button: {
-			containerStyle: {
-				backgroundColor: '#3498db',
-				borderRadius: 5,
-				paddingHorizontal: 20,
-				paddingVertical: 10,
+			buttonStyle: {
+				backgroundColor: theming.colorSystemBackground200,
 			},
 			titleStyle: {
-				color: '#ffffff',
-				fontWeight: 'bold' as const,
-			},
-		},
-		Text: {
-			style: {
-				color: '#000000',
-				fontSize: 16,
+				color: theming.colorSystemText200,
 			},
 		},
 	},
@@ -28,27 +18,17 @@ const lightThemeDefinition = {
 		primary: theming.colorPrimaryBlack,
 		text: theming.colorPrimaryBlack,
 	},
-	Link: {
-		style: {
-			color: '#000000',
-			fontSize: 16,
-		},
-	},
 	mode: 'light' as const,
 };
 
 const darkThemeDefinition = {
 	components: {
 		Button: {
-			containerStyle: {
-				backgroundColor: '#1abc9c',
-				borderRadius: 5,
-				paddingHorizontal: 20,
-				paddingVertical: 10,
+			buttonStyle: {
+				backgroundColor: '#1E1E28',
 			},
 			titleStyle: {
-				color: '#ffffff',
-				fontWeight: 'bold' as const,
+				color: theming.colorSystemText200,
 			},
 		},
 	},
@@ -56,12 +36,6 @@ const darkThemeDefinition = {
 		background: '#1E1E28',
 		primary: theming.colorPrimaryWhite,
 		text: theming.colorPrimaryWhite,
-	},
-	Link: {
-		style: {
-			color: '#000000',
-			fontSize: 16,
-		},
 	},
 	mode: 'dark' as const,
 };

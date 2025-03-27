@@ -139,5 +139,32 @@
 			},
 			"subheading": "Carris Metropolitana's transport service is provided by 4 transport operators, each operating in their own area of the Lisbon Metropolitan Area, as shown in the image below. Therefore, the best way to recover your object is to directly contact the operator of the area you used."
 		}
+	},
+	"more": {
+		"AboutCMList": {
+			"about_carrismetropolitana": "About CMetropolitana",
+			"heading": "Carris Metropolitana",
+			"legal_notices": "Legal Notices",
+			"open_data": "Open Data",
+			"our_operation_live": "Our Live Operation",
+			"privacy": "Privacy",
+			"recruitment": "Recruitment",
+			"subheading": "Learn more about Carris Metropolitana and explore different aspects of the bus operation across the 18 municipalities of the Lisbon metropolitan area."
+		},
+		"SupportList": {
+			"contacts": "Contacts",
+			"frequently_asked": "Frequently asked",
+			"heading": "Support",
+			"lost_found": "Lost and Found",
+			"stores": "Stores and Agents",
+			"subheading": "Clarify you doubts about Carris Metropolitana or ask us a question"
+		},
+		"TarifsList": {
+			"heading": "Tarifs",
+			"monthly_tickets": "Monthly Tickets",
+			"ocasional_tickets": "Ocasional Tickets",
+			"subheading": "Discover how much it costs to travel with CMetropolitana regularly or occasionally.",
+			"where_to_buy": "Where to buy"
+		}
 	}
 }

@@ -108,5 +108,32 @@
 		},
 		"collapse_filters": "Esconder Filtros",
 		"expand_filters": "Expandir Filtros"
+	},
+	"more": {
+		"AboutCMList": {
+			"about_carrismetropolitana": "Sobre a CMetropolitana",
+			"heading": "Carris Metropolitana",
+			"legal_notices": "Avisos legais",
+			"open_data": "Dados abertos",
+			"our_operation_live": "A nossa operação ao vivo",
+			"privacy": "Privacidade",
+			"recruitment": "Recrutamento",
+			"subheading": "Conheça melhor a Carris Metropolitana e explore diferentes ângulos da operação rodoviária dos 18 municípios da área metropolitana de Lisboa."
+		},
+		"SupportList": {
+			"contacts": "Contactos",
+			"frequently_asked": "Perguntas Frequentes",
+			"heading": "Suporte ao Cliente",
+			"lost_found": "Perdidos e Achados",
+			"stores": "Lojas e Agentes",
+			"subheading": "Tire as suas dúvidas sobre a Carris Metropolitana ou entre em contacto connosco."
+		},
+		"TarifsList": {
+			"heading": "Tarifas",
+			"monthly_tickets": "Bilhetes Mensais",
+			"ocasional_tickets": "Bilhetes Ocasionais",
+			"subheading": "Descubra quanto custa viajar na CMetropolitana regularmente ou de vez em quando.",
+			"where_to_buy": "Onde Comprar"
+		}
 	}
 }

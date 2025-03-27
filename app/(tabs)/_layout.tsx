@@ -30,8 +30,10 @@ export default function TabLayout() {
 		<Tabs
 			screenOptions={{
 				headerBackButtonDisplayMode: 'default',
-				headerShown: false,
-				tabBarActiveTintColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.grey0 : themeContext.theme.darkColors?.grey0,
+				headerStyle: {
+					backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
+				},
+				tabBarActiveTintColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.grey0,
 				tabBarBackground: TabBarBackground,
 				tabBarButton: HapticTab,
 				tabBarStyle: Platform.select({

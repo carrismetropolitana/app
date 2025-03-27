@@ -1,6 +1,5 @@
 /* * */
 import { ThemeProvider } from '@/contexts/Theme.context';
-import { useColorScheme } from '@/hooks/useColorScheme';
 import { ConfigProviders } from '@/providers/config-providers';
 import { DataProviders } from '@/providers/data-providers';
 import { MapProviders } from '@/providers/map-providers';
@@ -30,6 +29,7 @@ export default function RootLayout() {
 
 	//
 	// A. Setup variables
+
 	const [loaded] = useFonts({
 		// eslint-disable-next-line
 		Inter: require('../assets/fonts/Inter-VariableFont_opsz,wght.ttf'), 
