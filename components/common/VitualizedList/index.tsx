@@ -2,8 +2,10 @@
 
 import { NoDatabLabel } from '@/components/common/layout/NoDataLabel';
 import { LineDisplay } from '@/components/lines/LineDisplay';
-import { RegularListItem } from '@/components/RegularListItem';
-import { StyleSheet, Text, VirtualizedList } from 'react-native';
+import { useThemeContext } from '@/contexts/Theme.context';
+import { ListItem, Text } from '@rneui/themed';
+import { Link } from 'expo-router';
+import { StyleSheet, VirtualizedList } from 'react-native';
 
 /* * */
 interface Props {
@@ -18,12 +20,10 @@ export function VirtualizedListing({ data, items, size, variant }: Props) {
 
 	//
 	// A. Setup variables
-
+	const themeContext = useThemeContext();
 	const styles = StyleSheet.create({
-		itemContainer: {
-			padding: 20,
-		},
 		itemText: {
+			color: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.primary : themeContext.theme.darkColors?.primary,
 			fontSize: 20,
 		},
 	});
@@ -39,14 +39,24 @@ export function VirtualizedListing({ data, items, size, variant }: Props) {
 	const renderItem = ({ item }) => (
 		variant === 'lines'
 			? (
-				<RegularListItem href={`/line/${item.id}`}>
-					<LineDisplay lineData={item} size={size} />
-				</RegularListItem>
+				<ListItem bottomDivider topDivider>
+					<ListItem.Content>
+						<Link href={`/line/${item.id}`}>
+							<LineDisplay lineData={item} size={size} />
+						</Link>
+					</ListItem.Content>
+					<ListItem.Chevron />
+				</ListItem>
 			)
 			: (
-				<RegularListItem href="#">
-					<Text style={styles.itemText}>{item.long_name}</Text>
-				</RegularListItem>
+				<ListItem bottomDivider>
+					<ListItem.Content>
+						<Link href={`/line/${item.id}`}>
+							<Text style={styles.itemText}>{item.long_name}</Text>
+						</Link>
+					</ListItem.Content>
+					<ListItem.Chevron />
+				</ListItem>
 			)
 
 	);

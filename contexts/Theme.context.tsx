@@ -1,4 +1,4 @@
-import { darkTheme, lightTheme } from '@/constants/Themes';
+import { darkTheme, lightTheme } from '@/theme/Themes';
 import { ThemeProvider as RNEThemeProvider } from '@rneui/themed';
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Appearance } from 'react-native';

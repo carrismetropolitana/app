@@ -1,7 +1,5 @@
 /* * */
-
-import { CMColors } from '@/constants/Colors';
-import useThemedCMColor from '@/hooks/useThemedCMColor';
+import { theming } from '@/theme/Variables';
 import {
 	IconArrowLoopRight,
 	IconArrowRight,
@@ -22,7 +20,7 @@ import IconCirclePlusFilled from '../icons/IconCirclePlusFilled';
 
 async function openInAppBrowser(url: string) {
 	await WebBrowser.openBrowserAsync(url, {
-		controlsColor: CMColors.light.brandYellowForText,
+		controlsColor: theming.colorBrand,
 		presentationStyle: WebBrowser.WebBrowserPresentationStyle.FORM_SHEET,
 	});
 }
@@ -34,77 +32,44 @@ export default function ProfileScreen() {
 
 	//
 	// A. Setup variables
-
-	const systemText100 = useThemedCMColor('systemText100');
-	const systemText400 = useThemedCMColor('systemText400');
-	const systemBackground200 = useThemedCMColor('systemBackground200');
-	const systemBackground100 = useThemedCMColor('systemBackground100');
-	const systemText200 = useThemedCMColor('systemText200');
-	const systemText300 = useThemedCMColor('systemText300');
-	const systemBorder100 = useThemedCMColor('systemBorder100');
-
-	const makeStyles = ({
-		systemBackground100,
-		systemBackground200,
-		systemBorder100,
-		systemText100,
-		systemText200,
-		systemText300,
-	}: {
-		systemBackground100: string
-		systemBackground200: string
-		systemBorder100: string
-		systemText100: string
-		systemText200: string
-		systemText300: string
-	}) =>
-		StyleSheet.create({
-			container: {
-				flex: 1,
-				fontFamily: 'Inter',
-			},
-			safeArea: {
-				backgroundColor: systemBackground200,
-				flex: 1,
-			},
-			userDetails: {
-				alignItems: 'center',
-				gap: 6,
-				justifyContent: 'center',
-				paddingVertical: 24,
-			},
-			userFullNameText: {
-				color: systemText100,
-				fontSize: 26,
-				fontWeight: 700,
-			},
-			userSection: {
-				alignItems: 'center',
-				backgroundColor: systemBackground100,
-				justifyContent: 'center',
-				paddingTop: 36,
-			},
-			userTypeText: {
-				fontSize: 14,
-				fontWeight: 700,
-			},
-			version: {
-				color: '#aaa',
-				fontSize: 12,
-				marginBottom: 32 + 60, // to account for the bottom bar
-				marginLeft: 16,
-				marginTop: 8,
-				textAlign: 'left',
-			},
-		});
-
-	const styles = makeStyles({
-		systemBackground100,
-		systemBackground200,
-		systemBorder100,
-		systemText100,
-		systemText200,
-		systemText300,
+	const styles = StyleSheet.create({
+		container: {
+			flex: 1,
+			fontFamily: 'Inter',
+		},
+		safeArea: {
+			backgroundColor: theming.colorSystemBackground200,
+			flex: 1,
+		},
+		userDetails: {
+			alignItems: 'center',
+			gap: 6,
+			justifyContent: 'center',
+			paddingVertical: 24,
+		},
+		userFullNameText: {
+			color: theming.colorSystemText100,
+			fontSize: 26,
+			fontWeight: 700,
+		},
+		userSection: {
+			alignItems: 'center',
+			backgroundColor: theming.colorSystemBackground100,
+			justifyContent: 'center',
+			paddingTop: 36,
+		},
+		userTypeText: {
+			fontSize: 14,
+			fontWeight: 700,
+		},
+		version: {
+			color: '#aaa',
+			fontSize: 12,
+			marginBottom: 32 + 60,
+			marginLeft: 16,
+			marginTop: 8,
+			textAlign: 'left',
+		},
 	});
 
 	//

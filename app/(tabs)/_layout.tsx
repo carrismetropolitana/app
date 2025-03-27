@@ -2,9 +2,7 @@
 
 import { HapticTab } from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import tamaguiConfig from '@/tamagui.config';
+import { useThemeContext } from '@/contexts/Theme.context';
 import {
 	IconArrowLoopRight,
 	IconBusStop,
@@ -14,7 +12,6 @@ import {
 import { Tabs } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Platform } from 'react-native';
-import { TamaguiProvider } from 'tamagui';
 
 /* * */
 
@@ -23,8 +20,7 @@ export default function TabLayout() {
 
 	//
 	// A. Setup variables
-
-	const colorScheme = useColorScheme();
+	const themeContext = useThemeContext();
 	const { t } = useTranslation('translation', { keyPrefix: 'layout.TabStack' });
 
 	//
@@ -35,7 +31,7 @@ export default function TabLayout() {
 			screenOptions={{
 				headerBackButtonDisplayMode: 'default',
 				headerShown: false,
-				tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+				tabBarActiveTintColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.grey0 : themeContext.theme.darkColors?.grey0,
 				tabBarBackground: TabBarBackground,
 				tabBarButton: HapticTab,
 				tabBarStyle: Platform.select({

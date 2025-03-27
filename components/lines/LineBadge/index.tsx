@@ -5,8 +5,9 @@
 import type { Line } from '@carrismetropolitana/api-types/network';
 
 import { useLinesContext } from '@/contexts/Lines.context';
+import { Text } from '@rneui/themed';
 import { IconInfoTriangleFilled } from '@tabler/icons-react-native';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { View } from 'react-native';
 
 import { lineBadgeStyles } from './styles';
 

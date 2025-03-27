@@ -1,4 +1,3 @@
-import useThemedCMColor from '@/hooks/useThemedCMColor';
 import React, { cloneElement, createContext, useContext } from 'react';
 import {
 	Pressable,
@@ -32,13 +31,13 @@ export const FullWidthList: React.FC<FullWidthListProps> & {
 	Item: typeof Item
 	Section: typeof Section
 } = ({ children, style }) => {
-	const systemText100 = useThemedCMColor('systemText100');
-	const systemText200 = useThemedCMColor('systemText200');
-	const systemText300 = useThemedCMColor('systemText300');
-	const systemText400 = useThemedCMColor('systemText400');
-	const systemBackground100 = useThemedCMColor('systemBackground100');
-	const systemBackground200 = useThemedCMColor('systemBackground200');
-	const systemBorder100 = useThemedCMColor('systemBorder100');
+	const systemText100 = theming.colorSystemText100;
+	const systemText200 = theming.colorSystemText200;
+	const systemText300 = theming.colorSystemText300;
+	const systemText400 = theming.colorSystemText400;
+	const systemBackground100 = theming.colorSystemBackground100;
+	const systemBackground200 = theming.colorSystemBackground200;
+	const systemBorder100 = theming.colorSystemBorder100;
 
 	const styles = makeStyles({
 		systemBackground100,
@@ -156,7 +155,7 @@ const Item: React.FC<ItemProps> = ({
 }) => {
 	const context = useContext(FullWidthListContext);
 	if (!context) throw new Error('Item must be used within a List');
-	const { styles, systemText100, systemText400 } = context;
+	const { styles, systemText400 } = context;
 
 	const resolvedTrailingIcon
 		= trailingIcon
@@ -227,11 +226,11 @@ FullWidthList.Item = Item;
 FullWidthList.Divider = Divider;
 
 // default trailing icons
+import { theming } from '@/theme/Variables';
 import { IconChevronRight, IconExternalLink } from '@tabler/icons-react-native';
 
 const makeStyles = ({
 	systemBackground100,
-	systemBackground200,
 	systemBorder100,
 	systemText100,
 	systemText200,

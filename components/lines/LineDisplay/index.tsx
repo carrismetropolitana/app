@@ -4,7 +4,8 @@ import type { Line } from '@carrismetropolitana/api-types/network';
 
 import { LineBadge } from '@/components/lines/LineBadge';
 import { LineName } from '@/components/lines/LineName';
-import { Text, View } from 'react-native';
+import { Text } from '@rneui/themed';
+import { View } from 'react-native';
 
 import { lineDisplayStyles } from './styles';
 
@@ -24,6 +25,7 @@ interface Props {
 
 export function LineDisplay({ color, lineData, longName, shortName, size = 'md', textColor, width = 200 }: Props) {
 	//
+
 	const onPress = () => {
 		alert('clicked');
 	};

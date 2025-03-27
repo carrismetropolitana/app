@@ -1,9 +1,8 @@
 /* * */
-import { CMColors } from '@/constants/Colors';
 import { useDebugContext } from '@/contexts/Debug.context';
 import { useLocaleContext } from '@/contexts/Locale.context';
-import useThemedCMColor from '@/hooks/useThemedCMColor';
 import { useWebsiteNews } from '@/services/website/queries/useNews';
+import { theming } from '@/theme/Variables';
 import {
 	IconBuildingStore,
 	IconChartBar,
@@ -28,11 +27,10 @@ import FullWidthList from '../cmui/FullWidthList';
 import RemoteImageCarousel from '../cmui/RemoteImageCarousel';
 
 /* * */
-
 /* * */
 async function openInAppBrowser(url: string) {
 	await WebBrowser.openBrowserAsync(url, {
-		controlsColor: CMColors.light.brandYellowForText,
+		controlsColor: theming.colorBrand,
 		presentationStyle: WebBrowser.WebBrowserPresentationStyle.FORM_SHEET,
 	});
 }
@@ -43,70 +41,37 @@ export default function MoreScreen() {
 
 	//
 	// A. Setup varibles
-	const { data: news, error, isPending } = useWebsiteNews();
+	const { data: news } = useWebsiteNews();
 
 	const localeContext = useLocaleContext();
 	const debugContext = useDebugContext();
-
-	const systemText100 = useThemedCMColor('systemText100');
-	const systemText400 = useThemedCMColor('systemText400');
-	const systemBackground200 = useThemedCMColor('systemBackground200');
-	const systemBackground100 = useThemedCMColor('systemBackground100');
-	const systemText200 = useThemedCMColor('systemText200');
-	const systemText300 = useThemedCMColor('systemText300');
-	const systemBorder100 = useThemedCMColor('systemBorder100');
-
-	const makeStyles = ({
-		systemBackground100,
-		systemBackground200,
-		systemBorder100,
-		systemText100,
-		systemText200,
-		systemText300,
-	}: {
-		systemBackground100: string
-		systemBackground200: string
-		systemBorder100: string
-		systemText100: string
-		systemText200: string
-		systemText300: string
-	}) =>
-		StyleSheet.create({
-			banner: {
-				borderRadius: 8,
-			},
-			container: {
-				flex: 1,
-				fontFamily: 'Inter',
-			},
-			safeArea: {
-				backgroundColor: systemBackground200,
-				flex: 1,
-			},
-			version: {
-				color: '#aaa',
-				fontSize: 12,
-				marginBottom: 32 + 60, // to account for the bottom bar
-				marginLeft: 16,
-				marginTop: 8,
-				textAlign: 'left',
-			},
-		});
-
-	const styles = makeStyles({
-		systemBackground100,
-		systemBackground200,
-		systemBorder100,
-		systemText100,
-		systemText200,
-		systemText300,
-	});
 	//
+
+	const styles = StyleSheet.create({
+		banner: {
+			borderRadius: 8,
+		},
+		container: {
+			flex: 1,
+			fontFamily: 'Inter',
+		},
+		safeArea: {
+			backgroundColor: theming.colorSystemBackground200,
+			flex: 1,
+		},
+		version: {
+			color: '#aaa',
+			fontSize: 12,
+			marginBottom: 32 + 60,
+			marginLeft: 16,
+			marginTop: 8,
+			textAlign: 'left',
+		},
+	});
 	// B. Render components
 	return (
 		<SafeAreaView style={styles.safeArea}>
 			<ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-				{/* top banner */}
 				<View style={styles.banner}>
 					<RemoteImageCarousel
 						imageUrls={news?.map((n: NewsData) => n.cover_image_src) || []}
@@ -124,13 +89,13 @@ export default function MoreScreen() {
 						title="Apoio ao cliente"
 					>
 						<FullWidthList.Item
-							leadingIcon={<IconHelpHexagon color={systemText100} size={32} />}
+							leadingIcon={<IconHelpHexagon color={theming.colorSystemText100} size={32} />}
 							title="Perguntas Frequentes"
 							onPress={() =>
 								openInAppBrowser('https://www.carrismetropolitana.pt/faq')}
 						/>
 						<FullWidthList.Item
-							leadingIcon={<IconUmbrella color={systemText100} size={32} />}
+							leadingIcon={<IconUmbrella color={theming.colorSystemText100} size={32} />}
 							title="Perdidos e Achados"
 							onPress={
 								() =>
@@ -142,14 +107,11 @@ export default function MoreScreen() {
 						<FullWidthList.Item
 							title="Lojas e Rede de Agentes"
 							leadingIcon={
-								<IconBuildingStore color={systemText100} size={32} />
+								<IconBuildingStore color={theming.colorSystemText100} size={32} />
 							}
-							onPress={() => {
-								/* navigation logic */
-							}}
 						/>
 						<FullWidthList.Item
-							leadingIcon={<IconMessages color={systemText100} size={32} />}
+							leadingIcon={<IconMessages color={theming.colorSystemText100} size={32} />}
 							title="Contactos"
 							onPress={() =>
 								openInAppBrowser('https://www.carrismetropolitana.pt/contacts')}
@@ -161,7 +123,7 @@ export default function MoreScreen() {
 						title="Tarifas"
 					>
 						<FullWidthList.Item
-							leadingIcon={<IconTicket color={systemText100} size={32} />}
+							leadingIcon={<IconTicket color={theming.colorSystemText100} size={32} />}
 							title="Bilhetes Ocasionais"
 							onPress={() =>
 								openInAppBrowser('https://www.carrismetropolitana.pt/tickets')}
@@ -169,13 +131,13 @@ export default function MoreScreen() {
 						<FullWidthList.Item
 							title="Passe Mensal"
 							leadingIcon={
-								<IconCreditCardPay color={systemText100} size={32} />
+								<IconCreditCardPay color={theming.colorSystemText100} size={32} />
 							}
 							onPress={() =>
 								openInAppBrowser('https://www.carrismetropolitana.pt/cards')}
 						/>
 						<FullWidthList.Item
-							leadingIcon={<IconMapQuestion color={systemText100} size={32} />}
+							leadingIcon={<IconMapQuestion color={theming.colorSystemText100} size={32} />}
 							title="Onde comprar"
 							onPress={() =>
 								openInAppBrowser('https://www.carrismetropolitana.pt/helpdesks')}
@@ -187,38 +149,38 @@ export default function MoreScreen() {
 						title="Carris Metropolitana"
 					>
 						<FullWidthList.Item
-							leadingIcon={<IconHomeStar color={systemText100} size={32} />}
+							leadingIcon={<IconHomeStar color={theming.colorSystemText100} size={32} />}
 							title="Sobre a CMetropolitana"
 							onPress={() =>
 								openInAppBrowser('https://carrismetropolitana.pt/about')}
 							externalAction
 						/>
 						<FullWidthList.Item
-							leadingIcon={<IconChartBar color={systemText100} size={32} />}
+							leadingIcon={<IconChartBar color={theming.colorSystemText100} size={32} />}
 							title="A nossa operação ao vivo"
 							onPress={() =>
 								openInAppBrowser('https://carrismetropolitana.pt/metrics')}
 						/>
 						<FullWidthList.Item
-							leadingIcon={<IconSpeakerphone color={systemText100} size={32} />}
+							leadingIcon={<IconSpeakerphone color={theming.colorSystemText100} size={32} />}
 							title="Dados Abertos"
 							onPress={() =>
 								openInAppBrowser('https://carrismetropolitana.pt/opendata')}
 						/>
 						<FullWidthList.Item
-							leadingIcon={<IconUserHeart color={systemText100} size={32} />}
+							leadingIcon={<IconUserHeart color={theming.colorSystemText100} size={32} />}
 							title="Recrutamento"
 							onPress={() =>
 								openInAppBrowser('https://carrismetropolitana.pt/motoristas')}
 						/>
 						<FullWidthList.Item
-							leadingIcon={<IconLockSquare color={systemText100} size={32} />}
+							leadingIcon={<IconLockSquare color={theming.colorSystemText100} size={32} />}
 							title="Privacidade"
 							onPress={() =>
 								openInAppBrowser('https://www.carrismetropolitana.pt/privacy')}
 						/>
 						<FullWidthList.Item
-							leadingIcon={<IconGavel color={systemText100} size={32} />}
+							leadingIcon={<IconGavel color={theming.colorSystemText100} size={32} />}
 							title="Aviso legal"
 							onPress={() =>
 								openInAppBrowser('https://www.carrismetropolitana.pt/legal')}
@@ -228,8 +190,6 @@ export default function MoreScreen() {
 				<Button onPress={localeContext.actions.changeToEnglish} title="Switch to English" />
 				<Button onPress={localeContext.actions.changeToPortuguese} title="Switch to Portuguese" />
 				<Button onPress={debugContext.actions.toggleDebugMode} title="Toggle Debug" />
-
-				{/* version */}
 				<Text style={styles.version}>Versão 2024.09.12-015</Text>
 			</ScrollView>
 		</SafeAreaView>
