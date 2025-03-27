@@ -1,4 +1,6 @@
 /* * */
+import RemoteImageCarousel from '@/components/cmui/RemoteImageCarousel';
+import { Section } from '@/components/common/layout/Section';
 import { useDebugContext } from '@/contexts/Debug.context';
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { useThemeContext } from '@/contexts/Theme.context';
@@ -25,9 +27,6 @@ import React from 'react';
 import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-import RemoteImageCarousel from '../cmui/RemoteImageCarousel';
-import { Section } from '../common/layout/Section';
 
 /* * */
 /* * */
@@ -196,57 +195,69 @@ export default function MoreScreen() {
 	};
 	return (
 		<SafeAreaView style={styles.safeArea}>
-			<ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-				<View style={styles.banner}>
-					<RemoteImageCarousel
-						imageUrls={news?.map((n: NewsData) => n.cover_image_src) || []}
-						onImagePress={async (index) => {
-							await openInAppBrowser(
-								`https://carrismetropolitana.pt/news/${news?.[index]?._id}`,
-							);
-						}}
-					/>
-				</View>
-				<Section heading="Apoio ao cliente" subheading="Tire as suas dúvidas sobre a Carris Metropolitana ou entre em contacto connosco.">
-					<FlatList
-						data={Supportlistdata}
-						disableVirtualization={true}
-						keyExtractor={item => item.id.toString()}
-						renderItem={({ item }: { item: listItem }) => renderListItem({ item })}
-						style={styles.flatList}
-					/>
-				</Section>
+			<FlatList
+				data={[]}
+				keyExtractor={() => ''}
+				renderItem={() => null}
+				showsVerticalScrollIndicator={false}
+				style={styles.container}
+				ListHeaderComponent={(
+					<>
+						<View style={styles.banner}>
+							<RemoteImageCarousel
+								imageUrls={news?.map((n: NewsData) => n.cover_image_src) || []}
+								onImagePress={async (index) => {
+									await openInAppBrowser(
+										`https://carrismetropolitana.pt/news/${news?.[index]?._id}`,
+									);
+								}}
+							/>
+						</View>
 
-				<Section heading="Tarifas" subheading="Descubra quanto custa viajar na CMetropolitana regularmente ou de vez em quando.">
-					<FlatList
-						data={Tarifslistdata}
-						disableVirtualization={true}
-						keyExtractor={item => item.id.toString()}
-						renderItem={({ item }: { item: listItem }) => renderListItem({ item })}
-						style={styles.flatList}
-					/>
-				</Section>
+						<Section heading="Apoio ao cliente" subheading="Tire as suas dúvidas sobre a Carris Metropolitana ou entre em contacto connosco.">
+							<FlatList
+								data={Supportlistdata}
+								disableVirtualization={true}
+								keyExtractor={item => item.id.toString()}
+								nestedScrollEnabled={true}
+								renderItem={({ item }: { item: listItem }) => renderListItem({ item })}
+								style={styles.flatList}
+							/>
+						</Section>
 
-				<Section
-					heading="Carris Metropolitana"
-					subheading="Conheça melhor a Carris Metropolitana e explore diferentes ângulos da operação rodoviária dos 18 municípios da área metropolitana de Lisboa."
-				>
-					<FlatList
-						data={AboutCMlistdata}
-						disableVirtualization={true}
-						keyExtractor={item => item.id.toString()}
-						renderItem={({ item }: { item: listItem }) => renderListItem({ item })}
-						style={styles.flatList}
-					/>
-				</Section>
+						<Section heading="Tarifas" subheading="Descubra quanto custa viajar na CMetropolitana regularmente ou de vez em quando.">
+							<FlatList
+								data={Tarifslistdata}
+								disableVirtualization={true}
+								keyExtractor={item => item.id.toString()}
+								nestedScrollEnabled={true}
+								renderItem={({ item }: { item: listItem }) => renderListItem({ item })}
+								style={styles.flatList}
+							/>
+						</Section>
 
-				<Button onPress={localeContext.actions.changeToEnglish} title="Switch to English" />
-				<Button onPress={localeContext.actions.changeToPortuguese} title="Switch to Portuguese" />
-				<Button onPress={debugContext.actions.toggleDebugMode} title="Toggle Debug" />
+						<Section
+							heading="Carris Metropolitana"
+							subheading="Conheça melhor a Carris Metropolitana e explore diferentes ângulos da operação rodoviária dos 18 municípios da área metropolitana de Lisboa."
+						>
+							<FlatList
+								data={AboutCMlistdata}
+								disableVirtualization={true}
+								keyExtractor={item => item.id.toString()}
+								nestedScrollEnabled={true}
+								renderItem={({ item }: { item: listItem }) => renderListItem({ item })}
+								style={styles.flatList}
+							/>
+						</Section>
 
-				<Text style={styles.version}>Versão 2025.03.27-01</Text>
+						<Button onPress={localeContext.actions.changeToEnglish} title="Switch to English" />
+						<Button onPress={localeContext.actions.changeToPortuguese} title="Switch to Portuguese" />
+						<Button onPress={debugContext.actions.toggleDebugMode} title="Toggle Debug" />
 
-			</ScrollView>
+						<Text style={styles.version}>Versão 2025.03.27-01</Text>
+					</>
+				)}
+			/>
 		</SafeAreaView>
 	);
 
