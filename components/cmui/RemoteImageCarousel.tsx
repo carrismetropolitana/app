@@ -23,7 +23,7 @@ const RemoteImageCarousel = ({
 	const styles = StyleSheet.create({
 		image: {
 			borderRadius: 12,
-			boxShadow: themeContext.theme.mode === 'light' ? `0 0 10 ${theming.colorSystemBorder100}` : `0 0 10 ${theming.colorSystemText200}`,
+			// boxShadow: themeContext.theme.mode === 'light' ? `0 0 10 ${theming.colorSystemBorder100}` : `0 0 10 ${theming.colorSystemText200}`,
 			height: '100%',
 			resizeMode: 'cover',
 			width: '100%',

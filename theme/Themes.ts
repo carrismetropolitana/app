@@ -42,7 +42,7 @@ const darkThemeDefinition = {
 		ListItem: {
 			containerStyle: {
 				backgroundColor: theming.colorSystemBackgroundDark100,
-				borderColor: theming.colorSystemBorder200,
+				borderColor: theming.colorSystemBorderDark200,
 			},
 		},
 	},

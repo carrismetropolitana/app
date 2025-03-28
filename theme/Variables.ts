@@ -21,6 +21,7 @@ export const theming = {
 	colorSystemBackgroundLight300: '#f0f0f0',
 	colorSystemBorder100: 'rgb(230,230,250)',
 	colorSystemBorder200: '#bebec8',
+	colorSystemBorderDark200: '#3C3C41',
 	colorSystemText100: '#000',
 	colorSystemText200: '#5a5a64',
 	colorSystemText300: '#9696a0',

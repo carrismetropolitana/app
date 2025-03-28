@@ -1,8 +1,6 @@
-'use client';
-
 /* * */
 
-import { useAnalyticsContext } from '@/contexts/Analytics.context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 import { useConsentContext } from './Consent.context';
@@ -51,14 +49,17 @@ export function useProfileContext() {
 
 /* * */
 
-export const ProfileContextProvider = ({ children }) => {
+import { ReactNode } from 'react';
+
+export const ProfileContextProvider = ({ children }: { children: ReactNode }) => {
 	//
 
 	//
 	// A. Setup variables
 
 	const consentContext = useConsentContext();
-	const analyticsContext = useAnalyticsContext();
+	const localStorage = AsyncStorage;
+	// const analyticsContext = useAnalyticsContext();
 
 	const [dataFavoriteLinesState, setDataFavoriteLinesState] = useState<ProfileContextState['data']['favorite_lines']>(null);
 	const [dataFavoriteStopsState, setDataFavoriteStopsState] = useState<ProfileContextState['data']['favorite_stops']>(null);
@@ -80,11 +81,12 @@ export const ProfileContextProvider = ({ children }) => {
 		// to accomodate changes made in other tabs.
 		const interval = setInterval(() => {
 			// Get previously stored favorite values from local storage
-			const foundFavoriteLines = localStorage.getItem(LOCAL_STORAGE_KEYS.favorite_lines);
-			const foundFavoriteStops = localStorage.getItem(LOCAL_STORAGE_KEYS.favorite_stops);
-			// If favorites were found, set them to local state
-			if (foundFavoriteLines) setDataFavoriteLinesState(JSON.parse(foundFavoriteLines));
-			if (foundFavoriteStops) setDataFavoriteStopsState(JSON.parse(foundFavoriteStops));
+			localStorage.getItem(LOCAL_STORAGE_KEYS.favorite_lines).then((foundFavoriteLines) => {
+				if (foundFavoriteLines) setDataFavoriteLinesState(JSON.parse(foundFavoriteLines));
+			});
+			localStorage.getItem(LOCAL_STORAGE_KEYS.favorite_stops).then((foundFavoriteStops) => {
+				if (foundFavoriteStops) setDataFavoriteStopsState(JSON.parse(foundFavoriteStops));
+			});
 		}, 1000);
 		//
 		setFlagIsLoadingState(false);
@@ -106,14 +108,14 @@ export const ProfileContextProvider = ({ children }) => {
 	const toggleFavoriteLine = async (lineId: string) => {
 		if (!consentContext.data.enabled_functional) return;
 		const favoriteLinesSet = new Set(dataFavoriteLinesState || []);
-		// if (favoriteLinesSet.has(lineId)) {
-		// 	favoriteLinesSet.delete(lineId);
-		// 	analyticsContext.actions.capture(ampli => ampli.removeFavoriteLine({ line_id: lineId }));
-		// }
-		// else {
-		// 	favoriteLinesSet.add(lineId);
-		// 	analyticsContext.actions.capture(ampli => ampli.addFavoriteLine({ line_id: lineId }));
-		// }
+		if (favoriteLinesSet.has(lineId)) {
+			favoriteLinesSet.delete(lineId);
+			// analyticsContext.actions.capture(ampli => ampli.removeFavoriteLine({ line_id: lineId }));
+		}
+		else {
+			favoriteLinesSet.add(lineId);
+			// analyticsContext.actions.capture(ampli => ampli.addFavoriteLine({ line_id: lineId }));
+		}
 		setDataFavoriteLinesState(Array.from(favoriteLinesSet));
 	};
 
@@ -122,14 +124,14 @@ export const ProfileContextProvider = ({ children }) => {
 
 		const favoriteStopsSet = new Set(dataFavoriteStopsState || []);
 
-		// if (favoriteStopsSet.has(stopId)) {
-		// 	favoriteStopsSet.delete(stopId);
-		// 	analyticsContext.actions.capture(ampli => ampli.removeFavoriteStop({ stop_id: stopId }));
-		// }
-		// else {
-		// 	favoriteStopsSet.add(stopId);
-		// 	analyticsContext.actions.capture(ampli => ampli.addFavoriteStop({ stop_id: stopId }));
-		// }
+		if (favoriteStopsSet.has(stopId)) {
+			favoriteStopsSet.delete(stopId);
+			// analyticsContext.actions.capture(ampli => ampli.removeFavoriteStop({ stop_id: stopId }));
+		}
+		else {
+			favoriteStopsSet.add(stopId);
+			// analyticsContext.actions.capture(ampli => ampli.addFavoriteStop({ stop_id: stopId }));
+		}
 		setDataFavoriteStopsState(Array.from(favoriteStopsSet));
 	};
 

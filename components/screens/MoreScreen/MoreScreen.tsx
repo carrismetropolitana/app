@@ -4,7 +4,7 @@ import { useDebugContext } from '@/contexts/Debug.context';
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { useWebsiteNews } from '@/services/website/queries/useNews';
 import { listItem } from '@/types/moreList.types';
-import { openInAppBrowser } from '@/utils/openInAppBrowser';
+import { openWebView } from '@/utils/openWebView';
 import { Avatar, ButtonGroup, ListItem, Text } from '@rneui/themed';
 import {
 	IconBuildingStore,
@@ -21,6 +21,7 @@ import {
 	IconUmbrella,
 	IconUserHeart,
 } from '@tabler/icons-react-native';
+import { useRouter } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, View } from 'react-native';
@@ -61,31 +62,36 @@ export default function MoreScreen() {
 	const [selectedIndex, setSelectedIndex] = useState(0);
 
 	const moreStyles = styles();
+	const router = useRouter();
+
+	const openWebView = (url: string) => {
+		router.push(`/OpenWebView?url=${encodeURIComponent(url)}`);
+	};
 
 	const Supportlistdata = useMemo(
 		() => [
 			{
 				icon: <IconHelpHexagon color={moreStyles.icon.color} size={32} />,
 				id: 0,
-				onPress: () => openInAppBrowser('https://www.carrismetropolitana.pt/faq'),
+				onPress: () => openWebView('https://www.carrismetropolitana.pt/faq'),
 				title: t('SupportList.frequently_asked'),
 			},
 			{
 				icon: <IconUmbrella color={moreStyles.icon.color} size={32} />,
 				id: 1,
-				onPress: () => openInAppBrowser('https://www.carrismetropolitana.pt/lost-and-found'),
+				onPress: () => openWebView('https://www.carrismetropolitana.pt/lost-and-found'),
 				title: t('SupportList.lost_found'),
 			},
 			{
 				icon: <IconBuildingStore color={moreStyles.icon.color} size={32} />,
 				id: 2,
-				onPress: () => openInAppBrowser('https://www.carrismetropolitana.pt/stores'),
+				onPress: () => openWebView('https://www.carrismetropolitana.pt/stores'),
 				title: t('SupportList.stores'),
 			},
 			{
 				icon: <IconMessages color={moreStyles.icon.color} size={32} />,
 				id: 3,
-				onPress: () => openInAppBrowser('https://www.carrismetropolitana.pt/contacts'),
+				onPress: () => openWebView('https://www.carrismetropolitana.pt/app-ios/stores'),
 				title: t('SupportList.contacts'),
 			},
 		],
@@ -97,19 +103,19 @@ export default function MoreScreen() {
 			{
 				icon: <IconTicket color={moreStyles.icon.color} size={32} />,
 				id: 0,
-				onPress: () => openInAppBrowser('https://www.carrismetropolitana.pt/tickets'),
+				onPress: () => openWebView('https://www.carrismetropolitana.pt/tickets'),
 				title: t('TarifsList.ocasional_tickets'),
 			},
 			{
 				icon: <IconCreditCardPay color={moreStyles.icon.color} size={32} />,
 				id: 1,
-				onPress: () => openInAppBrowser('https://www.carrismetropolitana.pt/cards'),
+				onPress: () => openWebView('https://www.carrismetropolitana.pt/cards'),
 				title: t('TarifsList.monthly_tickets'),
 			},
 			{
 				icon: <IconMapQuestion color={moreStyles.icon.color} size={32} />,
 				id: 2,
-				onPress: () => openInAppBrowser('https://www.carrismetropolitana.pt/helpdesks'),
+				onPress: () => openWebView('https://www.carrismetropolitana.pt/helpdesks'),
 				title: t('TarifsList.where_to_buy'),
 			},
 		],
@@ -121,37 +127,37 @@ export default function MoreScreen() {
 			{
 				icon: <IconHomeStar color={moreStyles.icon.color} size={32} />,
 				id: 0,
-				onPress: () => openInAppBrowser('https://carrismetropolitana.pt/about'),
+				onPress: () => openWebView('https://carrismetropolitana.pt/about'),
 				title: t('AboutCMList.about_carrismetropolitana'),
 			},
 			{
 				icon: <IconChartBar color={moreStyles.icon.color} size={32} />,
 				id: 1,
-				onPress: () => openInAppBrowser('https://carrismetropolitana.pt/metrics'),
+				onPress: () => openWebView('https://carrismetropolitana.pt/metrics'),
 				title: t('AboutCMList.our_operation_live'),
 			},
 			{
 				icon: <IconSpeakerphone color={moreStyles.icon.color} size={32} />,
 				id: 2,
-				onPress: () => openInAppBrowser('https://carrismetropolitana.pt/opendata'),
+				onPress: () => openWebView('https://carrismetropolitana.pt/opendata'),
 				title: t('AboutCMList.open_data'),
 			},
 			{
 				icon: <IconUserHeart color={moreStyles.icon.color} size={32} />,
 				id: 3,
-				onPress: () => openInAppBrowser('https://carrismetropolitana.pt/motoristas'),
+				onPress: () => openWebView('https://carrismetropolitana.pt/motoristas'),
 				title: t('AboutCMList.recruitment'),
 			},
 			{
 				icon: <IconLockSquare color={moreStyles.icon.color} size={32} />,
 				id: 4,
-				onPress: () => openInAppBrowser('https://www.carrismetropolitana.pt/privacy'),
+				onPress: () => openWebView('https://www.carrismetropolitana.pt/privacy'),
 				title: t('AboutCMList.privacy'),
 			},
 			{
 				icon: <IconGavel color={moreStyles.icon.color} size={32} />,
 				id: 5,
-				onPress: () => openInAppBrowser('https://www.carrismetropolitana.pt/legal'),
+				onPress: () => openWebView('https://www.carrismetropolitana.pt/legal'),
 				title: t('AboutCMList.legal_notices'),
 			},
 		],
@@ -201,7 +207,7 @@ export default function MoreScreen() {
 							<RemoteImageCarousel
 								imageUrls={news?.map(n => n.cover_image_src) || []}
 								onImagePress={async (index) => {
-									await openInAppBrowser(`https://carrismetropolitana.pt/news/${news?.[index]?._id}`);
+									await openWebView(`https://carrismetropolitana.pt/news/${news?.[index]?._id}`);
 								}}
 							/>
 						</View>

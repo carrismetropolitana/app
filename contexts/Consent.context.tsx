@@ -57,7 +57,7 @@ export const ConsentContextProvider = ({ children }) => {
 	// A. Setup variables
 
 	const [dataEnabledAnalyticsState, setDataEnabledAnalyticsState] = useState<ConsentContextState['data']['enabled_analytics']>(false);
-	const [dataEnabledFunctionalState, setDataEnabledFunctionalState] = useState<ConsentContextState['data']['enabled_functional']>(false);
+	const [dataEnabledFunctionalState, setDataEnabledFunctionalState] = useState<ConsentContextState['data']['enabled_functional']>(true);
 
 	const [consentSystemInitStatus, setConsentSystemInitStatus] = useState<boolean>(false);
 	const [asyncStorageDecisionDateValue, setAsyncStorageDecisionDateValue] = useState<null | string>(null);
