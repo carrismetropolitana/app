@@ -5,7 +5,9 @@ import { useTranslation } from 'react-i18next';
 import { WebView } from 'react-native-webview';
 
 export default function OpenWebView() {
-	const { url } = useLocalSearchParams();
+	const { locale, url } = useLocalSearchParams();
+	const formedUrl = `${url}?locale=${locale}`;
+	console.log('here', formedUrl);
 	const navigation = useNavigation();
 
 	const themeContext = useThemeContext();
@@ -23,7 +25,7 @@ export default function OpenWebView() {
 
 	return (
 		<WebView
-			source={{ uri: url as string }}
+			source={{ uri: formedUrl as string }}
 		/>
 	);
 }

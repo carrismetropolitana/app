@@ -4,7 +4,6 @@ import { useDebugContext } from '@/contexts/Debug.context';
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { useWebsiteNews } from '@/services/website/queries/useNews';
 import { listItem } from '@/types/moreList.types';
-import { openWebView } from '@/utils/openWebView';
 import { Avatar, ButtonGroup, ListItem, Text } from '@rneui/themed';
 import {
 	IconBuildingStore,
@@ -57,6 +56,7 @@ const ListSection = ({
 export default function MoreScreen() {
 	const localeContext = useLocaleContext();
 	const debugContext = useDebugContext();
+
 	const { t } = useTranslation('translation', { keyPrefix: 'more' });
 	const { data: news } = useWebsiteNews();
 	const [selectedIndex, setSelectedIndex] = useState(0);
@@ -65,7 +65,7 @@ export default function MoreScreen() {
 	const router = useRouter();
 
 	const openWebView = (url: string) => {
-		router.push(`/OpenWebView?url=${encodeURIComponent(url)}`);
+		router.push(`/OpenWebView?url=${encodeURIComponent(url)}&locale=${localeContext.locale}`);
 	};
 
 	const Supportlistdata = useMemo(
