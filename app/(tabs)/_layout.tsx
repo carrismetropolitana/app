@@ -29,7 +29,7 @@ export default function TabLayout() {
 	return (
 		<Tabs
 			screenOptions={{
-				headerBackButtonDisplayMode: 'default',
+				headerShown: false,
 				headerStyle: {
 					backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
 				},

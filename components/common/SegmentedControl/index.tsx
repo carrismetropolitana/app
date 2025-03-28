@@ -1,6 +1,7 @@
 /* * */
+import { Text } from '@rneui/themed';
 import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 
 import { segmentedControlStyles } from './styles';
 

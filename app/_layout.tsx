@@ -52,6 +52,7 @@ export default function RootLayout() {
 
 	//
 	// C. Render components
+
 	return (
 
 		<ConfigProviders>

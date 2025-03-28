@@ -1,16 +1,21 @@
-/* * */
-/* NAME */
+import { theming } from '@/theme/Variables';
+import { StyleSheet } from 'react-native';
 
-.name {
-	color: var(--color-system-text-100);
-}
+const name = {
+	fontWeight: theming.fontWeightBold.toString() as 'bold',
+};
+export const styles = StyleSheet.create({
+	/* * */
+	/* NAME */
 
-.name.md {
-	font-size: 16px;
-	font-weight: var(--font-weight-bold);
-}
+	lg: {
+		...name,
+		fontSize: 20,
+	},
+	md: {
+		...name,
+		fontSize: 16,
+	},
 
-.name.lg {
-	font-size: 20px;
-	font-weight: var(--font-weight-bold);
-}
+	/* * */
+});

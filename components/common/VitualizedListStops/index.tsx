@@ -27,7 +27,7 @@ export function VirtualizedListingStops({ data, items, size }: Props) {
 	const renderItem = ({ item }) => (
 		<ListItem bottomDivider>
 			<ListItem.Content>
-				<Link href={`/stops/${item.id}`}>
+				<Link href={`/stop/${item.id}`}>
 					<StopDisplay size={size} stopData={item} />
 				</Link>
 			</ListItem.Content>

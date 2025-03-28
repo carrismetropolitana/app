@@ -1,4 +1,5 @@
 import { useThemeContext } from '@/contexts/Theme.context';
+import { theming } from '@/theme/Variables';
 import { StyleSheet } from 'react-native';
 
 export const useSectionStyles = () => {
@@ -46,11 +47,10 @@ export const useSectionStyles = () => {
 		/* * */
 		/* HEADING */
 		heading: {
-			color: themeContext.theme.mode === 'light'
-				? themeContext.theme.lightColors?.primary
-				: themeContext.theme.darkColors?.primary,
-			fontSize: 26,
-			fontWeight: '700',
+			color: themeContext.theme.mode === 'light' ? theming.colorSystemText200 : theming.colorPrimaryWhite,
+			fontSize: 16,
+			fontWeight: 600,
+
 		},
 		href: {
 			alignItems: 'baseline',
@@ -76,10 +76,10 @@ export const useSectionStyles = () => {
 		/* * */
 		/* SUBHEADING */
 		subheading: {
-			color: 'rgb(200, 200, 210)',
-			fontSize: 16,
+			color: theming.colorSystemText300,
+			fontSize: 12,
 			fontWeight: '400',
-			maxWidth: 700,
+			maxWidth: 500,
 			width: '100%',
 		},
 		/* * */

@@ -1,5 +1,6 @@
 /* * */
 import { useThemeContext } from '@/contexts/Theme.context';
+import { theming } from '@/theme/Variables';
 import { StyleSheet } from 'react-native';
 /* * */
 
@@ -10,28 +11,30 @@ const styles = () => {
 	return StyleSheet.create({
 		banner: {
 			borderRadius: 8,
+			marginBottom: 30,
 		},
 		container: {
 			flex: 1,
 			fontFamily: 'Inter',
 		},
 		flatList: {
-			marginBottom: 20,
+			marginBottom: 30,
 			marginTop: 10,
 			width: '100%',
 		},
 		icon: {
 			color: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.primary : themeContext.theme.darkColors?.primary,
+			height: 32,
+			width: 32,
 		},
-		menuItem: {
-			backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
-			color: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.primary : themeContext.theme.darkColors?.primary,
+		listTitle: {
+			fontSize: 18,
+			fontWeight: theming.fontWeightBold.toString() as 'bold',
 		},
 		safeArea: {
 			backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
 			flex: 1,
-			margin: 0,
-			top: 0,
+
 			width: '100%',
 		},
 		version: {

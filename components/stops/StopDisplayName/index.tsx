@@ -2,7 +2,7 @@
 
 import { Text } from '@rneui/themed';
 
-// import styles from './styles.module.css';
+import { styles } from './styles';
 
 /* * */
 
@@ -14,9 +14,12 @@ interface Props {
 /* * */
 
 export function StopDisplayName({ longName, size = 'md' }: Props) {
+	const longNameStyles = [
+		size === 'lg' ? styles.lg : styles.md,
+	];
+
 	return longName && (
-		// className={`${styles.name} ${styles[size]}`}
-		<Text>
+		<Text style={longNameStyles}>
 			{longName}
 		</Text>
 	);

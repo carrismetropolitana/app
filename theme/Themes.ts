@@ -1,3 +1,4 @@
+import { color } from '@rneui/base';
 import { createTheme } from '@rneui/themed';
 
 import { theming } from './Variables';
@@ -6,15 +7,22 @@ const lightThemeDefinition = {
 	components: {
 		Button: {
 			buttonStyle: {
-				backgroundColor: theming.colorSystemBackground200,
+				backgroundColor: theming.colorSystemBackgroundLight200,
 			},
 			titleStyle: {
 				color: theming.colorSystemText200,
 			},
 		},
+		ListItem: {
+			containerStyle: {
+				backgroundColor: theming.colorPrimaryWhite,
+				borderColor: theming.colorSystemBorder100,
+			},
+		},
 	},
 	lightColors: {
-		background: '#F5F5F5',
+		background: theming.colorSystemBackgroundLight200,
+		itemBackground: theming.colorPrimaryBlack,
 		primary: theming.colorPrimaryBlack,
 		text: theming.colorPrimaryBlack,
 	},
@@ -25,15 +33,22 @@ const darkThemeDefinition = {
 	components: {
 		Button: {
 			buttonStyle: {
-				backgroundColor: '#1E1E28',
+				backgroundColor: theming.colorSystemBackgroundDark200,
 			},
 			titleStyle: {
 				color: theming.colorSystemText200,
 			},
 		},
+		ListItem: {
+			containerStyle: {
+				backgroundColor: theming.colorSystemBackgroundDark100,
+				borderColor: theming.colorSystemBorder200,
+			},
+		},
 	},
 	darkColors: {
-		background: '#1E1E28',
+		background: theming.colorSystemBackgroundDark200,
+		itemBackground: theming.colorPrimaryWhite,
 		primary: theming.colorPrimaryWhite,
 		text: theming.colorPrimaryWhite,
 	},

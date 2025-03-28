@@ -12,17 +12,20 @@ export const theming = {
 	colorDebug: '#055252',
 
 	// COLOR / SYSTEM
-	colorSystemBackground100: '#fff',
-	colorSystemBackground200: '#f5f5f5',
-	colorSystemBackground300: '#f0f0f0',
-	colorSystemBackground900: '#000',
-	colorSystemBorder100: 'rgb(230 230 250)',
+	colorSystemBackground900: '#000000',
+	colorSystemBackgroundDark100: '#282832',
+	colorSystemBackgroundDark200: '#1e1e28',
+	colorSystemBackgroundDark300: '#0a0a14',
+	colorSystemBackgroundLight100: '#ffffff',
+	colorSystemBackgroundLight200: '#f5f5f5',
+	colorSystemBackgroundLight300: '#f0f0f0',
+	colorSystemBorder100: 'rgb(230,230,250)',
 	colorSystemBorder200: '#bebec8',
 	colorSystemText100: '#000',
 	colorSystemText200: '#5a5a64',
 	colorSystemText300: '#9696a0',
 	colorSystemText400: '#d2d2dc',
-	colorSystemText900: '#fff',
+	colorSystemText900: '#ffffff',
 
 	// COLOR / PRIMARY
 	colorPrimaryBlack: '#000',
@@ -120,7 +123,7 @@ export const theming = {
 	colorSocialWhatsapp: '#128C7E',
 
 	// BOX-SHADOW
-	boxShadowLg: '0 0 50px 0 rgb(0 0 0 / 5%)',
+	boxShadowLg: '0 0 50px 0 rgba(0, 0, 0, 5)',
 	boxShadowMd: '0 0 50px 0 red',
 
 	// BORDER-RADIUS

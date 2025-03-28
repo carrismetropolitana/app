@@ -33,20 +33,20 @@ export function SelectOperationalDay() {
 			label: t('tomorrow'),
 			value: 'tomorrow',
 		},
-		{
-			centerSection: (
-				<DateTimePicker
-					display="default"
-					mode="date"
-					value={date}
-					onChange={(event, newDate) => {
-						if (newDate) setDate(newDate);
-					}}
-				/>
-			),
-			label: '',
-			value: 'custom',
-		},
+		// {
+		// 	centerSection: (
+		// 		<DateTimePicker
+		// 			display="default"
+		// 			mode="date"
+		// 			value={date}
+		// 			onChange={(_, selectedDate) => {
+		// 				if (selectedDate) setDate(selectedDate);
+		// 			}}
+		// 		/>
+		// 	),
+		// 	label: '',
+		// 	value: 'custom',
+		// },
 	];
 
 	//

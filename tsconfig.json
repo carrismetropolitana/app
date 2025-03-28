@@ -19,7 +19,7 @@
 		"rootDir": ".",
 		"skipLibCheck": true,
 		"sourceMap": true,
-		"strict": false,
+		"strict": true,
 		"strictNullChecks": true,
 		"target": "ES2017"
 	},
@@ -28,7 +28,7 @@
 		"**/*.tsx",
 		".expo/types/**/*.ts",
 		"expo-env.d.ts"
-, "babel.config.js"	],
+	],
 	"exclude": [
 		"**/node_modules",
 		"**/.*/",

@@ -8,13 +8,14 @@ import { Surface } from '@/components/common/layout/Surface';
 import { SelectOperationalDay } from '@/components/common/SelectOperationalDay';
 import { LineBadge } from '@/components/lines/LineBadge';
 import { LineDebugDetail } from '@/components/lines/LineDebugDetail';
+import { SelectActivePatternGroup } from '@/components/lines/SelectActivePatternGroup';
 import { useDebugContext } from '@/contexts/Debug.context';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useProfileContext } from '@/contexts/Profile.context';
+import { Text } from '@rneui/themed';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
-import { SelectActivePatternGroup } from '../SelectActivePatternGroup';
 import { lineDetailsHeaderStyles } from './styles';
 
 /* * */

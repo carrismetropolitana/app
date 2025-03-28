@@ -1,5 +1,3 @@
-'use client';
-
 /* * */
 
 import type { SimplifiedAlert } from '@/types/alerts.types';
@@ -110,7 +108,7 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 		const foundStopData = stopsContext.actions.getStopById(dataActiveStopIdState);
 		// if (foundStopData) {
 		setDataStopState(foundStopData);
-		window.history.replaceState({}, '', `${Routes.STOPS.route}/${dataActiveStopIdState}` + window.location.search);
+		// window.history.replaceState({}, '', `${Routes.STOPS.route}/${dataActiveStopIdState}` + window.location.search);
 		// }
 		// else {
 		// 	notFound();
@@ -383,28 +381,28 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 		setDataActiveStopSequenceState(undefined);
 	};
 
-	useEffect(() => {
-		// Setup a keyboard listener for up and down arrow keys to navigate through the timetable.
-		const handleKeyPress = (event: KeyboardEvent) => {
-			if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-				event.preventDefault();
-				// If not today, select from the schedule trips array
-				if (!operationalDayContext.flags.is_today_selected) {
-					const activeTripTimetableScheduleIndex = dataTimetableScheduleState?.findIndex(arrival => arrival.trip_id === dataActiveTripIdState);
-					if (activeTripTimetableScheduleIndex !== undefined && activeTripTimetableScheduleIndex > -1) {
-						const foundArrivalData = dataTimetableScheduleState?.[activeTripTimetableScheduleIndex + (event.key === 'ArrowUp' ? -1 : 1)];
-						if (foundArrivalData) {
-							setActiveTripId(foundArrivalData.trip_id, foundArrivalData.stop_sequence);
-							return;
-						}
-					}
-				}
-				//
-			}
-		};
-		document.addEventListener('keydown', handleKeyPress);
-		return () => document.removeEventListener('keydown', handleKeyPress);
-	}, [dataActiveStopSequenceState, dataTimetableScheduleState]);
+	// useEffect(() => {
+	// 	// Setup a keyboard listener for up and down arrow keys to navigate through the timetable.
+	// 	const handleKeyPress = (event: KeyboardEvent) => {
+	// 		if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+	// 			event.preventDefault();
+	// 			// If not today, select from the schedule trips array
+	// 			if (!operationalDayContext.flags.is_today_selected) {
+	// 				const activeTripTimetableScheduleIndex = dataTimetableScheduleState?.findIndex(arrival => arrival.trip_id === dataActiveTripIdState);
+	// 				if (activeTripTimetableScheduleIndex !== undefined && activeTripTimetableScheduleIndex > -1) {
+	// 					const foundArrivalData = dataTimetableScheduleState?.[activeTripTimetableScheduleIndex + (event.key === 'ArrowUp' ? -1 : 1)];
+	// 					if (foundArrivalData) {
+	// 						setActiveTripId(foundArrivalData.trip_id, foundArrivalData.stop_sequence);
+	// 						return;
+	// 					}
+	// 				}
+	// 			}
+	// 			//
+	// 		}
+	// 	};
+	// 	// document.addEventListener('keydown', handleKeyPress);
+	// 	// return () => document.removeEventListener('keydown', handleKeyPress);
+	// }, [dataActiveStopSequenceState, dataTimetableScheduleState]);
 
 	//
 	// E. Define context value

@@ -4,7 +4,6 @@ export const segmentedControlStyles = StyleSheet.create({
 	centerSection: {
 		alignItems: 'center',
 		justifyContent: 'center',
-
 	},
 	label: {
 		color: 'black',
@@ -25,7 +24,6 @@ export const segmentedControlStyles = StyleSheet.create({
 		paddingVertical: 10,
 	},
 	segmentedControl: {
-
 		borderColor: '#ccc',
 		borderRadius: 20,
 		borderWidth: 1,
