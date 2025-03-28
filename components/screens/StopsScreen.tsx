@@ -1,12 +1,12 @@
 /* * */
 
+import { VirtualizedListingStops } from '@/components/common/VitualizedListStops';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { SafeAreaView, StyleSheet } from 'react-native';
 
-import { VirtualizedListing } from '../common/VitualizedList';
-
 /* * */
+
 export default function StopsScreen() {
 	//
 
@@ -26,11 +26,11 @@ export default function StopsScreen() {
 	});
 
 	//
-	// C. Render components
+	// B. Render components
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<VirtualizedListing data={stops} items={15} />
+			<VirtualizedListingStops data={stops} items={15} />
 		</SafeAreaView>
 	);
 

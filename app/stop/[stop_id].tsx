@@ -1,17 +1,34 @@
 /* * */
-
-import { LinesDetail } from '@/components/lines/LinesDetail';
-import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
-import { useLocalSearchParams } from 'expo-router';
+import { StopsDetail } from '@/components/stops/StopsDetail';
+import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
+import { useThemeContext } from '@/contexts/Theme.context';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 /* * */
 
 export default function Page() {
-	const { line_id } = useLocalSearchParams<{ line_id: string }>();
+	const { stop_id } = useLocalSearchParams<{ stop_id: string }>();
+
+	const themeContext = useThemeContext();
+
+	const navigation = useNavigation();
+	const { t } = useTranslation('translation', { keyPrefix: 'layout' });
+
+	useEffect(() => {
+		navigation.setOptions({
+			headerBackTitle: `${t('BackButton')}`,
+			headerStyle: {
+				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
+			},
+			headerTitle: '',
+		});
+	}, [navigation, themeContext.theme.mode]);
 
 	return (
-		<LinesDetailContextProvider lineId={line_id}>
-			<LinesDetail />
-		</LinesDetailContextProvider>
+		<StopsDetailContextProvider stopId={stop_id}>
+			<StopsDetail />
+		</StopsDetailContextProvider>
 	);
 }
