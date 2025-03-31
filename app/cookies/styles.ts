@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native';
 
 /* * */
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
 	/* * */
 	/* CONTAINER */
@@ -45,3 +45,5 @@ export const styles = StyleSheet.create({
 		gap: theming.sizeSpacing10,
 	},
 });
+
+export default styles;
