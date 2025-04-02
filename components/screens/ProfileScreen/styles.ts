@@ -16,6 +16,10 @@ export const styles = () => {
 	//
 	// B. Return styles
 	return StyleSheet.create({
+		avatarContainer: {
+			borderColor: '#3D85C6',
+			borderWidth: 8,
+		},
 		container: {
 			flex: 1,
 			fontFamily: 'Inter',
@@ -26,7 +30,6 @@ export const styles = () => {
 		},
 		userDetails: {
 			alignItems: 'center',
-			backgroundColor: themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200,
 			gap: 6,
 			justifyContent: 'center',
 			paddingVertical: 24,
@@ -38,7 +41,7 @@ export const styles = () => {
 		},
 		userSection: {
 			alignItems: 'center',
-			backgroundColor: themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200,
+			flex: 1,
 			justifyContent: 'center',
 			paddingTop: 36,
 		},
