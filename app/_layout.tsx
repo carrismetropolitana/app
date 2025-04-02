@@ -8,6 +8,8 @@ import { PrivacyProviders } from '@/providers/privacy-providers';
 import { ProfileProviders } from '@/providers/profile-providers';
 import '@/i18n';
 import 'expo-dev-client';
+import { IAccount } from '@/types/account.types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -18,6 +20,7 @@ import { useEffect } from 'react';
 /* * */
 
 const queryClient = new QueryClient();
+const localStorage = AsyncStorage;
 
 /* * */
 
@@ -37,6 +40,24 @@ export default function RootLayout() {
 		SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),  
 	});
 
+	const checkForAccount = () => {
+		if (localStorage.getItem('account') !== null) return;
+		const account: IAccount = {
+			favorites: {
+				patterns: [],
+				stops: [
+					{
+						pattern_ids: [],
+						stop_id: '',
+					},
+				],
+			},
+			first_name: '',
+			last_name: '',
+		};
+		localStorage.setItem('account', JSON.stringify(account));
+	};
+
 	//
 	// B. Fetch data
 
@@ -44,11 +65,10 @@ export default function RootLayout() {
 		if (loaded) {
 			SplashScreen.hideAsync();
 		}
+		else {
+			checkForAccount();
+		}
 	}, [loaded]);
-
-	if (!loaded) {
-		return null;
-	}
 
 	//
 	// C. Render components

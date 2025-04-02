@@ -1,6 +1,6 @@
 /* * */
 
-import MoreScreen from '@/components/screens/MoreScreen/MoreScreen';
+import MoreScreen from '@/components/screens/MoreScreen';
 
 /* * */
 export default function More() {

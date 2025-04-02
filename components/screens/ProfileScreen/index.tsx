@@ -1,5 +1,12 @@
 /* * */
+
+import { Section } from '@/components//common/layout/Section';
+import { Surface } from '@/components//common/layout/Surface';
+import FullWidthList from '@/components/cmui/FullWidthList';
+import IconCirclePlusFilled from '@/components/icons/IconCirclePlusFilled';
+import { useProfileContext } from '@/contexts/Profile.context';
 import { theming } from '@/theme/Variables';
+import { Text } from '@rneui/themed';
 import {
 	IconArrowLoopRight,
 	IconArrowRight,
@@ -9,12 +16,9 @@ import {
 } from '@tabler/icons-react-native';
 import Avatar from '@zamplyy/react-native-nice-avatar';
 import * as WebBrowser from 'expo-web-browser';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
-import FullWidthList from '../cmui/FullWidthList';
-import IconCirclePlusFilled from '../icons/IconCirclePlusFilled';
-
-/* * */
+import { styles } from './styles';
 
 /* * */
 
@@ -32,52 +36,23 @@ export default function ProfileScreen() {
 
 	//
 	// A. Setup variables
-	const styles = StyleSheet.create({
-		container: {
-			flex: 1,
-			fontFamily: 'Inter',
-		},
-		safeArea: {
-			backgroundColor: theming.colorSystemBackground200,
-			flex: 1,
-		},
-		userDetails: {
-			alignItems: 'center',
-			gap: 6,
-			justifyContent: 'center',
-			paddingVertical: 24,
-		},
-		userFullNameText: {
-			color: theming.colorSystemText100,
-			fontSize: 26,
-			fontWeight: 700,
-		},
-		userSection: {
-			alignItems: 'center',
-			backgroundColor: theming.colorSystemBackground100,
-			justifyContent: 'center',
-			paddingTop: 36,
-		},
-		userTypeText: {
-			fontSize: 14,
-			fontWeight: 700,
-		},
-		version: {
-			color: '#aaa',
-			fontSize: 12,
-			marginBottom: 32 + 60,
-			marginLeft: 16,
-			marginTop: 8,
-			textAlign: 'left',
-		},
-	});
-
+	const profileScreenStyles = styles();
+	const profileContext = useProfileContext();
 	//
 	// B. Render components
 
 	return (
-		<ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-			<View style={styles.userSection}>
+		<ScrollView showsVerticalScrollIndicator={false} style={profileScreenStyles.container}>
+			<Surface>
+				<Section heading="Perfil" subheading="Informações do utilizador" withPadding>
+					<Text>Teste</Text>
+
+					<Text>{profileContext.data.favorite_lines || 'Nenhuma linha'}</Text>
+					<Text>{profileContext.data.favorite_stops || 'Nehumna paragem'}</Text>
+					<Text>{profileContext.flags.is_enabled ? 'Ativo' : 'Inativo'}</Text>
+				</Section>
+			</Surface>
+			<View style={profileScreenStyles.userSection}>
 				<Avatar
 					bgColor="#ECF3F8"
 					earSize="small"
@@ -99,9 +74,9 @@ export default function ProfileScreen() {
 					}}
 				/>
 
-				<View style={styles.userDetails}>
-					<Text style={styles.userFullNameText}>António Soares</Text>
-					<Text style={[styles.userTypeText, { color: '#3D85C6' }]}>
+				<View style={profileScreenStyles.userDetails}>
+					<Text style={profileScreenStyles.userFullNameText}>António Soares</Text>
+					<Text style={[profileScreenStyles.userTypeText, { color: '#3D85C6' }]}>
 						Entusiasta
 					</Text>
 				</View>
