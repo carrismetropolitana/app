@@ -139,10 +139,10 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	const getProfileFromStorage = async () => {
 		try {
-			const storedProfile: Account = await localStorage.getItem(LOCAL_STORAGE_KEYS.profile);
+			// const storedProfile: Account = await localStorage.getItem(LOCAL_STORAGE_KEYS.profile);
 			// const storedDeviceId = storedProfile ? JSON.parse(storedProfile).devices[0].device_id : null;
 
-			setDataProfileState(storedProfile ? (JSON.parse(storedProfile) as Account) : null);
+			// setDataProfileState(storedProfile ? (JSON.parse(storedProfile) as Account) : null);
 
 			// const data = {
 			// 	favorites: {
