@@ -6,7 +6,8 @@ import FullWidthList from '@/components/cmui/FullWidthList';
 import IconCirclePlusFilled from '@/components/icons/IconCirclePlusFilled';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { theming } from '@/theme/Variables';
-import { Avatar, Text } from '@rneui/themed';
+import { AccountWidget } from '@/types/account.types';
+import { Avatar, ListItem, Text } from '@rneui/themed';
 import {
 	IconArrowLoopRight,
 	IconArrowRight,
@@ -15,7 +16,7 @@ import {
 	IconGripVertical,
 } from '@tabler/icons-react-native';
 import * as WebBrowser from 'expo-web-browser';
-import { ScrollView, View } from 'react-native';
+import { FlatList, ScrollView, View } from 'react-native';
 
 import { styles } from './styles';
 
@@ -37,80 +38,107 @@ export default function ProfileScreen() {
 	// A. Setup variables
 	const profileScreenStyles = styles();
 	const profileContext = useProfileContext();
+
+	// const fullName = `${profileContext.data.first_name?.first_name} ${profileContext.data.last_name?.last_name}`;
+	const favorites = [
+		...(profileContext.data.favorite_lines || []),
+		...(profileContext.data.favorite_stops || []),
+	];
+
 	//
 	// B. Render components
 
+	const Item = ({ data }: { data: { pattern_id: string, type: 'lines' } | { pattern_ids: string[], stop_id: string, type: 'stops' } }) => (
+		<ListItem>
+			<IconGripVertical color="#9696A0" size={24} />
+			<ListItem.Content>
+				<ListItem.Title>
+					{data.type === 'lines' ? data.pattern_id : data.stop_id}
+				</ListItem.Title>
+				<ListItem.Subtitle>
+					{data.type === 'lines' ? 'Paragem Favorita' : 'Paragem Favorita'}
+				</ListItem.Subtitle>
+			</ListItem.Content>
+			<ListItem.Chevron />
+		</ListItem>
+	);
+
 	return (
-		<ScrollView showsVerticalScrollIndicator={false} style={profileScreenStyles.container}>
-			<Surface>
-				<Section heading="Perfil" subheading="Informações do utilizador">
+		<Surface>
+			<ScrollView showsVerticalScrollIndicator={false} style={profileScreenStyles.container}>
+				<View style={profileScreenStyles.userSection}>
+					<Avatar
+						containerStyle={profileScreenStyles.avatarContainer}
+						size={200}
+						source={{ uri: 'https://www.carrismetropolitana.pt/assets/featured/night-lines.png' }}
+						rounded
+					/>
 
-					<Text>{profileContext.data.favorite_lines || 'Nenhuma linha'}</Text>
-					<Text>{profileContext.data.favorite_stops || 'Nehumna paragem'}</Text>
+					<View style={profileScreenStyles.userDetails}>
+						{/* <Text style={profileScreenStyles.userFullNameText}>{fullName}</Text> */}
+						{/* <Text style={profileScreenStyles.userTypeText}>
+							{profileContext.data.user_type?.utilization_type ? profileContext.data.user_type.utilization_type : 'Utilizador'}
+						</Text> */}
+					</View>
+				</View>
 
-					<View style={profileScreenStyles.userSection}>
-						<Avatar
-							containerStyle={profileScreenStyles.avatarContainer}
-							size={200}
-							source={{ uri: '@/assets/avatars/base-1|crista|p_fazer_bigode|piercing_nariz|alargador_xl|tattoo_1|manga_cava.png' }}
-							rounded
+				<Section heading="Editar e ordenar favoritos" subheading="Organizar os cartões como quer que aparecçam na página inicial. Altere a ordem deslizando no ícone" />
+
+				<FlatList
+					data={favorites}
+					keyExtractor={() => ''}
+					renderItem={({ item }) => <Item data={item.data} />}
+					showsVerticalScrollIndicator={false}
+				/>
+
+				{/* <FullWidthList>
+					keyExtractor={(item, index) => index.toString()}
+					renderItem={({ item }: { item: ItemProps }) => (
+						<Item
+							title={item.settings.label || 'Unknown'}
+							data={item.data}
+							settings={item.settings}
+						/>
+					)}
+						onPress={() => null}
+						title="Hospital (Elvas)"
+						topText="Paragem Favorita"
+						trailingIcon={<IconArrowRight color="#FFF" size={24} />}
+					/>
+
+					<FullWidthList.Section
+						subtitle="Escolha um tipo de cartão para adicionar à página principal."
+						title="Adicionar novo favorito"
+					>
+						<FullWidthList.Item
+							leadingIcon={<IconBusStop color="#FF6900" size={32} />}
+							title="Paragem Favorita"
+							trailingIcon={<IconCirclePlusFilled color="#3CB43C" />}
+							onPress={() =>
+								openInAppBrowser('https://www.carrismetropolitana.pt/tickets')}
+						/>
+						<FullWidthList.Item
+							leadingIcon={<IconArrowLoopRight color="#C61D23" size={32} />}
+							title="Linha Favorita"
+							trailingIcon={<IconCirclePlusFilled color="#3CB43C" />}
+							onPress={() =>
+								openInAppBrowser('https://www.carrismetropolitana.pt/cards')}
 						/>
 
-						<View style={profileScreenStyles.userDetails}>
-							<Text style={profileScreenStyles.userFullNameText}>António Soares</Text>
-							<Text style={[profileScreenStyles.userTypeText, { color: '#3D85C6' }]}>
-								Entusiasta
-							</Text>
-						</View>
-					</View>
+						<FullWidthList.Item
+							bottomText="Disponível em breve"
+							leadingIcon={<IconBellRinging color="#0C807E" size={32} />}
+							title="Notificações Inteligentes"
+							trailingIcon={<IconCirclePlusFilled color="#3CB43C" />}
+							onPress={() =>
+								openInAppBrowser('https://www.carrismetropolitana.pt/helpdesks')}
+							disabled
+						/>
+					</FullWidthList.Section>
+				</FullWidthList> */}
 
-					<FullWidthList>
-						<FullWidthList.Section
-							subtitle="Organize os cartões como quer que apareçam na página principal. Altere a ordem deslizando no ícone"
-							title="Editar e ordenar favoritos"
-						>
-							<FullWidthList.Item
-								leadingIcon={<IconGripVertical color="#9696A0" size={24} />}
-								onPress={() => null}
-								title="Hospital (Elvas)"
-								topText="Paragem Favorita"
-								trailingIcon={<IconArrowRight color="#FFF" size={24} />}
-							/>
-						</FullWidthList.Section>
-
-						<FullWidthList.Section
-							subtitle="Escolha um tipo de cartão para adicionar à página principal."
-							title="Adicionar novo favorito"
-						>
-							<FullWidthList.Item
-								leadingIcon={<IconBusStop color="#FF6900" size={32} />}
-								title="Paragem Favorita"
-								trailingIcon={<IconCirclePlusFilled color="#3CB43C" />}
-								onPress={() =>
-									openInAppBrowser('https://www.carrismetropolitana.pt/tickets')}
-							/>
-							<FullWidthList.Item
-								leadingIcon={<IconArrowLoopRight color="#C61D23" size={32} />}
-								title="Linha Favorita"
-								trailingIcon={<IconCirclePlusFilled color="#3CB43C" />}
-								onPress={() =>
-									openInAppBrowser('https://www.carrismetropolitana.pt/cards')}
-							/>
-
-							<FullWidthList.Item
-								bottomText="Disponível em breve"
-								leadingIcon={<IconBellRinging color="#0C807E" size={32} />}
-								title="Notificações Inteligentes"
-								trailingIcon={<IconCirclePlusFilled color="#3CB43C" />}
-								onPress={() =>
-									openInAppBrowser('https://www.carrismetropolitana.pt/helpdesks')}
-								disabled
-							/>
-						</FullWidthList.Section>
-					</FullWidthList>
-				</Section>
-			</Surface>
-		</ScrollView>
+			</ScrollView>
+		</Surface>
 	);
 
 	//

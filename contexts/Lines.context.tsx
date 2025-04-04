@@ -1,5 +1,3 @@
-
-
 /* * */
 
 import type { CachedResource } from '@carrismetropolitana/api-types/common';

@@ -1,37 +1,42 @@
-// /* * */
+/* * */
 
-// export interface IAccount {
-// 	// activity?: 'other' | 'retired' | 'student' | 'university' | 'working'
-// 	// avatar?: string
-// 	// date_of_birth?: Date
-// 	// devices: IDevice[]
-// 	// email: string
-// 	favorites: {
-// 		patterns: string[]
-// 		stops: {
-// 			pattern_ids: string[]
-// 			stop_id: string
-// 		}[]
-// 	}
-// 	first_name?: string
-// 	// gender?: 'female' | 'male'
-// 	// home_municipality?: string
-// 	last_name?: string
-// 	// notification_preferences?: {
-// 	// 	company: boolean
-// 	// 	events: boolean
-// 	// 	network: boolean
-// 	// }
-// 	// phone?: string
-// 	// role?: 'admin' | 'owner' | 'user'
-// 	// utilization_type: 'frequent' | 'occasional'
-// 	// work_municipality?: string
-// 	// work_setting: 'hybrid' | 'office' | 'remote'
-// }
-
-import { DocumentSchema, UnixTimestamp, validateUnixTimestamp } from '@tmlmobilidade/types';
 import { getUnixTimestamp } from '@tmlmobilidade/utils';
+import { DateTime } from 'luxon';
 import { z } from 'zod';
+
+/* * */
+
+/**
+ * UnixTimestamp, in this context, is a number that represents
+ * the number of milliseconds since the Unix epoch (1970-01-01T00:00:00Z).
+ */
+export type UnixTimestamp = number & {
+	__brand: 'UnixTimestamp'
+};
+
+/**
+ * This function validates if a number is a valid Unix Timestamp, in milliseconds.
+ * It is assumed the number will always be greater than 10^10 (1e10) to ensure it is in milliseconds.
+ * Throws an error if the date is invalid.
+ * @param milliseconds - The number to be validated.
+ * @returns The given number as a UnixTimestamp.
+ */
+export function validateUnixTimestamp(milliseconds: number): UnixTimestamp {
+	if (milliseconds < 1e10) throw new Error(`Invalid value '${milliseconds}', expected a number in milliseconds but received a number smaller than 1e10`);
+	const parsedDate = DateTime.fromMillis(milliseconds);
+	if (!parsedDate.isValid) throw new Error(`Invalid date '${milliseconds}, explanation: ${parsedDate.invalidExplanation}`);
+	return parsedDate.toMillis() as UnixTimestamp;
+}
+
+/* * */
+
+export const DocumentSchema = z.object({
+	_id: z.string(),
+	created_at: z.number().transform(validateUnixTimestamp).brand('UnixTimestamp').nullish(),
+	updated_at: z.number().transform(validateUnixTimestamp).brand('UnixTimestamp').nullish(),
+});
+
+/* * */
 
 // ENUMS
 const GENDER_VALUES = ['male', 'female'] as const;
