@@ -103,6 +103,7 @@ const ProfileSchema = z.object({
 	gender: GenderSchema.nullish(),
 	last_name: z.string().nullish(),
 	phone: PhoneSchema.nullish(),
+	profile_image: z.string().nullish(),
 	utilization_type: UtilizationTypeSchema.nullish(),
 	work_setting: WorkSettingSchema.nullish(),
 }).strict();

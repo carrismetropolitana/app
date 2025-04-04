@@ -1,9 +1,11 @@
-import { Account, AccountProfile, AccountWidget, CreateAccountDto } from '@/types/account.types';
+import { Account, AccountWidget, CreateAccountDto } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { random } from '@turf/turf';
+import { randomUUID } from 'expo-crypto';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { ReactNode } from 'react';
-import useSWR from 'swr';
+import { Platform } from 'react-native';
 
 import { useConsentContext } from './Consent.context';
 
@@ -14,6 +16,7 @@ const LOCAL_STORAGE_KEYS = {
 	first_name: 'profile|first_name',
 	last_name: 'profile|last_name',
 	profile: 'profile',
+	token: 'profile|token',
 	user_type: 'profile|user_type',
 };
 
@@ -31,7 +34,7 @@ interface ProfileContextState {
 	data: {
 		favorite_lines: AccountWidget[] | null
 		favorite_stops: AccountWidget[] | null
-		newAccount: CreateAccountDto | null
+		newProfile: CreateAccountDto | null
 		profile: Account | null
 	}
 	flags: {
@@ -62,10 +65,9 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const [dataFavoriteStopsState, setDataFavoriteStopsState] = useState<AccountWidget[] | null>(null);
 	const [dataNewProfileState, setDataNewProfileState] = useState<CreateAccountDto | null>(null);
 	const [dataProfileState, setDataProfileState] = useState<Account | null>(null);
+	const [dataIdProfileState, setDataIdProfileState] = useState<'' | string>('');
 
 	const [flagIsLoadingState, setFlagIsLoadingState] = useState<ProfileContextState['flags']['is_loading']>(true);
-
-	// const { data: fecthedSataCloudProfile } = useSWR<Account, Error>(`${Routes.DEV_API_ACCOUNTS}/accounts`, { refreshInterval: 5000 });
 
 	//
 	// C. Fetch Data
@@ -77,19 +79,14 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		}
 
 		const fetchData = async () => {
+			// localStorage.removeItem(LOCAL_STORAGE_KEYS.profile);
 			try {
 				setFlagIsLoadingState(true);
 				const [
-					storedFavoriteLines,
-					storedFavoriteStops,
 					storedProfile,
 				] = await Promise.all([
-					localStorage.getItem(LOCAL_STORAGE_KEYS.favorite_lines),
-					localStorage.getItem(LOCAL_STORAGE_KEYS.favorite_stops),
 					localStorage.getItem(LOCAL_STORAGE_KEYS.profile),
 				]);
-				setDataFavoriteLinesState(storedFavoriteLines ? JSON.parse(storedFavoriteLines) : []);
-				setDataFavoriteStopsState(storedFavoriteStops ? JSON.parse(storedFavoriteStops) : []);
 				checkProfile(storedProfile ? JSON.parse(storedProfile) : null);
 			}
 			catch (error) {
@@ -112,24 +109,24 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		if (dataFavoriteStopsState) {
 			localStorage.setItem(LOCAL_STORAGE_KEYS.favorite_stops, JSON.stringify(dataFavoriteStopsState) || '');
 		}
-		// if (dataFirstNameState) {
-		// 	// Assuming dataFirstName is an object with a "first_name" property
-		// 	localStorage.setItem(LOCAL_STORAGE_KEYS.first_name, JSON.stringify(dataFirstNameState.first_name) || '');
-		// }
-		// if (dataLastNameState) {
-		// 	localStorage.setItem(LOCAL_STORAGE_KEYS.last_name, JSON.stringify(dataLastNameState.last_name) || '');
-		// }
-		// if (dataUserTypeState) {
-		// 	localStorage.setItem(LOCAL_STORAGE_KEYS.user_type, JSON.stringify(dataUserTypeState.utilization_type) || '');
-		// }
 	}, [
 		dataFavoriteLinesState,
 		dataFavoriteStopsState,
-		// dataFirstNameState,
-		// dataLastNameState,
-		// dataUserTypeState,
 		consentContext.data.enabled_functional,
 	]);
+
+	useEffect(() => {
+		console.log(dataIdProfileState);
+		fetchProfile();
+	}, [dataIdProfileState]);
+
+	const fetchProfile = async () => {
+		if (dataIdProfileState) {
+			const fetchedProfile = await getProfileFromCloud(dataIdProfileState || '');
+			localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(fetchedProfile));
+			setDataProfileState(fetchedProfile);
+		}
+	};
 
 	const getProfileFromCloud = async (id: string) => {
 		if (!consentContext.data.enabled_functional) return;
@@ -137,11 +134,57 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/${id}`);
 		const profileData = await response.json();
 
-		if (!response.ok) {
-			throw new Error('Network response was not ok');
-		}
+		return profileData;
+	};
 
-		setDataProfileState(profileData);
+	const getProfileFromStorage = async () => {
+		try {
+			const storedProfile: Account = await localStorage.getItem(LOCAL_STORAGE_KEYS.profile);
+			// const storedDeviceId = storedProfile ? JSON.parse(storedProfile).devices[0].device_id : null;
+
+			setDataProfileState(storedProfile ? (JSON.parse(storedProfile) as Account) : null);
+
+			// const data = {
+			// 	favorites: {
+			// 	 lines: dataFavoriteLinesState || [],
+			// 	 stops: profile.favorites?.stops || [],
+			// 	},
+			// 	profile: {
+			// 		activity: profile.profile?.activity || undefined,
+			// 		date_of_birth: profile.profile?.date_of_birth || null,
+			// 		email: null,
+			// 		first_name: null,
+			// 		gender: undefined,
+			// 		last_name: null,
+			// 		phone: null,
+			// 		utilization_type: undefined,
+			// 		work_setting: undefined,
+			// 	},
+			// 	widgets:[
+			// 	 data: widget.data?.type === 'stops' ? {
+			// 	     pattern_ids: widget.data.pattern_ids || [],
+			// 	     stop_id: widget.data.stop_id,
+			// 	     type: 'stops' as const,
+			// 	 } : {
+			// 	     pattern_id: widget.data?.pattern_id || '',
+			// 	     type: 'lines' as const,
+			// 	 },
+			// 	 settings: {
+			// 	     display_order: widget.settings?.display_order || null,
+			// 	     is_open: widget.settings?.is_open || true,
+			// 	     label: widget.settings?.label || null,
+			// 	 },
+			// 	],
+			// };
+
+			// const updatedProfile = await fetch(`${Routes.DEV_API_ACCOUNTS}/${storedDeviceId}`, { body: JSON.stringify(data), method: 'PUT' });
+			// const updatedProfileData = await updatedProfile.json();
+
+			// console.log('Updated profile data:', updatedProfileData);
+		}
+		catch (error) {
+			console.error('Error loading and creating profile data:', error);
+		}
 	};
 
 	// D. Action handlers
@@ -194,59 +237,44 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		setDataFavoriteStopsState(updatedFavorites);
 	};
 
-	const setNewEmptyProfile = async (profile: CreateAccountDto) => {
+	const setNewEmptyProfile = async () => {
 		if (!consentContext.data.enabled_functional) return;
+		const uuid = await randomUUID();
 
-		const newProfile: CreateAccountDto = {
-			devices: profile.devices?.map(device => ({
-				device_id: device.device_id,
-				name: device.name || null,
-				type: device.type,
-
-			})) || [],
-			favorites: {
-				lines: profile.favorites?.lines || [],
-				stops: profile.favorites?.stops || [],
-			},
+		const newProfileStructure: CreateAccountDto = {
+			devices: [
+				{
+					device_id: uuid,
+					type: Platform.OS === 'ios' ? 'ios' : 'android',
+				},
+			],
 			profile: {
-				activity: profile.profile?.activity || undefined,
-				date_of_birth: profile.profile?.date_of_birth || null,
-				email: profile.profile?.email || null,
-				first_name: profile.profile?.first_name || null,
-				gender: profile.profile?.gender || undefined,
-				last_name: profile.profile?.last_name || null,
-				phone: profile.profile?.phone || null,
-				utilization_type: profile.profile?.utilization_type || undefined,
-				work_setting: profile.profile?.work_setting || undefined,
+				email: null,
+				first_name: null,
+				gender: undefined,
+				last_name: null,
+				phone: null,
+				profile_image: null,
+				utilization_type: undefined,
+				work_setting: undefined,
 			},
-			widgets: profile.widgets?.map(widget => ({
-				data: widget.data?.type === 'stops' ? {
-					pattern_ids: widget.data.pattern_ids || [],
-					stop_id: widget.data.stop_id,
-					type: 'stops' as const,
-				} : {
-					pattern_id: widget.data?.pattern_id || '',
-					type: 'lines' as const,
-				},
-				settings: {
-					display_order: widget.settings?.display_order || null,
-					is_open: widget.settings?.is_open || true,
-					label: widget.settings?.label || null,
-				},
-			})) || [],
 		};
 
-		setDataNewProfileState(newProfile);
-		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(newProfile));
+		await fetch(`${Routes.DEV_API_ACCOUNTS}`, {
+			body: JSON.stringify(newProfileStructure),
+			headers: { 'Content-Type': 'application/json' },
+			method: 'POST',
+		});
+
+		setDataIdProfileState(uuid);
 	};
 
-	const checkProfile = async (profile: Account) => {
-		if (!profile) {
-			await getProfileFromCloud('453');
+	const checkProfile = async (profile: Account | null) => {
+		if (profile !== null) {
+			await getProfileFromStorage();
 		}
 		else {
-			
-			setNewEmptyProfile(profile);
+			await setNewEmptyProfile();
 		}
 	};
 
@@ -265,7 +293,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		data: {
 			favorite_lines: dataFavoriteLinesState,
 			favorite_stops: dataFavoriteStopsState,
-			newAccount: dataNewProfileState,
+			newProfile: dataNewProfileState,
 			profile: dataProfileState,
 		},
 		flags: {
