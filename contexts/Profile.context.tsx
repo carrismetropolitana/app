@@ -1,7 +1,7 @@
 import { Account, AccountWidget, CreateAccountDto } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { randomUUID } from 'expo-crypto';
+import { Dialog, Text } from '@rneui/themed';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { ReactNode } from 'react';
 import { Platform } from 'react-native';
@@ -9,13 +9,14 @@ import { Platform } from 'react-native';
 import { useConsentContext } from './Consent.context';
 
 const LOCAL_STORAGE_KEYS = {
+	cloud_profile: 'cloud_profile',
 	device_id: 'profile|device_id',
 	favorite_lines: 'profile|favorite_lines',
 	favorite_stops: 'profile|favorite_stops',
 	first_name: 'profile|first_name',
 	last_name: 'profile|last_name',
 	profile: 'profile',
-	token: 'profile|token',
+	token: 'token',
 	user_type: 'profile|user_type',
 };
 
@@ -25,19 +26,23 @@ interface ProfileContextState {
 		setNewEmptyProfile: (profile: CreateAccountDto) => Promise<void>
 		toggleFavoriteLine: (lineId: string) => Promise<void>
 		toggleFavoriteStop: (stopId: string) => Promise<void>
+		toogleAccountSync: () => void
 	}
 	counters: {
 		favorite_lines: number
 		favorite_stops: number
 	}
 	data: {
+		cloud_profile: Account | null
 		favorite_lines: AccountWidget[] | null
 		favorite_stops: AccountWidget[] | null
 		profile: Account | null
 	}
 	flags: {
 		is_enabled: boolean
+		is_existing_profile: boolean
 		is_loading: boolean
+		is_syncing: boolean
 	}
 }
 
@@ -62,7 +67,11 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const [dataFavoriteLinesState, setDataFavoriteLinesState] = useState<AccountWidget[] | null>(null);
 	const [dataFavoriteStopsState, setDataFavoriteStopsState] = useState<AccountWidget[] | null>(null);
 	const [dataProfileState, setDataProfileState] = useState<Account | null>(null);
+	const [dataCloudProfileState, setDataCloudProfileState] = useState<Account | null>(null);
+
 	const [dataIdProfileState, setDataIdProfileState] = useState<'' | string>('');
+	const [dataApiTokenState, setAPIToken] = useState<null | string>(null);
+	const [dataIsSyncingState, setDataIsSyncingState] = useState(false);
 
 	const [flagIsLoadingState, setFlagIsLoadingState] = useState<ProfileContextState['flags']['is_loading']>(true);
 
@@ -76,7 +85,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		}
 
 		const fetchData = async () => {
-			localStorage.removeItem(LOCAL_STORAGE_KEYS.profile);
+			// TOGGLE TO DELETE ACCOUNT
+			// localStorage.removeItem(LOCAL_STORAGE_KEYS.profile);
 			try {
 				setFlagIsLoadingState(true);
 				const [
@@ -84,6 +94,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				] = await Promise.all([
 					localStorage.getItem(LOCAL_STORAGE_KEYS.profile),
 				]);
+
+				setDataProfileState(storedProfile ? JSON.parse(storedProfile) : null);
 				checkProfile(storedProfile ? JSON.parse(storedProfile) : null);
 			}
 			catch (error) {
@@ -94,7 +106,11 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			}
 		};
 
-		fetchData();
+		const intervalId = setInterval(() => {
+			fetchData();
+		}, 10000); // 10 * 60 * 1000 10 minutes
+
+		return () => clearInterval(intervalId);
 	}, [consentContext.data.enabled_functional]);
 
 	useEffect(() => {
@@ -106,29 +122,46 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		if (dataFavoriteStopsState) {
 			localStorage.setItem(LOCAL_STORAGE_KEYS.favorite_stops, JSON.stringify(dataFavoriteStopsState) || '');
 		}
+
+		if (dataApiTokenState) {
+			localStorage.setItem(LOCAL_STORAGE_KEYS.token, dataApiTokenState || '');
+		}
+
+		if (dataProfileState) {
+			localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(dataProfileState) || '');
+		}
 	}, [
 		dataFavoriteLinesState,
 		dataFavoriteStopsState,
+		dataApiTokenState,
+		dataProfileState,
 		consentContext.data.enabled_functional,
 	]);
 
 	useEffect(() => {
-		console.log('=====>', dataIdProfileState);
 		fetchProfile();
-	}, [dataIdProfileState]);
+	}, [dataIdProfileState, dataApiTokenState]);
 
 	const fetchProfile = async () => {
 		if (dataIdProfileState) {
 			const fetchedProfile = await getProfileFromCloud(dataIdProfileState || '');
-			localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(fetchedProfile));
-			setDataProfileState(fetchedProfile);
+			// localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(fetchedProfile));
+			localStorage.setItem(LOCAL_STORAGE_KEYS.cloud_profile, JSON.stringify(fetchedProfile));
+			setDataCloudProfileState(fetchedProfile);
+			// setDataProfileState(fetchedProfile);
 		}
 	};
 
 	const getProfileFromCloud = async (id: string) => {
 		if (!consentContext.data.enabled_functional) return;
+		console.log('token', dataApiTokenState);
 
-		const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/${id}`);
+		const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/${id}`, {
+			headers: {
+				'Content-Type': 'application/json',
+				'Cookie': `session_token=${dataApiTokenState}` },
+		});
+
 		const profileData = await response.json();
 
 		return profileData;
@@ -140,6 +173,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			const storedProfile: Account = storedProfileString ? JSON.parse(storedProfileString) : null;
 
 			const fullAccount: Account = {
+				_id: storedProfile._id || '',
+				created_at: storedProfile.created_at,
 				devices: [
 					{
 						device_id: storedProfile.devices[0].device_id || '',
@@ -158,6 +193,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 					utilization_type: storedProfile.profile?.utilization_type || undefined,
 					work_setting: storedProfile.profile?.work_setting || undefined,
 				},
+				role: storedProfile.role || 'user',
+				updated_at: storedProfile.updated_at,
 				widgets: storedProfile.widgets?.map(widget => ({
 					data: widget.data?.type === 'stops'
 						? {
@@ -175,16 +212,14 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 						label: widget.settings?.label ?? null,
 					},
 				})) || [],
-				// Merge Favorites logic
-				//  favorites: {
-				// 	lines: dataFavoriteLinesState || [],
-				// 	stops: profile.favorites?.stops || [],
-				//    },
-
 			};
-
 			// Merge Acccounts logic, it's here that we need to show a dialog comparing the two profiles
-			// const updatedProfile = await fetch(`${Routes.DEV_API_ACCOUNTS}/${storedDeviceId}`, { body: JSON.stringify(data), method: 'PUT' });
+
+			// emulate the merge logic
+
+			setDataCloudProfileState(fullAccount);
+			// const updatedProfile = await fetch(`${Routes.DEV_API_ACCOUNTS}/${storedProfile._id}`, { body: JSON.stringify(fullAccount), headers: { Cookie: `session_token=${dataApiTokenState}` }, method: 'PUT' });
+
 			// const updatedProfileData = await updatedProfile.json();
 			// setDataProfileState(data);
 			// console.log('Updated profile data:', updatedProfileData);
@@ -195,6 +230,10 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	};
 
 	// D. Action handlers
+
+	const toogleAccountSync = () => {
+		setDataIsSyncingState(!dataIsSyncingState);
+	};
 
 	const toggleFavoriteLine = async (pattern_id: string) => {
 		if (!consentContext.data.enabled_functional) return;
@@ -272,14 +311,20 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			method: 'POST',
 		}).then(res => res.json());
 
+		setAPIToken(apiResponse.session_token);
 		setDataIdProfileState(apiResponse.device_id);
+
+		localStorage.setItem(LOCAL_STORAGE_KEYS.token, apiResponse.session_token);
 	};
 
-	const checkProfile = async (profile: Account | null) => {
+	const checkProfile = async (profile: Account) => {
+		console.log('Checking if profile exists...');
 		if (profile !== null) {
+			console.log('Found Profile!!');
 			await getProfileFromStorage();
 		}
 		else {
+			console.log('Setting and ceating an account on API...');
 			await setNewEmptyProfile();
 		}
 	};
@@ -291,19 +336,23 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			setNewEmptyProfile,
 			toggleFavoriteLine,
 			toggleFavoriteStop,
+			toogleAccountSync,
 		},
 		counters: {
 			favorite_lines: dataFavoriteLinesState ? dataFavoriteLinesState.length : 0,
 			favorite_stops: dataFavoriteStopsState ? dataFavoriteStopsState.length : 0,
 		},
 		data: {
+			cloud_profile: dataCloudProfileState,
 			favorite_lines: dataFavoriteLinesState,
 			favorite_stops: dataFavoriteStopsState,
 			profile: dataProfileState,
 		},
 		flags: {
 			is_enabled: consentContext.data.enabled_functional,
+			is_existing_profile: dataCloudProfileState ? true : false,
 			is_loading: flagIsLoadingState,
+			is_syncing: dataIsSyncingState,
 		},
 	};
 
