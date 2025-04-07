@@ -1,7 +1,6 @@
 import { Account, AccountWidget, CreateAccountDto } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { random } from '@turf/turf';
 import { randomUUID } from 'expo-crypto';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { ReactNode } from 'react';
@@ -34,7 +33,6 @@ interface ProfileContextState {
 	data: {
 		favorite_lines: AccountWidget[] | null
 		favorite_stops: AccountWidget[] | null
-		newProfile: CreateAccountDto | null
 		profile: Account | null
 	}
 	flags: {
@@ -63,7 +61,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	const [dataFavoriteLinesState, setDataFavoriteLinesState] = useState<AccountWidget[] | null>(null);
 	const [dataFavoriteStopsState, setDataFavoriteStopsState] = useState<AccountWidget[] | null>(null);
-	const [dataNewProfileState, setDataNewProfileState] = useState<CreateAccountDto | null>(null);
 	const [dataProfileState, setDataProfileState] = useState<Account | null>(null);
 	const [dataIdProfileState, setDataIdProfileState] = useState<'' | string>('');
 
@@ -79,7 +76,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		}
 
 		const fetchData = async () => {
-			// localStorage.removeItem(LOCAL_STORAGE_KEYS.profile);
+			localStorage.removeItem(LOCAL_STORAGE_KEYS.profile);
 			try {
 				setFlagIsLoadingState(true);
 				const [
@@ -116,7 +113,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	]);
 
 	useEffect(() => {
-		console.log(dataIdProfileState);
+		console.log('=====>', dataIdProfileState);
 		fetchProfile();
 	}, [dataIdProfileState]);
 
@@ -139,47 +136,57 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	const getProfileFromStorage = async () => {
 		try {
-			// const storedProfile: Account = await localStorage.getItem(LOCAL_STORAGE_KEYS.profile);
-			// const storedDeviceId = storedProfile ? JSON.parse(storedProfile).devices[0].device_id : null;
+			const storedProfileString = await localStorage.getItem(LOCAL_STORAGE_KEYS.profile);
+			const storedProfile: Account = storedProfileString ? JSON.parse(storedProfileString) : null;
 
-			// setDataProfileState(storedProfile ? (JSON.parse(storedProfile) as Account) : null);
+			const fullAccount: Account = {
+				devices: [
+					{
+						device_id: storedProfile.devices[0].device_id || '',
+						name: storedProfile.devices[0].name || '',
+						type: Platform.OS === 'ios' ? 'ios' : 'android',
+					},
+				],
+				profile: {
+					activity: storedProfile.profile?.activity || undefined,
+					date_of_birth: storedProfile.profile?.date_of_birth || undefined,
+					email: storedProfile.profile?.email || '',
+					first_name: storedProfile.profile?.first_name || '',
+					gender: storedProfile.profile?.gender || undefined,
+					last_name: storedProfile.profile?.last_name || '',
+					phone: storedProfile.profile?.phone || '',
+					utilization_type: storedProfile.profile?.utilization_type || undefined,
+					work_setting: storedProfile.profile?.work_setting || undefined,
+				},
+				widgets: storedProfile.widgets?.map(widget => ({
+					data: widget.data?.type === 'stops'
+						? {
+							pattern_ids: widget.data.pattern_ids || [],
+							stop_id: widget.data.stop_id || '',
+							type: 'stops' as const,
+						}
+						: {
+							pattern_id: widget.data?.pattern_id || '',
+							type: 'lines' as const,
+						},
+					settings: {
+						display_order: widget.settings?.display_order ?? null,
+						is_open: widget.settings?.is_open ?? true,
+						label: widget.settings?.label ?? null,
+					},
+				})) || [],
+				// Merge Favorites logic
+				//  favorites: {
+				// 	lines: dataFavoriteLinesState || [],
+				// 	stops: profile.favorites?.stops || [],
+				//    },
 
-			// const data = {
-			// 	favorites: {
-			// 	 lines: dataFavoriteLinesState || [],
-			// 	 stops: profile.favorites?.stops || [],
-			// 	},
-			// 	profile: {
-			// 		activity: profile.profile?.activity || undefined,
-			// 		date_of_birth: profile.profile?.date_of_birth || null,
-			// 		email: null,
-			// 		first_name: null,
-			// 		gender: undefined,
-			// 		last_name: null,
-			// 		phone: null,
-			// 		utilization_type: undefined,
-			// 		work_setting: undefined,
-			// 	},
-			// 	widgets:[
-			// 	 data: widget.data?.type === 'stops' ? {
-			// 	     pattern_ids: widget.data.pattern_ids || [],
-			// 	     stop_id: widget.data.stop_id,
-			// 	     type: 'stops' as const,
-			// 	 } : {
-			// 	     pattern_id: widget.data?.pattern_id || '',
-			// 	     type: 'lines' as const,
-			// 	 },
-			// 	 settings: {
-			// 	     display_order: widget.settings?.display_order || null,
-			// 	     is_open: widget.settings?.is_open || true,
-			// 	     label: widget.settings?.label || null,
-			// 	 },
-			// 	],
-			// };
+			};
 
+			// Merge Acccounts logic, it's here that we need to show a dialog comparing the two profiles
 			// const updatedProfile = await fetch(`${Routes.DEV_API_ACCOUNTS}/${storedDeviceId}`, { body: JSON.stringify(data), method: 'PUT' });
 			// const updatedProfileData = await updatedProfile.json();
-
+			// setDataProfileState(data);
 			// console.log('Updated profile data:', updatedProfileData);
 		}
 		catch (error) {
@@ -239,12 +246,11 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	const setNewEmptyProfile = async () => {
 		if (!consentContext.data.enabled_functional) return;
-		const uuid = await randomUUID();
 
 		const newProfileStructure: CreateAccountDto = {
 			devices: [
 				{
-					device_id: uuid,
+					device_id: '',
 					type: Platform.OS === 'ios' ? 'ios' : 'android',
 				},
 			],
@@ -260,13 +266,13 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			},
 		};
 
-		await fetch(`${Routes.DEV_API_ACCOUNTS}`, {
+		const apiResponse = await fetch(`${Routes.DEV_API_ACCOUNTS}`, {
 			body: JSON.stringify(newProfileStructure),
 			headers: { 'Content-Type': 'application/json' },
 			method: 'POST',
-		});
+		}).then(res => res.json());
 
-		setDataIdProfileState(uuid);
+		setDataIdProfileState(apiResponse.device_id);
 	};
 
 	const checkProfile = async (profile: Account | null) => {
@@ -293,7 +299,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		data: {
 			favorite_lines: dataFavoriteLinesState,
 			favorite_stops: dataFavoriteStopsState,
-			newProfile: dataNewProfileState,
 			profile: dataProfileState,
 		},
 		flags: {
