@@ -39,7 +39,7 @@ export default function ProfileScreen() {
 	const profileScreenStyles = styles();
 	const profileContext = useProfileContext();
 
-	// const fullName = `${profileContext.data.first_name?.first_name} ${profileContext.data.last_name?.last_name}`;
+	const fullName = `${profileContext.data.profile?.profile?.first_name || 'Bruno'} ${profileContext.data.profile?.profile?.last_name || 'Castelo'}`;
 	const favorites = [
 		...(profileContext.data.favorite_lines || []),
 		...(profileContext.data.favorite_stops || []),
@@ -75,10 +75,10 @@ export default function ProfileScreen() {
 					/>
 
 					<View style={profileScreenStyles.userDetails}>
-						{/* <Text style={profileScreenStyles.userFullNameText}>{fullName}</Text> */}
-						{/* <Text style={profileScreenStyles.userTypeText}>
-							{profileContext.data.user_type?.utilization_type ? profileContext.data.user_type.utilization_type : 'Utilizador'}
-						</Text> */}
+						<Text style={profileScreenStyles.userFullNameText}>{fullName}</Text>
+						<Text style={profileScreenStyles.userTypeText}>
+							{profileContext.data.profile?.profile?.utilization_type ? profileContext.data.profile?.profile?.utilization_type : 'Utilizador'}
+						</Text>
 					</View>
 				</View>
 
