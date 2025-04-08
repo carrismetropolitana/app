@@ -7,18 +7,15 @@ import { StyleSheet } from 'react-native';
 /* * */
 
 export const styles = () => {
-	//
+	const { theme } = useThemeContext();
+	const isLight = theme.mode === 'light';
+	const backgroundColor = isLight
+		? theming.colorSystemBackgroundLight200
+		: theming.colorSystemBackgroundDark200;
 
-	//
-	// A. Setup variables
-	const themeContext = useThemeContext();
-
-	//
-	// B. Return styles
 	return StyleSheet.create({
-
 		addFavoritesSection: {
-			backgroundColor: themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200,
+			backgroundColor,
 		},
 		avatarContainer: {
 			borderColor: '#3D85C6',
@@ -28,15 +25,9 @@ export const styles = () => {
 			flex: 1,
 			fontFamily: 'Inter',
 		},
-		/* LIST TITLE */
 		listTitle: {
 			fontSize: theming.fontSizeNav,
 			fontWeight: theming.fontWeightNav as '600',
-		},
-		/* * */
-		safeArea: {
-			backgroundColor: themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200,
-			flex: 1,
 		},
 		userDetails: {
 			alignItems: 'center',
@@ -47,7 +38,7 @@ export const styles = () => {
 		userFullNameText: {
 			color: theming.colorSystemText100,
 			fontSize: 26,
-			fontWeight: 700,
+			fontWeight: '700',
 		},
 		userSection: {
 			alignItems: 'center',
@@ -57,17 +48,7 @@ export const styles = () => {
 		},
 		userTypeText: {
 			fontSize: 14,
-			fontWeight: 700,
-		},
-		version: {
-			color: '#aaa',
-			fontSize: 12,
-			marginBottom: 32 + 60,
-			marginLeft: 16,
-			marginTop: 8,
-			textAlign: 'left',
+			fontWeight: '700',
 		},
 	});
-
-	//
 };
