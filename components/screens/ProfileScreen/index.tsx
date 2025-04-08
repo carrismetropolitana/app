@@ -16,7 +16,7 @@ import {
 } from '@tabler/icons-react-native';
 import * as WebBrowser from 'expo-web-browser';
 import { FlatList, ScrollView, Touchable, TouchableOpacity, View } from 'react-native';
-import { DragableFlatList } from 'react-native-draggable-flatlist';
+import DraggableFlatList from 'react-native-draggable-flatlist';
 
 import { styles } from './styles';
 
@@ -82,8 +82,7 @@ export default function ProfileScreen() {
 			</View>
 
 			<Section heading="Editar e ordenar favoritos" subheading="Organizar os cartões como quer que aparecçam na página inicial. Altere a ordem deslizando no ícone" />
-
-			<DragableFlatList
+			<DraggableFlatList
 				data={favorites}
 				keyExtractor={() => ''}
 				renderItem={({ item }) => <Item data={item.data} />}
