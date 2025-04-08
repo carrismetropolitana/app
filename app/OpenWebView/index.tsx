@@ -7,7 +7,7 @@ import { WebView } from 'react-native-webview';
 export default function OpenWebView() {
 	const { locale, url } = useLocalSearchParams();
 	const formedUrl = `${url}?locale=${locale}`;
-	console.log('here', formedUrl);
+
 	const navigation = useNavigation();
 
 	const themeContext = useThemeContext();

@@ -154,7 +154,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	const getProfileFromCloud = async (id: string) => {
 		if (!consentContext.data.enabled_functional) return;
-		console.log('token', dataApiTokenState);
+		// console.log('token', dataApiTokenState);
 
 		const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/${id}`, {
 			headers: {
@@ -213,10 +213,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 					},
 				})) || [],
 			};
-			// Merge Acccounts logic, it's here that we need to show a dialog comparing the two profiles
 
 			// emulate the merge logic
-
 			setDataCloudProfileState(fullAccount);
 			// const updatedProfile = await fetch(`${Routes.DEV_API_ACCOUNTS}/${storedProfile._id}`, { body: JSON.stringify(fullAccount), headers: { Cookie: `session_token=${dataApiTokenState}` }, method: 'PUT' });
 
@@ -318,13 +316,13 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	};
 
 	const checkProfile = async (profile: Account) => {
-		console.log('Checking if profile exists...');
+		console.log('Checking if profile exists ⚙️');
 		if (profile !== null) {
-			console.log('Found Profile!!');
+			console.log('Found Profile!! 🎉');
 			await getProfileFromStorage();
 		}
 		else {
-			console.log('Setting and ceating an account on API...');
+			console.log('Setting and ceating an account 🤖');
 			await setNewEmptyProfile();
 		}
 	};

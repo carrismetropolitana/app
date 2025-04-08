@@ -19,8 +19,8 @@ interface Props {
 }
 
 export function AccountChooser({ action1, action1Title, action2, action2Title, cloudProfile, description, isVisible, localProfile, onBackdropPress, title }: Props) {
-	console.log('CLOUD =====>', JSON.stringify(cloudProfile));
-	console.log('LOCAL ===> ', JSON.stringify(localProfile));
+	// console.log('CLOUD =====>', JSON.stringify(cloudProfile));
+	// console.log('LOCAL ===> ', JSON.stringify(localProfile));
 	return (
 
 		<Overlay
