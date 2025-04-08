@@ -13,11 +13,11 @@ interface Props {
 
 export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: Props) {
 	return (
-		<Overlay isVisible={isVisible} onBackdropPress={onBackdropPress}>
+		<Overlay animationType="slide" isVisible={isVisible} onBackdropPress={onBackdropPress}>
 			<SafeAreaView>
 				<View style={styles.container}>
 					<Section heading="Linha Favorita" subheading="Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas." />
-					<View style={{ marginBottom: 20, padding: 0, width: '100%' }}>
+					<View style={styles.videoContainer}>
 						<TouchableOpacity>
 							<ListItem>
 								<IconPlayerPlayFilled color="#3D85C6" fill="#3D85C6" size={24} />

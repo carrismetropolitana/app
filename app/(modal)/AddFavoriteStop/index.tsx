@@ -13,7 +13,7 @@ interface Props {
 
 export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: Props) {
 	return (
-		<Overlay isVisible={isVisible} onBackdropPress={onBackdropPress}>
+		<Overlay animationType="slide" isVisible={isVisible} onBackdropPress={onBackdropPress}>
 			<SafeAreaView>
 				<View style={styles.container}>
 					<Section heading="Paragem Favorita" subheading="Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas." />

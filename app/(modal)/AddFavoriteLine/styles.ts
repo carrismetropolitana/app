@@ -37,6 +37,11 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		fontWeight: '600',
 	},
+	videoContainer: {
+		marginBottom: 20,
+		padding: 0,
+		width: '100%',
+	},
 });
 
 export default styles;
