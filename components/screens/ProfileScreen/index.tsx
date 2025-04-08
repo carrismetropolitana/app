@@ -2,12 +2,11 @@
 
 import { Section } from '@/components//common/layout/Section';
 import { Surface } from '@/components//common/layout/Surface';
-import FullWidthList from '@/components/cmui/FullWidthList';
 import IconCirclePlusFilled from '@/components/icons/IconCirclePlusFilled';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { theming } from '@/theme/Variables';
 import { AccountWidget } from '@/types/account.types';
-import { Avatar, ListItem, Text } from '@rneui/themed';
+import { Avatar, Button, ListItem, Text } from '@rneui/themed';
 import {
 	IconArrowLoopRight,
 	IconArrowRight,
@@ -16,7 +15,8 @@ import {
 	IconGripVertical,
 } from '@tabler/icons-react-native';
 import * as WebBrowser from 'expo-web-browser';
-import { FlatList, ScrollView, View } from 'react-native';
+import { FlatList, ScrollView, Touchable, TouchableOpacity, View } from 'react-native';
+import { DragableFlatList } from 'react-native-draggable-flatlist';
 
 import { styles } from './styles';
 
@@ -65,79 +65,64 @@ export default function ProfileScreen() {
 
 	return (
 		<Surface>
-			<ScrollView showsVerticalScrollIndicator={false} style={profileScreenStyles.container}>
-				<View style={profileScreenStyles.userSection}>
-					<Avatar
-						containerStyle={profileScreenStyles.avatarContainer}
-						size={200}
-						source={{ uri: 'https://www.carrismetropolitana.pt/assets/featured/night-lines.png' }}
-						rounded
-					/>
-
-					<View style={profileScreenStyles.userDetails}>
-						<Text style={profileScreenStyles.userFullNameText}>{fullName}</Text>
-						<Text style={profileScreenStyles.userTypeText}>
-							{profileContext.data.profile?.profile?.utilization_type ? profileContext.data.profile?.profile?.utilization_type : 'Utilizador'}
-						</Text>
-					</View>
-				</View>
-
-				<Section heading="Editar e ordenar favoritos" subheading="Organizar os cartões como quer que aparecçam na página inicial. Altere a ordem deslizando no ícone" />
-
-				<FlatList
-					data={favorites}
-					keyExtractor={() => ''}
-					renderItem={({ item }) => <Item data={item.data} />}
-					showsVerticalScrollIndicator={false}
+			<View style={profileScreenStyles.userSection}>
+				<Avatar
+					containerStyle={profileScreenStyles.avatarContainer}
+					size={200}
+					source={{ uri: 'https://www.carrismetropolitana.pt/assets/featured/night-lines.png' }}
+					rounded
 				/>
 
-				{/* <FullWidthList>
-					keyExtractor={(item, index) => index.toString()}
-					renderItem={({ item }: { item: ItemProps }) => (
-						<Item
-							title={item.settings.label || 'Unknown'}
-							data={item.data}
-							settings={item.settings}
-						/>
-					)}
-						onPress={() => null}
-						title="Hospital (Elvas)"
-						topText="Paragem Favorita"
-						trailingIcon={<IconArrowRight color="#FFF" size={24} />}
-					/>
+				<View style={profileScreenStyles.userDetails}>
+					<Text style={profileScreenStyles.userFullNameText}>{fullName}</Text>
+					<Text style={profileScreenStyles.userTypeText}>
+						{profileContext.data.profile?.profile?.utilization_type ? profileContext.data.profile?.profile?.utilization_type : 'Utilizador'}
+					</Text>
+				</View>
+			</View>
 
-					<FullWidthList.Section
-						subtitle="Escolha um tipo de cartão para adicionar à página principal."
-						title="Adicionar novo favorito"
-					>
-						<FullWidthList.Item
-							leadingIcon={<IconBusStop color="#FF6900" size={32} />}
-							title="Paragem Favorita"
-							trailingIcon={<IconCirclePlusFilled color="#3CB43C" />}
-							onPress={() =>
-								openInAppBrowser('https://www.carrismetropolitana.pt/tickets')}
-						/>
-						<FullWidthList.Item
-							leadingIcon={<IconArrowLoopRight color="#C61D23" size={32} />}
-							title="Linha Favorita"
-							trailingIcon={<IconCirclePlusFilled color="#3CB43C" />}
-							onPress={() =>
-								openInAppBrowser('https://www.carrismetropolitana.pt/cards')}
-						/>
+			<Section heading="Editar e ordenar favoritos" subheading="Organizar os cartões como quer que aparecçam na página inicial. Altere a ordem deslizando no ícone" />
 
-						<FullWidthList.Item
-							bottomText="Disponível em breve"
-							leadingIcon={<IconBellRinging color="#0C807E" size={32} />}
-							title="Notificações Inteligentes"
-							trailingIcon={<IconCirclePlusFilled color="#3CB43C" />}
-							onPress={() =>
-								openInAppBrowser('https://www.carrismetropolitana.pt/helpdesks')}
-							disabled
-						/>
-					</FullWidthList.Section>
-				</FullWidthList> */}
+			<DragableFlatList
+				data={favorites}
+				keyExtractor={() => ''}
+				renderItem={({ item }) => <Item data={item.data} />}
+				showsVerticalScrollIndicator={false}
+			/>
 
-			</ScrollView>
+			<View style={profileScreenStyles.addFavoritesSection}>
+				<Section heading="Adicionar favoritos" subheading="Escolha um tipo de cartão para adicionar à página principal." />
+				<TouchableOpacity onPress={() => openInAppBrowser('https://www.carrismetropolitana.pt/tickets')}>
+					<ListItem>
+						<IconBusStop color="#FF6900" size={24} />
+						<ListItem.Content>
+							<ListItem.Title style={profileScreenStyles.listTitle}>Paragem Favorita</ListItem.Title>
+						</ListItem.Content>
+						<IconCirclePlusFilled color="#3CB43C" />
+					</ListItem>
+				</TouchableOpacity>
+
+				<TouchableOpacity onPress={() => openInAppBrowser('https://www.carrismetropolitana.pt/tickets')}>
+					<ListItem>
+						<IconArrowLoopRight color="#C61D23" size={24} />
+						<ListItem.Content>
+							<ListItem.Title style={profileScreenStyles.listTitle}>Linha Favorita</ListItem.Title>
+						</ListItem.Content>
+						<IconCirclePlusFilled color="#3CB43C" />
+					</ListItem>
+				</TouchableOpacity>
+
+				<TouchableOpacity onPress={() => openInAppBrowser('https://www.carrismetropolitana.pt/tickets')}>
+					<ListItem disabledStyle={{ opacity: 0.5 }} disabled>
+						<IconBellRinging color="#0C807E" size={24} />
+						<ListItem.Content>
+							<ListItem.Title style={profileScreenStyles.listTitle}>Notificações Inteligentes</ListItem.Title>
+							<ListItem.Subtitle>Disponivel em breve</ListItem.Subtitle>
+						</ListItem.Content>
+						<IconCirclePlusFilled color="#3CB43C" />
+					</ListItem>
+				</TouchableOpacity>
+			</View>
 		</Surface>
 	);
 

@@ -60,51 +60,51 @@ export const theming = {
 	colorRealtime75: 'rgb(0 215 50 / 75%)',
 
 	// SIZE / WIDTH
-	sizeMaxWidthText: '700px',
-	sizeMaxWidthViewport: '1200px',
+	sizeMaxWidthText: '700',
+	sizeMaxWidthViewport: '1200',
 
 	// SIZE / HEIGHT
-	sizeHeightHeader: '71px',
+	sizeHeightHeader: '71',
 
 	// SIZE / SPACING
-	sizeSpacing10: '10px',
-	sizeSpacing15: '15px',
-	sizeSpacing20: '20px',
-	sizeSpacing25: '25px',
-	sizeSpacing30: '30px',
-	sizeSpacing40: '40px',
-	sizeSpacing5: '5px',
-	sizeSpacing60: '60px',
+	sizeSpacing10: '10',
+	sizeSpacing15: '15',
+	sizeSpacing20: '20',
+	sizeSpacing25: '25',
+	sizeSpacing30: '30',
+	sizeSpacing40: '40',
+	sizeSpacing5: '5',
+	sizeSpacing60: '60',
 
 	// FONT
-	fontWeightBold: 700, // SemiBold
-	fontWeightExtrabold: 800, // ExtraBold
-	fontWeightMedium: 400, // Medium
-	fontWeightSemibold: 600, // SemiBold
+	fontWeightBold: '700', // SemiBold
+	fontWeightExtrabold: '800', // ExtraBold
+	fontWeightMedium: '400', // Medium
+	fontWeightSemibold: '600', // SemiBold
 
 	// FONT / HEADING
-	fontSizeHeading: '26px',
-	fontWeightHeading: 700, // Bold
+	fontSizeHeading: 26,
+	fontWeightHeading: '700', // Bold
 
 	// FONT / TITLE
-	fontSizeTitle: '20px',
-	fontWeightTitle: 600, // SemiBold
+	fontSizeTitle: 20,
+	fontWeightTitle: '600', // SemiBold
 
 	// FONT / SUBTITLE
-	fontSizeSubtitle: '18px',
-	fontWeightSubtitle: 600, // SemiBold
+	fontSizeSubtitle: 18,
+	fontWeightSubtitle: '600', // SemiBold
 
 	// FONT / NAV
-	fontSizeNav: '16px',
-	fontWeightNav: 600, // SemiBold
+	fontSizeNav: 16,
+	fontWeightNav: '600', // SemiBold
 
 	// FONT / TEXT
-	fontSizeText: '14px',
-	fontWeightText: 500, // Medium
+	fontSizeText: 14,
+	fontWeightText: '500', // Medium
 
 	// FONT / MUTED
-	fontSizeMuted: '12px',
-	fontWeightMuted: 500, // Medium
+	fontSizeMuted: 12,
+	fontWeightMuted: '500', // Medium
 
 	// FONT / MONOSPACE
 	fontFamilyMonospace: `'Menlo', monospace`,
@@ -124,13 +124,13 @@ export const theming = {
 	colorSocialWhatsapp: '#128C7E',
 
 	// BOX-SHADOW
-	boxShadowLg: '0 0 50px 0 rgba(0, 0, 0, 5)',
-	boxShadowMd: '0 0 50px 0 red',
+	boxShadowLg: '0 0 50 0 rgba(0, 0, 0, 5)',
+	boxShadowMd: '0 0 50 0 red',
 
 	// BORDER-RADIUS
-	borderRadiusLg: '18px',
-	borderRadiusMd: '10px',
-	borderRadiusSm: '6px',
-	borderRadiusXl: '30px',
-	borderRadiusXs: '3px',
+	borderRadiusLg: 18,
+	borderRadiusMd: 10,
+	borderRadiusSm: 6,
+	borderRadiusXl: 30,
+	borderRadiusXs: 3,
 };

@@ -1,4 +1,3 @@
-import { color } from '@rneui/base';
 import { createTheme } from '@rneui/themed';
 
 import { theming } from './Variables';
@@ -8,6 +7,9 @@ const lightThemeDefinition = {
 		Button: {
 			buttonStyle: {
 				backgroundColor: theming.colorSystemBackgroundLight200,
+				borderColor: theming.colorSystemBorder200,
+				borderWidth: 1,
+				padding: 20,
 			},
 			titleStyle: {
 				color: theming.colorSystemText200,
@@ -17,6 +19,7 @@ const lightThemeDefinition = {
 			containerStyle: {
 				backgroundColor: theming.colorPrimaryWhite,
 				borderColor: theming.colorSystemBorder100,
+				borderWidth: 1,
 			},
 		},
 	},
@@ -32,8 +35,10 @@ const lightThemeDefinition = {
 const darkThemeDefinition = {
 	components: {
 		Button: {
-			buttonStyle: {
+			containerStyle: {
 				backgroundColor: theming.colorSystemBackgroundDark200,
+				borderColor: theming.colorSystemBorderDark200,
+				borderWidth: 1,
 			},
 			titleStyle: {
 				color: theming.colorSystemText200,
@@ -43,6 +48,7 @@ const darkThemeDefinition = {
 			containerStyle: {
 				backgroundColor: theming.colorSystemBackgroundDark100,
 				borderColor: theming.colorSystemBorderDark200,
+				borderWidth: 1,
 			},
 		},
 	},

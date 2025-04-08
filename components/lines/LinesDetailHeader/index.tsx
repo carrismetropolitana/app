@@ -37,10 +37,11 @@ export function LinesDetailHeader() {
 	const handleToggleFavorite = async () => {
 		if (!linesDetailContext.data.line) return;
 		try {
+			console.log(linesDetailContext.data.routes[0].pattern_ids);
 			await profileContext.actions.toggleFavoriteLine(linesDetailContext.data.line.id);
 		}
 		catch (error) {
-			alert(t('toggle_favorite_error', { error: error.message }));
+			alert(error.message);
 		}
 	};
 

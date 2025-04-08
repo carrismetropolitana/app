@@ -26,8 +26,6 @@ export function FavoriteToggle({ color, isActive, onToggle }: Props) {
 	//
 	// A. Setup variables
 
-	const t = useTranslation('translation', { keyPrefix: 'common.FavoriteToggle' });
-
 	const profileContext = useProfileContext();
 	const consentContext = useConsentContext();
 
@@ -53,13 +51,6 @@ export function FavoriteToggle({ color, isActive, onToggle }: Props) {
 		return (
 			<TouchableOpacity onPress={handleRequestConsent} style={favoriteToggleStyles.container}>
 				<View style={[favoriteToggleStyles.container, favoriteToggleStyles.disabled]}>
-					{/* <Tooltip
-					events={{ focus: true, hover: true, touch: true }}
-					label={t('disabled')}
-					withArrow
-				>
-
-				</Tooltip> */}
 					<IconHeartX />
 				</View>
 			</TouchableOpacity>

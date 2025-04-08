@@ -16,6 +16,10 @@ export const styles = () => {
 	//
 	// B. Return styles
 	return StyleSheet.create({
+
+		addFavoritesSection: {
+			backgroundColor: themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200,
+		},
 		avatarContainer: {
 			borderColor: '#3D85C6',
 			borderWidth: 8,
@@ -24,6 +28,12 @@ export const styles = () => {
 			flex: 1,
 			fontFamily: 'Inter',
 		},
+		/* LIST TITLE */
+		listTitle: {
+			fontSize: theming.fontSizeNav,
+			fontWeight: theming.fontWeightNav as '600',
+		},
+		/* * */
 		safeArea: {
 			backgroundColor: themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200,
 			flex: 1,

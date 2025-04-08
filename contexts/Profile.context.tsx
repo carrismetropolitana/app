@@ -240,7 +240,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		const index = currentFavorites.findIndex(
 			widget => widget.data && 'pattern_id' in widget.data && widget.data.pattern_id === pattern_id,
 		);
-
+		console.log('Toggling favorite line:', index);
 		let updatedFavorites: AccountWidget[];
 		if (index !== -1) {
 			updatedFavorites = currentFavorites.filter(
