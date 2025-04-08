@@ -16,7 +16,7 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 		<Overlay isVisible={isVisible} onBackdropPress={onBackdropPress}>
 			<SafeAreaView>
 				<View style={styles.container}>
-					<Section heading="Paragem Favorita" subheading="Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas." />
+					<Section heading="Linha Favorita" subheading="Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas." />
 					<View style={{ marginBottom: 20, padding: 0, width: '100%' }}>
 						<TouchableOpacity>
 							<ListItem>
@@ -29,7 +29,7 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 						</TouchableOpacity>
 					</View>
 
-					<Section heading="1. Seleciona Paragem " subheading="Escolha uma paragem para visualizar na página principal">
+					<Section heading="1. Seleciona Linha " subheading="Escolha uma linha para visualizar na página principal">
 						<View>
 							<Text>HELLLO</Text>
 						</View>
