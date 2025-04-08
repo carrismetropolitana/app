@@ -2,6 +2,20 @@ import { theming } from '@/theme/Variables';
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+	arrow: {
+		color: '#3D85C6',
+		fontSize: 20,
+		marginRight: 6,
+	},
+	backButton: {
+		alignItems: 'center',
+		flexDirection: 'row',
+	},
+	backText: {
+		color: '#3D85C6',
+		fontSize: 16,
+		fontWeight: '500',
+	},
 	container: {
 		flex: 1,
 		height: '100%',
@@ -19,11 +33,17 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		fontWeight: '600',
 	},
+	header: {
+		alignItems: 'center',
+		flexDirection: 'row',
+		paddingHorizontal: 16,
+	},
 	listTitle: {
 		color: theming.colorSystemText200,
 		fontSize: 16,
 		fontWeight: '600',
 	},
+
 	saveButton: {
 		backgroundColor: theming.colorBrand,
 		borderRadius: 30,
@@ -31,12 +51,14 @@ const styles = StyleSheet.create({
 		marginBottom: 30,
 		width: '100%',
 	},
+
 	saveButtonText: {
 		borderWidth: 0,
 		color: '#000000',
 		fontSize: 16,
 		fontWeight: '600',
 	},
+
 	videoContainer: {
 		marginBottom: 20,
 		padding: 0,
