@@ -12,10 +12,16 @@ import {
 	IconGripVertical,
 } from '@tabler/icons-react-native';
 import * as WebBrowser from 'expo-web-browser';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 /* * */
+
+import AddFavoriteLine from '@/app/(modal)/AddFavoriteLine';
+import AddFavoriteStop from '@/app/(modal)/AddFavoriteStop';
+import { useThemeContext } from '@/contexts/Theme.context';
+import { useNavigation } from 'expo-router';
+import { ScrollView } from 'react-native-gesture-handler';
 
 import { styles as useStyles } from './styles';
 
@@ -60,7 +66,8 @@ export default function ProfileScreen() {
 
 	//
 	// A. Setup variables
-
+	const navigation = useNavigation();
+	const themeContext = useThemeContext();
 	const styles = useStyles();
 	const profileContext = useProfileContext();
 	const { favorite_lines, favorite_stops, profile } = profileContext.data;
@@ -69,9 +76,22 @@ export default function ProfileScreen() {
 		...(favorite_lines || []),
 		...(favorite_stops || []),
 	];
+	const [modalFavoriteLineVisible, setModalFavoriteLineVisible] = useState(false);
+	const [modalFavoriteStopVisible, setModalFavoriteStopVisible] = useState(false);
 
 	//
-	// B. Render Components
+
+	// B. Fetch data
+	useEffect(() => {
+		navigation.setOptions({
+			headerStyle: {
+				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
+			},
+		});
+	}, [navigation, themeContext.theme.mode]);
+	//
+
+	// C. Render Components
 
 	const renderFavoriteItem = ({ drag, isActive, item }: any) => (
 		<TouchableOpacity disabled={isActive} onLongPress={drag}>
@@ -86,7 +106,7 @@ export default function ProfileScreen() {
 				<ListItem.Title>
 					{data.type === 'lines' ? data.pattern_id : data.stop_id}
 				</ListItem.Title>
-				<ListItem.Subtitle>Paragem Favorita</ListItem.Subtitle>
+				<ListItem.Subtitle>{data.type === 'lines' ? 'Linha Favorita' : 'Paragem Favorita'}</ListItem.Subtitle>
 			</ListItem.Content>
 			<ListItem.Chevron />
 		</ListItem>
@@ -94,7 +114,7 @@ export default function ProfileScreen() {
 
 	return (
 		<Surface>
-			<View>
+			<ScrollView style={styles.container}>
 				<View style={styles.userSection}>
 					<Avatar
 						containerStyle={styles.avatarContainer}
@@ -116,9 +136,11 @@ export default function ProfileScreen() {
 					subheading="Organizar os cartões como quer que aparecçam na página inicial. Altere a ordem deslizando no ícone"
 				/>
 
+				{/* TODO: Implementar a função de drag and drop (it reorders but dosnt save the position) */}
 				<DraggableFlatList
 					data={favorites}
 					renderItem={renderFavoriteItem}
+					scrollEnabled={false}
 					showsVerticalScrollIndicator={false}
 					keyExtractor={(item, index) =>
 						`${item.settings.display_order ?? 'no_order'}-${index}`}
@@ -131,7 +153,7 @@ export default function ProfileScreen() {
 						subheading="Escolha um tipo de cartão para adicionar à página principal."
 					/>
 
-					<TouchableOpacity onPress={() => openInAppBrowser('https://www.carrismetropolitana.pt/tickets')}>
+					<TouchableOpacity onPress={() => setModalFavoriteLineVisible(!modalFavoriteLineVisible)}>
 						<ListItem>
 							<IconBusStop color="#FF6900" size={24} />
 							<ListItem.Content>
@@ -141,7 +163,7 @@ export default function ProfileScreen() {
 						</ListItem>
 					</TouchableOpacity>
 
-					<TouchableOpacity onPress={() => openInAppBrowser('https://www.carrismetropolitana.pt/tickets')}>
+					<TouchableOpacity onPress={() => setModalFavoriteStopVisible(!modalFavoriteStopVisible)}>
 						<ListItem>
 							<IconArrowLoopRight color="#C61D23" size={24} />
 							<ListItem.Content>
@@ -162,7 +184,11 @@ export default function ProfileScreen() {
 						</ListItem>
 					</TouchableOpacity>
 				</View>
-			</View>
+			</ScrollView>
+
+			<AddFavoriteLine isVisible={modalFavoriteLineVisible} onBackdropPress={() => setModalFavoriteLineVisible(false)} />
+			<AddFavoriteStop isVisible={modalFavoriteStopVisible} onBackdropPress={() => setModalFavoriteStopVisible(false)} />
+
 		</Surface>
 	);
 

@@ -12,6 +12,9 @@ export const styles = () => {
 	const backgroundColor = isLight
 		? theming.colorSystemBackgroundLight200
 		: theming.colorSystemBackgroundDark200;
+	const fontColor = isLight
+		? theming.colorSystemText100
+		: theming.colorSystemText300;
 
 	return StyleSheet.create({
 		addFavoritesSection: {
@@ -22,8 +25,8 @@ export const styles = () => {
 			borderWidth: 8,
 		},
 		container: {
+			backgroundColor,
 			flex: 1,
-			fontFamily: 'Inter',
 		},
 		listTitle: {
 			fontSize: theming.fontSizeNav,
@@ -36,7 +39,7 @@ export const styles = () => {
 			paddingVertical: 24,
 		},
 		userFullNameText: {
-			color: theming.colorSystemText100,
+			color: fontColor,
 			fontSize: 26,
 			fontWeight: '700',
 		},
@@ -47,6 +50,7 @@ export const styles = () => {
 			paddingTop: 36,
 		},
 		userTypeText: {
+			color: '#3D85C6',
 			fontSize: 14,
 			fontWeight: '700',
 		},
