@@ -26,23 +26,10 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { styles as useStyles } from './styles';
 
 /* * */
-
-/* * */
-async function openInAppBrowser(url: string) {
-	await WebBrowser.openBrowserAsync(url, {
-		controlsColor: theming.colorBrand,
-		presentationStyle: WebBrowser.WebBrowserPresentationStyle.FORM_SHEET,
-	});
-}
-/* * */
-
-/* * */
 interface FavoriteDataLines {
 	pattern_id: string
 	type: 'lines'
 }
-/* * */
-
 /* * */
 interface FavoriteDataStops {
 	pattern_ids: string[]
@@ -51,13 +38,12 @@ interface FavoriteDataStops {
 }
 /* * */
 
-/* * */
 type FavoriteData = FavoriteDataLines | FavoriteDataStops;
 /* * */
 
-/* * */
 interface FavoriteItemProps {
 	data: FavoriteData
+	drag: () => void
 }
 /* * */
 
@@ -94,14 +80,16 @@ export default function ProfileScreen() {
 	// C. Render Components
 
 	const renderFavoriteItem = ({ drag, isActive, item }: any) => (
-		<TouchableOpacity disabled={isActive} onLongPress={drag}>
-			<FavoriteItem data={item.data} />
+		<TouchableOpacity disabled={isActive}>
+			<FavoriteItem data={item.data} drag={drag} />
 		</TouchableOpacity>
 	);
 
-	const FavoriteItem = ({ data }: FavoriteItemProps) => (
+	const FavoriteItem = ({ data, drag }: FavoriteItemProps) => (
 		<ListItem>
-			<IconGripVertical color="#9696A0" size={24} />
+			<TouchableOpacity onPressIn={drag}>
+				<IconGripVertical color="#9696A0" size={28} />
+			</TouchableOpacity>
 			<ListItem.Content>
 				<ListItem.Title>
 					{data.type === 'lines' ? data.pattern_id : data.stop_id}
