@@ -27,7 +27,7 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 	//
 
 	// B. Handle Actions
-	console.log(linesContext.data.lines);
+
 	//
 
 	// C. Render Components

@@ -1,7 +1,6 @@
 import { Account, AccountWidget, CreateAccountDto } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Dialog, Text } from '@rneui/themed';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { ReactNode } from 'react';
 import { Platform } from 'react-native';
@@ -15,6 +14,7 @@ const LOCAL_STORAGE_KEYS = {
 	favorite_stops: 'profile|favorite_stops',
 	first_name: 'profile|first_name',
 	last_name: 'profile|last_name',
+	persona_image: 'profile|persona_image',
 	profile: 'profile',
 	token: 'token',
 	user_type: 'profile|user_type',
@@ -23,6 +23,7 @@ const LOCAL_STORAGE_KEYS = {
 interface ProfileContextState {
 	actions: {
 		checkProfile: (profile: Account) => Promise<void>
+		fetchPersona: () => Promise<void>
 		setNewEmptyProfile: (profile: CreateAccountDto) => Promise<void>
 		toggleFavoriteLine: (lineId: string) => Promise<void>
 		toggleFavoriteStop: (stopId: string) => Promise<void>
@@ -36,6 +37,7 @@ interface ProfileContextState {
 		cloud_profile: Account | null
 		favorite_lines: AccountWidget[] | null
 		favorite_stops: AccountWidget[] | null
+		persona_image: null | string
 		profile: Account | null
 	}
 	flags: {
@@ -72,6 +74,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const [dataIdProfileState, setDataIdProfileState] = useState<'' | string>('');
 	const [dataApiTokenState, setAPIToken] = useState<null | string>(null);
 	const [dataIsSyncingState, setDataIsSyncingState] = useState(false);
+	const [dataPersonaImageState, setDataPersonaImageState] = useState<null | string>(null);
 
 	const [flagIsLoadingState, setFlagIsLoadingState] = useState<ProfileContextState['flags']['is_loading']>(true);
 
@@ -130,11 +133,16 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		if (dataProfileState) {
 			localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(dataProfileState) || '');
 		}
+
+		if (dataPersonaImageState) {
+			localStorage.setItem(LOCAL_STORAGE_KEYS.persona_image, JSON.stringify(dataPersonaImageState) || '');
+		}
 	}, [
 		dataFavoriteLinesState,
 		dataFavoriteStopsState,
 		dataApiTokenState,
 		dataProfileState,
+		dataPersonaImageState,
 		consentContext.data.enabled_functional,
 	]);
 
@@ -149,6 +157,23 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			localStorage.setItem(LOCAL_STORAGE_KEYS.cloud_profile, JSON.stringify(fetchedProfile));
 			setDataCloudProfileState(fetchedProfile);
 			// setDataProfileState(fetchedProfile);
+		}
+	};
+
+	const fetchPersona = async () => {
+		try {
+			const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/persona/`);
+			const image = await response.json();
+
+			if (image.url) {
+				setDataPersonaImageState(image.url);
+			}
+			else {
+				console.error('Error: No URL property in response', image);
+			}
+		}
+		catch (error) {
+			console.error('Error in fetchPersona:', error);
 		}
 	};
 
@@ -331,6 +356,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const contextValue: ProfileContextState = {
 		actions: {
 			checkProfile,
+			fetchPersona,
 			setNewEmptyProfile,
 			toggleFavoriteLine,
 			toggleFavoriteStop,
@@ -344,6 +370,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			cloud_profile: dataCloudProfileState,
 			favorite_lines: dataFavoriteLinesState,
 			favorite_stops: dataFavoriteStopsState,
+			persona_image: dataPersonaImageState,
 			profile: dataProfileState,
 		},
 		flags: {

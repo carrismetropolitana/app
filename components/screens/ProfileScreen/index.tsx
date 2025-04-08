@@ -4,9 +4,10 @@ import { Surface } from '@/components/common/layout/Surface';
 import IconCirclePlusFilled from '@/components/icons/IconCirclePlusFilled';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { theming } from '@/theme/Variables';
-import { Avatar, ListItem, Text } from '@rneui/themed';
+import { Avatar, Button, ListItem, Text } from '@rneui/themed';
 import {
 	IconArrowLoopRight,
+	IconArrowsRandom,
 	IconBellRinging,
 	IconBusStop,
 	IconGripVertical,
@@ -20,6 +21,7 @@ import DraggableFlatList from 'react-native-draggable-flatlist';
 import AddFavoriteLine from '@/app/(modal)/AddFavoriteLine';
 import AddFavoriteStop from '@/app/(modal)/AddFavoriteStop';
 import { useThemeContext } from '@/contexts/Theme.context';
+import { Routes } from '@/utils/routes';
 import { useNavigation } from 'expo-router';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -75,6 +77,8 @@ export default function ProfileScreen() {
 			},
 		});
 	}, [navigation, themeContext.theme.mode]);
+
+	console.log(' =====>>>>> ', profileContext.data.persona_image);
 	//
 
 	// C. Render Components
@@ -107,10 +111,12 @@ export default function ProfileScreen() {
 					<Avatar
 						containerStyle={styles.avatarContainer}
 						size={200}
-						// eslint-disable-next-line @typescript-eslint/no-require-imports
-						source={require('@/assets/avatars/base-1|crista|p_fazer_bigode|piercing_nariz|alargador_xl|tattoo_1|manga_cava.png')}
+						source={{ uri: `${Routes.DEV_API_ACCOUNTS}/persona/${encodeURIComponent(profileContext.data.persona_image ?? '')}` }}
 						rounded
 					/>
+					<Button onPress={() => profileContext.actions.fetchPersona()}>
+						<IconArrowsRandom size={24} />
+					</Button>
 					<View style={styles.userDetails}>
 						<Text style={styles.userFullNameText}>{fullName}</Text>
 						<Text style={styles.userTypeText}>

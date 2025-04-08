@@ -6,7 +6,7 @@ import { useThemeContext } from '@/contexts/Theme.context';
 import { UtilizationTypeSchema } from '@/types/account.types';
 import { Picker } from '@react-native-picker/picker';
 import { Button, Dialog, Text } from '@rneui/themed';
-import { IconReload } from '@tabler/icons-react-native';
+import { IconArrowsRandom, IconReload } from '@tabler/icons-react-native';
 import { Link } from 'expo-router';
 import { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -34,7 +34,6 @@ export default function HomeScreen() {
 					<Link href="/profile"><Text>Open profile</Text></Link>
 
 					<Button onPress={profileContext.actions.toogleAccountSync} style={{ borderColor: 'grey', borderRadius: 5, borderWidth: 3, marginBottom: 10, marginTop: 10 }} title="SYNC ACCOUNTS" />
-
 					{/* <Link href="/cookies"><Text>Open Cooks</Text></Link> */}
 					{/* <Picker
 						selectedValue={selectedUserType}
