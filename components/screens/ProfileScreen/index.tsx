@@ -18,7 +18,6 @@ import DraggableFlatList from 'react-native-draggable-flatlist';
 
 import AddFavoriteLine from '@/app/(modal)/AddFavoriteLine';
 import AddFavoriteStop from '@/app/(modal)/AddFavoriteStop';
-import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { Routes } from '@/utils/routes';
 import { useNavigation } from 'expo-router';

@@ -2,12 +2,10 @@ import LinesListChooserModal from '@/app/(modal)/LinesListChooserModal';
 import { Section } from '@/components/common/layout/Section';
 import { LineBadge } from '@/components/lines/LineBadge';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
-import { Routes } from '@/utils/routes';
 import { Button, ListItem, Overlay, Text } from '@rneui/themed';
 import { IconArrowRight, IconPlayerPlayFilled, IconSearch } from '@tabler/icons-react-native';
 import { useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import styles from './styles';

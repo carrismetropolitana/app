@@ -8,7 +8,6 @@ import { Platform } from 'react-native';
 import { Line } from 'react-native-svg';
 
 import { useConsentContext } from './Consent.context';
-import { useLinesDetailContext } from './LinesDetail.context';
 
 const LOCAL_STORAGE_KEYS = {
 	cloud_profile: 'cloud_profile',
