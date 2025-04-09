@@ -2,19 +2,20 @@
 
 import { NoDatabLabel } from '@/components/common/layout/NoDataLabel';
 import { LineDisplay } from '@/components/lines/LineDisplay';
-import { useThemeContext } from '@/contexts/Theme.context';
 import { ListItem } from '@rneui/themed';
 import { Link } from 'expo-router';
-import { VirtualizedList } from 'react-native';
+import { TouchableOpacity, VirtualizedList } from 'react-native';
 
 /* * */
 interface Props {
 	data: unknown[]
-	items: number
+	icon?: React.ReactNode
+	itemClick?: (item) => void
+	items?: number
 	size?: 'lg' | 'md'
 }
 /* * */
-export function VirtualizedListingLines({ data, items, size }: Props) {
+export function VirtualizedListingLines({ data, icon, itemClick, items, size }: Props) {
 	//
 
 	//
@@ -28,11 +29,19 @@ export function VirtualizedListingLines({ data, items, size }: Props) {
 	const renderItem = ({ item }) => (
 		<ListItem bottomDivider topDivider>
 			<ListItem.Content>
-				<Link href={`/line/${item.id}`}>
-					<LineDisplay lineData={item} size={size} />
-				</Link>
+				{itemClick
+					? (
+						<TouchableOpacity onPress={() => itemClick(item)}>
+							<LineDisplay lineData={item} size={size} />
+						</TouchableOpacity>
+					)
+					: (
+						<Link href={`/line/${item.id}`}>
+							<LineDisplay lineData={item} size={size} />
+						</Link>
+					)}
 			</ListItem.Content>
-			<ListItem.Chevron />
+			{icon ? icon : <ListItem.Chevron /> }
 		</ListItem>
 
 	);
@@ -45,6 +54,7 @@ export function VirtualizedListingLines({ data, items, size }: Props) {
 			initialNumToRender={items}
 			keyExtractor={item => item.id}
 			renderItem={renderItem}
+			showsVerticalScrollIndicator={false}
 			ListEmptyComponent={(
 				<NoDatabLabel />
 			)}

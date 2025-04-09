@@ -5,6 +5,7 @@ import type { DemandMetricsByLine, ServiceMetrics } from '@carrismetropolitana/a
 import type { Line, Route } from '@carrismetropolitana/api-types/network';
 
 import { Routes } from '@/utils/routes';
+import { Municipality } from '@carrismetropolitana/api-types/locations';
 import { createContext, useContext, useMemo } from 'react';
 import useSWR from 'swr';
 
@@ -20,6 +21,7 @@ interface LinesContextState {
 	data: {
 		demand_metrics: DemandMetricsByLine[]
 		lines: Line[]
+		municipalities: Municipality[]
 		routes: Route[]
 		service_metrics: ServiceMetrics[]
 	}
@@ -50,6 +52,7 @@ export const LinesContextProvider = ({ children }) => {
 
 	const { data: allLinesData, isLoading: allLinesLoading } = useSWR<Line[], Error>(`${Routes.API}/lines`);
 	const { data: allRoutesData, isLoading: allRoutesLoading } = useSWR<Route[], Error>(`${Routes.API}/routes`);
+	const { data: allMuniciplalitiesData, isLoading: allMunicipalitiesLoading } = useSWR<Municipality[], Error>(`${Routes.API}/locations/municipalities`);
 	const { data: demandByLineData, isLoading: demandByLineDataLoading } = useSWR<DemandMetricsByLine[], Error>(`${Routes.API}/metrics/demand/by_line`, { refreshInterval: 300000 });
 	const { data: serviceMetricsData, isLoading: serviceMetricsLoading } = useSWR<CachedResource<ServiceMetrics[]>, Error>(`${Routes.API}/metrics/service/all`);
 
@@ -85,11 +88,12 @@ export const LinesContextProvider = ({ children }) => {
 		data: {
 			demand_metrics: demandByLineData || [],
 			lines: allLinesData || [],
+			municipalities: allMuniciplalitiesData || [],
 			routes: allRoutesData || [],
 			service_metrics: serviceMetricsData?.data || [],
 		},
 		flags: {
-			is_loading: allLinesLoading || allRoutesLoading || demandByLineDataLoading || serviceMetricsLoading,
+			is_loading: allLinesLoading || allRoutesLoading || demandByLineDataLoading || serviceMetricsLoading || allMunicipalitiesLoading,
 		},
 	}), [
 		allLinesData,

@@ -1,5 +1,6 @@
+import LinesListChooserModal from '@/app/(modal)/LinesListChooserModal';
 import { Section } from '@/components/common/layout/Section';
-import { useLinesContext } from '@/contexts/Lines.context';
+import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { Button, ListItem, Overlay, Text } from '@rneui/themed';
 import { IconPlayerPlayFilled, IconSearch } from '@tabler/icons-react-native';
 import { useState } from 'react';
@@ -19,18 +20,11 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 	//
 	// A. Setup Variables
 
-	const linesContext = useLinesContext();
-	const [selectedLine, setSelectedLine] = useState('');
-	const [patterns, setPatterns] = useState([]);
-	const [selectedPatterns, setSelectedPatterns] = useState([]);
+	const [lineChooserVissibility, setLineChooseVisibility] = useState(false);
+	const linesDetailContext = useLinesDetailContext();
 
 	//
-
-	// B. Handle Actions
-
-	//
-
-	// C. Render Components
+	// B. Render Components
 
 	return (
 		<Overlay animationType="slide" isVisible={isVisible} onBackdropPress={onBackdropPress}>
@@ -58,7 +52,7 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 
 					<Section heading="1. Seleciona Linha " subheading="Escolha uma linha para visualizar na página principal" />
 					<View>
-						<ListItem>
+						<ListItem onPress={() => setLineChooseVisibility(true)}>
 							<IconSearch color="#9696A0" size={24} />
 							<ListItem.Content>
 								<ListItem.Title style={styles.listTitle}>Alterar Linha Selecionada</ListItem.Title>
@@ -69,7 +63,7 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 
 					<Section heading="2. Escolher destinos " subheading="Pode escolher apenas os destinos que lhe interessam a partir desta paragem. Personalize o seu painel de informação único.">
 						<View>
-							<Text>HELLLO</Text>
+							{linesDetailContext.data.lineId && <Text>{linesDetailContext.data.line?.pattern_ids}</Text>}
 						</View>
 					</Section>
 
@@ -82,7 +76,7 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 					<Button buttonStyle={styles.saveButton} onPress={onBackdropPress} title="Guardar" titleStyle={styles.saveButtonText} />
 					<Button buttonStyle={styles.deleteButton} onPress={onBackdropPress} title="Eliminar" titleStyle={styles.deleteButtonText} />
 				</View>
-
+				<LinesListChooserModal isVisible={lineChooserVissibility} onBackdropPress={() => setLineChooseVisibility(!lineChooserVissibility)} />
 			</SafeAreaView>
 		</Overlay>
 	);

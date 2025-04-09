@@ -1,11 +1,14 @@
 import { Account, AccountWidget, CreateAccountDto } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
+import { Pattern } from '@carrismetropolitana/api-types/network';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { ReactNode } from 'react';
 import { Platform } from 'react-native';
+import { Line } from 'react-native-svg';
 
 import { useConsentContext } from './Consent.context';
+import { useLinesDetailContext } from './LinesDetail.context';
 
 const LOCAL_STORAGE_KEYS = {
 	cloud_profile: 'cloud_profile',
@@ -25,6 +28,9 @@ interface ProfileContextState {
 		checkProfile: (profile: Account) => Promise<void>
 		fetchPersona: () => Promise<void>
 		setNewEmptyProfile: (profile: CreateAccountDto) => Promise<void>
+		setSelectedLine: (line: string) => void
+		setSelectedPatternId: (patternId: string) => void
+		setSelectedPatternIds: (patternIds: string[]) => void
 		toggleFavoriteLine: (lineId: string) => Promise<void>
 		toggleFavoriteStop: (stopId: string) => Promise<void>
 		toogleAccountSync: () => void
@@ -39,6 +45,9 @@ interface ProfileContextState {
 		favorite_stops: AccountWidget[] | null
 		persona_image: null | string
 		profile: Account | null
+		selected_line: Line | string
+		selected_line_patterns: Pattern[]
+		selected_pattern_id: null | string
 	}
 	flags: {
 		is_enabled: boolean
@@ -70,11 +79,13 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const [dataFavoriteStopsState, setDataFavoriteStopsState] = useState<AccountWidget[] | null>(null);
 	const [dataProfileState, setDataProfileState] = useState<Account | null>(null);
 	const [dataCloudProfileState, setDataCloudProfileState] = useState<Account | null>(null);
-
 	const [dataIdProfileState, setDataIdProfileState] = useState<'' | string>('');
 	const [dataApiTokenState, setAPIToken] = useState<null | string>(null);
 	const [dataIsSyncingState, setDataIsSyncingState] = useState(false);
 	const [dataPersonaImageState, setDataPersonaImageState] = useState<null | string>(null);
+	const [dataSelectedLineState, setSelectedLineState] = useState<Line | string>('');
+	const [dataSelectedLinePatternIdState, setSelectedPatternIdState] = useState<null | string>(null);
+	const [dataSelectedLinePatternsState, setSelectedLinePatternsState] = useState<Pattern[]>([]);
 
 	const [flagIsLoadingState, setFlagIsLoadingState] = useState<ProfileContextState['flags']['is_loading']>(true);
 
@@ -94,10 +105,16 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				setFlagIsLoadingState(true);
 				const [
 					storedProfile,
+					storedPersona,
+					storedToken,
 				] = await Promise.all([
 					localStorage.getItem(LOCAL_STORAGE_KEYS.profile),
+					localStorage.getItem(LOCAL_STORAGE_KEYS.persona_image),
+					localStorage.getItem(LOCAL_STORAGE_KEYS.token),
 				]);
 
+				setAPIToken(storedToken || null);
+				setDataPersonaImageState(storedPersona ? storedPersona : '');
 				setDataProfileState(storedProfile ? JSON.parse(storedProfile) : null);
 				checkProfile(storedProfile ? JSON.parse(storedProfile) : null);
 			}
@@ -108,6 +125,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				setFlagIsLoadingState(false);
 			}
 		};
+
+		fetchData();
 
 		const intervalId = setInterval(() => {
 			fetchData();
@@ -135,7 +154,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		}
 
 		if (dataPersonaImageState) {
-			localStorage.setItem(LOCAL_STORAGE_KEYS.persona_image, JSON.stringify(dataPersonaImageState) || '');
+			localStorage.setItem(LOCAL_STORAGE_KEYS.persona_image, dataPersonaImageState || '');
 		}
 	}, [
 		dataFavoriteLinesState,
@@ -282,6 +301,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		setDataFavoriteLinesState(updatedFavorites);
 	};
 
+	// TODO ADAPT THIS TO THE NEW FAVS
 	const toggleFavoriteStop = async (stopId: string) => {
 		if (!consentContext.data.enabled_functional) return;
 
@@ -352,15 +372,37 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		}
 	};
 
+	const setSelectedLine = (line: string) => {
+		if (!consentContext.data.enabled_functional) return;
+		setSelectedLineState(line);
+	};
+
+	const setSelectedPatternId = (patternId: string) => {
+		if (!consentContext.data.enabled_functional) return;
+		setSelectedPatternIdState(patternId);
+	};
+
+	const setSelectedPatternIds = (patternIds: string[]) => {
+		if (!consentContext.data.enabled_functional) return;
+		const patterns = patternIds.map(patternId => ({
+			id: patternId,
+			name: patternId,
+		}));
+	};
+
 	// E. Define context value
 	const contextValue: ProfileContextState = {
 		actions: {
 			checkProfile,
 			fetchPersona,
 			setNewEmptyProfile,
+			setSelectedLine,
+			setSelectedPatternId,
+			setSelectedPatternIds,
 			toggleFavoriteLine,
 			toggleFavoriteStop,
 			toogleAccountSync,
+
 		},
 		counters: {
 			favorite_lines: dataFavoriteLinesState ? dataFavoriteLinesState.length : 0,
@@ -372,6 +414,9 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			favorite_stops: dataFavoriteStopsState,
 			persona_image: dataPersonaImageState,
 			profile: dataProfileState,
+			selected_line: dataSelectedLineState,
+			selected_line_patterns: dataSelectedLinePatternsState,
+			selected_pattern_id: dataSelectedLinePatternIdState,
 		},
 		flags: {
 			is_enabled: consentContext.data.enabled_functional,

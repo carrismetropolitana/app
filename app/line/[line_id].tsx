@@ -28,7 +28,7 @@ export default function Page() {
 	}, [navigation, themeContext.theme.mode]);
 
 	return (
-		<LinesDetailContextProvider lineId={line_id}>
+		<LinesDetailContextProvider lineIdParams={line_id}>
 			<LinesDetail />
 		</LinesDetailContextProvider>
 	);

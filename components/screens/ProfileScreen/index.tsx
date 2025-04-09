@@ -3,7 +3,6 @@ import { Section } from '@/components/common/layout/Section';
 import { Surface } from '@/components/common/layout/Surface';
 import IconCirclePlusFilled from '@/components/icons/IconCirclePlusFilled';
 import { useProfileContext } from '@/contexts/Profile.context';
-import { theming } from '@/theme/Variables';
 import { Avatar, Button, ListItem, Text } from '@rneui/themed';
 import {
 	IconArrowLoopRight,
@@ -12,7 +11,6 @@ import {
 	IconBusStop,
 	IconGripVertical,
 } from '@tabler/icons-react-native';
-import * as WebBrowser from 'expo-web-browser';
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
@@ -20,6 +18,7 @@ import DraggableFlatList from 'react-native-draggable-flatlist';
 
 import AddFavoriteLine from '@/app/(modal)/AddFavoriteLine';
 import AddFavoriteStop from '@/app/(modal)/AddFavoriteStop';
+import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { Routes } from '@/utils/routes';
 import { useNavigation } from 'expo-router';
@@ -60,10 +59,7 @@ export default function ProfileScreen() {
 	const profileContext = useProfileContext();
 	const { favorite_lines, favorite_stops, profile } = profileContext.data;
 	const fullName = `${profile?.profile?.first_name ?? 'Bruno'} ${profile?.profile?.last_name ?? 'Castelo'}`;
-	const favorites = [
-		...(favorite_lines || []),
-		...(favorite_stops || []),
-	];
+	const favorites = [...(favorite_lines || []), ...(favorite_stops || [])];
 	const [modalFavoriteLineVisible, setModalFavoriteLineVisible] = useState(false);
 	const [modalFavoriteStopVisible, setModalFavoriteStopVisible] = useState(false);
 
@@ -78,7 +74,7 @@ export default function ProfileScreen() {
 		});
 	}, [navigation, themeContext.theme.mode]);
 
-	console.log(' =====>>>>> ', profileContext.data.persona_image);
+	// console.log(' =====>>>>> ', profileContext.data.persona_image);
 	//
 
 	// C. Render Components
@@ -117,6 +113,7 @@ export default function ProfileScreen() {
 					<Button onPress={() => profileContext.actions.fetchPersona()}>
 						<IconArrowsRandom size={24} />
 					</Button>
+
 					<View style={styles.userDetails}>
 						<Text style={styles.userFullNameText}>{fullName}</Text>
 						<Text style={styles.userTypeText}>
@@ -147,7 +144,7 @@ export default function ProfileScreen() {
 						subheading="Escolha um tipo de cartão para adicionar à página principal."
 					/>
 
-					<TouchableOpacity onPress={() => setModalFavoriteLineVisible(!modalFavoriteLineVisible)}>
+					<TouchableOpacity onPress={() => setModalFavoriteStopVisible(!modalFavoriteLineVisible)}>
 						<ListItem>
 							<IconBusStop color="#FF6900" size={24} />
 							<ListItem.Content>
@@ -157,7 +154,7 @@ export default function ProfileScreen() {
 						</ListItem>
 					</TouchableOpacity>
 
-					<TouchableOpacity onPress={() => setModalFavoriteStopVisible(!modalFavoriteStopVisible)}>
+					<TouchableOpacity onPress={() => setModalFavoriteLineVisible(!modalFavoriteStopVisible)}>
 						<ListItem>
 							<IconArrowLoopRight color="#C61D23" size={24} />
 							<ListItem.Content>

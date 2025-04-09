@@ -21,6 +21,7 @@ interface LinesDetailContextState {
 		setActivePattern: (patternGroupId: string) => void
 		setActiveWaypoint: (stopId: string, stopSequence: number,) => void
 		setHighlightedTripIds: (tripIds: string[]) => void
+		setLineId: (lineId: string) => void
 	}
 	data: {
 		active_alerts: SimplifiedAlert[] | undefined
@@ -31,6 +32,7 @@ interface LinesDetailContextState {
 		demand_metrics: DemandMetricsByLine | undefined
 		highlighted_trip_ids: null | string[]
 		line: Line | undefined
+		lineId: string | undefined
 		routes: Route[]
 		service_metrics: ServiceMetrics[]
 		valid_patterns: Pattern[] | undefined
@@ -47,6 +49,10 @@ interface LinesDetailContextState {
 	}
 }
 
+interface LinesDetailContextProviderProps {
+	children: React.ReactNode
+	lineIdParams?: string
+}
 /* * */
 
 const LinesDetailContext = createContext<LinesDetailContextState | undefined>(undefined);
@@ -61,7 +67,7 @@ export function useLinesDetailContext() {
 
 /* * */
 
-export const LinesDetailContextProvider = ({ children, lineId }) => {
+export const LinesDetailContextProvider = ({ children, lineIdParams }: LinesDetailContextProviderProps) => {
 	//
 
 	//
@@ -95,28 +101,40 @@ export const LinesDetailContextProvider = ({ children, lineId }) => {
 
 	const [flagIsFavoriteState, setFlagIsFavoriteState] = useState<LinesDetailContextState['flags']['is_favorite']>(false);
 	const [flagIsInteractiveModeState, setFlagIsInteractiveModeState] = useState<LinesDetailContextState['flags']['is_interactive_mode']>(false);
+	const [lineId, setActiveLineId] = useState<any | undefined >('');
 
 	//
 	// B. Fetch data
 
 	useEffect(() => {
+		if (lineId && lineIdParams === undefined) return;
+
+		if (lineId) setActiveLineId(lineId);
+		if (lineIdParams) setActiveLineId(lineIdParams);
+	}, [lineId, lineIdParams]);
+
+	useEffect(() => {
+		if (lineId === undefined) return;
 		const lineData = linesContext.actions.getLineDataById(lineId);
 		if (!lineData) return;
 		setDataLineState(lineData);
 	}, [lineId, linesContext.data.lines]);
 
 	useEffect(() => {
+		if (lineId === undefined) return;
 		const isFavorite = profileContext.data.favorite_lines?.includes(lineId) ? true : false;
 		setFlagIsFavoriteState(isFavorite);
 	}, [profileContext.data.favorite_lines, lineId]);
 
 	useEffect(() => {
+		if (lineId === undefined) return;
 		const serviceMetricsData = linesContext.actions.getServiceMetricsByLineId(lineId);
 		if (!serviceMetricsData) return;
 		setDataServiceMetricsState(serviceMetricsData);
 	}, [lineId, linesContext.data.service_metrics]);
 
 	useEffect(() => {
+		if (lineId === undefined) return;
 		const demandMetricsData = linesContext.actions.getDemandMetricsByLineId(lineId);
 		if (!demandMetricsData) return;
 		setDataDemandMetricsState(demandMetricsData);
@@ -345,6 +363,10 @@ export const LinesDetailContextProvider = ({ children, lineId }) => {
 		else setDataHighlightedTripIdsState(tripIds);
 	};
 
+	const setLineId = (id: string) => {
+		setActiveLineId(id);
+	};
+
 	//
 	// E. Define context value
 
@@ -353,6 +375,7 @@ export const LinesDetailContextProvider = ({ children, lineId }) => {
 			setActivePattern,
 			setActiveWaypoint,
 			setHighlightedTripIds,
+			setLineId,
 		},
 		data: {
 			active_alerts: dataActiveAlertsState,
@@ -363,6 +386,7 @@ export const LinesDetailContextProvider = ({ children, lineId }) => {
 			demand_metrics: dataDemandMetricsState,
 			highlighted_trip_ids: dataHighlightedTripIdsState,
 			line: dataLineState,
+			lineId: lineId,
 			routes: dataRoutesState,
 			service_metrics: dataServiceMetricsState,
 			valid_patterns: dataValidPatternsState,
