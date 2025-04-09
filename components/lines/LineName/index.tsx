@@ -13,16 +13,18 @@ interface Props {
 	align?: 'center' | 'left' | 'right'
 	lineData?: Line
 	longName?: string
+	municipality?: string[]
 }
 /* * */
 
-export function LineName({ align = 'left', lineData, longName }: Props) {
+export function LineName({ align = 'left', lineData, longName, municipality }: Props) {
 	//
 
 	//
 	// A. Setup variables
 
 	const styles = [
+		municipality && lineNameStyles.container,
 		align === 'center' && lineNameStyles.alignCenter,
 		align === 'right' && lineNameStyles.alignRight,
 		align === 'left' && lineNameStyles.alignleft,
@@ -32,8 +34,9 @@ export function LineName({ align = 'left', lineData, longName }: Props) {
 	// B. Render components
 
 	return (
-		<View style={styles}>
+		<View style={[styles]}>
 			<Text style={lineNameStyles.name}>{lineData?.long_name || longName || '• • •'}</Text>
+			{municipality && <Text>LdfdfdLdfdfdLdfdfdLdfdfdLdfdfdLdfdfdLdfdfdLdfdfdfddfjsdhfjsL</Text>}
 		</View>
 	);
 

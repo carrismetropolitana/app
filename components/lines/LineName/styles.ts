@@ -5,6 +5,7 @@ const name = {
 	justifyContent: 'flex-start',
 	lineClamp: 3,
 	overflow: 'hidden',
+	paddingBottom: 20,
 	textOverflow: 'ellipsis',
 	width: '100%',
 } as const;
@@ -24,6 +25,9 @@ export const lineNameStyles = StyleSheet.create({
 		...name,
 		alignItems: 'flex-end',
 		textAlign: 'right',
+	},
+	container: {
+		paddingEnd: 20,
 	},
 	name: {
 		fontSize: 16,

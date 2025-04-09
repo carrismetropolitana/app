@@ -2,7 +2,7 @@
 
 import { NoDatabLabel } from '@/components/common/layout/NoDataLabel';
 import { LineDisplay } from '@/components/lines/LineDisplay';
-import { ListItem } from '@rneui/themed';
+import { ListItem, Text } from '@rneui/themed';
 import { Link } from 'expo-router';
 import { TouchableOpacity, VirtualizedList } from 'react-native';
 
@@ -12,10 +12,11 @@ interface Props {
 	icon?: React.ReactNode
 	itemClick?: (item) => void
 	items?: number
+	municiplality?: string[]
 	size?: 'lg' | 'md'
 }
 /* * */
-export function VirtualizedListingLines({ data, icon, itemClick, items, size }: Props) {
+export function VirtualizedListingLines({ data, icon, itemClick, items, municiplality, size }: Props) {
 	//
 
 	//
@@ -28,19 +29,24 @@ export function VirtualizedListingLines({ data, icon, itemClick, items, size }: 
 
 	const renderItem = ({ item }) => (
 		<ListItem bottomDivider topDivider>
-			<ListItem.Content>
-				{itemClick
-					? (
-						<TouchableOpacity onPress={() => itemClick(item)}>
-							<LineDisplay lineData={item} size={size} />
-						</TouchableOpacity>
-					)
-					: (
+			{itemClick
+				? (
+					<ListItem.Content>
+						<ListItem.Title>
+							<TouchableOpacity onPress={() => itemClick(item)}>
+								<LineDisplay lineData={item} municipality={municiplality} size={size} />
+							</TouchableOpacity>
+						</ListItem.Title>
+					</ListItem.Content>
+				)
+				: (
+					<ListItem.Content>
 						<Link href={`/line/${item.id}`}>
 							<LineDisplay lineData={item} size={size} />
 						</Link>
-					)}
-			</ListItem.Content>
+					</ListItem.Content>
+				)}
+
 			{icon ? icon : <ListItem.Chevron /> }
 		</ListItem>
 

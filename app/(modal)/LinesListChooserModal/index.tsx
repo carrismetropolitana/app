@@ -31,11 +31,10 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 
 	const linesDetailContext = useLinesDetailContext();
 	const linesContext = useLinesContext();
-	const [allLines, setAllLines] = useState<Line[]>(linesContext.data.lines);
-	const [allMuniciplaities, setAllMunicipalities] = useState<Municipality[]>(linesContext.data.municipalities);
+	const [allLines] = useState<Line[]>(linesContext.data.lines);
+	const [allMunicipalities] = useState(linesContext.data.municipalities);
+	const [linesMunicipalities, setLineMunicipalities] = useState<string[]>();
 	const [searchedLine, setSearchedLine] = useState<Line>();
-	const [patterns, setPatterns] = useState([]);
-	const [selectedPatterns, setSelectedPatterns] = useState([]);
 	const [lineSearch, setLineSearch] = useState('');
 	const [selectedLine, setSelectedLine] = useState('');
 
@@ -48,19 +47,30 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 	}, [selectedLine]);
 
 	const handleLineClick = (item: Line) => {
+		if (!allMunicipalities) return;
+
 		const municipalityNames = getMunicipalityNames(item.municipality_ids);
-		console.log(`Selected Line: ${item.id}, Municipalities: ${municipalityNames.join(', ')}`);
+		const linePatterns = item.pattern_ids;
+
+		console.log('linePatterns', linePatterns);
+
+		setLineMunicipalities(municipalityNames);
 		setSelectedLine(item.id);
 	};
 
-	const getMunicipalityNames = (ids: string[]) => {
+	const getMunicipalityNames = (ids: (number | string)[]) => {
 		return ids
 			.map((id) => {
-				const municipality = allMuniciplaities.find(municipality => municipality.id === id);
-				return municipality ? municipality.name : 'Unknown Municipality';
+				const municipality = allMunicipalities.find(m => String(m.id) === String(id));
+				if (!municipality) {
+					console.warn(`Municipality with ID ${id} not found`);
+					return null;
+				}
+				return municipality.name;
 			})
-			.filter(name => name !== 'Unknown Municipality');
+			.filter((name): name is string => name !== null);
 	};
+
 	//
 	// D. Render Components
 
@@ -79,17 +89,7 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 						<TextInput onChangeText={text => setLineSearch(text)} placeholder="Pesquisar por número ou nome" value={lineSearch} />
 						<Counter quantity={linesContext.data.lines.length} text="Encontradas" type="linhas" />
 					</View>
-
-					{/* <FlatList
-							data={allLines}
-							keyExtractor={(item, index) => index.toString()}
-							renderItem={renderLines}
-							scrollEnabled={false}
-							showsVerticalScrollIndicator={false}
-						/> */}
-
-					<VirtualizedListingLines data={allLines} icon={<IconCirclePlusFilled color="#3CB43C" />} itemClick={handleLineClick} size="lg" />
-
+					<VirtualizedListingLines data={allLines} icon={<IconCirclePlusFilled color="#3CB43C" />} itemClick={handleLineClick} municiplality={linesMunicipalities} size="lg" />
 				</View>
 			</SafeAreaView>
 		</Overlay>

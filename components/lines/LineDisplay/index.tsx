@@ -15,6 +15,7 @@ interface Props {
 	color?: string
 	lineData?: Line
 	longName?: string
+	municipality?: string[]
 	shortName?: string
 	size?: 'lg' | 'md'
 	textColor?: string
@@ -23,7 +24,7 @@ interface Props {
 
 /* * */
 
-export function LineDisplay({ color, lineData, longName, shortName, size = 'md', textColor, width = 200 }: Props) {
+export function LineDisplay({ color, lineData, longName, municipality, shortName, size = 'md', textColor, width = 200 }: Props) {
 	//
 
 	const onPress = () => {
@@ -35,6 +36,7 @@ export function LineDisplay({ color, lineData, longName, shortName, size = 'md',
 			<View style={lineDisplayStyles.container}>
 				<LineBadge color={lineData.color} onPress={onPress} shortName={lineData.short_name} size={size} textColor={lineData.text_color} />
 				<LineName align="left" longName={lineData.long_name} />
+
 			</View>
 		);
 	}
@@ -43,7 +45,7 @@ export function LineDisplay({ color, lineData, longName, shortName, size = 'md',
 		return (
 			<View style={lineDisplayStyles.container}>
 				<LineBadge color={color} shortName={shortName} size={size} textColor={textColor} />
-				<LineName align="left" longName={longName} />
+				<LineName align="left" longName={longName} municipality={municipality} />
 			</View>
 		);
 	}
