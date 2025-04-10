@@ -1,6 +1,5 @@
 import { Account, AccountWidget, CreateAccountDto } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
-import { Pattern } from '@carrismetropolitana/api-types/network';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { ReactNode } from 'react';
@@ -114,9 +113,14 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 					localStorage.getItem(LOCAL_STORAGE_KEYS.token),
 				]);
 
-				setAPIToken(storedToken || null);
-				setDataPersonaImageState(storedPersona ? storedPersona : '');
+				console.log('TOKEN ===>>>>', storedToken);
+				console.log('PROFILE =====>', storedProfile);
+				console.log('PERSONA =======>', storedPersona);
+
+				setAPIToken(storedToken);
+				setDataPersonaImageState(storedPersona);
 				setDataProfileState(storedProfile ? JSON.parse(storedProfile) : null);
+
 				checkProfile(storedProfile ? JSON.parse(storedProfile) : null);
 			}
 			catch (error) {
@@ -129,18 +133,18 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 		fetchData();
 
-		// const intervalId = setInterval(() => {
-		// 	fetchData();
-		// }, 10000); // 10 * 60 * 1000 10 minutes
+		const intervalId = setInterval(() => {
+			fetchData();
+		}, 10000); // 10 * 60 * 1000 10 minutes
 
-		// return () => clearInterval(intervalId);
+		return () => clearInterval(intervalId);
 	}, [consentContext.data.enabled_functional]);
 
 	useEffect(() => {
 		if (!consentContext.data.enabled_functional) return;
 
 		if (dataFavoriteLinesState) {
-			localStorage.setItem(LOCAL_STORAGE_KEYS.favorite_lines, JSON.stringify(dataFavoriteLinesState.map) || '');
+			localStorage.setItem(LOCAL_STORAGE_KEYS.favorite_lines, JSON.stringify(dataFavoriteLinesState) || '');
 		}
 		if (dataFavoriteStopsState) {
 			localStorage.setItem(LOCAL_STORAGE_KEYS.favorite_stops, JSON.stringify(dataFavoriteStopsState) || '');
@@ -173,7 +177,16 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	useEffect(() => {
 		if (!consentContext.data.enabled_functional) return;
 
-		updateProfileOnCloud(dataFavoriteLinesState);
+		if (dataProfileState) {
+			const updatedWidgets = [
+				...(dataFavoriteLinesState || []),
+				...(dataFavoriteStopsState || []),
+			];
+
+			const updatedProfile = { ...dataProfileState, widgets: updatedWidgets };
+
+			updateProfileOnCloud(updatedProfile);
+		}
 	}, [dataFavoriteLinesState]);
 
 	const fetchProfile = async () => {
@@ -280,19 +293,23 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const updateProfileOnCloud = async (profile: Account) => {
 		if (!consentContext.data.enabled_functional || !dataApiTokenState) return;
 
-		const data = dataFavoriteLinesState || [];
-		console.log('Update func', data);
-		// const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/${dataIdProfileState}`, {
-		// 	body: JSON.stringify(data),
-		// 	headers: {
-		// 		'Content-Type': 'application/json',
-		// 		'Cookie': `session_token=${dataApiTokenState}`,
-		// 	},
-		// 	method: 'PUT',
-		// });
+		console.log(profile.widgets);
 
-		// const parsedResponse = await response.json();
-		// console.log(parsedResponse);
+		const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/${profile.devices[0].device_id}`, {
+			body: JSON.stringify(profile),
+			headers: {
+				'Content-Type': 'application/json',
+				'Cookie': `session_token=${dataApiTokenState}`,
+			},
+			method: 'PUT',
+		});
+
+		if (!response.ok) {
+			throw new Error(`Failed to update profile: ${response.statusText}`);
+		}
+
+		const updatedProfile = await response.json();
+		console.log('Profile updated successfully:', updatedProfile);
 	};
 
 	// D. Action handlers
@@ -354,14 +371,19 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const setNewEmptyProfile = async () => {
 		if (!consentContext.data.enabled_functional) return;
 
-		const newProfileStructure: CreateAccountDto = {
+		const newProfileStructure: Account = {
+			_id: '',
 			devices: [
 				{
 					device_id: '',
+					name: '',
 					type: Platform.OS === 'ios' ? 'ios' : 'android',
 				},
 			],
+			favorites: { lines: [], stops: [] },
 			profile: {
+				activity: undefined,
+				date_of_birth: undefined,
 				email: null,
 				first_name: null,
 				gender: undefined,
@@ -371,6 +393,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				utilization_type: undefined,
 				work_setting: undefined,
 			},
+			role: 'user',
+			widgets: [],
 		};
 
 		const apiResponse = await fetch(`${Routes.DEV_API_ACCOUNTS}`, {
@@ -379,6 +403,9 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			method: 'POST',
 		}).then(res => res.json());
 
+		console.log(apiResponse);
+
+		setDataProfileState(newProfileStructure);
 		setAPIToken(apiResponse.session_token);
 		setDataIdProfileState(apiResponse.device_id);
 

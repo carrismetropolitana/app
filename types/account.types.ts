@@ -167,13 +167,13 @@ export type Account = Omit<
 	| 'updated_at'
 	| 'widgets'
 > & {
-	created_at: UnixTimestamp
+	created_at?: UnixTimestamp
 	devices: AccountDevice[]
 	email?: null | string | undefined
 	email_verified?: null | undefined | UnixTimestamp
 	favorites?: AccountFavorites
 	profile?: AccountProfile
-	updated_at: UnixTimestamp
+	updated_at?: UnixTimestamp
 	widgets?: AccountWidget[]
 };
 
