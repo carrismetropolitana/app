@@ -90,7 +90,7 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 							<View>
 								{linesDetailContext.data.line?.pattern_ids ? (
 									linesDetailContext.data.line?.pattern_ids.map((item) => {
-										const isFavorite = profileContext.data.favorite_lines?.some(
+										const isFavorite = profileContext.data.profile?.widgets?.some(
 											favorite =>
 												favorite.data
 												&& 'pattern_id' in favorite.data
@@ -153,14 +153,13 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 								<IconNotification color="#E64B23" size={24} />
 								<ListItem.Content>
 									<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-										Alterar Linha Selecionada
+										Notificações Intiligentes
 									</ListItem.Title>
 								</ListItem.Content>
 								<ListItem.Chevron />
 							</ListItem>
 						</View>
 
-						{/* Optionally, remove these buttons if changes are immediate */}
 						<View>
 							<Button
 								buttonStyle={addFavoriteLineStyles.saveButton}
