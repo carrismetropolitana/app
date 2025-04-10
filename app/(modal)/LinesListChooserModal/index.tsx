@@ -4,11 +4,10 @@ import Counter from '@/components/common/Counter';
 import { VirtualizedListingLines } from '@/components/common/VitualizedListLines';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
-import { Municipality } from '@carrismetropolitana/api-types/locations';
 import { Line } from '@carrismetropolitana/api-types/network';
 import { Overlay, Text } from '@rneui/themed';
 import { IconCirclePlusFilled } from '@tabler/icons-react-native';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -34,7 +33,6 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 	const [allLines] = useState<Line[]>(linesContext.data.lines);
 	const [allMunicipalities] = useState(linesContext.data.municipalities);
 	const [linesMunicipalities, setLineMunicipalities] = useState<string[]>();
-	const [searchedLine, setSearchedLine] = useState<Line>();
 	const [lineSearch, setLineSearch] = useState('');
 	const [selectedLine, setSelectedLine] = useState('');
 
@@ -50,12 +48,9 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 		if (!allMunicipalities) return;
 
 		const municipalityNames = getMunicipalityNames(item.municipality_ids);
-		const linePatterns = item.pattern_ids;
-
-		console.log('linePatterns', linePatterns);
-
 		setLineMunicipalities(municipalityNames);
 		setSelectedLine(item.id);
+		onBackdropPress();
 	};
 
 	const getMunicipalityNames = (ids: (number | string)[]) => {
@@ -72,6 +67,16 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 	};
 
 	//
+	// C. Handle Actions
+
+	const filteredLines = useMemo(() => {
+		return allLines.filter(line =>
+			line.long_name.toLowerCase().includes(lineSearch.toLowerCase())
+			|| String(line.id).includes(lineSearch),
+		);
+	}, [allLines, lineSearch]);
+
+	//
 	// D. Render Components
 
 	return (
@@ -86,10 +91,20 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 					</View>
 
 					<View>
-						<TextInput onChangeText={text => setLineSearch(text)} placeholder="Pesquisar por número ou nome" value={lineSearch} />
-						<Counter quantity={linesContext.data.lines.length} text="Encontradas" type="linhas" />
+						<TextInput
+							onChangeText={text => setLineSearch(text)}
+							placeholder="Pesquisar por número ou nome"
+							value={lineSearch}
+						/>
+						<Counter quantity={filteredLines.length} text="Encontradas" type="linhas" />
 					</View>
-					<VirtualizedListingLines data={allLines} icon={<IconCirclePlusFilled color="#3CB43C" />} itemClick={handleLineClick} municiplality={linesMunicipalities} size="lg" />
+					<VirtualizedListingLines
+						data={filteredLines}
+						icon={<IconCirclePlusFilled color="#3CB43C" />}
+						itemClick={handleLineClick}
+						municiplality={linesMunicipalities}
+						size="lg"
+					/>
 				</View>
 			</SafeAreaView>
 		</Overlay>

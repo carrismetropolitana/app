@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		height: '100%',
-		marginTop: 20,
+		marginTop: 30,
 		maxWidth: '100%',
 		minWidth: '100%',
 	},

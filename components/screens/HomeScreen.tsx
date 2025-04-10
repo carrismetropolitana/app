@@ -46,6 +46,7 @@ export default function HomeScreen() {
 							<Picker.Item key={option} label={option} value={option} />
 						))}
 					</Picker> */}
+					<Text> {JSON.stringify(profileContext.data.profile)}</Text>
 					<AccountChooser
 						action1={() => alert('Substituir conta por dados da Cloud')}
 						action1Title="Substituir conta por dados da Cloud"
