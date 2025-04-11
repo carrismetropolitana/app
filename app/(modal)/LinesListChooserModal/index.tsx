@@ -4,8 +4,10 @@ import Counter from '@/components/common/Counter';
 import { VirtualizedListingLines } from '@/components/common/VitualizedListLines';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useThemeContext } from '@/contexts/Theme.context';
+import { theming } from '@/theme/Variables';
 import { Line } from '@carrismetropolitana/api-types/network';
-import { Overlay, Text } from '@rneui/themed';
+import { Input, Overlay, Text } from '@rneui/themed';
 import { IconCirclePlusFilled } from '@tabler/icons-react-native';
 import { useEffect, useMemo, useState } from 'react';
 import { TextInput, TouchableOpacity, View } from 'react-native';
@@ -30,6 +32,7 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 
 	const linesDetailContext = useLinesDetailContext();
 	const linesContext = useLinesContext();
+	const themeContext = useThemeContext();
 	const [allLines] = useState<Line[]>(linesContext.data.lines);
 	const [allMunicipalities] = useState(linesContext.data.municipalities);
 	const [linesMunicipalities, setLineMunicipalities] = useState<string[]>();
@@ -81,7 +84,7 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 
 	return (
 		<Overlay animationType="slide" isVisible={isVisible} onBackdropPress={onBackdropPress}>
-			<SafeAreaView>
+			<SafeAreaView style={{ flex: 1 }}>
 				<View style={styles.container}>
 					<View style={styles.header}>
 						<TouchableOpacity onPress={onBackdropPress} style={styles.backButton}>
@@ -91,7 +94,7 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 					</View>
 
 					<View>
-						<TextInput
+						<Input
 							onChangeText={text => setLineSearch(text)}
 							placeholder="Pesquisar por número ou nome"
 							value={lineSearch}
@@ -100,10 +103,20 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 					</View>
 					<VirtualizedListingLines
 						data={filteredLines}
-						icon={<IconCirclePlusFilled color="#3CB43C" />}
 						itemClick={handleLineClick}
 						municiplality={linesMunicipalities}
 						size="lg"
+						icon={(
+							<IconCirclePlusFilled
+								fill="#3CB43C"
+								size={24}
+								color={
+									themeContext.theme.mode === 'light'
+										? theming.colorSystemBackgroundLight100
+										: theming.colorSystemBackgroundDark100
+								}
+							/>
+						)}
 					/>
 				</View>
 			</SafeAreaView>

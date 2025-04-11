@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
 		marginTop: 30,
 		maxWidth: '100%',
 		minWidth: '100%',
+
 	},
 	deleteButton: {
 		backgroundColor: theming.colorAlerts3,

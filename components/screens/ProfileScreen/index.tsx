@@ -4,6 +4,7 @@ import { Section } from '@/components/common/layout/Section';
 import { Surface } from '@/components/common/layout/Surface';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
+import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
 import { Avatar, Button, ListItem, Text } from '@rneui/themed';
 import { IconArrowLoopRight, IconArrowsRandom, IconBellRinging, IconBusStop, IconCirclePlusFilled, IconGripVertical } from '@tabler/icons-react-native';
@@ -117,7 +118,15 @@ export default function ProfileScreen() {
 							<ListItem.Content>
 								<ListItem.Title style={styles.listTitle}>Paragem Favorita</ListItem.Title>
 							</ListItem.Content>
-							<IconCirclePlusFilled color="#3CB43C" />
+							<IconCirclePlusFilled
+								fill="#3CB43C"
+								size={24}
+								color={
+									themeContext.theme.mode === 'light'
+										? theming.colorSystemBackgroundLight100
+										: theming.colorSystemBackgroundDark100
+								}
+							/>
 						</ListItem>
 					</TouchableOpacity>
 
@@ -127,7 +136,15 @@ export default function ProfileScreen() {
 							<ListItem.Content>
 								<ListItem.Title style={styles.listTitle}>Linha Favorita</ListItem.Title>
 							</ListItem.Content>
-							<IconCirclePlusFilled color="#3CB43C" />
+							<IconCirclePlusFilled
+								fill="#3CB43C"
+								size={24}
+								color={
+									themeContext.theme.mode === 'light'
+										? theming.colorSystemBackgroundLight100
+										: theming.colorSystemBackgroundDark100
+								}
+							/>
 						</ListItem>
 					</TouchableOpacity>
 
@@ -138,7 +155,15 @@ export default function ProfileScreen() {
 								<ListItem.Title style={styles.listTitle}>Notificações Inteligentes</ListItem.Title>
 								<ListItem.Subtitle>Disponivel em breve</ListItem.Subtitle>
 							</ListItem.Content>
-							<IconCirclePlusFilled color="#3CB43C" />
+							<IconCirclePlusFilled
+								fill="#3CB43C"
+								size={24}
+								color={
+									themeContext.theme.mode === 'light'
+										? theming.colorSystemBackgroundLight100
+										: theming.colorSystemBackgroundDark100
+								}
+							/>
 						</ListItem>
 					</TouchableOpacity>
 				</View>
