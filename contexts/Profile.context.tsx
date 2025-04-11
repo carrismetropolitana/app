@@ -62,9 +62,6 @@ export function useProfileContext() {
 }
 
 export const ProfileContextProvider = ({ children }: { children: ReactNode }) => {
-	//
-
-	//
 	// A. Setup variables
 	const consentContext = useConsentContext();
 	const localStorage = AsyncStorage;
@@ -81,15 +78,89 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	const [flagIsLoadingState, setFlagIsLoadingState] = useState<ProfileContextState['flags']['is_loading']>(true);
 
-	//
 	// C. Fetch Data
 
-	const clearProfile = async () => {
-		localStorage.removeItem(LOCAL_STORAGE_KEYS.profile);
-		localStorage.removeItem(LOCAL_STORAGE_KEYS.favorite_lines);
-		localStorage.removeItem(LOCAL_STORAGE_KEYS.favorite_stops);
-		localStorage.removeItem(LOCAL_STORAGE_KEYS.token);
-		localStorage.removeItem(LOCAL_STORAGE_KEYS.persona_image);
+	const mergeProfiles = (local: Account, cloud: Account): Account => {
+		return {
+			_id: local._id,
+			created_at: local.created_at ?? cloud.created_at,
+			devices: local.devices,
+			email: local.email ?? cloud.email,
+			email_verified: local.email_verified ?? cloud.email_verified,
+			favorites: cloud.favorites ? cloud.favorites : local.favorites,
+			profile: {
+				...local.profile,
+				...cloud.profile,
+			},
+			role: local.role ?? 'user',
+			updated_at: cloud.updated_at ?? local.updated_at,
+			widgets: local.widgets && local.widgets.length > 0 ? local.widgets : cloud.widgets,
+		};
+	};
+
+	const syncProfiles = async (localProfile: Account) => {
+		try {
+			const cloudProfile = await getProfileFromCloud(localProfile.devices[0].device_id);
+			if (!cloudProfile) return;
+
+			console.log('local ===>>>', localProfile);
+			console.log('cloud ===>>>', cloudProfile);
+
+			const mergedProfile = mergeProfiles(localProfile, cloudProfile);
+
+			if (JSON.stringify(localProfile) !== JSON.stringify(mergedProfile)) {
+				setDataProfileState(mergedProfile);
+				await AsyncStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(mergedProfile));
+				console.log('Profiles synchronized.');
+				updateProfileOnCloud(mergedProfile);
+			}
+			else {
+				console.log('Profiles already in sync.');
+			}
+		}
+		catch (error) {
+			console.error('Error synchronizing profiles:', error);
+		}
+	};
+
+	const fetchData = async () => {
+		try {
+			setFlagIsLoadingState(true);
+			const [storedProfile, storedPersona, storedToken] = await Promise.all([
+				localStorage.getItem(LOCAL_STORAGE_KEYS.profile),
+				localStorage.getItem(LOCAL_STORAGE_KEYS.persona_image),
+				localStorage.getItem(LOCAL_STORAGE_KEYS.token),
+			]);
+
+			setAPIToken(storedToken);
+			setDataPersonaImageState(storedPersona);
+			const localProfile = storedProfile ? JSON.parse(storedProfile) : null;
+			setDataProfileState(localProfile);
+
+			if (localProfile) {
+				await syncProfiles(localProfile);
+			}
+			else {
+				await setNewEmptyProfile();
+			}
+		}
+		catch (error) {
+			console.error('Error loading profile data:', error);
+		}
+		finally {
+			setFlagIsLoadingState(false);
+		}
+	};
+
+	const checkProfile = async (profile: Account | null) => {
+		console.log('Checking if profile exists ⚙️');
+		if (!profile) {
+			console.log('No profile found, creating new account 🤖');
+			await setNewEmptyProfile();
+		}
+		else {
+			console.log('Profile exists.');
+		}
 	};
 
 	useEffect(() => {
@@ -97,62 +168,30 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			setFlagIsLoadingState(false);
 			return;
 		}
-		// TOGGLE TO DELETE ACCOUNT
-		// clearProfile();
-		const fetchData = async () => {
-			try {
-				setFlagIsLoadingState(true);
-				const [
-					storedProfile,
-					storedPersona,
-					storedToken,
-				] = await Promise.all([
-					localStorage.getItem(LOCAL_STORAGE_KEYS.profile),
-					localStorage.getItem(LOCAL_STORAGE_KEYS.persona_image),
-					localStorage.getItem(LOCAL_STORAGE_KEYS.token),
-				]);
-
-				setAPIToken(storedToken);
-				setDataPersonaImageState(storedPersona);
-				setDataProfileState(storedProfile ? JSON.parse(storedProfile) : null);
-
-				checkProfile(storedProfile ? JSON.parse(storedProfile) : null);
-			}
-			catch (error) {
-				console.error('Error loading profile data:', error);
-			}
-			finally {
-				setFlagIsLoadingState(false);
-			}
-		};
 
 		fetchData();
 
 		const intervalId = setInterval(() => {
 			fetchData();
-		}, 10000); // 10 * 60 * 1000 10 minutes
+		}, 10000);
 
 		return () => clearInterval(intervalId);
 	}, [consentContext.data.enabled_functional]);
 
 	useEffect(() => {
 		if (!consentContext.data.enabled_functional) return;
-
 		if (dataFavoriteLinesState) {
 			localStorage.setItem(LOCAL_STORAGE_KEYS.favorite_lines, JSON.stringify(dataFavoriteLinesState) || '');
 		}
 		if (dataFavoriteStopsState) {
 			localStorage.setItem(LOCAL_STORAGE_KEYS.favorite_stops, JSON.stringify(dataFavoriteStopsState) || '');
 		}
-
 		if (dataApiTokenState) {
 			localStorage.setItem(LOCAL_STORAGE_KEYS.token, dataApiTokenState || '');
 		}
-
 		if (dataProfileState) {
 			localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(dataProfileState) || '');
 		}
-
 		if (dataPersonaImageState) {
 			localStorage.setItem(LOCAL_STORAGE_KEYS.persona_image, dataPersonaImageState || '');
 		}
@@ -165,31 +204,10 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		consentContext.data.enabled_functional,
 	]);
 
-	useEffect(() => {
-		fetchProfile();
-	}, [dataIdProfileState, dataApiTokenState]);
-
-	useEffect(() => {
-		if (!consentContext.data.enabled_functional || !dataProfileState) return;
-
-		updateProfileOnCloud(dataProfileState);
-	}, [dataProfileState]);
-
-	const fetchProfile = async () => {
-		if (dataIdProfileState) {
-			const fetchedProfile = await getProfileFromCloud(dataIdProfileState || '');
-			localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(fetchedProfile));
-			localStorage.setItem(LOCAL_STORAGE_KEYS.cloud_profile, JSON.stringify(fetchedProfile));
-			setDataCloudProfileState(fetchedProfile);
-			setDataProfileState(fetchedProfile);
-		}
-	};
-
 	const fetchPersona = async () => {
 		try {
 			const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/persona/`);
 			const image = await response.json();
-
 			if (image.url) {
 				setDataPersonaImageState(image.url);
 			}
@@ -204,79 +222,19 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	const getProfileFromCloud = async (id: string) => {
 		if (!consentContext.data.enabled_functional) return;
-
 		const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/${id}`, {
 			headers: {
 				'Content-Type': 'application/json',
-				'Cookie': `session_token=${dataApiTokenState}` },
+				'Cookie': `session_token=${dataApiTokenState}`,
+			},
 		});
-
 		const profileData = await response.json();
-
 		return profileData;
-	};
-
-	const getProfileFromStorage = async () => {
-		try {
-			const storedProfileString = await localStorage.getItem(LOCAL_STORAGE_KEYS.profile);
-			const storedProfile: Account = storedProfileString ? JSON.parse(storedProfileString) : null;
-
-			const fullAccount: Account = {
-				_id: storedProfile._id || '',
-				created_at: storedProfile.created_at,
-				devices: [
-					{
-						device_id: storedProfile.devices[0].device_id || '',
-						name: storedProfile.devices[0].name || '',
-						type: Platform.OS === 'ios' ? 'ios' : 'android',
-					},
-				],
-				profile: {
-					activity: storedProfile.profile?.activity || undefined,
-					date_of_birth: storedProfile.profile?.date_of_birth || undefined,
-					email: storedProfile.profile?.email || '',
-					first_name: storedProfile.profile?.first_name || '',
-					gender: storedProfile.profile?.gender || undefined,
-					last_name: storedProfile.profile?.last_name || '',
-					phone: storedProfile.profile?.phone || '',
-					utilization_type: storedProfile.profile?.utilization_type || undefined,
-					work_setting: storedProfile.profile?.work_setting || undefined,
-				},
-				role: storedProfile.role || 'user',
-				updated_at: storedProfile.updated_at,
-				widgets: storedProfile.widgets?.map(widget => ({
-					data: widget.data?.type === 'stops'
-						? {
-							pattern_ids: widget.data.pattern_ids || [],
-							stop_id: widget.data.stop_id || '',
-							type: 'stops' as const,
-						}
-						: {
-							pattern_id: widget.data?.pattern_id || '',
-							type: 'lines' as const,
-						},
-					settings: {
-						display_order: widget.settings?.display_order ?? null,
-						is_open: widget.settings?.is_open ?? true,
-						label: widget.settings?.label ?? null,
-					},
-				})) || [],
-			};
-
-			setDataCloudProfileState(fullAccount);
-		}
-		catch (error) {
-			console.error('Error loading and creating profile data:', error);
-		}
 	};
 
 	const updateProfileOnCloud = async (profile: Account) => {
 		if (!consentContext.data.enabled_functional || !dataApiTokenState) return;
-
-		console.log(dataApiTokenState);
-
 		const { _id, created_at, role, updated_at, ...cleanedProfile } = profile;
-
 		const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/${profile.devices[0].device_id}`, {
 			body: JSON.stringify(cleanedProfile),
 			headers: {
@@ -285,9 +243,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			},
 			method: 'PUT',
 		});
-
-		console.log(response);
-
 		const updatedProfile = await response.json();
 		console.log('Profile updated successfully:', updatedProfile);
 	};
@@ -300,15 +255,12 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	const toggleFavoriteLine = async (pattern_ids: string[]) => {
 		if (!consentContext.data.enabled_functional) return;
-
 		const currentWidgets = dataFavoriteLinesState || [];
 		const updatedWidgets = [...currentWidgets];
-
 		pattern_ids.forEach((pattern_id) => {
 			const index = updatedWidgets.findIndex(
 				widget => widget.data && widget.data.type === 'lines' && widget.data.pattern_id === pattern_id,
 			);
-
 			if (index !== -1) {
 				updatedWidgets.splice(index, 1);
 			}
@@ -320,9 +272,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				updatedWidgets.push(newFavoriteLine);
 			}
 		});
-
 		setDataFavoriteLinesState(updatedWidgets);
-
 		const updatedProfile: Account = {
 			...(dataProfileState || {}),
 			widgets: [
@@ -330,22 +280,17 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				...updatedWidgets,
 			],
 		};
-
 		setDataProfileState(updatedProfile);
 		localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
 	};
 
-	// TODO ADAPT THIS TO THE NEW FAVS
 	const toggleFavoriteStop = async (stopId: string) => {
 		if (!consentContext.data.enabled_functional) return;
-
 		const currentWidgets = dataFavoriteStopsState || [];
 		const updatedWidgets = [...currentWidgets];
-
 		const index = updatedWidgets.findIndex(
 			widget => widget.data && widget.data.type === 'stops' && widget.data.stop_id === stopId,
 		);
-
 		if (index !== -1) {
 			updatedWidgets.splice(index, 1);
 		}
@@ -356,9 +301,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			};
 			updatedWidgets.push(newFavoriteStop);
 		}
-
 		setDataFavoriteStopsState(updatedWidgets);
-
 		const updatedProfile: Account = {
 			...(dataProfileState || {}),
 			widgets: [
@@ -366,14 +309,12 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				...updatedWidgets,
 			],
 		};
-
 		setDataProfileState(updatedProfile);
 		localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
 	};
 
 	const setNewEmptyProfile = async () => {
 		if (!consentContext.data.enabled_functional) return;
-
 		const newProfileStructure: Account = {
 			_id: '',
 			devices: [
@@ -399,31 +340,16 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			role: 'user',
 			widgets: [],
 		};
-
 		const apiResponse = await fetch(`${Routes.DEV_API_ACCOUNTS}`, {
 			body: JSON.stringify(newProfileStructure),
 			headers: { 'Content-Type': 'application/json' },
 			method: 'POST',
 		}).then(res => res.json());
-
 		newProfileStructure.devices[0].device_id = apiResponse.device_id;
 		setDataProfileState(newProfileStructure);
 		setAPIToken(apiResponse.session_token);
 		setDataIdProfileState(apiResponse.device_id);
-
 		localStorage.setItem(LOCAL_STORAGE_KEYS.token, apiResponse.session_token);
-	};
-
-	const checkProfile = async (profile: Account) => {
-		console.log('Checking if profile exists ⚙️');
-		if (profile !== null) {
-			console.log('Found Profile!! 🎉');
-			await getProfileFromStorage();
-		}
-		else {
-			console.log('Setting and ceating an account 🤖');
-			await setNewEmptyProfile();
-		}
 	};
 
 	const setSelectedLine = (line: string) => {
@@ -441,7 +367,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			toggleFavoriteLine,
 			toggleFavoriteStop,
 			toogleAccountSync,
-
 		},
 		counters: {
 			favorite_lines: dataFavoriteLinesState ? dataFavoriteLinesState.length : 0,
