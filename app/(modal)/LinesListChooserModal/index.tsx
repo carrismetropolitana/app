@@ -95,6 +95,7 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 
 					<View>
 						<Input
+							clearButtonMode="while-editing"
 							onChangeText={text => setLineSearch(text)}
 							placeholder="Pesquisar por número ou nome"
 							value={lineSearch}

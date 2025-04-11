@@ -103,9 +103,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			const cloudProfile = await getProfileFromCloud(localProfile.devices[0].device_id);
 			if (!cloudProfile) return;
 
-			console.log('local ===>>>', localProfile);
-			console.log('cloud ===>>>', cloudProfile);
-
 			const mergedProfile = mergeProfiles(localProfile, cloudProfile);
 
 			if (JSON.stringify(localProfile) !== JSON.stringify(mergedProfile)) {

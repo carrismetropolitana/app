@@ -5,7 +5,7 @@ import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { UtilizationTypeSchema } from '@/types/account.types';
 import { Picker } from '@react-native-picker/picker';
-import { Button, Dialog, Text } from '@rneui/themed';
+import { Button, Dialog, Input, Text } from '@rneui/themed';
 import { IconArrowsRandom, IconReload } from '@tabler/icons-react-native';
 import { Link } from 'expo-router';
 import { useState } from 'react';
@@ -31,9 +31,9 @@ export default function HomeScreen() {
 			<Surface>
 				<Section heading="Bem-Vindo" subheading="Hoje o tempo está limpo" withPadding>
 					{/* <CustomMapView /> */}
-					<Link href="/profile"><Text>Open profile</Text></Link>
 
-					<Button onPress={profileContext.actions.toogleAccountSync} style={{ borderColor: 'grey', borderRadius: 5, borderWidth: 3, marginBottom: 10, marginTop: 10 }} title="SYNC ACCOUNTS" />
+					<Button onPress={profileContext.actions.toogleAccountSync} style={{ borderColor: 'grey', borderRadius: 5, borderWidth: 3, marginBottom: 10, marginTop: 10 }} title="SYNC ACCOUNTS"><Link href="/profile"><Text>Open profile</Text></Link></Button>
+					{/* <Button onPress={profileContext.actions.toogleAccountSync} style={{ borderColor: 'grey', borderRadius: 5, borderWidth: 3, marginBottom: 10, marginTop: 10 }} title="SYNC ACCOUNTS" /> */}
 					{/* <Link href="/cookies"><Text>Open Cooks</Text></Link> */}
 					{/* <Picker
 						selectedValue={selectedUserType}
@@ -47,6 +47,7 @@ export default function HomeScreen() {
 						))}
 					</Picker> */}
 					<Text> {JSON.stringify(profileContext.data.profile)}</Text>
+					<Input placeholder="INPUT" />
 					<AccountChooser
 						action1={() => alert('Substituir conta por dados da Cloud')}
 						action1Title="Substituir conta por dados da Cloud"
