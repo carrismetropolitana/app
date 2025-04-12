@@ -1,4 +1,3 @@
-import { color } from '@rneui/base';
 import { createTheme } from '@rneui/themed';
 
 import { theming } from './Variables';
@@ -30,10 +29,7 @@ const lightThemeDefinition = {
 			inputStyle: {
 				color: theming.colorSystemText300,
 				fontSize: 17,
-				fontWeight: theming.fontWeightText,
-
-				textAlign: 'left',
-				textAlignVertical: 'center',
+				fontWeight: theming.fontWeightText as '500',
 			},
 		},
 		ListItem: {
@@ -76,15 +72,21 @@ const darkThemeDefinition = {
 		},
 		Input: {
 			containerStyle: {
-				backgroundColor: theming.colorSystemBackgroundDark200,
-				borderColor: theming.colorSystemBorderDark200,
+				backgroundColor: theming.colorSystemBackgroundDark100,
+				borderColor: theming.colorSystemBorder200,
+				borderRadius: 5,
+				borderWidth: 1,
+				height: 50,
+				paddingLeft: 50,
+				paddingTop: 5,
 			},
 			inputContainerStyle: {
-				backgroundColor: theming.colorSystemBackgroundDark200,
-				borderColor: theming.colorSystemBorderDark200,
+				borderBottomWidth: 0,
 			},
 			inputStyle: {
 				color: theming.colorSystemText200,
+				fontSize: 17,
+				fontWeight: theming.fontWeightText as '500',
 			},
 		},
 		ListItem: {
