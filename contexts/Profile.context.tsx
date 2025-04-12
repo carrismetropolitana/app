@@ -131,7 +131,9 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 			setAPIToken(storedToken);
 			setDataPersonaImageState(storedPersona);
+
 			const localProfile = storedProfile ? JSON.parse(storedProfile) : null;
+
 			setDataProfileState(localProfile);
 
 			if (localProfile) {
@@ -174,6 +176,11 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 		return () => clearInterval(intervalId);
 	}, [consentContext.data.enabled_functional]);
+
+	useEffect(() => {
+		if (!consentContext.data.enabled_functional || !dataProfileState) return;
+		updateProfileOnCloud(dataProfileState);
+	}, [dataProfileState]);
 
 	useEffect(() => {
 		if (!consentContext.data.enabled_functional) return;
@@ -232,16 +239,25 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const updateProfileOnCloud = async (profile: Account) => {
 		if (!consentContext.data.enabled_functional || !dataApiTokenState) return;
 		const { _id, created_at, role, updated_at, ...cleanedProfile } = profile;
-		const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/${profile.devices[0].device_id}`, {
-			body: JSON.stringify(cleanedProfile),
-			headers: {
-				'Content-Type': 'application/json',
-				'Cookie': `session_token=${dataApiTokenState}`,
-			},
-			method: 'PUT',
-		});
-		const updatedProfile = await response.json();
-		console.log('Profile updated successfully:', updatedProfile);
+		
+
+		try {
+			const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/${profile.devices[0].device_id}`, {
+				body: JSON.stringify(cleanedProfile),
+				headers: {
+					'Content-Type': 'application/json',
+					'Cookie': `session_token=${dataApiTokenState}`,
+				},
+				method: 'PUT',
+			});
+			const updatedProfile = await response.json();
+
+			console.log('Cloud sent Succesfully to cloud:', updatedProfile);
+		}
+		catch (error) {
+			console.error('Error updating profile on cloud:', error);
+			return;
+		}
 	};
 
 	// D. Action handlers
