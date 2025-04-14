@@ -10,7 +10,7 @@ import { Line } from '@carrismetropolitana/api-types/network';
 import { Input, Overlay, Text } from '@rneui/themed';
 import { IconCirclePlusFilled } from '@tabler/icons-react-native';
 import { useEffect, useMemo, useState } from 'react';
-import { TextInput, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import styles from './styles';

@@ -3,12 +3,13 @@ import { Section } from '@/components/common/layout/Section';
 import { Surface } from '@/components/common/layout/Surface';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
-import { UtilizationTypeSchema } from '@/types/account.types';
+import { Account, UtilizationTypeSchema } from '@/types/account.types';
 import { Picker } from '@react-native-picker/picker';
 import { Button, Dialog, Input, Text } from '@rneui/themed';
 import { IconArrowsRandom, IconReload } from '@tabler/icons-react-native';
 import { Link } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AccountChooser } from '../common/AccountChooser';
@@ -47,7 +48,7 @@ export default function HomeScreen() {
 						))}
 					</Picker> */}
 					<Text> {JSON.stringify(profileContext.data.profile)}</Text>
-					<Input placeholder="INPUT" />
+
 					<AccountChooser
 						action1={() => alert('Substituir conta por dados da Cloud')}
 						action1Title="Substituir conta por dados da Cloud"
