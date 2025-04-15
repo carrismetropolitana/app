@@ -5,7 +5,8 @@ import { useStopsContext } from '@/contexts/Stops.context';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
-import { Stop } from '@carrismetropolitana/api-types/network';
+import { Routes } from '@/utils/routes';
+import { Pattern, Stop } from '@carrismetropolitana/api-types/network';
 import { Button, ListItem, Overlay, Text } from '@rneui/themed';
 import { IconArrowLoopRight, IconArrowRight, IconBusStop, IconCircle, IconCircleCheckFilled, IconNotification, IconPlayerPlayFilled, IconSearch } from '@tabler/icons-react-native';
 import { useEffect, useState } from 'react';
@@ -23,27 +24,31 @@ interface Props {
 }
 
 export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: Props) {
-	//
-
-	//
 	// A. Setup Variables
-
 	const [stopChooserVisibility, setStopChooserVisibility] = useState(false);
 	const [selectedStopPatterns, setStopPatterns] = useState<string[]>([]);
 	const [selectedStop, setSelectedStop] = useState<Stop | undefined>(undefined);
 	const [selectedStopId, setSelectedStopId] = useState<string>('');
-	const [selectedStopLineIds, setSelectedStopLineIds] = useState<string[]>([]);
+	const [patternNames, setPatternNames] = useState<Record<string, string>>({});
 
-	const stopDetailsContext = useStopsDetailContext();
-	const stopContext = useStopsContext();
 	const themeContext = useThemeContext();
 	const profileContext = useProfileContext();
 
 	const addFavoriteStopStyles = styles();
 
-	//
-	// B. Handle Actions
+	const fetchPattern = async (patternId: string) => {
+		try {
+			const response = await fetch(`${Routes.API}/patterns/${patternId}`);
+			const data: Pattern = await response.json();
+			return data;
+		}
+		catch (error) {
+			console.error(`Error fetching pattern ${patternId}:`, error);
+			return null;
+		}
+	};
 
+	// B. Handle Actions
 	const handleSelectedStop = (stopData: Stop) => {
 		setSelectedStopId(stopData.id);
 		setStopPatterns(stopData.pattern_ids);
@@ -52,15 +57,34 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 
 	useEffect(() => {
 		if (!selectedStopPatterns) return;
-		const lineIds = selectedStopPatterns.flatMap(pattern => pattern.split(',').map(part => part.split('_')[0]));
-		setSelectedStopLineIds(lineIds);
-		console.log('LinesIda ==> ', lineIds);
-	}, [selectedStopPatterns]);
-	//
-	// C. Render Components
 
+		const fetchPatterns = async () => {
+			const patternName: Record<string, string> = {};
+
+			await Promise.all(
+				selectedStopPatterns.map(async (pattern) => {
+					const data = await fetchPattern(pattern);
+					if (data) {
+						patternName[pattern] = data[0].headsign;
+					}
+				}),
+			);
+
+			setPatternNames(patternName);
+			console.log(patternName);
+		};
+
+		fetchPatterns();
+	}, [selectedStopPatterns]);
+
+	// C. Render Components
 	return (
-		<Overlay animationType="slide" isVisible={isVisible} onBackdropPress={onBackdropPress} style={addFavoriteStopStyles.overlay}>
+		<Overlay
+			animationType="slide"
+			isVisible={isVisible}
+			onBackdropPress={onBackdropPress}
+			style={addFavoriteStopStyles.overlay}
+		>
 			<SafeAreaView>
 				<ScrollView showsVerticalScrollIndicator={false}>
 					<View style={addFavoriteStopStyles.container}>
@@ -80,7 +104,9 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 								<ListItem>
 									<IconPlayerPlayFilled color="#3D85C6" fill="#3D85C6" size={24} />
 									<ListItem.Content>
-										<ListItem.Title style={addFavoriteStopStyles.listTitle}>Ver Vídeo Explicativo</ListItem.Title>
+										<ListItem.Title style={addFavoriteStopStyles.listTitle}>
+											Ver Vídeo Explicativo
+										</ListItem.Title>
 									</ListItem.Content>
 									<ListItem.Chevron />
 								</ListItem>
@@ -121,30 +147,30 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 							<View>
 								{selectedStopPatterns.length > 0 ? (
 									selectedStopPatterns.map((patternId) => {
-										const patternName = 'Sem Nome';
+										const lineId = patternId.split('_')[0];
 										const isFavorite = profileContext.data.profile?.widgets?.some(
 											favorite =>
 												favorite.data
-												&& 'pattern_id' in favorite.data
-												&& favorite.data.pattern_id === patternId,
+												&& favorite.data.type === 'stops'
+												&& 'pattern_id' in favorite.data.pattern_ids,
 										);
 
 										return (
 											<ListItem
 												key={patternId}
 												onPress={() => {
-													profileContext.actions.toggleFavoriteStop(selectedStopId, [patternId]);
+													profileContext.actions.toggleFavoriteStop(selectedStopId, patternId);
 												}}
 											>
 												<LineBadge
 													color="#FF6900"
-													lineId={patternId.split('_')[0]}
+													lineId={lineId}
 													size="lg"
 												/>
 												<IconArrowRight size={10} />
 												<ListItem.Content>
 													<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-														{patternName || 'Unknown Pattern'}
+														{patternNames[patternId] || 'Sem destino'}
 													</ListItem.Title>
 												</ListItem.Content>
 												{isFavorite ? (
@@ -163,7 +189,6 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 											</ListItem>
 										);
 									})
-
 								) : (
 									<ListItem>
 										<ListItem.Content>
@@ -200,7 +225,6 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 								titleStyle={addFavoriteStopStyles.saveButtonText}
 							/>
 						</View>
-
 					</View>
 					<StopsListChooserModal
 						isVisible={stopChooserVisibility}
@@ -211,6 +235,4 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 			</SafeAreaView>
 		</Overlay>
 	);
-
-	//
 }

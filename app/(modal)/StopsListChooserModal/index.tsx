@@ -79,10 +79,10 @@ export default function StopsListChooserModal({ isVisible, onBackdropPress, sele
 						<Input
 							clearButtonMode="while-editing"
 							onChangeText={text => setStopSearch(text)}
-							placeholder="Pesquisar por número ou nome"
+							placeholder="Pesquisar por nome"
 							value={stopsSearch}
 						/>
-						<Counter quantity={filteredStops.length} text="Encontradas" type="linhas" />
+						<Counter quantity={filteredStops.length} text="Encontradas" type="paragens" />
 					</View>
 					<VirtualizedListingStops
 						data={filteredStops}

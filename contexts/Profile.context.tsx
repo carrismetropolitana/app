@@ -28,7 +28,7 @@ interface ProfileContextState {
 		setNewEmptyProfile: (profile: CreateAccountDto) => Promise<void>
 		setSelectedLine: (line: string) => void
 		toggleFavoriteLine: (lineId: string[]) => Promise<void>
-		toggleFavoriteStop: (stopId: string, patternId: string[]) => Promise<void>
+		toggleFavoriteStop: (stopId: string, patternId: string) => Promise<void>
 		toogleAccountSync: () => void
 		updateLocalProfile: (profile: Account) => Promise<void>
 	}
@@ -316,7 +316,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		await updateProfileOnCloud(updatedProfile);
 	};
 
-	const toggleFavoriteStop = async (stopId: string, patternId: string[]) => {
+	const toggleFavoriteStop = async (stopId: string, patternId: string) => {
 		if (!consentContext.data.enabled_functional) return;
 
 		try {
@@ -327,18 +327,39 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			const updatedWidgets = [...existingWidgets];
 
 			const index = updatedWidgets.findIndex(
-				widget => widget.data?.type === 'stops' && widget.data.stop_id === stopId,
+				widget =>
+					widget.data?.type === 'stops'
+					&& widget.data.stop_id === stopId
+					&& widget.data.pattern_ids?.includes(patternId),
 			);
 
 			if (index !== -1) {
-				updatedWidgets.splice(index, 1);
+				const widget = updatedWidgets[index];
+				if (widget.data.type === 'stops' && widget.data.pattern_ids) {
+					widget.data.pattern_ids = widget.data.pattern_ids.filter(id => id !== patternId);
+				}
+
+				if (widget.data.type === 'stops' && widget.data.pattern_ids?.length === 0) {
+					updatedWidgets.splice(index, 1);
+				}
 			}
 			else {
-				const newFavoriteStop: AccountWidget = {
-					data: { pattern_ids: [], stop_id: stopId, type: 'stops' as const },
-					settings: { display_order: 0, is_open: true, label: null },
-				};
-				updatedWidgets.push(newFavoriteStop);
+				const existingWidgetIndex = updatedWidgets.findIndex(
+					widget => widget.data?.type === 'stops' && widget.data.stop_id === stopId,
+				);
+
+				if (existingWidgetIndex !== -1) {
+					if (updatedWidgets[existingWidgetIndex].data.type === 'stops' && updatedWidgets[existingWidgetIndex].data.pattern_ids) {
+						updatedWidgets[existingWidgetIndex].data.pattern_ids.push(patternId);
+					}
+				}
+				else {
+					const newFavoriteStop: AccountWidget = {
+						data: { pattern_ids: [patternId], stop_id: stopId, type: 'stops' as const },
+						settings: { display_order: 0, is_open: true, label: null },
+					};
+					updatedWidgets.push(newFavoriteStop);
+				}
 			}
 
 			const updatedProfile: Account = {
