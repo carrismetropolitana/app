@@ -1,4 +1,4 @@
-import { Account, AccountWidget, CreateAccountDto } from '@/types/account.types';
+import { Account, AccountWidget, CreateAccountDto, UpdateAccountDto } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
 import { Line } from '@carrismetropolitana/api-types/network';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -28,7 +28,7 @@ interface ProfileContextState {
 		setNewEmptyProfile: (profile: CreateAccountDto) => Promise<void>
 		setSelectedLine: (line: string) => void
 		toggleFavoriteLine: (lineId: string[]) => Promise<void>
-		toggleFavoriteStop: (stopId: string) => Promise<void>
+		toggleFavoriteStop: (stopId: string, patternId: string[]) => Promise<void>
 		toogleAccountSync: () => void
 		updateLocalProfile: (profile: Account) => Promise<void>
 	}
@@ -79,15 +79,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	const [flagIsLoadingState, setFlagIsLoadingState] = useState<ProfileContextState['flags']['is_loading']>(true);
 
+	//
 	// C. Fetch Data
-
-	const clearProfile = async () => {
-		localStorage.removeItem(LOCAL_STORAGE_KEYS.profile);
-		localStorage.removeItem(LOCAL_STORAGE_KEYS.favorite_lines);
-		localStorage.removeItem(LOCAL_STORAGE_KEYS.favorite_stops);
-		localStorage.removeItem(LOCAL_STORAGE_KEYS.token);
-		localStorage.removeItem(LOCAL_STORAGE_KEYS.persona_image);
-	};
 
 	const mergeProfiles = (local: Account, cloud: Account): Account => {
 		return {
@@ -97,7 +90,17 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			email: cloud.email,
 			email_verified: cloud.email_verified,
 			favorites: cloud.favorites,
-			profile: cloud.profile,
+			profile: {
+				activity: local.profile?.activity || cloud.profile?.activity,
+				date_of_birth: local.profile?.date_of_birth || cloud.profile?.date_of_birth,
+				first_name: local.profile?.first_name || cloud.profile?.first_name,
+				gender: local.profile?.gender || cloud.profile?.gender,
+				last_name: local.profile?.last_name || cloud.profile?.last_name,
+				phone: local.profile?.phone || cloud.profile?.phone,
+				profile_image: local.profile?.profile_image || cloud.profile?.profile_image,
+				utilization_type: local.profile?.utilization_type || cloud.profile?.utilization_type,
+				work_setting: local.profile?.work_setting || cloud.profile?.work_setting,
+			},
 			role: cloud.role,
 			updated_at: cloud.updated_at,
 			widgets: local.widgets && local.widgets.length > 0 ? local.widgets : cloud.widgets,
@@ -111,14 +114,15 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 			const mergedProfile = mergeProfiles(localProfile, cloudProfile);
 
+			// If there are any differences, update local state and AsyncStorage,
+			// and push the merged profile to the cloud.
 			if (JSON.stringify(localProfile) !== JSON.stringify(mergedProfile)) {
 				setDataProfileState(mergedProfile);
 				await AsyncStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(mergedProfile));
-				setDataCloudProfileState(mergedProfile);
 				updateProfileOnCloud(mergedProfile);
 			}
 			else {
-				console.log('Profiles already in sync.');
+				// console.log('Profiles already in sync.');
 			}
 		}
 		catch (error) {
@@ -140,9 +144,11 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			setDataPersonaImageState(storedPersona);
 
 			const localProfile = storedProfile ? JSON.parse(storedProfile) : null;
+
 			setDataProfileState(localProfile);
 
 			if (localProfile) {
+				console.log(localProfile);
 				await syncProfiles(localProfile);
 			}
 			else {
@@ -154,17 +160,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		}
 		finally {
 			setFlagIsLoadingState(false);
-		}
-	};
-
-	const checkProfile = async (profile: Account | null) => {
-		console.log('Checking if profile exists ⚙️');
-		if (!profile) {
-			console.log('No profile found, creating new account 🤖');
-			await setNewEmptyProfile();
-		}
-		else {
-			console.log('Profile exists.');
 		}
 	};
 
@@ -182,6 +177,11 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 		return () => clearInterval(intervalId);
 	}, [consentContext.data.enabled_functional]);
+
+	useEffect(() => {
+		if (!consentContext.data.enabled_functional || !dataProfileState) return;
+		updateProfileOnCloud(dataProfileState);
+	}, [dataProfileState]);
 
 	useEffect(() => {
 		if (!consentContext.data.enabled_functional) return;
@@ -214,10 +214,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		try {
 			const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/persona/`);
 			const image = await response.json();
-			console.log(image);
 			if (image.url) {
 				setDataPersonaImageState(image.url);
-				console.log(image.url);
 			}
 			else {
 				console.error('Error: No URL property in response', image);
@@ -253,7 +251,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				method: 'PUT',
 			});
 			const updatedProfile = await response.json();
-			console.log('Cloud profile updated successfully:', updatedProfile);
+			// ('Cloud profile updated successfully:', updatedProfile);
 		}
 		catch (error) {
 			console.error('Error updating profile on cloud:', error);
@@ -264,7 +262,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		if (!consentContext.data.enabled_functional) return;
 		const { _id, created_at, role, updated_at, ...cleanedProfile } = profile;
 
-		console.log('Updating local profile:', cleanedProfile);
+		// console.log('Updating local profile:', cleanedProfile);
 
 		const localProfile = await localStorage.getItem(LOCAL_STORAGE_KEYS.profile);
 		if (localProfile) {
@@ -285,6 +283,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const toogleAccountSync = () => {
 		setDataIsSyncingState(!dataIsSyncingState);
 	};
+
 	const toggleFavoriteLine = async (pattern_ids: string[]) => {
 		if (!consentContext.data.enabled_functional) return;
 		const currentWidgets = dataFavoriteLinesState || [];
@@ -314,39 +313,50 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		};
 		setDataProfileState(updatedProfile);
 		localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
-		// Push widget changes to the API
 		await updateProfileOnCloud(updatedProfile);
 	};
 
-	const toggleFavoriteStop = async (stopId: string) => {
+	const toggleFavoriteStop = async (stopId: string, patternId: string[]) => {
 		if (!consentContext.data.enabled_functional) return;
-		const currentWidgets = dataFavoriteStopsState || [];
-		const updatedWidgets = [...currentWidgets];
-		const index = updatedWidgets.findIndex(
-			widget => widget.data && widget.data.type === 'stops' && widget.data.stop_id === stopId,
-		);
-		if (index !== -1) {
-			updatedWidgets.splice(index, 1);
-		}
-		else {
-			const newFavoriteStop: AccountWidget = {
-				data: { pattern_ids: [], stop_id: stopId, type: 'stops' as const },
-				settings: { display_order: 0, is_open: true, label: null },
+
+		try {
+			const currentProfile = dataProfileState;
+			if (!currentProfile) return;
+
+			const existingWidgets = currentProfile.widgets || [];
+			const updatedWidgets = [...existingWidgets];
+
+			const index = updatedWidgets.findIndex(
+				widget => widget.data?.type === 'stops' && widget.data.stop_id === stopId,
+			);
+
+			if (index !== -1) {
+				updatedWidgets.splice(index, 1);
+			}
+			else {
+				const newFavoriteStop: AccountWidget = {
+					data: { pattern_ids: [], stop_id: stopId, type: 'stops' as const },
+					settings: { display_order: 0, is_open: true, label: null },
+				};
+				updatedWidgets.push(newFavoriteStop);
+			}
+
+			const updatedProfile: Account = {
+				...currentProfile,
+				widgets: updatedWidgets,
 			};
-			updatedWidgets.push(newFavoriteStop);
+
+			setDataProfileState(updatedProfile);
+			setDataFavoriteStopsState(
+				updatedWidgets.filter(widget => widget.data?.type === 'stops'),
+			);
+
+			await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile));
+			await updateProfileOnCloud(updatedProfile);
 		}
-		setDataFavoriteStopsState(updatedWidgets);
-		const updatedProfile: Account = {
-			...(dataProfileState || {}),
-			widgets: [
-				...(dataFavoriteLinesState || []),
-				...updatedWidgets,
-			],
-		};
-		setDataProfileState(updatedProfile);
-		localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
-		// Push widget changes to the API
-		await updateProfileOnCloud(updatedProfile);
+		catch (error) {
+			console.error('Error toggling favorite stop:', error);
+		}
 	};
 
 	const setNewEmptyProfile = async () => {
@@ -386,6 +396,17 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		setAPIToken(apiResponse.session_token);
 		setDataIdProfileState(apiResponse.device_id);
 		localStorage.setItem(LOCAL_STORAGE_KEYS.token, apiResponse.session_token);
+	};
+
+	const checkProfile = async (profile: Account | null) => {
+		// console.log('Checking if profile exists ⚙️');
+		if (!profile) {
+			// console.log('No profile found, creating new account 🤖');
+			await setNewEmptyProfile();
+		}
+		else {
+			// console.log('Profile exists.');
+		}
 	};
 
 	const setSelectedLine = (line: string) => {

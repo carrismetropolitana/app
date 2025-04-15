@@ -10,7 +10,6 @@ import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { Routes } from '@/utils/routes';
-import { Lines } from '@turf/turf';
 import { useLocalSearchParams } from 'expo-router';
 import { createContext, useContext, useEffect, useState } from 'react';
 

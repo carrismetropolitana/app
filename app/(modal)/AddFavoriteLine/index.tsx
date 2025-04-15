@@ -20,7 +20,7 @@ interface Props {
 }
 
 export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: Props) {
-	const [lineChooserVissibility, setLineChooseVisibility] = useState(false);
+	const [lineChooserVisibility, setLineChooserVisibility] = useState(false);
 
 	const linesDetailContext = useLinesDetailContext();
 	const themeContext = useThemeContext();
@@ -71,7 +71,7 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 									</ListItem.Content>
 								</ListItem>
 							)}
-							<ListItem onPress={() => setLineChooseVisibility(true)}>
+							<ListItem onPress={() => setLineChooserVisibility(true)}>
 								<IconSearch color="#9696A0" size={24} />
 								<ListItem.Content>
 									<ListItem.Title style={addFavoriteLineStyles.listTitle}>
@@ -149,7 +149,7 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 								heading="3. Notificações "
 								subheading="Pode escolher receber uma notificação sempre que existir um alerta para a paragem e para os destinos que selecionou."
 							/>
-							<ListItem onPress={() => setLineChooseVisibility(true)}>
+							<ListItem onPress={() => setLineChooserVisibility(true)}>
 								<IconNotification color="#E64B23" size={24} />
 								<ListItem.Content>
 									<ListItem.Title style={addFavoriteLineStyles.listTitle}>
@@ -171,8 +171,8 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 
 					</View>
 					<LinesListChooserModal
-						isVisible={lineChooserVissibility}
-						onBackdropPress={() => setLineChooseVisibility(!lineChooserVissibility)}
+						isVisible={lineChooserVisibility}
+						onBackdropPress={() => setLineChooserVisibility(!lineChooserVisibility)}
 					/>
 				</ScrollView>
 			</SafeAreaView>

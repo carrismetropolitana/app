@@ -1,11 +1,15 @@
 import AddFavoriteLine from '@/app/(modal)/AddFavoriteLine';
 import AddFavoriteStop from '@/app/(modal)/AddFavoriteStop';
+import EditableText from '@/components/common/EditableText';
+import FavoriteItem from '@/components/common/FavoriteItem';
 import { Section } from '@/components/common/layout/Section';
 import { Surface } from '@/components/common/layout/Surface';
+import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
+import { Pattern } from '@carrismetropolitana/api-types/network';
 import { Avatar, Button, ListItem, Text } from '@rneui/themed';
 import { IconArrowLoopRight, IconArrowsRandom, IconBellRinging, IconBusStop, IconCirclePlusFilled, IconGripVertical } from '@tabler/icons-react-native';
 import { useNavigation } from 'expo-router';
@@ -13,60 +17,78 @@ import { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import useSWR from 'swr';
 
 import { styles as useStyles } from './styles';
 
 /* * */
 export default function ProfileScreen() {
-	//
-
-	//
 	// A. Setup variables
 	const navigation = useNavigation();
 	const themeContext = useThemeContext();
 	const styles = useStyles();
 	const profileContext = useProfileContext();
 	const { profile } = profileContext.data;
-	const fullName = `${profile?.profile?.first_name ?? 'Bruno'} ${profile?.profile?.last_name ?? 'Castelo'}`;
+	const [firstName, setFirstName] = useState(
+		profileContext.data.profile?.profile?.first_name ?? 'Sem',
+	);
+	const [lastName, setLastName] = useState(
+		profileContext.data.profile?.profile?.last_name ?? 'Nome',
+	);
+
 	const widgets = profile?.widgets ?? [];
 	const [modalFavoriteLineVisible, setModalFavoriteLineVisible] = useState(false);
 	const [modalFavoriteStopVisible, setModalFavoriteStopVisible] = useState(false);
-
-	//
 
 	// B. Fetch data
 	useEffect(() => {
 		navigation.setOptions({
 			headerStyle: {
-				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
+				backgroundColor:
+					themeContext.theme.mode === 'light'
+						? themeContext.theme.lightColors?.background
+						: themeContext.theme.darkColors?.background,
 			},
 		});
 	}, [navigation, themeContext.theme.mode]);
 
-	//
+	// C. Handle Actions
+	const handleFirstNameBlur = () => {
+		console.log('First name blurred', firstName);
+		if (profileContext.data.profile) {
+			const updatedProfile = {
+				...profileContext.data.profile,
+				profile: {
+					...profileContext.data.profile.profile,
+					first_name: firstName,
+				},
+			};
+			profileContext.actions.updateLocalProfile(updatedProfile);
+		}
+	};
 
-	// C. Render Components
+	const handleLastNameBlur = () => {
+		if (profileContext.data.profile) {
+			const updatedProfile = {
+				...profileContext.data.profile,
+				profile: {
+					...profileContext.data.profile.profile,
+					last_name: lastName,
+				},
+			};
+			profileContext.actions.updateLocalProfile(updatedProfile);
+		}
+	};
 
-	const renderFavoriteItem = ({ drag, isActive, item }: any) => (
-		<TouchableOpacity disabled={isActive}>
-			<FavoriteItem data={item} drag={drag} />
-		</TouchableOpacity>
-	);
+	// D. Render Components
 
-	const FavoriteItem = ({ data, drag }) => (
-		<ListItem>
-			<TouchableOpacity onPressIn={drag}>
-				<IconGripVertical color="#9696A0" size={28} />
+	const renderFavoriteItem = ({ drag, isActive, item }: any) => {
+		return (
+			<TouchableOpacity disabled={isActive}>
+				<FavoriteItem data={item} drag={drag} />
 			</TouchableOpacity>
-			<ListItem.Content>
-				<ListItem.Title>
-					{data.data.type === 'lines' ? data.data.pattern_id : data.data.stop_id}
-				</ListItem.Title>
-				<ListItem.Subtitle>{data.data.type === 'lines' ? 'Linha Favorita' : 'Paragem Favorita'}</ListItem.Subtitle>
-			</ListItem.Content>
-			<ListItem.Chevron />
-		</ListItem>
-	);
+		);
+	};
 
 	return (
 		<Surface>
@@ -75,18 +97,30 @@ export default function ProfileScreen() {
 					<Avatar
 						containerStyle={styles.avatarContainer}
 						size={200}
-						source={{ uri: `${Routes.DEV_API_ACCOUNTS}/persona/${encodeURIComponent(profileContext.data.persona_image ?? '')}` }}
+						source={{
+							uri: `${Routes.DEV_API_ACCOUNTS}/persona/${encodeURIComponent(
+								profileContext.data.persona_image ?? '',
+							)}`,
+						}}
 						rounded
 					/>
 					<Button onPress={() => profileContext.actions.fetchPersona()}>
 						<IconArrowsRandom size={24} />
 					</Button>
 
-					<View style={styles.userDetails}>
-						<Text style={styles.userFullNameText}>{fullName}</Text>
-						<Text style={styles.userTypeText}>
-							{profile?.profile?.utilization_type ?? 'Utilizador'}
-						</Text>
+					<View style={styles.nameRow}>
+						<EditableText
+							onBlur={handleFirstNameBlur}
+							onChangeText={setFirstName}
+							style={styles.userFullNameText}
+							value={firstName}
+						/>
+						<EditableText
+							onBlur={handleLastNameBlur}
+							onChangeText={setLastName}
+							style={styles.userFullNameText}
+							value={lastName}
+						/>
 					</View>
 				</View>
 
@@ -95,7 +129,7 @@ export default function ProfileScreen() {
 					subheading="Organizar os cartões como quer que aparecçam na página inicial. Altere a ordem deslizando no ícone"
 				/>
 
-				{/* TODO: Implementar a função de drag and drop (it reorders but dosnt save the position) */}
+				{/* TODO: Implementar a função de drag and drop (it reorders but doesn't save the position) */}
 				<DraggableFlatList
 					data={widgets}
 					renderItem={renderFavoriteItem}
@@ -112,11 +146,16 @@ export default function ProfileScreen() {
 						subheading="Escolha um tipo de cartão para adicionar à página principal."
 					/>
 
-					<TouchableOpacity onPress={() => setModalFavoriteStopVisible(!modalFavoriteLineVisible)}>
+					<TouchableOpacity
+						onPress={() =>
+							setModalFavoriteStopVisible(!modalFavoriteStopVisible)}
+					>
 						<ListItem>
 							<IconBusStop color="#FF6900" size={24} />
 							<ListItem.Content>
-								<ListItem.Title style={styles.listTitle}>Paragem Favorita</ListItem.Title>
+								<ListItem.Title style={styles.listTitle}>
+									Paragem Favorita
+								</ListItem.Title>
 							</ListItem.Content>
 							<IconCirclePlusFilled
 								fill="#3CB43C"
@@ -130,11 +169,16 @@ export default function ProfileScreen() {
 						</ListItem>
 					</TouchableOpacity>
 
-					<TouchableOpacity onPress={() => setModalFavoriteLineVisible(!modalFavoriteStopVisible)}>
+					<TouchableOpacity
+						onPress={() =>
+							setModalFavoriteLineVisible(!modalFavoriteLineVisible)}
+					>
 						<ListItem>
 							<IconArrowLoopRight color="#C61D23" size={24} />
 							<ListItem.Content>
-								<ListItem.Title style={styles.listTitle}>Linha Favorita</ListItem.Title>
+								<ListItem.Title style={styles.listTitle}>
+									Linha Favorita
+								</ListItem.Title>
 							</ListItem.Content>
 							<IconCirclePlusFilled
 								fill="#3CB43C"
@@ -152,8 +196,12 @@ export default function ProfileScreen() {
 						<ListItem disabledStyle={{ opacity: 0.5 }} disabled>
 							<IconBellRinging color="#0C807E" size={24} />
 							<ListItem.Content>
-								<ListItem.Title style={styles.listTitle}>Notificações Inteligentes</ListItem.Title>
-								<ListItem.Subtitle>Disponivel em breve</ListItem.Subtitle>
+								<ListItem.Title style={styles.listTitle}>
+									Notificações Inteligentes
+								</ListItem.Title>
+								<ListItem.Subtitle>
+									Disponivel em breve
+								</ListItem.Subtitle>
 							</ListItem.Content>
 							<IconCirclePlusFilled
 								fill="#3CB43C"
@@ -169,11 +217,14 @@ export default function ProfileScreen() {
 				</View>
 			</ScrollView>
 
-			<AddFavoriteLine isVisible={modalFavoriteLineVisible} onBackdropPress={() => setModalFavoriteLineVisible(false)} />
-			<AddFavoriteStop isVisible={modalFavoriteStopVisible} onBackdropPress={() => setModalFavoriteStopVisible(false)} />
-
+			<AddFavoriteLine
+				isVisible={modalFavoriteLineVisible}
+				onBackdropPress={() => setModalFavoriteLineVisible(false)}
+			/>
+			<AddFavoriteStop
+				isVisible={modalFavoriteStopVisible}
+				onBackdropPress={() => setModalFavoriteStopVisible(false)}
+			/>
 		</Surface>
 	);
-
-	//
 }

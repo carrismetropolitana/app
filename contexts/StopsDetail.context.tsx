@@ -22,6 +22,7 @@ interface StopsDetailContextState {
 		resetActiveTripId: () => void
 		setActiveStopId: (stopId: string) => void
 		setActiveTripId: (tripId: string, stopSequence: number) => void
+		setStopId: (stopId: string) => void
 	}
 	data: {
 		active_alerts: SimplifiedAlert[] | undefined
@@ -49,6 +50,10 @@ interface StopsDetailContextState {
 	}
 }
 
+interface StopsDetailContextProviderProps {
+	children: React.ReactNode
+	stopIdParams?: string
+}
 /* * */
 
 const StopsDetailContext = createContext<StopsDetailContextState | undefined>(undefined);
@@ -63,7 +68,7 @@ export function useStopsDetailContext() {
 
 /* * */
 
-export const StopsDetailContextProvider = ({ children, stopId }: { children: React.ReactNode, stopId: string }) => {
+export const StopsDetailContextProvider = ({ children, stopIdParams }: StopsDetailContextProviderProps) => {
 	//
 
 	//
@@ -77,7 +82,7 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 	// const analyticsContext = useAnalyticsContext();
 
 	const [dataStopState, setDataStopState] = useState<Stop | undefined>(undefined);
-	const [dataActiveStopIdState, setDataActiveStopIdState] = useState<string>(stopId);
+	const [dataActiveStopIdState, setDataActiveStopIdState] = useState<string>(stopIdParams || '');
 
 	const [dataLinesState, setDataLinesState] = useState<Line[] | undefined>(undefined);
 	const [dataPatternsState, setDataPatternsState] = useState<Pattern[][] | undefined>(undefined);
@@ -95,6 +100,7 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 	const [dataActiveStopSequenceState, setDataActiveStopSequenceState] = useState<number | undefined>(undefined);
 
 	const [flagIsFavoriteState, setFlagIsFavoriteState] = useState<boolean>(false);
+	const [stopId, setSelectedStopId] = useState<'' | string >('');
 
 	//
 	// B. Fetch data
@@ -104,16 +110,19 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 	 * Use data from stopsContext to avoid fetching the same data twice.
 	 */
 	useEffect(() => {
-		if (!dataActiveStopIdState || !stopsContext.data.stops || !stopsContext.data.stops.length) return;
-		const foundStopData = stopsContext.actions.getStopById(dataActiveStopIdState);
-		// if (foundStopData) {
-		setDataStopState(foundStopData);
-		// window.history.replaceState({}, '', `${Routes.STOPS.route}/${dataActiveStopIdState}` + window.location.search);
-		// }
-		// else {
-		// 	notFound();
-		// }
-	}, [stopsContext.data.stops, dataActiveStopIdState]);
+		if (!dataActiveStopIdState || !stopsContext.data.stops || !stopsContext.data.stops.length || !stopId) return;
+		let foundStopData: Stop | undefined = undefined;
+		if (dataActiveStopIdState) {
+			foundStopData = stopsContext.actions.getStopById(dataActiveStopIdState);
+		}
+		else {
+			foundStopData = stopsContext.actions.getStopById(stopId);
+		}
+
+		if (foundStopData) {
+			setDataStopState(foundStopData);
+		}
+	}, [stopsContext.data.stops, dataActiveStopIdState, stopId]);
 
 	/**
 	 * Fetch line data for the selected stop.
@@ -137,7 +146,7 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 		const fetchData = async () => {
 			try {
 				if (!dataActiveStopIdState) return;
-				const realtimeData = await fetch(`${Routes.API}/arrivals/by_stop/${dataActiveStopIdState}`)
+				const realtimeData = await fetch(`${Routes.API}/arrivals/by_stop/${dataActiveStopIdState ? dataActiveStopIdState : stopId}`)
 					.then((response) => {
 						if (!response.ok) console.log(`Failed to fetch realtime data for stopId: ${dataActiveStopIdState}`);
 						else return response.json();
@@ -153,7 +162,7 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 		fetchData();
 		const interval = setInterval(fetchData, 10000);
 		return () => clearInterval(interval);
-	}, [dataActiveStopIdState]);
+	}, [dataActiveStopIdState, stopId]);
 
 	/**
 	 * Fetch pattern data for the selected stop.
@@ -211,8 +220,8 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 	// C. Transform data
 
 	useEffect(() => {
-		setFlagIsFavoriteState(profileContext.data.favorite_stops?.includes(stopId) ? true : false);
-	}, [profileContext.data.favorite_stops, stopId]);
+		setFlagIsFavoriteState(!!profileContext.data.favorite_stops?.some(stop => stop.data.type === 'stops' && stop.data.stop_id === (stopIdParams ? stopIdParams : stopId)));
+	}, [profileContext.data.favorite_stops, stopIdParams, stopId]);
 
 	/**
 	 * Prepare timetable realtime data for the selected stop.
@@ -292,7 +301,7 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 				// Find the schedule for the given Stop ID
 				for (const stopTime of trip.schedule) {
 					// Skip if not for the selected stop
-					if (stopTime.stop_id !== dataActiveStopIdState) continue;
+					if (stopTime.stop_id !== dataActiveStopIdState || stopTime.stop_id !== stopId) continue;
 					// Skip the last stop
 					if (stopTime.stop_sequence === lastStopSequence) continue;
 					// Convert the arrival time into a unix timestamp.
@@ -324,7 +333,7 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 		}
 		validScheduledTrips.sort((a, b) => (a.scheduled_arrival_unix - b.scheduled_arrival_unix));
 		setDataTimetableScheduleState(validScheduledTrips);
-	}, [operationalDayContext.data.selected_day, dataValidPatternsState, dataActiveStopIdState]);
+	}, [operationalDayContext.data.selected_day, dataValidPatternsState, dataActiveStopIdState, stopId]);
 
 	/**
 	 * Fill state with valid pattern groups for the selected operational day.
@@ -347,14 +356,14 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 		const activeAlerts = alertsContext.data.simplified.filter((simplifiedAlertData) => {
 			return simplifiedAlertData.informed_entity.some((informedEntity) => {
 				if (!informedEntity.stop_id && !informedEntity.route_id) return false;
-				const hasMatchingStop = informedEntity.stop_id === dataActiveStopIdState;
+				const hasMatchingStop = informedEntity.stop_id === dataActiveStopIdState ? dataActiveStopIdState : stopId;
 				const hasMatchingRoute = dataStopState?.route_ids.includes(informedEntity.route_id || '');
 				const isActive = simplifiedAlertData.end_date ? simplifiedAlertData.end_date >= new Date() : true;
 				return (hasMatchingStop || hasMatchingRoute) && isActive;
 			});
 		});
 		setDataActiveAlertsState(activeAlerts);
-	}, [alertsContext.data.simplified, dataStopState, dataActiveStopIdState]);
+	}, [alertsContext.data.simplified, dataStopState, dataActiveStopIdState, stopId]);
 
 	//
 	// D. Handle actions
@@ -362,6 +371,10 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 	const setActiveStopId = (stopId: string) => {
 		resetActiveTripId();
 		setDataActiveStopIdState(stopId);
+	};
+
+	const setStopId = (stopId: string) => {
+		setSelectedStopId(stopId);
 	};
 
 	const setActiveTripId = (tripId: string, stopSequence: number) => {
@@ -412,6 +425,7 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 			resetActiveTripId,
 			setActiveStopId,
 			setActiveTripId,
+			setStopId,
 		},
 		data: {
 			active_alerts: dataActiveAlertsState,

@@ -1,53 +1,59 @@
-/* * */
 import { Section } from '@/components/common/layout/Section';
 import { Surface } from '@/components/common/layout/Surface';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
-import { Account, UtilizationTypeSchema } from '@/types/account.types';
-import { Picker } from '@react-native-picker/picker';
-import { Button, Dialog, Input, Text } from '@rneui/themed';
-import { IconArrowsRandom, IconReload } from '@tabler/icons-react-native';
+import { Button, Text } from '@rneui/themed';
+import { Input } from '@rneui/themed';
 import { Link } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native';
 
 import { AccountChooser } from '../common/AccountChooser';
 import { CustomMapView } from '../map/MapView';
 
-/* * */
-
 export default function HomeScreen() {
 	const themeContext = useThemeContext();
 	const profileContext = useProfileContext();
-	const [selectedUserType, setselectedUserType] = useState();
-	const cloudProfile = profileContext.data?.cloud_profile;
-	const localProfile = profileContext.data?.profile;
-
-	//
-	// A. Render componennts
+	const cloudProfile = profileContext.data.cloud_profile;
+	const localProfile = profileContext.data.profile;
 
 	return (
-		<SafeAreaView style={{ backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background, flex: 1 }}>
+		<SafeAreaView
+			style={{
+				backgroundColor: themeContext.theme.mode === 'light'
+					? themeContext.theme.lightColors?.background
+					: themeContext.theme.darkColors?.background,
+				flex: 1,
+			}}
+		>
 			<Surface>
 				<Section heading="Bem-Vindo" subheading="Hoje o tempo está limpo" withPadding>
-					{/* <CustomMapView /> */}
+					{/* <Button
+						onPress={profileContext.actions.toogleAccountSync}
+						title="SYNC ACCOUNTS"
+						style={{
+							borderColor: 'grey',
+							borderRadius: 5,
+							borderWidth: 3,
+							marginBottom: 10,
+							marginTop: 10,
+						}}
+					> </Button> */}
 
-					<Button onPress={profileContext.actions.toogleAccountSync} style={{ borderColor: 'grey', borderRadius: 5, borderWidth: 3, marginBottom: 10, marginTop: 10 }} title="SYNC ACCOUNTS"><Link href="/profile"><Text>Open profile</Text></Link></Button>
-					{/* <Button onPress={profileContext.actions.toogleAccountSync} style={{ borderColor: 'grey', borderRadius: 5, borderWidth: 3, marginBottom: 10, marginTop: 10 }} title="SYNC ACCOUNTS" /> */}
-					{/* <Link href="/cookies"><Text>Open Cooks</Text></Link> */}
-					{/* <Picker
-						selectedValue={selectedUserType}
-						style={{ height: 350, width: 350 }}
-						onValueChange={itemValue =>
-							setselectedUserType(itemValue)}
-					>
+					<Link href="/profile">
+						<Button style={{
+							borderColor: 'grey',
+							borderRadius: 5,
+							borderWidth: 3,
+							marginBottom: 10,
+							marginTop: 10,
+						}}
+						>
+							<Text>Open profile</Text>
+						</Button>
+					</Link>
 
-						{UtilizationTypeSchema.options.map(option => (
-							<Picker.Item key={option} label={option} value={option} />
-						))}
-					</Picker> */}
-					<Text> {JSON.stringify(profileContext.data.profile)}</Text>
+					<Text>{JSON.stringify(profileContext.data.profile)}</Text>
 
 					<AccountChooser
 						action1={() => alert('Substituir conta por dados da Cloud')}
@@ -62,10 +68,8 @@ export default function HomeScreen() {
 						title="Sincronizar contas"
 					/>
 				</Section>
-
+				{/* <CustomMapView />  */}
 			</Surface>
 		</SafeAreaView>
 	);
-
-	//
 }

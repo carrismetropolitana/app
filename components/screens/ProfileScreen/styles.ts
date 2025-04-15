@@ -32,6 +32,15 @@ export const styles = () => {
 			fontSize: theming.fontSizeNav,
 			fontWeight: theming.fontWeightNav as '600',
 		},
+		nameRow: {
+			alignItems: 'center',
+			flexDirection: 'row',
+			gap: 3,
+			paddingBottom: 8,
+		},
+		nameText: {
+			marginRight: 8,
+		},
 		userDetails: {
 			alignItems: 'center',
 			gap: 6,
