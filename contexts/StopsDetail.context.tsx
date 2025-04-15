@@ -1,5 +1,3 @@
-/* * */
-
 import type { SimplifiedAlert } from '@/types/alerts.types';
 import type { Arrival } from '@/types/stops.types';
 import type { Line, Pattern, Shape, Stop } from '@carrismetropolitana/api-types/network';
@@ -13,16 +11,11 @@ import { Routes } from '@/utils/routes';
 import { DateTime } from 'luxon';
 import { createContext, useContext, useEffect, useState } from 'react';
 
-// import { useAnalyticsContext } from './Analytics.context';
-
-/* * */
-
 interface StopsDetailContextState {
 	actions: {
 		resetActiveTripId: () => void
 		setActiveStopId: (stopId: string) => void
 		setActiveTripId: (tripId: string, stopSequence: number) => void
-		setStopId: (stopId: string) => void
 	}
 	data: {
 		active_alerts: SimplifiedAlert[] | undefined
@@ -50,12 +43,6 @@ interface StopsDetailContextState {
 	}
 }
 
-interface StopsDetailContextProviderProps {
-	children: React.ReactNode
-	stopIdParams?: string
-}
-/* * */
-
 const StopsDetailContext = createContext<StopsDetailContextState | undefined>(undefined);
 
 export function useStopsDetailContext() {
@@ -66,91 +53,48 @@ export function useStopsDetailContext() {
 	return context;
 }
 
-/* * */
-
-export const StopsDetailContextProvider = ({ children, stopIdParams }: StopsDetailContextProviderProps) => {
-	//
-
-	//
-	// A. Setup variables
-
+export const StopsDetailContextProvider = ({ children, stopId }: { children: React.ReactNode, stopId: string }) => {
 	const stopsContext = useStopsContext();
 	const linesContext = useLinesContext();
 	const alertsContext = useAlertsContext();
 	const profileContext = useProfileContext();
 	const operationalDayContext = useOperationalDayContext();
-	// const analyticsContext = useAnalyticsContext();
-
 	const [dataStopState, setDataStopState] = useState<Stop | undefined>(undefined);
-	const [dataActiveStopIdState, setDataActiveStopIdState] = useState<string>(stopIdParams || '');
-
+	const [dataActiveStopIdState, setDataActiveStopIdState] = useState<string>(stopId);
 	const [dataLinesState, setDataLinesState] = useState<Line[] | undefined>(undefined);
 	const [dataPatternsState, setDataPatternsState] = useState<Pattern[][] | undefined>(undefined);
 	const [dataValidPatternsState, setDataValidPatternsState] = useState<Pattern[] | undefined>(undefined);
 	const [dataShapeState, setDataShapeState] = useState<Shape | undefined>(undefined);
-
 	const [dataTimetableRealtimeState, setDataTimetableRealtimeState] = useState<Arrival[] | undefined>(undefined);
 	const [dataTimetableRealtimePastState, setDataTimetableRealtimePastState] = useState<Arrival[] | undefined>(undefined);
 	const [dataTimetableRealtimeFutureState, setDataTimetableRealtimeFutureState] = useState<Arrival[] | undefined>(undefined);
 	const [dataTimetableScheduleState, setDataTimetableScheduleState] = useState<Arrival[] | undefined>(undefined);
-
 	const [dataActivePatternState, setDataActivePatternState] = useState<Pattern | undefined>(undefined);
 	const [dataActiveAlertsState, setDataActiveAlertsState] = useState<SimplifiedAlert[] | undefined>(undefined);
 	const [dataActiveTripIdState, setDataActiveTripIdState] = useState<string | undefined>(undefined);
 	const [dataActiveStopSequenceState, setDataActiveStopSequenceState] = useState<number | undefined>(undefined);
-
 	const [flagIsFavoriteState, setFlagIsFavoriteState] = useState<boolean>(false);
-	const [stopId, setSelectedStopId] = useState<'' | string >('');
 
-	//
-	// B. Fetch data
-
-	/**
-	 * Populate stopData state when stopId changes.
-	 * Use data from stopsContext to avoid fetching the same data twice.
-	 */
 	useEffect(() => {
-		if (!dataActiveStopIdState || !stopsContext.data.stops || !stopsContext.data.stops.length || !stopId) return;
-		let foundStopData: Stop | undefined = undefined;
-		if (dataActiveStopIdState) {
-			foundStopData = stopsContext.actions.getStopById(dataActiveStopIdState);
-		}
-		else {
-			foundStopData = stopsContext.actions.getStopById(stopId);
-		}
+		if (!dataActiveStopIdState || !stopsContext.data.stops || !stopsContext.data.stops.length) return;
+		const foundStopData = stopsContext.actions.getStopById(dataActiveStopIdState);
+		setDataStopState(foundStopData);
+	}, [stopsContext.data.stops, dataActiveStopIdState]);
 
-		if (foundStopData) {
-			setDataStopState(foundStopData);
-		}
-	}, [stopsContext.data.stops, dataActiveStopIdState, stopId]);
-
-	/**
-	 * Fetch line data for the selected stop.
-	 * This effect runs whenever the `dataStopState` changes.
-	 * It fetches line data for each line associated with the stop and updates the state.
-	 */
 	useEffect(() => {
 		if (!dataStopState) return;
-		const linesData = dataStopState.line_ids
-			.map(lineId => linesContext.actions.getLineDataById(lineId))
-			.filter(lineData => lineData !== undefined);
+		const linesData = dataStopState.line_ids.map(lineId => linesContext.actions.getLineDataById(lineId)).filter(lineData => lineData !== undefined);
 		setDataLinesState(linesData);
 	}, [dataStopState]);
 
-	/**
-	 * Fetch realtime arrivals data for the selected stop.
-	 * This effect runs whenever the `dataStopState` changes.
-	 * It fetches line data for each line associated with the stop and updates the state.
-	 */
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
 				if (!dataActiveStopIdState) return;
-				const realtimeData = await fetch(`${Routes.API}/arrivals/by_stop/${dataActiveStopIdState ? dataActiveStopIdState : stopId}`)
-					.then((response) => {
-						if (!response.ok) console.log(`Failed to fetch realtime data for stopId: ${dataActiveStopIdState}`);
-						else return response.json();
-					});
+				const realtimeData = await fetch(`${Routes.API}/arrivals/by_stop/${dataActiveStopIdState}`).then((response) => {
+					if (!response.ok) console.log(`Failed to fetch realtime data for stopId: ${dataActiveStopIdState}`);
+					else return response.json();
+				});
 				setDataTimetableRealtimeState(realtimeData);
 			}
 			catch (error) {
@@ -158,17 +102,11 @@ export const StopsDetailContextProvider = ({ children, stopIdParams }: StopsDeta
 				setDataTimetableRealtimeState([]);
 			}
 		};
-		//
 		fetchData();
 		const interval = setInterval(fetchData, 10000);
 		return () => clearInterval(interval);
-	}, [dataActiveStopIdState, stopId]);
+	}, [dataActiveStopIdState]);
 
-	/**
-	 * Fetch pattern data for the selected stop.
-	 * This effect runs whenever the `dataStopState` changes.
-	 * It fetches pattern data for each pattern associated with the stop and updates the state.
-	 */
 	useEffect(() => {
 		if (!dataStopState) return;
 		(async () => {
@@ -187,10 +125,6 @@ export const StopsDetailContextProvider = ({ children, stopIdParams }: StopsDeta
 		})();
 	}, [dataStopState]);
 
-	/**
-	 * TASK: Fetch shape data for the active trip.
-	 * WHEN: The `dataActivePatternState` changes.
-	 */
 	useEffect(() => {
 		if (!dataActivePatternState) return;
 		(async () => {
@@ -216,30 +150,20 @@ export const StopsDetailContextProvider = ({ children, stopIdParams }: StopsDeta
 		})();
 	}, [dataActivePatternState]);
 
-	//
-	// C. Transform data
-
 	useEffect(() => {
-		setFlagIsFavoriteState(!!profileContext.data.favorite_stops?.some(stop => stop.data.type === 'stops' && stop.data.stop_id === (stopIdParams ? stopIdParams : stopId)));
-	}, [profileContext.data.favorite_stops, stopIdParams, stopId]);
+		setFlagIsFavoriteState(profileContext.data.favorite_stops?.includes(stopId) ? true : false);
+	}, [profileContext.data.favorite_stops, stopId]);
 
-	/**
-	 * Prepare timetable realtime data for the selected stop.
-	 */
 	useEffect(() => {
 		const prepareTimetableRealtimeData = () => {
 			if (!dataTimetableRealtimeState) return;
 			const nowInUnixSeconds = DateTime.now().toSeconds();
 			const timetableRealtimePastResult = dataTimetableRealtimeState
 				.filter((arrival) => {
-					// If the arrival has an observed arrival time,
-					// then it means the vehicle has already passed the stop.
 					if (arrival.observed_arrival_unix) return true;
-					// Include it in the past if the estimated arrival time is in the past.
 					return (arrival.estimated_arrival_unix || arrival.scheduled_arrival_unix) < nowInUnixSeconds;
 				})
 				.filter((arrival) => {
-					// Skip the last stop
 					const lastStopSequence = dataValidPatternsState
 						?.find(patternGroup => patternGroup.id === arrival.pattern_id)?.path
 						.sort((a, b) => a.stop_sequence - b.stop_sequence)
@@ -253,14 +177,10 @@ export const StopsDetailContextProvider = ({ children, stopIdParams }: StopsDeta
 				});
 			const timetableRealtimeFutureResult = dataTimetableRealtimeState
 				.filter((arrival) => {
-					// If the arrival has an observed arrival time,
-					// then it means the vehicle has already passed the stop.
 					if (arrival.observed_arrival_unix) return false;
-					// Include it in the future if the estimated arrival time is in the future.
 					return (arrival.estimated_arrival_unix || arrival.scheduled_arrival_unix) >= nowInUnixSeconds;
 				})
 				.filter((arrival) => {
-					// Skip the last stop
 					const lastStopSequence = dataValidPatternsState
 						?.find(patternGroup => patternGroup.id === arrival.pattern_id)?.path
 						.sort((a, b) => a.stop_sequence - b.stop_sequence)
@@ -280,33 +200,18 @@ export const StopsDetailContextProvider = ({ children, stopIdParams }: StopsDeta
 		return () => clearInterval(interval);
 	}, [dataTimetableRealtimeState]);
 
-	/**
-	 * Prepare timetable schedule data for the selected stop.
-	 */
 	useEffect(() => {
-		// Return if no valid pattern groups or operational day is selected
 		if (!operationalDayContext.data.selected_day || !dataValidPatternsState) return;
-
 		const validScheduledTrips: Arrival[] = [];
-
 		for (const patternGroup of dataValidPatternsState || []) {
-			// Skip the last stop
 			const lastStopSequence = patternGroup.path
 				.sort((a, b) => a.stop_sequence - b.stop_sequence)
 				.slice(-1)[0]?.stop_sequence;
-			// Find the trips for the given pattern
 			for (const trip of patternGroup.trips) {
-				// Skip if trip is not valid for the selected operational day
 				if (!trip.valid_on.includes(operationalDayContext.data.selected_day)) continue;
-				// Find the schedule for the given Stop ID
 				for (const stopTime of trip.schedule) {
-					// Skip if not for the selected stop
-					if (stopTime.stop_id !== dataActiveStopIdState || stopTime.stop_id !== stopId) continue;
-					// Skip the last stop
+					if (stopTime.stop_id !== dataActiveStopIdState) continue;
 					if (stopTime.stop_sequence === lastStopSequence) continue;
-					// Convert the arrival time into a unix timestamp.
-					// The arrival time is in 24h+ format, so we need to split it into hours, minutes, and seconds.
-					// Remember that if the hour is greater than 24, it means the arrival time is on the next day, and we need to add one day to the timestamp.
 					const [arrivalHours, arrivalMinutes, arrivalSeconds] = stopTime.arrival_time.split(':').map(Number);
 					const arrivalUnixTimestamp = DateTime
 						.fromFormat(operationalDayContext.data.selected_day, 'yyyyMMdd')
@@ -333,11 +238,8 @@ export const StopsDetailContextProvider = ({ children, stopIdParams }: StopsDeta
 		}
 		validScheduledTrips.sort((a, b) => (a.scheduled_arrival_unix - b.scheduled_arrival_unix));
 		setDataTimetableScheduleState(validScheduledTrips);
-	}, [operationalDayContext.data.selected_day, dataValidPatternsState, dataActiveStopIdState, stopId]);
+	}, [operationalDayContext.data.selected_day, dataValidPatternsState, dataActiveStopIdState]);
 
-	/**
-	 * Fill state with valid pattern groups for the selected operational day.
-	 */
 	useEffect(() => {
 		if (!dataPatternsState || !operationalDayContext.data.selected_day) return;
 		const activePatterns: Pattern[] = [];
@@ -356,25 +258,18 @@ export const StopsDetailContextProvider = ({ children, stopIdParams }: StopsDeta
 		const activeAlerts = alertsContext.data.simplified.filter((simplifiedAlertData) => {
 			return simplifiedAlertData.informed_entity.some((informedEntity) => {
 				if (!informedEntity.stop_id && !informedEntity.route_id) return false;
-				const hasMatchingStop = informedEntity.stop_id === dataActiveStopIdState ? dataActiveStopIdState : stopId;
+				const hasMatchingStop = informedEntity.stop_id === dataActiveStopIdState;
 				const hasMatchingRoute = dataStopState?.route_ids.includes(informedEntity.route_id || '');
 				const isActive = simplifiedAlertData.end_date ? simplifiedAlertData.end_date >= new Date() : true;
 				return (hasMatchingStop || hasMatchingRoute) && isActive;
 			});
 		});
 		setDataActiveAlertsState(activeAlerts);
-	}, [alertsContext.data.simplified, dataStopState, dataActiveStopIdState, stopId]);
-
-	//
-	// D. Handle actions
+	}, [alertsContext.data.simplified, dataStopState, dataActiveStopIdState]);
 
 	const setActiveStopId = (stopId: string) => {
 		resetActiveTripId();
 		setDataActiveStopIdState(stopId);
-	};
-
-	const setStopId = (stopId: string) => {
-		setSelectedStopId(stopId);
 	};
 
 	const setActiveTripId = (tripId: string, stopSequence: number) => {
@@ -384,7 +279,6 @@ export const StopsDetailContextProvider = ({ children, stopIdParams }: StopsDeta
 		}
 		setDataActiveTripIdState(tripId);
 		setDataActiveStopSequenceState(stopSequence);
-		// analyticsContext.actions.capture(ampli => ampli.stopTripClicked({ trip_id: tripId }));
 	};
 
 	const resetActiveTripId = () => {
@@ -394,38 +288,11 @@ export const StopsDetailContextProvider = ({ children, stopIdParams }: StopsDeta
 		setDataActiveStopSequenceState(undefined);
 	};
 
-	// useEffect(() => {
-	// 	// Setup a keyboard listener for up and down arrow keys to navigate through the timetable.
-	// 	const handleKeyPress = (event: KeyboardEvent) => {
-	// 		if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-	// 			event.preventDefault();
-	// 			// If not today, select from the schedule trips array
-	// 			if (!operationalDayContext.flags.is_today_selected) {
-	// 				const activeTripTimetableScheduleIndex = dataTimetableScheduleState?.findIndex(arrival => arrival.trip_id === dataActiveTripIdState);
-	// 				if (activeTripTimetableScheduleIndex !== undefined && activeTripTimetableScheduleIndex > -1) {
-	// 					const foundArrivalData = dataTimetableScheduleState?.[activeTripTimetableScheduleIndex + (event.key === 'ArrowUp' ? -1 : 1)];
-	// 					if (foundArrivalData) {
-	// 						setActiveTripId(foundArrivalData.trip_id, foundArrivalData.stop_sequence);
-	// 						return;
-	// 					}
-	// 				}
-	// 			}
-	// 			//
-	// 		}
-	// 	};
-	// 	// document.addEventListener('keydown', handleKeyPress);
-	// 	// return () => document.removeEventListener('keydown', handleKeyPress);
-	// }, [dataActiveStopSequenceState, dataTimetableScheduleState]);
-
-	//
-	// E. Define context value
-
 	const contextValue: StopsDetailContextState = {
 		actions: {
 			resetActiveTripId,
 			setActiveStopId,
 			setActiveTripId,
-			setStopId,
 		},
 		data: {
 			active_alerts: dataActiveAlertsState,
@@ -453,14 +320,9 @@ export const StopsDetailContextProvider = ({ children, stopIdParams }: StopsDeta
 		},
 	};
 
-	//
-	// F. Render components
-
 	return (
 		<StopsDetailContext.Provider value={contextValue}>
 			{children}
 		</StopsDetailContext.Provider>
 	);
-
-	//
 };

@@ -1,19 +1,17 @@
 import { Section } from '@/components/common/layout/Section';
 import { LineBadge } from '@/components/lines/LineBadge';
+import { useLinesContext } from '@/contexts/Lines.context';
 import { useProfileContext } from '@/contexts/Profile.context';
-import { useStopsContext } from '@/contexts/Stops.context';
-import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
 import { Pattern, Stop } from '@carrismetropolitana/api-types/network';
 import { Button, ListItem, Overlay, Text } from '@rneui/themed';
-import { IconArrowLoopRight, IconArrowRight, IconBusStop, IconCircle, IconCircleCheckFilled, IconNotification, IconPlayerPlayFilled, IconSearch } from '@tabler/icons-react-native';
+import { IconArrowRight, IconBusStop, IconCircle, IconCircleCheckFilled, IconNotification, IconPlayerPlayFilled, IconSearch } from '@tabler/icons-react-native';
 import { useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import useSWR from 'swr';
 
 import StopsListChooserModal from '../StopsListChooserModal';
 import styles from './styles';
@@ -33,6 +31,7 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 
 	const themeContext = useThemeContext();
 	const profileContext = useProfileContext();
+	const linesContext = useLinesContext();
 
 	const addFavoriteStopStyles = styles();
 
@@ -148,11 +147,12 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 								{selectedStopPatterns.length > 0 ? (
 									selectedStopPatterns.map((patternId) => {
 										const lineId = patternId.split('_')[0];
+										const lineColor = linesContext.data.lines.find(line => line.id === lineId)?.color;
 										const isFavorite = profileContext.data.profile?.widgets?.some(
 											favorite =>
 												favorite.data
 												&& favorite.data.type === 'stops'
-												&& 'pattern_id' in favorite.data.pattern_ids,
+												&& patternId in favorite.data.pattern_ids,
 										);
 
 										return (
@@ -163,7 +163,7 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 												}}
 											>
 												<LineBadge
-													color="#FF6900"
+													color={lineColor}
 													lineId={lineId}
 													size="lg"
 												/>

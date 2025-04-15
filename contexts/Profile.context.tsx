@@ -91,19 +91,19 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			email_verified: cloud.email_verified,
 			favorites: cloud.favorites,
 			profile: {
-				activity: local.profile?.activity || cloud.profile?.activity,
-				date_of_birth: local.profile?.date_of_birth || cloud.profile?.date_of_birth,
-				first_name: local.profile?.first_name || cloud.profile?.first_name,
-				gender: local.profile?.gender || cloud.profile?.gender,
-				last_name: local.profile?.last_name || cloud.profile?.last_name,
-				phone: local.profile?.phone || cloud.profile?.phone,
-				profile_image: local.profile?.profile_image || cloud.profile?.profile_image,
-				utilization_type: local.profile?.utilization_type || cloud.profile?.utilization_type,
-				work_setting: local.profile?.work_setting || cloud.profile?.work_setting,
+				activity: cloud.profile?.activity || local.profile?.activity,
+				date_of_birth: cloud.profile?.date_of_birth || local.profile?.date_of_birth,
+				first_name: cloud.profile?.first_name || local.profile?.first_name,
+				gender: cloud.profile?.gender || local.profile?.gender,
+				last_name: cloud.profile?.last_name || local.profile?.last_name,
+				phone: cloud.profile?.phone || local.profile?.phone,
+				profile_image: cloud.profile?.profile_image || local.profile?.profile_image,
+				utilization_type: cloud.profile?.utilization_type || local.profile?.utilization_type,
+				work_setting: cloud.profile?.work_setting || local.profile?.work_setting,
 			},
 			role: cloud.role,
 			updated_at: cloud.updated_at,
-			widgets: local.widgets && local.widgets.length > 0 ? local.widgets : cloud.widgets,
+			widgets: cloud.widgets,
 		};
 	};
 
@@ -114,8 +114,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 			const mergedProfile = mergeProfiles(localProfile, cloudProfile);
 
-			// If there are any differences, update local state and AsyncStorage,
-			// and push the merged profile to the cloud.
 			if (JSON.stringify(localProfile) !== JSON.stringify(mergedProfile)) {
 				setDataProfileState(mergedProfile);
 				await AsyncStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(mergedProfile));
@@ -143,16 +141,16 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			setAPIToken(storedToken);
 			setDataPersonaImageState(storedPersona);
 
-			const localProfile = storedProfile ? JSON.parse(storedProfile) : null;
+			const localProfile = storedProfile ? JSON.parse(storedProfile) : '';
 
 			setDataProfileState(localProfile);
 
-			if (localProfile) {
-				console.log(localProfile);
-				await syncProfiles(localProfile);
+			if (!localProfile) {
+				await setNewEmptyProfile();
 			}
 			else {
-				await setNewEmptyProfile();
+				// console.log(localProfile);
+				await syncProfiles(localProfile);
 			}
 		}
 		catch (error) {
@@ -173,7 +171,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 		const intervalId = setInterval(() => {
 			fetchData();
-		}, 10000); // every 10 seconds
+		}, 10000);
 
 		return () => clearInterval(intervalId);
 	}, [consentContext.data.enabled_functional]);
@@ -216,6 +214,19 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			const image = await response.json();
 			if (image.url) {
 				setDataPersonaImageState(image.url);
+				setDataProfileState((prevState) => {
+					if (!prevState) {
+						console.error('Error: prevState is null or undefined');
+						return null;
+					}
+					return {
+						...prevState,
+						profile: {
+							...prevState.profile,
+							profile_image: image.url,
+						},
+					};
+				});
 			}
 			else {
 				console.error('Error: No URL property in response', image);
@@ -251,7 +262,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				method: 'PUT',
 			});
 			const updatedProfile = await response.json();
-			// ('Cloud profile updated successfully:', updatedProfile);
 		}
 		catch (error) {
 			console.error('Error updating profile on cloud:', error);
@@ -261,8 +271,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const updateLocalProfile = async (profile: Account) => {
 		if (!consentContext.data.enabled_functional) return;
 		const { _id, created_at, role, updated_at, ...cleanedProfile } = profile;
-
-		// console.log('Updating local profile:', cleanedProfile);
 
 		const localProfile = await localStorage.getItem(LOCAL_STORAGE_KEYS.profile);
 		if (localProfile) {
@@ -316,7 +324,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		await updateProfileOnCloud(updatedProfile);
 	};
 
-	const toggleFavoriteStop = async (stopId: string, patternId: string) => {
+	const toggleFavoriteStop = async (stopId: string, patternId: string[]) => {
 		if (!consentContext.data.enabled_functional) return;
 
 		try {

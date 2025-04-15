@@ -101,7 +101,6 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 											<ListItem
 												key={item}
 												onPress={() => {
-													// Toggle favorite immediately
 													profileContext.actions.toggleFavoriteLine([item]);
 												}}
 											>
