@@ -23,10 +23,10 @@ export function NoDatabLabel({ fill, text, withMinHeight }: NoDatabLabelProps) {
 	const styles = StyleSheet.create({
 		container: {
 			flex: 1,
+			flexDirection: 'row',
 			marginTop: '100%',
 			opacity: 0.15,
 			textTransform: 'uppercase',
-			width: '100%',
 		},
 		fill: {
 			height: '100%',

@@ -53,6 +53,7 @@
 	"workbench.editor.customLabels.patterns": {
 		"**/app/**/*.js": "${dirname} (${extname})",
 		"**/app/**/*.tsx": "${dirname} (${extname})"
-	}
+	},
+	"todo-tree.tree.disableCompactFolders": true
 
 }

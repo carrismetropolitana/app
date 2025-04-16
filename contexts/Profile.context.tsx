@@ -120,7 +120,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				updateProfileOnCloud(mergedProfile);
 			}
 			else {
-				// console.log('Profiles already in sync.');
+				console.log('Profiles already in sync.');
 			}
 		}
 		catch (error) {
@@ -327,7 +327,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const toggleFavoriteStop = async (stopId: string, pattern_ids: string[]) => {
 		if (!consentContext.data.enabled_functional) return;
 
-		console.log(' ====> toggle stops', stopId, pattern_ids);
 		const currentWidgets = dataFavoriteStopsState || [];
 		const updatedWidgets = [...currentWidgets];
 
