@@ -4,7 +4,6 @@ import { Loader } from '@/components/common/Loader';
 import { useConsentContext } from '@/contexts/Consent.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { IconHeart, IconHeartFilled, IconHeartX } from '@tabler/icons-react-native';
-import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 
 import { favoriteToggleStyles } from './styles';

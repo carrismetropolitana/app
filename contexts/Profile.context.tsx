@@ -116,7 +116,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 			if (JSON.stringify(localProfile) !== JSON.stringify(mergedProfile)) {
 				setDataProfileState(mergedProfile);
-				await AsyncStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(mergedProfile));
+				await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(mergedProfile));
 				updateProfileOnCloud(mergedProfile);
 			}
 			else {
@@ -320,72 +320,53 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			],
 		};
 		setDataProfileState(updatedProfile);
-		localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
+		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
 		await updateProfileOnCloud(updatedProfile);
 	};
 
-	const toggleFavoriteStop = async (stopId: string, patternId: string[]) => {
+	const toggleFavoriteStop = async (stopId: string, pattern_ids: string[]) => {
 		if (!consentContext.data.enabled_functional) return;
 
-		try {
-			const currentProfile = dataProfileState;
-			if (!currentProfile) return;
+		console.log(' ====> toggle stops', stopId, pattern_ids);
+		const currentWidgets = dataFavoriteStopsState || [];
+		const updatedWidgets = [...currentWidgets];
 
-			const existingWidgets = currentProfile.widgets || [];
-			const updatedWidgets = [...existingWidgets];
-
+		if (pattern_ids) {
 			const index = updatedWidgets.findIndex(
 				widget =>
-					widget.data?.type === 'stops'
-					&& widget.data.stop_id === stopId
-					&& widget.data.pattern_ids?.includes(patternId),
+					widget.data
+					&& widget.data.type === 'stops'
+					&& widget.data.pattern_ids?.includes(pattern_ids[0]),
 			);
-
 			if (index !== -1) {
-				const widget = updatedWidgets[index];
-				if (widget.data.type === 'stops' && widget.data.pattern_ids) {
-					widget.data.pattern_ids = widget.data.pattern_ids.filter(id => id !== patternId);
-				}
-
-				if (widget.data.type === 'stops' && widget.data.pattern_ids?.length === 0) {
-					updatedWidgets.splice(index, 1);
-				}
+				updatedWidgets.splice(index, 1);
 			}
 			else {
-				const existingWidgetIndex = updatedWidgets.findIndex(
-					widget => widget.data?.type === 'stops' && widget.data.stop_id === stopId,
-				);
-
-				if (existingWidgetIndex !== -1) {
-					if (updatedWidgets[existingWidgetIndex].data.type === 'stops' && updatedWidgets[existingWidgetIndex].data.pattern_ids) {
-						updatedWidgets[existingWidgetIndex].data.pattern_ids.push(patternId);
-					}
-				}
-				else {
-					const newFavoriteStop: AccountWidget = {
-						data: { pattern_ids: [patternId], stop_id: stopId, type: 'stops' as const },
-						settings: { display_order: 0, is_open: true, label: null },
-					};
-					updatedWidgets.push(newFavoriteStop);
-				}
+				const newFavoriteStop: AccountWidget = {
+					data: { pattern_ids: pattern_ids, stop_id: stopId, type: 'stops' as const },
+					settings: { is_open: true },
+				};
+				updatedWidgets.push(newFavoriteStop);
 			}
-
-			const updatedProfile: Account = {
-				...currentProfile,
-				widgets: updatedWidgets,
-			};
-
-			setDataProfileState(updatedProfile);
-			setDataFavoriteStopsState(
-				updatedWidgets.filter(widget => widget.data?.type === 'stops'),
-			);
-
-			await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile));
-			await updateProfileOnCloud(updatedProfile);
 		}
-		catch (error) {
-			console.error('Error toggling favorite stop:', error);
+		else {
+			console.error('Error: pattern_ids is not an array', pattern_ids);
 		}
+
+		// Update the favorite stops state correctly instead of favorite lines
+		setDataFavoriteStopsState(updatedWidgets);
+
+		// Update profile merging widgets
+		const updatedProfile: Account = {
+			...(dataProfileState || {}),
+			widgets: [
+				...(dataFavoriteLinesState || []),
+				...updatedWidgets,
+			],
+		};
+		setDataProfileState(updatedProfile);
+		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
+		await updateProfileOnCloud(updatedProfile);
 	};
 
 	const setNewEmptyProfile = async () => {

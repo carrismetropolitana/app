@@ -25,6 +25,13 @@ export default function Component() {
 	const consentContext = useConsentContext();
 	const themeContext = useThemeContext();
 
+	const header = ['heading 1', 'heading 2', 'heading 3'];
+	const data = [
+		['gfg1', 'gfg2', 'gfg3'],
+		['gfg4', 'gfg5', 'gfg6'],
+		['gfg7', 'gfg8', 'gfg9'],
+	];
+
 	//
 	// B. Handle actions
 
@@ -39,13 +46,6 @@ export default function Component() {
 	// 		title: t('sections.question_6.refuse_modal.title'),
 	// 	});
 	// };
-
-	const header = ['heading 1', 'heading 2', 'heading 3'];
-	const data = [
-		['gfg1', 'gfg2', 'gfg3'],
-		['gfg4', 'gfg5', 'gfg6'],
-		['gfg7', 'gfg8', 'gfg9'],
-	];
 
 	//
 	// C. Render components

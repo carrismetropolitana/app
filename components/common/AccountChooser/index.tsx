@@ -1,9 +1,6 @@
-import { theming } from '@/theme/Variables';
-import { Account, UtilizationTypeSchema } from '@/types/account.types';
-import { Picker } from '@react-native-picker/picker';
+import { Account } from '@/types/account.types';
 import { Button, Overlay, Text } from '@rneui/themed';
-import { useState } from 'react';
-import { SafeAreaView, ScrollView, TextInput, View } from 'react-native';
+import { SafeAreaView, ScrollView, View } from 'react-native';
 
 interface Props {
 	action1?: () => void
@@ -19,8 +16,6 @@ interface Props {
 }
 
 export function AccountChooser({ action1, action1Title, action2, action2Title, cloudProfile, description, isVisible, localProfile, onBackdropPress, title }: Props) {
-	// console.log('CLOUD =====>', JSON.stringify(cloudProfile));
-	// console.log('LOCAL ===> ', JSON.stringify(localProfile));
 	return (
 
 		<Overlay

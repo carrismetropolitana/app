@@ -4,11 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 
 /* * */
+
 interface NoDatabLabelProps {
 	fill?: boolean
 	text?: string
 	withMinHeight?: boolean
 }
+
 /* * */
 export function NoDatabLabel({ fill, text, withMinHeight }: NoDatabLabelProps) {
 	//

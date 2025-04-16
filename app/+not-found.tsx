@@ -1,10 +1,19 @@
+/* * */
+
 import { useThemeContext } from '@/contexts/Theme.context';
 import { Text } from '@rneui/themed';
 import { Link, Stack } from 'expo-router';
 import { View } from 'react-native';
 import { StyleSheet } from 'react-native';
 
+/* * */
+
 export default function NotFoundScreen() {
+	//
+
+	//
+	// A. Setup Variables
+
 	const themeContext = useThemeContext();
 
 	const styles = StyleSheet.create({
@@ -22,6 +31,9 @@ export default function NotFoundScreen() {
 		},
 	});
 
+	//
+	// B. Render Components
+
 	return (
 		<>
 			<Stack.Screen options={{ headerShown: false, title: 'Oops!' }} />
@@ -33,4 +45,6 @@ export default function NotFoundScreen() {
 			</View>
 		</>
 	);
+
+	//
 }

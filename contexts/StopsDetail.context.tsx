@@ -53,14 +53,14 @@ export function useStopsDetailContext() {
 	return context;
 }
 
-export const StopsDetailContextProvider = ({ children, stopId }: { children: React.ReactNode, stopId: string }) => {
+export const StopsDetailContextProvider = ({ children, stopId }: { children: React.ReactNode, stopId?: string }) => {
 	const stopsContext = useStopsContext();
 	const linesContext = useLinesContext();
 	const alertsContext = useAlertsContext();
 	const profileContext = useProfileContext();
 	const operationalDayContext = useOperationalDayContext();
 	const [dataStopState, setDataStopState] = useState<Stop | undefined>(undefined);
-	const [dataActiveStopIdState, setDataActiveStopIdState] = useState<string>(stopId);
+	const [dataActiveStopIdState, setDataActiveStopIdState] = useState<string>(stopId || '');
 	const [dataLinesState, setDataLinesState] = useState<Line[] | undefined>(undefined);
 	const [dataPatternsState, setDataPatternsState] = useState<Pattern[][] | undefined>(undefined);
 	const [dataValidPatternsState, setDataValidPatternsState] = useState<Pattern[] | undefined>(undefined);

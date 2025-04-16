@@ -1,10 +1,19 @@
+/* * */
+
 import { useThemeContext } from '@/contexts/Theme.context';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { WebView } from 'react-native-webview';
 
+/* * */
+
 export default function OpenWebView() {
+	//
+
+	//
+	// A. Setup Variables
+
 	const { locale, url } = useLocalSearchParams();
 	const formedUrl = `${url}?locale=${locale}`;
 
@@ -12,6 +21,9 @@ export default function OpenWebView() {
 
 	const themeContext = useThemeContext();
 	const { t } = useTranslation('translation', { keyPrefix: 'layout' });
+
+	//
+	// B. Fetch data
 
 	useEffect(() => {
 		navigation.setOptions({
@@ -23,9 +35,14 @@ export default function OpenWebView() {
 		});
 	}, [navigation, themeContext.theme.mode]);
 
+	//
+	// C. Render components
+
 	return (
 		<WebView
 			source={{ uri: formedUrl as string }}
 		/>
 	);
+
+	//
 }

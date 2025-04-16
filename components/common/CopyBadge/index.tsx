@@ -1,6 +1,5 @@
 /* * */
 
-import { styles } from '@/components/RegularListItem/styles';
 import * as Clipboard from 'expo-clipboard';
 import { useState } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
@@ -23,6 +22,7 @@ export function CopyBadge({ hasBorder = true, label, size = 'md', value }: Props
 
 	//
 	// A. Setup variables
+
 	const [validClipboard, setValidClipboard] = useState<boolean>(false);
 
 	const styles = [
@@ -30,6 +30,7 @@ export function CopyBadge({ hasBorder = true, label, size = 'md', value }: Props
 		size === 'lg' && copyBadgeStyles.sizeLg,
 		size === 'md' && copyBadgeStyles.sizeMd,
 	];
+
 	//
 	// B. Handle actions
 
@@ -49,7 +50,7 @@ export function CopyBadge({ hasBorder = true, label, size = 'md', value }: Props
 	// B. Render components
 
 	return (
-		// ${hasBorder && copyBadgeStyles.hasBorder} ${copyBadgeStyles[size]}
+
 		<TouchableOpacity onPress={() => handleCopy(value)} style={[copyBadgeStyles.container, styles]}>
 			<Text style={copyBadgeStyles.text}>{validClipboard ? 'Copied' : label ? label : value}</Text>
 		</TouchableOpacity>

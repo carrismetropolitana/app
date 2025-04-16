@@ -25,6 +25,7 @@ export function VirtualizedListingStops({ data, icon, itemClick, items, size }: 
 
 	//
 	// B. Render components
+
 	const renderItem = ({ item }) => (
 		<ListItem bottomDivider topDivider>
 			{itemClick

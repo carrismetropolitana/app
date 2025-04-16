@@ -2,7 +2,7 @@
 
 import { NoDatabLabel } from '@/components/common/layout/NoDataLabel';
 import { LineDisplay } from '@/components/lines/LineDisplay';
-import { ListItem, Text } from '@rneui/themed';
+import { ListItem } from '@rneui/themed';
 import { Link } from 'expo-router';
 import { TouchableOpacity, VirtualizedList } from 'react-native';
 

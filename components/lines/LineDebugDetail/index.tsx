@@ -17,6 +17,11 @@ interface Props {
 /* * */
 
 export function LineDebugDetail({ activePattern, lineColor, totalStops }: Props) {
+	//
+
+	//
+	// A. Render components
+
 	return (
 		<View style={lineDebugDetailStyles.container}>
 			<CopyBadge hasBorder={false} label={`Pattern ID: ${activePattern?.id || 'NULL'}`} value={activePattern?.id || 'NULL'} />
@@ -27,4 +32,6 @@ export function LineDebugDetail({ activePattern, lineColor, totalStops }: Props)
 			<CopyBadge label={`Pattern Version ID: ${activePattern?.version_id || 'NULL'}`} value={activePattern?.version_id || 'NULL'} />
 		</View>
 	);
+
+	//
 }

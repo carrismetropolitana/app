@@ -1,5 +1,3 @@
-'use client';
-
 /* * */
 
 import { LiveIcon } from '@/components/common/LiveIcon';

@@ -1,3 +1,6 @@
+/* * */
+
+import { AccountWidget } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
 import { Pattern } from '@carrismetropolitana/api-types/network';
 import { ListItem } from '@rneui/themed';
@@ -5,18 +8,29 @@ import { IconGripVertical } from '@tabler/icons-react-native';
 import React, { useEffect, useState } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
+/* * */
+
 interface FavoriteItemProps {
-	data: any
+	data: AccountWidget
 	drag: () => void
 }
 
+/* * */
+
 const FavoriteItem = ({ data, drag }: FavoriteItemProps) => {
-	const [isLoading, setIsLoading] = useState(true);
+	//
+
+	//
+	// A. Setup Variables
+
 	const [patternData, setPatternData] = useState<null | Pattern>(null);
 
-	// Always use pattern_id regardless of type
-	const patternId = data?.data?.pattern_id;
-	const type = data?.data?.type;
+	const patternId = data.data.type === 'lines'
+		? data.data.pattern_id
+		: data.data.pattern_ids;
+
+	//
+	// B. Fetch Data
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -34,37 +48,30 @@ const FavoriteItem = ({ data, drag }: FavoriteItemProps) => {
 				console.error('Fetch error:', error);
 				setPatternData(null);
 			}
-			finally {
-				setIsLoading(false);
-			}
 		};
 
-		setIsLoading(true);
 		fetchData();
 	}, [patternId]);
 
-	if (!patternId) return null;
+	//
+	// C. Render Components
 
 	return (
 		<ListItem>
-			<TouchableOpacity onPressIn={drag}>
+			<TouchableOpacity onPress={() => drag}>
 				<IconGripVertical color="#9696A0" size={28} />
 			</TouchableOpacity>
 
 			<ListItem.Content>
 				<ListItem.Title>
 					<Text>
-						{isLoading ? 'Loading...' : (
-							type === 'lines'
-								? patternData?.headsign
-								: patternData?.long_name
-						)}
+						{patternData?.headsign}
 					</Text>
 				</ListItem.Title>
 
 				<ListItem.Subtitle>
 					<Text>
-						{type === 'lines' ? 'Linha Favorita' : 'Paragem Favorita'}
+						{data.data.type === 'lines' ? 'Linha Favorita' : 'Paragem Favorita'}
 					</Text>
 				</ListItem.Subtitle>
 			</ListItem.Content>
@@ -72,6 +79,8 @@ const FavoriteItem = ({ data, drag }: FavoriteItemProps) => {
 			<ListItem.Chevron />
 		</ListItem>
 	);
+
+	//
 };
 
 export default FavoriteItem;

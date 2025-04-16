@@ -14,6 +14,7 @@ import { FlatList, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 /* * */
+
 import { AboutCMlistdata } from './_data/aboutCMListData';
 import { Supportlistdata } from './_data/supportListData';
 import { Tarifslistdata } from './_data/tarifsListData';
@@ -66,6 +67,7 @@ export default function MoreScreen() {
 				break;
 		}
 	};
+
 	//
 	// C. Render Components
 

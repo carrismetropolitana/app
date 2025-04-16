@@ -1,5 +1,4 @@
-import { useThemeContext } from '@/contexts/Theme.context';
-import { theming } from '@/theme/Variables';
+import React, { memo, useCallback } from 'react';
 import {
 	Dimensions,
 	FlatList,
@@ -11,57 +10,67 @@ import {
 
 const { width } = Dimensions.get('window');
 
-const RemoteImageCarousel = ({
-	imageUrls,
-	onImagePress,
-}: {
-	imageUrls: string[]
-	onImagePress: (index: number) => void
-}) => {
-	const themeContext = useThemeContext();
+const styles = StyleSheet.create({
+	image: {
+		borderRadius: 12,
+		height: '100%',
+		resizeMode: 'cover',
+		width: '100%',
+	},
+	imageContainer: {
+		alignItems: 'center',
+		elevation: 6,
+		justifyContent: 'center',
+		padding: 14,
+		shadowColor: '#000',
+		shadowOffset: { height: 0, width: 0 },
+		shadowOpacity: 0.05,
+		shadowRadius: 5,
+		width,
+	},
+	list: {
+		height: 250,
+	},
+});
 
-	const styles = StyleSheet.create({
-		image: {
-			borderRadius: 12,
-			// boxShadow: themeContext.theme.mode === 'light' ? `0 0 10 ${theming.colorSystemBorder100}` : `0 0 10 ${theming.colorSystemText200}`,
-			height: '100%',
-			resizeMode: 'cover',
-			width: '100%',
+const RemoteImageCarousel = memo(
+	({
+		imageUrls,
+		onImagePress,
+	}: {
+		imageUrls: string[]
+		onImagePress: (index: number) => void
+	}) => {
+		const handlePress = useCallback(
+			(index: number) => {
+				onImagePress(index);
+			},
+			[onImagePress],
+		);
 
-		},
-		imageContainer: {
-			alignItems: 'center',
-			elevation: 6, // shadow for android
-			justifyContent: 'center',
-
-			padding: 14,
-			shadowColor: '#000', // shadow color for ios
-			shadowOffset: { height: 0, width: 0 }, // offset for shadow
-			shadowOpacity: 0.05, // shadow transparency
-			shadowRadius: 5, // blur radius for shadow
-			width,
-
-		},
-	});
-	return (
-		<FlatList
-			data={imageUrls}
-			decelerationRate="fast"
-			keyExtractor={(item, index) => index.toString()}
-			showsHorizontalScrollIndicator={false}
-			snapToInterval={width}
-			style={{ height: 250 }}
-			renderItem={({ item }) => (
-				<Pressable onPress={() => onImagePress(imageUrls.indexOf(item))}>
-					<View style={styles.imageContainer}>
-						{/* TODO: cache images for offline fallback, consider requesting with If-Modified-Since header */}
-						<Image source={{ uri: item }} style={styles.image} />
-					</View>
-				</Pressable>
-			)}
-			horizontal
-		/>
-	);
-};
+		return (
+			<FlatList
+				data={imageUrls}
+				decelerationRate="fast"
+				keyExtractor={item => item}
+				showsHorizontalScrollIndicator={false}
+				snapToInterval={width}
+				style={styles.list}
+				renderItem={({ index, item }) => (
+					<Pressable
+						accessibilityLabel={`Image ${index + 1}`}
+						accessibilityRole="button"
+						onPress={() => handlePress(index)}
+					>
+						<View style={styles.imageContainer}>
+							<Image source={{ uri: item }} style={styles.image} />
+						</View>
+					</Pressable>
+				)}
+				horizontal
+			/>
+		);
+	},
+);
 
 export default RemoteImageCarousel;

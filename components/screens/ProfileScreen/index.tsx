@@ -1,29 +1,33 @@
+/* * */
+
 import AddFavoriteLine from '@/app/(modal)/AddFavoriteLine';
 import AddFavoriteStop from '@/app/(modal)/AddFavoriteStop';
 import EditableText from '@/components/common/EditableText';
 import FavoriteItem from '@/components/common/FavoriteItem';
 import { Section } from '@/components/common/layout/Section';
 import { Surface } from '@/components/common/layout/Surface';
-import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
-import { Pattern } from '@carrismetropolitana/api-types/network';
-import { Avatar, Button, ListItem, Text } from '@rneui/themed';
-import { IconArrowLoopRight, IconArrowsRandom, IconBellRinging, IconBusStop, IconCirclePlusFilled, IconGripVertical } from '@tabler/icons-react-native';
+import { Avatar, Button, ListItem } from '@rneui/themed';
+import { IconArrowLoopRight, IconArrowsRandom, IconBellRinging, IconBusStop, IconCirclePlusFilled } from '@tabler/icons-react-native';
 import { useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import useSWR from 'swr';
 
 import { styles as useStyles } from './styles';
 
 /* * */
+
 export default function ProfileScreen() {
+	//
+
+	//
 	// A. Setup variables
+
 	const navigation = useNavigation();
 	const themeContext = useThemeContext();
 	const styles = useStyles();
@@ -40,7 +44,9 @@ export default function ProfileScreen() {
 	const [modalFavoriteLineVisible, setModalFavoriteLineVisible] = useState(false);
 	const [modalFavoriteStopVisible, setModalFavoriteStopVisible] = useState(false);
 
+	//
 	// B. Fetch data
+
 	useEffect(() => {
 		navigation.setOptions({
 			headerStyle: {
@@ -52,7 +58,9 @@ export default function ProfileScreen() {
 		});
 	}, [navigation, themeContext.theme.mode]);
 
+	//
 	// C. Handle Actions
+
 	const handleFirstNameBlur = () => {
 		console.log('First name blurred', firstName);
 		if (profileContext.data.profile) {
@@ -80,6 +88,7 @@ export default function ProfileScreen() {
 		}
 	};
 
+	//
 	// D. Render Components
 
 	const renderFavoriteItem = ({ drag, isActive, item }: any) => {
@@ -227,4 +236,6 @@ export default function ProfileScreen() {
 			/>
 		</Surface>
 	);
+
+	//
 }

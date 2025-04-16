@@ -3,9 +3,7 @@ import { Surface } from '@/components/common/layout/Surface';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { Button, Text } from '@rneui/themed';
-import { Input } from '@rneui/themed';
 import { Link } from 'expo-router';
-import { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native';
 
 import { AccountChooser } from '../common/AccountChooser';

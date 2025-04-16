@@ -47,15 +47,6 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 		linesDetailContext.actions.setLineId(selectedLine);
 	}, [selectedLine]);
 
-	const handleLineClick = (item: Line) => {
-		if (!allMunicipalities) return;
-
-		const municipalityNames = getMunicipalityNames(item.municipality_ids);
-		setLineMunicipalities(municipalityNames);
-		setSelectedLine(item.id);
-		onBackdropPress();
-	};
-
 	const getMunicipalityNames = (ids: (number | string)[]) => {
 		return ids
 			.map((id) => {
@@ -69,15 +60,24 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 			.filter((name): name is string => name !== null);
 	};
 
-	//
-	// C. Handle Actions
-
 	const filteredLines = useMemo(() => {
 		return allLines.filter(line =>
 			line.long_name.toLowerCase().includes(lineSearch.toLowerCase())
 			|| String(line.id).includes(lineSearch),
 		);
 	}, [allLines, lineSearch]);
+
+	//
+	// C. Handle Actions
+
+	const handleLineClick = (item: Line) => {
+		if (!allMunicipalities) return;
+
+		const municipalityNames = getMunicipalityNames(item.municipality_ids);
+		setLineMunicipalities(municipalityNames);
+		setSelectedLine(item.id);
+		onBackdropPress();
+	};
 
 	//
 	// D. Render Components

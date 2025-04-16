@@ -16,7 +16,6 @@ export default function Counter({ quantity, text, type }: Props) {
 	//
 
 	//
-
 	// A. Setup Styles
 
 	const fullString = `${text} ${quantity} ${type}`;

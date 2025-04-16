@@ -1,3 +1,5 @@
+/* * */
+
 import { Section } from '@/components/common/layout/Section';
 import { LineBadge } from '@/components/lines/LineBadge';
 import { useLinesContext } from '@/contexts/Lines.context';
@@ -7,7 +9,7 @@ import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
 import { Pattern, Stop } from '@carrismetropolitana/api-types/network';
 import { Button, ListItem, Overlay, Text } from '@rneui/themed';
-import { IconArrowRight, IconBusStop, IconCircle, IconCircleCheckFilled, IconNotification, IconPlayerPlayFilled, IconSearch } from '@tabler/icons-react-native';
+import { IconArrowRight, IconBusStop, IconCircle, IconCircleCheckFilled, IconNotification, IconPlayerPlayFilled, IconSearch, IconX } from '@tabler/icons-react-native';
 import { useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -16,13 +18,21 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import StopsListChooserModal from '../StopsListChooserModal';
 import styles from './styles';
 
+/* * */
+
 interface Props {
 	isVisible: boolean
 	onBackdropPress: () => void
 }
 
+/* * */
+
 export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: Props) {
+	//
+
+	//
 	// A. Setup Variables
+
 	const [stopChooserVisibility, setStopChooserVisibility] = useState(false);
 	const [selectedStopPatterns, setStopPatterns] = useState<string[]>([]);
 	const [selectedStop, setSelectedStop] = useState<Stop | undefined>(undefined);
@@ -35,6 +45,29 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 
 	const addFavoriteStopStyles = styles();
 
+	//
+	// B. Handle Actions
+
+	const handleSelectedStop = (stopData: Stop) => {
+		setSelectedStopId(stopData.id);
+		setStopPatterns(stopData.pattern_ids);
+		setSelectedStop(stopData);
+	};
+
+	const clearScreen = () => {
+		clearSelection();
+		onBackdropPress();
+	};
+	const clearSelection = () => {
+		setSelectedStop(undefined);
+		setStopPatterns([]);
+		setSelectedStopId('');
+		setPatternNames({});
+	};
+
+	//
+	// C. Fetch Data
+
 	const fetchPattern = async (patternId: string) => {
 		try {
 			const response = await fetch(`${Routes.API}/patterns/${patternId}`);
@@ -45,13 +78,6 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 			console.error(`Error fetching pattern ${patternId}:`, error);
 			return null;
 		}
-	};
-
-	// B. Handle Actions
-	const handleSelectedStop = (stopData: Stop) => {
-		setSelectedStopId(stopData.id);
-		setStopPatterns(stopData.pattern_ids);
-		setSelectedStop(stopData);
 	};
 
 	useEffect(() => {
@@ -68,15 +94,15 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 					}
 				}),
 			);
-
 			setPatternNames(patternName);
-			console.log(patternName);
 		};
 
 		fetchPatterns();
 	}, [selectedStopPatterns]);
 
-	// C. Render Components
+	//
+	// D. Render Components
+
 	return (
 		<Overlay
 			animationType="slide"
@@ -88,7 +114,7 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 				<ScrollView showsVerticalScrollIndicator={false}>
 					<View style={addFavoriteStopStyles.container}>
 						<View style={addFavoriteStopStyles.header}>
-							<TouchableOpacity onPress={onBackdropPress} style={addFavoriteStopStyles.backButton}>
+							<TouchableOpacity onPress={clearScreen} style={addFavoriteStopStyles.backButton}>
 								<Text style={addFavoriteStopStyles.arrow}>←</Text>
 								<Text style={addFavoriteStopStyles.backText}>Voltar</Text>
 							</TouchableOpacity>
@@ -125,6 +151,7 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 											{selectedStop.long_name}
 										</ListItem.Title>
 									</ListItem.Content>
+									<IconX color="#9696A0" onPress={clearSelection} size={24} />
 								</ListItem>
 							)}
 							<ListItem onPress={() => setStopChooserVisibility(true)}>
@@ -152,14 +179,14 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 											favorite =>
 												favorite.data
 												&& favorite.data.type === 'stops'
-												&& patternId in favorite.data.pattern_ids,
+												&& favorite.data.pattern_ids?.includes(patternId),
 										);
 
 										return (
 											<ListItem
 												key={patternId}
 												onPress={() => {
-													profileContext.actions.toggleFavoriteStop(selectedStopId, patternId);
+													profileContext.actions.toggleFavoriteStop(selectedStopId, [patternId]);
 												}}
 											>
 												<LineBadge
@@ -220,7 +247,7 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 						<View>
 							<Button
 								buttonStyle={addFavoriteStopStyles.saveButton}
-								onPress={onBackdropPress}
+								onPress={clearScreen}
 								title="Fechar"
 								titleStyle={addFavoriteStopStyles.saveButtonText}
 							/>
@@ -235,4 +262,6 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 			</SafeAreaView>
 		</Overlay>
 	);
+
+	//
 }

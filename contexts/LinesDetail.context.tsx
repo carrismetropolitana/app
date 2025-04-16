@@ -17,6 +17,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 
 interface LinesDetailContextState {
 	actions: {
+		resetLineId: () => void
 		setActivePattern: (patternGroupId: string) => void
 		setActiveWaypoint: (stopId: string, stopSequence: number,) => void
 		setHighlightedTripIds: (tripIds: string[]) => void
@@ -366,11 +367,17 @@ export const LinesDetailContextProvider = ({ children, lineIdParams }: LinesDeta
 		setActiveLineId(id);
 	};
 
+	const resetLineId = () => {
+		setActiveLineId(undefined);
+		setDataLineState(undefined);
+	};
+
 	//
 	// E. Define context value
 
 	const contextValue: LinesDetailContextState = {
 		actions: {
+			resetLineId,
 			setActivePattern,
 			setActiveWaypoint,
 			setHighlightedTripIds,

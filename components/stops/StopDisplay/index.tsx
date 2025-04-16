@@ -7,7 +7,7 @@ import { View } from 'react-native';
 
 import { StopDisplayLocation } from '../StopDisplayLocation';
 import { StopDisplayName } from '../StopDisplayName';
-// import styles from './styles.module.css';
+import styles from './styles.module.css';
 
 /* * */
 
@@ -22,8 +22,8 @@ interface Props {
 export function StopDisplay({ size = 'md', skeletonWidth = 200, stopData }: Props) {
 	return stopData
 		? (
-			// className={`${styles.container} ${styles[size]}`}
-			<View style={{ flex: 1 }}>
+			// className={``}
+			<View style={[styles.container, styles[size]]}>
 				<StopDisplayName longName={stopData.long_name} />
 				<StopDisplayLocation localityId={stopData.locality_id} municipalityId={stopData.municipality_id} />
 			</View>

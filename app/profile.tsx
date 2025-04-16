@@ -8,11 +8,13 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 /* * */
+
 export default function Profile() {
 	//
 
 	//
 	// A. Setup variables
+
 	const navigation = useNavigation();
 	const { t } = useTranslation('translation', { keyPrefix: 'layout' });
 
@@ -24,8 +26,10 @@ export default function Profile() {
 			sheetGrabberVisible: true,
 		});
 	}, [navigation]);
+
 	//
 	// A. Render components
+
 	return (
 		<LinesDetailContextProvider>
 			<StopsDetailContextProvider>
@@ -33,4 +37,6 @@ export default function Profile() {
 			</StopsDetailContextProvider>
 		</LinesDetailContextProvider>
 	);
+
+	//
 }

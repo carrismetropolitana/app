@@ -1,9 +1,11 @@
 /* * */
+
 import { IconCaretRightFilled } from '@tabler/icons-react-native';
 import { Link } from 'expo-router';
 import { Text, View } from 'react-native';
 
 import { useSectionStyles } from './styles';
+
 /* * */
 
 interface Props {
@@ -25,6 +27,7 @@ export function Section({ children, heading, href, subheading, target, variant =
 
 	//
 	// A. Setup variables
+
 	const sectionStyles = useSectionStyles();
 
 	const styles = [

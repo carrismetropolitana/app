@@ -22,12 +22,15 @@ export function RegularListItem({ children, href, icon, style }: Props) {
 
 	//
 	// A. Setup variables
+
 	const regularListItemStyles: StyleProp<TextStyle> = [
 		href === '#' ? styles.disableLink : undefined,
 		style,
 	];
+
 	//
 	// B. Render components
+
 	return (
 		<Link href={href} style={[styles.container, regularListItemStyles] as StyleProp<TextStyle>}>
 			{icon && (
@@ -47,4 +50,6 @@ export function RegularListItem({ children, href, icon, style }: Props) {
 			)}
 		</Link>
 	);
+
+	//
 }

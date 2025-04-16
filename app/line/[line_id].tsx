@@ -10,12 +10,20 @@ import { useTranslation } from 'react-i18next';
 /* * */
 
 export default function Page() {
+	//
+
+	//
+	// A. Setup variables
+
 	const { line_id } = useLocalSearchParams<{ line_id: string }>();
 
 	const themeContext = useThemeContext();
 
 	const navigation = useNavigation();
 	const { t } = useTranslation('translation', { keyPrefix: 'layout' });
+
+	//
+	// B. Fetch Data
 
 	useEffect(() => {
 		navigation.setOptions({
@@ -27,9 +35,14 @@ export default function Page() {
 		});
 	}, [navigation, themeContext.theme.mode]);
 
+	//
+	// C. Render components
+
 	return (
 		<LinesDetailContextProvider lineIdParams={line_id}>
 			<LinesDetail />
 		</LinesDetailContextProvider>
 	);
+
+	//
 }

@@ -1,5 +1,9 @@
+/* * */
+
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TextStyle, TouchableWithoutFeedback } from 'react-native';
+
+/* * */
 
 interface EditableTextProps {
 	onBlur?: () => void
@@ -8,12 +12,31 @@ interface EditableTextProps {
 	value: string
 }
 
-const EditableText = ({ onBlur, onChangeText, style, value }: EditableTextProps) => {
+/* * */
+
+export const EditableText = ({ onBlur, onChangeText, style, value }: EditableTextProps) => {
+	//
+
+	//
+	// A. Setup Variables
+
 	const [isEditing, setIsEditing] = useState(false);
+
+	const styles = StyleSheet.create({
+		text: {
+			fontSize: 16,
+			fontWeight: 'bold',
+		},
+	});
+
+	//
+	// B. Handle Aactions
 
 	const handleLongPress = () => {
 		setIsEditing(true);
 	};
+
+	//
 
 	return isEditing ? (
 		<TextInput
@@ -29,12 +52,5 @@ const EditableText = ({ onBlur, onChangeText, style, value }: EditableTextProps)
 		</TouchableWithoutFeedback>
 	);
 };
-
-const styles = StyleSheet.create({
-	text: {
-		fontSize: 16,
-		fontWeight: 'bold',
-	},
-});
 
 export default EditableText;

@@ -51,9 +51,6 @@ export default function StopsListChooserModal({ isVisible, onBackdropPress, sele
 		onBackdropPress();
 	};
 
-	//
-	// C. Handle Actions
-
 	const filteredStops = useMemo(() => {
 		return allStops.filter(stop =>
 			stop.long_name.toLowerCase().includes(stopsSearch.toLowerCase())
@@ -62,7 +59,7 @@ export default function StopsListChooserModal({ isVisible, onBackdropPress, sele
 	}, [allStops, stopsSearch]);
 
 	//
-	// D. Render Components
+	// C. Render Components
 
 	return (
 		<Overlay animationType="slide" isVisible={isVisible} onBackdropPress={onBackdropPress}>

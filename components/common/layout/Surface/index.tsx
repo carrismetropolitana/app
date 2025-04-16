@@ -20,6 +20,7 @@ export function Surface({ children, forceOverflow, fullHeight, variant }: Props)
 
 	//
 	// A. Setup variables
+
 	const containerStyles = [
 		variant === 'default' && surfaceStyles.containerDefault,
 		variant === 'alerts' && surfaceStyles.containerAlerts,
@@ -35,11 +36,14 @@ export function Surface({ children, forceOverflow, fullHeight, variant }: Props)
 		fullHeight && surfaceStyles.fullHeight,
 	];
 
+	//
 	// B. Render Components
+
 	return (
 		<View style={containerStyles}>
 			{children}
 		</View>
 	);
+
 	//
 }

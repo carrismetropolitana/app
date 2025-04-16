@@ -38,6 +38,7 @@ export default function RootLayout() {
 		// eslint-disable-next-line
 		SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),  
 	});
+
 	//
 	// B. Fetch data
 

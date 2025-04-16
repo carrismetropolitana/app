@@ -1,3 +1,5 @@
+/* * */
+
 import LinesListChooserModal from '@/app/(modal)/LinesListChooserModal';
 import { Section } from '@/components/common/layout/Section';
 import { LineBadge } from '@/components/lines/LineBadge';
@@ -5,22 +7,34 @@ import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
+import { Routes } from '@/utils/routes';
+import { Pattern } from '@carrismetropolitana/api-types/network';
 import { Button, ListItem, Overlay, Text } from '@rneui/themed';
-import { IconArrowLoopRight, IconArrowRight, IconCircle, IconCircleCheckFilled, IconNotification, IconPlayerPlayFilled, IconSearch } from '@tabler/icons-react-native';
-import { useState } from 'react';
+import { IconArrowLoopRight, IconArrowRight, IconCircle, IconCircleCheckFilled, IconNotification, IconPlayerPlayFilled, IconSearch, IconX } from '@tabler/icons-react-native';
+import { useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import styles from './styles';
 
+/* * */
+
 interface Props {
 	isVisible: boolean
 	onBackdropPress: () => void
 }
 
+/* * */
+
 export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: Props) {
+	//
+
+	//
+	// A. Setup Variables
+
 	const [lineChooserVisibility, setLineChooserVisibility] = useState(false);
+	const [patternNames, setPatternNames] = useState<Record<string, string>>({});
 
 	const linesDetailContext = useLinesDetailContext();
 	const themeContext = useThemeContext();
@@ -28,13 +42,64 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 
 	const addFavoriteLineStyles = styles();
 
+	//
+	// B. Fetch Data
+
+	const clearScreen = () => {
+		linesDetailContext.actions.resetLineId();
+		onBackdropPress();
+	};
+
+	const fetchPattern = async (patternId: string) => {
+		try {
+			const response = await fetch(`${Routes.API}/patterns/${patternId}`);
+			const data: Pattern = await response.json();
+			return data;
+		}
+		catch (error) {
+			console.error(`Error fetching pattern ${patternId}:`, error);
+			return null;
+		}
+	};
+
+	useEffect(() => {
+		if (!linesDetailContext.data.line?.pattern_ids) return;
+
+		const fetchPatterns = async () => {
+			const patternName: Record<string, string> = {};
+			const patterns = linesDetailContext.data.line?.pattern_ids;
+
+			if (patterns) {
+				await Promise.all(
+					patterns.map(async (pattern) => {
+						const data = await fetchPattern(pattern);
+
+						if (data) {
+							patternName[pattern] = data[0].headsign;
+						}
+					}),
+				);
+
+				setPatternNames(patternName);
+			}
+			else {
+				return;
+			}
+		};
+
+		fetchPatterns();
+	}, [linesDetailContext.data.line?.pattern_ids]);
+
+	//
+	// C. Render Components
+
 	return (
-		<Overlay animationType="slide" isVisible={isVisible} onBackdropPress={onBackdropPress} style={addFavoriteLineStyles.overlay}>
+		<Overlay animationType="slide" isVisible={isVisible} onBackdropPress={clearScreen} style={addFavoriteLineStyles.overlay}>
 			<SafeAreaView>
 				<ScrollView showsVerticalScrollIndicator={false}>
 					<View style={addFavoriteLineStyles.container}>
 						<View style={addFavoriteLineStyles.header}>
-							<TouchableOpacity onPress={onBackdropPress} style={addFavoriteLineStyles.backButton}>
+							<TouchableOpacity onPress={clearScreen} style={addFavoriteLineStyles.backButton}>
 								<Text style={addFavoriteLineStyles.arrow}>←</Text>
 								<Text style={addFavoriteLineStyles.backText}>Voltar</Text>
 							</TouchableOpacity>
@@ -57,7 +122,7 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 						</View>
 
 						<Section
-							heading="1. Seleciona Linha "
+							heading="1. Selecionar Linha "
 							subheading="Escolha uma linha para visualizar na página principal"
 						/>
 						<View>
@@ -69,6 +134,7 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 											{linesDetailContext.data.line.long_name}
 										</ListItem.Title>
 									</ListItem.Content>
+									<IconX color="#9696A0" onPress={linesDetailContext.actions.resetLineId} size={24} />
 								</ListItem>
 							)}
 							<ListItem onPress={() => setLineChooserVisibility(true)}>
@@ -112,7 +178,7 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 												<IconArrowRight size={10} />
 												<ListItem.Content>
 													<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-														{item}
+														{patternNames[item] || 'Sem destino'}
 													</ListItem.Title>
 												</ListItem.Content>
 												{isFavorite ? (
@@ -142,7 +208,6 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 								)}
 							</View>
 						</View>
-
 						<View style={{ marginBottom: 30 }}>
 							<Section
 								heading="3. Notificações "
@@ -162,7 +227,7 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 						<View>
 							<Button
 								buttonStyle={addFavoriteLineStyles.saveButton}
-								onPress={onBackdropPress}
+								onPress={clearScreen}
 								title="Fechar"
 								titleStyle={addFavoriteLineStyles.saveButtonText}
 							/>
@@ -177,4 +242,6 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 			</SafeAreaView>
 		</Overlay>
 	);
+
+	//
 }
