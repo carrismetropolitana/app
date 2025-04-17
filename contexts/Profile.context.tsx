@@ -1,4 +1,4 @@
-import { Account, AccountWidget, CreateAccountDto, UpdateAccountDto } from '@/types/account.types';
+import { Account, AccountWidget, CreateAccountDto } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
 import { Line } from '@carrismetropolitana/api-types/network';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -28,7 +28,7 @@ interface ProfileContextState {
 		setNewEmptyProfile: (profile: CreateAccountDto) => Promise<void>
 		setSelectedLine: (line: string) => void
 		toggleFavoriteLine: (lineId: string[]) => Promise<void>
-		toggleFavoriteStop: (stopId: string, patternId: string) => Promise<void>
+		toggleFavoriteStop: (stopId: string, patternId: string[]) => Promise<void>
 		toogleAccountSync: () => void
 		updateLocalProfile: (profile: Account) => Promise<void>
 	}
@@ -70,8 +70,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const [dataFavoriteLinesState, setDataFavoriteLinesState] = useState<AccountWidget[] | null>(null);
 	const [dataFavoriteStopsState, setDataFavoriteStopsState] = useState<AccountWidget[] | null>(null);
 	const [dataProfileState, setDataProfileState] = useState<Account | null>(null);
-	const [dataCloudProfileState, setDataCloudProfileState] = useState<Account | null>(null);
-	const [dataIdProfileState, setDataIdProfileState] = useState<'' | string>('');
+	const [dataCloudProfileState] = useState<Account | null>(null);
 	const [dataApiTokenState, setAPIToken] = useState<null | string>(null);
 	const [dataIsSyncingState, setDataIsSyncingState] = useState(false);
 	const [dataPersonaImageState, setDataPersonaImageState] = useState<null | string>(null);
@@ -103,7 +102,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			},
 			role: cloud.role,
 			updated_at: cloud.updated_at,
-			widgets: cloud.widgets,
+			widgets: cloud.widgets && cloud.widgets.length > 0 ? cloud.widgets : local.widgets,
 		};
 	};
 
@@ -149,7 +148,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				await setNewEmptyProfile();
 			}
 			else {
-				// console.log(localProfile);
 				await syncProfiles(localProfile);
 			}
 		}
@@ -245,6 +243,10 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				'Cookie': `session_token=${dataApiTokenState}`,
 			},
 		});
+		if (!response.ok) {
+			console.error('Failed to fetch profile from cloud:', response.status, response.statusText);
+			return null;
+		}
 		const profileData = await response.json();
 		return profileData;
 	};
@@ -253,7 +255,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		if (!consentContext.data.enabled_functional || !dataApiTokenState) return;
 		const { _id, created_at, role, updated_at, ...cleanedProfile } = profile;
 		try {
-			const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/${profile.devices[0].device_id}`, {
+			await fetch(`${Routes.DEV_API_ACCOUNTS}/${profile.devices[0].device_id}`, {
 				body: JSON.stringify(cleanedProfile),
 				headers: {
 					'Content-Type': 'application/json',
@@ -261,7 +263,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				},
 				method: 'PUT',
 			});
-			const updatedProfile = await response.json();
 		}
 		catch (error) {
 			console.error('Error updating profile on cloud:', error);
@@ -330,32 +331,51 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		const currentWidgets = dataFavoriteStopsState || [];
 		const updatedWidgets = [...currentWidgets];
 
-		if (pattern_ids) {
-			const index = updatedWidgets.findIndex(
-				widget =>
-					widget.data
-					&& widget.data.type === 'stops'
-					&& widget.data.pattern_ids?.includes(pattern_ids[0]),
-			);
-			if (index !== -1) {
-				updatedWidgets.splice(index, 1);
+		const stopWidgetIndex = updatedWidgets.findIndex(
+			widget =>
+				widget.data
+				&& widget.data.type === 'stops'
+				&& widget.data.stop_id === stopId,
+		);
+
+		if (stopWidgetIndex !== -1) {
+			const widget = updatedWidgets[stopWidgetIndex];
+			let currentPatternIds: string[] = [];
+			if (widget.data.type === 'stops') {
+				currentPatternIds = widget.data.pattern_ids || [];
+			}
+			const patternId = pattern_ids[0];
+
+			const patternExists = currentPatternIds.includes(patternId);
+			const newPatternIds = patternExists
+				? currentPatternIds.filter(id => id !== patternId)
+				: [...currentPatternIds, patternId];
+
+			if (newPatternIds.length === 0) {
+				updatedWidgets.splice(stopWidgetIndex, 1);
 			}
 			else {
-				const newFavoriteStop: AccountWidget = {
-					data: { pattern_ids: pattern_ids, stop_id: stopId, type: 'stops' as const },
-					settings: { is_open: true },
+				updatedWidgets[stopWidgetIndex] = {
+					...widget,
+					data: {
+						...(widget.data.type === 'stops'
+							? { ...widget.data, pattern_ids: newPatternIds }
+							: widget.data),
+					},
 				};
-				updatedWidgets.push(newFavoriteStop);
 			}
 		}
 		else {
-			console.error('Error: pattern_ids is not an array', pattern_ids);
+			// No widget for this stop, create a new one
+			const newFavoriteStop: AccountWidget = {
+				data: { pattern_ids: pattern_ids, stop_id: stopId, type: 'stops' as const },
+				settings: { is_open: true },
+			};
+			updatedWidgets.push(newFavoriteStop);
 		}
 
-		// Update the favorite stops state correctly instead of favorite lines
 		setDataFavoriteStopsState(updatedWidgets);
 
-		// Update profile merging widgets
 		const updatedProfile: Account = {
 			...(dataProfileState || {}),
 			widgets: [
@@ -403,7 +423,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		newProfileStructure.devices[0].device_id = apiResponse.device_id;
 		setDataProfileState(newProfileStructure);
 		setAPIToken(apiResponse.session_token);
-		setDataIdProfileState(apiResponse.device_id);
 		localStorage.setItem(LOCAL_STORAGE_KEYS.token, apiResponse.session_token);
 	};
 

@@ -40,7 +40,22 @@ export default function ProfileScreen() {
 		profileContext.data.profile?.profile?.last_name ?? 'Nome',
 	);
 
-	const widgets = profile?.widgets ?? [];
+	const widgets = (profile?.widgets ?? []).flatMap((widget) => {
+		if (widget.data.type === 'lines') {
+			return [widget];
+		}
+		if (widget.data.type === 'stops' && Array.isArray(widget.data.pattern_ids)) {
+			return widget.data.pattern_ids.map(patternId => ({
+				...widget,
+				data: {
+					...widget.data,
+					pattern_ids: [patternId],
+				},
+			}));
+		}
+		return [];
+	});
+
 	const [modalFavoriteLineVisible, setModalFavoriteLineVisible] = useState(false);
 	const [modalFavoriteStopVisible, setModalFavoriteStopVisible] = useState(false);
 
@@ -62,7 +77,6 @@ export default function ProfileScreen() {
 	// C. Handle Actions
 
 	const handleFirstNameBlur = () => {
-		console.log('First name blurred', firstName);
 		if (profileContext.data.profile) {
 			const updatedProfile = {
 				...profileContext.data.profile,
@@ -138,15 +152,14 @@ export default function ProfileScreen() {
 					subheading="Organizar os cartões como quer que aparecçam na página inicial. Altere a ordem deslizando no ícone"
 				/>
 
-				{/* TODO: Implementar a função de drag and drop (it reorders but doesn't save the position) */}
 				<DraggableFlatList
 					data={widgets}
+					nestedScrollEnabled={false}
 					renderItem={renderFavoriteItem}
-					scrollEnabled={false}
+					scrollEnabled={false} // <-- disables internal scroll
 					showsVerticalScrollIndicator={false}
 					keyExtractor={(item, index) =>
 						`${item.settings.display_order ?? 'no_order'}-${index}`}
-					nestedScrollEnabled
 				/>
 
 				<View style={styles.addFavoritesSection}>

@@ -50,8 +50,22 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 
 	const handleSelectedStop = (stopData: Stop) => {
 		setSelectedStopId(stopData.id);
-		setStopPatterns(stopData.pattern_ids);
 		setSelectedStop(stopData);
+
+		// Get favorited patterns for this stop from profile
+		const favoriteStopWidget = profileContext.data.favorite_stops?.find(
+			widget =>
+				widget.data
+				&& widget.data.type === 'stops'
+				&& widget.data.stop_id === stopData.id,
+		);
+
+		const favoritedPatterns
+			= favoriteStopWidget?.data.type === 'stops'
+				? favoriteStopWidget.data.pattern_ids
+				: [];
+
+		setStopPatterns(favoritedPatterns);
 	};
 
 	const clearScreen = () => {
@@ -81,13 +95,13 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 	};
 
 	useEffect(() => {
-		if (!selectedStopPatterns) return;
+		if (!selectedStop || !selectedStop.pattern_ids) return;
 
 		const fetchPatterns = async () => {
 			const patternName: Record<string, string> = {};
 
 			await Promise.all(
-				selectedStopPatterns.map(async (pattern) => {
+				selectedStop.pattern_ids.map(async (pattern) => {
 					const data = await fetchPattern(pattern);
 					if (data) {
 						patternName[pattern] = data[0].headsign;
@@ -98,10 +112,19 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 		};
 
 		fetchPatterns();
-	}, [selectedStopPatterns]);
+	}, [selectedStop]);
 
 	//
 	// D. Render Components
+
+	function togglePattern(patternId: string, selectedPatterns: string[], setSelectedPatterns: (patterns: string[]) => void) {
+		if (selectedPatterns.includes(patternId)) {
+			setSelectedPatterns(selectedPatterns.filter(id => id !== patternId));
+		}
+		else {
+			setSelectedPatterns([...selectedPatterns, patternId]);
+		}
+	}
 
 	return (
 		<Overlay
@@ -171,23 +194,16 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 								subheading="Pode escolher apenas os destinos que lhe interessam a partir desta paragem. Personalize o seu painel de informação único."
 							/>
 							<View>
-								{selectedStopPatterns.length > 0 ? (
-									selectedStopPatterns.map((patternId) => {
+								{selectedStop && selectedStop.pattern_ids.length > 0 ? (
+									selectedStop.pattern_ids.map((patternId) => {
 										const lineId = patternId.split('_')[0];
 										const lineColor = linesContext.data.lines.find(line => line.id === lineId)?.color;
-										const isFavorite = profileContext.data.profile?.widgets?.some(
-											favorite =>
-												favorite.data
-												&& favorite.data.type === 'stops'
-												&& favorite.data.pattern_ids?.includes(patternId),
-										);
+										const isSelected = selectedStopPatterns.includes(patternId);
 
 										return (
 											<ListItem
 												key={patternId}
-												onPress={() => {
-													profileContext.actions.toggleFavoriteStop(selectedStopId, [patternId]);
-												}}
+												onPress={() => togglePattern(patternId, selectedStopPatterns, setStopPatterns)}
 											>
 												<LineBadge
 													color={lineColor}
@@ -200,7 +216,7 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 														{patternNames[patternId] || 'Sem destino'}
 													</ListItem.Title>
 												</ListItem.Content>
-												{isFavorite ? (
+												{isSelected ? (
 													<IconCircleCheckFilled
 														fill="#3CB43C"
 														size={24}
@@ -245,6 +261,18 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 						</View>
 
 						<View>
+							<Button
+								buttonStyle={addFavoriteStopStyles.saveButton}
+								disabled={!selectedStopId}
+								title="Guardar"
+								titleStyle={addFavoriteStopStyles.saveButtonText}
+								onPress={async () => {
+									if (selectedStopId && selectedStopPatterns.length > 0) {
+										await profileContext.actions.toggleFavoriteStop(selectedStopId, selectedStopPatterns);
+										clearScreen();
+									}
+								}}
+							/>
 							<Button
 								buttonStyle={addFavoriteStopStyles.saveButton}
 								onPress={clearScreen}
