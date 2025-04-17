@@ -141,14 +141,10 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			setDataPersonaImageState(storedPersona);
 
 			const localProfile = storedProfile ? JSON.parse(storedProfile) : '';
-
 			setDataProfileState(localProfile);
 
 			if (!localProfile) {
 				await setNewEmptyProfile();
-			}
-			else {
-				await syncProfiles(localProfile);
 			}
 		}
 		catch (error) {
@@ -174,10 +170,15 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		return () => clearInterval(intervalId);
 	}, [consentContext.data.enabled_functional]);
 
-	useEffect(() => {
-		if (!consentContext.data.enabled_functional || !dataProfileState) return;
-		updateProfileOnCloud(dataProfileState);
-	}, [dataProfileState]);
+	// useEffect(() => {
+	// 	if (
+	// 		consentContext.data.enabled_functional
+	// 		&& dataApiTokenState
+	// 		&& dataProfileState
+	// 	) {
+	// 		syncProfiles(dataProfileState);
+	// 	}
+	// }, [dataApiTokenState, dataProfileState, consentContext.data.enabled_functional]);
 
 	useEffect(() => {
 		if (!consentContext.data.enabled_functional) return;
@@ -237,17 +238,28 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	const getProfileFromCloud = async (id: string) => {
 		if (!consentContext.data.enabled_functional) return;
+
+		const token = dataApiTokenState || '';
+
+		if (!token) {
+			console.error('No token found for fetching profile from cloud.');
+			console.log(localStorage.getItem(LOCAL_STORAGE_KEYS.token));
+			return null;
+		}
+
 		const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/${id}`, {
 			headers: {
 				'Content-Type': 'application/json',
-				'Cookie': `session_token=${dataApiTokenState}`,
+				'Cookie': `session_token=${token}`,
 			},
 		});
 		if (!response.ok) {
-			console.error('Failed to fetch profile from cloud:', response.status, response.statusText);
+			console.error('Failed to fetch profile from cloud:', response);
 			return null;
 		}
+
 		const profileData = await response.json();
+
 		return profileData;
 	};
 
@@ -295,32 +307,50 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	const toggleFavoriteLine = async (pattern_ids: string[]) => {
 		if (!consentContext.data.enabled_functional) return;
+
 		const currentWidgets = dataFavoriteLinesState || [];
 		const updatedWidgets = [...currentWidgets];
+
 		pattern_ids.forEach((pattern_id) => {
 			const index = updatedWidgets.findIndex(
-				widget => widget.data && widget.data.type === 'lines' && widget.data.pattern_id === pattern_id,
+				widget =>
+					widget.data
+					&& widget.data.type === 'lines'
+					&& widget.data.pattern_id === pattern_id,
 			);
+
 			if (index !== -1) {
 				updatedWidgets.splice(index, 1);
 			}
 			else {
+				// Add a new line widget
 				const newFavoriteLine: AccountWidget = {
-					data: { pattern_id, type: 'lines' as const },
-					settings: { is_open: true },
+					data: {
+						pattern_id,
+						type: 'lines',
+					},
+					settings: {
+						display_order: null,
+						is_open: true,
+						label: null,
+					},
 				};
 				updatedWidgets.push(newFavoriteLine);
 			}
 		});
+
 		setDataFavoriteLinesState(updatedWidgets);
+
+		const stopsWidgets = dataFavoriteStopsState || [];
 		const updatedProfile: Account = {
 			...(dataProfileState || {}),
 			widgets: [
-				...(dataFavoriteStopsState || []),
+				...stopsWidgets,
 				...updatedWidgets,
 			],
 		};
 		setDataProfileState(updatedProfile);
+
 		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
 		await updateProfileOnCloud(updatedProfile);
 	};

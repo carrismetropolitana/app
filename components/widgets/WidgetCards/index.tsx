@@ -48,11 +48,11 @@ export function WidgetCards({ type }: Props) {
 			)}
 
 			{type === 'lines'
-			&& (lineWidgets?.map(item => <LineWidgetCard data={item} />)
+			&& (lineWidgets?.map(item => <LineWidgetCard key={item.data.type === 'lines' ? item.data.pattern_id.toString() : ''} data={item} />)
 			)}
 
 			{type === 'stops'
-			&& (stopWidgets?.map(item => <StopWidgetCard data={item} />)
+			&& (stopWidgets?.map(item => <StopWidgetCard key={item.data.type === 'stops' ? item.data.pattern_ids.toString() + '_' + item.data.stop_id.toString() : ''} data={item} />)
 			)}
 
 		</Surface>

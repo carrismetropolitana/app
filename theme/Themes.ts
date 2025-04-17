@@ -1,4 +1,5 @@
 import { createTheme } from '@rneui/themed';
+import { IconBorderRadius } from '@tabler/icons-react-native';
 
 import { theming } from './Variables';
 
@@ -37,6 +38,11 @@ const lightThemeDefinition = {
 				backgroundColor: theming.colorPrimaryWhite,
 				borderColor: theming.colorSystemBorder100,
 				borderWidth: 1,
+			},
+		},
+		ListItemAccordion: {
+			containerStyle: {
+				backgroundColor: theming.colorPrimaryWhite,
 			},
 		},
 		Overlay: {
@@ -94,6 +100,12 @@ const darkThemeDefinition = {
 				backgroundColor: theming.colorSystemBackgroundDark100,
 				borderColor: theming.colorSystemBorderDark200,
 				borderWidth: 1,
+			},
+		},
+		ListItemAccordion: {
+			containerStyle: {
+				backgroundColor: theming.colorSystemBackgroundDark100,
+				borderRadius: 10,
 			},
 		},
 		Overlay: {

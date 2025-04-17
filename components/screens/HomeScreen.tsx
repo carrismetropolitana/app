@@ -1,11 +1,10 @@
 /* * */
 
 import { Surface } from '@/components/common/layout/Surface';
-import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { Button, Text } from '@rneui/themed';
 import { Link } from 'expo-router';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 
 import { Section } from '../common/layout/Section';
 import { WidgetCards } from '../widgets/WidgetCards';
@@ -19,7 +18,6 @@ export default function HomeScreen() {
 	// A. Setup Variables
 
 	const themeContext = useThemeContext();
-	const profileContext = useProfileContext();
 
 	//
 	// B. Render Components
@@ -45,12 +43,10 @@ export default function HomeScreen() {
 					<Text>Open profile</Text>
 				</Button>
 			</Link>
-			<Surface>
-				<Section>
-					<WidgetCards type="lines" />
-					<WidgetCards type="stops" />
-				</Section>
-			</Surface>
+			<View style={{ padding: 20 }}>
+				<WidgetCards type="lines" />
+				<WidgetCards type="stops" />
+			</View>
 		</SafeAreaView>
 	);
 

@@ -51,7 +51,13 @@ export const StopsContextProvider = ({ children }) => {
 	// B. Handle actions
 
 	const getStopById = (stopId: string): Stop | undefined => {
-		return allStopsData?.find(stop => stop.id === stopId);
+		if (!allStopsLoading) {
+			const foundStop = allStopsData?.find(stop => stop.id === stopId);
+			return foundStop;
+		}
+		else {
+			return undefined;
+		}
 	};
 
 	const getAllStopsGeoJsonFC = (): GeoJSON.FeatureCollection | undefined => {

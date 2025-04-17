@@ -2,6 +2,8 @@
 
 import { Text } from '@rneui/themed';
 import { View } from 'react-native';
+
+import { styles } from './styles';
 /* * */
 
 interface StopWidgetCardHeaderProps {
@@ -16,13 +18,14 @@ export function StopWidgetCardHeader({ municipality, title }: StopWidgetCardHead
 
 	//
 	// A. Setup variables
-
+	const headerStyles = styles();
+	//
 	// B. Render Components
 
 	return (
-		<View>
-			<Text>{title}</Text>
-			<Text>{municipality}</Text>
+		<View style={headerStyles.container}>
+			<Text style={headerStyles.headerTitle}>{title}</Text>
+			<Text style={headerStyles.headerSubtitle}>{municipality}</Text>
 		</View>
 	);
 

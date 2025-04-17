@@ -61,7 +61,7 @@ export default function RootLayout() {
 								<QueryClientProvider client={queryClient}>
 									<ThemeProvider>
 										<Stack>
-											<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+											<Stack.Screen name="(tabs)" />
 										</Stack>
 										<StatusBar style="auto" />
 									</ThemeProvider>

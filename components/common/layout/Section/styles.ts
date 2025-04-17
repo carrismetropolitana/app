@@ -9,8 +9,6 @@ export const useSectionStyles = () => {
 		/* * */
 		/* CONTAINER */
 		container: {
-			display: 'flex',
-			flexDirection: 'column',
 			paddingBottom: 0,
 			width: '100%',
 		},

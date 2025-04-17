@@ -49,7 +49,7 @@ export function Section({ children, heading, href, subheading, target, variant =
 	// B. Render components
 
 	return (
-		<View data-with-padding-mobile={withPadding === true} style={[sectionStyles.container, styles]}>
+		<View style={[sectionStyles.container, styles]}>
 			{(heading || subheading) && (
 				<View style={[sectionStyles.headingWrapper, headerStyles]}>
 					{heading && !href && <Text style={sectionStyles.heading}>{heading}</Text>}

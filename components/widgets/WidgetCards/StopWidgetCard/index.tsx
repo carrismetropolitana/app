@@ -9,6 +9,7 @@ import { ListItem, Text } from '@rneui/themed';
 import { useEffect, useState } from 'react';
 
 import { StopWidgetCardHeader } from '../StopWidgetCardHeader';
+import { styles } from './styles';
 
 interface StopWidgetCardProps {
 	data: AccountWidget
@@ -29,15 +30,17 @@ export function StopWidgetCard({ data }: StopWidgetCardProps) {
 
 	const linesContext = useLinesContext();
 	const stopsContext = useStopsContext();
+	const cardStyles = styles();
 
 	//
 	// B. Fetch Data
 
 	useEffect(() => {
-		if (!data) return;
+		if (stopsContext.flags.is_loading || !data || !stopsContext.actions.getStopById) return;
+
 		patternIds.forEach(id => fetchStopName(id));
 		patternIds.forEach(() => fetchMunicipalities(data));
-	}, []);
+	}, [stopsContext.flags.is_loading, data]);
 
 	const toggleAccordion = () => {
 		setExpanded(!expanded);
@@ -52,10 +55,10 @@ export function StopWidgetCard({ data }: StopWidgetCardProps) {
 		}
 	};
 
-	const fetchMunicipalities = async (data: AccountWidget) => {
+	const fetchMunicipalities = (data: AccountWidget) => {
 		if (!data) return;
 		const stopId = data.data.type === 'stops' ? data.data.stop_id : '';
-		const stop = await stopsContext.actions.getStopById(stopId);
+		const stop = stopsContext.actions.getStopById(stopId);
 		if (!stop) {
 			console.error(`Stop data not found for id: ${stopId}`);
 			return;
@@ -73,6 +76,7 @@ export function StopWidgetCard({ data }: StopWidgetCardProps) {
 
 	return (
 		<ListItem.Accordion
+			containerStyle={!expanded ? cardStyles.cardClosed : cardStyles.cardOpen}
 			icon={<AccordionToggle expanded={expanded} size={24} />}
 			isExpanded={expanded}
 			onPress={toggleAccordion}

@@ -1,15 +1,16 @@
 /* * */
 
 import { AccordionToggle } from '@/components/AccordionToggle';
-import { Section } from '@/components/common/layout/Section';
-import { useLinesContext } from '@/contexts/Lines.context';
 import { AccountWidget } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
 import { Pattern } from '@carrismetropolitana/api-types/network';
-import { ListItem, Text } from '@rneui/themed';
+import { ListItem } from '@rneui/themed';
 import { useEffect, useState } from 'react';
+import { View } from 'react-native';
 
+import { LineWidgetCardBody } from '../LineWidgetCardBody';
 import { LineWidgetCardHeader } from '../LineWidgetCardHeader';
+import { styles } from './styles';
 
 /* * */
 
@@ -26,15 +27,18 @@ export function LineWidgetCard({ data }: LineWidgetCardProps) {
 	// A. Setup variables
 
 	const [patternId] = useState<string>(data.data.type === 'lines' ? data.data.pattern_id : '');
+	const [lineId, setLineId] = useState<string>('');
 	const [lineName, setLineName] = useState<string>('');
 	const [expanded, setExpanded] = useState(false);
 
+	const cardStyles = styles();
 	//
 	// B. Fetch Data
 
 	useEffect(() => {
 		if (!data) return;
 
+		setLineId(patternId.split('_')[0]);
 		fetchLineName(patternId);
 	}, []);
 
@@ -54,21 +58,20 @@ export function LineWidgetCard({ data }: LineWidgetCardProps) {
 	// C. Render Components
 
 	return (
-		<>
-			<ListItem.Accordion
-				icon={<AccordionToggle expanded={expanded} size={24} />}
-				isExpanded={expanded}
-				onPress={toggleAccordion}
-				content={(
-					<LineWidgetCardHeader title={lineName} />
-				)}
-			>
-				<Section>
-					<Text>LALALALALALAA</Text>
-				</Section>
-			</ListItem.Accordion>
+		<ListItem.Accordion
+			containerStyle={!expanded ? cardStyles.cardClosed : cardStyles.cardOpen}
+			icon={<AccordionToggle expanded={expanded} size={24} />}
+			isExpanded={expanded}
+			onPress={toggleAccordion}
+			content={(
+				<LineWidgetCardHeader lineId={lineId} title={lineName} />
+			)}
+		>
+			<View style={cardStyles.cardBody}>
+				<LineWidgetCardBody lineId={lineId} />
+			</View>
+		</ListItem.Accordion>
 
-		</>
 	);
 
 	//
