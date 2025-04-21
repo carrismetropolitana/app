@@ -21,6 +21,7 @@ import { Tarifslistdata } from './_data/tarifsListData';
 
 /* * */
 
+import { AlertListData } from './_data/alertListData';
 import styles from './styles';
 
 /* * */
@@ -29,7 +30,7 @@ interface ListSection {
 	data: listItem[]
 	heading: string
 	renderItem: ({ item }: { item: listItem }) => JSX.Element
-	subheading: string
+	subheading?: string
 }
 
 /* * */
@@ -114,9 +115,10 @@ export default function MoreScreen() {
 								}}
 							/>
 						</View>
-						<ListSection data={Supportlistdata()} heading={t('SupportList.heading')} renderItem={renderListItem} subheading={t('SupportList.subheading')} />
-						<ListSection data={Tarifslistdata()} heading={t('TarifsList.heading')} renderItem={renderListItem} subheading={t('TarifsList.subheading')} />
-						<ListSection data={AboutCMlistdata()} heading={t('AboutCMList.heading')} renderItem={renderListItem} subheading={t('AboutCMList.subheading')} />
+						<ListSection data={AlertListData()} heading={t('AlertList.heading')} renderItem={renderListItem} />
+						<ListSection data={Supportlistdata()} heading={t('SupportList.heading')} renderItem={renderListItem} />
+						<ListSection data={Tarifslistdata()} heading={t('TarifsList.heading')} renderItem={renderListItem} />
+						<ListSection data={AboutCMlistdata()} heading={t('AboutCMList.heading')} renderItem={renderListItem} />
 						<ButtonGroup
 							buttons={['English', 'Português', 'Toggle Debug']}
 							buttonStyle={{ padding: 10 }}

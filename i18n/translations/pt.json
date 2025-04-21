@@ -230,10 +230,16 @@
 			"recruitment": "Recrutamento",
 			"subheading": "Conheça melhor a Carris Metropolitana e explore diferentes ângulos da operação rodoviária dos 18 municípios da área metropolitana de Lisboa."
 		},
+		"AlertList": {
+			"heading": "Alertas",
+			"service_alerts": "Alertas de Serviço",
+			"subheading": "Check the alerts that may affect your journey."
+
+		},
 		"SupportList": {
 			"contacts": "Contactos",
 			"frequently_asked": "Perguntas Frequentes",
-			"heading": "Suporte ao Cliente",
+			"heading": "Apoio ao Cliente",
 			"lost_found": "Perdidos e Achados",
 			"stores": "Lojas e Agentes",
 			"subheading": "Tire as suas dúvidas sobre a Carris Metropolitana ou entre em contacto connosco."

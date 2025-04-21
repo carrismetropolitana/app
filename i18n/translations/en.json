@@ -261,6 +261,11 @@
 			"recruitment": "Recruitment",
 			"subheading": "Learn more about Carris Metropolitana and explore different aspects of the bus operation across the 18 municipalities of the Lisbon metropolitan area."
 		},
+		"AlertList": {
+			"heading": "Alerts",
+			"service_alerts": "Service Alerts",
+			"subheading": "Check the alerts that may affect your journey."
+		},
 		"SupportList": {
 			"contacts": "Contacts",
 			"frequently_asked": "Frequently asked",

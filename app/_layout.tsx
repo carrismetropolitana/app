@@ -1,20 +1,23 @@
 /* * */
 import 'react-native-gesture-handler';
-import { ThemeProvider } from '@/contexts/Theme.context';
+import { ThemeProvider, useThemeContext } from '@/contexts/Theme.context';
 import { ConfigProviders } from '@/providers/config-providers';
-import { DataProviders } from '@/providers/data-providers';
-import { MapProviders } from '@/providers/map-providers';
-import { PrivacyProviders } from '@/providers/privacy-providers';
 import 'react-native-reanimated';
-import { ProfileProviders } from '@/providers/profile-providers';
+import { DataProviders } from '@/providers/data-providers';
 import '@/i18n';
 import 'expo-dev-client';
+import { MapProviders } from '@/providers/map-providers';
+import { PrivacyProviders } from '@/providers/privacy-providers';
+import { ProfileProviders } from '@/providers/profile-providers';
+import { theming } from '@/theme/Variables';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Constants from 'expo-constants';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import { Platform, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 /* * */
@@ -60,10 +63,15 @@ export default function RootLayout() {
 							<MapProviders>
 								<QueryClientProvider client={queryClient}>
 									<ThemeProvider>
+										<StatusBar backgroundColor="transparent" style="auto" translucent />
 										<Stack>
-											<Stack.Screen name="(tabs)" />
+											<Stack.Screen
+												name="(tabs)"
+												options={{
+													headerShown: false,
+												}}
+											/>
 										</Stack>
-										<StatusBar style="auto" />
 									</ThemeProvider>
 								</QueryClientProvider>
 							</MapProviders>

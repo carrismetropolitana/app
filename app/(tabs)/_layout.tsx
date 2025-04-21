@@ -43,17 +43,15 @@ export default function TabLayout() {
 			screenOptions={({ route }) => ({
 				headerShown: false,
 				headerStyle: { backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background },
-				tabBarActiveTintColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.primary : themeContext.theme.darkColors?.primary,
+				tabBarActiveTintColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.primary : theming.colorSystemBackgroundDark300,
 				tabBarBackground: TabBarBackground,
 				tabBarButton: HapticTab,
 				tabBarStyle: Platform.select({
-					default: { height: 74 + insets.bottom, paddgingLeft: 30, paddingBottom: 30, paddingRight: 30, paddingTop: 20 },
+					default: { height: 74 + insets.bottom, paddingBottom: 30, paddingTop: 20 },
 					ios: {
 						backgroundColor: 'transparent',
 						height: 74 + insets.bottom,
 						paddingBottom: 30,
-						paddingLeft: 30,
-						paddingRight: 30,
 						paddingTop: 20,
 						position: 'absolute',
 					},
