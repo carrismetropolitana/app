@@ -214,8 +214,15 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	const fetchPersona = async () => {
 		try {
-			const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/persona/`);
-			const image = await response.json();
+			let image;
+			do {
+				const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/persona/`);
+				image = await response.json();
+				if (image.url && personaHistory.includes(image.url)) {
+					console.log('Image already exists in history, refetching...');
+				}
+			} while (image.url && personaHistory.includes(image.url));
+
 			if (image.url) {
 				setDataPersonaImageState(image.url);
 				setDataProfileState((prevState) => {
