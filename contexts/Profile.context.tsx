@@ -252,7 +252,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const registerPersonaFetch = (url: string) => {
 		setPersonaHistory((prev) => {
 			const updated = [url, ...prev.filter(item => item !== url)];
-			console.log(updated);
 			localStorage.setItem(LOCAL_STORAGE_KEYS.persona_history, JSON.stringify(updated.slice(0, 50)));
 			return updated.slice(0, 50);
 		});
