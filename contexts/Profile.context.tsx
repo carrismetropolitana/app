@@ -15,6 +15,7 @@ const LOCAL_STORAGE_KEYS = {
 	favorite_stops: 'profile|favorite_stops',
 	first_name: 'profile|first_name',
 	last_name: 'profile|last_name',
+	persona_history: 'profile|persona_history',
 	persona_image: 'profile|persona_image',
 	profile: 'profile',
 	token: 'token',
@@ -26,6 +27,7 @@ interface ProfileContextState {
 		checkProfile: (profile: Account) => Promise<void>
 		fetchPersona: () => Promise<void>
 		setNewEmptyProfile: (profile: CreateAccountDto) => Promise<void>
+		setPreviousPersona: () => void
 		setSelectedLine: (line: string) => void
 		toggleFavoriteLine: (lineId: string[]) => Promise<void>
 		toggleFavoriteStop: (stopId: string, patternId: string[]) => Promise<void>
@@ -69,6 +71,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	const [dataFavoriteLinesState, setDataFavoriteLinesState] = useState<AccountWidget[] | null>(null);
 	const [dataFavoriteStopsState, setDataFavoriteStopsState] = useState<AccountWidget[] | null>(null);
+	const [personaHistory, setPersonaHistory] = useState<string[]>([]);
 	const [dataProfileState, setDataProfileState] = useState<Account | null>(null);
 	const [dataCloudProfileState] = useState<Account | null>(null);
 	const [dataApiTokenState, setAPIToken] = useState<null | string>(null);
@@ -131,14 +134,16 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		try {
 			setFlagIsLoadingState(true);
 
-			const [storedProfile, storedPersona, storedToken] = await Promise.all([
+			const [storedProfile, storedPersona, storedToken, storedHistory] = await Promise.all([
 				localStorage.getItem(LOCAL_STORAGE_KEYS.profile),
 				localStorage.getItem(LOCAL_STORAGE_KEYS.persona_image),
 				localStorage.getItem(LOCAL_STORAGE_KEYS.token),
+				localStorage.getItem(LOCAL_STORAGE_KEYS.persona_history),
 			]);
 
 			setAPIToken(storedToken);
 			setDataPersonaImageState(storedPersona);
+			setPersonaHistory(storedHistory ? JSON.parse(storedHistory) : []);
 
 			const localProfile = storedProfile ? JSON.parse(storedProfile) : '';
 			setDataProfileState(localProfile);
@@ -226,6 +231,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 						},
 					};
 				});
+				registerPersonaFetch(image.url);
 			}
 			else {
 				console.error('Error: No URL property in response', image);
@@ -234,6 +240,35 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		catch (error) {
 			console.error('Error in fetchPersona:', error);
 		}
+	};
+
+	const registerPersonaFetch = (url: string) => {
+		setPersonaHistory((prev) => {
+			const updated = [url, ...prev.filter(item => item !== url)];
+			console.log(updated);
+			localStorage.setItem(LOCAL_STORAGE_KEYS.persona_history, JSON.stringify(updated.slice(0, 50)));
+			return updated.slice(0, 50);
+		});
+	};
+
+	const setPreviousPersona = () => {
+		if (personaHistory.length === 0) return;
+
+		const currentIndex = personaHistory.findIndex(url => url === dataPersonaImageState);
+		const newIndex = currentIndex < personaHistory.length - 1 ? currentIndex + 1 : 0;
+		const newUrl = personaHistory[newIndex];
+		setDataPersonaImageState(newUrl);
+		setDataProfileState((prev) => {
+			if (!prev) return prev;
+			return {
+				...prev,
+				profile: {
+					...prev.profile,
+					profile_image: newUrl,
+				},
+			};
+		});
+		localStorage.setItem(LOCAL_STORAGE_KEYS.persona_image, newUrl);
 	};
 
 	const getProfileFromCloud = async (id: string) => {
@@ -478,6 +513,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			checkProfile,
 			fetchPersona,
 			setNewEmptyProfile,
+			setPreviousPersona,
 			setSelectedLine,
 			toggleFavoriteLine,
 			toggleFavoriteStop,

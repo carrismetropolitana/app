@@ -10,13 +10,12 @@ import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
-import { Avatar, Button, ListItem } from '@rneui/themed';
-import { IconArrowLoopRight, IconArrowsRandom, IconBellRinging, IconBusStop, IconCirclePlusFilled } from '@tabler/icons-react-native';
+import { Avatar, Button, ButtonGroup, ListItem, Text } from '@rneui/themed';
+import { IconArrowLoopRight, IconArrowNarrowLeft, IconArrowsShuffle, IconBellRinging, IconBusStop, IconCirclePlusFilled } from '@tabler/icons-react-native';
 import { useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, TouchableOpacity, View } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { styles as useStyles } from './styles';
 
@@ -58,6 +57,7 @@ export default function ProfileScreen() {
 
 	const [modalFavoriteLineVisible, setModalFavoriteLineVisible] = useState(false);
 	const [modalFavoriteStopVisible, setModalFavoriteStopVisible] = useState(false);
+	const [pressed, setPressed] = useState(false);
 
 	//
 	// B. Fetch data
@@ -102,6 +102,14 @@ export default function ProfileScreen() {
 		}
 	};
 
+	const handlePress = () => {
+		setPressed(!pressed);
+		profileContext.actions.fetchPersona();
+	};
+	const goBackInHistory = () => {
+		profileContext.actions.setPreviousPersona();
+	};
+
 	//
 	// D. Render Components
 
@@ -113,6 +121,41 @@ export default function ProfileScreen() {
 		);
 	};
 
+	const buttons = [
+		{ element: () => (
+			<Pressable onPress={goBackInHistory}>
+				{({ pressed }) => (
+					<IconArrowNarrowLeft
+						size={24}
+						color={
+							pressed
+								? theming.colorBrand
+								: themeContext.theme.mode === 'light'
+									? theming.colorSystemText300
+									: theming.colorSystemText400
+						}
+					/>
+				)}
+			</Pressable>
+		) },
+		{ element: () => (
+			<Pressable onPress={handlePress}>
+				{({ pressed }) => (
+					<IconArrowsShuffle
+						size={24}
+						color={
+							pressed
+								? theming.colorBrand
+								: themeContext.theme.mode === 'light'
+									? theming.colorSystemText300
+									: theming.colorSystemText400
+						}
+					/>
+				)}
+			</Pressable>
+		) },
+	];
+
 	return (
 		<Surface>
 			<ScrollView style={styles.container}>
@@ -121,16 +164,21 @@ export default function ProfileScreen() {
 						containerStyle={styles.avatarContainer}
 						size={200}
 						source={{
-							uri: `${Routes.DEV_API_ACCOUNTS}/persona/${encodeURIComponent(
-								profileContext.data.persona_image ?? '',
-							)}`,
+							uri: `${Routes.DEV_API_ACCOUNTS}/persona/${encodeURIComponent(profileContext.data.persona_image ?? '')}`,
 						}}
 						rounded
 					/>
-					<Button onPress={() => profileContext.actions.fetchPersona()}>
-						<IconArrowsRandom size={24} />
-					</Button>
-
+					<ButtonGroup
+						buttons={buttons}
+						containerStyle={{
+							backgroundColor: themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100,
+							borderColor: themeContext.theme.mode === 'light' ? theming.colorSystemBorder100 : theming.colorSystemBorder200,
+							borderRadius: 30,
+							boxShadow: '0 0 10 0 rgba(0,0,0,0.25)',
+							marginTop: -20,
+							width: '25%',
+						}}
+					/>
 					<View style={styles.nameRow}>
 						<EditableText
 							onBlur={handleFirstNameBlur}
@@ -146,28 +194,22 @@ export default function ProfileScreen() {
 						/>
 					</View>
 				</View>
-
 				<Section
 					heading="Editar e ordenar favoritos"
-					subheading="Organizar os cartões como quer que aparecçam na página inicial. Altere a ordem deslizando no ícone"
 				/>
-
 				<DraggableFlatList
 					data={widgets}
 					nestedScrollEnabled={false}
 					renderItem={renderFavoriteItem}
-					scrollEnabled={false} // <-- disables internal scroll
+					scrollEnabled={false}
 					showsVerticalScrollIndicator={false}
 					keyExtractor={(item, index) =>
 						`${item.settings.display_order ?? 'no_order'}-${index}`}
 				/>
-
 				<View style={styles.addFavoritesSection}>
 					<Section
 						heading="Adicionar favoritos"
-						subheading="Escolha um tipo de cartão para adicionar à página principal."
 					/>
-
 					<TouchableOpacity
 						onPress={() =>
 							setModalFavoriteStopVisible(!modalFavoriteStopVisible)}
@@ -184,13 +226,12 @@ export default function ProfileScreen() {
 								size={24}
 								color={
 									themeContext.theme.mode === 'light'
-										? theming.colorSystemBackgroundLight100
-										: theming.colorSystemBackgroundDark100
+										? theming.colorSystemText300
+										: theming.colorSystemText300
 								}
 							/>
 						</ListItem>
 					</TouchableOpacity>
-
 					<TouchableOpacity
 						onPress={() =>
 							setModalFavoriteLineVisible(!modalFavoriteLineVisible)}
@@ -207,13 +248,12 @@ export default function ProfileScreen() {
 								size={24}
 								color={
 									themeContext.theme.mode === 'light'
-										? theming.colorSystemBackgroundLight100
-										: theming.colorSystemBackgroundDark100
+										? theming.colorSystemText300
+										: theming.colorSystemText300
 								}
 							/>
 						</ListItem>
 					</TouchableOpacity>
-
 					<TouchableOpacity>
 						<ListItem disabledStyle={{ opacity: 0.5 }} disabled>
 							<IconBellRinging color="#0C807E" size={24} />
@@ -238,7 +278,6 @@ export default function ProfileScreen() {
 					</TouchableOpacity>
 				</View>
 			</ScrollView>
-
 			<AddFavoriteLine
 				isVisible={modalFavoriteLineVisible}
 				onBackdropPress={() => setModalFavoriteLineVisible(false)}

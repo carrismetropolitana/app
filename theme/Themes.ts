@@ -7,8 +7,7 @@ const lightThemeDefinition = {
 	components: {
 		Button: {
 			buttonStyle: {
-				backgroundColor: theming.colorSystemBackgroundLight200,
-				borderColor: theming.colorSystemBorder200,
+				backgroundColor: theming.colorSystemBackgroundLight100,
 			},
 			titleStyle: {
 				color: theming.colorSystemText200,
@@ -69,8 +68,7 @@ const darkThemeDefinition = {
 	components: {
 		Button: {
 			containerStyle: {
-				backgroundColor: theming.colorSystemBackgroundDark200,
-				borderColor: theming.colorSystemBorderDark200,
+				backgroundColor: theming.colorSystemBackgroundDark100,
 			},
 			titleStyle: {
 				color: theming.colorSystemText200,
