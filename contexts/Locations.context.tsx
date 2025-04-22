@@ -1,12 +1,12 @@
-
-
 /* * */
 
 import type { District, Locality, Municipality, Parish } from '@carrismetropolitana/api-types/locations';
 
 import { Routes } from '@/utils/routes';
 import { ApiResponse } from '@carrismetropolitana/api-types/common';
-import { createContext, useContext, useMemo } from 'react';
+import * as Location from 'expo-location';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { Platform } from 'react-native';
 import useSWR from 'swr';
 
 /* * */
@@ -17,10 +17,16 @@ interface LocationsContextState {
 		getLocalityById: (localityId: string) => Locality | undefined
 		getMunicipalityById: (municipalityId: string) => Municipality | undefined
 		getParishById: (parishId: string) => Parish | undefined
+
 	}
 	data: {
+		currentCords: {
+			latitude: number
+			longitude: number
+		}
 		districts: District[]
 		localitites: Locality[]
+		locationPermission: string
 		municipalities: Municipality[]
 		parishes: Parish[]
 	}
@@ -53,9 +59,39 @@ export const LocationsContextProvider = ({ children }) => {
 	const { data: fetchedMunicipalitiesData, isLoading: fetchedMunicipalitiesLoading } = useSWR<ApiResponse<Municipality[]>, Error>(`${Routes.API}/locations/municipalities`);
 	const { data: fetchedParishesData, isLoading: fetchedParishesLoading } = useSWR<ApiResponse<Parish[]>, Error>(`${Routes.API}/locations/parishes`);
 	const { data: fetchedLocalitiesData, isLoading: fetchedLocalitiesLoading } = useSWR<ApiResponse<Locality[]>, Error>(`${Routes.API}/locations/localities`);
+	const [locationPermission, setLocationPermission] = useState<string>('');
+	const [currentCords, setCurrentCords] = useState<{ latitude: number, longitude: number }>();
+
+	useEffect(() => {
+		checkPermission();
+	}, []);
 
 	//
 	// B. Transform data
+
+	const checkPermission = async () => {
+		let { status } = await Location.getForegroundPermissionsAsync();
+
+		if (status !== 'granted') {
+			if (Platform.OS === 'ios' && status === 'denied') {
+				setLocationPermission(status);
+				alert(
+					'Location permission was denied. Please enable it manually in Settings > Privacy > Location Services.',
+				);
+				return;
+			}
+			({ status } = await Location.requestForegroundPermissionsAsync());
+		}
+
+		setLocationPermission(status);
+
+		if (status === 'granted') {
+			const { coords } = await Location.getCurrentPositionAsync({
+				accuracy: Location.Accuracy.Balanced,
+			});
+			setCurrentCords(coords);
+		}
+	};
 
 	const allDistrictsData = useMemo(() => {
 		if (fetchedDistrictsData?.status !== 'success') return [];
@@ -107,8 +143,10 @@ export const LocationsContextProvider = ({ children }) => {
 			getParishById,
 		},
 		data: {
+			currentCords: currentCords || { latitude: 0, longitude: 0 },
 			districts: allDistrictsData || [],
 			localitites: allLocalitiesData || [],
+			locationPermission: locationPermission,
 			municipalities: allMunicipalitiesData || [],
 			parishes: allParishesData || [],
 		},

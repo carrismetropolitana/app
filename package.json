@@ -48,6 +48,7 @@
     "expo-linear-gradient": "~14.0.2",
     "expo-linking": "~7.0.5",
     "expo-localization": "~16.0.1",
+    "expo-location": "~18.0.10",
     "expo-router": "~4.0.17",
     "expo-splash-screen": "~0.29.22",
     "expo-status-bar": "~2.0.1",
@@ -56,11 +57,13 @@
     "expo-updates": "~0.27.3",
     "expo-web-browser": "~14.0.2",
     "fs-extra": "^11.3.0",
+    "geolib": "^3.3.4",
     "i": "^0.3.7",
     "i18next": "^24.2.2",
     "i18next-browser-languagedetector": "^8.0.4",
     "i18next-http-backend": "^3.0.2",
     "i18next-icu": "^2.3.0",
+    "lottie-react-native": "7.1.0",
     "luxon": "^3.6.0",
     "npm": "^11.2.0",
     "react": "18.3.1",
@@ -80,7 +83,7 @@
     "react-native-webview": "13.12.5",
     "styled-components": "^6.1.16",
     "swr": "^2.3.3",
-    "lottie-react-native": "7.1.0"
+    "ukkonen": "^2.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

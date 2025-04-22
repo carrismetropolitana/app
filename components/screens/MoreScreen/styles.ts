@@ -1,7 +1,9 @@
 /* * */
+
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { StyleSheet } from 'react-native';
+
 /* * */
 
 /* * */

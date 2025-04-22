@@ -1,6 +1,7 @@
 /* * */
 
 import LinesScreen from '@/components/screens/LinesScreen';
+import { LinesListContextProvider } from '@/contexts/LinesList.context';
 
 /* * */
 export default function Lines() {
@@ -10,7 +11,9 @@ export default function Lines() {
 	// A . Render components
 
 	return (
-		<LinesScreen />
+		<LinesListContextProvider>
+			<LinesScreen />
+		</LinesListContextProvider>
 	);
 
 	//

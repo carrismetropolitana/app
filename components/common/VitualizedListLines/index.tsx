@@ -59,7 +59,9 @@ export function VirtualizedListingLines({ data, icon, itemClick, items, municipl
 			getItemCount={data => data?.length || 0}
 			initialNumToRender={items}
 			keyExtractor={item => item.id}
+			nestedScrollEnabled={false}
 			renderItem={renderItem}
+			scrollEnabled={false}
 			showsVerticalScrollIndicator={false}
 			ListEmptyComponent={(
 				<NoDatabLabel />
