@@ -3,8 +3,7 @@ import { useLinesContext } from '@/contexts/Lines.context';
 import { useLinesListContext } from '@/contexts/LinesList.context';
 import { useLocationsContext } from '@/contexts/Locations.context';
 import { useThemeContext } from '@/contexts/Theme.context';
-import { Line } from '@carrismetropolitana/api-types/network';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 
 import { Section } from '../common/layout/Section';
@@ -12,11 +11,11 @@ import { Section } from '../common/layout/Section';
 export default function LinesScreen() {
 	const linesListContext = useLinesListContext();
 	const linesContext = useLinesContext();
-	const themeContext = useThemeContext();
 	const locationContext = useLocationsContext();
-	const lines = linesContext.data.lines;
+	const themeContext = useThemeContext();
 
-	const [linesAroundLocation, setLinesLocation] = useState<Line[]>([]);
+	const lines = linesContext.data.lines;
+	const linesAroundLocation = linesListContext.data.linesAroundLocation;
 
 	const styles = StyleSheet.create({
 		container: {
@@ -26,36 +25,19 @@ export default function LinesScreen() {
 		},
 	});
 
-	useEffect(() => {
-		if (locationContext.data.locationPermission !== 'granted') return;
-		const fetchNearby = async () => {
-			const nearby = await linesListContext.actions.getLinesAroundLocation();
-			if (nearby) setLinesLocation(nearby);
-		};
-		fetchNearby();
-	}, [locationContext.data.locationPermission]);
-
-	useEffect(() => {
-		if (locationContext.data.locationPermission !== 'granted') return;
-		setLinesLocation(linesListContext.data.linesAroundLocation);
-	}, [linesListContext.data.linesAroundLocation]);
-
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<ScrollView style={styles.container}>
 				<Section heading="A minha volta" />
-				{locationContext.data.locationPermission === 'granted'
-				&& Array.isArray(linesAroundLocation)
-				&& linesAroundLocation.length > 0 && (
+				{locationContext.data.locationPermission === 'granted' && linesAroundLocation.length > 0 && (
 					<VirtualizedListingLines
 						data={linesAroundLocation}
-						items={50}
+						items={5}
 						size="lg"
 					/>
 				)}
-
 				<Section heading="Todas as linhas" />
-				<VirtualizedListingLines data={lines} items={15} size="lg" />
+				<VirtualizedListingLines data={lines} items={5} size="lg" />
 			</ScrollView>
 		</SafeAreaView>
 	);

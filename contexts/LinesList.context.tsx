@@ -193,7 +193,7 @@ export const LinesListContextProvider = ({ children }) => {
 
 	const getLinesAroundLocation = async (): Promise<Line[]> => {
 		const center = locationContext.data.currentCords;
-		const nearbyStops = filterStopsByRadius(stopsContext.data.stops, center, 3500);
+		const nearbyStops = filterStopsByRadius(stopsContext.data.stops, center, 500);
 		const uniqueIds = Array.from(new Set(nearbyStops.flatMap(stop => stop.line_ids)));
 		const nearbyLines = uniqueIds
 			.map(id => allLinesData.find(line => line.id === id))
