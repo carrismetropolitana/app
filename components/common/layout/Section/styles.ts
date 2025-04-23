@@ -9,6 +9,7 @@ export const useSectionStyles = () => {
 		/* * */
 		/* CONTAINER */
 		container: {
+			flex: 1,
 			paddingBottom: 0,
 			width: '100%',
 		},
@@ -20,6 +21,7 @@ export const useSectionStyles = () => {
 		withBottomDivider: {
 			borderBottomColor: 'rgb(230 230 250)',
 			borderBottomWidth: 1,
+			width: '100%',
 		},
 		/* * */
 		/* HEADING  WRAPPER */

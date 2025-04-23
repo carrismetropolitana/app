@@ -16,7 +16,7 @@ import { Text } from '@rneui/themed';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
-import { lineDetailsHeaderStyles } from './styles';
+import { styles } from './styles';
 
 /* * */
 
@@ -27,23 +27,25 @@ export function LinesDetailHeader() {
 	// A. Setup variables
 
 	const { t } = useTranslation('tranaslations', { keyPrefix: 'lines.LinesDetail' });
-	const profileContext = useProfileContext();
+	// const profileContext = useProfileContext();
 	const linesDetailContext = useLinesDetailContext();
 	const debugContext = useDebugContext();
+
+	const lineDetailsHeaderStyles = styles();
 
 	//
 	// B. Handle actions
 
-	const handleToggleFavorite = async () => {
-		if (!linesDetailContext.data.line) return;
-		try {
-			console.log(linesDetailContext.data.routes[0].pattern_ids);
-			await profileContext.actions.toggleFavoriteLine(linesDetailContext.data.line.id);
-		}
-		catch (error) {
-			alert(error.message);
-		}
-	};
+	// const handleToggleFavorite = async () => {
+	// 	if (!linesDetailContext.data.line) return;
+	// 	try {
+	// 		console.log(linesDetailContext.data.routes[0].pattern_ids);
+	// 		await profileContext.actions.toggleFavoriteLine(linesDetailContext.data.line.id);
+	// 	}
+	// 	catch (error) {
+	// 		alert(error.message);
+	// 	}
+	// };
 
 	//
 	// C. Render components
@@ -55,28 +57,40 @@ export function LinesDetailHeader() {
 	return (
 		<>
 			<Surface>
-				<Section withBottomDivider withPadding>
-					<View style={lineDetailsHeaderStyles.headingSection}>
+				<View style={lineDetailsHeaderStyles.headingSection}>
+					<Section withBottomDivider>
 						<View style={lineDetailsHeaderStyles.headingSectionRow}>
 							<LineBadge lineData={linesDetailContext.data.line} size="lg" />
+							<Text style={lineDetailsHeaderStyles.lineName}>{linesDetailContext.data.line.long_name}</Text>
 							{/* <FavoriteToggle color={linesDetailContext.data.line.color} isActive={linesDetailContext.flags.is_favorite} onToggle={handleToggleFavorite} /> */}
 						</View>
-						<View style={lineDetailsHeaderStyles.lineName}>
-							<Text>{linesDetailContext.data.line.long_name}</Text>
-						</View>
-					</View>
-				</Section>
+					</Section>
+				</View>
 
-				<Section withPadding>
-					<View style={lineDetailsHeaderStyles.container}>
+				<View style={lineDetailsHeaderStyles.operationalDaySection}>
+					<Section withBottomDivider>
 						<View>
 							<SelectOperationalDay />
 						</View>
+					</Section>
+				</View>
+
+				<View style={lineDetailsHeaderStyles.operationalDaySection}>
+					<Section withBottomDivider>
+						<View>
+							<SelectOperationalDay />
+						</View>
+					</Section>
+				</View>
+
+				{/* <Section withPadding>
+					<View style={lineDetailsHeaderStyles.container}>
+
 						<View>
 							<SelectActivePatternGroup />
 						</View>
 					</View>
-				</Section>
+				</Section> */}
 			</Surface>
 
 			{debugContext.flags.is_debug_mode && (

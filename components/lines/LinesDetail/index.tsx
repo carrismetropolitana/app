@@ -20,8 +20,6 @@ export function LinesDetail() {
 		<SafeAreaView style={{ backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background, flex: 1 }}>
 			<ScrollView>
 				<LinesDetailHeader />
-				{/* <LinesDetailAlerts />
-			<LinesDetailMetrics /> */}
 			</ScrollView>
 		</SafeAreaView>
 
@@ -29,3 +27,6 @@ export function LinesDetail() {
 
 	//
 }
+
+{ /* <LinesDetailAlerts />
+<LinesDetailMetrics /> */ }

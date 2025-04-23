@@ -3,10 +3,11 @@
 import { Option, SegmentedControl } from '@/components/common/SegmentedControl';
 import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { IconCalendarEvent } from '@tabler/icons-react-native';
+import { ButtonGroup } from '@rneui/themed';
+import { IconArrowNarrowLeft, IconArrowsShuffle, IconCalendarEvent } from '@tabler/icons-react-native';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { selectOperationDayStyles } from './styles';
 
@@ -82,12 +83,49 @@ export function SelectOperationalDay() {
 	//
 	// D. Render components
 
+	const buttons = [
+		{ element: () => (
+			<Pressable>
+				{({ pressed }) => (
+					<IconArrowNarrowLeft
+						size={24}
+
+					/>
+				)}
+			</Pressable>
+		) },
+		{ element: () => (
+			<Pressable>
+				{({ pressed }) => (
+					<IconArrowsShuffle
+						size={24}
+
+					/>
+				)}
+			</Pressable>
+		) },
+		{ element: () => (
+			<Pressable>
+				{({ pressed }) => (
+					<IconArrowsShuffle
+						size={24}
+
+					/>
+				)}
+			</Pressable>
+		) },
+	];
+
 	return (
 		<View style={selectOperationDayStyles.container}>
-			<SegmentedControl
+			{/* <SegmentedControl
 				onChange={handleSegmentedControlChange}
 				options={options}
 				selectedValue={selectedValue}
+			/> */}
+
+			<ButtonGroup
+				buttons={buttons}
 			/>
 		</View>
 	);

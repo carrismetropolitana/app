@@ -27,7 +27,7 @@ export default function Page() {
 
 	useEffect(() => {
 		navigation.setOptions({
-			headerBackTitle: `${t('BackButton')}`,
+			headerBackTitle: `Linha ${line_id}`,
 			headerStyle: {
 				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
 			},

@@ -25,7 +25,7 @@
 			"infoPlist": {
 				"ITSAppUsesNonExemptEncryption": false
 			},
-			"jsEngine": "jsc",
+			"jsEngine": "hermes",
 			"supportsTablet": true
 		},
 		"jsEngine": "hermes",
@@ -40,7 +40,7 @@
 				"expo-splash-screen",
 				{
 					"backgroundColor": "#ffffff",
-					"image": "./assets/images/splash-icon.png",
+					"image": "./assets/images/adaptive-icon.png",
 					"imageWidth": 200,
 					"resizeMode": "contain"
 				}
@@ -74,7 +74,7 @@
 		"version": "1.0.0",
 		"web": {
 			"bundler": "metro",
-			"favicon": "./assets/images/favicon.png",
+			"favicon": "./assets/images/adaptive-icon.png",
 			"output": "static"
 		}
 	}
