@@ -500,7 +500,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			}
 		}
 		else {
-			// No widget for this stop, create a new one
 			const newFavoriteStop: AccountWidget = {
 				data: { pattern_ids: pattern_ids, stop_id: stopId, type: 'stops' as const },
 				settings: { is_open: true },
@@ -561,13 +560,13 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	};
 
 	const checkProfile = async (profile: Account | null) => {
-		// console.log('Checking if profile exists ⚙️');
+		console.log('Checking if profile exists ⚙️');
 		if (!profile) {
-			// console.log('No profile found, creating new account 🤖');
+			console.log('No profile found, creating new account 🤖');
 			await setNewEmptyProfile();
 		}
 		else {
-			// console.log('Profile exists.');
+			console.log('Profile exists.');
 		}
 	};
 

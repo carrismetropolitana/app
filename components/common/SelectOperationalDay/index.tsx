@@ -27,7 +27,6 @@ export function SelectOperationalDay() {
 	const operationalDayContext = useOperationalDayContext();
 
 	const [selectedIndex, setSelectedIndex] = useState(0);
-	const [date, setDate] = useState(new Date());
 	const [showPicker, setShowPicker] = useState(false);
 
 	const selectStyles = styles();
@@ -39,28 +38,27 @@ export function SelectOperationalDay() {
 			<>
 				<IconCalendar size={20} />
 				<Text style={selectedIndex === 2 ? selectStyles.textSelected : selectStyles.text}>
-					{formattedDate}
+					{operationalDayContext.data.selected_day_jsdate
+						? DateTime.fromJSDate(operationalDayContext.data.selected_day_jsdate).setLocale(localeContext.locale).toLocaleString(DateTime.DATE_MED)
+						: DateTime.now().setLocale(localeContext.locale).toLocaleString(DateTime.DATE_MED)}
 				</Text>
 			</>
 		),
 		},
 	];
 
-	const formattedDate = DateTime
-		.fromJSDate(date)
-		.setLocale(localeContext.locale)
-		.toLocaleString(DateTime.DATE_MED);
-
 	//
 	// B. Fetch Data
 
 	useEffect(() => {
-		if (operationalDayContext.flags.is_today_selected) setSelectedIndex(0);
-		else if (operationalDayContext.flags.is_tomorrow_selected) setSelectedIndex(1);
-		else setSelectedIndex(2);
+		if (selectedIndex === 0) {
+			operationalDayContext.actions.updateSelectedDayToToday();
+		}
+		else if (selectedIndex === 1) {
+			operationalDayContext.actions.updateSelectedDayToTomorrow();
+		}
 	}, [
-		operationalDayContext.flags.is_today_selected,
-		operationalDayContext.flags.is_tomorrow_selected,
+		selectedIndex,
 	]);
 
 	//
@@ -68,6 +66,7 @@ export function SelectOperationalDay() {
 
 	const handlePress = (i: number) => {
 		setSelectedIndex(i);
+
 		if (i === 2) {
 			setShowPicker(true);
 		}
@@ -75,8 +74,8 @@ export function SelectOperationalDay() {
 
 	const handleConfirm = (picked: Date) => {
 		setShowPicker(false);
-		setDate(picked);
 		setSelectedIndex(2);
+		operationalDayContext.actions.updateSelectedDayFromJsDate(picked);
 	};
 	const handleCancel = () => setShowPicker(false);
 
@@ -93,7 +92,7 @@ export function SelectOperationalDay() {
 				selectedIndex={selectedIndex}
 			/>
 			<DateTimePickerModal
-				date={date}
+				date={operationalDayContext.data.selected_day_jsdate ?? undefined}
 				isVisible={showPicker}
 				locale={localeContext.locale}
 				mode="date"

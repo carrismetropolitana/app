@@ -104,6 +104,7 @@ export const OperationalDayContextProvider = ({ children }) => {
 
 	const updateSelectedDayFromJsDate = (value: Date) => {
 		const valueAsString = DateTime.fromJSDate(value).toFormat('yyyyMMdd');
+		console.log('custom_date', valueAsString);
 		setSelectedDay(valueAsString);
 
 		// if (valueAsString > todayDateString) {
@@ -115,19 +116,23 @@ export const OperationalDayContextProvider = ({ children }) => {
 	};
 
 	const updateSelectedDayToToday = () => {
+		console.log('today', todayDateString);
 		setSelectedDay(todayDateString);
 	};
 
 	const updateSelectedDayToTomorrow = () => {
+		console.log('tomorow', tomorrowDateString);
 		setSelectedDay(tomorrowDateString);
 	};
 
 	const updateSelectedDayToPlusOneDay = () => {
+		console.log('tomorrow');
 		const selectedDayPlusOneDay = DateTime.fromFormat(selectedDay || todayDateString, 'yyyyMMdd').plus({ days: 1 }).toFormat('yyyyMMdd');
 		setSelectedDay(selectedDayPlusOneDay);
 	};
 
 	const updateSelectedDayToLessOneDay = () => {
+		console.log('yoooo');
 		const selectedDayPlusOneDay = DateTime.fromFormat(selectedDay || todayDateString, 'yyyyMMdd').minus({ days: 1 }).toFormat('yyyyMMdd');
 		setSelectedDay(selectedDayPlusOneDay);
 	};
