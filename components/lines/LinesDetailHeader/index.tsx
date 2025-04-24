@@ -1,5 +1,3 @@
-'use client';
-
 /* * */
 
 import { FavoriteToggle } from '@/components/common/FavoriteToggle';
@@ -68,20 +66,13 @@ export function LinesDetailHeader() {
 				</View>
 
 				<View style={lineDetailsHeaderStyles.operationalDaySection}>
-					<Section withBottomDivider>
-						<View>
-							<SelectOperationalDay />
-						</View>
-					</Section>
+					<SelectOperationalDay />
 				</View>
 
-				<View style={lineDetailsHeaderStyles.operationalDaySection}>
-					<Section withBottomDivider>
-						<View>
-							<SelectOperationalDay />
-						</View>
-					</Section>
-				</View>
+				{/* <View style={lineDetailsHeaderStyles.operationalDaySection}>
+					<SelectOperationalDay />
+
+				</View> */}
 
 				{/* <Section withPadding>
 					<View style={lineDetailsHeaderStyles.container}>

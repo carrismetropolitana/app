@@ -1,11 +1,12 @@
-import { useColorScheme } from "react-native";
-import { CarrisMetropolitanaLogoLight } from "./variants/CarrisMetropolitanaLogoLight";
-import { CarrisMetropolitanaLogoDark } from "./variants/CarrisMetropolitanaLogoDark";
+import { useColorScheme } from 'react-native';
+
+import { CarrisMetropolitanaLogoDark } from './variants/CarrisMetropolitanaLogoDark';
+import { CarrisMetropolitanaLogoLight } from './variants/CarrisMetropolitanaLogoLight';
 
 export const CarrisMetropolitanaLogo = ({
 	theme,
-}: { theme?: "light" | "dark" }) => {
-	return (theme || useColorScheme()) === "dark" ? (
+}: { theme?: 'dark' | 'light' }) => {
+	return (theme || useColorScheme()) === 'dark' ? (
 		<CarrisMetropolitanaLogoDark />
 	) : (
 		<CarrisMetropolitanaLogoLight />

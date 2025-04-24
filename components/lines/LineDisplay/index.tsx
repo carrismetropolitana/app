@@ -27,9 +27,15 @@ interface Props {
 export function LineDisplay({ color, lineData, longName, municipality, shortName, size = 'md', textColor, width = 200 }: Props) {
 	//
 
+	//
+	// A. Handle Actions
+
 	const onPress = () => {
 		alert('clicked');
 	};
+
+	//
+	// B. Render Components
 
 	if (lineData) {
 		return (

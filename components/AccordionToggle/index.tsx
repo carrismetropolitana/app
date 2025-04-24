@@ -1,6 +1,10 @@
+/* * */
+
 import { IconCaretLeft } from '@tabler/icons-react-native';
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing, StyleProp, ViewStyle } from 'react-native';
+
+/* * */
 
 interface AccordionToggleProps {
 	expanded: boolean
@@ -8,7 +12,14 @@ interface AccordionToggleProps {
 	style?: StyleProp<ViewStyle>
 }
 
+/* * */
+
 export const AccordionToggle = ({ expanded, size = 24, style }: AccordionToggleProps) => {
+	//
+
+	//
+	// A. Setup Variables
+
 	const rotateAnim = useRef(new Animated.Value(0)).current;
 
 	useEffect(() => {
@@ -25,9 +36,14 @@ export const AccordionToggle = ({ expanded, size = 24, style }: AccordionToggleP
 		outputRange: ['0deg', '90deg'],
 	});
 
+	//
+	// B. Render Components
+
 	return (
 		<Animated.View style={[{ transform: [{ rotate }] }, style]}>
 			<IconCaretLeft color="#D2D2DC" fill="#D2D2DC" size={size} />
 		</Animated.View>
 	);
+
+	//
 };

@@ -1,8 +1,12 @@
+/* * */
+
 import { createTheme } from '@rneui/themed';
-import { IconBorderRadius } from '@tabler/icons-react-native';
 
 import { theming } from './Variables';
 
+/* * */
+
+// A. Define theming - light mode
 const lightThemeDefinition = {
 	components: {
 		Button: {
@@ -63,6 +67,9 @@ const lightThemeDefinition = {
 	},
 	mode: 'light' as const,
 };
+
+//
+// B. Define theming - dark mode
 
 const darkThemeDefinition = {
 	components: {
@@ -126,5 +133,10 @@ const darkThemeDefinition = {
 	mode: 'dark' as const,
 };
 
+//
+// C. Export the themes
+
 export const lightTheme = createTheme(lightThemeDefinition);
 export const darkTheme = createTheme(darkThemeDefinition);
+
+//

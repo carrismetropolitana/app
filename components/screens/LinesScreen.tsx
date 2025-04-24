@@ -1,14 +1,21 @@
+/* * */
+
 import { VirtualizedListingLines } from '@/components/common/VitualizedListLines';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useLinesListContext } from '@/contexts/LinesList.context';
 import { useLocationsContext } from '@/contexts/Locations.context';
 import { useThemeContext } from '@/contexts/Theme.context';
-import { useEffect } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 
 import { Section } from '../common/layout/Section';
 
+/* * */
+
 export default function LinesScreen() {
+	//
+
+	// A. Setup Variables
+
 	const linesListContext = useLinesListContext();
 	const linesContext = useLinesContext();
 	const locationContext = useLocationsContext();
@@ -24,6 +31,9 @@ export default function LinesScreen() {
 			width: '100%',
 		},
 	});
+
+	//
+	// B. Render Components
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
@@ -41,4 +51,6 @@ export default function LinesScreen() {
 			</ScrollView>
 		</SafeAreaView>
 	);
+
+	//
 }

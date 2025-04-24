@@ -1,8 +1,8 @@
-import * as React from "react";
-import Svg, { type SvgProps, Path } from "react-native-svg";
+import * as React from 'react';
+import Svg, { Path, type SvgProps } from 'react-native-svg';
 
 export const CarrisMetropolitanaLogoLight = (props: SvgProps) => (
-	<Svg width={220.316} height={78.547} {...props}>
+	<Svg height={78.547} width={220.316} {...props}>
 		<Path
 			d="M382.157 339.309v-.159.012c-.004.049 0 .098 0 .147Z"
 			fill="#fff"

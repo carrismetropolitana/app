@@ -1,15 +1,18 @@
 /* * */
 
-import { Option, SegmentedControl } from '@/components/common/SegmentedControl';
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { ButtonGroup } from '@rneui/themed';
-import { IconArrowNarrowLeft, IconArrowsShuffle, IconCalendarEvent } from '@tabler/icons-react-native';
-import { useEffect, useState } from 'react';
+import { ButtonGroup, Text } from '@rneui/themed';
+import { IconCalendar } from '@tabler/icons-react-native';
+import { DateTime } from 'luxon';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
-import { selectOperationDayStyles } from './styles';
+/* * */
+
+import { styles } from './styles';
 
 /* * */
 
@@ -17,118 +20,86 @@ export function SelectOperationalDay() {
 	//
 
 	//
-	// A. Setup variables
+	// A. Setup Variables
 
 	const { t } = useTranslation('translation', { keyPrefix: 'common.SelectOperationalDay' });
-
+	const localeContext = useLocaleContext();
 	const operationalDayContext = useOperationalDayContext();
 
-	const [selectedValue, setSelectedValue] = useState('today');
+	const [selectedIndex, setSelectedIndex] = useState(0);
 	const [date, setDate] = useState(new Date());
-	const options: Option[] = [
-		{
-			label: t('today'),
-			value: 'today',
+	const [showPicker, setShowPicker] = useState(false);
+
+	const selectStyles = styles();
+
+	const buttons = [
+		{ element: () => <Text style={selectedIndex === 0 ? selectStyles.textSelected : selectStyles.text}>{t('today')}</Text> },
+		{ element: () => <Text style={selectedIndex === 1 ? selectStyles.textSelected : selectStyles.text}>{t('tomorrow')}</Text> },
+		{ element: () => (
+			<>
+				<IconCalendar size={20} />
+				<Text style={selectedIndex === 2 ? selectStyles.textSelected : selectStyles.text}>
+					{formattedDate}
+				</Text>
+			</>
+		),
 		},
-		{
-			label: t('tomorrow'),
-			value: 'tomorrow',
-		},
-		// {
-		// 	centerSection: (
-		// 		<DateTimePicker
-		// 			display="default"
-		// 			mode="date"
-		// 			value={date}
-		// 			onChange={(_, selectedDate) => {
-		// 				if (selectedDate) setDate(selectedDate);
-		// 			}}
-		// 		/>
-		// 	),
-		// 	label: '',
-		// 	value: 'custom',
-		// },
 	];
 
+	const formattedDate = DateTime
+		.fromJSDate(date)
+		.setLocale(localeContext.locale)
+		.toLocaleString(DateTime.DATE_MED);
+
 	//
-	// B. Transform data
+	// B. Fetch Data
 
 	useEffect(() => {
-		if (operationalDayContext.flags.is_today_selected) {
-			setSelectedValue('today');
-		}
-		else if (operationalDayContext.flags.is_tomorrow_selected) {
-			setSelectedValue('tomorrow');
-		}
-		else if (!operationalDayContext.flags.is_today_selected && !operationalDayContext.flags.is_tomorrow_selected) {
-			setSelectedValue('custom_date');
-		}
-	}, [operationalDayContext.flags.is_today_selected, operationalDayContext.flags.is_tomorrow_selected]);
+		if (operationalDayContext.flags.is_today_selected) setSelectedIndex(0);
+		else if (operationalDayContext.flags.is_tomorrow_selected) setSelectedIndex(1);
+		else setSelectedIndex(2);
+	}, [
+		operationalDayContext.flags.is_today_selected,
+		operationalDayContext.flags.is_tomorrow_selected,
+	]);
 
 	//
-	// C. Handle actions
+	// C . Handle Actions
 
-	const handleSegmentedControlChange = (event: { nativeEvent: { selectedSegmentValue: string } }) => {
-		const value = event.nativeEvent.selectedSegmentValue;
-
-		setSelectedValue(value);
-		if (value === 'today') {
-			console.log('Today selected');
-		}
-		else if (value === 'tomorrow') {
-			console.log('Tomorrow selected');
+	const handlePress = (i: number) => {
+		setSelectedIndex(i);
+		if (i === 2) {
+			setShowPicker(true);
 		}
 	};
 
+	const handleConfirm = (picked: Date) => {
+		setShowPicker(false);
+		setDate(picked);
+		setSelectedIndex(2);
+	};
+	const handleCancel = () => setShowPicker(false);
+
 	//
-	// D. Render components
-
-	const buttons = [
-		{ element: () => (
-			<Pressable>
-				{({ pressed }) => (
-					<IconArrowNarrowLeft
-						size={24}
-
-					/>
-				)}
-			</Pressable>
-		) },
-		{ element: () => (
-			<Pressable>
-				{({ pressed }) => (
-					<IconArrowsShuffle
-						size={24}
-
-					/>
-				)}
-			</Pressable>
-		) },
-		{ element: () => (
-			<Pressable>
-				{({ pressed }) => (
-					<IconArrowsShuffle
-						size={24}
-
-					/>
-				)}
-			</Pressable>
-		) },
-	];
 
 	return (
-		<View style={selectOperationDayStyles.container}>
-			{/* <SegmentedControl
-				onChange={handleSegmentedControlChange}
-				options={options}
-				selectedValue={selectedValue}
-			/> */}
-
+		<View style={selectStyles.container}>
 			<ButtonGroup
 				buttons={buttons}
+				containerStyle={selectStyles.operationalDayContainer}
+				innerBorderStyle={{ width: 0 }}
+				onPress={handlePress}
+				selectedButtonStyle={selectStyles.buttonSelected}
+				selectedIndex={selectedIndex}
+			/>
+			<DateTimePickerModal
+				date={date}
+				isVisible={showPicker}
+				locale={localeContext.locale}
+				mode="date"
+				onCancel={handleCancel}
+				onConfirm={handleConfirm}
 			/>
 		</View>
 	);
-
-	//
 }

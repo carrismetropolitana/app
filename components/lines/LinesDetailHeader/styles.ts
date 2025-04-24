@@ -50,7 +50,8 @@ export const styles = () => {
 			backgroundColor: theme.mode === 'light'
 				? theming.colorSystemBackgroundLight100
 				: theming.colorSystemBackgroundDark100,
-			width: '100%',
+			padding: 10,
+
 		},
 	});
 
