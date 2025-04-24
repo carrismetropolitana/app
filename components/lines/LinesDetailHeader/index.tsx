@@ -25,7 +25,7 @@ export function LinesDetailHeader() {
 	// A. Setup variables
 
 	const { t } = useTranslation('tranaslations', { keyPrefix: 'lines.LinesDetail' });
-	// const profileContext = useProfileContext();
+	const profileContext = useProfileContext();
 	const linesDetailContext = useLinesDetailContext();
 	const debugContext = useDebugContext();
 
@@ -34,16 +34,15 @@ export function LinesDetailHeader() {
 	//
 	// B. Handle actions
 
-	// const handleToggleFavorite = async () => {
-	// 	if (!linesDetailContext.data.line) return;
-	// 	try {
-	// 		console.log(linesDetailContext.data.routes[0].pattern_ids);
-	// 		await profileContext.actions.toggleFavoriteLine(linesDetailContext.data.line.id);
-	// 	}
-	// 	catch (error) {
-	// 		alert(error.message);
-	// 	}
-	// };
+	const handleToggleFavorite = async () => {
+		if (!linesDetailContext.data.line) return;
+		try {
+			await profileContext.actions.toggleFavoriteLine(linesDetailContext.data.line.id);
+		}
+		catch (error) {
+			alert(error.message);
+		}
+	};
 
 	//
 	// C. Render components
@@ -60,7 +59,7 @@ export function LinesDetailHeader() {
 						<View style={lineDetailsHeaderStyles.headingSectionRow}>
 							<LineBadge lineData={linesDetailContext.data.line} size="lg" />
 							<Text style={lineDetailsHeaderStyles.lineName}>{linesDetailContext.data.line.long_name}</Text>
-							{/* <FavoriteToggle color={linesDetailContext.data.line.color} isActive={linesDetailContext.flags.is_favorite} onToggle={handleToggleFavorite} /> */}
+							<FavoriteToggle color={linesDetailContext.data.line.color} isActive={linesDetailContext.flags.is_favorite} onToggle={handleToggleFavorite} />
 						</View>
 					</Section>
 				</View>

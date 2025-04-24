@@ -20,6 +20,8 @@ const LOCAL_STORAGE_KEYS = {
 	profile: 'profile',
 	token: 'token',
 	user_type: 'profile|user_type',
+	widget_lines: 'profile|widget_lines',
+	widget_stops: 'profile|widget_stops',
 };
 
 interface ProfileContextState {
@@ -29,22 +31,28 @@ interface ProfileContextState {
 		setNewEmptyProfile: (profile: CreateAccountDto) => Promise<void>
 		setPreviousPersona: () => void
 		setSelectedLine: (line: string) => void
-		toggleFavoriteLine: (lineId: string[]) => Promise<void>
-		toggleFavoriteStop: (stopId: string, patternId: string[]) => Promise<void>
+		toggleFavoriteLine: (lineId: string) => Promise<void>
+		toggleFavoriteStop: (stopId: string) => Promise<void>
+		toggleWidgetLine: (lineId: string[]) => Promise<void>
+		toggleWidgetStop: (stopId: string, patternId: string[]) => Promise<void>
 		toogleAccountSync: () => void
 		updateLocalProfile: (profile: Account) => Promise<void>
 	}
 	counters: {
 		favorite_lines: number
 		favorite_stops: number
+		widget_lines: number
+		widget_stops: number
 	}
 	data: {
 		cloud_profile: Account | null
-		favorite_lines: AccountWidget[] | null
-		favorite_stops: AccountWidget[] | null
+		favorite_lines: null | string[]
+		favorite_stops: null | string[]
 		persona_image: null | string
 		profile: Account | null
 		selected_line: Line | string
+		widget_lines: AccountWidget[] | null
+		widget_stops: AccountWidget[] | null
 	}
 	flags: {
 		is_enabled: boolean
@@ -69,8 +77,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const consentContext = useConsentContext();
 	const localStorage = AsyncStorage;
 
-	const [dataFavoriteLinesState, setDataFavoriteLinesState] = useState<AccountWidget[] | null>(null);
-	const [dataFavoriteStopsState, setDataFavoriteStopsState] = useState<AccountWidget[] | null>(null);
+	const [dataWidgetLinesState, setDataWidgetLinesState] = useState<AccountWidget[] | null>(null);
+	const [dataWidgetStopsState, setDataWidgetStopsState] = useState<AccountWidget[] | null>(null);
 	const [personaHistory, setPersonaHistory] = useState<string[]>([]);
 	const [dataProfileState, setDataProfileState] = useState<Account | null>(null);
 	const [dataCloudProfileState] = useState<Account | null>(null);
@@ -78,6 +86,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const [dataIsSyncingState, setDataIsSyncingState] = useState(false);
 	const [dataPersonaImageState, setDataPersonaImageState] = useState<null | string>(null);
 	const [dataSelectedLineState, setSelectedLineState] = useState<Line | string>('');
+	const [dataFavoriteLinesState, setDataFavoriteLinesState] = useState<ProfileContextState['data']['favorite_lines']>(null);
+	const [dataFavoriteStopsState, setDataFavoriteStopsState] = useState<ProfileContextState['data']['favorite_stops']>(null);
 
 	const [flagIsLoadingState, setFlagIsLoadingState] = useState<ProfileContextState['flags']['is_loading']>(true);
 
@@ -165,7 +175,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			setFlagIsLoadingState(false);
 			return;
 		}
-
 		fetchData();
 
 		const intervalId = setInterval(() => {
@@ -175,19 +184,25 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		return () => clearInterval(intervalId);
 	}, [consentContext.data.enabled_functional]);
 
-	// useEffect(() => {
-	// 	if (
-	// 		consentContext.data.enabled_functional
-	// 		&& dataApiTokenState
-	// 		&& dataProfileState
-	// 	) {
-	// 		syncProfiles(dataProfileState);
-	// 	}
-	// }, [dataApiTokenState, dataProfileState, consentContext.data.enabled_functional]);
+	useEffect(() => {
+		if (
+			consentContext.data.enabled_functional
+			&& dataApiTokenState
+			&& dataProfileState
+		) {
+			syncProfiles(dataProfileState);
+		}
+	}, [dataApiTokenState, dataProfileState, consentContext.data.enabled_functional]);
 
 	useEffect(() => {
 		if (!consentContext.data.enabled_functional) return;
 
+		if (dataWidgetLinesState) {
+			localStorage.setItem(LOCAL_STORAGE_KEYS.widget_lines, JSON.stringify(dataWidgetLinesState) || '');
+		}
+		if (dataWidgetStopsState) {
+			localStorage.setItem(LOCAL_STORAGE_KEYS.widget_stops, JSON.stringify(dataWidgetStopsState) || '');
+		}
 		if (dataFavoriteLinesState) {
 			localStorage.setItem(LOCAL_STORAGE_KEYS.favorite_lines, JSON.stringify(dataFavoriteLinesState) || '');
 		}
@@ -204,8 +219,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			localStorage.setItem(LOCAL_STORAGE_KEYS.persona_image, dataPersonaImageState || '');
 		}
 	}, [
-		dataFavoriteLinesState,
-		dataFavoriteStopsState,
+		dataWidgetLinesState,
+		dataWidgetStopsState,
 		dataApiTokenState,
 		dataProfileState,
 		dataPersonaImageState,
@@ -284,7 +299,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 		if (!token) {
 			console.error('No token found for fetching profile from cloud.');
-			console.log(localStorage.getItem(LOCAL_STORAGE_KEYS.token));
 			return null;
 		}
 
@@ -340,16 +354,66 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		}
 	};
 
+	const toggleFavoriteLine = async (lineId: string) => {
+		if (!consentContext.data.enabled_functional) return;
+		const favoriteLinesSet = new Set(dataFavoriteLinesState || []);
+		if (favoriteLinesSet.has(lineId)) {
+			favoriteLinesSet.delete(lineId);
+		}
+		else {
+			favoriteLinesSet.add(lineId);
+		}
+		const updatedFavoriteLines = Array.from(favoriteLinesSet);
+		setDataFavoriteLinesState(updatedFavoriteLines);
+
+		setDataProfileState((prev) => {
+			if (!prev) return prev;
+			return {
+				...prev,
+				favorites: {
+					...(prev.favorites || { lines: [], stops: [] }),
+					lines: updatedFavoriteLines,
+				},
+			};
+		});
+	};
+
+	const toggleFavoriteStop = async (stopId: string) => {
+		if (!consentContext.data.enabled_functional) return;
+
+		const favoriteStopsSet = new Set(dataFavoriteStopsState || []);
+
+		if (favoriteStopsSet.has(stopId)) {
+			favoriteStopsSet.delete(stopId);
+		}
+		else {
+			favoriteStopsSet.add(stopId);
+		}
+		const updatedFavoriteStops = Array.from(favoriteStopsSet);
+		setDataFavoriteStopsState(updatedFavoriteStops);
+
+		setDataProfileState((prev) => {
+			if (!prev) return prev;
+			return {
+				...prev,
+				favorites: {
+					...(prev.favorites || { lines: [], stops: [] }),
+					stops: updatedFavoriteStops,
+				},
+			};
+		});
+	};
+
 	// D. Action handlers
 
 	const toogleAccountSync = () => {
 		setDataIsSyncingState(!dataIsSyncingState);
 	};
 
-	const toggleFavoriteLine = async (pattern_ids: string[]) => {
+	const toggleWidgetLine = async (pattern_ids: string[]) => {
 		if (!consentContext.data.enabled_functional) return;
 
-		const currentWidgets = dataFavoriteLinesState || [];
+		const currentWidgets = dataWidgetLinesState || [];
 		const updatedWidgets = [...currentWidgets];
 
 		pattern_ids.forEach((pattern_id) => {
@@ -364,7 +428,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				updatedWidgets.splice(index, 1);
 			}
 			else {
-				// Add a new line widget
 				const newFavoriteLine: AccountWidget = {
 					data: {
 						pattern_id,
@@ -380,9 +443,9 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			}
 		});
 
-		setDataFavoriteLinesState(updatedWidgets);
+		setDataWidgetLinesState(updatedWidgets);
 
-		const stopsWidgets = dataFavoriteStopsState || [];
+		const stopsWidgets = dataWidgetStopsState || [];
 		const updatedProfile: Account = {
 			...(dataProfileState || {}),
 			widgets: [
@@ -396,10 +459,10 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		await updateProfileOnCloud(updatedProfile);
 	};
 
-	const toggleFavoriteStop = async (stopId: string, pattern_ids: string[]) => {
+	const toggleWidgetStop = async (stopId: string, pattern_ids: string[]) => {
 		if (!consentContext.data.enabled_functional) return;
 
-		const currentWidgets = dataFavoriteStopsState || [];
+		const currentWidgets = dataWidgetStopsState || [];
 		const updatedWidgets = [...currentWidgets];
 
 		const stopWidgetIndex = updatedWidgets.findIndex(
@@ -445,12 +508,12 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			updatedWidgets.push(newFavoriteStop);
 		}
 
-		setDataFavoriteStopsState(updatedWidgets);
+		setDataWidgetStopsState(updatedWidgets);
 
 		const updatedProfile: Account = {
 			...(dataProfileState || {}),
 			widgets: [
-				...(dataFavoriteLinesState || []),
+				...(dataWidgetLinesState || []),
 				...updatedWidgets,
 			],
 		};
@@ -523,12 +586,16 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			setSelectedLine,
 			toggleFavoriteLine,
 			toggleFavoriteStop,
+			toggleWidgetLine,
+			toggleWidgetStop,
 			toogleAccountSync,
 			updateLocalProfile,
 		},
 		counters: {
 			favorite_lines: dataFavoriteLinesState ? dataFavoriteLinesState.length : 0,
 			favorite_stops: dataFavoriteStopsState ? dataFavoriteStopsState.length : 0,
+			widget_lines: dataWidgetLinesState ? dataWidgetLinesState.length : 0,
+			widget_stops: dataWidgetStopsState ? dataWidgetStopsState.length : 0,
 		},
 		data: {
 			cloud_profile: dataCloudProfileState,
@@ -537,6 +604,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			persona_image: dataPersonaImageState,
 			profile: dataProfileState,
 			selected_line: dataSelectedLineState,
+			widget_lines: dataWidgetLinesState,
+			widget_stops: dataWidgetStopsState,
 		},
 		flags: {
 			is_enabled: consentContext.data.enabled_functional,

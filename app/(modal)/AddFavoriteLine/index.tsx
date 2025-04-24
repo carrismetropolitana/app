@@ -167,7 +167,7 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 											<ListItem
 												key={item}
 												onPress={() => {
-													profileContext.actions.toggleFavoriteLine([item]);
+													profileContext.actions.toggleWidgetLine([item]);
 												}}
 											>
 												<LineBadge

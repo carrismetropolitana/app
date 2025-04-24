@@ -268,7 +268,7 @@ export default function AddFavoriteStop({ isVisible = false, onBackdropPress }: 
 								titleStyle={addFavoriteStopStyles.saveButtonText}
 								onPress={async () => {
 									if (selectedStopId && selectedStopPatterns.length > 0) {
-										await profileContext.actions.toggleFavoriteStop(selectedStopId, selectedStopPatterns);
+										await profileContext.actions.toggleWidgetStop(selectedStopId, selectedStopPatterns);
 										clearScreen();
 									}
 								}}
