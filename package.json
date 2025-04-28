@@ -72,6 +72,7 @@
 		"react-intl": "^7.1.6",
 		"react-native": "0.76.7",
 		"react-native-draggable-flatlist": "^4.0.2",
+		"react-native-element-dropdown": "^2.12.4",
 		"react-native-gesture-handler": "~2.20.2",
 		"react-native-modal-datetime-picker": "^18.0.0",
 		"react-native-reanimated": "~3.16.1",

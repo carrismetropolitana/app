@@ -23,7 +23,7 @@ export default function HomeScreen() {
 					paddingTop: insets.top + 100,
 				}}
 			>
-				<Link href="/line/1001">
+				<Link href="/line/4701">
 					<LineDisplay size="lg" />
 				</Link>
 

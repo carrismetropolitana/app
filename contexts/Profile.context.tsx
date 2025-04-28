@@ -184,15 +184,15 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		return () => clearInterval(intervalId);
 	}, [consentContext.data.enabled_functional]);
 
-	useEffect(() => {
-		if (
-			consentContext.data.enabled_functional
-			&& dataApiTokenState
-			&& dataProfileState
-		) {
-			syncProfiles(dataProfileState);
-		}
-	}, [dataApiTokenState, dataProfileState, consentContext.data.enabled_functional]);
+	// useEffect(() => {
+	// 	if (
+	// 		consentContext.data.enabled_functional
+	// 		&& dataApiTokenState
+	// 		&& dataProfileState
+	// 	) {
+	// 		syncProfiles(dataProfileState);
+	// 	}
+	// }, [dataApiTokenState, dataProfileState, consentContext.data.enabled_functional]);
 
 	useEffect(() => {
 		if (!consentContext.data.enabled_functional) return;

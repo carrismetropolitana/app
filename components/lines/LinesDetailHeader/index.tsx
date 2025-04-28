@@ -11,6 +11,7 @@ import { useDebugContext } from '@/contexts/Debug.context';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { Text } from '@rneui/themed';
+import { IconHomePlus, IconVolume } from '@tabler/icons-react-native';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -40,7 +41,12 @@ export function LinesDetailHeader() {
 			await profileContext.actions.toggleFavoriteLine(linesDetailContext.data.line.id);
 		}
 		catch (error) {
-			alert(error.message);
+			if (error instanceof Error) {
+				alert(error.message);
+			}
+			else {
+				alert(String(error));
+			}
 		}
 	};
 
@@ -57,30 +63,24 @@ export function LinesDetailHeader() {
 				<View style={lineDetailsHeaderStyles.headingSection}>
 					<Section withBottomDivider>
 						<View style={lineDetailsHeaderStyles.headingSectionRow}>
-							<LineBadge lineData={linesDetailContext.data.line} size="lg" />
+							<View style={lineDetailsHeaderStyles.headingFirstSection}>
+								<LineBadge lineData={linesDetailContext.data.line} size="lg" />
+								<FavoriteToggle color={linesDetailContext.data.line.color} isActive={linesDetailContext.flags.is_favorite} onToggle={handleToggleFavorite} />
+								<IconHomePlus color="#9696A0" size={24} />
+								<IconVolume color="#9696A0" size={24} />
+							</View>
 							<Text style={lineDetailsHeaderStyles.lineName}>{linesDetailContext.data.line.long_name}</Text>
-							<FavoriteToggle color={linesDetailContext.data.line.color} isActive={linesDetailContext.flags.is_favorite} onToggle={handleToggleFavorite} />
 						</View>
 					</Section>
 				</View>
-
-				<View style={lineDetailsHeaderStyles.operationalDaySection}>
-					<SelectOperationalDay />
-				</View>
-
-				{/* <View style={lineDetailsHeaderStyles.operationalDaySection}>
-					<SelectOperationalDay />
-
-				</View> */}
-
-				{/* <Section withPadding>
-					<View style={lineDetailsHeaderStyles.container}>
-
-						<View>
-							<SelectActivePatternGroup />
-						</View>
+				<View style={lineDetailsHeaderStyles.toolbarSection}>
+					<View style={lineDetailsHeaderStyles.operationalDaySection}>
+						<SelectOperationalDay />
 					</View>
-				</Section> */}
+					<View style={lineDetailsHeaderStyles.patternGroupSection}>
+						<SelectActivePatternGroup />
+					</View>
+				</View>
 			</Surface>
 
 			{debugContext.flags.is_debug_mode && (

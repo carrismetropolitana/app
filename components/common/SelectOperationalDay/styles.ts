@@ -28,9 +28,8 @@ export const styles = () => {
 			backgroundColor: theme.mode === 'light'
 				? theming.colorSystemBackgroundLight100
 				: theming.colorSystemBackgroundDark100,
-			borderColor: theming.colorSystemText200,
 			borderRadius: 3,
-			flex: 1,
+			boxShadow: '0 0 5 0 rgba(0, 0, 0, 0.1)',
 			marginBottom: 5,
 			marginLeft: 5,
 			marginRight: 5,
@@ -38,21 +37,25 @@ export const styles = () => {
 
 		},
 		container: {
-			flex: 1,
+			alignSelf: 'stretch',
+			borderRadius: 3,
 			width: '100%',
 		},
 		operationalDayContainer: {
+			alignItems: 'center',
 			backgroundColor: backgroundColor,
+			borderWidth: 0,
 			height: 60,
+			justifyContent: 'space-around',
 		},
 		text: {
 			color: fontColor,
-			fontSize: 16,
+			fontSize: 12,
 			fontWeight: '400',
 		},
 		textSelected: {
 			color: theming.colorSystemText200,
-			fontSize: 16,
+			fontSize: 14,
 			fontWeight: '400',
 		},
 	});

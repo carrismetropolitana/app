@@ -24,21 +24,18 @@ export const styles = () => {
 	// B. Render Components
 
 	return StyleSheet.create({
-		container: {
-			backgroundColor: backgroundColor,
+		headingFirstSection: {
+			alignItems: 'center',
+			flexDirection: 'row',
+			gap: 20,
 		},
 		headingSection: {
 			backgroundColor: theme.mode === 'light'
 				? theming.colorSystemBackgroundLight100
 				: theming.colorSystemBackgroundDark100,
-
-			width: '100%',
+			height: 125,
 		},
 		headingSectionRow: {
-			backgroundColor: theme.mode === 'light'
-				? theming.colorSystemBackgroundLight100
-				: theming.colorSystemBackgroundDark100,
-			flexDirection: 'column',
 			gap: 15,
 		},
 		lineName: {
@@ -46,12 +43,26 @@ export const styles = () => {
 			fontSize: theming.fontSizeSubtitle,
 			fontWeight: theming.fontWeightHeading as '700',
 		},
+		mapSection: {
+			height: 200,
+			width: '100%',
+		},
 		operationalDaySection: {
 			backgroundColor: theme.mode === 'light'
 				? theming.colorSystemBackgroundLight100
 				: theming.colorSystemBackgroundDark100,
 			padding: 10,
-
+			width: '100%',
+		},
+		patternGroupSection: {
+			backgroundColor: backgroundColor,
+		},
+		toolbarSection: {
+			backgroundColor: theme.mode === 'light'
+				? theming.colorSystemBackgroundLight100
+				: theming.colorSystemBackgroundDark100,
+			height: 125,
+			marginBottom: 100,
 		},
 	});
 

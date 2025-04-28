@@ -57,7 +57,7 @@ export function CustomMapView() {
 		<MapView
 			logoEnabled={false}
 			mapStyle="https://maps.carrismetropolitana.pt/styles/default/style.json"
-			style={{ height: '100%', top: 0, width: '100%' }}
+			style={{ height: '100%', width: '100%' }}
 
 		>
 			<Camera centerCoordinate={[-9.0, 38.7]} zoomLevel={8.9} />

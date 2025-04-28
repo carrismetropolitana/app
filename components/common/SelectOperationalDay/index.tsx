@@ -35,14 +35,14 @@ export function SelectOperationalDay() {
 		{ element: () => <Text style={selectedIndex === 0 ? selectStyles.textSelected : selectStyles.text}>{t('today')}</Text> },
 		{ element: () => <Text style={selectedIndex === 1 ? selectStyles.textSelected : selectStyles.text}>{t('tomorrow')}</Text> },
 		{ element: () => (
-			<>
-				<IconCalendar size={20} />
+			<View style={{ alignItems: 'center', flexDirection: 'row' }}>
+				<IconCalendar size={16} />
 				<Text style={selectedIndex === 2 ? selectStyles.textSelected : selectStyles.text}>
 					{operationalDayContext.data.selected_day_jsdate
-						? DateTime.fromJSDate(operationalDayContext.data.selected_day_jsdate).setLocale(localeContext.locale).toLocaleString(DateTime.DATE_MED)
+						? DateTime.fromJSDate(operationalDayContext.data.selected_day_jsdate).setLocale(localeContext.locale).toLocaleString(DateTime.DATE_MED).replaceAll('de', '').replaceAll('.', '').toLocaleUpperCase()
 						: DateTime.now().setLocale(localeContext.locale).toLocaleString(DateTime.DATE_MED)}
 				</Text>
-			</>
+			</View>
 		),
 		},
 	];

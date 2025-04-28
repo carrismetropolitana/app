@@ -1,9 +1,7 @@
-import { LinesDetailAlerts } from '@/components/lines/LinesDetailAlerts';
 import { LinesDetailHeader } from '@/components/lines/LinesDetailHeader';
-import { LinesDetailMetrics } from '@/components/lines/LinesDetailMetrics';
+import { LinesDetailPath } from '@/components/lines/LinesDetailPath';
 import { useThemeContext } from '@/contexts/Theme.context';
-import { ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View } from 'react-native';
 
 export function LinesDetail() {
 	//
@@ -17,16 +15,12 @@ export function LinesDetail() {
 	// B. Render component
 
 	return (
-		<SafeAreaView style={{ backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background, flex: 1 }}>
-			<ScrollView>
-				<LinesDetailHeader />
-			</ScrollView>
-		</SafeAreaView>
+		<View style={{ backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background }}>
+			<LinesDetailHeader />
+			<LinesDetailPath />
+		</View>
 
 	);
 
 	//
 }
-
-{ /* <LinesDetailAlerts />
-<LinesDetailMetrics /> */ }
