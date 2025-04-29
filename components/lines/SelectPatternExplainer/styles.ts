@@ -15,7 +15,7 @@ export const styles = () => {
 	const { theme } = useThemeContext();
 	const isLight = theme.mode === 'light';
 	const backgroundColor = isLight
-		? theming.colorSystemBackgroundLight200
+		? theming.colorSystemBackgroundLight100
 		: theming.colorSystemBackgroundDark200;
 	const fontColor = isLight
 		? theming.colorSystemText100
@@ -30,7 +30,7 @@ export const styles = () => {
 			flexDirection: 'row',
 			gap: 5,
 			justifyContent: 'flex-end',
-			marginTop: 20,
+			paddingBottom: 20,
 			paddingRight: 20,
 		},
 		text: {

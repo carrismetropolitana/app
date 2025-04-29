@@ -2,8 +2,8 @@
 
 import { SelectPatternExplainer } from '@/components/lines/SelectPatternExplainer';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
-import { IconArrowRight } from '@tabler/icons-react-native';
-import { useState } from 'react';
+import { IconArrowBarToRight, IconArrowRight } from '@tabler/icons-react-native';
+import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 
@@ -19,8 +19,16 @@ export function SelectPattern() {
 	const [selectedPattern, setSelectedPattern] = useState<string>();
 	const [isFocus, setIsFocus] = useState(false);
 
+	useEffect(() => {
+		if (!selectedPattern) return;
+
+		lineDetailContext.actions.setActivePattern(selectedPattern);
+
+		alert(selectedPattern);
+	}, [selectedPattern]);
+
 	const dropdownData
-    = lineDetailContext.data.valid_patterns?.map(pattern => ({ label: pattern.headsign, value: pattern.version_id.toString() })) ?? [];
+    = lineDetailContext.data.valid_patterns?.map(pattern => ({ label: pattern.headsign, value: pattern.id })) ?? [];
 
 	//
 	// B. Render Components
@@ -30,18 +38,16 @@ export function SelectPattern() {
 			<SelectPatternExplainer />
 			<Dropdown
 				data={dropdownData}
-				// iconStyle={styles.iconStyle}
 				inputSearchStyle={styles.inputSearchStyle}
 				labelField="label"
 				maxHeight={300}
 				onBlur={() => setIsFocus(false)}
 				onFocus={() => setIsFocus(true)}
-				placeholder={!isFocus ? 'Select pattern' : '...'}
-				// placeholderStyle={styles.placeholderStyle}
-				renderLeftIcon={() => <IconArrowRight size={24} />}
-				searchPlaceholder="Search patterns..."
-				// selectedTextStyle={styles.selectedTextStyle}
-				style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+				placeholder={!isFocus ? 'Escolher um percurso/destino...' : '...'}
+				renderLeftIcon={() => <IconArrowBarToRight color="#9696A0" size={24} />}
+				renderRightIcon={() => <IconArrowRight color="#D2D2DC" size={20} />}
+				searchPlaceholder="Pesquisar..."
+				style={styles.dropdown}
 				value={selectedPattern}
 				valueField="value"
 				onChange={(item) => {
@@ -59,6 +65,7 @@ export function SelectPattern() {
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: 'white',
+		color: '#9696A0',
 		padding: 16,
 	},
 	dropdown: {

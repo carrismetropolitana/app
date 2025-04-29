@@ -3,7 +3,6 @@
 import { SelectPattern } from '@/components/common/SelectPattern';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 
 /* * */
 
@@ -12,8 +11,6 @@ export function SelectActivePatternGroup() {
 
 	//
 	// A. Setup variables
-
-	const { t } = useTranslation('translations', { keyPrefix: 'lines.SelectActivePatternGroup' });
 	const linesDetailContext = useLinesDetailContext();
 
 	//

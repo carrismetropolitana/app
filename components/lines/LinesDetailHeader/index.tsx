@@ -12,7 +12,6 @@ import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { Text } from '@rneui/themed';
 import { IconHomePlus, IconVolume } from '@tabler/icons-react-native';
-import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { styles } from './styles';
@@ -25,7 +24,6 @@ export function LinesDetailHeader() {
 	//
 	// A. Setup variables
 
-	const { t } = useTranslation('tranaslations', { keyPrefix: 'lines.LinesDetail' });
 	const profileContext = useProfileContext();
 	const linesDetailContext = useLinesDetailContext();
 	const debugContext = useDebugContext();

@@ -184,6 +184,7 @@ export const LinesDetailContextProvider = ({ children, lineIdParams }: LinesDeta
 		if (!dataActivePatternState) return;
 		(async () => {
 			try {
+				console.log(dataActivePatternState.shape_id);
 				const shapeData = await fetch(`${Routes.API}/shapes/${dataActivePatternState.shape_id}`).then((response) => {
 					if (!response.ok) console.log(`Failed to fetch shape data for shapeId: ${dataActivePatternState.shape_id}`);
 					else return response.json();

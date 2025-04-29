@@ -62,7 +62,7 @@ export const styles = () => {
 				? theming.colorSystemBackgroundLight100
 				: theming.colorSystemBackgroundDark100,
 			height: 125,
-			marginBottom: 100,
+			marginBottom: 60,
 		},
 	});
 

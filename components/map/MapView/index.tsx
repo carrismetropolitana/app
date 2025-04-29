@@ -1,15 +1,9 @@
 // /* * */
 
-// import { MapViewToolbar } from '@/components/map/MapViewToolbar';
-// import { useMapOptionsContext } from '@/contexts/MapOptions.context';
-// import { useMap } from '@/hooks/useMap';
-// import { IconsMap } from '@/settings/assets.settings';
-// import { mapDefaultConfig } from '@/settings/map.settings';
+import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { useVehiclesContext } from '@/contexts/Vehicles.context';
-import { Camera, CircleLayer, MapView, ShapeSource } from '@maplibre/maplibre-react-native';
-// import { useCallback, useState } from 'react';
-
-// import styles from './styles.module.css';
+import { Camera, CircleLayer, LineLayer, MapView, ShapeSource } from '@maplibre/maplibre-react-native';
 
 // /* * */
 
@@ -25,35 +19,37 @@ import { Camera, CircleLayer, MapView, ShapeSource } from '@maplibre/maplibre-re
 // 	{ name: 'cmet-store-open', sdf: false, url: IconsMap.store_open },
 // ];
 
-// /* * */
-
-// export type MapStyle = 'map' | 'satellite';
-
-// interface Props {
-// 	children: React.ReactNode
-// 	fullscreen?: boolean
-// 	geolocate?: boolean
-// 	interactiveLayerIds?: string[]
-// 	mapStyle?: MapStyle
-// 	navigation?: boolean
-// 	onCenterMap?: () => void
-// 	onClick?: (arg0: Event) => void
-// 	onMouseEnter?: (arg0: Event) => void
-// 	onMouseLeave?: (arg0: Event) => void
-// 	onMouseOut?: (arg0: Event) => void
-// 	onMouseOver?: (arg0: Event) => void
-// 	onMoveEnd?: (arg0: Event) => void
-// 	onMoveStart?: (arg0: Event) => void
-// 	scale?: boolean
-// 	scrollZoom?: boolean
-// 	toolbar?: boolean
-// }
-
 export function CustomMapView() {
 	const vehicleContext = useVehiclesContext();
-	const geojson = vehicleContext.actions.getAllVehiclesGeoJsonFC();
+	const lineDetailsContext = useLinesDetailContext();
+	const stopDetailsContext = useStopsDetailContext();
+
+	const pathgeojson = lineDetailsContext.data.active_shape?.geojson;
+	const stopgeojson = stopDetailsContext.data.active_shape?.geojson;
+	const vehiclegeojson = vehicleContext.actions.getVehiclesByPatternIdGeoJsonFC(lineDetailsContext.data.active_pattern?.id || '');
 
 	return (
+	// <MapView
+	// 	logoEnabled={false}
+	// 	mapStyle="https://maps.carrismetropolitana.pt/styles/default/style.json"
+	// 	style={{ height: '100%', width: '100%' }}
+
+	// >
+	// 	<Camera centerCoordinate={[-9.0, 38.7]} zoomLevel={8.9} />
+
+	// 	{geojson && (
+	// 		<ShapeSource id="vehicles" shape={geojson}>
+	// 			<CircleLayer
+	// 				id="vehicle-dots"
+	// 				style={{
+	// 					circleColor: '#FF0000',
+	// 					circleRadius: 2,
+	// 				}}
+	// 			/>
+	// 		</ShapeSource>
+	// 	)}
+	// </MapView>
+
 		<MapView
 			logoEnabled={false}
 			mapStyle="https://maps.carrismetropolitana.pt/styles/default/style.json"
@@ -62,17 +58,47 @@ export function CustomMapView() {
 		>
 			<Camera centerCoordinate={[-9.0, 38.7]} zoomLevel={8.9} />
 
-			{geojson && (
-				<ShapeSource id="vehicles" shape={geojson}>
-					<CircleLayer
-						id="vehicle-dots"
-						style={{
-							circleColor: '#FF0000',
-							circleRadius: 2,
-						}}
-					/>
-				</ShapeSource>
+			{pathgeojson && (
+				<>
+					<ShapeSource id="line-path" shape={pathgeojson}>
+						<LineLayer
+							id="line-path-line"
+							style={{
+								lineColor: pathgeojson.properties?.color,
+								lineWidth: 5,
+							}}
+						/>
+					</ShapeSource>
+
+					{stopgeojson && (
+						<ShapeSource id="stops" shape={stopgeojson}>
+							<CircleLayer
+								id="stops-dots"
+								style={{
+									circleColor: stopgeojson.properties?.color,
+									circleRadius: 2,
+									circleStrokeWidth: 1,
+								}}
+							/>
+						</ShapeSource>
+					)}
+
+					{ vehiclegeojson && (
+						<ShapeSource id="vehicles" shape={vehiclegeojson}>
+							<CircleLayer
+								id="vehicle-dots"
+								style={{
+									circleColor: 'green',
+									circleRadius: 4,
+									circleStrokeWidth: 1,
+								}}
+							/>
+						</ShapeSource>
+					)}
+
+				</>
 			)}
+
 		</MapView>
 	);
 }

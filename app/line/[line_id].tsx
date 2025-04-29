@@ -2,6 +2,7 @@
 
 import { LinesDetail } from '@/components/lines/LinesDetail';
 import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
+import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
@@ -39,9 +40,11 @@ export default function Page() {
 	// C. Render components
 
 	return (
-		<LinesDetailContextProvider lineIdParams={line_id}>
-			<LinesDetail />
-		</LinesDetailContextProvider>
+		<StopsDetailContextProvider>
+			<LinesDetailContextProvider lineIdParams={line_id}>
+				<LinesDetail />
+			</LinesDetailContextProvider>
+		</StopsDetailContextProvider>
 	);
 
 	//
