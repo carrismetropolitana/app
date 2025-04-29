@@ -24,7 +24,7 @@ export const SelectPatternExplainer = () => {
 
 	return (
 		<View style={explainerStyles.explainerContainer}>
-			<IconInfoSquareRoundedFilled color="#FFFFF" fill="#9696A0" size={14} />
+			<IconInfoSquareRoundedFilled color="#FFFFFF" fill="#9696A0" size={14} />
 			<TouchableOpacity onPress={() => setIsVisible(!isVisible)}>
 				<Text style={explainerStyles.text}>O que é o percurso/destino de uma linha?</Text>
 			</TouchableOpacity>

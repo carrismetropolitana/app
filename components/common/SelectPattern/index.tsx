@@ -23,7 +23,7 @@ export function SelectPattern() {
     = lineDetailContext.data.valid_patterns?.map(pattern => ({ label: pattern.headsign, value: pattern.version_id.toString() })) ?? [];
 
 	//
-	// Render Components
+	// B. Render Components
 
 	return (
 		<View style={styles.container}>
