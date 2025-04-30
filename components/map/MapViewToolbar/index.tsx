@@ -1,8 +1,9 @@
-import { Button, Icon } from '@rneui/themed';
+import { Button } from '@rneui/themed';
+import { IconMap } from '@tabler/icons-react-native';
 import * as Location from 'expo-location';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, Linking, StyleSheet, View } from 'react-native';
 
 interface Props {
 	onCenterMap?: () => void
@@ -13,19 +14,10 @@ export function MapViewToolbar({ onCenterMap }: Props) {
 
 	const handleOpenInGoogle = async () => {
 		try {
-			// Request location permissions
-			const { status } = await Location.requestForegroundPermissionsAsync();
-			if (status !== 'granted') {
-				Alert.alert(t('permission_denied'), t('location_permission_required'));
-				return;
-			}
-
-			// Get current position
-			const location = await Location.getCurrentPositionAsync({});
+			const location = await Location.getCurrentPositionAsync();
 			const { latitude, longitude } = location.coords;
-
-			// Open location in Google Maps
-			const url = `https://www.google.com/maps?q=${latitude},${longitude}&z=15`;
+			const url = `https://www.google.com/maps?q=${latitude},${longitude}&z=10`;
+			Linking.openURL(url);
 		}
 		catch (error) {
 			Alert.alert(t('error'), t('unable_to_fetch_location'));
@@ -34,16 +26,9 @@ export function MapViewToolbar({ onCenterMap }: Props) {
 
 	return (
 		<View style={styles.container}>
-			{onCenterMap && (
-				<Button
-					buttonStyle={styles.button}
-					icon={<Icon color="#ffffff" name="center-focus-strong" type="material" />}
-					onPress={onCenterMap}
-				/>
-			)}
 			<Button
 				buttonStyle={styles.button}
-				icon={<Icon color="#ffffff" name="map" type="material" />}
+				icon={<IconMap color="#9696a0" size={24} />}
 				onPress={handleOpenInGoogle}
 			/>
 		</View>
@@ -52,13 +37,17 @@ export function MapViewToolbar({ onCenterMap }: Props) {
 
 const styles = StyleSheet.create({
 	button: {
-		backgroundColor: '#2089dc',
+		borderColor: '#9696a0',
 		borderRadius: 5,
+		borderWidth: 1,
+		color: '#FFFFFF',
 		padding: 10,
 	},
 	container: {
+		backgroundColor: '#FFFFFF',
 		flexDirection: 'row',
-		justifyContent: 'space-around',
+		gap: 10,
+		justifyContent: 'flex-start',
 		padding: 10,
 	},
 });

@@ -1,28 +1,30 @@
 /* * */
 
-import { View } from 'react-native';
+import { View, ViewStyle } from 'react-native';
 
-import styles from './style.module.css';
+import { styles } from './styles';
 
 /* * */
 
 interface Props {
-	className?: string
-	color?: string
+	style?: ViewStyle
 }
 
 /* * */
 
-export function LiveIcon({ className, color = 'var(--color-realtime-100)' }: Props) {
+export function LiveIcon({ style }: Props) {
 	//
 
 	//
-	// A.Render components
+	const liveIconStyles = styles();
+
+	//
+	// B.Render components
 
 	return (
-		<View className={`${styles.container} ${!!className && className}`}>
-			<View className={styles.ripple} style={{ backgroundColor: color }} />
-			<View className={styles.dot} style={{ backgroundColor: color }} />
+		<View style={[liveIconStyles.container, style && style]}>
+			<View style={liveIconStyles.ripple} />
+			<View style={liveIconStyles.dot} />
 		</View>
 	);
 

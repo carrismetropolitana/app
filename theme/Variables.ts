@@ -51,13 +51,13 @@ export const theming = {
 	colorStatusWarningText: '#F09600',
 
 	// COLOR / REALTIME
-	colorRealtime0: 'rgb(0 215 50 / 0%)',
-	colorRealtime100: 'rgb(0 205 50 / 100%)',
-	colorRealtime15: 'rgb(0 215 50 / 15%)',
-	colorRealtime25: 'rgb(0 215 50 / 25%)',
-	colorRealtime5: 'rgb(0 215 50 / 5%)',
-	colorRealtime50: 'rgb(0 215 50 / 50%)',
-	colorRealtime75: 'rgb(0 215 50 / 75%)',
+	colorRealtime0: '#00d73200',
+	colorRealtime100: '#00cd32',
+	colorRealtime15: '#00d73226',
+	colorRealtime25: '#00d73240',
+	colorRealtime5: '#00d7320d',
+	colorRealtime50: '#00d73280',
+	colorRealtime75: '#00d732b3',
 
 	// SIZE / WIDTH
 	sizeMaxWidthText: '700',

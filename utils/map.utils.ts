@@ -2,6 +2,7 @@
 
 import { mapDefaultValues } from '@/settings/map.settings';
 import * as turf from '@turf/turf';
+import { Dimensions } from 'react-native';
 
 /* * */
 
@@ -29,23 +30,18 @@ export const centerMap = (mapObject, features: GeoJSON.Feature<GeoJSON.Geometry,
 	// Return if the envelope is not valid.
 
 	const featureCollection = turf.featureCollection(features);
-	const featureCollectionEnvelope = turf.envelope(featureCollection);
-	if (!featureCollectionEnvelope || !featureCollectionEnvelope.bbox) return;
+	const envelope = turf.envelope(featureCollection);
+	if (!envelope || !envelope.bbox) return;
 
-	//
-	// Center the map on the envelope
+	const [minLon, minLat, maxLon, maxLat] = envelope.bbox;
+	const center = [
+		(minLon + maxLon) / 2,
+		(minLat + maxLat) / 2,
+	];
 
-	mapObject.fitBounds(
-		[
-			featureCollectionEnvelope.bbox[0],
-			featureCollectionEnvelope.bbox[1],
-			featureCollectionEnvelope.bbox[2],
-			featureCollectionEnvelope.bbox[3],
-		],
-		{ padding: options?.padding || 25 },
-	);
-
-	//
+	if (typeof mapObject.moveTo === 'function') {
+		mapObject.moveTo(center, 1000);
+	}
 };
 
 /* * */
@@ -112,3 +108,47 @@ export const getBaseGeoJsonFeatureLineString = (): GeoJSON.Feature => {
 export const getBaseGeoJsonFeatureCollection = (): GeoJSON.FeatureCollection<GeoJSON.Point, GeoJSON.GeoJsonProperties> => {
 	return { features: [], type: 'FeatureCollection' };
 };
+
+/**
+ * Get the center and zoom level for the given features
+ * @param features The features to calculate the center and zoom for
+ * @param padding Optional padding for the zoom level (default: 0.5)
+ * @returns The center coordinates and zoom level, or null if features are empty
+ */
+
+export function getCenterAndZoom(
+	features: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>[],
+	padding = 1.4,
+): null | { center: [number, number], zoom: number } {
+	if (!features.length) return null;
+
+	const featureCollection = turf.featureCollection(features);
+	const envelope = turf.envelope(featureCollection);
+	if (!envelope || !envelope.bbox) return null;
+
+	const [minLon, minLat, maxLon, maxLat] = envelope.bbox;
+	const center: [number, number] = [
+		(minLon + maxLon) / 2,
+		(minLat + maxLat) / 2,
+	];
+
+	const { height, width } = Dimensions.get('window');
+	function latRad(lat: number) {
+		const sin = Math.sin((lat * Math.PI) / 180);
+		const radX2 = Math.log((1 + sin) / (1 - sin)) / 2;
+		return Math.max(Math.min(radX2, Math.PI), -Math.PI) / 2;
+	}
+	function zoom(mapPx: number, worldPx: number, fraction: number) {
+		return Math.floor(Math.log(mapPx / worldPx / fraction) / Math.LN2);
+	}
+	const WORLD_DIM = { height: 256, width: 256 };
+	const ZOOM_MAX = 20;
+	const latFraction = (latRad(maxLat) - latRad(minLat)) / Math.PI;
+	const lngDiff = maxLon - minLon;
+	const lngFraction = ((lngDiff < 0 ? lngDiff + 360 : lngDiff) / 360);
+	const latZoom = zoom(height, WORLD_DIM.height, latFraction);
+	const lngZoom = zoom(width, WORLD_DIM.width, lngFraction);
+	const zoomLevel = Math.min(latZoom, lngZoom, ZOOM_MAX) - padding;
+
+	return { center, zoom: zoomLevel };
+}

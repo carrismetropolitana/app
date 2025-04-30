@@ -1,7 +1,6 @@
 /* * */
 
-import { CustomMapView } from '@/components/map/MapView';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 
 /* * */
 
@@ -24,7 +23,9 @@ export function LineWidgetCardBody({ lineId }: LineWidgetCardBodyProps) {
 	// B. Render Components
 
 	return (
-		<CustomMapView />
+		<View>
+			<Text>Line Widget Body Content</Text>
+		</View>
 	);
 
 	//

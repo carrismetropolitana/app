@@ -1,18 +1,17 @@
 import { MapView } from '@/components/map/MapView';
 import { MapViewStyleActiveStops } from '@/components/map/MapViewStyleActiveStops';
-import { INTERACTIVE_LAYER_ID, MapViewStylePath } from '@/components/map/MapViewStylePath';
+import { MapViewStylePath } from '@/components/map/MapViewStylePath';
 import { MapViewStyleVehicles } from '@/components/map/MapViewStyleVehicles';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
-import { useMapOptionsContext } from '@/contexts/MapOptions.context';
 import { transformStopDataIntoGeoJsonFeature, useStopsContext } from '@/contexts/Stops.context';
 import { useVehiclesContext } from '@/contexts/Vehicles.context';
 import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
-import { centerMap, moveMap } from '@/utils/map.utils';
-import React, { useCallback, useMemo } from 'react';
+import { getCenterAndZoom } from '@/utils/map.utils';
+import { Camera } from '@maplibre/maplibre-react-native';
+import React, { useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
 
 export function LinesDetailPathMap() {
-	const { data: mapData } = useMapOptionsContext();
 	const vehiclesContext = useVehiclesContext();
 	const linesDetailContext = useLinesDetailContext();
 	const stopsContext = useStopsContext();
@@ -61,58 +60,43 @@ export function LinesDetailPathMap() {
 		return coll;
 	}, [linesDetailContext.data.active_waypoint, linesDetailContext.data.active_pattern]);
 
-	// Center map on path or stop using utils
-	const handleCenterMap = useCallback(() => {
-		const map = mapData.map;
-		if (!map) return;
-
-		if (activePathFC?.features.length) {
-			centerMap(map, activePathFC.features);
+	// Calculate center and zoom for the path
+	const fitPath = useMemo(() => {
+		if (activePathFC?.features?.length) {
+			return getCenterAndZoom(activePathFC.features, 1.2);
 		}
-		else if (activeStopFC?.features.length) {
-			const coord = activeStopFC.features[0].geometry.coordinates as [number, number];
-			moveMap(map, coord);
+		return null;
+	}, [activePathFC]);
+
+	const [camera, setCamera] = useState({
+		centerCoordinate: fitPath?.center ?? [0, 0],
+		zoomLevel: fitPath?.zoom ?? 10,
+	});
+
+	useEffect(() => {
+		if (fitPath) {
+			setCamera({
+				centerCoordinate: fitPath.center,
+				zoomLevel: fitPath.zoom,
+			});
 		}
-	}, [mapData.map, activePathFC, activeStopFC]);
-
-	const handlePress = useCallback(
-		async (e: any) => {
-			const map = mapData.map;
-			if (!map) return;
-			console.log(mapData.map);
-			const { screenPointX, screenPointY } = e.nativeEvent;
-			const featureCollection = await map.queryRenderedFeaturesAtPoint(
-				[screenPointX, screenPointY],
-				[],
-				[INTERACTIVE_LAYER_ID],
-			);
-
-			if (!featureCollection?.features?.length) return;
-
-			const feature = featureCollection.features[0];
-			const props = feature.properties as any;
-
-			linesDetailContext.actions.setActiveWaypoint(props.stop_id, props.sequence);
-
-			// Recenter on selected stop
-			const coord = feature.geometry?.type === 'Point' ? feature.geometry.coordinates as [number, number] : undefined;
-			if (coord) {
-				moveMap(map, coord);
-			}
-			console.log('Selected stop:', props.stop_id, props.sequence);
-		},
-		[mapData.map, linesDetailContext.actions],
-	);
+	}, [fitPath]);
 
 	return (
 		<View style={{ height: 360, width: '100%' }}>
-			<MapView mapStyle="map" onCenterMap={handleCenterMap} onPress={handlePress}>
+			<MapView mapStyle="map">
+				<Camera
+					animationDuration={1000}
+					animationMode="flyTo"
+					centerCoordinate={camera.centerCoordinate}
+					zoomLevel={camera.zoomLevel}
+				/>
 				<MapViewStylePath
 					shapeData={linesDetailContext.data.active_shape?.geojson}
 					waypointsData={activePathFC ?? undefined}
 				/>
 				<MapViewStyleActiveStops stopsData={activeStopFC ?? undefined} />
-				<MapViewStyleVehicles showCounter="positive" vehiclesData={activeVehiclesFC ?? undefined} />
+				<MapViewStyleVehicles showCounter="always" vehiclesData={activeVehiclesFC ?? undefined} />
 			</MapView>
 		</View>
 	);
