@@ -57,6 +57,10 @@ export const styles = () => {
 		patternGroupSection: {
 			backgroundColor: backgroundColor,
 		},
+		tinyLogo: {
+			height: 50,
+			width: 50,
+		},
 		toolbarSection: {
 			backgroundColor: theme.mode === 'light'
 				? theming.colorSystemBackgroundLight100

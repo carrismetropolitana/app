@@ -10,9 +10,10 @@ import { SelectActivePatternGroup } from '@/components/lines/SelectActivePattern
 import { useDebugContext } from '@/contexts/Debug.context';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useProfileContext } from '@/contexts/Profile.context';
+import { IconsMap } from '@/settings/assets.settings';
 import { Text } from '@rneui/themed';
 import { IconHomePlus, IconVolume } from '@tabler/icons-react-native';
-import { View } from 'react-native';
+import { Image, View } from 'react-native';
 
 import { styles } from './styles';
 
@@ -58,10 +59,12 @@ export function LinesDetailHeader() {
 	return (
 		<>
 			<Surface>
+
 				<View style={lineDetailsHeaderStyles.headingSection}>
 					<Section withBottomDivider>
 						<View style={lineDetailsHeaderStyles.headingSectionRow}>
 							<View style={lineDetailsHeaderStyles.headingFirstSection}>
+
 								<LineBadge lineData={linesDetailContext.data.line} size="lg" />
 								<FavoriteToggle color={linesDetailContext.data.line.color} isActive={linesDetailContext.flags.is_favorite} onToggle={handleToggleFavorite} />
 								<IconHomePlus color="#9696A0" size={24} />
@@ -76,6 +79,7 @@ export function LinesDetailHeader() {
 						<SelectOperationalDay />
 					</View>
 					<View style={lineDetailsHeaderStyles.patternGroupSection}>
+
 						<SelectActivePatternGroup />
 					</View>
 				</View>

@@ -1,143 +1,119 @@
-/* * */
-
-import { CustomMapView } from '@/components/map/MapView';
-
-// import { MapVixew } from '@/components/map/MapView';
-// import { MapViewStyleActiveStops, MapViewStyleActiveStopsPrimaryLayerId } from '@/components/map/MapViewStyleActiveStops';
-// import { MapViewStylePath, MapViewStylePathInteractiveLayerId } from '@/components/map/MapViewStylePath';
-// import { MapViewStyleVehicles, MapViewStyleVehiclesPrimaryLayerId } from '@/components/map/MapViewStyleVehicles';
-// import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
-// import { transformStopDataIntoGeoJsonFeature, useStopsContext } from '@/contexts/Stops.context';
-// import { useVehiclesContext } from '@/contexts/Vehicles.context';
-// import { centerMap, getBaseGeoJsonFeatureCollection, moveMap } from '@/utils/map.utils';
-// import { useMap } from '@vis.gl/react-maplibre';
-// import { useEffect, useMemo } from 'react';
-
-/* * */
+import { MapView } from '@/components/map/MapView';
+import { MapViewStyleActiveStops } from '@/components/map/MapViewStyleActiveStops';
+import { INTERACTIVE_LAYER_ID, MapViewStylePath } from '@/components/map/MapViewStylePath';
+import { MapViewStyleVehicles } from '@/components/map/MapViewStyleVehicles';
+import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useMapOptionsContext } from '@/contexts/MapOptions.context';
+import { transformStopDataIntoGeoJsonFeature, useStopsContext } from '@/contexts/Stops.context';
+import { useVehiclesContext } from '@/contexts/Vehicles.context';
+import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
+import { centerMap, moveMap } from '@/utils/map.utils';
+import React, { useCallback, useMemo } from 'react';
+import { View } from 'react-native';
 
 export function LinesDetailPathMap() {
-	//
+	const { data: mapData } = useMapOptionsContext();
+	const vehiclesContext = useVehiclesContext();
+	const linesDetailContext = useLinesDetailContext();
+	const stopsContext = useStopsContext();
 
-	//
-	// A. Setup variables
+	const activeVehiclesFC = useMemo(() => {
+		const patternId = linesDetailContext.data.active_pattern?.id;
+		if (!patternId) return null;
+		return vehiclesContext.actions.getVehiclesByPatternIdGeoJsonFC(patternId);
+	}, [vehiclesContext.data.vehicles, linesDetailContext.data.active_pattern]);
 
-	// const stopsContext = useStopsContext();
-	// const vehiclesContext = useVehiclesContext();
-	// const linesDetailContext = useLinesDetailContext();
+	const activePathFC = useMemo(() => {
+		const pat = linesDetailContext.data.active_pattern;
+		if (!pat?.path) return null;
+		const coll = getBaseGeoJsonFeatureCollection();
+		pat.path.forEach((p) => {
+			const stop = stopsContext.actions.getStopById(p.stop_id);
+			if (!stop) return;
+			const feat = transformStopDataIntoGeoJsonFeature(stop);
+			feat.properties = {
+				...feat.properties,
+				color: pat.color,
+				sequence: p.stop_sequence,
+				stop_id: p.stop_id,
+				text_color: pat.text_color,
+			};
+			coll.features.push(feat);
+		});
+		return coll;
+	}, [linesDetailContext.data.active_pattern]);
 
-	// const { linesDetailMap } = useMap();
+	const activeStopFC = useMemo(() => {
+		const wp = linesDetailContext.data.active_waypoint;
+		const pat = linesDetailContext.data.active_pattern;
+		if (!wp || !pat) return null;
+		const stop = stopsContext.actions.getStopById(wp.stop_id);
+		if (!stop) return null;
+		const feat = transformStopDataIntoGeoJsonFeature(stop);
+		feat.properties = {
+			...feat.properties,
+			color: pat.color,
+			stop_id: wp.stop_id,
+			text_color: pat.text_color,
+		};
+		const coll = getBaseGeoJsonFeatureCollection();
+		coll.features.push(feat);
+		return coll;
+	}, [linesDetailContext.data.active_waypoint, linesDetailContext.data.active_pattern]);
 
-	//
-	// B. Transform Data
+	// Center map on path or stop using utils
+	const handleCenterMap = useCallback(() => {
+		const map = mapData.map;
+		if (!map) return;
 
-	// const activeVehiclesFeatureCollection = useMemo(() => {
-	// 	if (!linesDetailContext.data.active_pattern?.id) return;
-	// 	return vehiclesContext.actions.getVehiclesByPatternIdGeoJsonFC(linesDetailContext.data.active_pattern?.id);
-	// }, [linesDetailContext.data.active_pattern, vehiclesContext.data.vehicles]);
+		if (activePathFC?.features.length) {
+			centerMap(map, activePathFC.features);
+		}
+		else if (activeStopFC?.features.length) {
+			const coord = activeStopFC.features[0].geometry.coordinates as [number, number];
+			moveMap(map, coord);
+		}
+	}, [mapData.map, activePathFC, activeStopFC]);
 
-	// const activePathFeatureCollection = useMemo(() => {
-	// 	if (!linesDetailContext.data.active_pattern?.path) return;
-	// 	const collection = getBaseGeoJsonFeatureCollection();
-	// 	linesDetailContext.data.active_pattern.path.forEach((pathStop) => {
-	// 		const stopData = stopsContext.actions.getStopById(pathStop.stop_id);
-	// 		if (!stopData) return;
-	// 		const result = transformStopDataIntoGeoJsonFeature(stopData);
-	// 		result.properties = {
-	// 			...result.properties,
-	// 			color: linesDetailContext.data.active_pattern?.color,
-	// 			sequence: pathStop.stop_sequence,
-	// 			text_color: linesDetailContext.data.active_pattern?.text_color,
-	// 		};
-	// 		collection.features.push(result);
-	// 	});
-	// 	return collection;
-	// }, [linesDetailContext.data.active_pattern, vehiclesContext.data.vehicles]);
+	const handlePress = useCallback(
+		async (e: any) => {
+			const map = mapData.map;
+			if (!map) return;
+			console.log(mapData.map);
+			const { screenPointX, screenPointY } = e.nativeEvent;
+			const featureCollection = await map.queryRenderedFeaturesAtPoint(
+				[screenPointX, screenPointY],
+				[],
+				[INTERACTIVE_LAYER_ID],
+			);
 
-	// const activeStopFeatureCollection = useMemo(() => {
-	// 	// Exit early if there is no active pattern or active waypoint
-	// 	if (!linesDetailContext.data.active_waypoint || !linesDetailContext.data.active_pattern) return;
-	// 	// Get the stop data for the active waypoint and transform it into a GeoJSON feature
-	// 	const foundStop = stopsContext.actions.getStopById(linesDetailContext.data.active_waypoint.stop_id);
-	// 	if (!foundStop) return;
-	// 	const result = transformStopDataIntoGeoJsonFeature(foundStop);
-	// 	result.properties = {
-	// 		...result.properties,
-	// 		color: linesDetailContext.data.active_pattern.color,
-	// 		text_color: linesDetailContext.data.active_pattern.text_color,
-	// 	};
-	// 	// Create a new feature collection and add the active waypoint feature to it
-	// 	const collection = getBaseGeoJsonFeatureCollection();
-	// 	collection.features.push(result);
-	// 	return collection;
-	// 	//
-	// }, [linesDetailContext.data.active_waypoint, linesDetailContext.data.active_pattern]);
+			if (!featureCollection?.features?.length) return;
 
-	//
-	// C. Handle Actions
+			const feature = featureCollection.features[0];
+			const props = feature.properties as any;
 
-	// useEffect(() => {
-	// 	// If map is not yet in interactive mode, then that means the user has not yet selected a stop.
-	// 	// Center the map on the full shape and path of the selected pattern.
-	// 	// After the user selects a stop, move map to the selected stop.
-	// 	if (linesDetailContext.flags.is_interactive_mode) {
-	// 		if (!linesDetailContext.data.active_waypoint) return;
-	// 		const stopData = stopsContext.actions.getStopById(linesDetailContext.data.active_waypoint.stop_id);
-	// 		if (!stopData) return;
-	// 		moveMap(linesDetailMap, [stopData.lon, stopData.lat]);
-	// 	}
-	// 	else {
-	// 		if (!linesDetailContext.data.active_shape?.geojson) return;
-	// 		centerMap(linesDetailMap, [linesDetailContext.data.active_shape.geojson], { padding: 60 });
-	// 	}
-	// }, [linesDetailMap, linesDetailContext.data.active_waypoint, linesDetailContext.data.active_shape]);
+			linesDetailContext.actions.setActiveWaypoint(props.stop_id, props.sequence);
 
-	// function handleLayerClick(event) {
-	// 	if (!linesDetailMap) return;
-	// 	const features = linesDetailMap.queryRenderedFeatures(event.point, { layers: [MapViewStylePathInteractiveLayerId] });
-	// 	if (!features.length) return;
-	// 	for (const feature of features) {
-	// 		if (feature.properties.id !== linesDetailContext.data.active_waypoint?.stop_id) {
-	// 			linesDetailContext.actions.setActiveWaypoint(feature.properties.id, feature.properties.sequence);
-	// 			return;
-	// 		}
-	// 	}
-	// }
-
-	// function handleCenterMap() {
-	// 	if (!linesDetailContext.data.active_shape?.geojson) return;
-	// 	centerMap(linesDetailMap, [linesDetailContext.data.active_shape.geojson], { padding: 60 });
-	// }
-
-	//
-	// D. Render copmonents
-
-	return (
-		<CustomMapView />
-		// <MapView
-		// 	id="linesDetailMap"
-		// 	interactiveLayerIds={[MapViewStylePathInteractiveLayerId]}
-		// 	onCenterMap={handleCenterMap}
-		// 	onClick={handleLayerClick}
-		// >
-
-	// 	<MapViewStyleVehicles
-	// 		showCounter="always"
-	// 		vehiclesData={activeVehiclesFeatureCollection}
-	// 	/>
-
-	// 	<MapViewStyleActiveStops
-	// 		presentBeforeId={MapViewStyleVehiclesPrimaryLayerId}
-	// 		stopsData={activeStopFeatureCollection}
-	// 	/>
-
-	// 	<MapViewStylePath
-	// 		presentBeforeId={MapViewStyleActiveStopsPrimaryLayerId}
-	// 		shapeData={linesDetailContext.data.active_shape?.geojson}
-	// 		waypointsData={activePathFeatureCollection}
-	// 	/>
-
-	// </MapView>
+			// Recenter on selected stop
+			const coord = feature.geometry?.type === 'Point' ? feature.geometry.coordinates as [number, number] : undefined;
+			if (coord) {
+				moveMap(map, coord);
+			}
+			console.log('Selected stop:', props.stop_id, props.sequence);
+		},
+		[mapData.map, linesDetailContext.actions],
 	);
 
-	//
+	return (
+		<View style={{ height: 360, width: '100%' }}>
+			<MapView mapStyle="map" onCenterMap={handleCenterMap} onPress={handlePress}>
+				<MapViewStylePath
+					shapeData={linesDetailContext.data.active_shape?.geojson}
+					waypointsData={activePathFC ?? undefined}
+				/>
+				<MapViewStyleActiveStops stopsData={activeStopFC ?? undefined} />
+				<MapViewStyleVehicles showCounter="positive" vehiclesData={activeVehiclesFC ?? undefined} />
+			</MapView>
+		</View>
+	);
 }

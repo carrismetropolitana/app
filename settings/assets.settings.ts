@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /* * */
 
 export const BrandsCmet = Object.freeze({
@@ -82,15 +83,15 @@ export const IconsConnections = Object.freeze({
 /* * */
 
 export const IconsMap = Object.freeze({
-	bus_delay: '/icons/map/bus_delay.png',
-	bus_error: '/icons/map/bus_error.png',
-	bus_regular: '/icons/map/bus_regular.png',
-	pin: '/icons/map/pin.png',
-	shape_direction: '/icons/map/shape_direction.png',
-	stop_selected: '/icons/map/stop_selected.png',
-	store_busy: '/icons/map/store_busy.png',
-	store_closed: '/icons/map/store_closed.png',
-	store_open: '/icons/map/store_open.png',
+	bus_delay: require('@/assets/icons/map/bus_delay.png'),
+	bus_error: require('@/assets/icons/map/bus_error.png'),
+	bus_regular: require('@/assets/icons/map/bus_regular.png'),
+	pin: require('@/assets/icons/map/pin.png'),
+	shape_direction: require('@/assets/icons/map/shape_direction.png'),
+	stop_selected: require('@/assets/icons/map/stop_selected.png'),
+	store_busy: require('@/assets/icons/map/store_busy.png'),
+	store_closed: require('@/assets/icons/map/store_closed.png'),
+	store_open: require('@/assets/icons/map/store_open.png'),
 });
 
 export const IconsCommon = Object.freeze({

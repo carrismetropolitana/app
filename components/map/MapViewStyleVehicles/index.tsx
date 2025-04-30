@@ -1,13 +1,10 @@
-'use client';
-
 /* * */
 
 import { LiveIcon } from '@/components/common/LiveIcon';
+import { theming } from '@/theme/Variables';
 import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
-import { Layer, Source } from '@vis.gl/react-maplibre';
-import { useTranslation } from 'react-i18next';
-
-import styles from './styles.module.css';
+import { ShapeSource, SymbolLayer } from '@maplibre/maplibre-react-native';
+import { Text, View } from 'react-native';
 
 /* * */
 
@@ -28,102 +25,92 @@ const baseGeoJsonFeatureCollection = getBaseGeoJsonFeatureCollection();
 
 /* * */
 
-export function MapViewStyleVehicles({ presentBeforeId, showCounter, vehiclesData = baseGeoJsonFeatureCollection }: Props) {
-	//
-
+export function MapViewStyleVehicles({
+	showCounter,
+	vehiclesData = baseGeoJsonFeatureCollection,
+}: Props) {
 	//
 	// A. Setup variables
-
-	const { t } = useTranslation('map.MapViewStyleVehicles');
 
 	//
 	// B. Render components
 
 	return (
 		<>
-
-			<Source data={vehiclesData} generateId={true} id="default-source-vehicles" type="geojson">
-
-				<Layer
-					beforeId={presentBeforeId}
+			<ShapeSource id="default-source-vehicles" shape={vehiclesData}>
+				<SymbolLayer
 					id="default-layer-vehicles-delay"
-					source="default-source-vehicles"
-					type="symbol"
-					layout={{
-						'icon-allow-overlap': true,
-						'icon-anchor': 'center',
-						'icon-ignore-placement': true,
-						'icon-image': 'cmet-bus-delay',
-						'icon-offset': [0, 0],
-						'icon-rotate': ['get', 'bearing'],
-						'icon-rotation-alignment': 'map',
-						'icon-size': ['interpolate',
-							['linear'],
-							['zoom'],
-							10,
-							0.05,
-							20,
-							0.15,
-						],
-						'symbol-placement': 'point',
-					}}
-					paint={{
-						'icon-opacity': [
+					sourceID="default-source-vehicles"
+					style={{
+						iconAllowOverlap: true,
+						iconAnchor: 'center',
+						iconIgnorePlacement: true,
+						iconImage: 'cmet-bus-delay',
+						iconOffset: [0, 0],
+						iconOpacity: [
 							'interpolate',
 							['linear'],
-							['get',
-								'delay'],
+							['get', 'delay'],
 							20,
 							0,
 							40,
 							1,
 						],
-					}}
-				/>
-
-				<Layer
-					beforeId="default-layer-vehicles-delay"
-					id="default-layer-vehicles-regular"
-					source="default-source-vehicles"
-					type="symbol"
-					layout={{
-						'icon-allow-overlap': true,
-						'icon-anchor': 'center',
-						'icon-ignore-placement': true,
-						'icon-image': 'cmet-bus-regular',
-						'icon-offset': [0, 0],
-						'icon-rotate': ['get', 'bearing'],
-						'icon-rotation-alignment': 'map',
-						'icon-size': ['interpolate',
+						iconRotate: ['get', 'bearing'],
+						iconRotationAlignment: 'map',
+						iconSize: [
+							'interpolate',
 							['linear'],
 							['zoom'],
 							10,
-							0.05,
-							20,
 							0.15,
+							20,
+							0.35,
 						],
-						'symbol-placement': 'point',
+						symbolPlacement: 'point',
 					}}
 				/>
 
-			</Source>
+				<SymbolLayer
+					id="default-layer-vehicles-regular"
+					sourceID="default-source-vehicles"
+					style={{
+						iconAllowOverlap: true,
+						iconAnchor: 'center',
+						iconIgnorePlacement: true,
+						iconImage: 'cmet-bus-regular',
+						iconOffset: [0, 0],
+						iconRotate: ['get', 'bearing'],
+						iconRotationAlignment: 'map',
+						iconSize: [
+							'interpolate',
+							['linear'],
+							['zoom'],
+							10,
+							0.15,
+							20,
+							0.35,
+						],
+						symbolPlacement: 'point',
+					}}
+				/>
+			</ShapeSource>
 
 			{showCounter === 'always' && (
-				<div className={`${styles.vehiclesCounter} ${vehiclesData.features.length === 0 && styles.zeroCount}`}>
-					<LiveIcon className={styles.vehiclesCounterIcon} color={vehiclesData.features.length === 0 ? 'var(--color-system-text-300)' : ''} />
-					{t('vehicles_counter', { count: vehiclesData.features.length })}
-				</div>
+				<View>
+					<LiveIcon color={vehiclesData.features.length === 0 ? theming.colorSocialAndroid : undefined} />
+					<Text> {vehiclesData.features.length }</Text>
+				</View>
 			)}
 
 			{showCounter === 'positive' && vehiclesData.features.length > 0 && (
-				<div className={styles.vehiclesCounter}>
+				<View>
 					<LiveIcon />
-					{t('vehicles_counter', { count: vehiclesData.features.length })}
-				</div>
+					<Text>
+						{vehiclesData.features.length }
+					</Text>
+				</View>
 			)}
-
 		</>
 	);
-
-	//
 }

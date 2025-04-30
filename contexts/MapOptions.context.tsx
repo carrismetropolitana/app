@@ -1,6 +1,5 @@
-import type { FeatureCollection, Point } from 'geojson';
+import type { FeatureCollection, Point, Position } from 'geojson';
 
-import Style from '@/components/map/MapView';
 import { MapViewRef } from '@maplibre/maplibre-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as turf from '@turf/turf';
@@ -16,6 +15,7 @@ const DEFAULT_OPTIONS = {
 
 // Extend MapViewRef to include setCamera
 interface ExtendedMapViewRef extends MapViewRef {
+	fitBounds(coordinates: Position, coordinates1: Position, arg2: { padding: number; }): unknown;
 	setCamera: (options: {
 		animationDuration: number
 		centerCoordinate: [number, number]

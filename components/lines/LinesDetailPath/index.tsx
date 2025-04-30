@@ -1,16 +1,11 @@
 /* * */
 
-import { LinesDetailPathMap } from '@/components/lines/LinesDetailPathMap';
-import { View } from 'react-native';
-// import { LinesDetailPathList } from '@/components/lines/LinesDetailPathList';
-// import { LinesDetailPathMap } from '@/components/lines/LinesDetailPathMap';
 import { NoDatabLabel } from '@/components/common/layout/NoDataLabel';
 import { Surface } from '@/components/common/layout/Surface';
+import { LinesDetailPathMap } from '@/components/lines/LinesDetailPathMap';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
-// import { useTranslations } from 'next-intl';
-
-// import styles from './styles.module.css';
+import { View } from 'react-native';
 
 /* * */
 
@@ -37,16 +32,10 @@ export function LinesDetailPath() {
 	}
 
 	return (
-		<View style={{ height: 200, marginTop: 20 }}>
+		<View style={{ marginTop: 20 }}>
 			<LinesDetailPathMap />
 		</View>
-	// </div>
-	// <div className={styles.container}>
 	//  <LinesDetailPathList />
-	// <div className={styles.mapWrapper}>
-	//    </div>
-	//   </div>
-
 	);
 
 	//
