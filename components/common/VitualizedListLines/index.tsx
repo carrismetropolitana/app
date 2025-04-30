@@ -1,6 +1,6 @@
 /* * */
 
-import { NoDatabLabel } from '@/components/common/layout/NoDataLabel';
+import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { LineDisplay } from '@/components/lines/LineDisplay';
 import { ListItem } from '@rneui/themed';
 import { Link } from 'expo-router';
@@ -64,7 +64,7 @@ export function VirtualizedListingLines({ data, icon, itemClick, items, municipl
 			scrollEnabled={false}
 			showsVerticalScrollIndicator={false}
 			ListEmptyComponent={(
-				<NoDatabLabel />
+				<NoDataLabel />
 			)}
 		/>
 	);

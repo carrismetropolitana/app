@@ -5,14 +5,14 @@ import { StyleSheet, Text, View } from 'react-native';
 
 /* * */
 
-interface NoDatabLabelProps {
+interface NoDataLabelProps {
 	fill?: boolean
 	text?: string
 	withMinHeight?: boolean
 }
 
 /* * */
-export function NoDatabLabel({ fill, text, withMinHeight }: NoDatabLabelProps) {
+export function NoDataLabel({ fill, text, withMinHeight }: NoDataLabelProps) {
 	//
 
 	//

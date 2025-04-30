@@ -1,6 +1,6 @@
 /* * */
 
-import { NoDatabLabel } from '@/components/common/layout/NoDataLabel';
+import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { StopDisplay } from '@/components/stops/StopDisplay';
 import { ListItem } from '@rneui/themed';
 import { Link } from 'expo-router';
@@ -61,7 +61,7 @@ export function VirtualizedListingStops({ data, icon, itemClick, items, size }: 
 			renderItem={renderItem}
 			showsVerticalScrollIndicator={false}
 			ListEmptyComponent={(
-				<NoDatabLabel />
+				<NoDataLabel />
 			)}
 		/>
 	);

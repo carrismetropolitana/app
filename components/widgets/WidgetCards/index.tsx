@@ -1,6 +1,6 @@
 /* * */
 
-import { NoDatabLabel } from '@/components/common/layout/NoDataLabel';
+import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { Section } from '@/components/common/layout/Section';
 import { Surface } from '@/components/common/layout/Surface';
 import { useProfileContext } from '@/contexts/Profile.context';
@@ -44,7 +44,7 @@ export function WidgetCards({ type }: Props) {
 	return (
 		<Surface>
 			{!lineWidgets && !stopWidgets && (
-				<NoDatabLabel text="Sem Widgets" fill />
+				<NoDataLabel text="Sem Widgets" fill />
 			)}
 
 			{type === 'lines'

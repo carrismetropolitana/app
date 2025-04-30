@@ -1,7 +1,8 @@
 /* * */
 
-import { NoDatabLabel } from '@/components/common/layout/NoDataLabel';
+import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { Surface } from '@/components/common/layout/Surface';
+import { LinesDetailPathList } from '@/components/lines/LinesDetailPathList';
 import { LinesDetailPathMap } from '@/components/lines/LinesDetailPathMap';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
@@ -26,7 +27,7 @@ export function LinesDetailPath() {
 	if (!linesDetailContext.data.active_pattern || !operationalDayContext.data.selected_day_jsdate) {
 		return (
 			<Surface>
-				<NoDatabLabel text="Sem dados" withMinHeight />
+				<NoDataLabel text="Sem dados" withMinHeight />
 			</Surface>
 		);
 	}
@@ -34,8 +35,9 @@ export function LinesDetailPath() {
 	return (
 		<View style={{ marginTop: 20 }}>
 			<LinesDetailPathMap />
+			<LinesDetailPathList />
 		</View>
-	//  <LinesDetailPathList />
+
 	);
 
 	//

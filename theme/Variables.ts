@@ -67,14 +67,14 @@ export const theming = {
 	sizeHeightHeader: '71',
 
 	// SIZE / SPACING
-	sizeSpacing10: '10',
-	sizeSpacing15: '15',
-	sizeSpacing20: '20',
-	sizeSpacing25: '25',
-	sizeSpacing30: '30',
-	sizeSpacing40: '40',
-	sizeSpacing5: '5',
-	sizeSpacing60: '60',
+	sizeSpacing10: 10,
+	sizeSpacing15: 15,
+	sizeSpacing20: 20,
+	sizeSpacing25: 25,
+	sizeSpacing30: 30,
+	sizeSpacing40: 40,
+	sizeSpacing5: 5,
+	sizeSpacing60: 60,
 
 	// FONT
 	fontWeightBold: '700', // SemiBold
