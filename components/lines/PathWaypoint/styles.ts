@@ -15,16 +15,20 @@ export const styles = () => {
 	const backgroundColor = isLight
 		? theming.colorSystemBackgroundLight200
 		: theming.colorSystemBackgroundDark200;
-	const fontColor = isLight
-		? theming.colorSystemText100
-		: theming.colorSystemText300;
+
+	const containerBase = {
+		flex: 1,
+		flexDirection: 'row' as const,
+		gap: theming.sizeSpacing10,
+		padding: theming.sizeSpacing20,
+	};
 
 	/* * */
 	/* CONTAINER */
 	const container = {
-		gap: theming.sizeSpacing10,
-		padding: theming.sizeSpacing20,
+		...containerBase,
 	};
+
 	//
 	// B. Render Components
 
@@ -33,41 +37,33 @@ export const styles = () => {
 			...container,
 		},
 		isFirstStop: {
-			...container,
+			...containerBase,
 			paddingTop: theming.sizeSpacing20,
 		},
 		isLastStop: {
-			...container,
+			...containerBase,
 			paddingBottom: theming.sizeSpacing20,
 		},
 		isSelected: {
-			...container,
-			backgroundColor: backgroundColor,
-			boxShadow: '0 0 30 0 rgba(0, 0, 0, 0.15)',
+			...containerBase,
+			backgroundColor,
+			elevation: 4,
+			shadowColor: '#000',
+			shadowOffset: { height: 0, width: 0 },
+			shadowOpacity: 0.15,
+			shadowRadius: 30,
 			zIndex: 10,
 		},
 		/* * */
 		/* DETAILS WRAPPER */
 		detailsWrapper: {
-			display: 'flex',
+			flex: 1,
 			flexDirection: 'column',
 			gap: theming.sizeSpacing15,
 			paddingBottom: theming.sizeSpacing15,
 			paddingTop: theming.sizeSpacing20,
+
 		},
-
-		// .isFirstStop .detailsWrapper {
-		// 	paddingTop: 2px;
-		// }
-
-		// .isFirstStop.isSelected .detailsWrapper {
-		// 	paddingTop: 2px;
-		// }
-
-		// .isSelected .detailsWrapper {
-		// 	padding: theming.sizeSpacing20;
-		// }
-
 	});
 
 	//

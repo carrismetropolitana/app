@@ -28,7 +28,7 @@ export const styles = () => {
 		container: {
 			borderBottomLeftRadius: theming.borderRadiusLg,
 			borderTopLeftRadius: theming.borderRadiusLg,
-			display: 'flex',
+			flex: 1,
 			flexDirection: 'column',
 			overflow: 'hidden',
 		},

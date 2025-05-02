@@ -7,14 +7,14 @@ import { useLocationsContext } from '@/contexts/Locations.context';
 import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { Text } from '@rneui/themed';
-import { IconCheck, IconCopy } from '@tabler/icons-react';
-import { IconArrowUpRight } from '@tabler/icons-react';
+import { IconCheck, IconCopy } from '@tabler/icons-react-native';
+import { IconArrowUpRight } from '@tabler/icons-react-native';
 import * as Clipboard from 'expo-clipboard';
 import { Link } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
 
-import styles from './styles.module.css';
+import { styles } from './styles';
 
 /* * */
 
@@ -37,6 +37,7 @@ export function PathWaypointHeader({ isFirstStop, isLastStop, isSelected, waypoi
 	const locationsContext = useLocationsContext();
 	const operationalDayContext = useOperationalDayContext();
 	const [stopIdClipboard, setStopIdClipboard] = useState('');
+	const pathWaypointHeaderStyles = styles();
 
 	//
 	// B. Fetch data
@@ -53,12 +54,6 @@ export function PathWaypointHeader({ isFirstStop, isLastStop, isSelected, waypoi
 		setStopIdClipboard(waypointData.stop_id);
 	};
 
-	// const handleOpenStopDetails = () => {
-	// 	analyticsContext.actions.capture((ampli, props) => {
-	// 		ampli.openedStopDetails({ ...props, stop_id: waypointData.stop_id });
-	// 	});
-	// };
-
 	//
 	// D. Render components
 
@@ -66,31 +61,46 @@ export function PathWaypointHeader({ isFirstStop, isLastStop, isSelected, waypoi
 		return null;
 	}
 
-	return (
-		<View className={`${styles.container} ${isFirstStop && styles.isFirstStop} ${isLastStop && styles.isLastStop} ${isSelected && styles.isSelected}`}>
+	const containerStyles = [
+		pathWaypointHeaderStyles.container,
+		isFirstStop && pathWaypointHeaderStyles.isFirstStop,
+		isLastStop && pathWaypointHeaderStyles.isLastStop,
+		isSelected && pathWaypointHeaderStyles.isSelected,
+	];
 
-			<Text className={styles.stopName}>
+	const stopIdStyles = [
+		pathWaypointHeaderStyles.stopId,
+		stopIdClipboard && pathWaypointHeaderStyles.isCopied,
+	];
+
+	return (
+		<View style={containerStyles}>
+			<Text style={pathWaypointHeaderStyles.stopName}>
 				{stopData.long_name}
 				{isSelected && (
 					<Link
-						className={styles.stopNameUrl}
 						href={`/stops/${waypointData.stop_id}?day=${operationalDayContext.data.selected_day}`}
+						style={pathWaypointHeaderStyles.stopNameUrl}
 						target="_blank"
 					>
-						<IconArrowUpRight onClick={handleOpenStopDetails} size={16} />
+						<IconArrowUpRight size={16} />
 					</Link>
 				)}
 			</Text>
 
-			<View className={styles.subHeaderWrapper}>
-				<Text className={styles.stopLocation}>{localityData?.display || municipalityData?.name}</Text>
-				<Text className={`${styles.stopId} ${stopIdClipboard && styles.isCopied}`} onPress={handleClickStopId}>
+			<View style={pathWaypointHeaderStyles.subHeaderWrapper}>
+				<Text style={pathWaypointHeaderStyles.stopLocation}>
+					{localityData?.display || municipalityData?.name}
+				</Text>
+				<Text onPress={handleClickStopId} style={stopIdStyles}>
 					#{stopData.id}
-					{stopIdClipboard ? <IconCheck className={styles.stopIdCopyIcon} /> : <IconCopy className={styles.stopIdCopyIcon} />}
+					{stopIdClipboard
+						? <IconCheck style={pathWaypointHeaderStyles.stopIdCopyIcon} />
+						: <IconCopy style={pathWaypointHeaderStyles.stopIdCopyIcon} />}
 				</Text>
 			</View>
 			{isSelected && stopData.facilities.length > 0 && (
-				<View className={styles.facilitiesWrapper}>
+				<View style={pathWaypointHeaderStyles.facilitiesWrapper}>
 					{stopData.facilities.map(facility => (
 						<IconDisplay key={facility} category="facilities" name={facility} />
 					))}

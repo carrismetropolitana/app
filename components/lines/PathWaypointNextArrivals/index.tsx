@@ -1,11 +1,12 @@
 /* * */
 
 import { LiveIcon } from '@/components/common/LiveIcon';
-import { IconClockHour9 } from '@tabler/icons-react';
+import { IconClockHour9 } from '@tabler/icons-react-native';
 import dayjs from 'dayjs';
-import { useTranslations } from 'next-intl';
+import { useTranslation } from 'react-i18next';
+import { Text, View } from 'react-native';
 
-import styles from './styles.module.css';
+import { styles } from './styles';
 
 /* * */
 
@@ -15,9 +16,10 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 	//
 	// A. Setup variables
 
-	const t = useTranslations('lines.PathStopNextArrivals');
+	const { t } = useTranslation('translation', { keyPrefix: 'lines.PathStopNextArrivals' });
 
 	const now = Date.now();
+	const pathWaypointNextArrivalsStyles = styles();
 
 	//
 	// D. Render components
@@ -27,36 +29,37 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 	}
 
 	return (
-		<div className={styles.container}>
-			<p className={styles.title}>{t('title')}</p>
-			<div className={styles.arrivalsWrapper}>
-
+		<View style={pathWaypointNextArrivalsStyles.container}>
+			<Text style={pathWaypointNextArrivalsStyles.title}>{t('title')}</Text>
+			<View style={pathWaypointNextArrivalsStyles.arrivalsWrapper}>
 				{realtimeArrivals.length > 0 && (
-					<div className={styles.realtimeArrivalsWrapper}>
+					<View style={pathWaypointNextArrivalsStyles.realtimeArrivalsWrapper}>
 						<LiveIcon />
-						<div className={styles.realtimeArrivalsList}>
+						<View style={pathWaypointNextArrivalsStyles.realtimeArrivalsList}>
 							{realtimeArrivals.map(realtimeArrival => realtimeArrival != undefined && (
-								<div key={realtimeArrival.unixTs} className={styles.realtimeArrival}>{formatDelta(realtimeArrival.unixTs - now)}</div>
+								<View key={realtimeArrival.unixTs}>
+									<Text style={pathWaypointNextArrivalsStyles.realtimeArrival}>{formatDelta(realtimeArrival.unixTs - now)}</Text>
+								</View>
 							))}
-						</div>
-					</div>
+						</View>
+					</View>
 				)}
 
 				{scheduledArrivals.length > 0 && (
-					<div className={styles.scheduledArrivalsWrapper}>
+					<View style={pathWaypointNextArrivalsStyles.scheduledArrivalsWrapper}>
 						<IconClockHour9 size={14} />
-						<div className={styles.scheduledArrivalsList}>
+						<View style={pathWaypointNextArrivalsStyles.scheduledArrivalsList}>
 							{scheduledArrivals.slice(0, realtimeArrivals.length > 0 ? 3 : 4).map(scheduledArrival => scheduledArrival != undefined && (
-								<div key={scheduledArrival.unixTs} className={styles.scheduledArrival}>
-									{dayjs(scheduledArrival.unixTs).format('HH:mm')}
-								</div>
+								<View key={scheduledArrival.unixTs}>
+									<Text style={pathWaypointNextArrivalsStyles.scheduledArrival}>{dayjs(scheduledArrival.unixTs).format('HH:mm')}</Text>
+								</View>
 							))}
-						</div>
-					</div>
+						</View>
+					</View>
 				)}
 
-			</div>
-		</div>
+			</View>
+		</View>
 	);
 
 	//

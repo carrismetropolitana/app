@@ -1,10 +1,11 @@
 /* * */
 
 import { BrandsOperators, IconsConnections, IconsFacilities } from '@/settings/assets.settings';
-import { Image, Tooltip } from '@mantine/core';
-import { useTranslations } from 'next-intl';
+import { Image } from '@rneui/themed';
+import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
 
-import styles from './styles.module.css';
+import { styles } from './styles';
 
 /* * */
 
@@ -21,7 +22,7 @@ export function IconDisplay({ category, name }: Props) {
 	//
 	// A. Setup variables
 
-	const t = useTranslations('IconDisplay');
+	const { t } = useTranslation('IconDisplay');
 
 	//
 	// B. Transform data
@@ -48,15 +49,9 @@ export function IconDisplay({ category, name }: Props) {
 	}
 
 	return (
-		<div className={styles.container}>
-			<Tooltip
-				events={{ focus: true, hover: true, touch: true }}
-				label={t(`${category}.${name}`)}
-				withArrow
-			>
-				<Image alt={t(`${category}.${name}`)} src={iconSrc} />
-			</Tooltip>
-		</div>
+		<View style={styles.container}>
+			<Image alt={t(`${category}.${name}`)} src={iconSrc} />
+		</View>
 	);
 
 	//

@@ -2,7 +2,7 @@
 
 import { StyleSheet } from 'react-native';
 
-export const sryles = StyleSheet.create({
+export const styles = StyleSheet.create({
 /* CONTAINER */
 
 	container: {

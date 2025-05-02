@@ -10,7 +10,7 @@ import { useEffect, useMemo } from 'react';
 import { View } from 'react-native';
 import useSWR from 'swr';
 
-import styles from './styles.module.css';
+import { styles } from './styles';
 
 /* * */
 
@@ -21,6 +21,7 @@ export function LinesDetailPathList() {
 	// A. Setup variables
 
 	const linesDetailContext = useLinesDetailContext();
+	const LinesDetailPathListStyles = styles();
 	// const analyticsContext = useAnalyticsContext();
 
 	//
@@ -68,23 +69,23 @@ export function LinesDetailPathList() {
 	//
 	// D. Handle actions
 
-	useEffect(() => {
-		// Scroll to selected stop on stop change
-		if (!linesDetailContext.data.active_waypoint) return;
-		const selectedStop = document.getElementById(`waypoint-${linesDetailContext.data.active_waypoint.stop_id}-${linesDetailContext.data.active_waypoint.stop_sequence}`);
+	// useEffect(() => {
+	// 	// Scroll to selected stop on stop change
+	// 	if (!linesDetailContext.data.active_waypoint) return;
+	// 	const selectedStop = document.getElementById(`waypoint-${linesDetailContext.data.active_waypoint.stop_id}-${linesDetailContext.data.active_waypoint.stop_sequence}`);
 
-		// const selectedStopId = selectedStop?.id.split('-')[1];
+	// 	// const selectedStopId = selectedStop?.id.split('-')[1];
 
-		// analyticsContext.actions.capture((ampli, props) => {
-		// 	if (selectedStopId) {
-		// 		ampli.stopSelected({ ...props, stop_id: selectedStopId });
-		// 	}
-		// });
+	// 	// analyticsContext.actions.capture((ampli, props) => {
+	// 	// 	if (selectedStopId) {
+	// 	// 		ampli.stopSelected({ ...props, stop_id: selectedStopId });
+	// 	// 	}
+	// 	// });
 
-		if (selectedStop) {
-			selectedStop.scrollIntoView({ behavior: 'smooth', block: 'center' });
-		}
-	}, [linesDetailContext.data.active_waypoint]);
+	// 	if (selectedStop) {
+	// 		selectedStop.scrollIntoView({ behavior: 'smooth', block: 'center' });
+	// 	}
+	// }, [linesDetailContext.data.active_waypoint]);
 
 	//
 	// E. Render components
@@ -94,7 +95,7 @@ export function LinesDetailPathList() {
 	}
 
 	return (
-		<View className={styles.container}>
+		<View style={LinesDetailPathListStyles.container}>
 			{sortedStops.map((waypoint, index) => (
 				<PathWaypoint
 					key={`${waypoint.stop_id}-${waypoint.stop_sequence}`}

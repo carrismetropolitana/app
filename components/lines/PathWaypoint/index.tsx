@@ -25,7 +25,7 @@ interface Props {
 
 /* * */
 
-export function PathWaypoint({ arrivals, id, isFirstStop, isLastStop, isSelected, waypointData }: Props) {
+export function PathWaypoint({ arrivals, isFirstStop, isLastStop, isSelected, waypointData }: Props) {
 	//
 
 	//
@@ -35,7 +35,7 @@ export function PathWaypoint({ arrivals, id, isFirstStop, isLastStop, isSelected
 	const operationalDayContext = useOperationalDayContext();
 
 	const now = Date.now();
-	const pathWaypointpathWaypointStyles = styles();
+	const pathWaypointStyles = styles();
 
 	//
 	// B. Transform data
@@ -47,13 +47,8 @@ export function PathWaypoint({ arrivals, id, isFirstStop, isLastStop, isSelected
 	//
 	// C. Handle actions
 
-	interface HandleToggleStopEvent {
-		stopPropagation: () => void
-	}
-
-	const handleToggleStop = (event: HandleToggleStopEvent) => {
+	const handleToggleStop = () => {
 		linesDetailContext.actions.setActiveWaypoint(waypointData.stop_id, waypointData.stop_sequence);
-		event.stopPropagation();
 	};
 
 	//
@@ -61,7 +56,14 @@ export function PathWaypoint({ arrivals, id, isFirstStop, isLastStop, isSelected
 
 	return (
 		<TouchableOpacity onPress={handleToggleStop}>
-			<View className={`${pathWaypointpathWaypointStyles.container} ${isFirstStop && pathWaypointpathWaypointStyles.isFirstStop} ${isLastStop && pathWaypointpathWaypointStyles.isLastStop} ${isSelected && pathWaypointpathWaypointStyles.isSelected}`} id={id}>
+			<View
+				style={[
+					pathWaypointStyles.container,
+					isFirstStop && pathWaypointStyles.isFirstStop,
+					isLastStop && pathWaypointStyles.isLastStop,
+					isSelected && pathWaypointStyles.isSelected,
+				]}
+			>
 				<PathWaypointSpine
 					backgroundColor={linesDetailContext.data.active_pattern?.color}
 					foregroundColor={linesDetailContext.data.active_pattern?.text_color}
@@ -71,7 +73,7 @@ export function PathWaypoint({ arrivals, id, isFirstStop, isLastStop, isSelected
 					stopId={waypointData.stop_id}
 					stopSequence={waypointData.stop_sequence}
 				/>
-				<View style={pathWaypointpathWaypointStyles.detailsWrapper}>
+				<View style={pathWaypointStyles.detailsWrapper}>
 					<PathWaypointHeader
 						isFirstStop={isFirstStop}
 						isLastStop={isLastStop}

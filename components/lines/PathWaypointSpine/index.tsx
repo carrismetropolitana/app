@@ -4,9 +4,10 @@
 
 import { useDebugContext } from '@/contexts/Debug.context';
 import { useProfileContext } from '@/contexts/Profile.context';
-import { IconHeartFilled } from '@tabler/icons-react';
+import { IconHeartFilled } from '@tabler/icons-react-native';
+import { Text, View } from 'react-native';
 
-import styles from './styles.module.css';
+import { styles } from './styles';
 
 /* * */
 
@@ -30,7 +31,6 @@ export function PathWaypointSpine({ backgroundColor, foregroundColor, isFirstSto
 
 	const profileContext = useProfileContext();
 	const debugContext = useDebugContext();
-
 	//
 	// B. Transform data
 
@@ -40,14 +40,52 @@ export function PathWaypointSpine({ backgroundColor, foregroundColor, isFirstSto
 	// C. Render components
 
 	return (
-		<div
-			className={`${styles.container} ${isFirstStop && styles.isFirstStop} ${isLastStop && styles.isLastStop} ${isSelected && styles.isSelected}`}
-			style={{ backgroundColor: backgroundColor }}
+		<View
+			style={[
+				styles.container,
+				isFirstStop && styles.containerFirstStop,
+				isLastStop && styles.containerLastStop,
+				isSelected && styles.containerSelected,
+				isFirstStop && isSelected && styles.containerFirstStopSelected,
+				isLastStop && isSelected && styles.containerLastStopSelected,
+				backgroundColor && { backgroundColor },
+			]}
 		>
-			{debugContext.flags.is_debug_mode && <div className={`${styles.marker} ${styles.stopSequence}`} style={{ color: foregroundColor }}>{stopSequence}</div>}
-			{!debugContext.flags.is_debug_mode && isFavoriteStop && <IconHeartFilled className={`${styles.marker} ${styles.favorite}`} color={foregroundColor} />}
-			{!debugContext.flags.is_debug_mode && !isFavoriteStop && <div className={styles.marker} style={{ backgroundColor: foregroundColor }} />}
-		</div>
+			{debugContext.flags.is_debug_mode && (
+				<Text
+					style={[
+						styles.marker,
+						styles.stopSequence,
+						isFirstStop && styles.stopSequenceFirstStop,
+						isLastStop && styles.stopSequenceLastStop,
+						{ color: foregroundColor },
+					]}
+				>
+					{stopSequence}
+				</Text>
+			)}
+			{!debugContext.flags.is_debug_mode && isFavoriteStop && (
+				<IconHeartFilled
+					color={foregroundColor}
+					style={[
+						styles.marker,
+						styles.markerFavorite,
+						isFirstStop && styles.markerFirstStop,
+						isFirstStop && styles.markerFirstStopFavorite,
+					]}
+				/>
+			)}
+			{!debugContext.flags.is_debug_mode && !isFavoriteStop && (
+				<View
+					style={[
+						styles.marker,
+						isFirstStop && styles.markerFirstStop,
+						isSelected && styles.markerSelected,
+						{ backgroundColor: foregroundColor },
+					]}
+				/>
+			)}
+		</View>
 	);
 
 	//
