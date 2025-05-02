@@ -3,11 +3,11 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
 	container: {
-		alignItems: 'flex-start',
+		alignItems: 'center',
 		flexDirection: 'column',
 		justifyContent: 'center',
-		paddingVertical: theming.sizeSpacing20, // replace with your value
-		width: '20%',
+		paddingVertical: theming.sizeSpacing20,
+		width: 16,
 	},
 	containerFirstStop: {
 		borderTopLeftRadius: 999,
@@ -34,8 +34,7 @@ export const styles = StyleSheet.create({
 		aspectRatio: 1,
 		borderRadius: 999,
 		margin: 6,
-		width: '100%',
-		// No transition in RN
+		width: 8,
 	},
 	markerFavorite: {
 		margin: 3,
@@ -46,7 +45,7 @@ export const styles = StyleSheet.create({
 		transform: [{ translateY: 2 }],
 	},
 	markerFirstStopFavorite: {
-		transform: [], // none
+		transform: [],
 	},
 	markerSelected: {
 		margin: 4,
@@ -56,12 +55,11 @@ export const styles = StyleSheet.create({
 		aspectRatio: 1,
 		borderRadius: 999,
 		fontSize: 12,
-		fontWeight: '800', // extrabold
+		fontWeight: '800',
 		margin: 0,
-		textAlign: 'center',
-		width: '100%',
-		// No transition in RN
+		textAlign: 'left',
 		transform: [{ translateY: 2 }],
+		width: '100%',
 	},
 	stopSequenceFirstStop: {
 		transform: [{ translateY: 6 }],

@@ -59,15 +59,15 @@ export const IconsSocial = Object.freeze({
 });
 
 export const IconsFacilities = Object.freeze({
-	court: '/icons/facilities/court.svg',
-	fire_station: '/icons/facilities/fire_station.svg',
-	health_center: '/icons/facilities/health_center.svg',
-	hospital: '/icons/facilities/hospital.svg',
-	park: '/icons/facilities/park.svg',
-	police_station: '/icons/facilities/police_station.svg',
-	school: '/icons/facilities/school.svg',
-	transit_office: '/icons/facilities/transit_office.svg',
-	university: '/icons/facilities/university.svg',
+	court: require('@/assets/icons/facilities/court.svg'),
+	fire_station: require('@/assets/icons/facilities/fire_station.svg'),
+	health_center: require('@/assets/icons/facilities/health_center.svg'),
+	hospital: require('@/assets/icons/facilities/hospital.svg'),
+	park: require('@/assets/icons/facilities/park.svg'),
+	police_station: require('@/assets/icons/facilities/police_station.svg'),
+	school: require('@/assets/icons/facilities/school.svg'),
+	transit_office: require('@/assets/icons/facilities/transit_office.svg'),
+	university: require('@/assets/icons/facilities/university.svg'),
 });
 
 export const IconsConnections = Object.freeze({
@@ -95,26 +95,26 @@ export const IconsMap = Object.freeze({
 });
 
 export const IconsCommon = Object.freeze({
-	AML_MAP: '/icons/common/aml-map.svg',
-	AML_MAP_OPERATORS: '/icons/common/aml-map-with-operators.svg',
-	AML_MAP_SINGLE: '/icons/common/aml-map-single.svg',
-	LINE_BADGE_BASE: '/icons/common/line-badge-base.svg',
-	LIVRO_RECLAMACOES: '/icons/common/livro-de-reclamacoes.svg',
-	MULTIBANCO_DARK: '/icons/common/multibanco-dark.svg',
-	MULTIBANCO_LIGHT: '/icons/common/multibanco-light.svg',
-	NAVEGANTE_APP: '/icons/common/app-navegante.svg',
-	NAVEGANTE_POINT: '/icons/common/espaco-navegante.svg',
-	PAYSHOP: '/icons/common/payshop.png',
-	QUESTION: '/icons/common/question.svg',
-	RECEIPT: '/icons/common/receipt.svg',
-	SAFARI_PINNED_TAB: '/icons/common/safari-pinned-tab.svg',
-	TICKET: '/icons/common/ticket.svg',
+	AML_MAP: require('@/assets/icons/common/aml-map.svg'),
+	AML_MAP_OPERATORS: require('@/assets/icons/common/aml-map-with-operators.svg'),
+	AML_MAP_SINGLE: require('@/assets/icons/common/aml-map-single.svg'),
+	LINE_BADGE_BASE: require('@/assets/icons/common/line-badge-base.svg'),
+	LIVRO_RECLAMACOES: require('@/assets/icons/common/livro-de-reclamacoes.svg'),
+	MULTIBANCO_DARK: require('@/assets/icons/common/multibanco-dark.svg'),
+	MULTIBANCO_LIGHT: require('@/assets/icons/common/multibanco-light.svg'),
+	NAVEGANTE_APP: require('@/assets/icons/common/app-navegante.svg'),
+	NAVEGANTE_POINT: require('@/assets/icons/common/espaco-navegante.svg'),
+	PAYSHOP: require('@/assets/icons/common/payshop.png'),
+	QUESTION: require('@/assets/icons/common/question.svg'),
+	RECEIPT: require('@/assets/icons/common/receipt.svg'),
+	SAFARI_PINNED_TAB: require('@/assets/icons/common/safari-pinned-tab.svg'),
+	TICKET: require('@/assets/icons/common/ticket.svg'),
 });
 
 export const IconsMobile = Object.freeze({
-	MOBILE_ANDROID_192: '/icons/mobile/android-chrome-192x192.png',
-	MOBILE_ANDROID_512: '/icons/mobile/android-chrome-512x512.png',
-	MOBILE_APPLE: '/icons/mobile/apple-touch-icon.pmg',
+	MOBILE_ANDROID_192: require('@/assets/icons/mobile/android-chrome-192x192.png'),
+	MOBILE_ANDROID_512: require('@/assets/icons/mobile/android-chrome-512x512.png'),
+	MOBILE_APPLE: require('@/assets/icons/mobile/apple-touch-icon.png'),
 });
 
 /* * */
@@ -122,19 +122,19 @@ export const IconsMobile = Object.freeze({
 // Images
 
 export const ImagesCommon = Object.freeze({
-	AREA1: '/images/common/area1.svg',
-	AREA2: '/images/common/area2.svg',
-	AREA3: '/images/common/area3.svg',
-	AREA4: '/images/common/area4.svg',
-	COINS: '/images/common/coins.svg',
-	NAVEGANTE_CARD: '/images/common/navegante-card.png',
-	NAVEGANTE_OCASIONAL: '/images/common/navegante-occasional.png',
-	PLACEHOLDER: '/images/common/placeholder.png',
+	AREA1: require('@/assets/images/common/Area1.svg'),
+	AREA2: require('@/assets/images/common/Area2.svg'),
+	AREA3: require('@/assets/images/common/Area3.svg'),
+	AREA4: require('@/assets/images/common/Area4.svg'),
+	// COINS: require('@/assets/images/common/coins.svg'),
+	// NAVEGANTE_CARD: require('@/assets/images/common/navegante-card.png'),
+	// NAVEGANTE_OCASIONAL: require('@/assets/images/common/navegante-occasional.png'),
+	PLACEHOLDER: require('@/assets/images/common/placeholder.png'),
 });
 
 export const ImagesHome = Object.freeze({
-	CASO_DE_ESTUDO_LOURES: '/images/home/caso-de-estudo-loures.png',
-	DRIVERS: '/images/home/drivers.png',
+	CASO_DE_ESTUDO_LOURES: require('@/assets/images/home/caso-de-estudo-loures.png'),
+	DRIVERS: require('@/assets/images/home/drivers.png'),
 });
 
 export const Images = Object.freeze({

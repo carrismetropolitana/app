@@ -100,11 +100,17 @@ export function PathWaypointHeader({ isFirstStop, isLastStop, isSelected, waypoi
 				</Text>
 			</View>
 			{isSelected && stopData.facilities.length > 0 && (
-				<View style={pathWaypointHeaderStyles.facilitiesWrapper}>
-					{stopData.facilities.map(facility => (
-						<IconDisplay key={facility} category="facilities" name={facility} />
-					))}
-				</View>
+				<>
+					<Text>{stopData.facilities.length} facilities available</Text>
+					<View style={pathWaypointHeaderStyles.facilitiesWrapper}>
+						{stopData.facilities.map(facility => (
+							<View key={facility}>
+								<Text>{facility}</Text>
+								<IconDisplay category="facilities" name={facility} />
+							</View>
+						))}
+					</View>
+				</>
 			)}
 		</View>
 	);
