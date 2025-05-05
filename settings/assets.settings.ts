@@ -59,15 +59,15 @@ export const IconsSocial = Object.freeze({
 });
 
 export const IconsFacilities = Object.freeze({
-	court: require('@/assets/icons/facilities/court.svg'),
-	fire_station: require('@/assets/icons/facilities/fire_station.svg'),
-	health_center: require('@/assets/icons/facilities/health_center.svg'),
-	hospital: require('@/assets/icons/facilities/hospital.svg'),
-	park: require('@/assets/icons/facilities/park.svg'),
-	police_station: require('@/assets/icons/facilities/police_station.svg'),
-	school: require('@/assets/icons/facilities/school.svg'),
-	transit_office: require('@/assets/icons/facilities/transit_office.svg'),
-	university: require('@/assets/icons/facilities/university.svg'),
+	court: require('@/assets/icons/facilities/court.png'),
+	fire_station: require('@/assets/icons/facilities/fire_station.png'),
+	health_center: require('@/assets/icons/facilities/health_center.png'),
+	hospital: require('@/assets/icons/facilities/hospital.png'),
+	park: require('@/assets/icons/facilities/park.png'),
+	police_station: require('@/assets/icons/facilities/police_station.png'),
+	school: require('@/assets/icons/facilities/school.png'),
+	transit_office: require('@/assets/icons/facilities/transit_office.png'),
+	university: require('@/assets/icons/facilities/university.png'),
 });
 
 export const IconsConnections = Object.freeze({

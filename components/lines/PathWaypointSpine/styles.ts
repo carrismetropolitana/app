@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
 	container: {
 		alignItems: 'center',
 		flexDirection: 'column',
-		justifyContent: 'center',
+		justifyContent: 'flex-start',
 		paddingVertical: theming.sizeSpacing20,
 		width: 16,
 	},
@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
 		aspectRatio: 1,
 		borderRadius: 999,
 		margin: 6,
-		width: 8,
+		width: 10,
 	},
 	markerFavorite: {
 		margin: 3,

@@ -6,8 +6,10 @@ import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { NextArrival } from '@/types/timetables.types';
 import { PatternRealtime } from '@/types/types';
 import { Routes } from '@/utils/routes';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
+import { useEffect, useRef } from 'react';
 import { View } from 'react-native';
+import { ScrollView } from 'react-native';
 import useSWR from 'swr';
 
 import { styles } from './styles';
@@ -68,24 +70,26 @@ export function LinesDetailPathList() {
 
 	//
 	// D. Handle actions
+	const scrollViewRef = useRef<ScrollView>(null);
 
-	// useEffect(() => {
-	// 	// Scroll to selected stop on stop change
-	// 	if (!linesDetailContext.data.active_waypoint) return;
-	// 	const selectedStop = document.getElementById(`waypoint-${linesDetailContext.data.active_waypoint.stop_id}-${linesDetailContext.data.active_waypoint.stop_sequence}`);
+	const selectedIndex = sortedStops?.findIndex(
+		waypoint =>
+			linesDetailContext.data.active_waypoint?.stop_id === waypoint.stop_id
+			&& linesDetailContext.data.active_waypoint?.stop_sequence === waypoint.stop_sequence,
+	);
 
-	// 	// const selectedStopId = selectedStop?.id.split('-')[1];
-
-	// 	// analyticsContext.actions.capture((ampli, props) => {
-	// 	// 	if (selectedStopId) {
-	// 	// 		ampli.stopSelected({ ...props, stop_id: selectedStopId });
-	// 	// 	}
-	// 	// });
-
-	// 	if (selectedStop) {
-	// 		selectedStop.scrollIntoView({ behavior: 'smooth', block: 'center' });
-	// 	}
-	// }, [linesDetailContext.data.active_waypoint]);
+	useEffect(() => {
+		if (
+			selectedIndex !== undefined
+			&& selectedIndex !== -1
+			&& scrollViewRef.current
+		) {
+			scrollViewRef.current.scrollTo({
+				animated: true,
+				y: selectedIndex * 80,
+			});
+		}
+	}, [selectedIndex, linesDetailContext.data.active_waypoint]);
 
 	//
 	// E. Render components

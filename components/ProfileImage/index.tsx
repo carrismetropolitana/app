@@ -25,7 +25,7 @@ export function ProfileImage({ height, size, type, width }: ProfileImageProps) {
 	const styles = useStyles();
 	const profileContext = useProfileContext();
 	const profileImage = profileContext.data.profile?.profile?.profile_image && `${Routes.DEV_API_ACCOUNTS}/persona/` + profileContext.data.profile?.profile?.profile_image;
-	const defaultImage = 'assets/images/no-persona-image.png';
+	const defaultImage = '@/assets/images/no-persona-image.png';
 
 	// B. Render Components
 	return (
@@ -35,7 +35,7 @@ export function ProfileImage({ height, size, type, width }: ProfileImageProps) {
 					<Avatar
 						containerStyle={styles.avatarContainer}
 						size={size}
-						source={{ uri: profileImage || '' }}
+						source={{ uri: profileImage || defaultImage }}
 						rounded
 					/>
 				)

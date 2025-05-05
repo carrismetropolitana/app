@@ -39,6 +39,18 @@ export function PathWaypointHeader({ isFirstStop, isLastStop, isSelected, waypoi
 	const [stopIdClipboard, setStopIdClipboard] = useState('');
 	const pathWaypointHeaderStyles = styles();
 
+	const containerStyles = [
+		pathWaypointHeaderStyles.container,
+		isFirstStop && pathWaypointHeaderStyles.isFirstStop,
+		isLastStop && pathWaypointHeaderStyles.isLastStop,
+		isSelected && pathWaypointHeaderStyles.isSelected,
+	];
+
+	const stopIdStyles = [
+		pathWaypointHeaderStyles.stopId,
+		stopIdClipboard && pathWaypointHeaderStyles.isCopied,
+	];
+
 	//
 	// B. Fetch data
 
@@ -61,37 +73,18 @@ export function PathWaypointHeader({ isFirstStop, isLastStop, isSelected, waypoi
 		return null;
 	}
 
-	const containerStyles = [
-		pathWaypointHeaderStyles.container,
-		isFirstStop && pathWaypointHeaderStyles.isFirstStop,
-		isLastStop && pathWaypointHeaderStyles.isLastStop,
-		isSelected && pathWaypointHeaderStyles.isSelected,
-	];
-
-	const stopIdStyles = [
-		pathWaypointHeaderStyles.stopId,
-		stopIdClipboard && pathWaypointHeaderStyles.isCopied,
-	];
-
 	return (
 		<View style={containerStyles}>
 			<Text style={pathWaypointHeaderStyles.stopName}>
 				{stopData.long_name}
 				{isSelected && (
-					<Link
-						href={`/stops/${waypointData.stop_id}?day=${operationalDayContext.data.selected_day}`}
-						style={pathWaypointHeaderStyles.stopNameUrl}
-						target="_blank"
-					>
+					<Link href={`/stops/${waypointData.stop_id}?day=${operationalDayContext.data.selected_day}`} style={pathWaypointHeaderStyles.stopNameUrl} target="_blank">
 						<IconArrowUpRight size={16} />
 					</Link>
 				)}
 			</Text>
-
 			<View style={pathWaypointHeaderStyles.subHeaderWrapper}>
-				<Text style={pathWaypointHeaderStyles.stopLocation}>
-					{localityData?.display || municipalityData?.name}
-				</Text>
+				<Text style={pathWaypointHeaderStyles.stopLocation}>{localityData?.display || municipalityData?.name}</Text>
 				<Text onPress={handleClickStopId} style={stopIdStyles}>
 					#{stopData.id}
 					{stopIdClipboard
@@ -100,17 +93,9 @@ export function PathWaypointHeader({ isFirstStop, isLastStop, isSelected, waypoi
 				</Text>
 			</View>
 			{isSelected && stopData.facilities.length > 0 && (
-				<>
-					<Text>{stopData.facilities.length} facilities available</Text>
-					<View style={pathWaypointHeaderStyles.facilitiesWrapper}>
-						{stopData.facilities.map(facility => (
-							<View key={facility}>
-								<Text>{facility}</Text>
-								<IconDisplay category="facilities" name={facility} />
-							</View>
-						))}
-					</View>
-				</>
+				<View style={pathWaypointHeaderStyles.facilitiesWrapper}>
+					{stopData.facilities.map(facility => (<View key={facility}><IconDisplay category="facilities" name={facility} /></View>))}
+				</View>
 			)}
 		</View>
 	);

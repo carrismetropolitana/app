@@ -20,7 +20,8 @@ export const styles = () => {
 		flex: 1,
 		flexDirection: 'row' as const,
 		gap: theming.sizeSpacing10,
-		padding: theming.sizeSpacing20,
+		paddingLeft: theming.sizeSpacing20,
+		paddingRight: theming.sizeSpacing20,
 	};
 
 	/* * */

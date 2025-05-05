@@ -46,17 +46,6 @@ export default function TabLayout() {
 				tabBarActiveTintColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.primary : theming.colorSystemBackgroundDark300,
 				tabBarBackground: TabBarBackground,
 				tabBarButton: HapticTab,
-				tabBarStyle: Platform.select({
-					default: { height: 74 + insets.bottom, paddingBottom: 30, paddingTop: 20 },
-					ios: {
-						backgroundColor: 'transparent',
-						height: 74 + insets.bottom,
-						paddingBottom: 30,
-						paddingTop: 20,
-						position: 'absolute',
-					},
-				}),
-				// Custom icon renderer
 				tabBarIcon: ({ color, focused }) => {
 					const IconComponent = icons[route.name];
 					return (
@@ -71,6 +60,16 @@ export default function TabLayout() {
 					);
 				},
 				tabBarShowLabel: false,
+				tabBarStyle: Platform.select({
+					default: { height: 74 + insets.bottom, paddingBottom: 30, paddingTop: 20 },
+					ios: {
+						backgroundColor: 'transparent',
+						height: 74 + insets.bottom,
+						paddingBottom: 30,
+						paddingTop: 20,
+						position: 'absolute',
+					},
+				}),
 			})}
 		>
 			<Tabs.Screen name="home" />

@@ -1,6 +1,6 @@
 /* * */
 
-import { BrandsOperators, IconsConnections, IconsFacilities } from '@/settings/assets.settings';
+import { IconsFacilities } from '@/settings/assets.settings';
 import { Image } from '@rneui/themed';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -10,7 +10,7 @@ import { styles } from './styles';
 /* * */
 
 interface Props {
-	category: 'connections' | 'facilities' | 'operators'
+	category: 'facilities'
 	name: string
 }
 
@@ -27,17 +27,14 @@ export function IconDisplay({ category, name }: Props) {
 	//
 	// B. Transform data
 
-	let iconSrc: string;
+	let iconSrc: string | undefined;
 
 	switch (category) {
-		case 'connections':
-			iconSrc = IconsConnections[name as keyof typeof IconsConnections];
-			break;
 		case 'facilities':
 			iconSrc = IconsFacilities[name as keyof typeof IconsFacilities];
 			break;
-		case 'operators':
-			iconSrc = BrandsOperators[name as keyof typeof BrandsOperators];
+		default:
+			iconSrc = '';
 			break;
 	}
 
@@ -50,7 +47,11 @@ export function IconDisplay({ category, name }: Props) {
 
 	return (
 		<View style={styles.container}>
-			<Image alt={t(`${category}.${name}`)} src={iconSrc} />
+			<Image
+				accessibilityLabel={t(`${category}.${name}`)}
+				source={typeof iconSrc === 'string' ? { uri: iconSrc } : iconSrc}
+				style={{ height: 32, width: 32 }}
+			/>
 		</View>
 	);
 
