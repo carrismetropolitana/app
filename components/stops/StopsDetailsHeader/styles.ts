@@ -75,18 +75,6 @@ export const styles = () => {
 		},
 
 		/* * */
-		/* ICONS WRAPPER */
-
-		iconsWrapper: {
-			alignItems: 'center',
-			flexDirection: 'row',
-			justifyContent: 'flex-start',
-			padding: 20,
-			paddingTop: 0,
-			width: '100%',
-		},
-
-		/* * */
 		/* SECTION HEADING */
 
 		sectionHeading: {
@@ -111,12 +99,28 @@ export const styles = () => {
 		},
 
 		/* * */
-		/* UPCOMING CIRCULATIONS */
+		/* SECTION WRAPPER */
 
-		upcomingCirculationsWrapper: {
+		sectionWrapper: {
 			paddingBottom: theming.sizeSpacing15,
 			paddingTop: theming.sizeSpacing15,
 			width: '100%',
+		},
+
+		/* * */
+		/* LINE WRAPPER */
+		lineWrapper: {
+			gap: 10,
+			paddingLeft: 15,
+		},
+		/* * */
+		/* LINE ITEM */
+		lineItem: {
+			alignItems: 'center',
+			flexDirection: 'row',
+			gap: 10,
+			width: '100%',
+
 		},
 	});
 };

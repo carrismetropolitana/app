@@ -13,10 +13,12 @@ import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { theming } from '@/theme/Variables';
 import { ListItem, Text } from '@rneui/themed';
 import { IconHomePlus, IconVolume } from '@tabler/icons-react-native';
+import { Link } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
+import StopDetailPager from '../StopDetailPagerView';
 import { styles } from './styles';
 
 /* * */
@@ -83,7 +85,7 @@ export function StopsDetailHeader() {
 					</Section>
 				</View>
 
-				<View style={stopDetailsHeader.upcomingCirculationsWrapper}>
+				<View style={stopDetailsHeader.sectionWrapper}>
 					<Text style={stopDetailsHeader.sectionHeading}>{t('heading')}</Text>
 
 					<ListItem>
@@ -97,24 +99,29 @@ export function StopsDetailHeader() {
 					<Text style={stopDetailsHeader.upcomingCirculationsDescription}>{t('description')}</Text>
 				</View>
 
-				<View style={stopDetailsHeader.upcomingCirculationsWrapper}>
+				<View style={stopDetailsHeader.sectionWrapper}>
 					<Text style={stopDetailsHeader.sectionHeading}>{t('second_heading')}</Text>
-					<View style={stopDetailsHeader.iconsWrapper}>
-
-						{stopsDetailContext.data.lines && stopsDetailContext.data.lines.map(line => (
-							<View key={line.id}>
-								<LineBadge key={line.id} lineData={line} size="lg" />
-								<Text>{line.long_name}</Text>
-							</View>
+					<View style={stopDetailsHeader.lineWrapper}>
+						{/* {stopsDetailContext.data.lines && stopsDetailContext.data.lines.map(line => (
+							<Link key={line.id} href={`/line/${line.id}`}>
+								<View key={line.id} style={stopDetailsHeader.lineItem}>
+									<LineBadge key={line.id} lineData={line} size="lg" />
+									<Text>{line.long_name}</Text>
+								</View>
+							</Link>
+						))} */}
+						{stopsDetailContext.data.stop.pattern_ids && stopsDetailContext.data.stop.pattern_ids.map(item => (
+							
+							<Text> {item} </Text>
 						))}
+
 					</View>
 				</View>
 
-				<View style={stopDetailsHeader.upcomingCirculationsWrapper}>
+				<View style={stopDetailsHeader.sectionWrapper}>
 					<Text style={stopDetailsHeader.sectionHeading}>{t('third_heading')}</Text>
-
+					<StopDetailPager />
 				</View>
-
 			</Surface>
 		</ScrollView>
 	);
