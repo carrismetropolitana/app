@@ -1,3 +1,4 @@
+import { theming } from '@/theme/Variables';
 import { StyleSheet } from 'react-native';
 
 const container = {
@@ -44,7 +45,7 @@ export const copyBadgeStyles = StyleSheet.create({
 
 	},
 	text: {
-		color: 'rgb(150, 150, 165)',
+		color: theming.colorSystemText400,
 		fontWeight: 700,
 		textTransform: 'uppercase',
 	},

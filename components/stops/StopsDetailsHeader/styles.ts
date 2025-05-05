@@ -12,55 +12,70 @@ export const styles = () => {
 	const backgroundColor = isLight
 		? theming.colorSystemBackgroundLight200
 		: theming.colorSystemBackgroundDark200;
+	const fontColor = isLight
+		? theming.colorSystemText200
+		: theming.colorSystemText300;
 
 	return StyleSheet.create({
-		// CONTAINER
+		/* CONTAINER */
+
 		container: {
 			alignItems: 'flex-start',
-			backgroundColor: backgroundColor,
 			flexDirection: 'column',
 			gap: 10,
 			justifyContent: 'flex-start',
 		},
 
-		// BADGES WRAPPER
+		/* * */
+		/* BADGES WRAPPER */
+
 		badgesWrapper: {
-			alignItems: 'center',
 			flexDirection: 'row',
 			gap: 5,
 			justifyContent: 'flex-start',
+			marginTop: 10,
 		},
 
-		// HEADING WRAPPER
+		/* * */
+		/* HEADING WRAPPER */
+
 		headingWrapper: {
 			alignItems: 'flex-start',
-			flexDirection: 'column',
-			justifyContent: 'flex-start',
+			backgroundColor: '#FFFFFF',
+			gap: 10,
+			width: '100%',
 		},
+		/* * */
+		/* NAME WRAPPER */
 
-		// NAME WRAPPER
 		nameWrapper: {
 			alignItems: 'center',
 			flexDirection: 'row',
 			flexWrap: 'wrap',
-			gap: 5,
-			justifyContent: 'flex-start',
+			gap: 10,
+			justifyContent: 'space-between',
+			width: '100%',
 		},
 
-		// HEADING SECTION / ROW
+		/* * */
+		/* HEADING SECTION / ROW */
+
 		headingSectionRow: {
 			alignItems: 'center',
 			flexDirection: 'row',
-			gap: 15,
 			justifyContent: 'flex-start',
 		},
+		/* * */
+		/* ICONS WRAPPER */
 
-		// ICONS WRAPPER
 		iconsDivider: {
 			backgroundColor: '#E0E0E0',
 			height: 20,
 			minWidth: 2,
 		},
+
+		/* * */
+		/* ICONS WRAPPER */
 
 		iconsWrapper: {
 			alignItems: 'center',
@@ -68,6 +83,39 @@ export const styles = () => {
 			justifyContent: 'flex-start',
 			padding: 20,
 			paddingTop: 0,
+			width: '100%',
+		},
+
+		/* * */
+		/* SECTION HEADING */
+
+		sectionHeading: {
+			color: fontColor,
+			fontSize: theming.fontSizeNav,
+			fontWeight: theming.fontWeightNav as '600',
+			marginTop: 20,
+			paddingBottom: 15,
+			paddingLeft: 15,
+		},
+
+		/* * */
+		/* UPCOMING CIRCULATIONS */
+
+		upcomingCirculationsDescription: {
+			color: fontColor,
+			fontSize: theming.fontSizeText,
+			fontWeight: theming.fontWeightText as '500',
+			marginTop: 20,
+			paddingBottom: 15,
+			paddingLeft: 15,
+		},
+
+		/* * */
+		/* UPCOMING CIRCULATIONS */
+
+		upcomingCirculationsWrapper: {
+			paddingBottom: theming.sizeSpacing15,
+			paddingTop: theming.sizeSpacing15,
 			width: '100%',
 		},
 	});

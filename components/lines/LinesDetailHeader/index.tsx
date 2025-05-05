@@ -64,7 +64,6 @@ export function LinesDetailHeader() {
 					<Section withBottomDivider>
 						<View style={lineDetailsHeaderStyles.headingSectionRow}>
 							<View style={lineDetailsHeaderStyles.headingFirstSection}>
-
 								<LineBadge lineData={linesDetailContext.data.line} size="lg" />
 								<FavoriteToggle color={linesDetailContext.data.line.color} isActive={linesDetailContext.flags.is_favorite} onToggle={handleToggleFavorite} />
 								<IconHomePlus color="#9696A0" size={24} />
