@@ -11,9 +11,9 @@ import { StopDisplayName } from '@/components/stops/StopDisplayName';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
+import { Text } from '@rneui/themed';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { styles } from './styles';
 
@@ -40,7 +40,7 @@ export function StopsDetailHeader() {
 			profileContext.actions.toggleFavoriteStop(stopsDetailContext.data.stop.id);
 		}
 		catch (error) {
-			console.error({ message: 'Error: ' + error.message });
+			console.error({ message: 'Error: ' + error });
 		}
 	};
 
@@ -55,29 +55,21 @@ export function StopsDetailHeader() {
 		<ScrollView style={{ backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background, flex: 1 }}>
 			<Surface>
 				<Section>
-					<View style={stopDetailsHeader.badgesWrapper}>
-						<CopyBadge
-							label={'#' + stopsDetailContext.data.stop.id}
-							value={stopsDetailContext.data.stop.id}
-						/>
-						<CopyBadge
-							hasBorder={false}
-							label={`${stopsDetailContext.data.stop.lat}, ${stopsDetailContext.data.stop.lon}`}
-							value={stopsDetailContext.data.stop.lat + '\t' + stopsDetailContext.data.stop.lon}
-						/>
-					</View>
-
 					<View style={stopDetailsHeader.headingWrapper}>
 						<View style={stopDetailsHeader.nameWrapper}>
 							<StopDisplayName longName={stopsDetailContext.data.stop.long_name} size="lg" />
+							<StopDisplayLocation localityId={stopsDetailContext.data.stop.locality_id} municipalityId={stopsDetailContext.data.stop.municipality_id} size="lg" />
+
 							{/* <StopDisplayTts stopId={stopsDetailContext.data.stop.id} /> */}
 							<View>
 								<FavoriteToggle color="var(--color-brand)" isActive={stopsDetailContext.flags.is_favorite} onToggle={handleToggleFavorite} />
 							</View>
-							<StopDisplayLocation localityId={stopsDetailContext.data.stop.locality_id} municipalityId={stopsDetailContext.data.stop.municipality_id} size="lg" />
+						</View>
+						<View style={stopDetailsHeader.badgesWrapper}>
+							<CopyBadge label={'#' + stopsDetailContext.data.stop.id} value={stopsDetailContext.data.stop.id} />
+							<CopyBadge hasBorder={false} label={`${stopsDetailContext.data.stop.lat}, ${stopsDetailContext.data.stop.lon}`} value={stopsDetailContext.data.stop.lat + '\t' + stopsDetailContext.data.stop.lon} />
 						</View>
 					</View>
-
 				</Section>
 
 				<Section>
@@ -94,7 +86,8 @@ export function StopsDetailHeader() {
 						)}
 						{stopsDetailContext.data.lines && stopsDetailContext.data.lines.map(line => (
 							<View key={line.id}>
-								<LineBadge key={line.id} lineData={line} />
+								<LineBadge key={line.id} lineData={line} size="lg" />
+								<Text>{line.long_name}</Text>
 							</View>
 						))}
 					</View>

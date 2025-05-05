@@ -6,7 +6,7 @@ interface SelectPatternExplainerModalProps {
 	onBackdropPress: () => void
 }
 
-export const SelectPatternExplainerModal = ({ isVisible, onBackdropPress }: SelectPatternExplainerModalProps) => {
+const SelectPatternExplainerModal = ({ isVisible, onBackdropPress }: SelectPatternExplainerModalProps) => {
 	return (
 		<Dialog
 			isVisible={isVisible}
@@ -17,3 +17,5 @@ export const SelectPatternExplainerModal = ({ isVisible, onBackdropPress }: Sele
 		</Dialog>
 	);
 };
+
+export default SelectPatternExplainerModal;

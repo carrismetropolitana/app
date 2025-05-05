@@ -69,7 +69,7 @@ function normalizeString(str: string): string {
  * @param options Options for the search.
  * @returns
  */
-export function createDocCollection<T extends SearchableDocument<T>>(docs: T[], scoring: Partial<Record<KeyWithStringOrStringArrayValue<T>, number>>, options: Options = {}) {
+export default function createDocCollection<T extends SearchableDocument<T>>(docs: T[], scoring: Partial<Record<KeyWithStringOrStringArrayValue<T>, number>>, options: Options = {}) {
 	const defaultOptions = {
 		boostMultiplier: 1.5,
 		minimumQueryLength: 1,
