@@ -291,6 +291,7 @@
 	"stops": {
 		"StopDetails": {
 			"description": "The passage times are estimated and may be subject to changes due to traffic, roadworks or other unforeseen events. Check the vehicle's position on the map to always obtain the most reliable information.",
+			"end_of_day": "End of day",
 			"heading": "Next Circulations",
 			"second_heading": "Lines that pass in this stop",
 			"third_heading": "Caracterization"

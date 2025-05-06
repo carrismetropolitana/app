@@ -24,7 +24,7 @@ export function NoDataLabel({ fill, text, withMinHeight }: NoDataLabelProps) {
 		container: {
 			flex: 1,
 			flexDirection: 'row',
-			marginTop: '100%',
+			marginTop: 10,
 			opacity: 0.15,
 			textTransform: 'uppercase',
 		},

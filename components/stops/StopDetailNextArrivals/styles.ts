@@ -21,7 +21,6 @@ export const styles = () => {
 		/* SECTION WRAPPER */
 
 		sectionWrapper: {
-			// paddingBottom: theming.sizeSpacing15,
 			paddingTop: theming.sizeSpacing15,
 			width: '100%',
 		},
