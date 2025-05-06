@@ -16,12 +16,16 @@ export default function HomeScreen() {
 		<View style={{ backgroundColor, flex: 1 }}>
 			<Header />
 			<View style={{ flex: 1, paddingHorizontal: 20, paddingTop: insets.top + 100 }}>
-				<Link href="/stop/012215">
+				<Link href="/stop/071157">
 					<Text>012215</Text>
 				</Link>
 				<WidgetCards type="lines" />
 				<WidgetCards type="stops" />
+				<Link href="/line/4701">
+					<Text>4701</Text>
+				</Link>
 			</View>
+
 		</View>
 	);
 }

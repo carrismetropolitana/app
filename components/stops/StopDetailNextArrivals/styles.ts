@@ -47,5 +47,20 @@ export const styles = () => {
 			paddingLeft: 15,
 		},
 
+		/* * */
+		/* ARRIVAL TIME */
+		arrival: {
+			fontSize: 16,
+		},
+
+		/* * */
+		/* ARRIVAL CONTAINER */
+		arrivalContainer: {
+			alignItems: 'center',
+			flexDirection: 'row',
+			gap: 5,
+			width: '100%',
+		},
+
 	});
 };

@@ -1,8 +1,12 @@
 /* * */
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
+import { LineBadge } from '@/components/lines/LineBadge';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
+import { NextArrivalStop } from '@/types/timetables.types';
 import { ListItem, Text } from '@rneui/themed';
+import { DateTime } from 'luxon';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -15,12 +19,65 @@ export default function StopDetailNextArrivals() {
 
 	//
 	// A. Setup variables
+	const [allFormattedArrivals, setFormattedArrivals] = useState<NextArrivalStop[]>([]);
+
 	const { t } = useTranslation('translation', { keyPrefix: 'stops.StopDetails' });
 
 	const stopDetailNextArrivals = styles();
 	const stopsDetailContext = useStopsDetailContext();
+
 	//
-	// B. Render components
+	// B. Transform data
+	useEffect(() => {
+		const formatArrivals = () => {
+			const nowInSeconds = DateTime.now().toSeconds();
+			const allFormattedArrivalsResult: NextArrivalStop[] = [];
+			if (!stopsDetailContext.data.timetable_realtime_future) return;
+			for (const arrival of stopsDetailContext.data.timetable_realtime_future) {
+				if (arrival.scheduled_arrival_unix == null) {
+					continue;
+				}
+
+				const secondsUntilArrival = Math.floor(arrival.scheduled_arrival_unix - nowInSeconds);
+				const minutesUntilArrival = Math.floor(secondsUntilArrival / 60);
+				const hoursUntilArrival = Math.floor(minutesUntilArrival / 60);
+
+				let labelResult = '';
+				if (minutesUntilArrival <= 0) {
+					labelResult = t('NextArrivals.arriving');
+				}
+				if (hoursUntilArrival > 0) {
+					labelResult += `${hoursUntilArrival} ${t('NextArrivals.hours')} `;
+				}
+				if (minutesUntilArrival > 0) {
+					labelResult += `${minutesUntilArrival % 60} ${t('NextArrivals.minutes')}`;
+				}
+
+				allFormattedArrivalsResult.push({
+					estimated_arrival_hours: hoursUntilArrival,
+					estimated_arrival_minutes: minutesUntilArrival,
+					estimated_arrival_seconds: secondsUntilArrival,
+					estimated_arrival_unix: arrival.scheduled_arrival_unix,
+					label: labelResult.trim(),
+				});
+			}
+
+			setFormattedArrivals(allFormattedArrivalsResult);
+
+		//
+		};
+
+		formatArrivals();
+
+		const interval = setInterval(formatArrivals, 1000);
+
+		return () => clearInterval(interval);
+	}, [stopsDetailContext.data.timetable_realtime_future]);
+	//
+
+	//
+	// C. Render components
+
 	return (
 		<View style={stopDetailNextArrivals.sectionWrapper}>
 			<Text style={stopDetailNextArrivals.sectionHeading}>{t('heading')}</Text>
@@ -29,12 +86,22 @@ export default function StopDetailNextArrivals() {
 					{stopsDetailContext.data.timetable_realtime_future.map(tripData => (
 						<ListItem key={tripData.trip_id} bottomDivider>
 							<ListItem.Content>
-								<ListItem.Title>{tripData.headsign}</ListItem.Title>
-								<ListItem.Subtitle>{tripData.estimated_arrival_unix ? 'realtime' : 'scheduled'}</ListItem.Subtitle>
+								<ListItem.Title>
+									<View style={stopDetailNextArrivals.arrivalContainer}>
+										<LineBadge lineId={tripData.line_id} size="lg" />
+										<Text>{tripData.headsign}</Text>
+										{allFormattedArrivals.filter(formattedArrival => formattedArrival.estimated_arrival_unix === tripData.scheduled_arrival_unix).map(formattedArrival => (
+											<Text key={formattedArrival.estimated_arrival_unix} style={stopDetailNextArrivals.arrival}>
+												{formattedArrival.label}
+											</Text>
+										))}
+									</View>
+								</ListItem.Title>
 							</ListItem.Content>
 							<ListItem.Chevron />
 						</ListItem>
 					))}
+
 					<ListItem>
 						<ListItem.Content>
 							<NoDataLabel text={t('end_of_day')} fill />

@@ -2,7 +2,7 @@
 
 import type { Line, Stop } from '@carrismetropolitana/api-types/network';
 
-import { createDocCollection } from '@/app/hooks/useOtheSearch';
+import createDocCollection from '@/app/hooks/useOtheSearch';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import * as Location from 'expo-location';
@@ -204,6 +204,7 @@ export const LinesListContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		if (stopsContext.data.stops.length > 0 && allLinesData.length > 0 && locationContext.data.currentCords.latitude !== 0 && locationContext.data.currentCords.longitude !== 0) {
+			console.log('ran');
 			getLinesAroundLocation();
 		}
 	}, [stopsContext.data.stops, allLinesData, locationContext.data.currentCords]);

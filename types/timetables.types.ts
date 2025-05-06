@@ -50,3 +50,10 @@ export interface NextArrival {
 	type: 'realtime' | 'scheduled'
 	unixTs: number
 }
+export interface NextArrivalStop {
+	estimated_arrival_hours: number
+	estimated_arrival_minutes: number
+	estimated_arrival_seconds: number
+	estimated_arrival_unix: number
+	label: string
+}

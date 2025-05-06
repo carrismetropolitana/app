@@ -60,7 +60,7 @@ export const LocationsContextProvider = ({ children }) => {
 	const { data: fetchedParishesData, isLoading: fetchedParishesLoading } = useSWR<ApiResponse<Parish[]>, Error>(`${Routes.API}/locations/parishes`);
 	const { data: fetchedLocalitiesData, isLoading: fetchedLocalitiesLoading } = useSWR<ApiResponse<Locality[]>, Error>(`${Routes.API}/locations/localities`);
 	const [locationPermission, setLocationPermission] = useState<string>('');
-	const [currentCords, setCurrentCords] = useState<{ latitude: number, longitude: number }>();
+	const [currentCoordinates, setCurrentCoordinates] = useState<{ latitude: number, longitude: number }>();
 
 	useEffect(() => {
 		checkPermission();
@@ -89,7 +89,7 @@ export const LocationsContextProvider = ({ children }) => {
 			const { coords } = await Location.getCurrentPositionAsync({
 				accuracy: Location.Accuracy.Balanced,
 			});
-			setCurrentCords(coords);
+			setCurrentCoordinates(coords);
 		}
 	};
 
@@ -143,7 +143,7 @@ export const LocationsContextProvider = ({ children }) => {
 			getParishById,
 		},
 		data: {
-			currentCords: currentCords || { latitude: 0, longitude: 0 },
+			currentCords: currentCoordinates || { latitude: 0, longitude: 0 },
 			districts: allDistrictsData || [],
 			localitites: allLocalitiesData || [],
 			locationPermission: locationPermission,
