@@ -1,5 +1,5 @@
 /* * */
-import { StopsDetail } from '@/components/stops/StopsDetail';
+import { StopDetail } from '@/components/stops/StopDetail';
 import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
@@ -38,7 +38,7 @@ export default function Page() {
 
 	return (
 		<StopsDetailContextProvider stopId={stop_id}>
-			<StopsDetail />
+			<StopDetail />
 		</StopsDetailContextProvider>
 	);
 

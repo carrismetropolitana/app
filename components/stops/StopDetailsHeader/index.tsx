@@ -5,31 +5,23 @@ import { FavoriteToggle } from '@/components/common/FavoriteToggle';
 import { IconDisplay } from '@/components/common/IconDisplay';
 import { Section } from '@/components/common/layout/Section';
 import { Surface } from '@/components/common/layout/Surface';
-import { LineBadge } from '@/components/lines/LineBadge';
 import { StopDisplayLocation } from '@/components/stops/StopDisplayLocation';
 import { StopDisplayName } from '@/components/stops/StopDisplayName';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { theming } from '@/theme/Variables';
-import { ListItem, Text } from '@rneui/themed';
 import { IconHomePlus, IconVolume } from '@tabler/icons-react-native';
-import { Link } from 'expo-router';
-import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
 
-import StopDetailPager from '../StopDetailPagerView';
 import { styles } from './styles';
 
 /* * */
 
-export function StopsDetailHeader() {
+export function StopDetailHeader() {
 	//
 
 	//
 	// A. Setup variables
-
-	const { t } = useTranslation('translation', { keyPrefix: 'stops.StopDetails' });
 	const profileContext = useProfileContext();
 	const stopsDetailContext = useStopsDetailContext();
 
@@ -56,7 +48,7 @@ export function StopsDetailHeader() {
 	}
 
 	return (
-		<ScrollView>
+		<>
 			<Surface>
 				<View style={stopDetailsHeader.headingWrapper}>
 					<Section withBottomDivider>
@@ -85,45 +77,8 @@ export function StopsDetailHeader() {
 					</Section>
 				</View>
 
-				<View style={stopDetailsHeader.sectionWrapper}>
-					<Text style={stopDetailsHeader.sectionHeading}>{t('heading')}</Text>
-
-					<ListItem>
-						<ListItem.Content>
-							<ListItem.Title>THIS IS JUST A DEMO</ListItem.Title>
-							<ListItem.Subtitle>a functionalilty demo</ListItem.Subtitle>
-						</ListItem.Content>
-						<ListItem.Chevron />
-					</ListItem>
-
-					<Text style={stopDetailsHeader.upcomingCirculationsDescription}>{t('description')}</Text>
-				</View>
-
-				<View style={stopDetailsHeader.sectionWrapper}>
-					<Text style={stopDetailsHeader.sectionHeading}>{t('second_heading')}</Text>
-					<View style={stopDetailsHeader.lineWrapper}>
-						{/* {stopsDetailContext.data.lines && stopsDetailContext.data.lines.map(line => (
-							<Link key={line.id} href={`/line/${line.id}`}>
-								<View key={line.id} style={stopDetailsHeader.lineItem}>
-									<LineBadge key={line.id} lineData={line} size="lg" />
-									<Text>{line.long_name}</Text>
-								</View>
-							</Link>
-						))} */}
-						{stopsDetailContext.data.stop.pattern_ids && stopsDetailContext.data.stop.pattern_ids.map(item => (
-							
-							<Text> {item} </Text>
-						))}
-
-					</View>
-				</View>
-
-				<View style={stopDetailsHeader.sectionWrapper}>
-					<Text style={stopDetailsHeader.sectionHeading}>{t('third_heading')}</Text>
-					<StopDetailPager />
-				</View>
 			</Surface>
-		</ScrollView>
+		</>
 	);
 
 	//

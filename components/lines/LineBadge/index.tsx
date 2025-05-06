@@ -44,7 +44,6 @@ export function LineBadge({ color, lineData, lineId, onPress, shortName, size = 
 
 	//
 	// C. Render components
-
 	return (
 		<View>
 			<Text style={[badgeStyles, { backgroundColor: color || lineData?.color, color: textColor || lineData?.text_color || fetchedLineData?.text_color }]}>

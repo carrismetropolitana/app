@@ -85,19 +85,6 @@ export const styles = () => {
 			paddingBottom: 15,
 			paddingLeft: 15,
 		},
-
-		/* * */
-		/* UPCOMING CIRCULATIONS */
-
-		upcomingCirculationsDescription: {
-			color: fontColor,
-			fontSize: theming.fontSizeText,
-			fontWeight: theming.fontWeightText as '500',
-			marginTop: 20,
-			paddingBottom: 15,
-			paddingLeft: 15,
-		},
-
 		/* * */
 		/* SECTION WRAPPER */
 
@@ -107,12 +94,6 @@ export const styles = () => {
 			width: '100%',
 		},
 
-		/* * */
-		/* LINE WRAPPER */
-		lineWrapper: {
-			gap: 10,
-			paddingLeft: 15,
-		},
 		/* * */
 		/* LINE ITEM */
 		lineItem: {
