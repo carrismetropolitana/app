@@ -48,37 +48,39 @@ export function StopDetailHeader() {
 	}
 
 	return (
-		<>
-			<Surface>
-				<View style={stopDetailsHeader.headingWrapper}>
-					<Section withBottomDivider>
+		<Surface>
+			<View style={stopDetailsHeader.headingWrapper}>
+				<Section withBottomDivider>
+					<View style={stopDetailsHeader.headerDetailsContainer}>
 						<View style={stopDetailsHeader.nameWrapper}>
 							<StopDisplayName longName={stopsDetailContext.data.stop.long_name} size="lg" />
+
+							{/* <StopDisplayTts stopId={stopsDetailContext.data.stop.id} /> */}
+						</View>
+						<View style={stopDetailsHeader.actionsWrapper}>
 							<FavoriteToggle color={theming.colorBrand} isActive={stopsDetailContext.flags.is_favorite} onToggle={handleToggleFavorite} />
 							<IconHomePlus color="#9696A0" size={24} />
 							<IconVolume color="#9696A0" size={24} />
-							{/* <StopDisplayTts stopId={stopsDetailContext.data.stop.id} /> */}
 						</View>
-						<StopDisplayLocation localityId={stopsDetailContext.data.stop.locality_id} municipalityId={stopsDetailContext.data.stop.municipality_id} size="lg" />
-						<View style={stopDetailsHeader.badgesWrapper}>
-							<CopyBadge hasBorder={false} label={'#' + stopsDetailContext.data.stop.id} value={stopsDetailContext.data.stop.id} />
-							<CopyBadge hasBorder={false} label={`${stopsDetailContext.data.stop.lat}, ${stopsDetailContext.data.stop.lon}`} value={stopsDetailContext.data.stop.lat + '\t' + stopsDetailContext.data.stop.lon} />
+					</View>
+					<StopDisplayLocation localityId={stopsDetailContext.data.stop.locality_id} municipalityId={stopsDetailContext.data.stop.municipality_id} size="lg" />
+					<View style={stopDetailsHeader.badgesWrapper}>
+						<CopyBadge hasBorder={false} label={'#' + stopsDetailContext.data.stop.id} value={stopsDetailContext.data.stop.id} />
+						<CopyBadge hasBorder={false} label={`${stopsDetailContext.data.stop.lat}, ${stopsDetailContext.data.stop.lon}`} value={stopsDetailContext.data.stop.lat + '\t' + stopsDetailContext.data.stop.lon} />
+					</View>
+					{stopsDetailContext.data.stop.facilities.length > 0 && (
+						<View style={stopDetailsHeader.facilitiesWrapper}>
+							{stopsDetailContext.data.stop.facilities.map((facility, index) => (
+								<View key={index}>
+									<IconDisplay key={facility} category="facilities" name={facility} />
+								</View>
+							))}
+							<View />
 						</View>
-						{stopsDetailContext.data.stop.facilities.length > 0 && (
-							<>
-								{stopsDetailContext.data.stop.facilities.map((facility, index) => (
-									<View key={index}>
-										<IconDisplay key={facility} category="facilities" name={facility} />
-									</View>
-								))}
-								<View />
-							</>
-						)}
-					</Section>
-				</View>
-
-			</Surface>
-		</>
+					)}
+				</Section>
+			</View>
+		</Surface>
 	);
 
 	//

@@ -42,9 +42,21 @@ export const styles = () => {
 		headingWrapper: {
 			alignItems: 'flex-start',
 			backgroundColor: '#FFFFFF',
+			flexDirection: 'row',
 			gap: 10,
 			width: '100%',
 		},
+		/* * */
+		/* HEADING DETAILS CONTAINER */
+
+		headerDetailsContainer: {
+			alignItems: 'flex-start',
+			backgroundColor: '#FFFFFF',
+			flexDirection: 'row',
+			gap: 10,
+			width: '100%',
+		},
+
 		/* * */
 		/* NAME WRAPPER */
 
@@ -52,9 +64,18 @@ export const styles = () => {
 			alignItems: 'center',
 			flexDirection: 'row',
 			flexWrap: 'wrap',
+			width: '70%',
+		},
+
+		/* * */
+		/* Actions Wrapper */
+
+		actionsWrapper: {
+			flexDirection: 'row',
 			gap: 10,
-			justifyContent: 'space-between',
-			width: '100%',
+			justifyContent: 'flex-end',
+			paddingRight: 10,
+			width: '30%',
 		},
 
 		/* * */
@@ -85,12 +106,13 @@ export const styles = () => {
 			paddingBottom: 15,
 			paddingLeft: 15,
 		},
-		/* * */
-		/* SECTION WRAPPER */
 
-		sectionWrapper: {
-			paddingBottom: theming.sizeSpacing15,
-			paddingTop: theming.sizeSpacing15,
+		/* * */
+		/* FACILITIES WRAPPER */
+
+		facilitiesWrapper: {
+			flexDirection: 'row',
+			gap: 10,
 			width: '100%',
 		},
 

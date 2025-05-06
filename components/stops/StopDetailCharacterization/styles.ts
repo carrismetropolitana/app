@@ -18,34 +18,31 @@ export const styles = () => {
 
 	return StyleSheet.create({
 		/* * */
-		/* SECTION WRAPPER */
+		/* STOP DETAIL CHARACTERIZATION PAGER WRAPPER */
 
-		sectionWrapper: {
-			// paddingBottom: theming.sizeSpacing15,
+		stopDetailCharacterizationPagerWrapper: {
+			paddingBottom: theming.sizeSpacing15,
 			paddingTop: theming.sizeSpacing15,
 			width: '100%',
 		},
 		/* * */
-		/* SECTION HEADING */
+		/* STOP DETAIL CHARACTERIZATION DETAILS WRAPPER */
 
 		sectionHeading: {
 			color: fontColor,
 			fontSize: theming.fontSizeNav,
 			fontWeight: theming.fontWeightNav as '600',
 			marginTop: 20,
-			paddingBottom: 15,
+
 			paddingLeft: 15,
 		},
-
-		/* * */
-		/* UPCOMING CIRCULATIONS */
-
-		upcomingCirculationsDescription: {
+		stopDetailCharacterizationDetailsWrapper: {
 			color: fontColor,
-			fontSize: theming.fontSizeText,
-			fontWeight: theming.fontWeightText as '500',
+			fontSize: theming.fontSizeNav,
+			fontWeight: theming.fontWeightNav as '600',
 			marginTop: 20,
-			paddingLeft: 15,
+			paddingBottom: 15,
+			width: '100%',
 		},
 
 	});
