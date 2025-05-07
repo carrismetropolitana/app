@@ -13,7 +13,7 @@ export const styles = () => {
 		? theming.colorSystemBackgroundLight200
 		: theming.colorSystemBackgroundDark200;
 	const fontColor = isLight
-		? theming.colorPrimaryBlack
+		? theming.colorSystemText200
 		: theming.colorSystemText300;
 
 	return StyleSheet.create({
@@ -52,7 +52,9 @@ export const styles = () => {
 		/* * */
 		/* ARRIVAL TIME */
 		arrival: {
+			color: theming.colorStatusOkText,
 			fontSize: 16,
+			fontWeight: theming.fontWeightTitle as '600',
 		},
 
 		/* * */
@@ -74,5 +76,42 @@ export const styles = () => {
 			paddingRight: 10,
 		},
 
+		/* * */
+		/* SEE MORE */
+
+		see_more: {
+			alignContent: 'center',
+			alignItems: 'center',
+			color: fontColor,
+			fontSize: theming.fontSizeText,
+			fontWeight: theming.fontWeightText as '500',
+			paddingVertical: 10,
+			textAlign: 'center',
+			width: '100%',
+		},
+
+		/* * */
+		/* DOT / RIPPLE */
+		dot: {
+			backgroundColor: theming.colorStatusOkText,
+			borderRadius: 5,
+			height: 6,
+			width: 6,
+		},
+		ripple: {
+			alignItems: 'center',
+			backgroundColor: theming.colorStatusOkBackground,
+			borderRadius: 999,
+			height: 25,
+			justifyContent: 'center',
+			marginRight: 5,
+			width: 25,
+		},
+
+		rippleContainer: {
+			alignItems: 'center',
+			flexDirection: 'row',
+			justifyContent: 'flex-end',
+		},
 	});
 };

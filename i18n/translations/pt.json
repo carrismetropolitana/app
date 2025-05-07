@@ -268,7 +268,9 @@
 			"NextArrivals": {
 				"arriving": "Coming up",
 				"hours": "h",
-				"minutes": "min"
+				"minutes": "min",
+				"see_less": "Ver menos",
+				"see_more": "Ver mais"
 			},
 			"description": "Os tempos de passagem são estimados e podem estar sujeitos a alterações devido a trânsito, obras ou outros imprevistos. Verifique a posição do veículo no mapa para obter sempre a informação mais fiável.",
 			"end_of_day": "Fim do dia",

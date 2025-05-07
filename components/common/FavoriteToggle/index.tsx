@@ -3,6 +3,7 @@
 import { Loader } from '@/components/common/Loader';
 import { useConsentContext } from '@/contexts/Consent.context';
 import { useProfileContext } from '@/contexts/Profile.context';
+import { theming } from '@/theme/Variables';
 import { IconHeart, IconHeartFilled, IconHeartX } from '@tabler/icons-react-native';
 import { TouchableOpacity, View } from 'react-native';
 
@@ -60,7 +61,7 @@ export function FavoriteToggle({ color, isActive, onToggle }: Props) {
 		return (
 			<TouchableOpacity onPress={onToggle}>
 				<View style={favoriteToggleStyles.container}>
-					<IconHeartFilled style={{ backgroundColor: color }} />
+					<IconHeartFilled color={theming.colorBrand} fill={color} />
 				</View>
 			</TouchableOpacity>
 		);
@@ -69,7 +70,7 @@ export function FavoriteToggle({ color, isActive, onToggle }: Props) {
 	return (
 		<TouchableOpacity onPress={onToggle}>
 			<View style={favoriteToggleStyles.container}>
-				<IconHeart />
+				<IconHeart color={theming.colorSystemText300} />
 			</View>
 		</TouchableOpacity>
 	);

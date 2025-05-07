@@ -294,7 +294,9 @@
 			"NextArrivals": {
 				"arriving": "Coming up",
 				"hours": "h",
-				"minutes": "min"
+				"minutes": "min",
+				"see_less": "See less",
+				"see_more": "See more"
 			},
 			"description": "The passage times are estimated and may be subject to changes due to traffic, roadworks or other unforeseen events. Check the vehicle's position on the map to always obtain the most reliable information.",
 			"end_of_day": "End of day",
