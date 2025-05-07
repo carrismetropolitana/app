@@ -10,8 +10,8 @@ export const styles = () => {
 	const { theme } = useThemeContext();
 	const isLight = theme.mode === 'light';
 	const backgroundColor = isLight
-		? theming.colorSystemBackgroundLight200
-		: theming.colorSystemBackgroundDark200;
+		? theming.colorSystemBackgroundLight100
+		: theming.colorSystemBackgroundDark100;
 	const fontColor = isLight
 		? theming.colorSystemText200
 		: theming.colorSystemText300;
@@ -41,7 +41,7 @@ export const styles = () => {
 
 		headingWrapper: {
 			alignItems: 'flex-start',
-			backgroundColor: '#FFFFFF',
+			backgroundColor: backgroundColor,
 			flexDirection: 'row',
 			gap: 10,
 			width: '100%',
@@ -51,7 +51,6 @@ export const styles = () => {
 
 		headerDetailsContainer: {
 			alignItems: 'flex-start',
-			backgroundColor: '#FFFFFF',
 			flexDirection: 'row',
 			gap: 10,
 			width: '100%',

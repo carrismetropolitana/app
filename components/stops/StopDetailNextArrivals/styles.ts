@@ -13,7 +13,7 @@ export const styles = () => {
 		? theming.colorSystemBackgroundLight200
 		: theming.colorSystemBackgroundDark200;
 	const fontColor = isLight
-		? theming.colorSystemText200
+		? theming.colorPrimaryBlack
 		: theming.colorSystemText300;
 
 	return StyleSheet.create({
@@ -21,6 +21,7 @@ export const styles = () => {
 		/* SECTION WRAPPER */
 
 		sectionWrapper: {
+			backgroundColor: backgroundColor,
 			paddingTop: theming.sizeSpacing15,
 			width: '100%',
 		},
@@ -28,6 +29,7 @@ export const styles = () => {
 		/* SECTION HEADING */
 
 		sectionHeading: {
+
 			color: fontColor,
 			fontSize: theming.fontSizeNav,
 			fontWeight: theming.fontWeightNav as '600',
@@ -60,6 +62,16 @@ export const styles = () => {
 			flexDirection: 'row',
 			gap: 5,
 			width: '100%',
+		},
+
+		/* * */
+		/* ARRIVAL CONTAINER */
+		headsign: {
+			color: fontColor,
+			fontSize: theming.fontSizeText,
+			fontWeight: theming.fontWeightHeading as '700',
+			paddingLeft: 10,
+			paddingRight: 10,
 		},
 
 	});

@@ -37,12 +37,19 @@ export const styles = () => {
 			paddingLeft: 15,
 		},
 		stopDetailCharacterizationDetailsWrapper: {
+			backgroundColor: backgroundColor,
 			color: fontColor,
 			fontSize: theming.fontSizeNav,
 			fontWeight: theming.fontWeightNav as '600',
 			marginTop: 20,
 			paddingBottom: 15,
 			width: '100%',
+		},
+
+		/* * */
+		/* SECTION WRAPPER */
+		sectionWrapper: {
+			backgroundColor: backgroundColor,
 		},
 
 	});

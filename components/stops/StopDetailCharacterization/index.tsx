@@ -21,7 +21,7 @@ export default function StopDetailCharacterization() {
 	//
 	// A. Render components
 	return (
-		<>
+		<View style={stopDetailCharacterizationStyles.sectionWrapper}>
 			<Text style={stopDetailCharacterizationStyles.sectionHeading}> {t('third_heading')}</Text>
 			<View style={stopDetailCharacterizationStyles.stopDetailCharacterizationPagerWrapper}>
 				<StopDetailPager />
@@ -42,7 +42,7 @@ export default function StopDetailCharacterization() {
 					<ListItem.Chevron />
 				</ListItem>
 			</View>
-		</>
+		</View>
 	);
 
 	//

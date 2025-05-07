@@ -1,7 +1,9 @@
 /* * */
 
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
+
+import { styles } from './styles';
 
 /* * */
 
@@ -19,36 +21,12 @@ export function NoDataLabel({ fill, text, withMinHeight }: NoDataLabelProps) {
 	// A. Setup variables
 
 	const { t } = useTranslation('translation', { keyPrefix: 'layout.NoDataLabel' });
-
-	const styles = StyleSheet.create({
-		container: {
-			flex: 1,
-			flexDirection: 'row',
-			marginTop: 10,
-			opacity: 0.15,
-			textTransform: 'uppercase',
-		},
-		fill: {
-			height: '100%',
-			justifyContent: 'center',
-			textAlign: 'center',
-			width: '100%',
-		},
-		text: {
-			fontSize: 20,
-			fontWeight: 'bold',
-			letterSpacing: 1,
-			textAlign: 'center',
-		},
-		withMinHeight: {
-			padding: 30,
-		},
-	});
+	const noDataLabelStyles = styles();
 
 	const containerStyle = [
-		styles.container,
-		fill && styles.fill,
-		withMinHeight && styles.withMinHeight,
+		noDataLabelStyles.container,
+		fill && noDataLabelStyles.fill,
+		withMinHeight && noDataLabelStyles.withMinHeight,
 	];
 
 	//
@@ -56,7 +34,7 @@ export function NoDataLabel({ fill, text, withMinHeight }: NoDataLabelProps) {
 
 	return (
 		<View style={containerStyle}>
-			<Text style={styles.text}>{text || t('default')}</Text>
+			<Text style={noDataLabelStyles.text}>{text || t('default')}</Text>
 		</View>
 	);
 

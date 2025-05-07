@@ -12,30 +12,12 @@ export const styles = () => {
 	const backgroundColor = isLight
 		? theming.colorSystemBackgroundLight200
 		: theming.colorSystemBackgroundDark200;
-	const fontColor = isLight
-		? theming.colorSystemText200
-		: theming.colorSystemText300;
 
 	return StyleSheet.create({
 		/* * */
-		/* SECTION WRAPPER */
-
-		sectionWrapper: {
+		/* WRAPPER */
+		wrapper: {
 			backgroundColor: backgroundColor,
-			paddingBottom: theming.sizeSpacing15,
-			paddingTop: theming.sizeSpacing15,
-			width: '100%',
-		},
-		/* * */
-		/* SECTION HEADING */
-
-		sectionHeading: {
-			color: fontColor,
-			fontSize: theming.fontSizeNav,
-			fontWeight: theming.fontWeightNav as '600',
-			marginTop: 20,
-			paddingBottom: 15,
-			paddingLeft: 15,
 		},
 
 	});

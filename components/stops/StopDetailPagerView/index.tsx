@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, View } from 'react-native';
 import PagerView from 'react-native-pager-view';
+
+import { styles } from './styles';
 
 export default function StopDetailPager() {
 	const images = [
@@ -10,27 +12,29 @@ export default function StopDetailPager() {
 	];
 	const [currentPage, setCurrentPage] = useState(0);
 
+	const stopDetailPagerStyles = styles();
+
 	return (
-		<View style={styles.container}>
+		<View style={stopDetailPagerStyles.container}>
 			<PagerView
 				initialPage={0}
 				onPageSelected={e => setCurrentPage(e.nativeEvent.position)}
-				style={styles.pager}
+				style={stopDetailPagerStyles.pager}
 			>
 				{images.map((uri, i) => (
-					<View key={i} style={styles.page}>
-						<Image source={{ uri: uri }} style={styles.image} />
+					<View key={i} style={stopDetailPagerStyles.page}>
+						<Image source={{ uri: uri }} style={stopDetailPagerStyles.image} />
 					</View>
 				))}
 			</PagerView>
 
-			<View style={styles.dotsContainer}>
+			<View style={stopDetailPagerStyles.dotsContainer}>
 				{images.map((_, i) => (
 					<View
 						key={i}
 						style={[
-							styles.dot,
-							i === currentPage ? styles.dotActive : styles.dotInactive,
+							stopDetailPagerStyles.dot,
+							i === currentPage ? stopDetailPagerStyles.dotActive : stopDetailPagerStyles.dotInactive,
 						]}
 					/>
 				))}
@@ -38,23 +42,3 @@ export default function StopDetailPager() {
 		</View>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: { backgroundColor: '#fff', flex: 1, height: 300, width: '100%' },
-	dot: {
-		borderRadius: 5,
-		height: 10,
-		marginHorizontal: 6,
-		width: 10,
-	},
-	dotActive: { backgroundColor: '#333' },
-	dotInactive: { backgroundColor: '#ccc' },
-	dotsContainer: {
-		flexDirection: 'row',
-		justifyContent: 'center',
-		paddingVertical: 12,
-	},
-	image: { borderRadius: 8, height: 300, width: '100%' },
-	page: { alignItems: 'center', justifyContent: 'center' },
-	pager: { flex: 1, width: '100%' },
-});

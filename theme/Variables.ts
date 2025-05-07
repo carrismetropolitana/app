@@ -22,15 +22,15 @@ export const theming = {
 	colorSystemBorder100: 'rgb(230,230,250)',
 	colorSystemBorder200: '#bebec8',
 	colorSystemBorderDark200: '#3C3C41',
-	colorSystemText100: '#000',
+	colorSystemText100: '#000000',
 	colorSystemText200: '#5a5a64',
 	colorSystemText300: '#9696a0',
 	colorSystemText400: '#d2d2dc',
 	colorSystemText900: '#ffffff',
 
 	// COLOR / PRIMARY
-	colorPrimaryBlack: '#000',
-	colorPrimaryWhite: '#fff',
+	colorPrimaryBlack: '#000000',
+	colorPrimaryWhite: '#ffffff',
 
 	// COLOR / STATUS
 	colorStatusDangerBackground: '#FFF5F5',

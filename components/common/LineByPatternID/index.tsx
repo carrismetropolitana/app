@@ -8,7 +8,7 @@ import { ListItemChevron } from '@rneui/base/dist/ListItem/ListItem.Chevron';
 import { ListItem, Skeleton } from '@rneui/themed';
 import { useEffect, useState } from 'react';
 
-import styles from './styles';
+import { styles } from './styles';
 
 /* * */
 
@@ -24,7 +24,7 @@ export default function LineByPatternID({ patternId }: Props) {
 	//
 	// A. Setup Variables
 
-	const [patternData, setPatternData] = useState<null | Pattern>(null);
+	const [patternData, setPatternData] = useState<null | Pattern[]>(null);
 
 	const addFavoriteStopStyles = styles();
 

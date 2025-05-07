@@ -20,6 +20,7 @@ export default function StopDetailNextArrivals() {
 	//
 	// A. Setup variables
 	const [allFormattedArrivals, setFormattedArrivals] = useState<NextArrivalStop[]>([]);
+	const [showAll, setShowAll] = useState(false);
 
 	const { t } = useTranslation('translation', { keyPrefix: 'stops.StopDetails' });
 
@@ -78,18 +79,22 @@ export default function StopDetailNextArrivals() {
 	//
 	// C. Render components
 
+	const arrivalsToShow = showAll
+		? stopsDetailContext.data.timetable_realtime_future
+		: stopsDetailContext.data.timetable_realtime_future?.slice(0, 5);
+
 	return (
 		<View style={stopDetailNextArrivals.sectionWrapper}>
 			<Text style={stopDetailNextArrivals.sectionHeading}>{t('heading')}</Text>
-			{stopsDetailContext.data.timetable_realtime_future && stopsDetailContext.data.timetable_realtime_future.length > 0 && (
+			{arrivalsToShow && arrivalsToShow.length > 0 && (
 				<>
-					{stopsDetailContext.data.timetable_realtime_future.map(tripData => (
+					{arrivalsToShow.map(tripData => (
 						<ListItem key={tripData.trip_id} bottomDivider>
 							<ListItem.Content>
 								<ListItem.Title>
 									<View style={stopDetailNextArrivals.arrivalContainer}>
 										<LineBadge lineId={tripData.line_id} size="lg" />
-										<Text>{tripData.headsign}</Text>
+										<Text style={stopDetailNextArrivals.headsign}>{tripData.headsign}</Text>
 										{allFormattedArrivals.filter(formattedArrival => formattedArrival.estimated_arrival_unix === tripData.scheduled_arrival_unix).map(formattedArrival => (
 											<Text key={formattedArrival.estimated_arrival_unix} style={stopDetailNextArrivals.arrival}>
 												{formattedArrival.label}
@@ -102,11 +107,23 @@ export default function StopDetailNextArrivals() {
 						</ListItem>
 					))}
 
-					<ListItem>
-						<ListItem.Content>
-							<NoDataLabel text={t('end_of_day')} fill />
-						</ListItem.Content>
-					</ListItem>
+					{showAll && (
+						<ListItem>
+							<ListItem.Content>
+								<NoDataLabel text={t('end_of_day')} fill />
+							</ListItem.Content>
+						</ListItem>
+					)}
+
+					{((stopsDetailContext.data.timetable_realtime_future?.length ?? 0) > 5) && (
+						<ListItem onPress={() => setShowAll(!showAll)} bottomDivider>
+							<ListItem.Content>
+								{!showAll
+									? <Text style={{ color: '#007AFF', textAlign: 'center', width: '100%' }}>{t('see_more', { defaultValue: 'Ver mais' })}</Text>
+									: <Text style={{ color: '#007AFF', textAlign: 'center', width: '100%' }}>{t('see_less', { defaultValue: 'Ver menos' })}</Text>}
+							</ListItem.Content>
+						</ListItem>
+					)}
 
 				</>
 			)}
