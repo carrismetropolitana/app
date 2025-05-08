@@ -1,11 +1,11 @@
 /* * */
 import 'react-native-gesture-handler';
 import { ThemeProvider } from '@/contexts/Theme.context';
-import { ConfigProviders } from '@/providers/config-providers';
 import 'react-native-reanimated';
-import { DataProviders } from '@/providers/data-providers';
+import { ConfigProviders } from '@/providers/config-providers';
 import '@/i18n';
 import 'expo-dev-client';
+import { DataProviders } from '@/providers/data-providers';
 import { MapProviders } from '@/providers/map-providers';
 import { PrivacyProviders } from '@/providers/privacy-providers';
 import { ProfileProviders } from '@/providers/profile-providers';
