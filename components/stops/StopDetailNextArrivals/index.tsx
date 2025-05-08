@@ -61,7 +61,7 @@ export default function StopDetailNextArrivals() {
 	}, [timetable, t]);
 
 	const arrivalsToShow = useMemo(
-		() => (showAll ? timetable : timetable.slice(0, 5)),
+		() => (showAll ? timetable : timetable.slice(0, 3)),
 		[showAll, timetable],
 	);
 
@@ -121,7 +121,7 @@ export default function StopDetailNextArrivals() {
 					</ListItem>
 				)}
 
-				{timetable.length > 5 && (
+				{timetable.length > 3 && (
 					<ListItem onPress={() => setShowAll(!showAll)} bottomDivider>
 						<ListItem.Content>
 							<Text style={stopDetailNextArrivals.see_more}>

@@ -22,13 +22,15 @@
 		"sourceMap": true,
 		"strict": true,
 		"strictNullChecks": true,
-		"target": "ES2017"
+		"target": "ES2017",
+		"typeRoots": ["./types", "./node_modules/@types"]
 	},
 	"include": [
 		"**/*.ts",
 		"**/*.tsx",
 		".expo/types/**/*.ts",
-		"expo-env.d.ts"
+		"expo-env.d.ts",
+		"declarations.d.ts"
 	],
 	"exclude": [
 		"**/node_modules",

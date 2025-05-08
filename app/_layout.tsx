@@ -9,7 +9,6 @@ import 'expo-dev-client';
 import { MapProviders } from '@/providers/map-providers';
 import { PrivacyProviders } from '@/providers/privacy-providers';
 import { ProfileProviders } from '@/providers/profile-providers';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -55,33 +54,31 @@ export default function RootLayout() {
 	return (
 		<StrictMode>
 			<GestureHandlerRootView>
-				<BottomSheetModalProvider>
-					<ConfigProviders>
-						<PrivacyProviders>
-							<DataProviders>
-								<ProfileProviders>
-									<MapProviders>
-										<QueryClientProvider client={queryClient}>
-											<ThemeProvider>
-												<StatusBar backgroundColor="transparent" style="auto" translucent />
-												<Stack>
-													<Stack.Screen
-														name="(tabs)"
-														options={{
-															headerShown: false,
-														}}
-													/>
-												</Stack>
-											</ThemeProvider>
-										</QueryClientProvider>
-									</MapProviders>
-
-								</ProfileProviders>
-							</DataProviders>
-						</PrivacyProviders>
-					</ConfigProviders>
-				</BottomSheetModalProvider>
+				<ConfigProviders>
+					<PrivacyProviders>
+						<DataProviders>
+							<ProfileProviders>
+								<MapProviders>
+									<QueryClientProvider client={queryClient}>
+										<ThemeProvider>
+											<StatusBar backgroundColor="transparent" style="auto" translucent />
+											<Stack>
+												<Stack.Screen
+													name="(tabs)"
+													options={{
+														headerShown: false,
+													}}
+												/>
+											</Stack>
+										</ThemeProvider>
+									</QueryClientProvider>
+								</MapProviders>
+							</ProfileProviders>
+						</DataProviders>
+					</PrivacyProviders>
+				</ConfigProviders>
 			</GestureHandlerRootView>
+
 		</StrictMode>
 	);
 
