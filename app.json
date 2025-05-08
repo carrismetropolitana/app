@@ -34,6 +34,35 @@
 		"orientation": "portrait",
 		"owner": "skasix00",
 		"plugins": [
+			[
+				"expo-alternate-app-icons",
+				[
+					{
+						"android": {
+							"backgroundColor": "#FFFFFF",
+							"foregroundImage": "./assets/images/adaptive-icon.png"
+						},
+						"ios": {
+							"dark": "./assets/images/dark.png",
+							"light": "./assets/images/light.png",
+							"tinted": "./assets/images/light.png"
+						},
+						"name": "default"
+					},
+					{
+						"android": {
+							"backgroundColor": "#000000",
+							"foregroundImage": "./assets/images/adaptive-icon.png"
+						},
+						"ios": {
+							"dark": "./assets/images/dark.png",
+							"light": "./assets/images/light.png",
+							"tinted": "./assets/images/light.png"
+						},
+						"name": "dark"
+					}
+				]
+			],
 			"expo-router",
 			"@maplibre/maplibre-react-native",
 			[
@@ -60,7 +89,8 @@
 					"locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
 				}
 			],
-			"expo-localization"
+			"expo-localization",
+			"expo-alternate-app-icons"
 		],
 		"runtimeVersion": {
 			"policy": "appVersion"
