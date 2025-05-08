@@ -1,3 +1,4 @@
+import FavoritesBar from '@/components/common/FavoritesBar';
 import { Header } from '@/components/common/layout/Header';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { Link } from 'expo-router';
@@ -16,12 +17,13 @@ export default function HomeScreen() {
 		<View style={{ backgroundColor, flex: 1 }}>
 			<Header />
 			<View style={{ flex: 1, paddingHorizontal: 20, paddingTop: insets.top + 100 }}>
-				<Link href="/stop/071157">
-					<Text>012215</Text>
-				</Link>
+				<FavoritesBar />
 				<WidgetCards type="lines" />
 				<WidgetCards type="stops" />
-				<Link href="/line/4701">
+				<Link href="/stop/071157" style={{ marginTop: 20 }}>
+					<Text>012215</Text>
+				</Link>
+				<Link href="/line/4701" style={{ marginTop: 20 }}>
 					<Text>4701</Text>
 				</Link>
 			</View>
