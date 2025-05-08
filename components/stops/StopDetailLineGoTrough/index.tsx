@@ -2,6 +2,7 @@
 
 import LineByPatternID from '@/components/common/LineByPatternID';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
+import { Link } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
@@ -40,7 +41,11 @@ export default function StopDetailLineGoTrough() {
 			{Object.entries(groupedByLineId).map(([lineId, patternIds]) => (
 				<View key={lineId} style={{ marginBottom: 16 }}>
 					{patternIds.map(patternId => (
-						<LineByPatternID key={patternId} patternId={patternId} />
+						<View key={patternId} style={{ flex: 1, width: '100%' }}>
+							<Link href={`/line/${lineId}`} style={{ flex: 1, width: '100%' }}>
+								<LineByPatternID patternId={patternId} />
+							</Link>
+						</View>
 					))}
 				</View>
 			))}

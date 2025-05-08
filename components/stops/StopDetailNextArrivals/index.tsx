@@ -5,6 +5,7 @@ import { LineBadge } from '@/components/lines/LineBadge';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { NextArrivalStop } from '@/types/timetables.types';
 import { ListItem, Text } from '@rneui/themed';
+import { Link } from 'expo-router';
 import { DateTime } from 'luxon';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -82,26 +83,28 @@ export default function StopDetailNextArrivals() {
 		const formatted = allFormattedArrivals.map[tripData.scheduled_arrival_unix];
 
 		return (
-			<ListItem key={tripData.trip_id} bottomDivider>
-				<ListItem.Content>
-					<ListItem.Title>
-						<View style={stopDetailNextArrivals.arrivalContainer}>
-							<LineBadge lineId={tripData.line_id} size="lg" />
-							<Text style={stopDetailNextArrivals.headsign}>{tripData.headsign}</Text>
-							<View style={{ flex: 1 }} />
-							{formatted && (
-								<View style={stopDetailNextArrivals.rippleContainer}>
-									<View style={stopDetailNextArrivals.ripple}>
-										<View style={stopDetailNextArrivals.dot} />
+			<View style={{ flex: 1, width: '100%' }}>
+				<ListItem key={tripData.trip_id} bottomDivider>
+					<ListItem.Content>
+						<ListItem.Title>
+							<View style={stopDetailNextArrivals.arrivalContainer}>
+								<LineBadge lineId={tripData.line_id} size="lg" />
+								<Text style={stopDetailNextArrivals.headsign}>{tripData.headsign}</Text>
+								<View style={{ flex: 1 }} />
+								{formatted && (
+									<View style={stopDetailNextArrivals.rippleContainer}>
+										<View style={stopDetailNextArrivals.ripple}>
+											<View style={stopDetailNextArrivals.dot} />
+										</View>
+										<Text style={stopDetailNextArrivals.arrival}>{formatted.label}</Text>
 									</View>
-									<Text style={stopDetailNextArrivals.arrival}>{formatted.label}</Text>
-								</View>
-							)}
-						</View>
-					</ListItem.Title>
-				</ListItem.Content>
-				<ListItem.Chevron />
-			</ListItem>
+								)}
+							</View>
+						</ListItem.Title>
+					</ListItem.Content>
+					<ListItem.Chevron />
+				</ListItem>
+			</View>
 		);
 	};
 
@@ -110,7 +113,9 @@ export default function StopDetailNextArrivals() {
 			<Text style={stopDetailNextArrivals.sectionHeading}>{t('heading')}</Text>
 			<>
 				{arrivalsToShow.map(tripData => (
-					<ArrivalRow key={tripData.trip_id} tripData={tripData} />
+					<Link key={tripData.trip_id} href={`/line/${tripData.line_id}`} style={{ width: '100%' }}>
+						<ArrivalRow key={tripData.trip_id} tripData={tripData} />
+					</Link>
 				))}
 
 				{showAll && (

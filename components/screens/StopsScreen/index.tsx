@@ -11,6 +11,7 @@ import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { Camera } from '@maplibre/maplibre-react-native';
 import { ListItem } from '@rneui/themed';
+import { Link } from 'expo-router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, SafeAreaView, Text, View } from 'react-native';
@@ -87,24 +88,27 @@ export default function StopsScreen() {
 						<>
 							<ListItem>
 								<ListItem.Content>
-									<View style={{ alignItems: 'center', flexDirection: 'row', gap: 10 }}>
-										<Svg fill="none" height={21} viewBox="0 0 20 21" width={20}>
-											<Circle cx={10} cy={10.5} fill="#FFDD00"r={9} stroke="black" strokeWidth={2} />
-										</Svg>
-										<View style={{ alignItems: 'flex-start', flexDirection: 'column', gap: 10 }}>
-											<ListItem.Title>
-												<Text style={stopMapDetailStyles.stopName}>{stopData.long_name}</Text>
-											</ListItem.Title>
-											<ListItem.Subtitle>
-												<Text style={stopMapDetailStyles.metaData}>{stopData.id}</Text>
-												<Text style={stopMapDetailStyles.metaData}> • </Text>
-												<Text style={stopMapDetailStyles.metaData}>{stopData.municipality_id}</Text>
-											</ListItem.Subtitle>
+									<Link href={`/stops/${stopData.id}`} style={{ width: '100%' }}>
+										<View style={{ alignItems: 'center', flexDirection: 'row', gap: 10 }}>
+											<Svg fill="none" height={21} viewBox="0 0 20 21" width={20}>
+												<Circle cx={10} cy={10.5} fill="#FFDD00"r={9} stroke="black" strokeWidth={2} />
+											</Svg>
+											<View style={{ alignItems: 'flex-start', flexDirection: 'column', gap: 10 }}>
+												<ListItem.Title>
+													<Text style={stopMapDetailStyles.stopName}>{stopData.long_name}</Text>
+												</ListItem.Title>
+												<ListItem.Subtitle>
+													<Text style={stopMapDetailStyles.metaData}>{stopData.id}</Text>
+													<Text style={stopMapDetailStyles.metaData}> • </Text>
+													<Text style={stopMapDetailStyles.metaData}>{stopData.municipality_id}</Text>
+												</ListItem.Subtitle>
+											</View>
 										</View>
-									</View>
+									</Link>
 								</ListItem.Content>
 								<View style={{ width: 24 }} />
 								<ListItem.Chevron />
+
 							</ListItem>
 							<StopDetailNextArrivals />
 						</>
