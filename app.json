@@ -43,9 +43,9 @@
 							"foregroundImage": "./assets/images/adaptive-icon.png"
 						},
 						"ios": {
-							"dark": "./assets/images/dark.png",
-							"light": "./assets/images/light.png",
-							"tinted": "./assets/images/light.png"
+							"dark": "./assets/images/adaptive-icon.png",
+							"light": "./assets/images/adaptive-icon.png",
+							"tinted": "./assets/images/adaptive-icon.png"
 						},
 						"name": "default"
 					},
@@ -55,9 +55,9 @@
 							"foregroundImage": "./assets/images/adaptive-icon.png"
 						},
 						"ios": {
-							"dark": "./assets/images/dark.png",
-							"light": "./assets/images/light.png",
-							"tinted": "./assets/images/light.png"
+							"dark": "./assets/images/adaptive-icon.png",
+							"light": "./assets/images/adaptive-icon.png",
+							"tinted": "./assets/images/adaptive-icon.png"
 						},
 						"name": "dark"
 					}
@@ -69,6 +69,10 @@
 				"expo-splash-screen",
 				{
 					"backgroundColor": "#ffffff",
+					"dark": {
+						"backgroundColor": "#1e1e28",
+						"image": "adaptive-icon.png"
+					},
 					"image": "./assets/images/adaptive-icon.png",
 					"imageWidth": 200,
 					"resizeMode": "contain"

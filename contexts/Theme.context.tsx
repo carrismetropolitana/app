@@ -22,7 +22,6 @@ export const ThemeProvider: React.FC = ({ children }) => {
 		setTheme(prevTheme => (prevTheme.mode === 'light' ? darkTheme : lightTheme));
 	}, []);
 
-	// Sincroniza tema de UI
 	useEffect(() => {
 		const subscription = Appearance.addChangeListener(({ colorScheme }) => {
 			setTheme(colorScheme === 'dark' ? darkTheme : lightTheme);
@@ -30,19 +29,15 @@ export const ThemeProvider: React.FC = ({ children }) => {
 		return () => subscription.remove();
 	}, []);
 
-	// Troca dinâmica de ícone conforme tema do sistema
 	useEffect(() => {
 		const applyIcon = async (scheme: ColorSchemeName) => {
 			if (!(await supportsAlternateIcons)) return;
-			// Normaliza valores: dark => dark, qualquer outro => default
 			const iconName = scheme === 'dark' ? 'dark' : 'default';
 			await setAlternateAppIcon(iconName);
 		};
 
-		// Aplica na inicialização
 		applyIcon(Appearance.getColorScheme());
 
-		// Atualiza em mudanças de tema
 		const sub = Appearance.addChangeListener(({ colorScheme }) => {
 			applyIcon(colorScheme);
 		});
