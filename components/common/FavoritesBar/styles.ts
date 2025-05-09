@@ -12,5 +12,12 @@ export const styles = () => {
 			marginBottom: 20,
 			width: '100%',
 		},
+
+		/* * */
+		/* ITEM */
+
+		item: {
+			paddingLeft: 5,
+		},
 	});
 };

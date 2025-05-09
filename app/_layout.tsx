@@ -1,5 +1,4 @@
 /* * */
-import 'react-native-gesture-handler';
 import { ThemeProvider } from '@/contexts/Theme.context';
 import 'react-native-reanimated';
 import { ConfigProviders } from '@/providers/config-providers';
@@ -52,34 +51,31 @@ export default function RootLayout() {
 	// C. Render components
 
 	return (
-		<StrictMode>
-			<GestureHandlerRootView>
-				<ConfigProviders>
-					<PrivacyProviders>
-						<DataProviders>
-							<ProfileProviders>
-								<MapProviders>
-									<QueryClientProvider client={queryClient}>
-										<ThemeProvider>
-											<StatusBar backgroundColor="transparent" style="auto" translucent />
-											<Stack>
-												<Stack.Screen
-													name="(tabs)"
-													options={{
-														headerShown: false,
-													}}
-												/>
-											</Stack>
-										</ThemeProvider>
-									</QueryClientProvider>
-								</MapProviders>
-							</ProfileProviders>
-						</DataProviders>
-					</PrivacyProviders>
-				</ConfigProviders>
-			</GestureHandlerRootView>
-
-		</StrictMode>
+		<GestureHandlerRootView>
+			<ConfigProviders>
+				<PrivacyProviders>
+					<DataProviders>
+						<ProfileProviders>
+							<MapProviders>
+								<QueryClientProvider client={queryClient}>
+									<ThemeProvider>
+										<StatusBar backgroundColor="transparent" style="auto" translucent />
+										<Stack>
+											<Stack.Screen
+												name="(tabs)"
+												options={{
+													headerShown: false,
+												}}
+											/>
+										</Stack>
+									</ThemeProvider>
+								</QueryClientProvider>
+							</MapProviders>
+						</ProfileProviders>
+					</DataProviders>
+				</PrivacyProviders>
+			</ConfigProviders>
+		</GestureHandlerRootView>
 	);
 
 	//

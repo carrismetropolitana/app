@@ -3,9 +3,10 @@
 import { useProfileContext } from '@/contexts/Profile.context';
 import { Routes } from '@/utils/routes';
 import { Avatar } from '@rneui/themed';
+import React, { useMemo } from 'react';
 import { Image } from 'react-native';
 
-import { styles as useStyles } from './styles';
+import { styles } from './styles';
 
 /* * */
 
@@ -17,37 +18,36 @@ interface ProfileImageProps {
 }
 
 /* * */
-export function ProfileImage({ height, size, type, width }: ProfileImageProps) {
-	//
-
-	//
+export function ProfileImage({ height = 50, size = 50, type, width = 50 }: ProfileImageProps) {
 	// A. Setup variables
-	const styles = useStyles();
 	const profileContext = useProfileContext();
-	const profileImage = profileContext.data.profile?.profile?.profile_image && `${Routes.DEV_API_ACCOUNTS}/persona/` + profileContext.data.profile?.profile?.profile_image;
-	const defaultImage = 'assets/images/no-persona-image.png';
+	const profileImageStyles = styles();
+	const profileImage = useMemo(() => {
+		return profileContext.data.profile?.profile?.profile_image
+			? `${Routes.DEV_API_ACCOUNTS}/persona/${profileContext.data.profile.profile.profile_image}`
+			: null;
+	}, [profileContext.data.profile?.profile?.profile_image]);
+
+	// eslint-disable-next-line @typescript-eslint/no-require-imports
+	const defaultImage = require('assets/images/no-persona-image.png');
 
 	// B. Render Components
-	return (
-		<>
-			{type === 'url'
-				? (
-					<Avatar
-						containerStyle={styles.avatarContainer}
-						size={size}
-						source={{ uri: profileImage || '' }}
-						rounded
-					/>
-				)
-				: (
-					<Image
-						height={width}
-						src={defaultImage}
-						width={height}
-					/>
-				)}
-		</>
-	);
+	if (type === 'url') {
+		return (
+			<Avatar
+				containerStyle={profileImageStyles.avatarContainer}
+				size={size}
+				source={{ uri: profileImage || '' }}
+				rounded
+			/>
+		);
+	}
 
-	//
+	return (
+		<Image
+			resizeMode="contain"
+			source={defaultImage}
+			style={{ height, width }}
+		/>
+	);
 }

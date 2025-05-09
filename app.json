@@ -71,7 +71,7 @@
 					"backgroundColor": "#ffffff",
 					"dark": {
 						"backgroundColor": "#1e1e28",
-						"image": "adaptive-icon.png"
+						"image": "./assets/images/adaptive-icon.png"
 					},
 					"image": "./assets/images/adaptive-icon.png",
 					"imageWidth": 200,

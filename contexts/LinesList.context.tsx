@@ -204,7 +204,6 @@ export const LinesListContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		if (stopsContext.data.stops.length > 0 && allLinesData.length > 0 && locationContext.data.currentCords.latitude !== 0 && locationContext.data.currentCords.longitude !== 0) {
-			console.log('ran');
 			getLinesAroundLocation();
 		}
 	}, [stopsContext.data.stops, allLinesData, locationContext.data.currentCords]);

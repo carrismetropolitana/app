@@ -26,11 +26,10 @@ export default function FavoritesBar() {
 	//
 	// B, Transform data
 
-	const favoriteLineIds: string[] = profileContext.data.favorite_lines ?? [];
+	const favoriteLineIds: string[] = profileContext.data.profile?.favorites?.lines.flatMap(id => id.split('_')) || [];
 	const favoritesLines: Line[] = favoriteLineIds
 		.map(id => linesContext.data.lines.find((line: Line) => line.id === id))
 		.filter((line): line is Line => !!line);
-
 	//
 	// C. Render components
 
@@ -42,9 +41,11 @@ export default function FavoritesBar() {
 		<View style={favoriteBarStyles.container}>
 			<ScrollView showsHorizontalScrollIndicator={false} horizontal>
 				{favoritesLines.map(line => (
-					<Link key={line.id} href={`/line/${line.id}`}>
-						<LineBadge lineData={line} size="lg" />
-					</Link>
+					<View key={line.id} style={favoriteBarStyles.item}>
+						<Link href={`/line/${line.id}`}>
+							<LineBadge lineData={line} size="lg" />
+						</Link>
+					</View>
 				))}
 			</ScrollView>
 

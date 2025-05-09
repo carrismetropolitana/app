@@ -4,290 +4,177 @@ import AddFavoriteLine from '@/app/(modal)/AddFavoriteLine';
 import AddFavoriteStop from '@/app/(modal)/AddFavoriteStop';
 import EditableText from '@/components/common/EditableText';
 import FavoriteItem from '@/components/common/FavoriteItem';
+import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { Section } from '@/components/common/layout/Section';
 import { Surface } from '@/components/common/layout/Surface';
+import { ProfileImage } from '@/components/ProfileImage';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
-import { Routes } from '@/utils/routes';
-import { Avatar, Button, ButtonGroup, ListItem, Text } from '@rneui/themed';
-import { IconArrowLoopRight, IconArrowNarrowLeft, IconArrowsShuffle, IconBellRinging, IconBusStop, IconCirclePlusFilled } from '@tabler/icons-react-native';
+import { ButtonGroup, ListItem } from '@rneui/themed';
+import {
+	IconArrowLoopRight,
+	IconArrowNarrowLeft,
+	IconArrowsShuffle,
+	IconBellRinging,
+	IconBusStop,
+	IconCirclePlusFilled,
+} from '@tabler/icons-react-native';
 import { useNavigation } from 'expo-router';
-import { useEffect, useState } from 'react';
-import { Pressable, ScrollView, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Pressable, View } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 
-import { styles as useStyles } from './styles';
-
-/* * */
+import { styles } from './styles';
 
 export default function ProfileScreen() {
-	//
-
-	//
-	// A. Setup variables
-
 	const navigation = useNavigation();
 	const themeContext = useThemeContext();
-	const styles = useStyles();
+	const profileStyles = styles();
 	const profileContext = useProfileContext();
-	const { profile } = profileContext.data;
-	const [firstName, setFirstName] = useState(
-		profileContext.data.profile?.profile?.first_name ?? 'Sem',
-	);
-	const [lastName, setLastName] = useState(
-		profileContext.data.profile?.profile?.last_name ?? 'Nome',
-	);
+	const { persona_image, profile } = profileContext.data;
 
-	const widgets = (profile?.widgets ?? []).flatMap((widget) => {
-		if (widget.data.type === 'lines') {
-			return [widget];
-		}
+	const [firstName, setFirstName] = useState(profile?.profile?.first_name ?? 'Sem');
+	const [lastName, setLastName] = useState(profile?.profile?.last_name ?? 'Nome');
+
+	const initialWidgets = (profile?.widgets ?? []).flatMap((widget) => {
+		if (widget.data.type === 'lines') return [widget];
 		if (widget.data.type === 'stops' && Array.isArray(widget.data.pattern_ids)) {
 			return widget.data.pattern_ids.map(patternId => ({
 				...widget,
-				data: {
-					...widget.data,
-					pattern_ids: [patternId],
-				},
+				data: { ...widget.data, pattern_ids: [patternId] },
 			}));
 		}
 		return [];
 	});
 
+	const [widgetList, setWidgetList] = useState(initialWidgets);
+	useEffect(() => setWidgetList(initialWidgets), [profile?.widgets]);
+
 	const [modalFavoriteLineVisible, setModalFavoriteLineVisible] = useState(false);
 	const [modalFavoriteStopVisible, setModalFavoriteStopVisible] = useState(false);
-	const [pressed, setPressed] = useState(false);
 
-	//
-	// B. Fetch data
-
-	useEffect(() => {
-		navigation.setOptions({
-			headerStyle: {
-				backgroundColor:
-					themeContext.theme.mode === 'light'
-						? themeContext.theme.lightColors?.background
-						: themeContext.theme.darkColors?.background,
-			},
-		});
-	}, [navigation, themeContext.theme.mode]);
-
-	//
-	// C. Handle Actions
+	const saveTimer = useRef<NodeJS.Timeout | null>(null);
 
 	const handleFirstNameBlur = () => {
-		if (profileContext.data.profile) {
-			const updatedProfile = {
-				...profileContext.data.profile,
-				profile: {
-					...profileContext.data.profile.profile,
-					first_name: firstName,
-				},
-			};
-			profileContext.actions.updateLocalProfile(updatedProfile);
-		}
+		if (profile) profileContext.actions.updateLocalProfile({
+			...profile,
+			profile: { ...profile.profile, first_name: firstName },
+		});
 	};
-
 	const handleLastNameBlur = () => {
-		if (profileContext.data.profile) {
-			const updatedProfile = {
-				...profileContext.data.profile,
-				profile: {
-					...profileContext.data.profile.profile,
-					last_name: lastName,
-				},
-			};
-			profileContext.actions.updateLocalProfile(updatedProfile);
-		}
+		if (profile) profileContext.actions.updateLocalProfile({
+			...profile,
+			profile: { ...profile.profile, last_name: lastName },
+		});
 	};
+	const handleRefreshPersona = () => profileContext.actions.fetchPersona();
+	const goBackInHistory = () => profileContext.actions.setPreviousPersona();
 
-	const handlePress = () => {
-		setPressed(!pressed);
-		profileContext.actions.fetchPersona();
-	};
-	const goBackInHistory = () => {
-		profileContext.actions.setPreviousPersona();
-	};
+	const EditableNameField = ({ onBlur, onChangeText, value }: any) => (
+		<EditableText
+			onBlur={onBlur}
+			onChangeText={onChangeText}
+			style={profileStyles.userFullNameText}
+			value={value}
+		/>
+	);
 
-	//
-	// D. Render Components
+	const FavoriteOption = ({ disabled, icon, onPress, subtitle, title }: any) => (
+		<Pressable disabled={disabled} onPress={onPress}>
+			<ListItem disabled={disabled} disabledStyle={{ opacity: 0.5 }}>
+				{icon}
+				<ListItem.Content>
+					<ListItem.Title style={profileStyles.listTitle}>{title}</ListItem.Title>
+					{subtitle && <ListItem.Subtitle>{subtitle}</ListItem.Subtitle>}
+				</ListItem.Content>
+				<IconCirclePlusFilled
+					color={theming.colorSystemText900}
+					fill="#3CB43C"
+					size={24}
+				/>
+			</ListItem>
+		</Pressable>
+	);
 
-	const renderFavoriteItem = ({ drag, isActive, item }: any) => {
-		return (
-			<TouchableOpacity disabled={isActive}>
-				<FavoriteItem data={item} drag={drag} />
-			</TouchableOpacity>
-		);
-	};
+	const renderFavoriteItem = ({ drag, isActive, item }: any) => (
+		<Pressable disabled={isActive} onLongPress={drag}>
+			<FavoriteItem data={item} />
+		</Pressable>
+	);
 
 	const buttons = [
 		{ element: () => (
 			<Pressable onPress={goBackInHistory}>
-				{({ pressed }) => (
-					<IconArrowNarrowLeft
-						size={24}
-						color={
-							pressed
-								? theming.colorBrand
-								: themeContext.theme.mode === 'light'
-									? theming.colorSystemText300
-									: theming.colorSystemText400
-						}
-					/>
-				)}
+				<IconArrowNarrowLeft color={theming.colorSystemText300} size={24} />
 			</Pressable>
 		) },
 		{ element: () => (
-			<Pressable onPress={handlePress}>
-				{({ pressed }) => (
-					<IconArrowsShuffle
-						size={24}
-						color={
-							pressed
-								? theming.colorBrand
-								: themeContext.theme.mode === 'light'
-									? theming.colorSystemText300
-									: theming.colorSystemText400
-						}
-					/>
-				)}
+			<Pressable onPress={handleRefreshPersona}>
+				<IconArrowsShuffle color={theming.colorSystemText300} size={24} />
 			</Pressable>
 		) },
 	];
 
+	useEffect(() => {
+		navigation.setOptions({ headerStyle: { backgroundColor: themeContext.theme.lightColors?.background } });
+	}, [navigation, themeContext.theme.mode]);
+
+	const ListHeader = () => (
+		<>
+			<View style={profileStyles.userSection}>
+				{persona_image && <ProfileImage size={200} type="url" />}
+				<ButtonGroup buttons={buttons} containerStyle={{ backgroundColor: themeContext.theme.lightColors?.background, borderRadius: 30, marginTop: -20, width: '25%' }} />
+				<View style={profileStyles.nameRow}>
+					<EditableNameField onBlur={handleFirstNameBlur} onChangeText={setFirstName} value={firstName} />
+					<EditableNameField onBlur={handleLastNameBlur} onChangeText={setLastName} value={lastName} />
+				</View>
+			</View>
+
+			<Section heading="Editar e ordenar favoritos" />
+			{!widgetList.length && <NoDataLabel text="Sem favoritos" />}
+		</>
+	);
+
+	const ListFooter = () => (
+		<>
+			<View style={profileStyles.addFavoritesSection}>
+				<Section heading="Adicionar favoritos" />
+				<FavoriteOption icon={<IconBusStop color="#FF6900" size={24} />} onPress={() => setModalFavoriteStopVisible(true)} title="Paragem Favorita" />
+				<FavoriteOption icon={<IconArrowLoopRight color="#C61D23" size={24} />} onPress={() => setModalFavoriteLineVisible(true)} title="Linha Favorita" />
+				<FavoriteOption icon={<IconBellRinging color="#0C807E" size={24} />} subtitle="Disponivel em breve" title="Notificações Inteligentes" disabled />
+			</View>
+			<AddFavoriteLine isVisible={modalFavoriteLineVisible} onBackdropPress={() => setModalFavoriteLineVisible(false)} />
+			<AddFavoriteStop isVisible={modalFavoriteStopVisible} onBackdropPress={() => setModalFavoriteStopVisible(false)} />
+		</>
+	);
+
 	return (
 		<Surface>
-			<ScrollView style={styles.container}>
-				<View style={styles.userSection}>
-					<Avatar
-						containerStyle={styles.avatarContainer}
-						size={200}
-						source={{
-							uri: `${Routes.DEV_API_ACCOUNTS}/persona/${encodeURIComponent(profileContext.data.persona_image ?? '')}`,
-						}}
-						rounded
-					/>
-					<ButtonGroup
-						buttons={buttons}
-						containerStyle={{
-							backgroundColor: themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100,
-							borderColor: themeContext.theme.mode === 'light' ? theming.colorSystemBorder100 : theming.colorSystemBorder200,
-							borderRadius: 30,
-							boxShadow: '0 0 10 0 rgba(0,0,0,0.25)',
-							marginTop: -20,
-							width: '25%',
-						}}
-					/>
-					<View style={styles.nameRow}>
-						<EditableText
-							onBlur={handleFirstNameBlur}
-							onChangeText={setFirstName}
-							style={styles.userFullNameText}
-							value={firstName}
-						/>
-						<EditableText
-							onBlur={handleLastNameBlur}
-							onChangeText={setLastName}
-							style={styles.userFullNameText}
-							value={lastName}
-						/>
-					</View>
-				</View>
-				<Section
-					heading="Editar e ordenar favoritos"
-				/>
-				<DraggableFlatList
-					data={widgets}
-					nestedScrollEnabled={false}
-					renderItem={renderFavoriteItem}
-					scrollEnabled={false}
-					showsVerticalScrollIndicator={false}
-					keyExtractor={(item, index) =>
-						`${item.settings.display_order ?? 'no_order'}-${index}`}
-				/>
-				<View style={styles.addFavoritesSection}>
-					<Section
-						heading="Adicionar favoritos"
-					/>
-					<TouchableOpacity
-						onPress={() =>
-							setModalFavoriteStopVisible(!modalFavoriteStopVisible)}
-					>
-						<ListItem>
-							<IconBusStop color="#FF6900" size={24} />
-							<ListItem.Content>
-								<ListItem.Title style={styles.listTitle}>
-									Paragem Favorita
-								</ListItem.Title>
-							</ListItem.Content>
-							<IconCirclePlusFilled
-								fill="#3CB43C"
-								size={24}
-								color={
-									themeContext.theme.mode === 'light'
-										? theming.colorSystemText300
-										: theming.colorSystemText300
-								}
-							/>
-						</ListItem>
-					</TouchableOpacity>
-					<TouchableOpacity
-						onPress={() =>
-							setModalFavoriteLineVisible(!modalFavoriteLineVisible)}
-					>
-						<ListItem>
-							<IconArrowLoopRight color="#C61D23" size={24} />
-							<ListItem.Content>
-								<ListItem.Title style={styles.listTitle}>
-									Linha Favorita
-								</ListItem.Title>
-							</ListItem.Content>
-							<IconCirclePlusFilled
-								fill="#3CB43C"
-								size={24}
-								color={
-									themeContext.theme.mode === 'light'
-										? theming.colorSystemText300
-										: theming.colorSystemText300
-								}
-							/>
-						</ListItem>
-					</TouchableOpacity>
-					<TouchableOpacity>
-						<ListItem disabledStyle={{ opacity: 0.5 }} disabled>
-							<IconBellRinging color="#0C807E" size={24} />
-							<ListItem.Content>
-								<ListItem.Title style={styles.listTitle}>
-									Notificações Inteligentes
-								</ListItem.Title>
-								<ListItem.Subtitle>
-									Disponivel em breve
-								</ListItem.Subtitle>
-							</ListItem.Content>
-							<IconCirclePlusFilled
-								fill="#3CB43C"
-								size={24}
-								color={
-									themeContext.theme.mode === 'light'
-										? theming.colorSystemBackgroundLight100
-										: theming.colorSystemBackgroundDark100
-								}
-							/>
-						</ListItem>
-					</TouchableOpacity>
-				</View>
-			</ScrollView>
-			<AddFavoriteLine
-				isVisible={modalFavoriteLineVisible}
-				onBackdropPress={() => setModalFavoriteLineVisible(false)}
-			/>
-			<AddFavoriteStop
-				isVisible={modalFavoriteStopVisible}
-				onBackdropPress={() => setModalFavoriteStopVisible(false)}
+			<DraggableFlatList
+				data={widgetList}
+				ListFooterComponent={ListFooter}
+				ListHeaderComponent={ListHeader}
+				nestedScrollEnabled={false}
+				renderItem={renderFavoriteItem}
+				showsVerticalScrollIndicator={false}
+				keyExtractor={item =>
+					item.data.type === 'lines' ? `line-${item.data.pattern_id}`
+						: item.data.type === 'stops' ? `stop-${item.data.stop_id}-${item.data.pattern_ids[0]}`
+							: `item`}
+				onDragEnd={({ data }) => {
+					setWidgetList(data);
+					if (saveTimer.current) clearTimeout(saveTimer.current);
+					saveTimer.current = setTimeout(() => {
+						if (!profile) return;
+						const orderedWidgets = data.map((widget, idx) => ({
+							...widget,
+							settings: { ...widget.settings, display_order: idx },
+						}));
+						profileContext.actions.updateLocalProfile({ ...profile, widgets: orderedWidgets });
+					}, 1000);
+				}}
 			/>
 		</Surface>
 	);
-
-	//
 }

@@ -1,86 +1,84 @@
-/* * */
+import type { AccountWidget } from '@/types/account.types';
 
-import { AccountWidget } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
 import { ListItem } from '@rneui/themed';
 import { IconGripVertical } from '@tabler/icons-react-native';
-import React, { useEffect, useState } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
-
-/* * */
+import React, { useCallback, useEffect, useState } from 'react';
+import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 
 interface FavoriteItemProps {
 	data: AccountWidget
-	drag: () => void
 }
 
-/* * */
+const getPatternId = (widget: AccountWidget): string | undefined => {
+	const { pattern_id, pattern_ids, type } = widget.data as any;
 
-const FavoriteItem = ({ data, drag }: FavoriteItemProps) => {
-	//
-	// A. Setup Variables
+	if (type === 'lines' && typeof pattern_id === 'string') {
+		return pattern_id;
+	}
 
-	const [patternHeadsign, setPatternHeadsign] = useState<string>('');
+	if (type === 'stops' && Array.isArray(pattern_ids) && pattern_ids.length > 0) {
+		return pattern_ids[0];
+	}
+
+	return undefined;
+};
+
+export default function FavoriteItemComponent({ data }: FavoriteItemProps) {
+	const [headsign, setHeadsign] = useState<null | string>(null);
+
+	const patternId = getPatternId(data);
 	const isLine = data.data.type === 'lines';
-	const patternId = isLine
-		? (data.data as { pattern_id: string, type: 'lines' }).pattern_id
-		: Array.isArray((data.data as { pattern_ids: string[], type: 'stops' }).pattern_ids)
-			? (data.data as { pattern_ids: string[], type: 'stops' }).pattern_ids[0]
-			: undefined;
 
-	//
-	// B. Fetch Data
+	const fetchHeadsign = useCallback(async () => {
+		if (!patternId) {
+			setHeadsign('');
+			return;
+		}
 
-	useEffect(() => {
-		const fetchData = async () => {
-			if (!patternId) {
-				setPatternHeadsign('');
-				return;
+		try {
+			const response = await fetch(`${Routes.API}/patterns/${patternId}`);
+			const json = await response.json();
+
+			if (Array.isArray(json) && json[0]?.headsign) {
+				setHeadsign(json[0].headsign);
 			}
-
-			try {
-				const response = await fetch(`${Routes.API}/patterns/${patternId}`);
-				if (!response.ok) throw new Error('Failed to fetch');
-				const json = await response.json();
-				setPatternHeadsign(json[0]?.headsign || '');
+			else {
+				setHeadsign('');
 			}
-			catch (error) {
-				console.error('Fetch error:', error);
-				setPatternHeadsign('');
-			}
-		};
-
-		fetchData();
+		}
+		catch {
+			setHeadsign('');
+		}
 	}, [patternId]);
 
-	//
-	// C. Render Components
+	useEffect(() => {
+		fetchHeadsign();
+	}, [fetchHeadsign]);
 
 	return (
 		<ListItem>
-			<TouchableOpacity onPress={drag}>
-				<IconGripVertical color="#9696A0" size={28} />
+			<TouchableOpacity style={{ padding: 8 }}>
+				<IconGripVertical color="#9696A0" size={24} />
 			</TouchableOpacity>
 
 			<ListItem.Content>
 				<ListItem.Title>
-					<Text>
-						{patternHeadsign}
-					</Text>
+					{headsign === null ? (
+						<ActivityIndicator size="small" />
+					) : (
+						<Text numberOfLines={1}>{headsign || (isLine ? 'Linha Favorita' : 'Paragem Favorita')}</Text>
+					)}
 				</ListItem.Title>
 
-				<ListItem.Subtitle>
-					<Text>
-						{isLine ? 'Linha Favorita' : 'Paragem Favorita'}
-					</Text>
-				</ListItem.Subtitle>
+				{headsign !== null && (
+					<ListItem.Subtitle>
+						<Text>{isLine ? 'Linha Favorita' : 'Paragem Favorita'}</Text>
+					</ListItem.Subtitle>
+				)}
 			</ListItem.Content>
 
 			<ListItem.Chevron />
 		</ListItem>
 	);
-
-	//
 };
-
-export default FavoriteItem;

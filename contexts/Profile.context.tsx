@@ -93,7 +93,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	//
 	// C. Fetch Data
-
 	const mergeProfiles = (local: Account, cloud: Account): Account => {
 		return {
 			_id: cloud._id,
@@ -101,7 +100,10 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			devices: local.devices,
 			email: cloud.email,
 			email_verified: cloud.email_verified,
-			favorites: cloud.favorites,
+			favorites: {
+				lines: cloud.favorites?.lines || local.favorites?.lines || [],
+				stops: cloud.favorites?.stops || local.favorites?.stops || [],
+			},
 			profile: {
 				activity: cloud.profile?.activity || local.profile?.activity,
 				date_of_birth: cloud.profile?.date_of_birth || local.profile?.date_of_birth,
@@ -115,7 +117,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			},
 			role: cloud.role,
 			updated_at: cloud.updated_at,
-			widgets: cloud.widgets && cloud.widgets.length > 0 ? cloud.widgets : local.widgets,
+			widgets: local.widgets && local.widgets.length > 0 ? local.widgets : cloud.widgets,
 		};
 	};
 
@@ -179,20 +181,20 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 		const intervalId = setInterval(() => {
 			fetchData();
-		}, 10000);
+		}, 30000);
 
 		return () => clearInterval(intervalId);
 	}, [consentContext.data.enabled_functional]);
 
-	// useEffect(() => {
-	// 	if (
-	// 		consentContext.data.enabled_functional
-	// 		&& dataApiTokenState
-	// 		&& dataProfileState
-	// 	) {
-	// 		syncProfiles(dataProfileState);
-	// 	}
-	// }, [dataApiTokenState, dataProfileState, consentContext.data.enabled_functional]);
+	useEffect(() => {
+		if (
+			consentContext.data.enabled_functional
+			&& dataApiTokenState
+			&& dataProfileState
+		) {
+			syncProfiles(dataProfileState);
+		}
+	}, [dataApiTokenState, dataProfileState, consentContext.data.enabled_functional]);
 
 	useEffect(() => {
 		if (!consentContext.data.enabled_functional) return;
@@ -320,6 +322,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	const updateProfileOnCloud = async (profile: Account) => {
 		if (!consentContext.data.enabled_functional || !dataApiTokenState) return;
+
 		const { _id, created_at, role, updated_at, ...cleanedProfile } = profile;
 		try {
 			await fetch(`${Routes.DEV_API_ACCOUNTS}/${profile.devices[0].device_id}`, {
@@ -356,52 +359,98 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	const toggleFavoriteLine = async (lineId: string) => {
 		if (!consentContext.data.enabled_functional) return;
+
+		// Create a Set to manage favorite lines
 		const favoriteLinesSet = new Set(dataFavoriteLinesState || []);
+
+		// Add or remove the line from the Set
 		if (favoriteLinesSet.has(lineId)) {
 			favoriteLinesSet.delete(lineId);
 		}
 		else {
 			favoriteLinesSet.add(lineId);
 		}
+
+		// Convert the Set back to an array
 		const updatedFavoriteLines = Array.from(favoriteLinesSet);
+
+		// Update the local state for favorite lines
 		setDataFavoriteLinesState(updatedFavoriteLines);
 
+		// Merge the old favorite lines with the new ones
 		setDataProfileState((prev) => {
 			if (!prev) return prev;
+
 			return {
 				...prev,
 				favorites: {
 					...(prev.favorites || { lines: [], stops: [] }),
-					lines: updatedFavoriteLines,
+					lines: updatedFavoriteLines, // Update lines in the profile state
 				},
 			};
 		});
+
+		// Prepare the updated profile for syncing
+		const updatedProfile: Account = {
+			...(dataProfileState || {}),
+			favorites: {
+				...(dataProfileState?.favorites || { lines: [], stops: [] }),
+				lines: Array.from(new Set([...(dataProfileState?.favorites?.lines || []), ...updatedFavoriteLines])),
+			},
+		};
+
+		// Save the updated profile to local storage and sync with the cloud
+		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
+		await updateProfileOnCloud(updatedProfile);
 	};
 
 	const toggleFavoriteStop = async (stopId: string) => {
 		if (!consentContext.data.enabled_functional) return;
 
+		// Create a Set to manage favorite stops
 		const favoriteStopsSet = new Set(dataFavoriteStopsState || []);
 
+		// Add or remove the stop from the Set
 		if (favoriteStopsSet.has(stopId)) {
 			favoriteStopsSet.delete(stopId);
 		}
 		else {
 			favoriteStopsSet.add(stopId);
 		}
+
+		// Convert the Set back to an array
 		const updatedFavoriteStops = Array.from(favoriteStopsSet);
 		setDataFavoriteStopsState(updatedFavoriteStops);
-
+		// Merge the old favorite stops with the new ones
 		setDataProfileState((prev) => {
 			if (!prev) return prev;
+
+			// Merge the old stops with the updated stops
+			const mergedStops = Array.from(
+				new Set([...(prev.favorites?.stops || []), ...updatedFavoriteStops]),
+			);
+
 			return {
 				...prev,
 				favorites: {
 					...(prev.favorites || { lines: [], stops: [] }),
-					stops: updatedFavoriteStops,
+					stops: mergedStops,
 				},
 			};
 		});
+
+		// Prepare the updated profile for syncing
+		const updatedProfile: Account = {
+			...(dataProfileState || {}),
+			favorites: {
+				...(dataProfileState?.favorites || { lines: [], stops: [] }),
+				stops: Array.from(new Set([...(dataProfileState?.favorites?.stops || []), ...updatedFavoriteStops])),
+			},
+		};
+
+		// Save the updated profile to local storage and sync with the cloud
+		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
+		await updateProfileOnCloud(updatedProfile);
 	};
 
 	// D. Action handlers
@@ -464,6 +513,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 		const currentWidgets = dataWidgetStopsState || [];
 		const updatedWidgets = [...currentWidgets];
+
+		console.log(currentWidgets);
 
 		const stopWidgetIndex = updatedWidgets.findIndex(
 			widget =>

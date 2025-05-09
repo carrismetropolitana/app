@@ -1,62 +1,57 @@
-/* * */
-
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
-import { Section } from '@/components/common/layout/Section';
 import { Surface } from '@/components/common/layout/Surface';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { AccountWidget } from '@/types/account.types';
-import { Text } from '@rneui/themed';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { LineWidgetCard } from './LinesWidgetCard';
 import { StopWidgetCard } from './StopWidgetCard';
 
-/* * */
-
-interface Props {
-	type: 'lines' | 'stops'
+interface WidgetCardsProps {
+	type?: 'lines' | 'stops'
 }
 
-/* * */
-
-export function WidgetCards({ type }: Props) {
-	//
-
-	//
-	// A. Setup Variables
-	const [lineWidgets, setLinesWidgets] = useState<[] | AccountWidget[]>();
-	const [stopWidgets, setStopsWidgets] = useState<[] | AccountWidget[]>();
-
+export function WidgetCards({ type }: WidgetCardsProps) {
 	const profileContext = useProfileContext();
+	const widgets = profileContext.data.profile?.widgets ?? [];
+
+	const [sortedWidgets, setSortedWidgets] = useState<AccountWidget[]>([]);
 
 	useEffect(() => {
-		if (!profileContext.data.profile?.widgets) return;
-		const lines: AccountWidget[] = profileContext.data.profile.widgets.filter(widget => widget.data.type === 'lines');
-		const stops: AccountWidget[] = profileContext.data.profile.widgets.filter(widget => widget.data.type === 'stops');
-		setLinesWidgets(lines);
-		setStopsWidgets(stops);
-	}, [profileContext.data.profile?.widgets]);
+		const filtered = type ? widgets.filter(w => w.data.type === type) : widgets;
+		const ordered = filtered
+			.slice()
+			.sort((a, b) => (a.settings?.display_order ?? 0) - (b.settings?.display_order ?? 0));
 
-	//
+		setSortedWidgets(ordered);
+	}, [widgets, type]);
 
-	// B. Render Components
+	if (!sortedWidgets.length) {
+		return (
+			<Surface>
+				<NoDataLabel text="Sem Widgets" fill />
+			</Surface>
+		);
+	}
 
 	return (
 		<Surface>
-			{!lineWidgets && !stopWidgets && (
-				<NoDataLabel text="Sem Widgets" fill />
-			)}
-
-			{type === 'lines'
-			&& (lineWidgets?.map(item => <LineWidgetCard key={item.data.type === 'lines' ? item.data.pattern_id.toString() : ''} data={item} />)
-			)}
-
-			{type === 'stops'
-			&& (stopWidgets?.map(item => <StopWidgetCard key={item.data.type === 'stops' ? item.data.pattern_ids.toString() + '_' + item.data.stop_id.toString() : ''} data={item} />)
-			)}
-
+			{sortedWidgets.map((widget) => {
+				if (widget.data.type === 'lines') {
+					return (
+						<LineWidgetCard key={widget.data.pattern_id} data={widget} />
+					);
+				}
+				if (widget.data.type === 'stops') {
+					const key = `${widget.data.stop_id}-${
+						Array.isArray(widget.data.pattern_ids) ? widget.data.pattern_ids[0] : ''
+					}`;
+					return (
+						<StopWidgetCard key={key} data={widget} />
+					);
+				}
+				return null;
+			})}
 		</Surface>
 	);
-
-	//
 }
