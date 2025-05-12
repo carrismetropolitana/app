@@ -40,11 +40,11 @@ export function StopWidgetCardBody({ stopId }: Props) {
 	}
 
 	return (
-		<ScrollView>
+		<View>
 			{ stopId && (
 				<StopDetailNextArrivals key={stopId} />
 			)}
-		</ScrollView>
+		</View>
 	);
 
 	//

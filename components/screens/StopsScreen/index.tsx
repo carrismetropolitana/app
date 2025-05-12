@@ -110,7 +110,7 @@ export default function StopsScreen() {
 								<ListItem.Chevron />
 
 							</ListItem>
-							<StopDetailNextArrivals />
+							<StopDetailNextArrivals description title />
 						</>
 					)}
 				</BottomSheetScrollView>

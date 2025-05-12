@@ -15,7 +15,13 @@ import { styles } from './styles';
 
 /* * */
 
-export default function StopDetailNextArrivals() {
+interface Props {
+	description?: boolean
+	title?: boolean
+}
+
+/* * */
+export default function StopDetailNextArrivals({ description, title }: Props) {
 	//
 
 	//
@@ -110,7 +116,7 @@ export default function StopDetailNextArrivals() {
 
 	return (
 		<View style={stopDetailNextArrivals.sectionWrapper}>
-			<Text style={stopDetailNextArrivals.sectionHeading}>{t('heading')}</Text>
+			{title && <Text style={stopDetailNextArrivals.sectionHeading}>{t('heading')}</Text>}
 			<>
 				{arrivalsToShow.map(tripData => (
 					<Link key={tripData.trip_id} href={`/line/${tripData.line_id}`} style={{ width: '100%' }}>
@@ -138,7 +144,7 @@ export default function StopDetailNextArrivals() {
 					</ListItem>
 				)}
 			</>
-			<Text style={stopDetailNextArrivals.upcomingCirculationsDescription}>{t('description')}</Text>
+			{ description && <Text style={stopDetailNextArrivals.upcomingCirculationsDescription}>{t('description')}</Text>}
 		</View>
 	);
 

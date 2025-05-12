@@ -34,7 +34,6 @@ export const styles = () => {
 			borderBottomLeftRadius: 10,
 			borderBottomRightRadius: 10,
 			boxShadow: '0px 1px 5px 0px rgba(0,0,0,0.05)',
-			height: 199,
 			marginBottom: 20,
 			overflow: 'hidden',
 		},

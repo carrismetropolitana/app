@@ -41,7 +41,7 @@ export function LineWidgetCardBody({ lineId }: Props) {
 	return (
 		<ScrollView>
 			{lineId && (
-				<LinesDetailPathMap key={lineId} />
+				<LinesDetailPathMap key={lineId} hasToolbar={false} />
 			)}
 		</ScrollView>
 	);

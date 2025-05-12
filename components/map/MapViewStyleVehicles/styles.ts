@@ -28,7 +28,6 @@ export const styles = () => {
 		vehiclesCounter: {
 			alignItems: 'center',
 			alignSelf: 'flex-start',
-
 			backgroundColor: '#FFFFFF',
 			borderRadius: 999,
 			bottom: 0,

@@ -1,3 +1,5 @@
+/* * */
+
 import { MapView } from '@/components/map/MapView';
 import { MapViewStyleActiveStops } from '@/components/map/MapViewStyleActiveStops';
 import { MapViewStylePath } from '@/components/map/MapViewStylePath';
@@ -11,10 +13,25 @@ import { Camera } from '@maplibre/maplibre-react-native';
 import React, { useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
 
-export function LinesDetailPathMap() {
+/* * */
+
+interface Props {
+	hasToolbar?: boolean
+}
+
+/* * */
+export function LinesDetailPathMap({ hasToolbar }: Props) {
+	//
+
+	//
+	// A. Setup variables
+
 	const vehiclesContext = useVehiclesContext();
 	const linesDetailContext = useLinesDetailContext();
 	const stopsContext = useStopsContext();
+
+	//
+	// B. Fetch data
 
 	const activeVehiclesFC = useMemo(() => {
 		const patternId = linesDetailContext.data.active_pattern?.id;
@@ -82,9 +99,12 @@ export function LinesDetailPathMap() {
 		}
 	}, [fitPath]);
 
+	//
+	// C. Render components
+
 	return (
 		<View style={{ height: 360, width: '100%' }}>
-			<MapView mapStyle="map">
+			<MapView mapStyle="map" toolbar={hasToolbar}>
 				<Camera
 					animationDuration={1000}
 					animationMode="flyTo"

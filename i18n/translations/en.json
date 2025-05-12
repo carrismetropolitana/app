@@ -292,7 +292,7 @@
 	"stops": {
 		"StopDetails": {
 			"NextArrivals": {
-				"arriving": "Coming up",
+				"arriving": "Now",
 				"hours": "h",
 				"minutes": "min",
 				"see_less": "See less",

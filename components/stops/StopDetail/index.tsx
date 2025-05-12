@@ -24,7 +24,7 @@ export function StopDetail() {
 	return (
 		<ScrollView style={stopDetailStyles.wrapper}>
 			<StopDetailHeader />
-			<StopDetailNextArrivals />
+			<StopDetailNextArrivals description title />
 			<StopDetailLineGoTrough />
 			<StopDetailCharacterization />
 		</ScrollView>
