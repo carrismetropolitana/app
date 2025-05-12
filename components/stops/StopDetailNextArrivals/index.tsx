@@ -17,11 +17,12 @@ import { styles } from './styles';
 
 interface Props {
 	description?: boolean
+	href?: string
 	title?: boolean
 }
 
 /* * */
-export default function StopDetailNextArrivals({ description, title }: Props) {
+export default function StopDetailNextArrivals({ description, href, title }: Props) {
 	//
 
 	//
@@ -135,11 +136,22 @@ export default function StopDetailNextArrivals({ description, title }: Props) {
 				{timetable.length > 3 && (
 					<ListItem onPress={() => setShowAll(!showAll)} bottomDivider>
 						<ListItem.Content>
-							<Text style={stopDetailNextArrivals.see_more}>
-								{!showAll
-									? t('see_more', { defaultValue: 'Ver mais' })
-									: t('see_less', { defaultValue: 'Ver menos' })}
-							</Text>
+							{href && (
+								<Link href={href} style={stopDetailNextArrivals.see_more}>
+									<Text>
+										{!showAll
+											? t('NextArrivals.see_more')
+											: t('NextArrivals.see_less')}
+									</Text>
+								</Link>
+							)}
+							{!href && (
+								<Text style={stopDetailNextArrivals.see_more}>
+									{!showAll
+										? t('NextArrivals.see_more')
+										: t('NextArrivals.see_less')}
+								</Text>
+							)}
 						</ListItem.Content>
 					</ListItem>
 				)}

@@ -2,9 +2,9 @@
 
 import StopDetailNextArrivals from '@/components/stops/StopDetailNextArrivals';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
+import { Routes } from '@/utils/routes';
 import { useEffect } from 'react';
 import { Text, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
 
 /* * */
 
@@ -42,7 +42,7 @@ export function StopWidgetCardBody({ stopId }: Props) {
 	return (
 		<View>
 			{ stopId && (
-				<StopDetailNextArrivals key={stopId} />
+				<StopDetailNextArrivals key={stopId} href={`/stop/${stopId}`} />
 			)}
 		</View>
 	);

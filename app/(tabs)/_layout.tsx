@@ -1,7 +1,9 @@
 import { HapticTab } from '@/components/HapticTab';
+import OfflineScreen from '@/components/OfflineScreen';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
+import { useNetInfo } from '@react-native-community/netinfo';
 import {
 	IconArrowLoopRight,
 	IconBusStop,
@@ -16,6 +18,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 export default function TabLayout() {
 	const themeContext = useThemeContext();
 	const insets = useSafeAreaInsets();
+	const netInfo = useNetInfo();
+
+	if (netInfo.isConnected === false) {
+		return <OfflineScreen />;
+	}
 
 	const icons = {
 		home: IconUserCircle,

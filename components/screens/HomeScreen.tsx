@@ -21,14 +21,14 @@ export default function HomeScreen() {
 			<ScrollView style={{ flex: 1, paddingHorizontal: 20, paddingTop: insets.top + 100 }}>
 				<FavoritesBar />
 				<WidgetCards />
-				<Section withGap withPadding>
+				{/* <Section withGap withPadding>
 					<Link href="/stop/071157" style={{ marginTop: 20 }}>
 						<Text>012215</Text>
 					</Link>
 					<Link href="/line/4701" style={{ marginTop: 20 }}>
 						<Text>4701</Text>
 					</Link>
-				</Section>
+				</Section> */}
 			</ScrollView>
 		</View>
 	);

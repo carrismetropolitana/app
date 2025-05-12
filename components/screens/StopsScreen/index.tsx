@@ -13,7 +13,6 @@ import { Camera } from '@maplibre/maplibre-react-native';
 import { ListItem } from '@rneui/themed';
 import { Link } from 'expo-router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { SafeAreaView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle } from 'react-native-svg';
@@ -37,8 +36,6 @@ export default function StopsScreen() {
 	const [camera, setCamera] = useState(locationContext.data.currentCords);
 	const [selectedStop, setSelectedStop] = useState<'' | string>('');
 	const [stopData, setStopData] = useState<Stop | undefined>(undefined);
-
-	const { t } = useTranslation('translation', { keyPrefix: 'stops.StopDetails' });
 
 	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
@@ -110,7 +107,7 @@ export default function StopsScreen() {
 								<ListItem.Chevron />
 
 							</ListItem>
-							<StopDetailNextArrivals description title />
+							<StopDetailNextArrivals href={`/stop/${selectedStop}`} description title />
 						</>
 					)}
 				</BottomSheetScrollView>
