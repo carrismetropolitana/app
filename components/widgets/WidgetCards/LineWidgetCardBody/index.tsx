@@ -1,31 +1,49 @@
 /* * */
 
-import { Text, View } from 'react-native';
+import { LinesDetailPathMap } from '@/components/lines/LinesDetailPathMap';
+import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { Text } from '@rneui/themed';
+import { useEffect } from 'react';
+import { View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 /* * */
 
-interface LineWidgetCardBodyProps {
+interface Props {
 	lineId: string
 }
 
 /* * */
 
-export function LineWidgetCardBody({ lineId }: LineWidgetCardBodyProps) {
+export function LineWidgetCardBody({ lineId }: Props) {
 	//
 
 	//
 	// A. Setup Variables
-
+	const lineDetailContext = useLinesDetailContext();
 	//
 	// B. Fetch Data
 
-	//
+	useEffect(() => {
+		if (!lineId) return;
+		lineDetailContext.actions.setLineId(lineId);
+	}, [lineId]);
+
 	// B. Render Components
 
+	if (!lineId) {
+		return (
+			<View>
+				<Text>There has been an error. Try again later.</Text>
+			</View>
+		);
+	}
 	return (
-		<View>
-			<Text>Line Widget Body Content</Text>
-		</View>
+		<ScrollView>
+			{lineId && (
+				<LinesDetailPathMap key={lineId} />
+			)}
+		</ScrollView>
 	);
 
 	//

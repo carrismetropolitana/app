@@ -7,7 +7,9 @@ import { Routes } from '@/utils/routes';
 import { Pattern } from '@carrismetropolitana/api-types/network';
 import { ListItem, Text } from '@rneui/themed';
 import { useEffect, useState } from 'react';
+import { View } from 'react-native';
 
+import { StopWidgetCardBody } from '../StopWidgetCardBody';
 import { StopWidgetCardHeader } from '../StopWidgetCardHeader';
 import { styles } from './styles';
 
@@ -37,14 +39,9 @@ export function StopWidgetCard({ data }: StopWidgetCardProps) {
 
 	useEffect(() => {
 		if (stopsContext.flags.is_loading || !data || !stopsContext.actions.getStopById) return;
-
 		patternIds.forEach(id => fetchStopName(id));
 		patternIds.forEach(() => fetchMunicipalities(data));
 	}, [stopsContext.flags.is_loading, data]);
-
-	const toggleAccordion = () => {
-		setExpanded(!expanded);
-	};
 
 	const fetchStopName = async (id: string) => {
 		if (!id) return;
@@ -72,24 +69,26 @@ export function StopWidgetCard({ data }: StopWidgetCardProps) {
 	};
 
 	//
-	// C. Render Components
+	// C. Handle actions
+
+	const toggleAccordion = () => {
+		setExpanded(!expanded);
+	};
+
+	//
+	// D. Render Components
 
 	return (
 		<ListItem.Accordion
 			containerStyle={!expanded ? cardStyles.cardClosed : cardStyles.cardOpen}
+			content={(<StopWidgetCardHeader municipality={stopMunicipality || ''} title={stopName || ''} />)}
 			icon={<AccordionToggle expanded={expanded} size={24} />}
 			isExpanded={expanded}
 			onPress={toggleAccordion}
-			content={(
-				<StopWidgetCardHeader
-					municipality={stopMunicipality || ''}
-					title={stopName || ''}
-				/>
-			)}
 		>
-			<Section>
-				<Text>LALALALALALAA</Text>
-			</Section>
+			<View style={cardStyles.cardBody}>
+				<StopWidgetCardBody stopId={data.data.type === 'stops' ? data.data.stop_id : ''} />
+			</View>
 		</ListItem.Accordion>
 	);
 

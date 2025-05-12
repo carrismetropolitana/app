@@ -1,6 +1,8 @@
 /* * */
 
 import { AccordionToggle } from '@/components/AccordionToggle';
+import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
+import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
 import { AccountWidget } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
 import { Pattern } from '@carrismetropolitana/api-types/network';
@@ -32,19 +34,15 @@ export function LineWidgetCard({ data }: LineWidgetCardProps) {
 	const [expanded, setExpanded] = useState(false);
 
 	const cardStyles = styles();
+
 	//
 	// B. Fetch Data
 
 	useEffect(() => {
 		if (!data) return;
-
 		setLineId(patternId.split('_')[0]);
 		fetchLineName(patternId);
 	}, []);
-
-	const toggleAccordion = () => {
-		setExpanded(!expanded);
-	};
 
 	const fetchLineName = async (id: string) => {
 		if (!id) return;
@@ -54,8 +52,16 @@ export function LineWidgetCard({ data }: LineWidgetCardProps) {
 			setLineName(data[0].headsign);
 		}
 	};
+
 	//
-	// C. Render Components
+	// C. Handle actions
+
+	const toggleAccordion = () => {
+		setExpanded(!expanded);
+	};
+
+	//
+	// D. Render Components
 
 	return (
 		<ListItem.Accordion
@@ -71,7 +77,6 @@ export function LineWidgetCard({ data }: LineWidgetCardProps) {
 				<LineWidgetCardBody lineId={lineId} />
 			</View>
 		</ListItem.Accordion>
-
 	);
 
 	//

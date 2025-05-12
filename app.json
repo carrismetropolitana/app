@@ -29,7 +29,7 @@
 			"supportsTablet": true
 		},
 		"jsEngine": "hermes",
-		"name": "cm-mobile",
+		"name": "CMetropolitanaRN",
 		"newArchEnabled": true,
 		"orientation": "portrait",
 		"owner": "skasix00",
@@ -100,7 +100,7 @@
 			"policy": "appVersion"
 		},
 		"scheme": "carrismetropolitana",
-		"slug": "cm-mobile",
+		"slug": "CMetropolitanaRN",
 		"updates": {
 			"url": "https://u.expo.dev/43d60702-1266-4217-8cb8-54e1f9a722fe"
 		},
