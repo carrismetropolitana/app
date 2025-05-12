@@ -109,7 +109,7 @@ export function MapViewStyleVehicles({ showCounter, vehiclesData = baseGeoJsonFe
 			{showCounter === 'positive' && vehiclesData.features.length > 0 && (
 				<View style={vehiclesData.features.length !== 0 ? counterStyles.vehiclesCounter : counterStyles.zeroCount}>
 					<LiveIcon />
-					<Text style={counterStyles.text}> 0 veículos em circulação </Text>
+					<Text style={counterStyles.text}> {vehiclesData.features.length} veículos em circulação </Text>
 				</View>
 			)}
 		</>

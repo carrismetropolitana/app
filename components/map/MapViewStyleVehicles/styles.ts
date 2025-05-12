@@ -48,9 +48,25 @@ export const styles = () => {
 
 		},
 		zeroCount: {
+			alignItems: 'center',
+			alignSelf: 'flex-start',
 			backgroundColor: '#FFFFFF',
-			paddingBottom: 4,
-			paddingTop: 4,
+			borderRadius: 999,
+			bottom: 0,
+			color: theming.colorRealtime100,
+			flexDirection: 'row',
+			fontSize: 10,
+			fontWeight: '600',
+			gap: 20,
+			height: 32,
+			justifyContent: 'center',
+			left: 0,
+			marginBottom: 12,
+			marginLeft: 10,
+			minWidth: 50,
+			paddingHorizontal: 16,
+			paddingVertical: 4,
+			position: 'absolute',
 		},
 		/* * */
 	});
