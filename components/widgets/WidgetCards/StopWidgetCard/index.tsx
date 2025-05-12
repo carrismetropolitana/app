@@ -1,11 +1,12 @@
+/* * */
+
 import { AccordionToggle } from '@/components/AccordionToggle';
-import { Section } from '@/components/common/layout/Section';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { AccountWidget } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
 import { Pattern } from '@carrismetropolitana/api-types/network';
-import { ListItem, Text } from '@rneui/themed';
+import { ListItem } from '@rneui/themed';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 
@@ -13,11 +14,15 @@ import { StopWidgetCardBody } from '../StopWidgetCardBody';
 import { StopWidgetCardHeader } from '../StopWidgetCardHeader';
 import { styles } from './styles';
 
+/* * */
+
 interface StopWidgetCardProps {
 	data: AccountWidget
 	expanded: boolean
 	onToggle: () => void
 }
+
+/* * */
 
 export function StopWidgetCard({ data, expanded, onToggle }: StopWidgetCardProps) {
 	//

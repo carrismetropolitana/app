@@ -1,12 +1,10 @@
 import FavoritesBar from '@/components/common/FavoritesBar';
 import { Header } from '@/components/common/layout/Header';
 import { useThemeContext } from '@/contexts/Theme.context';
-import { Link } from 'expo-router';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Section } from '../common/layout/Section';
 import { WidgetCards } from '../widgets/WidgetCards';
 
 export default function HomeScreen() {
@@ -21,14 +19,6 @@ export default function HomeScreen() {
 			<ScrollView style={{ flex: 1, paddingHorizontal: 20, paddingTop: insets.top + 100 }}>
 				<FavoritesBar />
 				<WidgetCards />
-				{/* <Section withGap withPadding>
-					<Link href="/stop/071157" style={{ marginTop: 20 }}>
-						<Text>012215</Text>
-					</Link>
-					<Link href="/line/4701" style={{ marginTop: 20 }}>
-						<Text>4701</Text>
-					</Link>
-				</Section> */}
 			</ScrollView>
 		</View>
 	);

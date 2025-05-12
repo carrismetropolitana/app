@@ -1,8 +1,6 @@
 /* * */
 
 import { AccordionToggle } from '@/components/AccordionToggle';
-import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
-import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
 import { AccountWidget } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
 import { Pattern } from '@carrismetropolitana/api-types/network';

@@ -21,11 +21,9 @@ interface WidgetCardsProps {
 /* * */
 
 export function WidgetCards({ type }: WidgetCardsProps) {
-	//
 	const profileContext = useProfileContext();
 	const widgets = profileContext.data.profile?.widgets ?? [];
 	const [sortedWidgets, setSortedWidgets] = useState<AccountWidget[]>([]);
-	const [expandedKey, setExpandedKey] = useState<null | string>(null); // NEW
 
 	useEffect(() => {
 		const filtered = type ? widgets.filter(w => w.data.type === type) : widgets;
@@ -34,6 +32,31 @@ export function WidgetCards({ type }: WidgetCardsProps) {
 			.sort((a, b) => (a.settings?.display_order ?? 0) - (b.settings?.display_order ?? 0));
 		setSortedWidgets(ordered);
 	}, [widgets, type]);
+
+	const handleToggle = (key: string) => {
+		const updatedWidgets = widgets.map((widget) => {
+			const widgetKey = widget.data.type === 'lines'
+				? widget.data.pattern_id
+				: `${widget.data.stop_id}-${Array.isArray(widget.data.pattern_ids) ? widget.data.pattern_ids[0] : ''}`;
+			if (widgetKey === key) {
+				return {
+					...widget,
+					settings: {
+						...widget.settings,
+						is_open: !widget.settings?.is_open,
+					},
+				};
+			}
+			return widget;
+		});
+		profileContext.actions.updateLocalProfile({
+			...profileContext.data.profile,
+			_id: profileContext.data.profile?._id ?? '',
+			devices: profileContext.data.profile?.devices ?? [],
+			role: profileContext.data.profile?.role ?? 'user',
+			widgets: updatedWidgets,
+		});
+	};
 
 	if (!sortedWidgets.length) {
 		return (
@@ -54,8 +77,8 @@ export function WidgetCards({ type }: WidgetCardsProps) {
 								<LineWidgetCard
 									key={key}
 									data={widget}
-									expanded={expandedKey === key}
-									onToggle={() => setExpandedKey(expandedKey === key ? null : key)}
+									expanded={!!widget.settings?.is_open}
+									onToggle={() => handleToggle(key)}
 								/>
 							);
 						}
@@ -65,8 +88,8 @@ export function WidgetCards({ type }: WidgetCardsProps) {
 								<StopWidgetCard
 									key={key}
 									data={widget}
-									expanded={expandedKey === key}
-									onToggle={() => setExpandedKey(expandedKey === key ? null : key)}
+									expanded={!!widget.settings?.is_open}
+									onToggle={() => handleToggle(key)}
 								/>
 							);
 						}
@@ -76,6 +99,4 @@ export function WidgetCards({ type }: WidgetCardsProps) {
 			</LinesDetailContextProvider>
 		</StopsDetailContextProvider>
 	);
-
-	//
 }
