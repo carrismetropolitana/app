@@ -15,9 +15,11 @@ import { styles } from './styles';
 
 interface StopWidgetCardProps {
 	data: AccountWidget
+	expanded: boolean
+	onToggle: () => void
 }
 
-export function StopWidgetCard({ data }: StopWidgetCardProps) {
+export function StopWidgetCard({ data, expanded, onToggle }: StopWidgetCardProps) {
 	//
 
 	//
@@ -28,7 +30,6 @@ export function StopWidgetCard({ data }: StopWidgetCardProps) {
 	);
 	const [stopName, setStopName] = useState<string>('');
 	const [stopMunicipality, setStopMunicipality] = useState<string>();
-	const [expanded, setExpanded] = useState(false);
 
 	const linesContext = useLinesContext();
 	const stopsContext = useStopsContext();
@@ -69,22 +70,15 @@ export function StopWidgetCard({ data }: StopWidgetCardProps) {
 	};
 
 	//
-	// C. Handle actions
-
-	const toggleAccordion = () => {
-		setExpanded(!expanded);
-	};
-
-	//
 	// D. Render Components
 
 	return (
 		<ListItem.Accordion
 			containerStyle={!expanded ? cardStyles.cardClosed : cardStyles.cardOpen}
-			content={(<StopWidgetCardHeader municipality={stopMunicipality || ''} title={stopName || ''} />)}
+			content={<StopWidgetCardHeader municipality={stopMunicipality || ''} title={stopName || ''} />}
 			icon={<AccordionToggle expanded={expanded} size={24} />}
 			isExpanded={expanded}
-			onPress={toggleAccordion}
+			onPress={onToggle}
 		>
 			<View style={cardStyles.cardBody}>
 				<StopWidgetCardBody stopId={data.data.type === 'stops' ? data.data.stop_id : ''} />

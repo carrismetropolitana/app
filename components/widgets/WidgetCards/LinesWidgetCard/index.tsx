@@ -18,11 +18,13 @@ import { styles } from './styles';
 
 interface LineWidgetCardProps {
 	data: AccountWidget
+	expanded: boolean
+	onToggle: () => void
 }
 
 /* * */
 
-export function LineWidgetCard({ data }: LineWidgetCardProps) {
+export function LineWidgetCard({ data, expanded, onToggle }: LineWidgetCardProps) {
 	//
 
 	//
@@ -31,7 +33,6 @@ export function LineWidgetCard({ data }: LineWidgetCardProps) {
 	const [patternId] = useState<string>(data.data.type === 'lines' ? data.data.pattern_id : '');
 	const [lineId, setLineId] = useState<string>('');
 	const [lineName, setLineName] = useState<string>('');
-	const [expanded, setExpanded] = useState(false);
 
 	const cardStyles = styles();
 
@@ -54,13 +55,6 @@ export function LineWidgetCard({ data }: LineWidgetCardProps) {
 	};
 
 	//
-	// C. Handle actions
-
-	const toggleAccordion = () => {
-		setExpanded(!expanded);
-	};
-
-	//
 	// D. Render Components
 
 	return (
@@ -68,7 +62,7 @@ export function LineWidgetCard({ data }: LineWidgetCardProps) {
 			containerStyle={!expanded ? cardStyles.cardClosed : cardStyles.cardOpen}
 			icon={<AccordionToggle expanded={expanded} size={24} />}
 			isExpanded={expanded}
-			onPress={toggleAccordion}
+			onPress={onToggle}
 			content={(
 				<LineWidgetCardHeader lineId={lineId} title={lineName} />
 			)}

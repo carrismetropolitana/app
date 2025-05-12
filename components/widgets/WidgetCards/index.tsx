@@ -22,15 +22,10 @@ interface WidgetCardsProps {
 
 export function WidgetCards({ type }: WidgetCardsProps) {
 	//
-
-	// A. Setup variables
 	const profileContext = useProfileContext();
 	const widgets = profileContext.data.profile?.widgets ?? [];
-
 	const [sortedWidgets, setSortedWidgets] = useState<AccountWidget[]>([]);
-
-	//
-	// B. Transform data
+	const [expandedKey, setExpandedKey] = useState<null | string>(null); // NEW
 
 	useEffect(() => {
 		const filtered = type ? widgets.filter(w => w.data.type === type) : widgets;
@@ -39,9 +34,6 @@ export function WidgetCards({ type }: WidgetCardsProps) {
 			.sort((a, b) => (a.settings?.display_order ?? 0) - (b.settings?.display_order ?? 0));
 		setSortedWidgets(ordered);
 	}, [widgets, type]);
-
-	//
-	// D. Render components
 
 	if (!sortedWidgets.length) {
 		return (
@@ -57,12 +49,26 @@ export function WidgetCards({ type }: WidgetCardsProps) {
 				<Surface>
 					{sortedWidgets.map((widget) => {
 						if (widget.data.type === 'lines') {
-							return (<LineWidgetCard key={widget.data.pattern_id} data={widget} />);
+							const key = widget.data.pattern_id;
+							return (
+								<LineWidgetCard
+									key={key}
+									data={widget}
+									expanded={expandedKey === key}
+									onToggle={() => setExpandedKey(expandedKey === key ? null : key)}
+								/>
+							);
 						}
-
 						if (widget.data.type === 'stops') {
 							const key = `${widget.data.stop_id}-${Array.isArray(widget.data.pattern_ids) ? widget.data.pattern_ids[0] : ''}`;
-							return (<StopWidgetCard key={key} data={widget} />);
+							return (
+								<StopWidgetCard
+									key={key}
+									data={widget}
+									expanded={expandedKey === key}
+									onToggle={() => setExpandedKey(expandedKey === key ? null : key)}
+								/>
+							);
 						}
 						return null;
 					})}
