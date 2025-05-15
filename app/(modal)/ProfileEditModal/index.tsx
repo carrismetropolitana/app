@@ -16,7 +16,12 @@ import styles from './styles';
 
 /* * */
 
-export default function ProfileEditModal() {
+interface Props {
+  onClose: () => void;
+}
+
+
+export default function ProfileEditModal({ onClose }: Props) {
 	//
 
 	//
@@ -59,12 +64,13 @@ export default function ProfileEditModal() {
 
 	const clearScreen = () => {
 		//setOpen(false);
+		 onClose();
 	};
 	
 	//
 	// D. Render Components
 	return (
-		<View style={{ backgroundColor: '#fff', borderRadius: 24 }}>
+		<View>
 			<SafeAreaView style={{ flex: 1 }}>
 				<View style={styles.container} >
 					<View style={styles.header}>

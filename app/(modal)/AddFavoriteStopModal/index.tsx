@@ -8,19 +8,22 @@ import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
 import { Pattern, Stop } from '@carrismetropolitana/api-types/network';
-import { Button, ListItem } from '@rneui/themed';
+import { Button, ListItem , Text} from '@rneui/themed';
 import { IconArrowRight, IconBusStop, IconCircle, IconCircleCheckFilled, IconNotification, IconPlayerPlayFilled, IconSearch, IconX } from '@tabler/icons-react-native';
 import { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 
 import StopsListChooserModal from '../StopsListChooserModal';
 import styles from './styles';
 import { useRouter } from 'expo-router';
-import { use } from 'i18next';
 
 /* * */
 
-export default function AddFavoriteStop() {
+interface AddFavoriteStopProps {
+  onClose: () => void;
+}
+
+export default function AddFavoriteStop({ onClose }: AddFavoriteStopProps) {
 	//
 
 	//
@@ -63,7 +66,8 @@ export default function AddFavoriteStop() {
 
 	const clearScreen = () => {
 		clearSelection();
-		router.push('/(tabs)/profile');
+		 onClose();
+		// router.push('/(tabs)/profile');
 	};
 
 	const clearSelection = () => {
@@ -119,8 +123,6 @@ export default function AddFavoriteStop() {
 			setSelectedPatterns([...selectedPatterns, patternId]);
 		}
 	}
-
-	console.log('damn');
 
 	return (
 		<>

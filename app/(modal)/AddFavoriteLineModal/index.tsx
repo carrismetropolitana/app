@@ -18,10 +18,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './styles';
 
 /* * */
+interface Props {
+  onClose: () => void;
+}
 
 /* * */
 
-export default function AddFavoriteLine() {
+export default function AddFavoriteLine({ onClose }: Props) {
 	//
 
 	//
@@ -79,7 +82,9 @@ export default function AddFavoriteLine() {
 	//
 	// C. Handle actions
 		const clearScreen = () => {
+				
 		linesDetailContext.actions.resetLineId();
+		 onClose();
 	};
 
 	//
