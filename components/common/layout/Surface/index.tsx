@@ -1,6 +1,7 @@
 /* * */
 
-import { View } from 'react-native';
+import React from 'react';
+import { View, ViewStyle } from 'react-native';
 
 import { surfaceStyles } from './styles';
 
@@ -10,12 +11,13 @@ interface Props {
 	children?: React.ReactNode
 	forceOverflow?: boolean
 	fullHeight?: boolean
+	style?: ViewStyle
 	variant?: 'alerts' | 'brand2' | 'brand' | 'debug' | 'default' | 'muted' | 'persistent' | 'standout' | 'success' | 'warning'
 }
 
 /* * */
 
-export function Surface({ children, forceOverflow, fullHeight, variant }: Props) {
+export function Surface({ children, forceOverflow, fullHeight, style, variant }: Props) {
 	//
 
 	//
@@ -40,7 +42,7 @@ export function Surface({ children, forceOverflow, fullHeight, variant }: Props)
 	// B. Render Components
 
 	return (
-		<View style={containerStyles}>
+		<View style={[containerStyles, style && style]}>
 			{children}
 		</View>
 	);

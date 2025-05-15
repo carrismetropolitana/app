@@ -6,8 +6,8 @@ import { theming } from '@/theme/Variables';
 import { useNetInfo } from '@react-native-community/netinfo';
 import {
 	IconArrowLoopRight,
-	IconBusStop,
 	IconDots,
+	IconMap,
 	IconUserCircle,
 } from '@tabler/icons-react-native';
 import { Tabs } from 'expo-router';
@@ -28,7 +28,7 @@ export default function TabLayout() {
 		home: IconUserCircle,
 		lines: IconArrowLoopRight,
 		more: IconDots,
-		stops: IconBusStop,
+		stops: IconMap,
 	};
 
 	const styles = StyleSheet.create({

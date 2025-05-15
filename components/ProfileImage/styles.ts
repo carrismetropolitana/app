@@ -23,8 +23,6 @@ export const styles = () => {
 	return StyleSheet.create({
 		avatarContainer: {
 			backgroundColor,
-			borderColor: theming.colorBrand,
-			borderWidth: 3,
 		},
 	});
 

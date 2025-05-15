@@ -9,25 +9,19 @@ import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
 import { Pattern } from '@carrismetropolitana/api-types/network';
-import { Button, ListItem, Overlay, Text } from '@rneui/themed';
+import { Button, ListItem } from '@rneui/themed';
 import { IconArrowLoopRight, IconArrowRight, IconCircle, IconCircleCheckFilled, IconNotification, IconPlayerPlayFilled, IconSearch, IconX } from '@tabler/icons-react-native';
-import { useEffect, useState } from 'react';
+import {  useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import styles from './styles';
 
 /* * */
 
-interface Props {
-	isVisible: boolean
-	onBackdropPress: () => void
-}
-
 /* * */
 
-export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: Props) {
+export default function AddFavoriteLine() {
 	//
 
 	//
@@ -35,21 +29,13 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 
 	const [lineChooserVisibility, setLineChooserVisibility] = useState(false);
 	const [patternNames, setPatternNames] = useState<Record<string, string>>({});
-
 	const linesDetailContext = useLinesDetailContext();
 	const themeContext = useThemeContext();
 	const profileContext = useProfileContext();
-
 	const addFavoriteLineStyles = styles();
 
 	//
 	// B. Fetch Data
-
-	const clearScreen = () => {
-		linesDetailContext.actions.resetLineId();
-		onBackdropPress();
-	};
-
 	const fetchPattern = async (patternId: string) => {
 		try {
 			const response = await fetch(`${Routes.API}/patterns/${patternId}`);
@@ -91,19 +77,19 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 	}, [linesDetailContext.data.line?.pattern_ids]);
 
 	//
-	// C. Render Components
+	// C. Handle actions
+		const clearScreen = () => {
+		linesDetailContext.actions.resetLineId();
+	};
+
+	//
+	// D. Render Components
 
 	return (
-		<Overlay animationType="slide" isVisible={isVisible} onBackdropPress={clearScreen} style={addFavoriteLineStyles.overlay}>
+		<View style={addFavoriteLineStyles.overlay}>
 			<SafeAreaView>
-				<ScrollView showsVerticalScrollIndicator={false}>
 					<View style={addFavoriteLineStyles.container}>
-						<View style={addFavoriteLineStyles.header}>
-							<TouchableOpacity onPress={clearScreen} style={addFavoriteLineStyles.backButton}>
-								<Text style={addFavoriteLineStyles.arrow}>←</Text>
-								<Text style={addFavoriteLineStyles.backText}>Voltar</Text>
-							</TouchableOpacity>
-						</View>
+					
 
 						<Section
 							heading="Linha Favorita"
@@ -238,9 +224,8 @@ export default function AddFavoriteLine({ isVisible = false, onBackdropPress }: 
 						isVisible={lineChooserVisibility}
 						onBackdropPress={() => setLineChooserVisibility(!lineChooserVisibility)}
 					/>
-				</ScrollView>
 			</SafeAreaView>
-		</Overlay>
+		</View>
 	);
 
 	//

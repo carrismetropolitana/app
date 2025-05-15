@@ -153,12 +153,22 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				localStorage.getItem(LOCAL_STORAGE_KEYS.persona_history),
 			]);
 
-			setAPIToken(storedToken);
-			setDataPersonaImageState(storedPersona);
-			setPersonaHistory(storedHistory ? JSON.parse(storedHistory) : []);
+			// Only update if values have actually changed to avoid unnecessary re-renders
+			setAPIToken(prev => prev === storedToken ? prev : storedToken);
+			setDataPersonaImageState(prev => prev === storedPersona ? prev : storedPersona);
+			setPersonaHistory((prev) => {
+				const parsed = storedHistory ? JSON.parse(storedHistory) : [];
+				// Compare arrays shallowly
+				if (prev.length === parsed.length && prev.every((v, i) => v === parsed[i])) {
+					return prev;
+				}
+				return parsed;
+			});
 
 			const localProfile = storedProfile ? JSON.parse(storedProfile) : '';
-			setDataProfileState(localProfile);
+			setDataProfileState(prev => (
+				JSON.stringify(prev) === JSON.stringify(localProfile) ? prev : localProfile
+			));
 
 			if (!localProfile) {
 				await setNewEmptyProfile();
@@ -181,7 +191,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 		const intervalId = setInterval(() => {
 			fetchData();
-		}, 30000);
+		}, 10000);
 
 		return () => clearInterval(intervalId);
 	}, [consentContext.data.enabled_functional]);

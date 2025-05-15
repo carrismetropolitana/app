@@ -1,6 +1,7 @@
 /* * */
 
 import { useProfileContext } from '@/contexts/Profile.context';
+import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
 import { Avatar } from '@rneui/themed';
 import React, { useMemo } from 'react';
@@ -11,6 +12,8 @@ import { styles } from './styles';
 /* * */
 
 interface ProfileImageProps {
+	borderWidth?: number
+	color?: string
 	height?: number
 	size?: number
 	type: 'local' | 'url'
@@ -18,7 +21,7 @@ interface ProfileImageProps {
 }
 
 /* * */
-export function ProfileImage({ height = 50, size = 50, type, width = 50 }: ProfileImageProps) {
+export function ProfileImage({ borderWidth = 3, color = theming.colorBrand, height = 50, size = 50, type, width = 50 }: ProfileImageProps) {
 	// A. Setup variables
 	const profileContext = useProfileContext();
 	const profileImageStyles = styles();
@@ -35,7 +38,7 @@ export function ProfileImage({ height = 50, size = 50, type, width = 50 }: Profi
 	if (type === 'url') {
 		return (
 			<Avatar
-				containerStyle={profileImageStyles.avatarContainer}
+				containerStyle={[profileImageStyles.avatarContainer, { borderColor: color, borderWidth: borderWidth }]}
 				size={size}
 				source={{ uri: profileImage || '' }}
 				rounded

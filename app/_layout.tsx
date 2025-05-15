@@ -13,8 +13,9 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { StrictMode, useEffect } from 'react';
+import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 /* * */
 
@@ -57,19 +58,17 @@ export default function RootLayout() {
 					<DataProviders>
 						<ProfileProviders>
 							<MapProviders>
+								<BottomSheetModalProvider>
 								<QueryClientProvider client={queryClient}>
 									<ThemeProvider>
 										<StatusBar backgroundColor="transparent" style="auto" translucent />
 										<Stack>
-											<Stack.Screen
-												name="(tabs)"
-												options={{
-													headerShown: false,
-												}}
-											/>
+											<Stack.Screen name="(tabs)" options={{ headerShown: false}} />
+											 <Stack.Screen name="(modal)" options={{ presentation: 'formSheet', headerShown: false, sheetGrabberVisible: true }} />
 										</Stack>
 									</ThemeProvider>
 								</QueryClientProvider>
+								</BottomSheetModalProvider>
 							</MapProviders>
 						</ProfileProviders>
 					</DataProviders>

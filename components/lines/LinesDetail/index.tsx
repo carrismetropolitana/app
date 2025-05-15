@@ -2,7 +2,7 @@ import { LinesDetailHeader } from '@/components/lines/LinesDetailHeader';
 import { LinesDetailPath } from '@/components/lines/LinesDetailPath';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native';
 
 export function LinesDetail() {
 	//

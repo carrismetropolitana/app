@@ -18,6 +18,7 @@ export const styles = () => {
 		/* WRAPPER */
 		wrapper: {
 			backgroundColor: backgroundColor,
+			flex: 1,
 		},
 
 	});

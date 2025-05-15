@@ -5,7 +5,6 @@ import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { Text } from '@rneui/themed';
 import { useEffect } from 'react';
 import { View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
 
 /* * */
 
@@ -39,11 +38,11 @@ export function LineWidgetCardBody({ lineId }: Props) {
 		);
 	}
 	return (
-		<ScrollView>
+		<View>
 			{lineId && (
 				<LinesDetailPathMap key={lineId} hasToolbar={false} />
 			)}
-		</ScrollView>
+		</View>
 	);
 
 	//

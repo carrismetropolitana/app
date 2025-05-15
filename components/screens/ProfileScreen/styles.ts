@@ -18,15 +18,7 @@ export const styles = () => {
 
 	return StyleSheet.create({
 		addFavoritesSection: {
-			backgroundColor,
-		},
-		avatarContainer: {
-			borderColor: '#3D85C6',
-			borderWidth: 8,
-		},
-		container: {
-			backgroundColor,
-			flex: 1,
+			backgroundColor: backgroundColor,
 		},
 		listTitle: {
 			fontSize: theming.fontSizeNav,
@@ -41,12 +33,6 @@ export const styles = () => {
 		nameText: {
 			marginRight: 8,
 		},
-		userDetails: {
-			alignItems: 'center',
-			gap: 6,
-			justifyContent: 'center',
-			paddingVertical: 24,
-		},
 		userFullNameText: {
 			color: fontColor,
 			fontSize: 26,
@@ -54,14 +40,8 @@ export const styles = () => {
 		},
 		userSection: {
 			alignItems: 'center',
-			flex: 1,
 			justifyContent: 'center',
 			paddingTop: 36,
-		},
-		userTypeText: {
-			color: '#3D85C6',
-			fontSize: 14,
-			fontWeight: '700',
 		},
 	});
 };

@@ -3,9 +3,9 @@
 import ProfileScreen from '@/components/screens/ProfileScreen';
 import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
 import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 
 /* * */
 
@@ -16,24 +16,27 @@ export default function Profile() {
 	// A. Setup variables
 
 	const navigation = useNavigation();
-	const { t } = useTranslation('translation', { keyPrefix: 'layout' });
 
 	useEffect(() => {
 		navigation.setOptions({
-			headerBackTitle: `${t('BackButton')}`,
 			headerTitle: '',
 			presentation: 'formSheet',
+			sheetAllowedDetents: ['fitToContents', 'large'],
+			sheetExpandsWhenScrolledToEdge: true,
 			sheetGrabberVisible: true,
+			sheetInitialDetentIndex: 0,
 		});
 	}, [navigation]);
 
 	//
-	// A. Render components
+	// B. Render components
 
 	return (
 		<LinesDetailContextProvider>
 			<StopsDetailContextProvider>
-				<ProfileScreen />
+				<BottomSheetModalProvider>
+					<ProfileScreen />
+				</BottomSheetModalProvider>
 			</StopsDetailContextProvider>
 		</LinesDetailContextProvider>
 	);

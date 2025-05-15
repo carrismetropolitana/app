@@ -21,9 +21,17 @@ interface WidgetCardsProps {
 /* * */
 
 export function WidgetCards({ type }: WidgetCardsProps) {
+	//
+
+	//
+	// A. Setup variables
+
 	const profileContext = useProfileContext();
 	const widgets = profileContext.data.profile?.widgets ?? [];
 	const [sortedWidgets, setSortedWidgets] = useState<AccountWidget[]>([]);
+
+	//
+	// B. Transform data
 
 	useEffect(() => {
 		const filtered = type ? widgets.filter(w => w.data.type === type) : widgets;
@@ -32,6 +40,9 @@ export function WidgetCards({ type }: WidgetCardsProps) {
 			.sort((a, b) => (a.settings?.display_order ?? 0) - (b.settings?.display_order ?? 0));
 		setSortedWidgets(ordered);
 	}, [widgets, type]);
+
+	//
+	// C. Handle actions
 
 	const handleToggle = (key: string) => {
 		const updatedWidgets = widgets.map((widget) => {
@@ -57,6 +68,9 @@ export function WidgetCards({ type }: WidgetCardsProps) {
 			widgets: updatedWidgets,
 		});
 	};
+
+	//
+	// D. Render components
 
 	if (!sortedWidgets.length) {
 		return (
@@ -99,4 +113,6 @@ export function WidgetCards({ type }: WidgetCardsProps) {
 			</LinesDetailContextProvider>
 		</StopsDetailContextProvider>
 	);
+
+	//
 }
