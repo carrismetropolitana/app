@@ -58,6 +58,7 @@ export default function RootLayout() {
 					<DataProviders>
 						<ProfileProviders>
 							<MapProviders>
+								<BottomSheetModalProvider>
 								<QueryClientProvider client={queryClient}>
 									<ThemeProvider>
 										<StatusBar backgroundColor="transparent" style="auto" translucent />
@@ -66,6 +67,7 @@ export default function RootLayout() {
 										</Stack>
 									</ThemeProvider>
 								</QueryClientProvider>
+								</BottomSheetModalProvider>
 							</MapProviders>
 						</ProfileProviders>
 					</DataProviders>

@@ -9,9 +9,9 @@ import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
 import { Pattern } from '@carrismetropolitana/api-types/network';
-import { Button, ListItem } from '@rneui/themed';
+import { Button, ListItem, Text } from '@rneui/themed';
 import { IconArrowLoopRight, IconArrowRight, IconCircle, IconCircleCheckFilled, IconNotification, IconPlayerPlayFilled, IconSearch, IconX } from '@tabler/icons-react-native';
-import {  useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -19,7 +19,7 @@ import styles from './styles';
 
 /* * */
 interface Props {
-  onClose: () => void;
+	onClose: () => void;
 }
 
 /* * */
@@ -81,10 +81,10 @@ export default function AddFavoriteLine({ onClose }: Props) {
 
 	//
 	// C. Handle actions
-		const clearScreen = () => {
-				
+	const clearScreen = () => {
+
 		linesDetailContext.actions.resetLineId();
-		 onClose();
+		onClose();
 	};
 
 	//
@@ -93,67 +93,70 @@ export default function AddFavoriteLine({ onClose }: Props) {
 	return (
 		<View style={addFavoriteLineStyles.overlay}>
 			<SafeAreaView>
-					<View style={addFavoriteLineStyles.container}>
-					
+				<View style={addFavoriteLineStyles.container}>
 
-						<Section
-							heading="Linha Favorita"
-							subheading="Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas."
-						/>
-						<View style={addFavoriteLineStyles.videoContainer}>
-							<TouchableOpacity>
-								<ListItem>
-									<IconPlayerPlayFilled color="#3D85C6" fill="#3D85C6" size={24} />
-									<ListItem.Content>
-										<ListItem.Title style={addFavoriteLineStyles.listTitle}>Ver Vídeo Explicativo</ListItem.Title>
-									</ListItem.Content>
-									<ListItem.Chevron />
-								</ListItem>
-							</TouchableOpacity>
-						</View>
 
-						<Section
-							heading="1. Selecionar Linha "
-							subheading="Escolha uma linha para visualizar na página principal"
-						/>
-						<View>
-							{linesDetailContext.data.line && (
-								<ListItem>
-									<IconArrowLoopRight color="#C61D23" size={24} />
-									<ListItem.Content>
-										<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-											{linesDetailContext.data.line.long_name}
-										</ListItem.Title>
-									</ListItem.Content>
-									<IconX color="#9696A0" onPress={linesDetailContext.actions.resetLineId} size={24} />
-								</ListItem>
-							)}
-							<ListItem onPress={() => setLineChooserVisibility(true)}>
-								<IconSearch color="#9696A0" size={24} />
+					<Section
+						heading="Linha Favorita"
+						subheading="Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas."
+					/>
+					<View style={addFavoriteLineStyles.videoContainer}>
+						<TouchableOpacity>
+							<ListItem>
+								<IconPlayerPlayFilled color="#3D85C6" fill="#3D85C6" size={24} />
 								<ListItem.Content>
-									<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-										Alterar Linha Selecionada
-									</ListItem.Title>
+									<ListItem.Title style={addFavoriteLineStyles.listTitle}>Ver Vídeo Explicativo</ListItem.Title>
 								</ListItem.Content>
 								<ListItem.Chevron />
 							</ListItem>
-						</View>
+						</TouchableOpacity>
+					</View>
 
-						<View style={{ marginBottom: 20, marginTop: 20 }}>
-							<Section
-								heading="2. Escolher destinos "
-								subheading="Pode escolher apenas os destinos que lhe interessam a partir desta paragem. Personalize o seu painel de informação único."
-							/>
-							<View>
-								{linesDetailContext.data.line?.pattern_ids ? (
-									linesDetailContext.data.line?.pattern_ids.map((item) => {
+					<Section
+						heading="1. Selecionar Linha "
+						subheading="Escolha uma linha para visualizar na página principal"
+					/>
+					<View>
+						{linesDetailContext.data.line && (
+							<ListItem>
+								<IconArrowLoopRight color="#C61D23" size={24} />
+								<ListItem.Content>
+									<ListItem.Title style={addFavoriteLineStyles.listTitle}>
+										{linesDetailContext.data.line.long_name}
+									</ListItem.Title>
+								</ListItem.Content>
+								<IconX color="#9696A0" onPress={linesDetailContext.actions.resetLineId} size={24} />
+							</ListItem>
+						)}
+						<ListItem onPress={() => setLineChooserVisibility(true)}>
+							<IconSearch color="#9696A0" size={24} />
+							<ListItem.Content>
+								<ListItem.Title style={addFavoriteLineStyles.listTitle}>
+									Alterar Linha Selecionada
+								</ListItem.Title>
+							</ListItem.Content>
+							<ListItem.Chevron />
+						</ListItem>
+					</View>
+
+					<View style={{ marginBottom: 20, marginTop: 20 }}>
+						<Section
+							heading="2. Escolher destinos "
+							subheading="Pode escolher apenas os destinos que lhe interessam a partir desta paragem. Personalize o seu painel de informação único."
+						/>
+						<View>
+							{linesDetailContext.data.line?.pattern_ids ? (
+								<View>
+									<Text style={{ fontWeight: 'bold', marginVertical: 8 }}>
+										Linha {linesDetailContext.data.line.id} - {linesDetailContext.data.line.long_name}
+									</Text>
+									{linesDetailContext.data.line.pattern_ids.map((item) => {
 										const isFavorite = profileContext.data.profile?.widgets?.some(
 											favorite =>
-												favorite.data
-												&& 'pattern_id' in favorite.data
-												&& favorite.data.pattern_id === item,
+												favorite.data &&
+												'pattern_id' in favorite.data &&
+												favorite.data.pattern_id === item,
 										);
-
 										return (
 											<ListItem
 												key={item}
@@ -187,48 +190,49 @@ export default function AddFavoriteLine({ onClose }: Props) {
 												)}
 											</ListItem>
 										);
-									})
-								) : (
-									<ListItem>
-										<ListItem.Content>
-											<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-												Selecione uma linha para ver os destinos.
-											</ListItem.Title>
-										</ListItem.Content>
-									</ListItem>
-								)}
-							</View>
+									})}
+								</View>
+							) : (
+								<ListItem>
+									<ListItem.Content>
+										<ListItem.Title style={addFavoriteLineStyles.listTitle}>
+											Selecione uma linha para ver os destinos.
+										</ListItem.Title>
+									</ListItem.Content>
+								</ListItem>
+							)}
 						</View>
-						<View style={{ marginBottom: 30 }}>
-							<Section
-								heading="3. Notificações "
-								subheading="Pode escolher receber uma notificação sempre que existir um alerta para a paragem e para os destinos que selecionou."
-							/>
-							<ListItem onPress={() => setLineChooserVisibility(true)}>
-								<IconNotification color="#E64B23" size={24} />
-								<ListItem.Content>
-									<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-										Notificações Intiligentes
-									</ListItem.Title>
-								</ListItem.Content>
-								<ListItem.Chevron />
-							</ListItem>
-						</View>
-
-						<View>
-							<Button
-								buttonStyle={addFavoriteLineStyles.saveButton}
-								onPress={clearScreen}
-								title="Fechar"
-								titleStyle={addFavoriteLineStyles.saveButtonText}
-							/>
-						</View>
-
 					</View>
-					<LinesListChooserModal
-						isVisible={lineChooserVisibility}
-						onBackdropPress={() => setLineChooserVisibility(!lineChooserVisibility)}
-					/>
+					<View style={{ marginBottom: 30 }}>
+						<Section
+							heading="3. Notificações "
+							subheading="Pode escolher receber uma notificação sempre que existir um alerta para a paragem e para os destinos que selecionou."
+						/>
+						<ListItem onPress={() => setLineChooserVisibility(true)} disabled>
+							<IconNotification color="#E64B23" size={24} />
+							<ListItem.Content>
+								<ListItem.Title style={addFavoriteLineStyles.listTitle}>
+									Notificações Inteligentes
+								</ListItem.Title>
+							</ListItem.Content>
+							<ListItem.Chevron />
+						</ListItem>
+					</View>
+
+					<View>
+						<Button
+							buttonStyle={addFavoriteLineStyles.saveButton}
+							onPress={clearScreen}
+							title="Fechar"
+							titleStyle={addFavoriteLineStyles.saveButtonText}
+						/>
+					</View>
+
+				</View>
+				<LinesListChooserModal
+					isVisible={lineChooserVisibility}
+					onBackdropPress={() => setLineChooserVisibility(!lineChooserVisibility)}
+				/>
 			</SafeAreaView>
 		</View>
 	);

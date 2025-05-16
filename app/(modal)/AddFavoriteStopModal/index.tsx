@@ -175,55 +175,68 @@ export default function AddFavoriteStop({ onClose }: AddFavoriteStopProps) {
 						heading="2. Escolher destinos "
 						subheading="Pode escolher apenas os destinos que lhe interessam a partir desta paragem. Personalize o seu painel de informação único."
 					/>
-					<View>
-						{selectedStop && selectedStop.pattern_ids.length > 0 ? (
-							selectedStop.pattern_ids.map((patternId) => {
+				<View>
+					{selectedStop && selectedStop.pattern_ids.length > 0 ? (
+						Object.entries(
+							selectedStop.pattern_ids.reduce((acc: Record<string, string[]>, patternId: string) => {
 								const lineId = patternId.split('_')[0];
-								const lineColor = linesContext.data.lines.find(line => line.id === lineId)?.color;
-								const isSelected = selectedStopPatterns.includes(patternId);
-
-								return (
-									<ListItem
-										key={patternId}
-										onPress={() => togglePattern(patternId, selectedStopPatterns, setStopPatterns)}
-									>
-										<LineBadge
-											color={lineColor}
-											lineId={lineId}
-											size="lg"
-										/>
-										<IconArrowRight size={10} />
-										<ListItem.Content>
-											<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-												{patternNames[patternId] || 'Sem destino'}
-											</ListItem.Title>
-										</ListItem.Content>
-										{isSelected ? (
-											<IconCircleCheckFilled
-												fill="#3CB43C"
-												size={24}
-												color={
-													themeContext.theme.mode === 'light'
-														? theming.colorSystemBackgroundLight100
-														: theming.colorSystemBackgroundDark100
-												}
-											/>
-										) : (
-											<IconCircle color="grey" size={24} />
-										)}
-									</ListItem>
-								);
-							})
-						) : (
-							<ListItem>
-								<ListItem.Content>
-									<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-										<Text>Selecione uma paragem para ver os destinos.</Text>
-									</ListItem.Title>
-								</ListItem.Content>
-							</ListItem>
-						)}
-					</View>
+								if (!acc[lineId]) acc[lineId] = [];
+								acc[lineId].push(patternId);
+								return acc;
+							}, {})
+						).map(([lineId, patternIds]) => {
+							const line = linesContext.data.lines.find(line => line.id === lineId);
+							const lineColor = line?.color;
+							return (
+								<View key={lineId} style={{ marginBottom: 16 }}>
+									<Text style={[addFavoriteStopStyles.listTitle, { marginBottom: 4 }]}>Linha {lineId}{line?.long_name ? ` - ${line.long_name}` : ''}</Text>
+									{patternIds.map((patternId) => {
+										const isSelected = selectedStopPatterns.includes(patternId);
+										return (
+											<ListItem
+												key={patternId}
+												onPress={() => togglePattern(patternId, selectedStopPatterns, setStopPatterns)}
+											>
+												<LineBadge
+													color={lineColor}
+													lineId={lineId}
+													size="lg"
+												/>
+												<IconArrowRight size={10} />
+												<ListItem.Content>
+													<ListItem.Title style={addFavoriteStopStyles.listTitle}>
+														{patternNames[patternId] || 'Sem destino'}
+													</ListItem.Title>
+												</ListItem.Content>
+												{isSelected ? (
+													<IconCircleCheckFilled
+														fill="#3CB43C"
+														size={24}
+														color={
+															themeContext.theme.mode === 'light'
+															? theming.colorSystemBackgroundLight100
+															: theming.colorSystemBackgroundDark100
+														}
+													/>
+												) : (
+													<IconCircle color="grey" size={24} />
+												)}
+											</ListItem>
+										);
+									})}
+								</View>
+							);
+						})
+					) : (
+						<ListItem>
+							<ListItem.Content>
+								<ListItem.Title style={addFavoriteStopStyles.listTitle}>
+									<Text>Selecione uma paragem para ver os destinos.</Text>
+								</ListItem.Title>
+							</ListItem.Content>
+						</ListItem>
+					)}
+				</View>
 				</View>
 
 				<View style={{ marginBottom: 30 }}>

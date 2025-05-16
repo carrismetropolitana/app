@@ -25,6 +25,7 @@ export default function Profile() {
 			sheetExpandsWhenScrolledToEdge: true,
 			sheetGrabberVisible: true,
 			sheetInitialDetentIndex: 0,
+			sheetContentHeight: 'auto',
 		});
 	}, [navigation]);
 

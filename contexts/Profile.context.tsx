@@ -95,11 +95,11 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	// C. Fetch Data
 	const mergeProfiles = (local: Account, cloud: Account): Account => {
 		return {
-			_id: cloud._id,
-			created_at: cloud.created_at,
-			devices: local.devices,
-			email: cloud.email,
-			email_verified: cloud.email_verified,
+			_id: cloud._id || local._id,
+			created_at: cloud.created_at || local.created_at,
+			devices: local.devices || cloud.devices || [],
+			email: cloud.email || local.email,
+			email_verified: cloud.email_verified || local.email_verified,
 			favorites: {
 				lines: cloud.favorites?.lines || local.favorites?.lines || [],
 				stops: cloud.favorites?.stops || local.favorites?.stops || [],

@@ -80,7 +80,7 @@ export default function ProfileScreen() {
   const buttons = [
     {
       element: () => (
-        <Pressable onPress={goBackInHistory}>
+        <Pressable onPress={persona_image ? goBackInHistory : undefined} disabled={!persona_image}>
           <IconArrowNarrowLeft color={theming.colorSystemText300} size={24} />
         </Pressable>
       )
@@ -101,13 +101,8 @@ export default function ProfileScreen() {
   const ListHeader = () => (
     <>
       <View style={profileStyles.userSection}>
-        {persona_image && <ProfileImage size={200} type="url" />}
-        <ButtonGroup buttons={buttons} containerStyle={{
-          backgroundColor: themeContext.theme.lightColors?.background,
-          borderRadius: 30,
-          marginTop: -20,
-          width: '25%'
-        }} />
+        {persona_image ? <ProfileImage type="url" size={200} /> : <ProfileImage width={200} height={200} type="local" />}
+        <ButtonGroup buttons={buttons} containerStyle={{ backgroundColor: themeContext.theme.lightColors?.background, borderRadius: 30, marginTop: -20, width: '25%'}} />
         <Text style={profileStyles.userFullNameText}>
           {profileContext.data.profile?.profile?.first_name}
           {profileContext.data.profile?.profile?.last_name}
@@ -160,7 +155,7 @@ export default function ProfileScreen() {
     <View style={{ flex: 1 }}>
       <Surface style={{ flex: 1 }}>
         <DraggableFlatList
-         contentContainerStyle={{
+          contentContainerStyle={{
             flexGrow: 1,
             paddingBottom: 35 + insets.bottom,
           }}
