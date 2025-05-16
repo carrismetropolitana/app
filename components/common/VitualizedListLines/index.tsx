@@ -1,73 +1,65 @@
-/* * */
-
+// src/components/common/VirtualizedListingLines.tsx
+import React, { useCallback } from 'react';
+import { VirtualizedList, StyleSheet } from 'react-native';
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
-import { LineDisplay } from '@/components/lines/LineDisplay';
-import { ListItem } from '@rneui/themed';
-import { Link } from 'expo-router';
-import { TouchableOpacity, VirtualizedList } from 'react-native';
+import { MemoizedLineItem } from '@/components/common/LineItem';
 
-/* * */
 interface Props {
-	data: unknown[]
-	icon?: React.ReactNode
-	itemClick?: (item) => void
-	items?: number
-	municiplality?: string[]
-	size?: 'lg' | 'md'
+	data: any[];
+	icon?: React.ReactNode;
+	itemClick?: (item: any) => void;
+	items?: number;
+	municipality?: string[];
+	size?: 'lg' | 'md';
 }
-/* * */
-export function VirtualizedListingLines({ data, icon, itemClick, items, municiplality, size }: Props) {
-	//
 
-	//
-	// A. Fetch data
+export function VirtualizedListingLines({ data, icon, itemClick, items = 10, municipality, size = 'md', }: Props) {
+	const getItem = useCallback((d: any[], i: number) => d[i], []);
+	const getItemCount = useCallback((d: any[]) => d.length, []);
 
-	const getItem = (data: [], index: number) => data[index];
+	const renderItem = useCallback(({ item }) => (
+			<MemoizedLineItem
+				lineData={item}
+				municipality={municipality}
+				size={size}
+				onPress={() => itemClick?.(item)}
+				icon={icon}
+			/>
+		),[municipality, size, itemClick, icon]
+	);
 
-	//
-	// B. Render components
-
-	const renderItem = ({ item }) => (
-		<ListItem bottomDivider topDivider>
-			{itemClick
-				? (
-					<ListItem.Content>
-						<ListItem.Title>
-							<TouchableOpacity onPress={() => itemClick(item)}>
-								<LineDisplay lineData={item} municipality={municiplality} size={size} />
-							</TouchableOpacity>
-						</ListItem.Title>
-					</ListItem.Content>
-				)
-				: (
-					<ListItem.Content>
-						<Link href={`/line/${item.id}`}>
-							<LineDisplay lineData={item} size={size} />
-						</Link>
-					</ListItem.Content>
-				)}
-
-			{icon ? icon : <ListItem.Chevron /> }
-		</ListItem>
-
+	const getItemLayout = useCallback(
+		(_: any, index: number) => {
+			const height = size === 'lg' ? 100 : 60;
+			return { length: height, offset: height * index, index };
+		},[size]
 	);
 
 	return (
 		<VirtualizedList
+			style={styles.list}
 			data={data}
 			getItem={getItem}
-			getItemCount={data => data?.length || 0}
-			initialNumToRender={items}
-			keyExtractor={item => item.id}
-			nestedScrollEnabled={false}
+			getItemCount={getItemCount}
+			keyExtractor={(item) => item.id}
 			renderItem={renderItem}
-			scrollEnabled={false}
+			initialNumToRender={items}
+			removeClippedSubviews
+			maxToRenderPerBatch={5}
+			updateCellsBatchingPeriod={50}
+			windowSize={5}
+			getItemLayout={getItemLayout}
+			scrollEnabled
 			showsVerticalScrollIndicator={false}
-			ListEmptyComponent={(
-				<NoDataLabel />
-			)}
+			ListEmptyComponent={<NoDataLabel />}
 		/>
 	);
-
-	//
 }
+
+const styles = StyleSheet.create({
+	list: {
+		flex: 1,
+	},
+});
+
+export const MemoizedListingLines = React.memo(VirtualizedListingLines);

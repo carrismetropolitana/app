@@ -58,17 +58,14 @@ export default function RootLayout() {
 					<DataProviders>
 						<ProfileProviders>
 							<MapProviders>
-								<BottomSheetModalProvider>
 								<QueryClientProvider client={queryClient}>
 									<ThemeProvider>
 										<StatusBar backgroundColor="transparent" style="auto" translucent />
 										<Stack>
 											<Stack.Screen name="(tabs)" options={{ headerShown: false}} />
-											<Stack.Screen name="(modal)" options={{ presentation: 'formSheet', headerShown: false, sheetGrabberVisible: true ,  gestureEnabled: true }} />
 										</Stack>
 									</ThemeProvider>
 								</QueryClientProvider>
-								</BottomSheetModalProvider>
 							</MapProviders>
 						</ProfileProviders>
 					</DataProviders>

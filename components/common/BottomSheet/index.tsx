@@ -1,19 +1,32 @@
+/* * */
+
 import React, { forwardRef } from 'react';
-import { BottomSheetModal, BottomSheetModalProps, BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { StyleSheet } from 'react-native';
 import { useThemeContext } from '@/contexts/Theme.context';
 
-type BottomSheetWrapperProps = {
+/* * */
+
+interface BottomSheetWrapperProps {
   children: React.ReactNode;
   snapPoints?: (string | number)[];
-} & BottomSheetModalProps;
+};
 
+/* * */
 
 
 const BottomSheetWrapper = forwardRef<BottomSheetModal, BottomSheetWrapperProps>(
-  
-  ({ children, snapPoints = ['100%'], ...props }, ref) => {
+  ({ children, snapPoints = ['100%'] }, ref) => {
+    //
+
+    //
+    // A. Setup Variables
+    
     const themeContext = useThemeContext();
+
+    //
+    // B. Render components
+
     return (
       
       <BottomSheetModal
@@ -21,12 +34,10 @@ const BottomSheetWrapper = forwardRef<BottomSheetModal, BottomSheetWrapperProps>
         index={0}
         snapPoints={snapPoints}
         enablePanDownToClose
-        backgroundStyle={{ backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
-    borderRadius: 24,}}
+        backgroundStyle={{ backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background, borderRadius: 24,}}
         handleIndicatorStyle={styles.handle}
-        {...props}
       >
-        <BottomSheetScrollView contentContainerStyle={styles.content}>
+        <BottomSheetScrollView >
           {children}
         </BottomSheetScrollView>
       </BottomSheetModal>
@@ -34,13 +45,13 @@ const BottomSheetWrapper = forwardRef<BottomSheetModal, BottomSheetWrapperProps>
   }
 );
 
+//
+
 const styles = StyleSheet.create({
   handle: {
     backgroundColor: '#cccccc',
     width: 40,
-  },
-  content: {
-    padding: 24,
+
   },
 });
 

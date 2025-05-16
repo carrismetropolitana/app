@@ -31,7 +31,7 @@ export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
   const { persona_image, profile } = profileContext.data;
   const saveTimer = useRef<NodeJS.Timeout | null>(null);
-  
+
   // Bottom Sheet Refs
   const stopSheetRef = useRef<BottomSheetModal>(null);
   const lineSheetRef = useRef<BottomSheetModal>(null);
@@ -71,7 +71,7 @@ export default function ProfileScreen() {
   const goBackInHistory = () => profileContext.actions.setPreviousPersona();
 
   const renderFavoriteItem = ({ drag, isActive, item }: any) => (
-	<Text>OOOOO</Text>
+    <Text>OOOOO</Text>
     // <Pressable disabled={isActive} onLongPress={drag}>
     //   <FavoriteItem data={item} />
     // </Pressable>
@@ -102,14 +102,14 @@ export default function ProfileScreen() {
     <>
       <View style={profileStyles.userSection}>
         {persona_image && <ProfileImage size={200} type="url" />}
-        <ButtonGroup buttons={buttons} containerStyle={{ 
-          backgroundColor: themeContext.theme.lightColors?.background, 
-          borderRadius: 30, 
-          marginTop: -20, 
-          width: '25%' 
+        <ButtonGroup buttons={buttons} containerStyle={{
+          backgroundColor: themeContext.theme.lightColors?.background,
+          borderRadius: 30,
+          marginTop: -20,
+          width: '25%'
         }} />
-        <Text style={profileStyles.userFullNameText}> 
-          {profileContext.data.profile?.profile?.first_name} 
+        <Text style={profileStyles.userFullNameText}>
+          {profileContext.data.profile?.profile?.first_name}
           {profileContext.data.profile?.profile?.last_name}
         </Text>
       </View>
@@ -157,15 +157,20 @@ export default function ProfileScreen() {
   );
 
   return (
-    <>
-      <Surface style={{ paddingBottom: 35 + insets.bottom }}>
-        <DraggableFlatList                
-          contentContainerStyle={{ paddingBottom: 35 + insets.bottom }}
+    <View style={{ flex: 1 }}>
+      <Surface style={{ flex: 1 }}>
+        <DraggableFlatList
+         contentContainerStyle={{
+            flexGrow: 1,
+            paddingBottom: 35 + insets.bottom,
+          }}
+          style={{ flex: 1 }}
           data={widgetList}
           ListFooterComponent={ListFooter}
           ListHeaderComponent={ListHeader}
-          nestedScrollEnabled={true}
+          nestedScrollEnabled={false}
           renderItem={renderFavoriteItem}
+          scrollEnabled={true}
           showsVerticalScrollIndicator={false}
           keyExtractor={item =>
             item.data.type === 'lines' ? `line-${item.data.pattern_id}`
@@ -185,19 +190,9 @@ export default function ProfileScreen() {
           }}
         />
       </Surface>
-
-      {/* Bottom Sheets */}
-      <BottomSheetWrapper ref={stopSheetRef}>
-        <AddFavoriteStop onClose={() => stopSheetRef.current?.dismiss()} />
-      </BottomSheetWrapper>
-      
-      <BottomSheetWrapper ref={lineSheetRef}>
-        <AddFavoriteLine onClose={() => lineSheetRef.current?.dismiss()} />
-      </BottomSheetWrapper>
-      
-      <BottomSheetWrapper ref={profileSheetRef}>
-        <ProfileEditModal onClose={() => profileSheetRef.current?.dismiss()} />
-      </BottomSheetWrapper>
-    </>
+      <BottomSheetWrapper ref={stopSheetRef}> <AddFavoriteStop onClose={() => stopSheetRef.current?.dismiss()} /></BottomSheetWrapper>
+      <BottomSheetWrapper ref={lineSheetRef}>  <AddFavoriteLine onClose={() => lineSheetRef.current?.dismiss()} /></BottomSheetWrapper>
+      <BottomSheetWrapper ref={profileSheetRef}> <ProfileEditModal onClose={() => profileSheetRef.current?.dismiss()} /></BottomSheetWrapper>
+    </View>
   );
 }

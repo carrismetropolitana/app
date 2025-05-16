@@ -135,7 +135,7 @@ export default function AddFavoriteStop({ onClose }: AddFavoriteStopProps) {
 							<IconPlayerPlayFilled color="#3D85C6" fill="#3D85C6" size={24} />
 							<ListItem.Content>
 								<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-									Ver Vídeo Explicativo
+									<Text>Ver Vídeo Explicativo</Text>
 								</ListItem.Title>
 							</ListItem.Content>
 							<ListItem.Chevron />
@@ -153,7 +153,7 @@ export default function AddFavoriteStop({ onClose }: AddFavoriteStopProps) {
 							<IconBusStop color="#FF6900" size={24} />
 							<ListItem.Content>
 								<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-									{selectedStop.long_name}
+									<Text>{selectedStop.long_name}</Text>
 								</ListItem.Title>
 							</ListItem.Content>
 							<IconX color="#9696A0" onPress={clearSelection} size={24} />
@@ -163,7 +163,7 @@ export default function AddFavoriteStop({ onClose }: AddFavoriteStopProps) {
 						<IconSearch color="#9696A0" size={24} />
 						<ListItem.Content>
 							<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-								Alterar Paragem Selecionada
+								<Text>Alterar Paragem Selecionada</Text>
 							</ListItem.Title>
 						</ListItem.Content>
 						<ListItem.Chevron />
@@ -218,7 +218,7 @@ export default function AddFavoriteStop({ onClose }: AddFavoriteStopProps) {
 							<ListItem>
 								<ListItem.Content>
 									<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-										Selecione uma paragem para ver os destinos.
+										<Text>Selecione uma paragem para ver os destinos.</Text>
 									</ListItem.Title>
 								</ListItem.Content>
 							</ListItem>
@@ -235,7 +235,7 @@ export default function AddFavoriteStop({ onClose }: AddFavoriteStopProps) {
 						<IconNotification color="#E64B23" size={24} />
 						<ListItem.Content>
 							<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-								Notificações Intiligentes
+								<Text>Notificações Intiligentes</Text>
 							</ListItem.Title>
 						</ListItem.Content>
 						<ListItem.Chevron />

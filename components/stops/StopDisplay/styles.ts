@@ -19,6 +19,7 @@ export const styles = () => {
 		flexDirection: 'column',
 		gap: theming.sizeSpacing5,
 		justifyContent: 'flex-start',
+		flexWrap: 'wrap',	
 	} as const;
 
 	return StyleSheet.create({
@@ -27,24 +28,17 @@ export const styles = () => {
 		container: {
 			...container,
 			backgroundColor: backgroundColor,
+			width: '100%',
 		},
 
 		// /* * */
 		// /* CONTAINER / MODIFIERS */
 		lg: {
 			...container,
-			fontSize: 22,
-			maxHeight: 26,
-			maxWidth: 65,
-			minHeight: 26,
-			minWidth: 65 },
+			fontSize: 22,},
 		md: {
 			...container,
 			fontSize: 16,
-			maxHeight: 26,
-			maxWidth: 65,
-			minHeight: 26,
-			minWidth: 65,
 		},
 
 		// /* * */

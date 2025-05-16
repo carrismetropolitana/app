@@ -1,56 +1,62 @@
-/* * */
-
-import { VirtualizedListingLines } from '@/components/common/VitualizedListLines';
+// src/screens/LinesScreen.tsx
+import React, { useCallback } from 'react';
+import { SafeAreaView, SectionList, StyleSheet } from 'react-native';
+import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
+import { Section } from '@/components/common/layout/Section';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useLinesListContext } from '@/contexts/LinesList.context';
 import { useLocationsContext } from '@/contexts/Locations.context';
 import { useThemeContext } from '@/contexts/Theme.context';
-import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { MemoizedLineItem } from '@/components/common/LineItem';
+import { router } from 'expo-router';
 
-import { Section } from '../common/layout/Section';
+export default function LinesScreen(): JSX.Element {
+	const { data: { lines: allLines } } = useLinesContext();
+	const { data: { linesAroundLocation: nearbyLines } } = useLinesListContext();
+	const { data: { locationPermission } } = useLocationsContext();
+	const { theme } = useThemeContext();
 
-/* * */
+	const sections = [
+		{
+			title: 'A minha volta',
+			data: locationPermission === 'granted' ? nearbyLines : [],
+		},
+		{
+			title: 'Todas as linhas',
+			data: allLines,
+		},
+	];
 
-export default function LinesScreen() {
-	//
+	const renderSectionHeader = useCallback(({ section: { title, data } }) => data.length > 0 ? <Section heading={title} /> : null, []);
 
-	// A. Setup Variables
+	const renderItem = useCallback(({ item }) => <MemoizedLineItem lineData={item} size="lg" onPress={() => router.push(`/line/${item.id}`)} />, []);
 
-	const linesListContext = useLinesListContext();
-	const linesContext = useLinesContext();
-	const locationContext = useLocationsContext();
-	const themeContext = useThemeContext();
+	const keyExtractor = useCallback((item: any) => item.id, []);
 
-	const lines = linesContext.data.lines;
-	const linesAroundLocation = linesListContext.data.linesAroundLocation;
+	const getItemLayout = useCallback((_: any, index: number) => ({ length: 100, offset: 100 * index, index }), []);
 
 	const styles = StyleSheet.create({
 		container: {
-			backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
 			flex: 1,
-			width: '100%',
+			backgroundColor: theme.mode === 'light' ? theme.lightColors?.background : theme.darkColors?.background,
 		},
 	});
 
-	//
-	// B. Render Components
-
 	return (
-		<SafeAreaView style={{ flex: 1 }}>
-			<ScrollView style={styles.container}>
-				<Section heading="A minha volta" />
-				{locationContext.data.locationPermission === 'granted' && linesAroundLocation.length > 0 && (
-					<VirtualizedListingLines
-						data={linesAroundLocation}
-						items={5}
-						size="lg"
-					/>
-				)}
-				<Section heading="Todas as linhas" />
-				<VirtualizedListingLines data={lines} items={5} size="lg" />
-			</ScrollView>
+		<SafeAreaView style={styles.container}>
+			<SectionList
+				sections={sections}
+				keyExtractor={keyExtractor}
+				renderSectionHeader={renderSectionHeader}
+				renderItem={renderItem}
+				ListEmptyComponent={<NoDataLabel />}
+				initialNumToRender={5}
+				maxToRenderPerBatch={5}
+				windowSize={5}
+				removeClippedSubviews
+				getItemLayout={getItemLayout}
+				showsVerticalScrollIndicator={false}
+			/>
 		</SafeAreaView>
 	);
-
-	//
 }

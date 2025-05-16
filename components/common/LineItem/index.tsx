@@ -1,0 +1,28 @@
+// src/components/common/LineItem.tsx
+import React from 'react';
+import { ListItem } from '@rneui/themed';
+import { TouchableOpacity } from 'react-native';
+import { LineDisplay } from '@/components/lines/LineDisplay';
+
+interface LineItemProps {
+    lineData: any;
+    municipality?: string[];
+    size?: 'lg' | 'md';
+    onPress?: () => void;
+    icon?: React.ReactNode;
+}
+
+export function LineItem({ lineData, municipality, size, onPress, icon}: LineItemProps): JSX.Element {
+    return (
+        <ListItem bottomDivider topDivider>
+            <ListItem.Content>
+                <TouchableOpacity onPress={onPress}>
+                    <LineDisplay lineData={lineData} municipality={municipality} size={size}/>
+                </TouchableOpacity>
+            </ListItem.Content>
+            {icon ?? <ListItem.Chevron />}
+        </ListItem>
+    );
+}
+
+export const MemoizedLineItem = React.memo(LineItem);
