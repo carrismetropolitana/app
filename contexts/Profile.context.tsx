@@ -1,3 +1,5 @@
+/* * */
+
 import { Account, AccountWidget, CreateAccountDto } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
 import { Line } from '@carrismetropolitana/api-types/network';
@@ -6,10 +8,15 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { ReactNode } from 'react';
 import { Platform } from 'react-native';
 
+/* * */
+
 import { useConsentContext } from './Consent.context';
+
+/* * */
 
 const LOCAL_STORAGE_KEYS = {
 	cloud_profile: 'cloud_profile',
+	accent_color: 'profile|accent_color',
 	device_id: 'profile|device_id',
 	favorite_lines: 'profile|favorite_lines',
 	favorite_stops: 'profile|favorite_stops',
@@ -24,6 +31,8 @@ const LOCAL_STORAGE_KEYS = {
 	widget_stops: 'profile|widget_stops',
 };
 
+/* * */
+
 interface ProfileContextState {
 	actions: {
 		checkProfile: (profile: Account) => Promise<void>
@@ -37,6 +46,7 @@ interface ProfileContextState {
 		toggleWidgetStop: (stopId: string, patternId: string[]) => Promise<void>
 		toogleAccountSync: () => void
 		updateLocalProfile: (profile: Account) => Promise<void>
+		setAccentColor: (color: string) => void
 	}
 	counters: {
 		favorite_lines: number
@@ -53,6 +63,7 @@ interface ProfileContextState {
 		selected_line: Line | string
 		widget_lines: AccountWidget[] | null
 		widget_stops: AccountWidget[] | null
+		accent_color: string
 	}
 	flags: {
 		is_enabled: boolean
@@ -61,6 +72,8 @@ interface ProfileContextState {
 		is_syncing: boolean
 	}
 }
+
+/* * */
 
 const ProfileContext = createContext<ProfileContextState | undefined>(undefined);
 
@@ -73,7 +86,10 @@ export function useProfileContext() {
 }
 
 export const ProfileContextProvider = ({ children }: { children: ReactNode }) => {
+
+	//
 	// A. Setup variables
+
 	const consentContext = useConsentContext();
 	const localStorage = AsyncStorage;
 
@@ -88,11 +104,13 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const [dataSelectedLineState, setSelectedLineState] = useState<Line | string>('');
 	const [dataFavoriteLinesState, setDataFavoriteLinesState] = useState<ProfileContextState['data']['favorite_lines']>(null);
 	const [dataFavoriteStopsState, setDataFavoriteStopsState] = useState<ProfileContextState['data']['favorite_stops']>(null);
+	const [dataAccentColorState, setDataAccentColorState] = useState<string | null>(null);
 
 	const [flagIsLoadingState, setFlagIsLoadingState] = useState<ProfileContextState['flags']['is_loading']>(true);
 
 	//
 	// C. Fetch Data
+
 	const mergeProfiles = (local: Account, cloud: Account): Account => {
 		return {
 			_id: cloud._id || local._id,
@@ -146,19 +164,19 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		try {
 			setFlagIsLoadingState(true);
 
-			const [storedProfile, storedPersona, storedToken, storedHistory] = await Promise.all([
+			const [storedProfile, storedPersona, storedToken, storedHistory, storedAccentColor] = await Promise.all([
 				localStorage.getItem(LOCAL_STORAGE_KEYS.profile),
 				localStorage.getItem(LOCAL_STORAGE_KEYS.persona_image),
 				localStorage.getItem(LOCAL_STORAGE_KEYS.token),
 				localStorage.getItem(LOCAL_STORAGE_KEYS.persona_history),
+				localStorage.getItem(LOCAL_STORAGE_KEYS.accent_color),
 			]);
 
-			// Only update if values have actually changed to avoid unnecessary re-renders
 			setAPIToken(prev => prev === storedToken ? prev : storedToken);
+			setDataAccentColorState(prev => prev === storedAccentColor ? prev : storedAccentColor);
 			setDataPersonaImageState(prev => prev === storedPersona ? prev : storedPersona);
 			setPersonaHistory((prev) => {
 				const parsed = storedHistory ? JSON.parse(storedHistory) : [];
-				// Compare arrays shallowly
 				if (prev.length === parsed.length && prev.every((v, i) => v === parsed[i])) {
 					return prev;
 				}
@@ -230,11 +248,15 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		if (dataPersonaImageState) {
 			localStorage.setItem(LOCAL_STORAGE_KEYS.persona_image, dataPersonaImageState || '');
 		}
+		if (dataAccentColorState) {
+			localStorage.setItem(LOCAL_STORAGE_KEYS.accent_color, dataAccentColorState || '');
+		}
 	}, [
 		dataWidgetLinesState,
 		dataWidgetStopsState,
 		dataApiTokenState,
 		dataProfileState,
+		dataAccentColorState,
 		dataPersonaImageState,
 		consentContext.data.enabled_functional,
 	]);
@@ -380,27 +402,19 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		else {
 			favoriteLinesSet.add(lineId);
 		}
-
-		// Convert the Set back to an array
 		const updatedFavoriteLines = Array.from(favoriteLinesSet);
-
-		// Update the local state for favorite lines
 		setDataFavoriteLinesState(updatedFavoriteLines);
-
-		// Merge the old favorite lines with the new ones
 		setDataProfileState((prev) => {
 			if (!prev) return prev;
-
 			return {
 				...prev,
 				favorites: {
 					...(prev.favorites || { lines: [], stops: [] }),
-					lines: updatedFavoriteLines, // Update lines in the profile state
+					lines: updatedFavoriteLines,
 				},
 			};
 		});
 
-		// Prepare the updated profile for syncing
 		const updatedProfile: Account = {
 			...(dataProfileState || {}),
 			favorites: {
@@ -408,34 +422,23 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				lines: Array.from(new Set([...(dataProfileState?.favorites?.lines || []), ...updatedFavoriteLines])),
 			},
 		};
-
-		// Save the updated profile to local storage and sync with the cloud
 		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
 		await updateProfileOnCloud(updatedProfile);
 	};
 
 	const toggleFavoriteStop = async (stopId: string) => {
 		if (!consentContext.data.enabled_functional) return;
-
-		// Create a Set to manage favorite stops
 		const favoriteStopsSet = new Set(dataFavoriteStopsState || []);
-
-		// Add or remove the stop from the Set
 		if (favoriteStopsSet.has(stopId)) {
 			favoriteStopsSet.delete(stopId);
 		}
 		else {
 			favoriteStopsSet.add(stopId);
 		}
-
-		// Convert the Set back to an array
 		const updatedFavoriteStops = Array.from(favoriteStopsSet);
 		setDataFavoriteStopsState(updatedFavoriteStops);
-		// Merge the old favorite stops with the new ones
 		setDataProfileState((prev) => {
 			if (!prev) return prev;
-
-			// Merge the old stops with the updated stops
 			const mergedStops = Array.from(
 				new Set([...(prev.favorites?.stops || []), ...updatedFavoriteStops]),
 			);
@@ -448,8 +451,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				},
 			};
 		});
-
-		// Prepare the updated profile for syncing
 		const updatedProfile: Account = {
 			...(dataProfileState || {}),
 			favorites: {
@@ -457,12 +458,12 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				stops: Array.from(new Set([...(dataProfileState?.favorites?.stops || []), ...updatedFavoriteStops])),
 			},
 		};
-
-		// Save the updated profile to local storage and sync with the cloud
 		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
 		await updateProfileOnCloud(updatedProfile);
 	};
 
+
+	//
 	// D. Action handlers
 
 	const toogleAccountSync = () => {
@@ -513,26 +514,20 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			],
 		};
 		setDataProfileState(updatedProfile);
-
 		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
 		await updateProfileOnCloud(updatedProfile);
 	};
 
 	const toggleWidgetStop = async (stopId: string, pattern_ids: string[]) => {
 		if (!consentContext.data.enabled_functional) return;
-
 		const currentWidgets = dataWidgetStopsState || [];
 		const updatedWidgets = [...currentWidgets];
-
-		console.log(currentWidgets);
-
 		const stopWidgetIndex = updatedWidgets.findIndex(
 			widget =>
 				widget.data
 				&& widget.data.type === 'stops'
 				&& widget.data.stop_id === stopId,
 		);
-
 		if (stopWidgetIndex !== -1) {
 			const widget = updatedWidgets[stopWidgetIndex];
 			let currentPatternIds: string[] = [];
@@ -540,12 +535,10 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				currentPatternIds = widget.data.pattern_ids || [];
 			}
 			const patternId = pattern_ids[0];
-
 			const patternExists = currentPatternIds.includes(patternId);
 			const newPatternIds = patternExists
 				? currentPatternIds.filter(id => id !== patternId)
 				: [...currentPatternIds, patternId];
-
 			if (newPatternIds.length === 0) {
 				updatedWidgets.splice(stopWidgetIndex, 1);
 			}
@@ -567,9 +560,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			};
 			updatedWidgets.push(newFavoriteStop);
 		}
-
 		setDataWidgetStopsState(updatedWidgets);
-
 		const updatedProfile: Account = {
 			...(dataProfileState || {}),
 			widgets: [
@@ -581,7 +572,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
 		await updateProfileOnCloud(updatedProfile);
 	};
-
 	const setNewEmptyProfile = async () => {
 		if (!consentContext.data.enabled_functional) return;
 		const newProfileStructure: Account = {
@@ -619,7 +609,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		setAPIToken(apiResponse.session_token);
 		localStorage.setItem(LOCAL_STORAGE_KEYS.token, apiResponse.session_token);
 	};
-
 	const checkProfile = async (profile: Account | null) => {
 		console.log('Checking if profile exists ⚙️');
 		if (!profile) {
@@ -630,12 +619,17 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			console.log('Profile exists.');
 		}
 	};
-
 	const setSelectedLine = (line: string) => {
 		if (!consentContext.data.enabled_functional) return;
 		setSelectedLineState(line);
 	};
 
+	const setAccentColor = (color: string) => {
+		if (!consentContext.data.enabled_functional) return;
+		setDataAccentColorState(color);
+	};
+
+	//
 	// E. Define context value
 	const contextValue: ProfileContextState = {
 		actions: {
@@ -650,6 +644,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			toggleWidgetStop,
 			toogleAccountSync,
 			updateLocalProfile,
+			setAccentColor,
 		},
 		counters: {
 			favorite_lines: dataFavoriteLinesState ? dataFavoriteLinesState.length : 0,
@@ -666,6 +661,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			selected_line: dataSelectedLineState,
 			widget_lines: dataWidgetLinesState,
 			widget_stops: dataWidgetStopsState,
+			accent_color: dataAccentColorState || 'rgba(253,183,26,0.4)',
 		},
 		flags: {
 			is_enabled: consentContext.data.enabled_functional,
@@ -680,6 +676,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			{children}
 		</ProfileContext.Provider>
 	);
+
+	//
 };
 
 export default ProfileContextProvider;

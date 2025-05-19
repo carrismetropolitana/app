@@ -12,27 +12,24 @@ import { IconArrowLoopRight, IconArrowNarrowLeft, IconArrowsShuffle, IconBellRin
 import React, { useEffect, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { styles } from './styles';
 import BottomSheetWrapper from '@/components/common/BottomSheet';
 
 import type { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useNavigation } from 'expo-router';
-import FavoriteItem from '@/components/common/FavoriteItem';
 import AddFavoriteStop from '@/app/(modal)/AddFavoriteStopModal';
 import AddFavoriteLine from '@/app/(modal)/AddFavoriteLineModal';
 import ProfileEditModal from '@/app/(modal)/ProfileEditModal';
+import dimAvatarBackground from '@/utils/dimAvatarBackground';
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
   const themeContext = useThemeContext();
   const profileStyles = styles();
   const profileContext = useProfileContext();
-  const insets = useSafeAreaInsets();
   const { persona_image, profile } = profileContext.data;
   const saveTimer = useRef<NodeJS.Timeout | null>(null);
 
-  // Bottom Sheet Refs
   const stopSheetRef = useRef<BottomSheetModal>(null);
   const lineSheetRef = useRef<BottomSheetModal>(null);
   const profileSheetRef = useRef<BottomSheetModal>(null);
@@ -71,7 +68,7 @@ export default function ProfileScreen() {
   const goBackInHistory = () => profileContext.actions.setPreviousPersona();
 
   const renderFavoriteItem = ({ drag, isActive, item }: any) => (
-    <Text>OOOOO</Text>
+    <Text>{ }</Text>
     // <Pressable disabled={isActive} onLongPress={drag}>
     //   <FavoriteItem data={item} />
     // </Pressable>
@@ -101,8 +98,9 @@ export default function ProfileScreen() {
   const ListHeader = () => (
     <>
       <View style={profileStyles.userSection}>
-        {persona_image ? <ProfileImage type="url" size={200} /> : <ProfileImage width={200} height={200} type="local" />}
-        <ButtonGroup buttons={buttons} containerStyle={{ backgroundColor: themeContext.theme.lightColors?.background, borderRadius: 30, marginTop: -20, width: '25%'}} />
+        {persona_image ? <ProfileImage size={200}  borderWidth={10} color={profileContext.data.accent_color || ''} type="url" backgroundColor={profileContext.data.accent_color ? dimAvatarBackground(profileContext.data.accent_color) : 'rgba(253,183,26,0.4))'} />
+          : <ProfileImage width={200} height={200} type="local" />}
+        <ButtonGroup buttons={buttons} containerStyle={{ backgroundColor: themeContext.theme.lightColors?.background, borderRadius: 30, marginTop: -20, width: '25%' }} />
         <Text style={profileStyles.userFullNameText}>
           {profileContext.data.profile?.profile?.first_name}
           {profileContext.data.profile?.profile?.last_name}
@@ -155,11 +153,6 @@ export default function ProfileScreen() {
     <View style={{ flex: 1 }}>
       <Surface style={{ flex: 1 }}>
         <DraggableFlatList
-          contentContainerStyle={{
-            flexGrow: 1,
-            paddingBottom: 35 + insets.bottom,
-          }}
-          style={{ flex: 1 }}
           data={widgetList}
           ListFooterComponent={ListFooter}
           ListHeaderComponent={ListHeader}

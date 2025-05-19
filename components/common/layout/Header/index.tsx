@@ -3,8 +3,10 @@
 import zumeDark from '@/assets/header/zume/zume-dark.json';
 import zumeLight from '@/assets/header/zume/zume-light.json';
 import { ProfileImage } from '@/components/ProfileImage';
+import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
+import dimAvatarBackground from '@/utils/dimAvatarBackground';
 import { Link } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import React from 'react';
@@ -21,10 +23,11 @@ export function Header() {
 
 	const insets = useSafeAreaInsets();
 	const { theme } = useThemeContext();
+	const profileContext = useProfileContext();
 
 	const animation = theme.mode === 'light' ? zumeLight : zumeDark;
 	const headerBackground = theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100;
-
+	
 	//
 	// B. Render Components
 
@@ -52,7 +55,7 @@ export function Header() {
 				loop
 			/>
 			<Link href="/profile">
-				<ProfileImage size={50} type="url" />
+				<ProfileImage color={profileContext.data.accent_color || ''} size={50} type="url" backgroundColor={profileContext.data.accent_color ? dimAvatarBackground(profileContext.data.accent_color) : 'rgba(253,183,26,0.4))'} />
 			</Link>
 		</View>
 	);

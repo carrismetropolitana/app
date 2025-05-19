@@ -38,6 +38,7 @@ export function WidgetCards({ type }: WidgetCardsProps) {
 		const ordered = filtered
 			.slice()
 			.sort((a, b) => (a.settings?.display_order ?? 0) - (b.settings?.display_order ?? 0));
+		if (ordered.length === 0) return;
 		setSortedWidgets(ordered);
 	}, [widgets, type]);
 

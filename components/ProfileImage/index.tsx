@@ -14,6 +14,7 @@ import { styles } from './styles';
 interface ProfileImageProps {
 	borderWidth?: number
 	color?: string
+	backgroundColor?: string
 	height?: number
 	size?: number
 	type: 'local' | 'url'
@@ -21,7 +22,7 @@ interface ProfileImageProps {
 }
 
 /* * */
-export function ProfileImage({ borderWidth = 3, color = theming.colorBrand, height = 50, size = 50, type, width = 50 }: ProfileImageProps) {
+export function ProfileImage({ borderWidth = 3, color = theming.colorBrand, height = 50, size = 50, type, width = 50, backgroundColor = theming.colorBrand }: ProfileImageProps) {
 	//
 
 	//
@@ -38,8 +39,8 @@ export function ProfileImage({ borderWidth = 3, color = theming.colorBrand, heig
 	//
 	// B. Render Components
 
-	if (type === 'url') {
-		return  <Avatar containerStyle={[profileImageStyles.avatarContainer, { borderColor: color, borderWidth: borderWidth }]} size={size} source={{ uri: profileImage || '' }} rounded />
+	if (type === 'url' && typeof profileImage === 'string' && profileContext.data.profile?.profile?.profile_image?.trim().charAt(0) === 'b') {
+		return  <Avatar containerStyle={[profileImageStyles.avatarContainer, { borderColor: color, borderWidth: borderWidth , backgroundColor: backgroundColor}]} size={size} source={{ uri: profileImage || '' }} rounded />
 	}
 	return (
 		<Image resizeMode="contain" source={defaultImage} style={{width: width, height: height}} />

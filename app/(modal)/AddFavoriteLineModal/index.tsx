@@ -82,7 +82,6 @@ export default function AddFavoriteLine({ onClose }: Props) {
 	//
 	// C. Handle actions
 	const clearScreen = () => {
-
 		linesDetailContext.actions.resetLineId();
 		onClose();
 	};

@@ -6,6 +6,7 @@ import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
+import { Platform } from 'react-native';
 
 /* * */
 
@@ -18,14 +19,19 @@ export default function Profile() {
 	const navigation = useNavigation();
 
 	useEffect(() => {
+		const isAndroid = Platform.OS === 'android';
+
 		navigation.setOptions({
-			headerTitle: '',
-			presentation: 'formSheet',
-			sheetAllowedDetents: ['fitToContents', 'large'],
-			sheetExpandsWhenScrolledToEdge: true,
-			sheetGrabberVisible: true,
-			sheetInitialDetentIndex: 0,
-			sheetContentHeight: 'auto',
+			presentation: isAndroid ? 'modal' : 'formSheet',
+			headerTitle: isAndroid ? 'Editar Perfil' : '',
+			headerShown: isAndroid ? true : false,
+			...(isAndroid
+				? {}
+				: {
+					sheetAllowedDetents: ['fitToContents', 'large'],
+					sheetExpandsWhenScrolledToEdge: true,
+					sheetInitialDetentIndex: 0,
+				}),
 		});
 	}, [navigation]);
 

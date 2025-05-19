@@ -15,12 +15,20 @@ export const styles = () => {
 	const { theme } = useThemeContext();
 	const isLight = theme.mode === 'light';
 	const backgroundColor = isLight
-		? theming.colorSystemBackgroundLight200
-		: theming.colorSystemBackgroundDark200;
+		? theming.colorSystemBackgroundLight100
+		: theming.colorSystemBackgroundDark100;
 	//
 	// B. Render Components
 
 	return StyleSheet.create({
+		avatartWrapper: {
+			width: 500,
+			height: 500,
+			flex: 1,
+			backgroundColor: 'red',
+			justifyContent: 'center',
+			alignItems: 'center',
+		},
 		avatarContainer: {
 			backgroundColor,
 		},
