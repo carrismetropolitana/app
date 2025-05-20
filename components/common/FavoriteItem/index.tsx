@@ -1,7 +1,7 @@
 import type { AccountWidget } from '@/types/account.types';
 
 import { Routes } from '@/utils/routes';
-import { ListItem } from '@rneui/themed';
+import { ListItem } from '@rn-vui/themed';
 import { IconGripVertical } from '@tabler/icons-react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';

@@ -7,7 +7,7 @@ import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { AccountWidget } from '@/types/account.types';
-import { ButtonGroup, ListItem } from '@rneui/themed';
+import { ButtonGroup, ListItem } from '@rn-vui/themed';
 import { IconArrowLoopRight, IconArrowNarrowLeft, IconArrowsShuffle, IconBellRinging, IconBusStop, IconCirclePlusFilled, IconUser } from '@tabler/icons-react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';

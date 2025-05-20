@@ -2,7 +2,7 @@
 
 import { LinesDetailPathMap } from '@/components/lines/LinesDetailPathMap';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
-import { Text } from '@rneui/themed';
+import { Text } from '@rn-vui/themed';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 

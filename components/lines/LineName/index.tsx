@@ -2,7 +2,7 @@
 
 import type { Line } from '@carrismetropolitana/api-types/network';
 
-import { Text } from '@rneui/themed';
+import { Text } from '@rn-vui/themed';
 import { View } from 'react-native';
 
 import { lineNameStyles } from './styles';

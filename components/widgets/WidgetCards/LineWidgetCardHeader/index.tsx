@@ -2,7 +2,7 @@
 
 import { LineBadge } from '@/components/lines/LineBadge';
 import { useLinesContext } from '@/contexts/Lines.context';
-import { Text } from '@rneui/themed';
+import { Text } from '@rn-vui/themed';
 import { View } from 'react-native';
 
 import { styles } from './styles';

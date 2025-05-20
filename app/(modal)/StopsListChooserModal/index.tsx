@@ -6,7 +6,7 @@ import { useStopsContext } from '@/contexts/Stops.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Stop } from '@carrismetropolitana/api-types/network';
-import { Input, Overlay, Text } from '@rneui/themed';
+import { Input, Overlay, Text } from '@rn-vui/themed';
 import { IconCirclePlusFilled } from '@tabler/icons-react-native';
 import { useEffect, useMemo, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';

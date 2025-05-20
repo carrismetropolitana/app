@@ -11,7 +11,7 @@ import { useDebugContext } from '@/contexts/Debug.context';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { IconsMap } from '@/settings/assets.settings';
-import { Text } from '@rneui/themed';
+import { Text } from '@rn-vui/themed';
 import { IconHomePlus, IconVolume } from '@tabler/icons-react-native';
 import { Image, View } from 'react-native';
 

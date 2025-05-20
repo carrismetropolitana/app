@@ -1,7 +1,7 @@
 /* * */
 
 import SelectPatternExplainerModal from '@/app/(modal)/SelectPatternExplainerModal';
-import { Text } from '@rneui/themed';
+import { Text } from '@rn-vui/themed';
 import { IconInfoSquareRoundedFilled } from '@tabler/icons-react-native';
 import { useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';

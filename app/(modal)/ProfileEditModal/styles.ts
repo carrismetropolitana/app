@@ -1,7 +1,31 @@
+/* * */
+
+import { useThemeContext } from '@/contexts/Theme.context';
+import { theming } from '@/theme/Variables';
 import { StyleSheet } from 'react-native';
 
-const styles = StyleSheet.create({
-	arrow: {
+/* * */
+
+export const styles = () => {
+    //
+
+    //
+    // A. Setup variables
+
+    const { theme } = useThemeContext();
+    const isLight = theme.mode === 'light';
+    const backgroundColor = isLight
+        ? theming.colorSystemBackgroundLight100
+        : theming.colorSystemBackgroundDark100;
+    const fontColor = isLight
+        ? theming.colorSystemText100
+        : theming.colorSystemText300;
+
+    //
+    // B. Render Components
+
+    return StyleSheet.create({
+     	arrow: {
 		color: '#3D85C6',
 		fontSize: 20,
 		marginRight: 6,
@@ -23,6 +47,9 @@ const styles = StyleSheet.create({
 		minWidth: '100%',
 
 	},
+	sectionWrapper:{
+		marginBottom: 20,
+	},
 	header: {
 		alignItems: 'center',
 		flexDirection: 'row',
@@ -39,6 +66,22 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		fontWeight: '700',
 	},
-});
+	inputLabel: {
+		color: fontColor,
+		fontSize: 14,
+		fontWeight: theming.fontWeightBold as '700',
+		alignSelf: 'flex-start',
+		paddingBottom: 10,
+	},
+	checkbox:{
+		backgroundColor: backgroundColor,
+	},
+	checkBoxText:{
+		color: fontColor,
+		fontSize: 14,
+		fontWeight: theming.fontWeightText as '500',
+	}
+    });
 
-export default styles;
+    //
+};

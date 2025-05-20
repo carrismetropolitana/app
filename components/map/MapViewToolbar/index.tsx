@@ -1,4 +1,4 @@
-import { Button } from '@rneui/themed';
+import { Button } from '@rn-vui/themed';
 import { IconMap } from '@tabler/icons-react-native';
 import * as Location from 'expo-location';
 import React from 'react';

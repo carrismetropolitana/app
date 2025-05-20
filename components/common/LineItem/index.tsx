@@ -1,6 +1,6 @@
 // src/components/common/LineItem.tsx
 import React from 'react';
-import { ListItem } from '@rneui/themed';
+import { ListItem } from '@rn-vui/themed';
 import { TouchableOpacity } from 'react-native';
 import { LineDisplay } from '@/components/lines/LineDisplay';
 

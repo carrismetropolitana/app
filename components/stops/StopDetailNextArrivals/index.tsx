@@ -4,7 +4,7 @@ import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { LineBadge } from '@/components/lines/LineBadge';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { NextArrivalStop } from '@/types/timetables.types';
-import { ListItem, Text } from '@rneui/themed';
+import { ListItem, Text } from '@rn-vui/themed';
 import { Link } from 'expo-router';
 import { DateTime } from 'luxon';
 import { useMemo, useState } from 'react';

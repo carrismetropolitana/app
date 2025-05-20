@@ -1,5 +1,5 @@
 import { darkTheme, lightTheme } from '@/theme/Themes';
-import { ThemeProvider as RNEThemeProvider } from '@rneui/themed';
+import { ThemeProvider as RNEThemeProvider } from '@rn-vui/themed';
 import {
 	setAlternateAppIcon,
 	supportsAlternateIcons,

@@ -2,7 +2,7 @@
 
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
-import { ButtonGroup, Text } from '@rneui/themed';
+import { ButtonGroup, Text } from '@rn-vui/themed';
 import { IconCalendar } from '@tabler/icons-react-native';
 import { DateTime } from 'luxon';
 import React, { useEffect, useState } from 'react';

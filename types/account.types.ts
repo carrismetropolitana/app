@@ -44,6 +44,7 @@ const ROLE_VALUES = ['owner', 'admin', 'user'] as const;
 const WORK_SETTING_VALUES = ['hybrid', 'remote', 'office'] as const;
 const UTILIZATION_TYPE_VALUES = ['frequent', 'occasional'] as const;
 const ACTIVITY_VALUES = ['student', 'university', 'working', 'retired', 'other'] as const;
+const INTERESTS_VALUES = ['network changes', 'events and news', 'carris metropolitana'] as const;
 const DEVICE_TYPE_VALUES = ['android', 'ios', 'web'] as const;
 const WIDGET_TYPE_VALUES = ['lines', 'stops', 'smart_notifications'] as const;
 
@@ -53,6 +54,7 @@ export const RoleSchema = z.enum(ROLE_VALUES);
 export const WorkSettingSchema = z.enum(WORK_SETTING_VALUES);
 export const UtilizationTypeSchema = z.enum(UTILIZATION_TYPE_VALUES);
 export const ActivitySchema = z.enum(ACTIVITY_VALUES);
+export const InterestsSchema = z.enum(INTERESTS_VALUES);
 export const DeviceTypeSchema = z.enum(DEVICE_TYPE_VALUES);
 export const WidgetTypeSchema = z.enum(WIDGET_TYPE_VALUES);
 
@@ -105,6 +107,7 @@ const ProfileSchema = z.object({
 	phone: PhoneSchema.nullish(),
 	profile_image: z.string().nullish(),
 	utilization_type: UtilizationTypeSchema.nullish(),
+	interests:  z.array(z.string(InterestsSchema)).nullish(),
 	work_setting: WorkSettingSchema.nullish(),
 }).strict();
 
@@ -133,6 +136,7 @@ export const UpdateAccountSchema = AccountSchema
 // TYPES
 export type AccountGender = z.infer<typeof GenderSchema>;
 export type AccountRole = z.infer<typeof RoleSchema>;
+export type AccountInterests = z.infer<typeof InterestsSchema>;
 export type AccountWorkSetting = z.infer<typeof WorkSettingSchema>;
 export type AccountUtilizationType = z.infer<typeof UtilizationTypeSchema>;
 export type AccountActivity = z.infer<typeof ActivitySchema>;
@@ -148,12 +152,14 @@ export type AccountProfile = Omit<z.infer<typeof ProfileSchema>,
   | 'gender'
   | 'utilization_type'
   | 'work_setting'
+  | 'interests'
 > & {
 	activity?: AccountActivity
 	date_of_birth?: null | undefined | UnixTimestamp
 	gender?: AccountGender
 	utilization_type?: AccountUtilizationType
 	work_setting?: AccountWorkSetting
+	interests?: AccountInterests
 };
 
 export type Account = Omit<

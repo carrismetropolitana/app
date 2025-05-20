@@ -3,7 +3,7 @@
 import { useProfileContext } from '@/contexts/Profile.context';
 import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
-import { Avatar } from '@rneui/themed';
+import { Avatar } from '@rn-vui/themed';
 import React, { useMemo } from 'react';
 import { Image } from 'react-native';
 

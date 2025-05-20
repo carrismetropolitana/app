@@ -1,6 +1,6 @@
 /* * */
 
-import { Text } from '@rneui/themed';
+import { Text } from '@rn-vui/themed';
 import { View } from 'react-native';
 
 /* * */

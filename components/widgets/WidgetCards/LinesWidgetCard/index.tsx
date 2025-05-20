@@ -4,7 +4,7 @@ import { AccordionToggle } from '@/components/AccordionToggle';
 import { AccountWidget } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
 import { Pattern } from '@carrismetropolitana/api-types/network';
-import { ListItem } from '@rneui/themed';
+import { ListItem } from '@rn-vui/themed';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 

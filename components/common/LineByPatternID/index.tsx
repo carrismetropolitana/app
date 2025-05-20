@@ -4,8 +4,8 @@ import type { Pattern } from '@carrismetropolitana/api-types/network';
 
 import { LineBadge } from '@/components/lines/LineBadge';
 import { Routes } from '@/utils/routes';
-import { ListItemChevron } from '@rneui/base/dist/ListItem/ListItem.Chevron';
-import { ListItem, Skeleton } from '@rneui/themed';
+import { ListItemChevron } from '@rn-vui/base/dist/ListItem/ListItem.Chevron';
+import { ListItem, Skeleton } from '@rn-vui/themed';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 

@@ -3,7 +3,7 @@
 import type { Line } from '@carrismetropolitana/api-types/network';
 
 import { useLinesContext } from '@/contexts/Lines.context';
-import { Text } from '@rneui/themed';
+import { Text } from '@rn-vui/themed';
 import { IconInfoTriangleFilled } from '@tabler/icons-react-native';
 import { View } from 'react-native';
 

@@ -2,7 +2,7 @@
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { StopDisplay } from '@/components/stops/StopDisplay';
-import { ListItem } from '@rneui/themed';
+import { ListItem } from '@rn-vui/themed';
 import { Link } from 'expo-router';
 import { TouchableOpacity, VirtualizedList } from 'react-native';
 

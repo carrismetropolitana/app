@@ -2,7 +2,7 @@
 
 import type { Stop } from '@carrismetropolitana/api-types/network';
 
-import { Skeleton, Text } from '@rneui/base';
+import { Skeleton, Text } from '@rn-vui/base';
 import { View } from 'react-native';
 
 import { StopDisplayLocation } from '../StopDisplayLocation';

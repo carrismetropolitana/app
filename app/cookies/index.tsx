@@ -6,7 +6,7 @@ import { useConsentContext } from '@/contexts/Consent.context';
 // import { Button, Group, Table } from '@mantine/core';
 // import { openConfirmModal } from '@mantine/modals';
 import { useThemeContext } from '@/contexts/Theme.context';
-import { Text } from '@rneui/themed';
+import { Text } from '@rn-vui/themed';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 import { Row, Rows, Table } from 'react-native-table-component';

@@ -10,7 +10,7 @@ import { useStopsContext } from '@/contexts/Stops.context';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { Camera } from '@maplibre/maplibre-react-native';
-import { ListItem } from '@rneui/themed';
+import { ListItem } from '@rn-vui/themed';
 import { Link } from 'expo-router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { SafeAreaView, Text, View } from 'react-native';

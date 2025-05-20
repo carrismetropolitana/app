@@ -4,7 +4,7 @@ import type { Line } from '@carrismetropolitana/api-types/network';
 
 import { LineBadge } from '@/components/lines/LineBadge';
 import { LineName } from '@/components/lines/LineName';
-import { Text } from '@rneui/themed';
+import { Text } from '@rn-vui/themed';
 import { View } from 'react-native';
 
 import { lineDisplayStyles } from './styles';

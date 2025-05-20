@@ -1,7 +1,7 @@
 /* * */
 
 import { IconsFacilities } from '@/settings/assets.settings';
-import { Image } from '@rneui/themed';
+import { Image } from '@rn-vui/themed';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 

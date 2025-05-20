@@ -7,7 +7,7 @@ import { useLocaleContext } from '@/contexts/Locale.context';
 import { useWebsiteNews } from '@/services/website/queries/useNews';
 import { listItem } from '@/types/moreList.types';
 import { openWebView } from '@/utils/openWebView';
-import { Avatar, ButtonGroup, ListItem, Text } from '@rneui/themed';
+import { Avatar, ButtonGroup, ListItem, Text } from '@rn-vui/themed';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, View } from 'react-native';

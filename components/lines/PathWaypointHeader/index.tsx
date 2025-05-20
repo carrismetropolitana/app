@@ -6,7 +6,7 @@ import { IconDisplay } from '@/components/common/IconDisplay';
 import { useLocationsContext } from '@/contexts/Locations.context';
 import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
 import { useStopsContext } from '@/contexts/Stops.context';
-import { Text } from '@rneui/themed';
+import { Text } from '@rn-vui/themed';
 import { IconCheck, IconCopy } from '@tabler/icons-react-native';
 import { IconArrowUpRight } from '@tabler/icons-react-native';
 import * as Clipboard from 'expo-clipboard';

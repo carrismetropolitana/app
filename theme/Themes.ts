@@ -1,6 +1,6 @@
 /* * */
 
-import { createTheme } from '@rneui/themed';
+import { createTheme } from '@rn-vui/themed';
 
 import { theming } from './Variables';
 
@@ -24,7 +24,7 @@ const lightThemeDefinition = {
 				borderRadius: 5,
 				borderWidth: 1,
 				height: 50,
-				paddingLeft: 50,
+			
 				paddingTop: 5,
 			},
 			inputContainerStyle: {

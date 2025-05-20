@@ -1,5 +1,5 @@
-import { Text } from '@rneui/themed';
-import { Dialog } from '@rneui/themed';
+import { Text } from '@rn-vui/themed';
+import { Dialog } from '@rn-vui/themed';
 
 interface SelectPatternExplainerModalProps {
 	isVisible: boolean

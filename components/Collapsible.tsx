@@ -1,6 +1,6 @@
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { useThemeContext } from '@/contexts/Theme.context';
-import { Text } from '@rneui/themed';
+import { Text } from '@rn-vui/themed';
 import { type PropsWithChildren, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 

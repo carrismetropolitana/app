@@ -1,7 +1,7 @@
 /* * */
 
 import StopDetailPager from '@/components/stops/StopDetailPagerView';
-import { ListItem, Text } from '@rneui/themed';
+import { ListItem, Text } from '@rn-vui/themed';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
