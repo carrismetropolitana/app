@@ -7,6 +7,7 @@ import { Routes } from "@/utils/routes";
 import { IconAlertTriangleFilled } from "@tabler/icons-react-native";
 import { useThemeContext } from "@/contexts/Theme.context";
 import { theming } from "@/theme/Variables";
+import { useTranslation } from "react-i18next";
 
 /* * */
 
@@ -15,9 +16,10 @@ export default function NetworkOfflineBanner() {
 
     //A. Setup variables
     const themeContext = useThemeContext();
+    const { t } = useTranslation('translation', { keyPrefix: 'common.offlineBanner' });
     const [visible, setVisible] = useState(false);
-    const backgroundColor = themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundLight100;
     const networkOfflineStyles = styles();
+    const backgroundColor = themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundLight100;
 
     //
     //B. Transform data
@@ -38,11 +40,10 @@ export default function NetworkOfflineBanner() {
         const interval = setInterval(handleNetworkStatus, 10000);
         return () => clearInterval(interval);
     }, []);
-
+ 
     //
     // C. Render components
     return (
-
         <FAB
             style={networkOfflineStyles.fab}
             disabled
@@ -50,10 +51,9 @@ export default function NetworkOfflineBanner() {
             disabledTitleStyle={networkOfflineStyles.fabButtonTitle}
             visible={visible}
             size="small"
-            title="Network Offline"
-            icon={<IconAlertTriangleFilled fill={backgroundColor} size={18} />}
+            title={t("message")}
+            icon={<IconAlertTriangleFilled fill={backgroundColor} size={22} />}
         />
-
     )
 
 }

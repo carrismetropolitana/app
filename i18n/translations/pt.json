@@ -124,6 +124,9 @@
 			"label": "Percurso / Destino",
 			"option_label": "Início do percurso: {locality}",
 			"placeholder": "Selecionar Percurso / Destino..."
+		},
+		"offlineBanner": {
+			"message": "Ocorreu um problema com a conexão ao servidor. Verifique a sua conexão com a internet."
 		}
 	},
 	"layout": {
@@ -136,7 +139,6 @@
 			"Lines": "Linhas",
 			"More": "Mais",
 			"Stops": "Paragens"
-
 		}
 	},
 	"lines": {
@@ -191,7 +193,6 @@
 		"LinesDetailPath": {
 			"no_data": "Selecione um Percurso / Destino",
 			"summary": "Linha <lineNumber>{line_number}</lineNumber> com destino a <destinationName>{destination_name}</destinationName> no dia <dayName>{day_name, date, long}</dayName>. <changeDay>Alterar dia ›</changeDay>"
-
 		},
 		"LinesListToolbar": {
 			"by_current_view": {
@@ -245,7 +246,6 @@
 			"heading": "Alertas",
 			"service_alerts": "Alertas de Serviço",
 			"subheading": "Check the alerts that may affect your journey."
-
 		},
 		"SupportList": {
 			"contacts": "Contactos",

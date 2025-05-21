@@ -16,14 +16,15 @@ export const styles = () => {
     return StyleSheet.create({
         fab: {
             position: 'absolute',
-            left: 0,
-            right: 0,
+            left: 20,
             bottom: 120,
-            width: '100%',
+            width: '90%',
             zIndex: 100,
+            padding: 10,
         },
         fabButton: {
             backgroundColor: theming.colorLinesLonga,
+            height: '100%',
         },
         fabButtonTitle: {
             color: fontColor,

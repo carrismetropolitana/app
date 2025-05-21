@@ -110,7 +110,11 @@
 		"title": "Cookies Policy"
 	},
 	"common": {
-
+		"NextArrivals": {
+			"arriving": "Incoming",
+			"hours": "h",
+			"minutes": "min"
+		},
 		"SelectOperationalDay": {
 			"today": "Today",
 			"tomorrow": "Tomorrow"
@@ -120,6 +124,9 @@
 			"label": "Percurso / Destino",
 			"option_label": "Início do percurso: {locality}",
 			"placeholder": "Selecionar Percurso / Destino..."
+		},
+		"offlineBanner": {
+			"message": "There has been a problem with the connection to the server. Please check your internet connection."
 		}
 	},
 	"layout": {
@@ -132,7 +139,6 @@
 			"Lines": "Lines",
 			"More": "More",
 			"Stops": "Stops"
-
 		}
 	},
 	"lines": {
