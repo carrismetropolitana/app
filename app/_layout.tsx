@@ -63,7 +63,7 @@ export default function RootLayout() {
 								<BottomSheetModalProvider>
 								<QueryClientProvider client={queryClient}>
 									<ThemeProvider>
-										<NetworkOffline />
+										{/* <NetworkOffline /> */}
 										<StatusBar backgroundColor="transparent" style="auto" translucent />
 										<Stack>
 											<Stack.Screen name="(tabs)" options={{ headerShown: false}} />

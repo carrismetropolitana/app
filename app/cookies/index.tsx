@@ -8,10 +8,14 @@ import { useConsentContext } from '@/contexts/Consent.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { Text } from '@rn-vui/themed';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
 import { Row, Rows, Table } from 'react-native-table-component';
 
 import styles from './styles';
+import { useEffect } from 'react';
+import { useNavigation } from 'expo-router';
+import { theming } from '@/theme/Variables';
+import { IconArrowBack, IconArrowLeft, IconChevronLeft } from '@tabler/icons-react-native';
 
 /* * */
 
@@ -20,17 +24,28 @@ export default function Component() {
 
 	//
 	// A. Setup variables
-
+	const isLight = useThemeContext().theme.mode === 'light';
 	const { t } = useTranslation('translation', { keyPrefix: 'CookiesPage' });
+	const navigation = useNavigation();
 	const consentContext = useConsentContext();
 	const themeContext = useThemeContext();
 
-	const header = ['heading 1', 'heading 2', 'heading 3'];
-	const data = [
-		['gfg1', 'gfg2', 'gfg3'],
-		['gfg4', 'gfg5', 'gfg6'],
-		['gfg7', 'gfg8', 'gfg9'],
-	];
+	const backgroundColor = isLight ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200;
+	const fontColor = isLight ? theming.colorSystemText100 : theming.colorSystemText300;
+
+	useEffect(() => {
+		navigation.setOptions({
+			headerTitle: 'Politica de Privacidade e Cookies',
+			headerTintColor: backgroundColor,
+			headerStyle: { backgroundColor: backgroundColor },
+			headerTitleStyle: { color: fontColor },
+			headerLeft: () => (
+				<TouchableOpacity onPress={() => navigation.goBack()} style={{ marginLeft: 12 }}>
+					<IconChevronLeft size={24} color={fontColor} />
+				</TouchableOpacity>
+			),
+		});
+	}, [themeContext.theme.mode]);
 
 	//
 	// B. Handle actions
@@ -86,14 +101,14 @@ export default function Component() {
 						</View>
 						<View style={styles.section}>
 							<Text style={styles.title}>{t('sections.question_5.title')}</Text>
-							<Table borderStyle={{ borderColor: '#c8e1ff',
+							{/* <Table borderStyle={{ borderColor: '#c8e1ff',
 								borderWidth: 2 }}
 							>
 								<Row data={header} />
 								<Rows data={data} />
 							</Table>
-							{/* <Table withColumnBorders withTableBorder>
-							<Table.Thead>
+							<Table withColumnBorders withTableBorder>
+							<Table.head>
 								<Table.Tr>
 									<Table.Th>{t('sections.question_5.table.header.col_1')}</Table.Th>
 									<Table.Th>{t('sections.question_5.table.header.col_2')}</Table.Th>
@@ -148,23 +163,6 @@ export default function Component() {
 							<Text style={styles.title}>{t('sections.question_7.title')}</Text>
 							<Text style={styles.text}>{t('sections.question_7.paragraphs.1')}</Text>
 							<Text style={styles.text}>{t('sections.question_7.paragraphs.2')}</Text>
-							{/* <Group>
-							<a href="https://support.google.com/chrome/answer/95647?hl=pt" target="_blank">
-								Google Chrome
-							</a>
-							<a href="https://support.apple.com/pt-pt/guide/safari/sfri11471/mac" target="_blank">
-								Safari
-							</a>
-							<a href="https://support.mozilla.org/pt-PT/kb/cookies-informacao-que-websites-guardam-no-seu-computador" target="_blank">
-								Mozilla Firefox
-							</a>
-							<a href="https://support.microsoft.com/pt-br/microsoft-edge/excluir-cookies-no-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank">
-								Microsoft Edge
-							</a>
-							<a href="https://support.microsoft.com/pt-pt/windows/eliminar-e-gerir-cookies-168dab11-0753-043d-7c16-ede5947fc64d" target="_blank">
-								Internet Explorer
-							</a>
-						</Group> */}
 						</View>
 						<View style={styles.section}>
 							<Text style={styles.title}>{t('sections.question_8.title')}</Text>
