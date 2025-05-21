@@ -15,7 +15,6 @@ export default function NotFoundScreen() {
 	// A. Setup Variables
 
 	const themeContext = useThemeContext();
-
 	const styles = StyleSheet.create({
 		container: {
 			alignItems: 'center',

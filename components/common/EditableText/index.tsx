@@ -37,20 +37,17 @@ export const EditableText = ({ onBlur, onChangeText, style, value }: EditableTex
 	};
 
 	//
+	// C. Render components
 
 	return isEditing ? (
-		<TextInput
-			onBlur={onBlur}
-			onChangeText={onChangeText}
-			style={[styles.text, style]}
-			value={value}
-			autoFocus
-		/>
+		<TextInput onBlur={onBlur} onChangeText={onChangeText} style={[styles.text, style]} value={value} autoFocus />
 	) : (
 		<TouchableWithoutFeedback onLongPress={handleLongPress}>
 			<Text style={[styles.text, style]}>{value}</Text>
 		</TouchableWithoutFeedback>
 	);
+
+	//
 };
 
 export default EditableText;

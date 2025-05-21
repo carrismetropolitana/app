@@ -13,6 +13,7 @@ import { TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import styles from './styles';
+
 /* * */
 
 interface Props {
@@ -38,6 +39,13 @@ export default function StopsListChooserModal({ isVisible, onBackdropPress, sele
 	//
 	// B.Fetch Data
 
+	const filteredStops = useMemo(() => {
+		return allStops.filter(stop =>
+			stop.long_name.toLowerCase().includes(stopsSearch.toLowerCase())
+			|| String(stop.id).includes(stopsSearch),
+		);
+	}, [allStops, stopsSearch]);
+
 	useEffect(() => {
 		if (!selectedStop) return;
 		const stopData: Stop | undefined = stopsContext.actions.getStopById(selectedStop);
@@ -46,20 +54,16 @@ export default function StopsListChooserModal({ isVisible, onBackdropPress, sele
 		}
 	}, [selectedStop]);
 
+	//
+	// C. Handle Actions
+
 	const handleStopClick = (item: Stop) => {
 		setSelectedStop(item.id);
 		onBackdropPress();
 	};
 
-	const filteredStops = useMemo(() => {
-		return allStops.filter(stop =>
-			stop.long_name.toLowerCase().includes(stopsSearch.toLowerCase())
-			|| String(stop.id).includes(stopsSearch),
-		);
-	}, [allStops, stopsSearch]);
-
 	//
-	// C. Render Components
+	// D. Render Components
 
 	return (
 		<Overlay animationType="slide" isVisible={isVisible} onBackdropPress={onBackdropPress}>
@@ -71,31 +75,15 @@ export default function StopsListChooserModal({ isVisible, onBackdropPress, sele
 							<Text style={styles.backText}>Voltar</Text>
 						</TouchableOpacity>
 					</View>
-
 					<View>
-						<Input
-							clearButtonMode="while-editing"
-							onChangeText={text => setStopSearch(text)}
-							placeholder="Pesquisar por nome"
-							value={stopsSearch}
-						/>
+						<Input clearButtonMode="while-editing" onChangeText={text => setStopSearch(text)} placeholder="Pesquisar por nome" value={stopsSearch} />
 						<Counter quantity={filteredStops.length} text="Encontradas" type="paragens" />
 					</View>
 					<VirtualizedListingStops
 						data={filteredStops}
 						itemClick={handleStopClick}
 						size="lg"
-						icon={(
-							<IconCirclePlusFilled
-								fill="#3CB43C"
-								size={24}
-								color={
-									themeContext.theme.mode === 'light'
-										? theming.colorSystemBackgroundLight100
-										: theming.colorSystemBackgroundDark100
-								}
-							/>
-						)}
+						icon={(<IconCirclePlusFilled fill="#3CB43C" size={24} color={ themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100 }/>)}
 					/>
 				</View>
 			</SafeAreaView>

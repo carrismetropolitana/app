@@ -25,6 +25,7 @@ export default function Profile() {
 			presentation: isAndroid ? 'modal' : 'formSheet',
 			headerTitle: isAndroid ? 'Editar Perfil' : '',
 			headerShown: isAndroid ? true : false,
+			headerGrabber: true,
 			...(isAndroid
 				? {}
 				: {

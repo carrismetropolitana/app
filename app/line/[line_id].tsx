@@ -17,9 +17,7 @@ export default function Page() {
 	// A. Setup variables
 
 	const { line_id } = useLocalSearchParams<{ line_id: string }>();
-
 	const themeContext = useThemeContext();
-
 	const navigation = useNavigation();
 	const { t } = useTranslation('translation', { keyPrefix: 'layout' });
 

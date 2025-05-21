@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
 
 	/* * */
 	/* CONTAINER */
+	
 	container: {
 		gap: 50,
 		maxWidth: 900,

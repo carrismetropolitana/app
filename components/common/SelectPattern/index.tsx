@@ -23,8 +23,6 @@ export function SelectPattern() {
 		if (!selectedPattern) return;
 
 		lineDetailContext.actions.setActivePattern(selectedPattern);
-
-		alert(selectedPattern);
 	}, [selectedPattern]);
 
 	const dropdownData

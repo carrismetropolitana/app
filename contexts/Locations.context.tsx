@@ -75,9 +75,7 @@ export const LocationsContextProvider = ({ children }) => {
 		if (status !== 'granted') {
 			if (Platform.OS === 'ios' && status === 'denied') {
 				setLocationPermission(status);
-				alert(
-					'Location permission was denied. Please enable it manually in Settings > Privacy > Location Services.',
-				);
+				alert( 'Location permission was denied. Please enable it manually in Settings > Privacy > Location Services.');
 				return;
 			}
 			({ status } = await Location.requestForegroundPermissionsAsync());

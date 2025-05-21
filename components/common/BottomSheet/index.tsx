@@ -14,9 +14,7 @@ interface BottomSheetWrapperProps {
 
 /* * */
 
-
-const BottomSheetWrapper = forwardRef<BottomSheetModal, BottomSheetWrapperProps>(
-  ({ children, snapPoints = ['100%'] }, ref) => {
+const BottomSheetWrapper = forwardRef<BottomSheetModal, BottomSheetWrapperProps>(({ children, snapPoints = ['100%'] }, ref) => {
     //
 
     //
@@ -28,7 +26,6 @@ const BottomSheetWrapper = forwardRef<BottomSheetModal, BottomSheetWrapperProps>
     // B. Render components
 
     return (
-      
       <BottomSheetModal
         ref={ref}
         index={0}

@@ -25,47 +25,36 @@ export const styles = () => {
     // B. Render Components
 
     return StyleSheet.create({
-     	arrow: {
-		color: '#3D85C6',
-		fontSize: 20,
-		marginRight: 6,
-	},
-	backButton: {
-		alignItems: 'center',
-		flexDirection: 'row',
-	},
-	backText: {
-		color: '#3D85C6',
-		fontSize: 16,
-		fontWeight: '500',
-	},
+	/* CONTAINER */
+
 	container: {
 		flex: 1,
 		height: '100%',
 		marginTop: 30,
 		maxWidth: '100%',
 		minWidth: '100%',
-
 	},
+
+	/* * */
+	/* SECTION WRAPPER */
+
 	sectionWrapper:{
 		marginBottom: 20,
 	},
-	header: {
-		alignItems: 'center',
-		flexDirection: 'row',
-		paddingHorizontal: 16,
-	},
+
+	/* * */
+	/* USER INFO SECTION */
+
 	userSection: {
 		alignItems: 'center',
 		flex: 1,
 		justifyContent: 'center',
 		paddingTop: 36,
 	},
-	userTypeText: {
-		color: '#3D85C6',
-		fontSize: 14,
-		fontWeight: '700',
-	},
+
+	/* * */
+	/* INPUTS / CHECKBOXES */
+
 	inputLabel: {
 		color: fontColor,
 		fontSize: 14,
@@ -81,6 +70,9 @@ export const styles = () => {
 		fontSize: 14,
 		fontWeight: theming.fontWeightText as '500',
 	}
+	
+	/* * */
+
     });
 
     //

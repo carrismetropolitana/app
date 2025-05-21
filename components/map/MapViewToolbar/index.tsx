@@ -1,3 +1,5 @@
+import { useThemeContext } from '@/contexts/Theme.context';
+import { theming } from '@/theme/Variables';
 import { Button } from '@rn-vui/themed';
 import { IconMap } from '@tabler/icons-react-native';
 import * as Location from 'expo-location';
@@ -10,7 +12,44 @@ interface Props {
 }
 
 export function MapViewToolbar({ onCenterMap }: Props) {
+	//
+
+	//
+	// A. Setup variables
+
 	const { t } = useTranslation('map.toolbar');
+	const themeContext = useThemeContext();
+	const backgroundColor = themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100;
+	const styles = StyleSheet.create({
+		button: {
+			borderColor: '#9696a0',
+			borderRadius: 5,
+			borderWidth: 1,
+			backgroundColor: backgroundColor,
+		},
+		container: {
+			position: 'absolute',
+			bottom: 30,
+			height: 65,
+			left: 20,
+			zIndex: 100,
+			top: 30,
+			shadowColor: '#000',
+			shadowOffset: { width: 0, height: 2 },
+			shadowOpacity: 0.6,
+			shadowRadius: 4,
+			elevation: 5,
+			backgroundColor: backgroundColor,
+			flexDirection: 'row',
+			gap: 10,
+			borderRadius: 10,
+			justifyContent: 'flex-start',
+			padding: 10,
+		},
+	});
+
+	//
+	// B. Handle actions
 
 	const handleOpenInGoogle = async () => {
 		try {
@@ -24,6 +63,9 @@ export function MapViewToolbar({ onCenterMap }: Props) {
 		}
 	};
 
+	//
+	// C. Render components
+
 	return (
 		<View style={styles.container}>
 			<Button
@@ -33,21 +75,6 @@ export function MapViewToolbar({ onCenterMap }: Props) {
 			/>
 		</View>
 	);
-}
 
-const styles = StyleSheet.create({
-	button: {
-		borderColor: '#9696a0',
-		borderRadius: 5,
-		borderWidth: 1,
-		color: '#FFFFFF',
-		padding: 10,
-	},
-	container: {
-		backgroundColor: '#FFFFFF',
-		flexDirection: 'row',
-		gap: 10,
-		justifyContent: 'flex-start',
-		padding: 10,
-	},
-});
+	//
+}

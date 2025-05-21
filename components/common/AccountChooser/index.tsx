@@ -28,15 +28,7 @@ function ProfileDetails({ bgColor, label, profile }: { bgColor: string, label: s
 	// A. Render Components
 
 	return (
-		<ScrollView
-			contentContainerStyle={{ alignItems: 'center', padding: 8 }}
-			style={{
-				backgroundColor: bgColor,
-				flex: 1,
-				marginHorizontal: 4,
-				maxHeight: 400,
-			}}
-		>
+		<ScrollView contentContainerStyle={{ alignItems: 'center', padding: 8 }} style={{ backgroundColor: bgColor, flex: 1, marginHorizontal: 4, maxHeight: 400, }}>
 			<Text style={{ fontWeight: 'bold', marginBottom: 20 }}>{label}</Text>
 			<Text>Nome: {profile?.profile?.first_name || 'N/A'}</Text>
 			<Text>Apelido: {profile?.profile?.last_name || 'N/A'}</Text>

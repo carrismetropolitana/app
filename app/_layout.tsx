@@ -1,4 +1,5 @@
 /* * */
+
 import { ThemeProvider } from '@/contexts/Theme.context';
 import 'react-native-reanimated';
 import { ConfigProviders } from '@/providers/config-providers';
@@ -16,6 +17,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import NetworkOffline from '@/components/common/NetworkOfflineBanner';
 
 /* * */
 
@@ -40,7 +42,7 @@ export default function RootLayout() {
 	});
 
 	//
-	// B. Fetch data
+	// B. Transform data
 
 	useEffect(() => {
 		if (loaded) {
@@ -61,6 +63,7 @@ export default function RootLayout() {
 								<BottomSheetModalProvider>
 								<QueryClientProvider client={queryClient}>
 									<ThemeProvider>
+										<NetworkOffline />
 										<StatusBar backgroundColor="transparent" style="auto" translucent />
 										<Stack>
 											<Stack.Screen name="(tabs)" options={{ headerShown: false}} />

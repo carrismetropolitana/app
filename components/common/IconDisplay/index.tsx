@@ -47,11 +47,7 @@ export function IconDisplay({ category, name }: Props) {
 
 	return (
 		<View style={styles.container}>
-			<Image
-				accessibilityLabel={t(`${category}.${name}`)}
-				source={typeof iconSrc === 'string' ? { uri: iconSrc } : iconSrc}
-				style={{ height: 32, width: 32 }}
-			/>
+			<Image accessibilityLabel={t(`${category}.${name}`)} source={typeof iconSrc === 'string' ? { uri: iconSrc } : iconSrc} style={{ height: 32, width: 32 }} />
 		</View>
 	);
 

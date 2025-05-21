@@ -63,15 +63,10 @@ export function SelectOperationalDay() {
 
 	//
 	// C . Handle Actions
-
 	const handlePress = (i: number) => {
 		setSelectedIndex(i);
-
-		if (i === 2) {
-			setShowPicker(true);
-		}
+		if (i === 2) { setShowPicker(true) }
 	};
-
 	const handleConfirm = (picked: Date) => {
 		setShowPicker(false);
 		setSelectedIndex(2);

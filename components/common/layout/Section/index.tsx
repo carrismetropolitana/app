@@ -62,13 +62,11 @@ export function Section({ children, heading, href, subheading, target, variant =
 					{subheading && <Text style={sectionStyles.subheading}>{subheading}</Text>}
 				</View>
 			)}
-
 			{children && (
 				<View style={sectionStyles.childrenWrapper}>
 					{children}
 				</View>
 			)}
-
 		</View>
 	);
 

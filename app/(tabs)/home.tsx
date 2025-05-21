@@ -8,7 +8,7 @@ export default function Home() {
 	//
 
 	//
-	// B. Render components
+	// A. Render components
 
 	return (
 		<HomeScreen />

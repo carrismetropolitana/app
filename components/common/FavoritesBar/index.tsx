@@ -30,6 +30,7 @@ export default function FavoritesBar() {
 	const favoritesLines: Line[] = favoriteLineIds
 		.map(id => linesContext.data.lines.find((line: Line) => line.id === id))
 		.filter((line): line is Line => !!line);
+		
 	//
 	// C. Render components
 

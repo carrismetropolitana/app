@@ -1,3 +1,5 @@
+/* * */
+
 import React, { memo, useCallback } from 'react';
 import {
 	Dimensions,
@@ -5,11 +7,12 @@ import {
 	Image,
 	Pressable,
 	StyleSheet,
-	View,
+		View,
 } from 'react-native';
 
-const { width } = Dimensions.get('window');
+/* * */
 
+const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
 	image: {
 		borderRadius: 12,
@@ -32,21 +35,17 @@ const styles = StyleSheet.create({
 		height: 250,
 	},
 });
+const RemoteImageCarousel = memo(({imageUrls,onImagePress}: { imageUrls: string[] , onImagePress: (index: number) => void}) => {
 
-const RemoteImageCarousel = memo(
-	({
-		imageUrls,
-		onImagePress,
-	}: {
-		imageUrls: string[]
-		onImagePress: (index: number) => void
-	}) => {
-		const handlePress = useCallback(
-			(index: number) => {
-				onImagePress(index);
-			},
-			[onImagePress],
-		);
+	//
+
+	//
+	// A. Handle actions
+
+	const handlePress = useCallback( (index: number) => {onImagePress(index);},[onImagePress]);
+
+	//
+	// B. Render components
 
 		return (
 			<FlatList
@@ -57,11 +56,7 @@ const RemoteImageCarousel = memo(
 				snapToInterval={width}
 				style={styles.list}
 				renderItem={({ index, item }) => (
-					<Pressable
-						accessibilityLabel={`Image ${index + 1}`}
-						accessibilityRole="button"
-						onPress={() => handlePress(index)}
-					>
+					<Pressable accessibilityLabel={`Image ${index + 1}`} accessibilityRole="button" onPress={() => handlePress(index)}>
 						<View style={styles.imageContainer}>
 							<Image source={{ uri: item }} style={styles.image} />
 						</View>
@@ -71,6 +66,8 @@ const RemoteImageCarousel = memo(
 			/>
 		);
 	},
+
+	//
 );
 
 export default RemoteImageCarousel;

@@ -1,35 +1,29 @@
+/* * */
+
 import { HapticTab } from '@/components/HapticTab';
 import OfflineScreen from '@/components/OfflineScreen';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { useNetInfo } from '@react-native-community/netinfo';
-import {
-	IconArrowLoopRight,
-	IconDots,
-	IconMap,
-	IconUserCircle,
-} from '@tabler/icons-react-native';
+import { IconArrowLoopRight, IconDots, IconMap, IconUserCircle } from '@tabler/icons-react-native';
 import { Tabs } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+/* * */
+
 export default function TabLayout() {
+	//
+
+	//
+	// A. Setup Variables
+
 	const themeContext = useThemeContext();
 	const insets = useSafeAreaInsets();
 	const netInfo = useNetInfo();
-
-	if (netInfo.isConnected === false) {
-		return <OfflineScreen />;
-	}
-
-	const icons = {
-		home: IconUserCircle,
-		lines: IconArrowLoopRight,
-		more: IconDots,
-		stops: IconMap,
-	};
+	const icons = { home: IconUserCircle, lines: IconArrowLoopRight, more: IconDots, stops: IconMap };
 
 	const styles = StyleSheet.create({
 		iconWrapper: {
@@ -45,6 +39,13 @@ export default function TabLayout() {
 		},
 	});
 
+	//
+	// B. Render components
+
+	if (netInfo.isConnected === false) {
+		return <OfflineScreen />;
+	}
+
 	return (
 		<Tabs
 			screenOptions={({ route }) => ({
@@ -56,12 +57,7 @@ export default function TabLayout() {
 				tabBarIcon: ({ color, focused }) => {
 					const IconComponent = icons[route.name];
 					return (
-						<View
-							style={[
-								styles.iconWrapper,
-								focused && styles.iconWrapperActive,
-							]}
-						>
+						<View style={[styles.iconWrapper, focused && styles.iconWrapperActive]}>
 							<IconComponent color={color} size={24} />
 						</View>
 					);
@@ -84,5 +80,6 @@ export default function TabLayout() {
 			<Tabs.Screen name="stops" />
 			<Tabs.Screen name="more" />
 		</Tabs>
+
 	);
 }

@@ -21,6 +21,8 @@ interface Props {
 	onClose: () => void;
 }
 
+/* * */
+
 export default function ProfileEditModal({ onClose }: Props) {
 	//
 
@@ -44,11 +46,7 @@ export default function ProfileEditModal({ onClose }: Props) {
 	const [birthDate, setBirthDate] = useState(profileContext.data.profile?.profile?.date_of_birth || '');
 	const [passengerProfile, setPassengerProfile] = useState(profileContext.data.profile?.profile?.work_setting || '');
 	const [usageType, setUsageType] = useState(profileContext.data.profile?.profile?.utilization_type || '');
-	const [interestTopics, setInterestTopics] = useState<string[]>(
-		Array.isArray(profileContext.data.profile?.profile?.interests)
-			? profileContext.data.profile?.profile?.interests
-			: []
-	);
+	const [interestTopics, setInterestTopics] = useState<string[]>(Array.isArray(profileContext.data.profile?.profile?.interests) ? profileContext.data.profile?.profile?.interests : []);
 	const [accentColor, setAccentColor] = useState<string | null>(profileContext.data.accent_color || null);
 
 	//
@@ -63,7 +61,6 @@ export default function ProfileEditModal({ onClose }: Props) {
 			profileContext.actions.updateLocalProfile(updatedProfile);
 		}
 	};
-
 
 	useEffect(() => {
 		profileContext.actions.setAccentColor(accentColor || '');
@@ -165,8 +162,8 @@ export default function ProfileEditModal({ onClose }: Props) {
 									containerStyle={profileEditModalStyles.checkbox}
 									textStyle={profileEditModalStyles.checkBoxText}
 									checked={interestTopics.includes(item)}
-									checkedIcon={<IconSquareCheckFilled fill={accentColor || "#3D85C6"}  color={"#FFFFFF"}size={28} />}
-									uncheckedIcon={<IconSquare color={accentColor || "#3D85C6"}   fill={"#FFFFFF"} size={28} />}
+									checkedIcon={<IconSquareCheckFilled fill={accentColor || "#3D85C6"} color={"#FFFFFF"} size={28} />}
+									uncheckedIcon={<IconSquare color={accentColor || "#3D85C6"} fill={"#FFFFFF"} size={28} />}
 									onPress={() => {
 										if (interestTopics.includes(item)) {
 											setInterestTopics(interestTopics.filter(i => i !== item));
