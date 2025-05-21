@@ -57,7 +57,7 @@ export const ConsentContextProvider = ({ children }) => {
 	// A. Setup variables
 
 	const [dataEnabledAnalyticsState, setDataEnabledAnalyticsState] = useState<ConsentContextState['data']['enabled_analytics']>(false);
-	const [dataEnabledFunctionalState, setDataEnabledFunctionalState] = useState<ConsentContextState['data']['enabled_functional']>(true);
+	const [dataEnabledFunctionalState, setDataEnabledFunctionalState] = useState<ConsentContextState['data']['enabled_functional']>(false);
 
 	const [consentSystemInitStatus, setConsentSystemInitStatus] = useState<boolean>(false);
 	const [asyncStorageDecisionDateValue, setAsyncStorageDecisionDateValue] = useState<null | string>(null);
@@ -73,7 +73,7 @@ export const ConsentContextProvider = ({ children }) => {
 		// Get previously stored decision values from async storage
 		// on a regular interval to accomodate changes made in other tabs.
 		const interval = setInterval(async () => {
-			if (typeof localStorage === 'undefined') return;
+			if (typeof AsyncStorage === 'undefined') return;
 			const decisionDate = await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.decision_date);
 			const enabledAnalytics = await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.enabled_analytics);
 			const enabledFunctional = await AsyncStorage.getItem(ASYNC_STORAGE_KEYS.enabled_functional);
@@ -166,7 +166,10 @@ export const ConsentContextProvider = ({ children }) => {
 	};
 
 	const enable = (options: AvailableConsentOption[]) => {
+
 		AsyncStorage.setItem(ASYNC_STORAGE_KEYS.decision_date, DateTime.now().toFormat('yyyyMMdd'));
+
+		console.log(ASYNC_STORAGE_KEYS.decision_date, DateTime.now().toFormat('yyyyMMdd'));
 		if (options.includes('analytics')) AsyncStorage.setItem(ASYNC_STORAGE_KEYS.enabled_analytics, 'yes');
 		if (options.includes('functional')) AsyncStorage.setItem(ASYNC_STORAGE_KEYS.enabled_functional, 'yes');
 	};

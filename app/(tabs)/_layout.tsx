@@ -1,8 +1,10 @@
 /* * */
 
+import { ConsentPopup } from '@/components/common/ConsentDialog';
 import { HapticTab } from '@/components/HapticTab';
 import OfflineScreen from '@/components/OfflineScreen';
 import TabBarBackground from '@/components/ui/TabBarBackground';
+import { useConsentContext } from '@/contexts/Consent.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { useNetInfo } from '@react-native-community/netinfo';
@@ -21,6 +23,7 @@ export default function TabLayout() {
 	// A. Setup Variables
 
 	const themeContext = useThemeContext();
+	const consentContext = useConsentContext();
 	const insets = useSafeAreaInsets();
 	const netInfo = useNetInfo();
 	const icons = { home: IconUserCircle, lines: IconArrowLoopRight, more: IconDots, stops: IconMap };
@@ -42,44 +45,49 @@ export default function TabLayout() {
 	//
 	// B. Render components
 
-	if (netInfo.isConnected === false) {
-		return <OfflineScreen />;
-	}
-
+	console.log("HEY DUUDEEE ====>", consentContext.data.ask_for_consent, consentContext.data.init_status);
 	return (
-		<Tabs
-			screenOptions={({ route }) => ({
-				headerShown: false,
-				headerStyle: { backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background },
-				tabBarActiveTintColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.primary : theming.colorSystemBackgroundDark300,
-				tabBarBackground: TabBarBackground,
-				tabBarButton: HapticTab,
-				tabBarIcon: ({ color, focused }) => {
-					const IconComponent = icons[route.name];
-					return (
-						<View style={[styles.iconWrapper, focused && styles.iconWrapperActive]}>
-							<IconComponent color={color} size={24} />
-						</View>
-					);
-				},
-				tabBarShowLabel: false,
-				tabBarStyle: Platform.select({
-					default: { height: 74 + insets.bottom, paddingBottom: 30, paddingTop: 20 },
-					ios: {
-						backgroundColor: 'transparent',
-						height: 74 + insets.bottom,
-						paddingBottom: 30,
-						paddingTop: 20,
-						position: 'absolute',
-					},
-				}),
-			})}
-		>
-			<Tabs.Screen name="home" />
-			<Tabs.Screen name="lines" />
-			<Tabs.Screen name="stops" />
-			<Tabs.Screen name="more" />
-		</Tabs>
-
+		<>
+			{netInfo.isConnected === false ? (
+				<OfflineScreen />
+			) : (
+				<>
+					<ConsentPopup />
+					<Tabs
+						screenOptions={({ route }) => ({
+							headerShown: false,
+							headerStyle: { backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background },
+							tabBarActiveTintColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.primary : theming.colorSystemBackgroundDark300,
+							tabBarBackground: TabBarBackground,
+							tabBarButton: HapticTab,
+							tabBarIcon: ({ color, focused }) => {
+								const IconComponent = icons[route.name];
+								return (
+									<View style={[styles.iconWrapper, focused && styles.iconWrapperActive]}>
+										<IconComponent color={color} size={24} />
+									</View>
+								);
+							},
+							tabBarShowLabel: false,
+							tabBarStyle: Platform.select({
+								default: { height: 74 + insets.bottom, paddingBottom: 30, paddingTop: 20 },
+								ios: {
+									backgroundColor: 'transparent',
+									height: 74 + insets.bottom,
+									paddingBottom: 30,
+									paddingTop: 20,
+									position: 'absolute',
+								},
+							}),
+						})}
+					>
+						<Tabs.Screen name="home" />
+						<Tabs.Screen name="lines" />
+						<Tabs.Screen name="stops" />
+						<Tabs.Screen name="more" />
+					</Tabs>
+				</>
+			)}
+		</>
 	);
 }

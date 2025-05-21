@@ -50,6 +50,8 @@ export default function RootLayout() {
 		}
 	}, [loaded]);
 
+	
+
 	//
 	// C. Render components
 

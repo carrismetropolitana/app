@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { WidgetCards } from '../widgets/WidgetCards';
 import { Link } from 'expo-router';
+import { ConsentPopup } from '../common/ConsentDialog';
 
 export default function HomeScreen() {
 	const themeContext = useThemeContext();
@@ -18,7 +19,6 @@ export default function HomeScreen() {
 		<View style={{ backgroundColor, flex: 1, paddingBottom: insets.bottom + 70 }}>
 			<Header />
 			<ScrollView showsVerticalScrollIndicator={false} style={{ paddingHorizontal: 20, paddingTop: insets.top + 100 }}>
-				<Link style={{marginBottom: 20}} href="/cookies">GOTO COOOKIES</Link>
 				<FavoritesBar />
 				<WidgetCards />
 			</ScrollView>

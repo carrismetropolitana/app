@@ -6,7 +6,7 @@ import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { ActivitySchema, InterestsSchema, UtilizationTypeSchema } from '@/types/account.types';
-import { ButtonGroup, CheckBox, Input, ListItem, Text } from '@rn-vui/themed';
+import { ButtonGroup, CheckBox, Input, ListItem } from '@rn-vui/themed';
 import { IconArrowNarrowLeft, IconArrowsShuffle, IconCircle, IconCircleFilled, IconSquare, IconSquareCheckFilled, IconSquareFilled } from '@tabler/icons-react-native';
 import React, { useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';

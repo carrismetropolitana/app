@@ -8,9 +8,9 @@ import { ConsentContextProvider } from '@/contexts/Consent.context';
 export function PrivacyProviders({ children }) {
 	return (
 		<ConsentContextProvider>
-			<AnalyticsContextProvider>
+			{/* <AnalyticsContextProvider> */}
 				{children}
-			</AnalyticsContextProvider>
+			{/* </AnalyticsContextProvider> */}
 		</ConsentContextProvider>
 	);
 }

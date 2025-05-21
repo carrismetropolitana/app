@@ -25,7 +25,7 @@ export function ConsentPopup() {
     const pathname = usePathname();
     const consentContext = useConsentContext();
     const themeContext = useThemeContext();
-    const analyticsContext = useAnalyticsContext();
+    // const analyticsContext = useAnalyticsContext();
 
     const [showOptions, setShowOptions] = useState(false);
     const [optionAnalyticsDecision, setOptionAnalyticsDecision] = useState(true);
@@ -34,7 +34,7 @@ export function ConsentPopup() {
 
     const animation = themeContext.theme.mode === 'light' ? zumeLight : zumeDark;
 
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [isPopupOpen, setIsPopupOpen] = useState(true);
 
     const consentModalStyles = styles();
 
@@ -50,7 +50,7 @@ export function ConsentPopup() {
         const regexPatternToMatchCookiesPage = /^(\/[a-z]{2})?\/cookies\/?$/;
         const isCookiesPage = regexPatternToMatchCookiesPage.test(pathname);
         // Set the modal state based on the context and pathname
-        setIsPopupOpen(consentContext.data.ask_for_consent && !isCookiesPage);
+        //  setIsPopupOpen(consentContext.data.ask_for_consent && !isCookiesPage);
     }, [consentContext.data.init_status, consentContext.data.ask_for_consent, pathname]);
 
     const handleAccept = () => {
@@ -70,7 +70,7 @@ export function ConsentPopup() {
             consentContext.actions.disable(['functional']);
         }
         // Dismiss and reset the popup
-        setIsPopupOpen(false);
+        // setIsPopupOpen(false);
         setShowOptions(false);
         setOptionAnalyticsDecision(true);
         setOptionFunctionalDecision(true);
@@ -78,7 +78,7 @@ export function ConsentPopup() {
 
     const handleRefuse = () => {
         consentContext.actions.disable(['analytics', 'functional']);
-        setIsPopupOpen(false);
+        //   setIsPopupOpen(false);
         setShowOptions(false);
         setOptionAnalyticsDecision(true);
         setOptionFunctionalDecision(true);
@@ -92,7 +92,7 @@ export function ConsentPopup() {
             style={[consentModalStyles.bodyOverride, consentModalStyles.contentOverride]}
             onBackdropPress={() => setIsPopupOpen(false)}
             isVisible={isPopupOpen}
-            overlayStyle={{ opacity: 0.55 }}
+            backdropStyle={{ opacity: 0.55 }}
         >
 
             <LottieView
@@ -106,7 +106,7 @@ export function ConsentPopup() {
 
             <TouchableOpacity onPress={() => setShowOptions(prev => !prev)}>
                 <View style={consentModalStyles.link} >
-                    {showOptions ? t('actions.hide_options') : t('actions.show_options')}
+                    <Text> {showOptions ? t('actions.hide_options') : t('actions.show_options')}</Text>
                 </View>
             </TouchableOpacity>
 
@@ -126,7 +126,7 @@ export function ConsentPopup() {
             )}
 
             <Link style={consentModalStyles.link} href="/cookies" target="_blank">
-                {t('policy_page')}
+                <Text>{t('policy_page')}</Text>
             </Link>
 
             <View style={consentModalStyles.answersWrapper}>
@@ -134,7 +134,7 @@ export function ConsentPopup() {
                     {t('actions.refuse')}
                 </Button>
                 <Button onPress={handleAccept}>
-                    {optionAnalyticsDecision && optionFunctionalDecision ? t('actions.accept') : t('actions.save')}
+                    <Text> {optionAnalyticsDecision && optionFunctionalDecision ? t('actions.accept') : t('actions.save')}</Text>
                 </Button>
             </View>
         </Dialog>

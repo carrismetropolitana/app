@@ -80,7 +80,7 @@ export const styles = () => {
         /* REFUSE BUTTON */
 
         refuseButtonOverride: {
-            opacity: 0.5
+            opacity: 1
         }
     });
 
