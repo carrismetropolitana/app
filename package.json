@@ -86,7 +86,6 @@
 		"react-native-screens": "~4.4.0",
 		"react-native-svg": "^15.11.2",
 		"react-native-svg-transformer": "^1.5.1",
-		"react-native-table-component": "^1.2.2",
 		"react-native-vector-icons": "^10.2.0",
 		"react-native-web": "^0.19.13",
 		"react-native-webview": "13.12.5",

@@ -3,14 +3,14 @@
 		"sections": {
 			"intro": {
 				"paragraphs": {
-					"1": "TML uses cookies and other similar technologies to understand how the website is used, in order to improve its content, security and performance. The goal is to provide a better browsing experience."
+					"1": "TML uses cookies and other similar technologies to understand how the app is used, in order to improve its content, security and performance. The goal is to provide a better browsing experience."
 				},
 				"title": "Cookies Policy"
 			},
 			"question_1": {
 				"paragraphs": {
-					"1": "Cookies are small text files with relevant information that the access device (computer, cell phone, smartphone, tablet, etc.…) loads, through the internet browser (browser), when a website is visited by the user.",
-					"2": "The use of cookies helps websites recognize the user's device on the next visit and is often essential for its functioning.",
+					"1": "Cookies are small text files with relevant information that the access device (computer, cell phone, smartphone, tablet, etc.…) loads, through the internet browser (browser), when a app is visited by the user.",
+					"2": "The use of cookies helps apps recognize the user's device on the next visit and is often essential for its functioning.",
 					"3": "The cookies used by TML do not collect personal information that allows a particular user to be identified, but only store anonymous, generic and aggregated information."
 				},
 				"title": "What are cookies and what are they for?"
@@ -18,9 +18,9 @@
 			"question_2": {
 				"paragraphs": {
 					"1": "Taking into account the purposes for which they are used, cookies can be classified as follows:",
-					"2": "- Strictly necessary cookies (also known as essential, technical or basic): they are necessary for the user to be able to access specific areas of the website, allowing navigation and use of its applications, such as access to secure areas of the website, through login. Without these cookies, services that require them cannot be provided;",
-					"3": "- Functionality cookies (also known as preference cookies): allow the website to remember the user's preferences regarding their navigation on the website, thus not needing to reconfigure and personalize it each time they visit;",
-					"4": "- Performance cookies (also known as analytical or statistical): they are essentially used to analyze how the user uses the website, allowing you to highlight articles or services that may be of interest to you, monitor the performance of the website, letting you know which most popular pages, which method of linking between pages is most effective, or to determine why some pages are receiving error messages;",
+					"2": "- Strictly necessary cookies (also known as essential, technical or basic): they are necessary for the user to be able to access specific areas of the app, allowing navigation and use of its applications, such as access to secure areas of the app, through login. Without these cookies, services that require them cannot be provided;",
+					"3": "- Functionality cookies (also known as preference cookies): allow the app to remember the user's preferences regarding their navigation on the app, thus not needing to reconfigure and personalize it each time they visit;",
+					"4": "- Performance cookies (also known as analytical or statistical): they are essentially used to analyze how the user uses the app, allowing you to highlight articles or services that may be of interest to you, monitor the performance of the app, letting you know which most popular pages, which method of linking between pages is most effective, or to determine why some pages are receiving error messages;",
 					"5": "- Advertising cookies (also known as marketing or tracking cookies): allow the user to be provided with advertising information based on their preferences and interests, as well as helping to measure the effectiveness of the advertisements shown (e.g. how many times they are seen)."
 				},
 				"title": "What types of Cookies are there?"
@@ -28,7 +28,7 @@
 			"question_3": {
 				"paragraphs": {
 					"1": "Regarding their validity, cookies can also be classified as follows:",
-					"2": "- Permanent cookies: these are cookies that are stored on access devices, at the browser level, and are used whenever the user visits the website again. In general, they are used to direct navigation according to the user's interests, allowing the provision of a more personalized service;",
+					"2": "- Permanent cookies: these are cookies that are stored on access devices, at the browser level, and are used whenever the user visits the app again. In general, they are used to direct navigation according to the user's interests, allowing the provision of a more personalized service;",
 					"3": "- Session cookies: these are temporary cookies, which are generated and are available until the user ends the session. The next time the user accesses their internet browser, cookies will no longer be stored."
 				},
 				"title": "How valid are Cookies?"
@@ -36,8 +36,8 @@
 			"question_4": {
 				"paragraphs": {
 					"1": "Depending on their origin, cookies may also have the following typology:",
-					"2": "- Own (or first-party) cookies: these are those sent to the user's device from a website/domain managed by the publisher itself and from where the service requested by the user is provided (the website owner);",
-					"3": "- Third-party (or third-party) cookies: these are those that are sent to the user's device from a domain that is not managed by the website editor, but by other entities who use the information obtained through these cookies. Given their origin and nature, the use of this type of cookies is the exclusive responsibility of the entities that use them."
+					"2": "- Own (or first-party) cookies: these are those sent to the user's device from a app/domain managed by the publisher itself and from where the service requested by the user is provided (the app owner);",
+					"3": "- Third-party (or third-party) cookies: these are those that are sent to the user's device from a domain that is not managed by the app editor, but by other entities who use the information obtained through these cookies. Given their origin and nature, the use of this type of cookies is the exclusive responsibility of the entities that use them."
 				},
 				"title": "What are the possible origins of Cookies?"
 			},
@@ -59,12 +59,12 @@
 						"2": {
 							"col_1": "anonymous_analytics_enabled",
 							"col_2": "carrismetropolitana.pt",
-							"col_3": "Obtain statistical information about website usage",
+							"col_3": "Obtain statistical information about app usage",
 							"col_4": "1 year"
 						}
 					}
 				},
-				"title": "What Cookies or similar technologies are used on this website?"
+				"title": "What Cookies or similar technologies are used on this app?"
 			},
 			"question_6": {
 				"accept": "Accept Cookies Policy",
@@ -82,7 +82,7 @@
 					}
 				},
 				"paragraphs": {
-					"1": "As they are essential for the proper functioning of the website, the use of strictly necessary or essential cookies does not require prior consent from the user. The rest (functionality, performance or advertising cookies) will only be used if the user expressly authorizes their use."
+					"1": "As they are essential for the proper functioning of the app, the use of strictly necessary or essential cookies does not require prior consent from the user. The rest (functionality, performance or advertising cookies) will only be used if the user expressly authorizes their use."
 				},
 				"refuse": "Opt Out and Clear Data",
 				"refuse_modal": {
@@ -248,15 +248,15 @@
 					"title": "Area 1 | Viação Alvorada"
 				},
 				"42": {
-					"description": "Fill out the Online Form available on the operator's website with information about the line used, time and description of the object. If possible, include the vehicle number or license plate.",
+					"description": "Fill out the Online Form available on the operator's app with information about the line used, time and description of the object. If possible, include the vehicle number or license plate.",
 					"title": "Area 2 | Rodoviária de Lisboa"
 				},
 				"43": {
-					"description": "Fill out the Online Form available on the operator's website with information about the line used, time and description of the object. If possible, include the vehicle number or license plate.",
+					"description": "Fill out the Online Form available on the operator's app with information about the line used, time and description of the object. If possible, include the vehicle number or license plate.",
 					"title": "Area 3 | TST"
 				},
 				"44": {
-					"description": "Fill out the Online Form available on the operator's website or send an email to passageiros@alsa.com with information about the line used, time and description of the object. If possible, include the vehicle number or license plate.",
+					"description": "Fill out the Online Form available on the operator's app or send an email to passageiros@alsa.com with information about the line used, time and description of the object. If possible, include the vehicle number or license plate.",
 					"title": "Area 4 | Alsa Todi"
 				}
 			},
@@ -309,6 +309,24 @@
 			"heading": "Next Circulations",
 			"second_heading": "Lines that pass in this stop",
 			"third_heading": "Caracterization"
+		}
+	},
+	"analytics": {
+		"ConsentPopup": {
+			"actions": {
+				"accept": "OK",
+				"hide_options": "Esconder Opções",
+				"refuse": "Não, obrigado",
+				"save": "Guardar",
+				"show_options": "Mostrar Opções"
+			},
+			"options": {
+				"analytics": "Guardar dados analíticos",
+				"functional": "Guardar dados funcionais"
+			},
+			"policy_page": "Consultar Política de Cookies",
+			"text": "In order to improve the performance, content and security of this website, TML intends to use cookies or similar technologies.",
+			"title": "We respect your privacy"
 		}
 	}
 }

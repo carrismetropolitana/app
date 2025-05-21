@@ -3,20 +3,17 @@
 import { Section } from '@/components/common/layout/Section';
 import { Surface } from '@/components/common/layout/Surface';
 import { useConsentContext } from '@/contexts/Consent.context';
-// import { Button, Group, Table } from '@mantine/core';
-// import { openConfirmModal } from '@mantine/modals';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { Text } from '@rn-vui/themed';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
-import { Row, Rows, Table } from 'react-native-table-component';
 import { Dialog, Button } from '@rn-vui/themed';
 import { useEffect, useState } from 'react';
 
 import styles from './styles';
 import { useNavigation } from 'expo-router';
 import { theming } from '@/theme/Variables';
-import { IconArrowBack, IconArrowLeft, IconChevronLeft } from '@tabler/icons-react-native';
+import { IconChevronLeft } from '@tabler/icons-react-native';
 
 /* * */
 
@@ -35,7 +32,7 @@ export default function Component() {
 	const fontColor = isLight ? theming.colorSystemText100 : theming.colorSystemText300;
 
 	const [dialogVisible, setDialogVisible] = useState(false);
-	const [onConfirmCallback, setOnConfirmCallback] = useState<() => void>(() => () => {});
+	const [onConfirmCallback, setOnConfirmCallback] = useState<() => void>(() => () => { });
 
 	useEffect(() => {
 		navigation.setOptions({
@@ -98,36 +95,22 @@ export default function Component() {
 						</View>
 						<View style={styles.section}>
 							<Text style={styles.title}>{t('sections.question_5.title')}</Text>
-							{/* <Table borderStyle={{ borderColor: '#c8e1ff',
-								borderWidth: 2 }}
-							>
-								<Row data={header} />
-								<Rows data={data} />
-							</Table>
-							<Table withColumnBorders withTableBorder>
-							<Table.head>
-								<Table.Tr>
-									<Table.Th>{t('sections.question_5.table.header.col_1')}</Table.Th>
-									<Table.Th>{t('sections.question_5.table.header.col_2')}</Table.Th>
-									<Table.Th>{t('sections.question_5.table.header.col_3')}</Table.Th>
-									<Table.Th>{t('sections.question_5.table.header.col_4')}</Table.Th>
-								</Table.Tr>
-							</Table.Thead>
-							<Table.Tbody>
-								<Table.Tr>
-									<Table.Td>{t('sections.question_5.table.rows.1.col_1')}</Table.Td>
-									<Table.Td>{t('sections.question_5.table.rows.1.col_2')}</Table.Td>
-									<Table.Td>{t('sections.question_5.table.rows.1.col_3')}</Table.Td>
-									<Table.Td>{t('sections.question_5.table.rows.1.col_4')}</Table.Td>
-								</Table.Tr>
-								<Table.Tr>
-									<Table.Td>{t('sections.question_5.table.rows.2.col_1')}</Table.Td>
-									<Table.Td>{t('sections.question_5.table.rows.2.col_2')}</Table.Td>
-									<Table.Td>{t('sections.question_5.table.rows.2.col_3')}</Table.Td>
-									<Table.Td>{t('sections.question_5.table.rows.2.col_4')}</Table.Td>
-								</Table.Tr>
-							</Table.Tbody>
-						</Table> */}
+							<View style={{ borderWidth: 1, borderColor: '#ccc', borderRadius: 4, overflow: 'hidden' }}>
+								{/* Table Header */}
+								<View style={{ flexDirection: 'row', backgroundColor: '#f0f0f0' }}>
+									<Text style={{ flex: 1, fontWeight: 'bold', padding: 8 }}>{t('sections.question_5.table.header.col_1')}</Text>
+									<Text style={{ flex: 1, fontWeight: 'bold', padding: 8 }}>{t('sections.question_5.table.header.col_2')}</Text>
+									<Text style={{ flex: 1, fontWeight: 'bold', padding: 8 }}>{t('sections.question_5.table.header.col_3')}</Text>
+									<Text style={{ flex: 1, fontWeight: 'bold', padding: 8 }}>{t('sections.question_5.table.header.col_4')}</Text>
+								</View>
+								{/* Table Row */}
+								<View style={{ flexDirection: 'row', borderTopWidth: 1, borderColor: '#ccc' }}>
+									<Text style={{ flex: 1, padding: 8 }}>{t('sections.question_5.table.rows.2.col_1')}</Text>
+									<Text style={{ flex: 1, padding: 8 }}>{t('sections.question_5.table.rows.2.col_2')}</Text>
+									<Text style={{ flex: 1, padding: 8 }}>{t('sections.question_5.table.rows.2.col_3')}</Text>
+									<Text style={{ flex: 1, padding: 8 }}>{t('sections.question_5.table.rows.2.col_4')}</Text>
+								</View>
+							</View>
 						</View>
 						<View style={styles.section}>
 							<Text style={styles.title}>{t('sections.question_6.title')}</Text>
@@ -170,7 +153,7 @@ export default function Component() {
 			</Surface>
 			<Dialog
 				isVisible={dialogVisible}
-				  onBackdropPress={() => setDialogVisible(false)}
+				onBackdropPress={() => setDialogVisible(false)}
 			>
 				<Dialog.Title>{t('sections.question_6.refuse_modal.title')}</Dialog.Title>
 				<Text>{t('sections.question_6.refuse_modal.description')}</Text>
