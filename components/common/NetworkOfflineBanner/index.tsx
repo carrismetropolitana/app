@@ -25,13 +25,13 @@ export default function NetworkOfflineBanner() {
     //B. Transform data
 
     const handleNetworkStatus = () => {
-        fetch(Routes.DEV_API_ACCOUNTS, { method: 'HEAD' })
+        fetch(Routes.API_ACCOUNTS, { method: 'HEAD' })
             .then(response => {
-                setVisible(!response.ok);
-                console.log('Network is online');
+                const isOnline = response.status === 200 || response.status === 403 || response.status === 401 || response.status === 500;
+                isOnline ? setVisible(false) : setVisible(true);
             })
             .catch(() => {
-                setVisible(true);
+                setVisible(false);
             });
     }
 
@@ -40,7 +40,7 @@ export default function NetworkOfflineBanner() {
         const interval = setInterval(handleNetworkStatus, 10000);
         return () => clearInterval(interval);
     }, []);
- 
+
     //
     // C. Render components
     return (

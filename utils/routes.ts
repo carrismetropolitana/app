@@ -172,7 +172,7 @@ export const Routes = Object.freeze({
 	...RoutesFooter,
 
 	API: 'https://api.carrismetropolitana.pt/v2',
-	API_ACCOUNTS: 'https://accounts.carrismetropolitana.pt',
+	API_ACCOUNTS: 'https://staging.accounts.carrismetropolitana.pt/accounts',
 	DEV_API_ACCOUNTS: 'http://10.128.1.240:5050/accounts',
 	//DEV_API_ACCOUNTS: 'http://192.168.1.83:5050/accounts',
 	METRICS: {

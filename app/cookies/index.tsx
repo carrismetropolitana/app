@@ -10,9 +10,10 @@ import { Text } from '@rn-vui/themed';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
 import { Row, Rows, Table } from 'react-native-table-component';
+import { Dialog, Button } from '@rn-vui/themed';
+import { useEffect, useState } from 'react';
 
 import styles from './styles';
-import { useEffect } from 'react';
 import { useNavigation } from 'expo-router';
 import { theming } from '@/theme/Variables';
 import { IconArrowBack, IconArrowLeft, IconChevronLeft } from '@tabler/icons-react-native';
@@ -33,6 +34,9 @@ export default function Component() {
 	const backgroundColor = isLight ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200;
 	const fontColor = isLight ? theming.colorSystemText100 : theming.colorSystemText300;
 
+	const [dialogVisible, setDialogVisible] = useState(false);
+	const [onConfirmCallback, setOnConfirmCallback] = useState<() => void>(() => () => {});
+
 	useEffect(() => {
 		navigation.setOptions({
 			headerTitle: 'Politica de Privacidade e Cookies',
@@ -50,17 +54,10 @@ export default function Component() {
 	//
 	// B. Handle actions
 
-	// const handleShowConfirmModal = (callback: () => void) => {
-	// 	openConfirmModal({
-	// 		centered: true,
-	// 		children: <p>{t('sections.question_6.refuse_modal.description')}</p>,
-	// 		closeOnClickOutside: true,
-	// 		confirmProps: { color: 'red' },
-	// 		labels: { cancel: t('sections.question_6.refuse_modal.cancel'), confirm: t('sections.question_6.refuse_modal.confirm') },
-	// 		onConfirm: () => callback(),
-	// 		title: t('sections.question_6.refuse_modal.title'),
-	// 	});
-	// };
+	const handleShowConfirmDialog = (callback: () => void) => {
+		setOnConfirmCallback(() => callback);
+		setDialogVisible(true);
+	};
 
 	//
 	// C. Render components
@@ -137,25 +134,25 @@ export default function Component() {
 							<Text style={styles.text}>{t('sections.question_6.paragraphs.1')}</Text>
 							<View style={styles.authorizationOptions}>
 
-								{/* {consentContext.data.enabled_functional ? (
-								<Button color="green" onPress={() => handleShowConfirmModal(() => consentContext.actions.disable(['functional']))}>
-									{t('sections.question_6.options.functional.disable')}
-								</Button>
-							) : (
-								<Button onPress={() => consentContext.actions.enable(['functional'])}>
-									{t('sections.question_6.options.functional.enable')}
-								</Button>
-							)} */}
+								{consentContext.data.enabled_functional ? (
+									<Button color="green" onPress={() => handleShowConfirmDialog(() => consentContext.actions.disable(['functional']))}>
+										{t('sections.question_6.options.functional.disable')}
+									</Button>
+								) : (
+									<Button onPress={() => consentContext.actions.enable(['functional'])}>
+										{t('sections.question_6.options.functional.enable')}
+									</Button>
+								)}
 
-								{/* {consentContext.data.enabled_analytics ? (
-								<Button color="green" onPress={() => handleShowConfirmModal(() => consentContext.actions.disable(['analytics']))}>
-									{t('sections.question_6.options.analytics.disable')}
-								</Button>
-							) : (
-								<Button onPress={() => consentContext.actions.enable(['analytics'])}>
-									{t('sections.question_6.options.analytics.enable')}
-								</Button>
-							)} */}
+								{consentContext.data.enabled_analytics ? (
+									<Button color="green" onPress={() => handleShowConfirmDialog(() => consentContext.actions.disable(['analytics']))}>
+										{t('sections.question_6.options.analytics.disable')}
+									</Button>
+								) : (
+									<Button onPress={() => consentContext.actions.enable(['analytics'])}>
+										{t('sections.question_6.options.analytics.enable')}
+									</Button>
+								)}
 
 							</View>
 						</View>
@@ -171,6 +168,18 @@ export default function Component() {
 					</View>
 				</Section>
 			</Surface>
+			<Dialog
+				isVisible={dialogVisible}
+				  onBackdropPress={() => setDialogVisible(false)}
+			>
+				<Dialog.Title>{t('sections.question_6.refuse_modal.title')}</Dialog.Title>
+				<Text>{t('sections.question_6.refuse_modal.description')}</Text>
+				<Dialog.Button title={t('sections.question_6.refuse_modal.confirm')} onPress={() => {
+					onConfirmCallback();
+					setDialogVisible(false);
+				}} />
+				<Dialog.Button title={t('sections.question_6.refuse_modal.cancel')} onPress={() => setDialogVisible(false)} />
+			</Dialog>
 		</ScrollView>
 	);
 
