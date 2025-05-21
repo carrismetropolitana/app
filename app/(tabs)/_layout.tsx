@@ -44,8 +44,7 @@ export default function TabLayout() {
 
 	//
 	// B. Render components
-
-	console.log("HEY DUUDEEE ====>", consentContext.data.ask_for_consent, consentContext.data.init_status);
+	
 	return (
 		<>
 			{netInfo.isConnected === false ? (
