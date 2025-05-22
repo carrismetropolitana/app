@@ -265,7 +265,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		try {
 			let image;
 			do {
-				const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/persona/`);
+				const response = await fetch(`${Routes.API_ACCOUNTS}/persona/`);
 				image = await response.json();
 				if (image.url && personaHistory.includes(image.url)) {
 					console.log('Image already exists in history, refetching...');
@@ -336,7 +336,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			return null;
 		}
 
-		const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/${id}`, {
+		const response = await fetch(`${Routes.API_ACCOUNTS}/${id}`, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Cookie': `session_token=${token}`,
@@ -357,7 +357,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 		const { _id, created_at, role, updated_at, ...cleanedProfile } = profile;
 		try {
-			await fetch(`${Routes.DEV_API_ACCOUNTS}/${profile.devices[0].device_id}`, {
+			await fetch(`${Routes.API_ACCOUNTS}/${profile.devices[0].device_id}`, {
 				body: JSON.stringify(cleanedProfile),
 				headers: {
 					'Content-Type': 'application/json',
@@ -599,7 +599,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			role: 'user',
 			widgets: [],
 		};
-		const apiResponse = await fetch(`${Routes.DEV_API_ACCOUNTS}`, {
+		const apiResponse = await fetch(`${Routes.API_ACCOUNTS}`, {
 			body: JSON.stringify(newProfileStructure),
 			headers: { 'Content-Type': 'application/json' },
 			method: 'POST',

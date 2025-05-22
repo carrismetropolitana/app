@@ -28,8 +28,8 @@ export function ConsentPopup() {
     // const analyticsContext = useAnalyticsContext();
 
     const [showOptions, setShowOptions] = useState(false);
-    const [optionAnalyticsDecision, setOptionAnalyticsDecision] = useState(false);
-    const [optionFunctionalDecision, setOptionFunctionalDecision] = useState(false);
+    const [optionAnalyticsDecision, setOptionAnalyticsDecision] = useState(true);
+    const [optionFunctionalDecision, setOptionFunctionalDecision] = useState(true);
 
 
     const animation = themeContext.theme.mode === 'light' ? zumeLight : zumeDark;
