@@ -5,8 +5,7 @@ import { theming } from '@/theme/Variables';
 import { StyleSheet } from 'react-native';
 
 /* * */
-
-export const styles = () => {
+ const styles = () => {
     //
 
     //
@@ -26,7 +25,7 @@ export const styles = () => {
 
     return StyleSheet.create({
 	/* CONTAINER */
-
+     
 	container: {
 		flex: 1,
 		height: '100%',
@@ -77,3 +76,6 @@ export const styles = () => {
 
     //
 };
+
+
+export default styles;

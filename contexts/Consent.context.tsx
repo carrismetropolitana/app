@@ -1,6 +1,6 @@
 /* * */
 
-import { expireAllCookies } from '@/utils/expire-all-cookies.util';
+// import { expireAllCookies } from '@/utils/expire-all-cookies.util';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DateTime } from 'luxon';
 import { createContext, useContext, useEffect, useState } from 'react';
@@ -180,7 +180,7 @@ export const ConsentContextProvider = ({ children }) => {
 		AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.enabled_analytics);
 		AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.enabled_functional);
 		// Clear cookies
-		expireAllCookies();
+		// expireAllCookies();
 		// Reset local state
 		setAskForConsent(true);
 	};

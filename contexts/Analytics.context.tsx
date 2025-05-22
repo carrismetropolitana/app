@@ -3,7 +3,7 @@
 import { Ampli, ampli } from '@/amplitude';
 import { useConsentContext } from '@/contexts/Consent.context';
 import pjson from '@/package.json';
-import { expireAllCookies } from '@/utils/expire-all-cookies.util';
+// import { expireAllCookies } from '@/utils/expire-all-cookies.util';
 import { createContext, useContext, useEffect } from 'react';
 
 /* * */
@@ -47,7 +47,7 @@ export const AnalyticsContextProvider = ({ children }) => {
 		}
 		else if (consentContext.data.init_status && ampli?.isLoaded) {
 			ampli.client.setOptOut(true);
-			expireAllCookies();
+			// expireAllCookies();
 		}
 	}, [consentContext.data.init_status, consentContext.data.enabled_analytics, ampli?.isLoaded]);
 
