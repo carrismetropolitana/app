@@ -1,7 +1,6 @@
 /* * */
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { Section } from '@/components/common/layout/Section';
-import { Surface } from '@/components/common/layout/Surface';
 import { ProfileImage } from '@/components/ProfileImage';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
@@ -21,6 +20,7 @@ import AddFavoriteStop from '@/app/(modal)/AddFavoriteStopModal';
 import AddFavoriteLine from '@/app/(modal)/AddFavoriteLineModal';
 import ProfileEditModal from '@/app/(modal)/ProfileEditModal';
 import dimAvatarBackground from '@/utils/dimAvatarBackground';
+import FavoriteItem from '@/components/common/FavoriteItem';
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
@@ -68,10 +68,10 @@ export default function ProfileScreen() {
   const goBackInHistory = () => profileContext.actions.setPreviousPersona();
 
   const renderFavoriteItem = ({ drag, isActive, item }: any) => (
-    <Text>{ }</Text>
-    // <Pressable disabled={isActive} onLongPress={drag}>
-    //   <FavoriteItem data={item} />
-    // </Pressable>
+    // <Text>{ }</Text>
+    <Pressable disabled={isActive} onLongPress={drag}>
+      <FavoriteItem data={item} />
+    </Pressable>
   );
 
   const buttons = [
@@ -98,7 +98,7 @@ export default function ProfileScreen() {
   const ListHeader = () => (
     <>
       <View style={profileStyles.userSection}>
-        {persona_image ? <ProfileImage size={200}  borderWidth={10} color={profileContext.data.accent_color || ''} type="url" backgroundColor={profileContext.data.accent_color ? dimAvatarBackground(profileContext.data.accent_color) : 'rgba(253,183,26,0.4))'} />
+        {persona_image ? <ProfileImage size={200} borderWidth={10} color={profileContext.data.accent_color || ''} type="url" backgroundColor={profileContext.data.accent_color ? dimAvatarBackground(profileContext.data.accent_color) : 'rgba(253,183,26,0.4))'} />
           : <ProfileImage width={200} height={200} type="local" />}
         <ButtonGroup buttons={buttons} containerStyle={{ backgroundColor: themeContext.theme.lightColors?.background, borderRadius: 30, marginTop: -20, width: '25%' }} />
         <Text style={profileStyles.userFullNameText}>
@@ -150,34 +150,32 @@ export default function ProfileScreen() {
   );
 
   return (
-    <View style={{ flex: 1 }}>
-      <Surface style={{ flex: 1 }}>
-        <DraggableFlatList
-          data={widgetList}
-          ListFooterComponent={ListFooter}
-          ListHeaderComponent={ListHeader}
-          nestedScrollEnabled={false}
-          renderItem={renderFavoriteItem}
-          scrollEnabled={true}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={item =>
-            item.data.type === 'lines' ? `line-${item.data.pattern_id}`
-              : item.data.type === 'stops' ? `stop-${item.data.stop_id}-${item.data.pattern_ids[0]}`
-                : `item`}
-          onDragEnd={({ data }) => {
-            setWidgetList(data);
-            if (saveTimer.current) clearTimeout(saveTimer.current);
-            saveTimer.current = setTimeout(() => {
-              if (!profile) return;
-              const orderedWidgets = data.map((widget, idx) => ({
-                ...widget,
-                settings: { ...widget.settings, display_order: idx },
-              }));
-              profileContext.actions.updateLocalProfile({ ...profile, widgets: orderedWidgets });
-            }, 1000);
-          }}
-        />
-      </Surface>
+    <View>
+      <DraggableFlatList
+        data={widgetList}
+        ListFooterComponent={ListFooter}
+        ListHeaderComponent={ListHeader}
+        nestedScrollEnabled={false}
+        renderItem={renderFavoriteItem}
+        scrollEnabled={true}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={item =>
+          item.data.type === 'lines' ? `line-${item.data.pattern_id}`
+            : item.data.type === 'stops' ? `stop-${item.data.stop_id}-${item.data.pattern_ids[0]}`
+              : `item`}
+        onDragEnd={({ data }) => {
+          setWidgetList(data);
+          if (saveTimer.current) clearTimeout(saveTimer.current);
+          saveTimer.current = setTimeout(() => {
+            if (!profile) return;
+            const orderedWidgets = data.map((widget, idx) => ({
+              ...widget,
+              settings: { ...widget.settings, display_order: idx },
+            }));
+            profileContext.actions.updateLocalProfile({ ...profile, widgets: orderedWidgets });
+          }, 1000);
+        }}
+      />
       <BottomSheetWrapper ref={stopSheetRef}> <AddFavoriteStop onClose={() => stopSheetRef.current?.dismiss()} /></BottomSheetWrapper>
       <BottomSheetWrapper ref={lineSheetRef}>  <AddFavoriteLine onClose={() => lineSheetRef.current?.dismiss()} /></BottomSheetWrapper>
       <BottomSheetWrapper ref={profileSheetRef}> <ProfileEditModal onClose={() => profileSheetRef.current?.dismiss()} /></BottomSheetWrapper>

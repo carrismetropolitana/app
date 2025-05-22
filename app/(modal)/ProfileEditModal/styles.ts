@@ -5,76 +5,72 @@ import { theming } from '@/theme/Variables';
 import { StyleSheet } from 'react-native';
 
 /* * */
- const styles = () => {
-    //
+const styles = () => {
+	//
 
-    //
-    // A. Setup variables
+	//
+	// A. Setup variables
 
-    const { theme } = useThemeContext();
-    const isLight = theme.mode === 'light';
-    const backgroundColor = isLight
-        ? theming.colorSystemBackgroundLight100
-        : theming.colorSystemBackgroundDark100;
-    const fontColor = isLight
-        ? theming.colorSystemText100
-        : theming.colorSystemText300;
+	const { theme } = useThemeContext();
+	const isLight = theme.mode === 'light';
+	const backgroundColor = isLight
+		? theming.colorSystemBackgroundLight100
+		: theming.colorSystemBackgroundDark100;
+	const fontColor = isLight
+		? theming.colorSystemText100
+		: theming.colorSystemText300;
 
-    //
-    // B. Render Components
+	//
+	// B. Render Components
 
-    return StyleSheet.create({
-	/* CONTAINER */
-     
-	container: {
-		flex: 1,
-		height: '100%',
-		marginTop: 30,
-		maxWidth: '100%',
-		minWidth: '100%',
-	},
+	return StyleSheet.create({
+		/* CONTAINER */
 
-	/* * */
-	/* SECTION WRAPPER */
+		container: {
+			paddingBottom: 50
+		},
 
-	sectionWrapper:{
-		marginBottom: 20,
-	},
+		/* * */
+		/* SECTION WRAPPER */
 
-	/* * */
-	/* USER INFO SECTION */
+		sectionWrapper: {
+			marginBottom: 20,
+		},
 
-	userSection: {
-		alignItems: 'center',
-		flex: 1,
-		justifyContent: 'center',
-		paddingTop: 36,
-	},
+		/* * */
+		/* USER INFO SECTION */
 
-	/* * */
-	/* INPUTS / CHECKBOXES */
+		userSection: {
+			alignItems: 'center',
+			flex: 1,
+			justifyContent: 'center',
+			paddingTop: 36,
+		},
 
-	inputLabel: {
-		color: fontColor,
-		fontSize: 14,
-		fontWeight: theming.fontWeightBold as '700',
-		alignSelf: 'flex-start',
-		paddingBottom: 10,
-	},
-	checkbox:{
-		backgroundColor: backgroundColor,
-	},
-	checkBoxText:{
-		color: fontColor,
-		fontSize: 14,
-		fontWeight: theming.fontWeightText as '500',
-	}
-	
-	/* * */
+		/* * */
+		/* INPUTS / CHECKBOXES */
 
-    });
+		inputLabel: {
+			color: fontColor,
+			fontSize: 14,
+			fontWeight: theming.fontWeightBold as '700',
+			alignSelf: 'flex-start',
+			paddingBottom: 10,
+		},
+		checkbox: {
+			backgroundColor: backgroundColor,
+		},
+		checkBoxText: {
+			color: fontColor,
+			fontSize: 14,
+			fontWeight: theming.fontWeightText as '500',
+		}
 
-    //
+		/* * */
+
+	});
+
+	//
 };
 
 

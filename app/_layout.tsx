@@ -18,6 +18,7 @@ import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import NetworkOffline from '@/components/common/NetworkOfflineBanner';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 /* * */
 
@@ -36,9 +37,9 @@ export default function RootLayout() {
 
 	const [loaded] = useFonts({
 		// eslint-disable-next-line
-		Inter: require('../assets/fonts/Inter-VariableFont_opsz,wght.ttf'), 
+		Inter: require('../assets/fonts/Inter-VariableFont_opsz,wght.ttf'),
 		// eslint-disable-next-line
-		SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),  
+		SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
 	});
 
 	//
@@ -50,28 +51,30 @@ export default function RootLayout() {
 		}
 	}, [loaded]);
 
-	
+
 
 	//
 	// C. Render components
 
 	return (
-		<GestureHandlerRootView>
+		<GestureHandlerRootView style={{ flex: 1 }}>
 			<ConfigProviders>
 				<PrivacyProviders>
 					<DataProviders>
 						<ProfileProviders>
 							<MapProviders>
 								<BottomSheetModalProvider>
-								<QueryClientProvider client={queryClient}>
-									<ThemeProvider>
-										<NetworkOffline />
-										<StatusBar backgroundColor="transparent" style="auto" translucent />
-										<Stack>
-											<Stack.Screen name="(tabs)" options={{ headerShown: false}} />
-										</Stack>
-									</ThemeProvider>
-								</QueryClientProvider>
+									<QueryClientProvider client={queryClient}>
+										<ThemeProvider>
+											<SafeAreaProvider>
+												<NetworkOffline />
+												<StatusBar backgroundColor="transparent" style="auto" translucent />
+												<Stack>
+													<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+												</Stack>
+											</SafeAreaProvider>
+										</ThemeProvider>
+									</QueryClientProvider>
 								</BottomSheetModalProvider>
 							</MapProviders>
 						</ProfileProviders>

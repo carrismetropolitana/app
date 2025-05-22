@@ -28,13 +28,13 @@ export function ConsentPopup() {
     // const analyticsContext = useAnalyticsContext();
 
     const [showOptions, setShowOptions] = useState(false);
-    const [optionAnalyticsDecision, setOptionAnalyticsDecision] = useState(true);
-    const [optionFunctionalDecision, setOptionFunctionalDecision] = useState(true);
+    const [optionAnalyticsDecision, setOptionAnalyticsDecision] = useState(false);
+    const [optionFunctionalDecision, setOptionFunctionalDecision] = useState(false);
 
 
     const animation = themeContext.theme.mode === 'light' ? zumeLight : zumeDark;
 
-    const [isPopupOpen, setIsPopupOpen] = useState(true);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const consentModalStyles = styles();
 
@@ -50,7 +50,7 @@ export function ConsentPopup() {
         const regexPatternToMatchCookiesPage = /^(\/[a-z]{2})?\/cookies\/?$/;
         const isCookiesPage = regexPatternToMatchCookiesPage.test(pathname);
         // Set the modal state based on the context and pathname
-        //  setIsPopupOpen(consentContext.data.ask_for_consent && !isCookiesPage);
+        setIsPopupOpen(consentContext.data.ask_for_consent && !isCookiesPage);
     }, [consentContext.data.init_status, consentContext.data.ask_for_consent, pathname]);
 
     const handleAccept = () => {
@@ -70,7 +70,7 @@ export function ConsentPopup() {
             consentContext.actions.disable(['functional']);
         }
         // Dismiss and reset the popup
-        // setIsPopupOpen(false);
+        setIsPopupOpen(false);
         setShowOptions(false);
         setOptionAnalyticsDecision(true);
         setOptionFunctionalDecision(true);
@@ -78,7 +78,7 @@ export function ConsentPopup() {
 
     const handleRefuse = () => {
         consentContext.actions.disable(['analytics', 'functional']);
-        //   setIsPopupOpen(false);
+        setIsPopupOpen(false);
         setShowOptions(false);
         setOptionAnalyticsDecision(true);
         setOptionFunctionalDecision(true);
@@ -88,40 +88,19 @@ export function ConsentPopup() {
     // C. Render Components
 
     return (
-        <Dialog
-            style={[consentModalStyles.bodyOverride, consentModalStyles.contentOverride]}
-            onBackdropPress={() => setIsPopupOpen(false)}
-            isVisible={isPopupOpen}
-            backdropStyle={{ opacity: 0.55 }}
-        >
-
-            <LottieView
-                source={animation}
-                style={{ height: 70, width: 150 }}
-                autoPlay
-                loop
-            />
+        <Dialog onBackdropPress={() => setIsPopupOpen(false)} isVisible={isPopupOpen} backdropStyle={{ opacity: 0.55 }} overlayStyle={consentModalStyles.contentOverride} >
+            <LottieView source={animation} style={consentModalStyles.logo} autoPlay loop />
             <Text style={consentModalStyles.title}>{t('title')}</Text>
             <Text style={consentModalStyles.text}>{t('text')}</Text>
-
             <TouchableOpacity onPress={() => setShowOptions(prev => !prev)}>
                 <View style={consentModalStyles.link} >
                     <Text> {showOptions ? t('actions.hide_options') : t('actions.show_options')}</Text>
                 </View>
             </TouchableOpacity>
-
             {showOptions && (
                 <>
-                    <CheckBox
-                        title={t('options.functional')}
-                        checked={optionFunctionalDecision}
-                        onPress={() => setOptionFunctionalDecision(!optionFunctionalDecision)}
-                    />
-                    <CheckBox
-                        title={t('options.analytics')}
-                        checked={optionAnalyticsDecision}
-                        onPress={() => setOptionAnalyticsDecision(!optionAnalyticsDecision)}
-                    />
+                    <CheckBox title={t('options.functional')} checked={optionFunctionalDecision} onPress={() => setOptionFunctionalDecision(!optionFunctionalDecision)} />
+                    <CheckBox title={t('options.analytics')} checked={optionAnalyticsDecision} onPress={() => setOptionAnalyticsDecision(!optionAnalyticsDecision)} />
                 </>
             )}
 
@@ -133,8 +112,8 @@ export function ConsentPopup() {
                 <Button style={consentModalStyles.refuseButtonOverride} onPress={handleRefuse}>
                     {t('actions.refuse')}
                 </Button>
-                <Button onPress={handleAccept}>
-                    <Text> {optionAnalyticsDecision && optionFunctionalDecision ? t('actions.accept') : t('actions.save')}</Text>
+                <Button onPress={handleAccept} buttonStyle={consentModalStyles.acceptButtonOverride}>
+                    <Text style={consentModalStyles.text}> {optionAnalyticsDecision && optionFunctionalDecision ? t('actions.accept') : t('actions.save')}</Text>
                 </Button>
             </View>
         </Dialog>

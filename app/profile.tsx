@@ -7,6 +7,7 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import { Platform } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 /* * */
 
@@ -40,13 +41,13 @@ export default function Profile() {
 	// B. Render components
 
 	return (
-		<LinesDetailContextProvider>
-			<StopsDetailContextProvider>
-				<BottomSheetModalProvider>
-					<ProfileScreen />
-				</BottomSheetModalProvider>
-			</StopsDetailContextProvider>
-		</LinesDetailContextProvider>
+			<LinesDetailContextProvider>
+				<StopsDetailContextProvider>
+					<BottomSheetModalProvider>
+						<ProfileScreen />
+					</BottomSheetModalProvider>
+				</StopsDetailContextProvider>
+			</LinesDetailContextProvider>
 	);
 
 	//

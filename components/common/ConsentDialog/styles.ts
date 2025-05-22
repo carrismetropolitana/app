@@ -25,20 +25,18 @@ export const styles = () => {
     // B. Render Components
 
     return StyleSheet.create({
+        /* LOGO */
+        logo: {
+            height: 75,
+            width: 150,
+            alignSelf: 'center',
+        },
         /* * */
         /* OVERRIDES */
 
         contentOverride: {
             backgroundColor: backgroundColor,
             borderRadius: theming.borderRadiusLg,
-        },
-
-        bodyOverride: {
-            display: 'flex',
-            flexDirection: 'column',
-            gap: theming.sizeSpacing20,
-            alignItems: 'center',
-            padding: theming.sizeSpacing30,
         },
 
         /* * */
@@ -48,21 +46,23 @@ export const styles = () => {
             fontSize: 18,
             fontWeight: 700,
             textAlign: 'center',
+            marginBottom: theming.sizeSpacing15,
         },
 
         text: {
             fontSize: 14,
             fontWeight: 500,
             textAlign: 'center',
+            color: fontColor,
         },
 
         link: {
-            paddingTop: 3,
-            paddingRight: 8,
+            paddingTop: 10,
             fontSize: 12,
             fontWeight: 500,
             color: fontColor,
-            borderRadius: 3,
+            textAlign: 'center',
+            alignSelf: 'center',
         },
 
         /* * */
@@ -81,6 +81,15 @@ export const styles = () => {
 
         refuseButtonOverride: {
             opacity: 1
+        },
+
+        /* * */
+        /* ACCEPT BUTTON */
+
+        acceptButtonOverride: {
+            backgroundColor:theming.colorBrand,
+            width: 100,
+            height: 50,
         }
     });
 

@@ -24,11 +24,8 @@ const styles = () => {
 			fontWeight: '500',
 		},
 		container: {
-			flex: 1,
-			height: '100%',
-			marginTop: 20,
-			maxWidth: '100%',
-			minWidth: '100%',
+			backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
+			paddingBottom: 50
 		},
 		deleteButton: {
 			backgroundColor: theming.colorAlerts3,

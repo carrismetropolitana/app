@@ -14,7 +14,7 @@ interface BottomSheetWrapperProps {
 
 /* * */
 
-const BottomSheetWrapper = forwardRef<BottomSheetModal, BottomSheetWrapperProps>(({ children, snapPoints = ['100%'] }, ref) => {
+const BottomSheetWrapper = forwardRef<BottomSheetModal, BottomSheetWrapperProps>(({ children, snapPoints = ['70%','100%'] }, ref) => {
     //
 
     //
@@ -27,6 +27,7 @@ const BottomSheetWrapper = forwardRef<BottomSheetModal, BottomSheetWrapperProps>
 
     return (
       <BottomSheetModal
+        enableDynamicSizing
         ref={ref}
         index={0}
         snapPoints={snapPoints}
@@ -34,7 +35,7 @@ const BottomSheetWrapper = forwardRef<BottomSheetModal, BottomSheetWrapperProps>
         backgroundStyle={{ backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background, borderRadius: 24,}}
         handleIndicatorStyle={styles.handle}
       >
-        <BottomSheetScrollView >
+        <BottomSheetScrollView>
           {children}
         </BottomSheetScrollView>
       </BottomSheetModal>
