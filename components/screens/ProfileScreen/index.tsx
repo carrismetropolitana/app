@@ -68,7 +68,6 @@ export default function ProfileScreen() {
   const goBackInHistory = () => profileContext.actions.setPreviousPersona();
 
   const renderFavoriteItem = ({ drag, isActive, item }: any) => (
-    // <Text>{ }</Text>
     <Pressable disabled={isActive} onLongPress={drag}>
       <FavoriteItem data={item} />
     </Pressable>
@@ -112,46 +111,45 @@ export default function ProfileScreen() {
   );
 
   const ListFooter = () => (
-    <>
-      <View style={profileStyles.addFavoritesSection}>
-        <Section heading="Adicionar favoritos" />
-        <ListItem onPress={() => stopSheetRef.current?.present()}>
-          <IconBusStop color="#FF6900" size={24} />
-          <ListItem.Content>
-            <ListItem.Title style={profileStyles.listTitle}>Paragem Favorita</ListItem.Title>
-          </ListItem.Content>
-          <IconCirclePlusFilled size={24} fill="#3CB43C" color="#FFFFFF" />
-        </ListItem>
-        <ListItem onPress={() => lineSheetRef.current?.present()}>
-          <IconArrowLoopRight color="#C61D23" size={24} />
-          <ListItem.Content>
-            <ListItem.Title style={profileStyles.listTitle}>Linha Favorita</ListItem.Title>
-          </ListItem.Content>
-          <IconCirclePlusFilled size={24} fill="#3CB43C" color="#FFFFFF" />
-        </ListItem>
-        <ListItem onPress={() => profileSheetRef.current?.present()}>
-          <IconUser color="#0C807E" size={24} />
-          <ListItem.Content>
-            <ListItem.Title style={profileStyles.listTitle}>Editar Perfil</ListItem.Title>
-          </ListItem.Content>
-          <IconCirclePlusFilled size={24} fill="#3CB43C" color="#FFFFFF" />
-        </ListItem>
-        <ListItem disabled>
-          <IconBellRinging color="#0C807E" size={24} />
-          <ListItem.Content>
-            <ListItem.Title style={profileStyles.listTitle}>
-              Notificações Inteligentes
-            </ListItem.Title>
-            <ListItem.Subtitle>Disponível em breve</ListItem.Subtitle>
-          </ListItem.Content>
-        </ListItem>
-      </View>
-    </>
+    <View style={profileStyles.addFavoritesSection}>
+      <Section heading="Adicionar favoritos" />
+      <ListItem onPress={() => stopSheetRef.current?.present()}>
+        <IconBusStop color="#FF6900" size={24} />
+        <ListItem.Content>
+          <ListItem.Title style={profileStyles.listTitle}>Paragem Favorita</ListItem.Title>
+        </ListItem.Content>
+        <IconCirclePlusFilled size={24} fill="#3CB43C" color="#FFFFFF" />
+      </ListItem>
+      <ListItem onPress={() => lineSheetRef.current?.present()}>
+        <IconArrowLoopRight color="#C61D23" size={24} />
+        <ListItem.Content>
+          <ListItem.Title style={profileStyles.listTitle}>Linha Favorita</ListItem.Title>
+        </ListItem.Content>
+        <IconCirclePlusFilled size={24} fill="#3CB43C" color="#FFFFFF" />
+      </ListItem>
+      <ListItem onPress={() => profileSheetRef.current?.present()}>
+        <IconUser color="#0C807E" size={24} />
+        <ListItem.Content>
+          <ListItem.Title style={profileStyles.listTitle}>Editar Perfil</ListItem.Title>
+        </ListItem.Content>
+        <IconCirclePlusFilled size={24} fill="#3CB43C" color="#FFFFFF" />
+      </ListItem>
+      <ListItem disabledStyle={{ opacity: 0.6 }} disabled>
+        <IconBellRinging color="#0C807E" size={24} />
+        <ListItem.Content>
+          <ListItem.Title style={profileStyles.listTitle}>
+            Notificações Inteligentes
+          </ListItem.Title>
+          <ListItem.Subtitle>Disponível em breve</ListItem.Subtitle>
+        </ListItem.Content>
+      </ListItem>
+    </View>
   );
 
   return (
     <View>
       <DraggableFlatList
+        contentInset={{ bottom: 70 }}
         data={widgetList}
         ListFooterComponent={ListFooter}
         ListHeaderComponent={ListHeader}
@@ -161,8 +159,8 @@ export default function ProfileScreen() {
         showsVerticalScrollIndicator={false}
         keyExtractor={item =>
           item.data.type === 'lines' ? `line-${item.data.pattern_id}`
-            : item.data.type === 'stops' ? `stop-${item.data.stop_id}-${item.data.pattern_ids[0]}`
-              : `item`}
+          : item.data.type === 'stops' ? `stop-${item.data.stop_id}-${item.data.pattern_ids[0]}`
+          : `item`}
         onDragEnd={({ data }) => {
           setWidgetList(data);
           if (saveTimer.current) clearTimeout(saveTimer.current);
