@@ -2,10 +2,9 @@
 
 import type { Line, Stop } from '@carrismetropolitana/api-types/network';
 
-import createDocCollection from '@/app/hooks/useOtheSearch';
+import createDocCollection from '@/hooks/useOtheSearch';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useProfileContext } from '@/contexts/Profile.context';
-import * as Location from 'expo-location';
 import { getDistance } from 'geolib';
 import { createContext, useContext, useEffect, useState } from 'react';
 
@@ -76,11 +75,11 @@ export const LinesListContextProvider = ({ children }) => {
 	const [dataFavoritesState, setDataFavoritesState] = useState<Line[]>([]);
 	const [linesAroundLocation, setLinesAroundLocation] = useState<Line[]>([]);
 
-	const [filterByAttributeState, setFilterByAttributeState] = useState <LinesListContextState['filters']['by_attribute']>(null);
-	const [filterByCurrentViewState, setFilterByCurrentViewState] = useState <LinesListContextState['filters']['by_current_view']>('all');
-	const [filterByFacilityState, setFilterByFacilityState] = useState <LinesListContextState['filters']['by_facility']>(null);
-	const [filterByMunicipalityOrLocalityState, setFilterByMunicipalityOrLocalityState] = useState <LinesListContextState['filters']['by_municipality_or_locality']>(null);
-	const [filterBySearchState, setFilterBySearchState] = useState <LinesListContextState['filters']['by_search']>('');
+	const [filterByAttributeState, setFilterByAttributeState] = useState<LinesListContextState['filters']['by_attribute']>(null);
+	const [filterByCurrentViewState, setFilterByCurrentViewState] = useState<LinesListContextState['filters']['by_current_view']>('all');
+	const [filterByFacilityState, setFilterByFacilityState] = useState<LinesListContextState['filters']['by_facility']>(null);
+	const [filterByMunicipalityOrLocalityState, setFilterByMunicipalityOrLocalityState] = useState<LinesListContextState['filters']['by_municipality_or_locality']>(null);
+	const [filterBySearchState, setFilterBySearchState] = useState<LinesListContextState['filters']['by_search']>('');
 
 	const allLinesData = linesContext.data.lines;
 

@@ -1,16 +1,12 @@
 import { darkTheme, lightTheme } from '@/theme/Themes';
 import { ThemeProvider as RNEThemeProvider } from '@rn-vui/themed';
-import {
-	setAlternateAppIcon,
-	supportsAlternateIcons,
-} from 'expo-alternate-app-icons';
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { Appearance, ColorSchemeName } from 'react-native';
+import { Appearance } from 'react-native';
 
 export const ThemeContext = createContext({
 	theme: lightTheme,
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
-	toggleTheme: () => {},
+	toggleTheme: () => { },
 });
 
 export const ThemeProvider: React.FC = ({ children }) => {

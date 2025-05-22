@@ -11,9 +11,9 @@ export const mapDefaultValues = Object.freeze({
 	longitude: -9.0,
 	picth: 0,
 	speed: 4000,
-	zoom: 12,
+	zoom: 10,
 	zoom_margin: 3,
-	zoom_max: 20,
+	zoom_max: 16,
 	zoom_min: 5,
 });
 
