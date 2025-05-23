@@ -14,7 +14,9 @@ import { useTranslation } from "react-i18next";
 export default function NetworkOfflineBanner() {
     //
 
+    //
     //A. Setup variables
+
     const themeContext = useThemeContext();
     const { t } = useTranslation('translation', { keyPrefix: 'common.offlineBanner' });
     const [visible, setVisible] = useState(false);

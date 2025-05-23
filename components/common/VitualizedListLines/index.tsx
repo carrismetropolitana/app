@@ -1,4 +1,3 @@
-// src/components/common/VirtualizedListingLines.tsx
 import React, { useCallback } from 'react';
 import { VirtualizedList, StyleSheet } from 'react-native';
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
@@ -45,7 +44,7 @@ export function VirtualizedListingLines({ data, icon, itemClick, items = 10, mun
 			renderItem={renderItem}
 			initialNumToRender={items}
 			removeClippedSubviews
-			maxToRenderPerBatch={5}
+			maxToRenderPerBatch={10}
 			updateCellsBatchingPeriod={50}
 			windowSize={5}
 			getItemLayout={getItemLayout}

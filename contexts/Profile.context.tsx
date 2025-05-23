@@ -116,11 +116,11 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			_id: cloud._id || local._id,
 			created_at: cloud.created_at || local.created_at,
 			devices: local.devices || cloud.devices || [],
-			email: cloud.email || local.email,
+			email: local.email || cloud.email,
 			email_verified: cloud.email_verified || local.email_verified,
 			favorites: {
-				lines: cloud.favorites?.lines || local.favorites?.lines || [],
-				stops: cloud.favorites?.stops || local.favorites?.stops || [],
+				lines:  local.favorites?.lines ||  cloud.favorites?.lines || [],
+				stops: local.favorites?.stops || cloud.favorites?.stops || [],
 			},
 			profile: {
 				activity: cloud.profile?.activity || local.profile?.activity,
@@ -129,7 +129,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				gender: cloud.profile?.gender || local.profile?.gender,
 				last_name: cloud.profile?.last_name || local.profile?.last_name,
 				phone: cloud.profile?.phone || local.profile?.phone,
-				profile_image: cloud.profile?.profile_image || local.profile?.profile_image,
+				profile_image: local.profile?.profile_image || cloud.profile?.profile_image,
 				utilization_type: cloud.profile?.utilization_type || local.profile?.utilization_type,
 				work_setting: cloud.profile?.work_setting || local.profile?.work_setting,
 			},
@@ -271,6 +271,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 					console.log('Image already exists in history, refetching...');
 				}
 			} while (image.url && personaHistory.includes(image.url));
+
+			console.log(image);
 
 			if (image.url) {
 				setDataPersonaImageState(image.url);
@@ -462,7 +464,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		await updateProfileOnCloud(updatedProfile);
 	};
 
-
 	//
 	// D. Action handlers
 
@@ -595,20 +596,25 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				profile_image: null,
 				utilization_type: undefined,
 				work_setting: undefined,
+				interests: undefined,
 			},
 			role: 'user',
 			widgets: [],
 		};
+
 		const apiResponse = await fetch(`${Routes.API_ACCOUNTS}`, {
 			body: JSON.stringify(newProfileStructure),
 			headers: { 'Content-Type': 'application/json' },
 			method: 'POST',
 		}).then(res => res.json());
+
 		newProfileStructure.devices[0].device_id = apiResponse.device_id;
 		setDataProfileState(newProfileStructure);
 		setAPIToken(apiResponse.session_token);
 		localStorage.setItem(LOCAL_STORAGE_KEYS.token, apiResponse.session_token);
+
 	};
+
 	const checkProfile = async (profile: Account | null) => {
 		console.log('Checking if profile exists ⚙️');
 		if (!profile) {
@@ -619,6 +625,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			console.log('Profile exists.');
 		}
 	};
+
 	const setSelectedLine = (line: string) => {
 		if (!consentContext.data.enabled_functional) return;
 		setSelectedLineState(line);

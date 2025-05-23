@@ -78,8 +78,8 @@ export function PathWaypointHeader({ isFirstStop, isLastStop, isSelected, waypoi
 			<Text style={pathWaypointHeaderStyles.stopName}>
 				{stopData.long_name}
 				{isSelected && (
-					<Link href={`/stops/${waypointData.stop_id}?day=${operationalDayContext.data.selected_day}`} style={pathWaypointHeaderStyles.stopNameUrl} target="_blank">
-						<IconArrowUpRight size={16} />
+					<Link href={`/stop/${waypointData.stop_id}`} style={pathWaypointHeaderStyles.stopNameUrl} target='_blank'>
+						<IconArrowUpRight size={20} />
 					</Link>
 				)}
 			</Text>

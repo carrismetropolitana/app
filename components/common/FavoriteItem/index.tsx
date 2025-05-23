@@ -4,6 +4,7 @@ import type { AccountWidget } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
 import { ListItem } from '@rn-vui/themed';
 import { IconGripVertical } from '@tabler/icons-react-native';
+import { Link } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 
@@ -29,9 +30,18 @@ export default function FavoriteItemComponent({ data }: FavoriteItemProps) {
 
 	// A.Setup variables
 
+	let linkHref = '';
 	const [headsign, setHeadsign] = useState<null | string>(null);
 	const patternId = getPatternId(data);
 	const isLine = data.data.type === 'lines';
+
+
+	if (isLine && typeof patternId === 'string') {
+		const beforeUnderscore = patternId.split('_')[0];
+		linkHref = `/line/${beforeUnderscore}`;
+	} else if (data.data.type === 'stops' && data.data.pattern_ids) {
+		linkHref = `/stop/${(data.data).stop_id}`;
+	}
 
 	//
 	// B. Fech data

@@ -28,10 +28,10 @@ export function ProfileImage({ borderWidth = 3, color = theming.colorBrand, heig
 	//
 	// A. Setup variables
 
-	const profileContext = useProfileContext();
-	const profileImageStyles = styles();
 	// eslint-disable-next-line @typescript-eslint/no-require-imports
 	const defaultImage = require('assets/images/no-persona-image.png');
+	const profileContext = useProfileContext();
+	const profileImageStyles = styles();
 	const profileImage = useMemo(() => {
 		return profileContext.data.profile?.profile?.profile_image ? `${Routes.API_ACCOUNTS}/persona/${profileContext.data.profile?.profile?.profile_image}` : defaultImage;
 	}, [profileContext.data.profile?.profile?.profile_image]);

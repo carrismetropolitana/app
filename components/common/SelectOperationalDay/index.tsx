@@ -87,6 +87,7 @@ export function SelectOperationalDay() {
 				selectedIndex={selectedIndex}
 			/>
 			<DateTimePickerModal
+				pickerStyleIOS={{ alignItems: 'center' }}
 				date={operationalDayContext.data.selected_day_jsdate ?? undefined}
 				isVisible={showPicker}
 				locale={localeContext.locale}

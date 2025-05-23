@@ -45,6 +45,7 @@ export default function LinesScreen(): JSX.Element {
 	return (
 		<SafeAreaView style={styles.container}>
 			<SectionList
+				stickySectionHeadersEnabled={false}
 				sections={sections}
 				keyExtractor={keyExtractor}
 				renderSectionHeader={renderSectionHeader}

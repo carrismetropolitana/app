@@ -7,10 +7,11 @@ export const lineDisplayStyles = StyleSheet.create({
 	container: {
 		alignItems: 'center',
 		flexDirection: 'row',
-		gap: 20,
+		gap: 10,
+		left: 10,
+		right: 10,
 		justifyContent: 'flex-start',
-		padding: 20,
-		width: '85%',
+		width: '80%',
 	},
 
 });

@@ -117,10 +117,7 @@ export const styles = () => {
 		},
 		isSelected: {
 			backgroundColor,
-			shadowColor: '#000',
-			shadowOffset: { height: 0, width: 0 },
-			shadowOpacity: 0.1,
-			shadowRadius: 6,
+			
 		},
 	});
 

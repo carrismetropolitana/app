@@ -8,7 +8,7 @@ export const styles = () => {
 	return StyleSheet.create({
 		/* CONTAINER */
 		container: {
-			height: 30,
+			height: 50,
 			marginBottom: 20,
 			width: '100%',
 		},
@@ -17,7 +17,8 @@ export const styles = () => {
 		/* ITEM */
 
 		item: {
-			paddingLeft: 5,
+			paddingTop: 10,
+			paddingLeft: 12,
 		},
 	});
 };

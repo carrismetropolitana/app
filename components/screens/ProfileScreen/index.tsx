@@ -149,7 +149,7 @@ export default function ProfileScreen() {
   return (
     <View>
       <DraggableFlatList
-        contentInset={{ bottom: 70 }}
+        contentInset={{ bottom: 200 }}
         data={widgetList}
         ListFooterComponent={ListFooter}
         ListHeaderComponent={ListHeader}
@@ -157,10 +157,7 @@ export default function ProfileScreen() {
         renderItem={renderFavoriteItem}
         scrollEnabled={true}
         showsVerticalScrollIndicator={false}
-        keyExtractor={item =>
-          item.data.type === 'lines' ? `line-${item.data.pattern_id}`
-          : item.data.type === 'stops' ? `stop-${item.data.stop_id}-${item.data.pattern_ids[0]}`
-          : `item`}
+        keyExtractor={item => item.data.type === 'lines' ? `line-${item.data.pattern_id}` : item.data.type === 'stops' ? `stop-${item.data.stop_id}-${item.data.pattern_ids[0]}` : `item`}
         onDragEnd={({ data }) => {
           setWidgetList(data);
           if (saveTimer.current) clearTimeout(saveTimer.current);

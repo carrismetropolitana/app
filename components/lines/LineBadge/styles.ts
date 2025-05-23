@@ -13,9 +13,8 @@ const container = {
 export const lineBadgeStyles = StyleSheet.create({
 	alertIcon: {
 		alignItems: 'center',
-		backgroundColor: '#000',
+		backgroundColor: 'red',
 		borderRadius: 999,
-		color: '#054B8C',
 		display: 'flex',
 		height: 20,
 		justifyContent: 'center',
@@ -23,9 +22,10 @@ export const lineBadgeStyles = StyleSheet.create({
 		right: -10,
 		top: -10,
 		width: 20,
+		padding: 10
+
 	},
 	clickable: {
-		cursor: 'pointer',
 		transitionDuration: '0.2s',
 		transitionProperty: 'all',
 		transitionTimingFunction: 'ease',
@@ -35,7 +35,8 @@ export const lineBadgeStyles = StyleSheet.create({
 	},
 	sizeLg: {
 		...container,
-		fontSize: 24,
+		padding: 2,
+		fontSize: 20,
 		maxHeight: 30,
 		maxWidth: 70,
 		minHeight: 30,
@@ -43,6 +44,7 @@ export const lineBadgeStyles = StyleSheet.create({
 	},
 	sizeMd: {
 		...container,
+		padding: 3,
 		fontSize: 14,
 		maxHeight: 26,
 		maxWidth: 65,

@@ -38,6 +38,7 @@ const lightThemeDefinition = {
 		},
 		ListItem: {
 			containerStyle: {
+				height: 70,
 				backgroundColor: theming.colorPrimaryWhite,
 				borderColor: theming.colorSystemBorder100,
 				borderWidth: 1,

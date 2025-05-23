@@ -50,8 +50,8 @@ export function LineBadge({ color, lineData, lineId, onPress, shortName, size = 
 				{shortName || lineData?.short_name || fetchedLineData?.short_name || '• • •'}
 			</Text>
 			{withAlertIcon && (
-				<View style={lineBadgeStyles.alertIcon}>
-					<IconInfoTriangleFilled size={12} />
+				<View style={[lineBadgeStyles.alertIcon, { borderRadius: 999, borderWidth: 3, borderColor: color ? color : fetchedLineData?.color || lineData?.color, backgroundColor:"#FFFFFF"}]}>
+					<IconInfoTriangleFilled size={14} color={color ? color : fetchedLineData?.color || lineData?.color} fill={'#FFFFFF'} />
 				</View>
 			)}
 		</View>
