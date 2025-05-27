@@ -6,7 +6,7 @@ import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { WidgetCards } from '../widgets/WidgetCards';
-import { Button, Text } from '@rn-vui/themed';
+import { Button } from '@rn-vui/themed';
 import { theming } from '@/theme/Variables';
 import { Link } from 'expo-router';
 
@@ -24,7 +24,7 @@ export default function HomeScreen() {
 			<ScrollView showsVerticalScrollIndicator={false} style={{ paddingTop: insets.top + 95 }}>
 				<FavoritesBar />
 				<View style={{ paddingHorizontal: 20 }}>
-					<Link href='/vehicle/41|300'>
+					<Link href='/vehicle/41|724'>
 					HEYYYYYYY</Link>
 					<WidgetCards />
 				</View>

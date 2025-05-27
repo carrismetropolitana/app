@@ -32,7 +32,6 @@ export function VehiclesDetailPathMap({ hasToolbar }: Props) {
 
 	//
 	// B. Fetch data
-
 	const activeVehiclesFC = useMemo(() => {
 		const patternId = linesDetailContext.data.active_pattern?.id;
 		if (!patternId) return null;
@@ -116,7 +115,11 @@ export function VehiclesDetailPathMap({ hasToolbar }: Props) {
 					waypointsData={activePathFC ?? undefined}
 				/>
 				<MapViewStyleActiveStops stopsData={activeStopFC ?? undefined} />
-				<MapViewStyleVehicles showCounter="always" vehiclesData={activeVehiclesFC ?? undefined} />
+				<MapViewStyleVehicles
+					showCounter="always"
+					vehiclesData={activeVehiclesFC ?? undefined}
+					onVehiclePress={(idFromChild) => console.log('Inline handler in VehiclesDetailPathMap DIRECT LOG, ID:', idFromChild)}
+				/>
 			</MapView>
 		</View>
 	);

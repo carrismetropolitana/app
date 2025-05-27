@@ -100,7 +100,12 @@ export function VehiclesDetailPathList() {
 
 	return (
 		<View style={LinesDetailPathListStyles.container}>
-			{sortedStops.map((waypoint, index) => (
+			{sortedStops.map((waypoint, index) => {
+				const currentVehicleStopSequence = linesDetailContext.data.active_waypoint?.stop_sequence;
+				const thisStopSequence = waypoint.stop_sequence;
+				const hasBeenPassed = currentVehicleStopSequence !== undefined && thisStopSequence < currentVehicleStopSequence;
+				
+				return (
 					<PathWaypoint
 						key={`${waypoint.stop_id}-${waypoint.stop_sequence}`}
 						arrivals={preparedRealtimeData?.get(`${waypoint.stop_id}-${waypoint.stop_sequence}`) || []}
@@ -109,8 +114,11 @@ export function VehiclesDetailPathList() {
 						isLastStop={index === sortedStops.length - 1}
 						isSelected={linesDetailContext.data.active_waypoint?.stop_id === waypoint.stop_id && linesDetailContext.data.active_waypoint?.stop_sequence === waypoint.stop_sequence}
 						waypointData={waypoint}
+						hasBeenPassed={hasBeenPassed}
+						isVehiclePage={true} 
 					/>
-			))}
+				);
+			})}
 		</View>
 	);
 

@@ -21,11 +21,13 @@ interface Props {
 	isLastStop?: boolean
 	isSelected: boolean
 	waypointData: Waypoint
+	hasBeenPassed?: boolean
+	isVehiclePage?: boolean
 }
 
 /* * */
 
-export function PathWaypoint({ arrivals, isFirstStop, isLastStop, isSelected, waypointData }: Props) {
+export function PathWaypoint({ arrivals, isFirstStop, isLastStop, isSelected, waypointData, hasBeenPassed, isVehiclePage }: Props) {
 	//
 
 	//
@@ -33,9 +35,12 @@ export function PathWaypoint({ arrivals, isFirstStop, isLastStop, isSelected, wa
 
 	const linesDetailContext = useLinesDetailContext();
 	const operationalDayContext = useOperationalDayContext();
-
 	const now = Date.now();
 	const pathWaypointStyles = styles();
+	const defaultBackgroundColor = linesDetailContext.data.active_pattern?.color;
+	const defaultForegroundColor = linesDetailContext.data.active_pattern?.text_color;
+	const backgroundColor = hasBeenPassed ? '#808080' : defaultBackgroundColor; 
+	const foregroundColor = hasBeenPassed ? '#FFFFFF' : defaultForegroundColor;
 
 	//
 	// B. Transform data
@@ -65,8 +70,8 @@ export function PathWaypoint({ arrivals, isFirstStop, isLastStop, isSelected, wa
 				]}
 			>
 				<PathWaypointSpine
-					backgroundColor={linesDetailContext.data.active_pattern?.color}
-					foregroundColor={linesDetailContext.data.active_pattern?.text_color}
+					backgroundColor={backgroundColor} 
+					foregroundColor={foregroundColor}
 					isFirstStop={isFirstStop}
 					isLastStop={isLastStop}
 					isSelected={isSelected}
@@ -81,14 +86,14 @@ export function PathWaypoint({ arrivals, isFirstStop, isLastStop, isSelected, wa
 						waypointData={waypointData}
 					/>
 
-					{isSelected && operationalDayContext.flags.is_today_selected && (
+					{isSelected  && operationalDayContext.flags.is_today_selected && (
 						<PathWaypointNextArrivals
 							realtimeArrivals={realtimeArrivals}
 							scheduledArrivals={scheduledArrivals}
 						/>
 					)}
 
-					{isSelected && (
+					{isSelected && !isVehiclePage && (
 						<PathWaypointTimetable />
 					)}
 				</View>

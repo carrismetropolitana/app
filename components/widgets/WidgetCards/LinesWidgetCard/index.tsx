@@ -7,6 +7,7 @@ import { Pattern } from '@carrismetropolitana/api-types/network';
 import { ListItem } from '@rn-vui/themed';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
+import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context'; // Added import
 
 import { LineWidgetCardBody } from '../LineWidgetCardBody';
 import { LineWidgetCardHeader } from '../LineWidgetCardHeader';
@@ -41,13 +42,13 @@ export function LineWidgetCard({ data, expanded, onToggle }: LineWidgetCardProps
 		if (!data) return;
 		setLineId(patternId.split('_')[0]);
 		fetchLineName(patternId);
-	}, []);
+	}, [data, patternId]);
 
 	const fetchLineName = async (id: string) => {
 		if (!id) return;
 		const response = await fetch(`${Routes.API}/patterns/${id}`);
 		const data: Pattern[] = await response.json();
-		if (data) {
+		if (data && data.length > 0) {
 			setLineName(data[0].headsign);
 		}
 	};
@@ -66,7 +67,9 @@ export function LineWidgetCard({ data, expanded, onToggle }: LineWidgetCardProps
 			)}
 		>
 			<View style={cardStyles.cardBody}>
-				<LineWidgetCardBody lineId={lineId} />
+				<LinesDetailContextProvider> {/* Added Provider */}
+					<LineWidgetCardBody lineId={lineId} />
+				</LinesDetailContextProvider>
 			</View>
 		</ListItem.Accordion>
 	);

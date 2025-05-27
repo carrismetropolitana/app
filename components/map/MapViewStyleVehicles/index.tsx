@@ -18,6 +18,7 @@ interface Props {
 	presentBeforeId?: string
 	showCounter?: 'always' | 'positive'
 	vehiclesData?: GeoJSON.FeatureCollection
+	onVehiclePress?: (vehicleId: string) => void
 }
 
 /* * */
@@ -26,7 +27,7 @@ const baseGeoJsonFeatureCollection = getBaseGeoJsonFeatureCollection();
 
 /* * */
 
-export function MapViewStyleVehicles({ showCounter, vehiclesData = baseGeoJsonFeatureCollection }: Props) {
+export function MapViewStyleVehicles({ showCounter, vehiclesData = baseGeoJsonFeatureCollection, onVehiclePress }: Props) {
 	//
 	// A. Setup variables
 
@@ -37,7 +38,13 @@ export function MapViewStyleVehicles({ showCounter, vehiclesData = baseGeoJsonFe
 
 	return (
 		<>
-			<ShapeSource id="default-source-vehicles" shape={vehiclesData}>
+			<ShapeSource id="default-source-vehicles" shape={vehiclesData}
+			onPress={(e) => {
+				const feature = e.features?.[0];
+				if (feature && onVehiclePress) {
+					onVehiclePress(feature.properties?.id ?? '');
+				}
+			}}>
 				<SymbolLayer
 					id="default-layer-vehicles-delay"
 					sourceID="default-source-vehicles"
