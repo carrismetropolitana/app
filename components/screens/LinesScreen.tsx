@@ -10,7 +10,7 @@ import { useThemeContext } from '@/contexts/Theme.context';
 import { MemoizedLineItem } from '@/components/common/LineItem';
 import { router } from 'expo-router';
 
-export default function LinesScreen(): JSX.Element {
+export default function LinesScreen() {
 	const { data: { lines: allLines } } = useLinesContext();
 	const { data: { linesAroundLocation: nearbyLines } } = useLinesListContext();
 	const { data: { locationPermission } } = useLocationsContext();
@@ -50,7 +50,7 @@ export default function LinesScreen(): JSX.Element {
 				keyExtractor={keyExtractor}
 				renderSectionHeader={renderSectionHeader}
 				renderItem={renderItem}
-				ListEmptyComponent={<NoDataLabel />}
+				ListEmptyComponent={<NoDataLabel fill withMinHeight/>}
 				initialNumToRender={5}
 				maxToRenderPerBatch={5}
 				windowSize={5}

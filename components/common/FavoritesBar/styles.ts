@@ -1,4 +1,5 @@
 /* * */
+
 import { theming } from '@/theme/Variables';
 import { StyleSheet } from 'react-native';
 
@@ -8,9 +9,12 @@ export const styles = () => {
 	return StyleSheet.create({
 		/* CONTAINER */
 		container: {
-			height: 50,
-			marginBottom: 20,
+			height: 65,
+			marginBottom: 25,
 			width: '100%',
+			borderBottomWidth: 1,
+			borderBottomColor: theming.colorSystemBorder100,
+
 		},
 
 		/* * */
@@ -18,7 +22,7 @@ export const styles = () => {
 
 		item: {
 			paddingTop: 10,
-			paddingLeft: 12,
+			paddingLeft: 35,
 		},
 	});
 };

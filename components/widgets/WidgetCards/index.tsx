@@ -9,8 +9,8 @@ import { useProfileContext } from '@/contexts/Profile.context';
 import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
 import React, { useEffect, useState } from 'react';
 
-import { LineWidgetCard } from './LinesWidgetCard';
-import { StopWidgetCard } from './StopWidgetCard';
+import { LineWidgetCard } from '@/components/widgets/WidgetCards/LinesWidgetCard';
+import { StopWidgetCard } from '@/components/widgets/WidgetCards/StopWidgetCard';
 
 /* * */
 

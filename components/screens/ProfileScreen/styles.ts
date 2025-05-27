@@ -9,16 +9,14 @@ import { StyleSheet } from 'react-native';
 export const styles = () => {
 	const { theme } = useThemeContext();
 	const isLight = theme.mode === 'light';
-	const backgroundColor = isLight
-		? theming.colorSystemBackgroundLight200
-		: theming.colorSystemBackgroundDark200;
-	const fontColor = isLight
-		? theming.colorSystemText100
-		: theming.colorSystemText300;
+	const backgroundColor = isLight ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark200;
+	const fontColor = isLight ? theming.colorSystemText100 : theming.colorSystemText300;
+	const buttonBackgroundColor = theme.mode === 'light' ? theming.colorSystemBackgroundLight200: theming.colorSystemBackgroundDark200;
+	const titleColor = theme.mode === 'light' ? theming.colorSystemText200 : theming.colorSystemText300;
 
 	return StyleSheet.create({
 		addFavoritesSection: {
-			backgroundColor: backgroundColor,
+			paddingTop: 20,
 		},
 		listTitle: {
 			fontSize: theming.fontSizeNav,
@@ -42,6 +40,9 @@ export const styles = () => {
 			alignItems: 'center',
 			justifyContent: 'center',
 			paddingTop: 36,
+			paddingBottom: 20,
+			marginBottom: 20,
+			backgroundColor: backgroundColor,
 		},
 		goBackHeader: {
 			alignItems: 'flex-start',
@@ -50,10 +51,25 @@ export const styles = () => {
 			padding: 20,
 			flexDirection: 'row',
 		},
-		goBackHeaderText:{
+		goBackHeaderText: {
 			color: fontColor,
 			fontSize: 16,
 			fontWeight: '500',
+		},
+		button: {
+			borderRadius: 999,
+			flexDirection: 'row',
+			alignSelf: 'center',
+			backgroundColor: buttonBackgroundColor
+		},
+		buttonTitle: {
+			color: titleColor,
+			fontWeight: theming.fontWeightSemibold as '600',
+			fontSize: theming.fontSizeMuted
+		},
+		buttonContainer:{
+			backgroundColor: backgroundColor,
+			paddingTop: 10
 		}
 	});
 };

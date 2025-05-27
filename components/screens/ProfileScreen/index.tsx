@@ -5,23 +5,16 @@ import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { AccountWidget } from '@/types/account.types';
-import { BottomSheet, Button, ButtonGroup, Icon, ListItem } from '@rn-vui/themed';
-import { IconArrowLoopRight, IconArrowNarrowLeft, IconArrowsShuffle, IconBellRinging, IconBusStop, IconCirclePlusFilled, IconUser } from '@tabler/icons-react-native';
+import { Button, ListItem } from '@rn-vui/themed';
+import { IconArrowLoopRight, IconArrowNarrowLeft, IconArrowsShuffle, IconBellRinging, IconBusStop, IconCirclePlusFilled } from '@tabler/icons-react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import { Platform, Pressable, Text, View } from 'react-native';
-import DraggableFlatList from 'react-native-draggable-flatlist';
-import { styles } from './styles';
-// import BottomSheetWrapper from '@/components/common/BottomSheet';
-
-// import type { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { Link, router, useNavigation } from 'expo-router';
-// import AddFavoriteStop from '@/app/(modal)/AddFavoriteStopModal';
-// import AddFavoriteLine from '@/app/(modal)/AddFavoriteLineModal';
-// import ProfileEditModal from '@/app/(modal)/ProfileEditModal';
+import { Pressable, Text, View } from 'react-native';
 import dimAvatarBackground from '@/utils/dimAvatarBackground';
 import FavoriteItem from '@/components/common/FavoriteItem';
-// import { NativeViewGestureHandler } from 'react-native-gesture-handler';
+import { Link, useNavigation } from 'expo-router';
+import DraggableFlatList from 'react-native-draggable-flatlist';
 
+import { styles } from './styles';
 
 export default function ProfileScreen() {
   //
@@ -35,6 +28,8 @@ export default function ProfileScreen() {
   const profileContext = useProfileContext();
   const { persona_image, profile } = profileContext.data;
   const saveTimer = useRef<NodeJS.Timeout | null>(null);
+
+  const backgroundColor = themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background;
 
   const initialWidgets = (profile?.widgets ?? []).flatMap((widget) => {
     if (widget.data.type === 'lines') return [widget];
@@ -110,18 +105,21 @@ export default function ProfileScreen() {
       <View style={profileStyles.userSection}>
         {persona_image ? <ProfileImage size={200} borderWidth={10} color={profileContext.data.accent_color || ''} type="url" backgroundColor={profileContext.data.accent_color ? dimAvatarBackground(profileContext.data.accent_color) : 'rgba(253,183,26,0.4))'} />
           : <ProfileImage width={200} height={200} type="local" />}
-        <ButtonGroup buttons={buttons} containerStyle={{ backgroundColor: themeContext.theme.lightColors?.background, borderRadius: 30, marginTop: -20, width: '25%' }} />
         <Text style={profileStyles.userFullNameText}> {profileContext.data.profile?.profile?.first_name}{' '}{profileContext.data.profile?.profile?.last_name}
         </Text>
+        <Link href="/profileEdit" style={{ width: '100%' }} asChild>
+          <Button buttonStyle={profileStyles.button} titleStyle={profileStyles.buttonTitle} title={'Editar Perfil'} containerStyle={profileStyles.buttonContainer} />
+        </Link>
       </View>
-      <Section heading="Editar e ordenar favoritos" />
-      {!widgetList.length && <NoDataLabel text="Sem favoritos" fill />}
+
+      <Section heading="Personalizar widgets" />
+      {!widgetList.length && <NoDataLabel text="Sem widgets" fill />}
     </>
   );
 
   const ListFooter = () => (
     <View style={profileStyles.addFavoritesSection}>
-      <Section heading="Adicionar favoritos" />
+      <Section heading="Adicionar novo widget" />
       <Link href="/addFavoriteStop" asChild>
         <ListItem>
           <IconBusStop color="#FF6900" size={24} />
@@ -135,15 +133,6 @@ export default function ProfileScreen() {
           <IconArrowLoopRight color="#C61D23" size={24} />
           <ListItem.Content>
             <ListItem.Title style={profileStyles.listTitle}><Text>Linha Favorita</Text></ListItem.Title>
-          </ListItem.Content>
-          <IconCirclePlusFilled size={24} fill="#3CB43C" color="#FFFFFF" />
-        </ListItem>
-      </Link>
-      <Link href="/profileEdit" style={{ width: '100%' }} asChild>
-        <ListItem>
-          <IconUser color="#0C807E" size={24} />
-          <ListItem.Content>
-            <ListItem.Title style={profileStyles.listTitle}><Text>Editar Perfil</Text></ListItem.Title>
           </ListItem.Content>
           <IconCirclePlusFilled size={24} fill="#3CB43C" color="#FFFFFF" />
         </ListItem>
