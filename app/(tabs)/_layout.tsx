@@ -4,7 +4,6 @@ import { ConsentPopup } from '@/components/common/ConsentDialog';
 import { HapticTab } from '@/components/HapticTab';
 import OfflineScreen from '@/components/OfflineScreen';
 import TabBarBackground from '@/components/ui/TabBarBackground';
-import { useConsentContext } from '@/contexts/Consent.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { useNetInfo } from '@react-native-community/netinfo';
@@ -23,7 +22,6 @@ export default function TabLayout() {
 	// A. Setup Variables
 
 	const themeContext = useThemeContext();
-	const consentContext = useConsentContext();
 	const insets = useSafeAreaInsets();
 	const netInfo = useNetInfo();
 	const icons = { home: IconUserCircle, lines: IconArrowLoopRight, more: IconDots, stops: IconMap };
@@ -44,7 +42,7 @@ export default function TabLayout() {
 
 	//
 	// B. Render components
-	
+
 	return (
 		<>
 			{netInfo.isConnected === false ? (

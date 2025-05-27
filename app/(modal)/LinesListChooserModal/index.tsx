@@ -105,7 +105,7 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 					<VirtualizedListingLines
 						data={filteredLines}
 						itemClick={handleLineClick}
-						municiplality={linesMunicipalities}
+						municipality={linesMunicipalities}
 						size="lg"
 						icon={(
 							<IconCirclePlusFilled

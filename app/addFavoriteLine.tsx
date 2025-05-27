@@ -17,21 +17,10 @@ export default function AddFavoriteLine() {
 
 	const navigation = useNavigation();
 
-	useEffect(() => {
-		const isAndroid = Platform.OS === 'android';
-
+		useEffect(() => {
 		navigation.setOptions({
-			presentation: isAndroid ? 'modal' : 'formSheet',
-			headerTitle: isAndroid ? 'Editar Perfil' : '',
-			headerShown: isAndroid ? true : false,
-			headerGrabber: true,
-			...(isAndroid
-				? {}
-				: {
-					sheetAllowedDetents: ['fitToContents', 'large'],
-					sheetExpandsWhenScrolledToEdge: true,
-					sheetInitialDetentIndex: 0,
-				}),
+			headerTitle: '',
+			headerBackTitle: 'Linha Favorita',
 		});
 	}, [navigation]);
 

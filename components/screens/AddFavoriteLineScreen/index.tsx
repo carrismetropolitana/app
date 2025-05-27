@@ -17,6 +17,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import styles from './styles';
 import { useNavigation } from 'expo-router';
+import { ScrollView } from 'react-native-gesture-handler';
 
 /* * */
 
@@ -39,8 +40,7 @@ export default function AddFavoriteLineScreen() {
 
 	useEffect(() => {
 		navigation.setOptions({
-			headerTitle: '',
-			headerShown: false,
+			headerTitle: 'Linha Favorita',
 		});
 	}, [navigation]);
 
@@ -96,7 +96,7 @@ export default function AddFavoriteLineScreen() {
 
 	return (
 		<View style={addFavoriteLineStyles.overlay}>
-			<SafeAreaView>
+			<ScrollView>
 				<View style={addFavoriteLineStyles.container}>
 					<Section
 						heading="Linha Favorita"
@@ -235,7 +235,7 @@ export default function AddFavoriteLineScreen() {
 					isVisible={lineChooserVisibility}
 					onBackdropPress={() => setLineChooserVisibility(!lineChooserVisibility)}
 				/>
-			</SafeAreaView>
+			</ScrollView>
 		</View>
 	);
 

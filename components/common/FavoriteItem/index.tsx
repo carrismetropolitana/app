@@ -66,26 +66,28 @@ export default function FavoriteItemComponent({ data }: FavoriteItemProps) {
 	// C. Render components
 
 	return (
-		<ListItem>
-			<TouchableOpacity style={{ padding: 8 }}>
-				<IconGripVertical color="#9696A0" size={24} />
-			</TouchableOpacity>
-			<ListItem.Content>
-				<ListItem.Title>
-					{headsign === null ? (
-						<ActivityIndicator size="small" />
-					) : (
-						<Text numberOfLines={1}>{headsign || (isLine ? 'Linha Favorita' : 'Paragem Favorita')}</Text>
+		<Link href={linkHref} asChild>
+			<ListItem>
+				<TouchableOpacity style={{ padding: 8 }}>
+					<IconGripVertical color="#9696A0" size={24} />
+				</TouchableOpacity>
+				<ListItem.Content>
+					<ListItem.Title>
+						{headsign === null ? (
+							<ActivityIndicator size="small" />
+						) : (
+							<Text numberOfLines={1}>{headsign || (isLine ? 'Linha Favorita' : 'Paragem Favorita')}</Text>
+						)}
+					</ListItem.Title>
+					{headsign !== null && (
+						<ListItem.Subtitle>
+							<Text>{isLine ? 'Linha Favorita' : 'Paragem Favorita'}</Text>
+						</ListItem.Subtitle>
 					)}
-				</ListItem.Title>
-				{headsign !== null && (
-					<ListItem.Subtitle>
-						<Text>{isLine ? 'Linha Favorita' : 'Paragem Favorita'}</Text>
-					</ListItem.Subtitle>
-				)}
-			</ListItem.Content>
-			<ListItem.Chevron />
-		</ListItem>
+				</ListItem.Content>
+				<ListItem.Chevron />
+			</ListItem>
+		</Link>
 	);
 
 	//

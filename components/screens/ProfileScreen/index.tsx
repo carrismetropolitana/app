@@ -5,7 +5,7 @@ import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { AccountWidget } from '@/types/account.types';
-import { BottomSheet, Button, ButtonGroup, ListItem } from '@rn-vui/themed';
+import { BottomSheet, Button, ButtonGroup, Icon, ListItem } from '@rn-vui/themed';
 import { IconArrowLoopRight, IconArrowNarrowLeft, IconArrowsShuffle, IconBellRinging, IconBusStop, IconCirclePlusFilled, IconUser } from '@tabler/icons-react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { Platform, Pressable, Text, View } from 'react-native';
@@ -24,17 +24,17 @@ import FavoriteItem from '@/components/common/FavoriteItem';
 
 
 export default function ProfileScreen() {
+  //
+
+  //
+  // A. Setup variables
+
   const navigation = useNavigation();
   const themeContext = useThemeContext();
   const profileStyles = styles();
   const profileContext = useProfileContext();
   const { persona_image, profile } = profileContext.data;
-
   const saveTimer = useRef<NodeJS.Timeout | null>(null);
-
-  // const stopSheetRef = useRef<BottomSheetModal>(null);
-  // const lineSheetRef = useRef<BottomSheetModal>(null);
-  // const profileSheetRef = useRef<BottomSheetModal>(null);
 
   const initialWidgets = (profile?.widgets ?? []).flatMap((widget) => {
     if (widget.data.type === 'lines') return [widget];
@@ -47,6 +47,9 @@ export default function ProfileScreen() {
     return [];
   });
   const [widgetList, setWidgetList] = useState(() => initialWidgets);
+
+  //
+  // B. Transform data
 
   function widgetKey(widget: AccountWidget) {
     if (widget.data.type === 'lines') {
@@ -66,8 +69,14 @@ export default function ProfileScreen() {
     }
   }, [profile?.widgets]);
 
+  //
+  // C. Handle actions
+
   const handleRefreshPersona = () => profileContext.actions.fetchPersona();
   const goBackInHistory = () => profileContext.actions.setPreviousPersona();
+
+  //
+  // D. Render components
 
   const renderFavoriteItem = ({ drag, isActive, item }: any) => (
     <Pressable disabled={isActive} onLongPress={drag}>
@@ -102,66 +111,58 @@ export default function ProfileScreen() {
         {persona_image ? <ProfileImage size={200} borderWidth={10} color={profileContext.data.accent_color || ''} type="url" backgroundColor={profileContext.data.accent_color ? dimAvatarBackground(profileContext.data.accent_color) : 'rgba(253,183,26,0.4))'} />
           : <ProfileImage width={200} height={200} type="local" />}
         <ButtonGroup buttons={buttons} containerStyle={{ backgroundColor: themeContext.theme.lightColors?.background, borderRadius: 30, marginTop: -20, width: '25%' }} />
-        <Text style={profileStyles.userFullNameText}>
-          {profileContext.data.profile?.profile?.first_name}
-          {profileContext.data.profile?.profile?.last_name}
+        <Text style={profileStyles.userFullNameText}> {profileContext.data.profile?.profile?.first_name}{' '}{profileContext.data.profile?.profile?.last_name}
         </Text>
       </View>
       <Section heading="Editar e ordenar favoritos" />
-      {!widgetList.length && <NoDataLabel text="Sem favoritos" />}
+      {!widgetList.length && <NoDataLabel text="Sem favoritos" fill />}
     </>
   );
 
   const ListFooter = () => (
     <View style={profileStyles.addFavoritesSection}>
       <Section heading="Adicionar favoritos" />
-      {/* <ListItem onPress={() => stopSheetRef.current?.present()}> */}
-      <ListItem>
-        <Link href="/addFavoriteStop" style={{ width: '100%' }}>
+      <Link href="/addFavoriteStop" asChild>
+        <ListItem>
           <IconBusStop color="#FF6900" size={24} />
           <ListItem.Content>
-            <ListItem.Title style={profileStyles.listTitle}>Paragem Favorita</ListItem.Title>
+            <ListItem.Title style={profileStyles.listTitle}><Text>Paragem Favorita</Text></ListItem.Title>
           </ListItem.Content>
           <IconCirclePlusFilled size={24} fill="#3CB43C" color="#FFFFFF" />
-        </Link>
-      </ListItem>
-      <ListItem>
-        <Link href="/addFavoriteLine" style={{ width: '100%' }}>
-          {/* <ListItem onPress={() => router.push('/AddFavoriteLineModal')}> */}
+        </ListItem>
+      </Link> <Link href="/addFavoriteLine" asChild>
+        <ListItem>
           <IconArrowLoopRight color="#C61D23" size={24} />
           <ListItem.Content>
-            <ListItem.Title style={profileStyles.listTitle}>Linha Favorita</ListItem.Title>
+            <ListItem.Title style={profileStyles.listTitle}><Text>Linha Favorita</Text></ListItem.Title>
           </ListItem.Content>
           <IconCirclePlusFilled size={24} fill="#3CB43C" color="#FFFFFF" />
-        </Link>
-      </ListItem>
-      {/* <ListItem onPress={() => profileSheetRef.current?.present()}> */}
-      <ListItem>
-        <Link href="/profileEdit" style={{ width: '100%' }}>
+        </ListItem>
+      </Link>
+      <Link href="/profileEdit" style={{ width: '100%' }} asChild>
+        <ListItem>
           <IconUser color="#0C807E" size={24} />
           <ListItem.Content>
-            <ListItem.Title style={profileStyles.listTitle}>Editar Perfil</ListItem.Title>
+            <ListItem.Title style={profileStyles.listTitle}><Text>Editar Perfil</Text></ListItem.Title>
           </ListItem.Content>
           <IconCirclePlusFilled size={24} fill="#3CB43C" color="#FFFFFF" />
-        </Link>
-      </ListItem>
+        </ListItem>
+      </Link>
       <ListItem disabledStyle={{ opacity: 0.6 }} disabled>
         <IconBellRinging color="#0C807E" size={24} />
         <ListItem.Content>
           <ListItem.Title style={profileStyles.listTitle}>
-            Notificações Inteligentes
+            <Text>Notificações Inteligentes</Text>
           </ListItem.Title>
-          <ListItem.Subtitle>Disponível em breve</ListItem.Subtitle>
+          <ListItem.Subtitle><Text>Disponível em breve</Text></ListItem.Subtitle>
         </ListItem.Content>
       </ListItem>
     </View>
   );
 
-
   return (
     <View>
       <DraggableFlatList
-        contentInset={{ bottom: 200 }}
         data={widgetList}
         ListFooterComponent={ListFooter}
         ListHeaderComponent={ListHeader}
@@ -184,11 +185,9 @@ export default function ProfileScreen() {
           }, 1000);
         }}
       />
-
-      {/* <BottomSheetWrapper ref={stopSheetRef}> <AddFavoriteStop onClose={() => stopSheetRef.current?.dismiss()} /></BottomSheetWrapper> */}
-      {/* <BottomSheetWrapper ref={lineSheetRef}>  <AddFavoriteLine onClose={() => lineSheetRef.current?.dismiss()} /></BottomSheetWrapper> */}
-      {/* <BottomSheetWrapper ref={profileSheetRef}> <ProfileEditModal onClose={() => profileSheetRef.current?.dismiss()} /></BottomSheetWrapper> */}
-
     </View>
   );
+
+  //
+
 }

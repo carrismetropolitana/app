@@ -6,7 +6,7 @@ import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { ActivitySchema, InterestsSchema, UtilizationTypeSchema } from '@/types/account.types';
-import { ButtonGroup, CheckBox, Input, ListItem } from '@rn-vui/themed';
+import { ButtonGroup, CheckBox, Input, ListItem, Text } from '@rn-vui/themed';
 import { IconArrowNarrowLeft, IconArrowsShuffle, IconCircle, IconCircleFilled, IconSquare, IconSquareCheckFilled, IconSquareFilled } from '@tabler/icons-react-native';
 import React, { useEffect, useState } from 'react';
 import { Platform, Pressable, View } from 'react-native';
@@ -15,6 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './styles';
 import dimAvatarBackground from '@/utils/dimAvatarBackground';
 import { useNavigation } from 'expo-router';
+import { ScrollView } from 'react-native-gesture-handler';
 
 /* * */
 
@@ -61,13 +62,6 @@ export default function ProfileEditScreen() {
 		profileContext.actions.setAccentColor(accentColor || '');
 	}, [accentColor]);
 
-	useEffect(() => {
-		navigation.setOptions({
-			headerTitle: '',
-			headerShown: false,
-		});
-	}, [navigation]);
-
 	//
 	// D. Render Components
 
@@ -89,98 +83,96 @@ export default function ProfileEditScreen() {
 	];
 
 	return (
-		<SafeAreaView style={{ flex: 1 }}>
-			<View style={profileEditModalStyles.container} >
-				<View style={profileEditModalStyles.userSection}>
-					<ProfileImage borderWidth={10} color={accentColor || ''} size={200} type="url" backgroundColor={accentColor ? dimAvatarBackground(accentColor) : 'rgba(253,183,26,0.4))'} />
-					<ButtonGroup buttons={buttons} containerStyle={{ backgroundColor: backgroundColor, borderRadius: 30, marginTop: -20, width: '25%' }} />
-					<View style={{ flexDirection: 'row', marginBottom: 20, marginTop: 20 }}>
-						{accentColors.map((item, index) => (
-							<CheckBox key={index} checked={accentColor === item} checkedIcon={<IconCircle color={item} fill="#FFFFFF" size={32} />} onPress={() => setAccentColor(item)} title="" uncheckedIcon={<IconCircleFilled color="#FFFFFF" fill={item} size={32} />} />))}
-					</View>
-				</View>
-				<View style={profileEditModalStyles.sectionWrapper}>
-					<Section heading="Informações pessoais"></Section>
-					<ListItem>
-						<ListItem.Content>
-							<ListItem.Title style={profileEditModalStyles.inputLabel}>Nome</ListItem.Title>
-							<Input onChangeText={setUsername} onBlur={() => handleProfileFieldBlur('first_name', username)} value={username} />
-						</ListItem.Content>
-					</ListItem>
-					<ListItem>
-						<ListItem.Content>
-							<ListItem.Title style={profileEditModalStyles.inputLabel}>Apelido</ListItem.Title>
-							<Input onChangeText={setSurname} onBlur={() => handleProfileFieldBlur('last_name', surname)} value={surname} />
-						</ListItem.Content>
-					</ListItem>
-					<ListItem>
-						<ListItem.Content>
-							<ListItem.Title style={profileEditModalStyles.inputLabel}>Data de Nascimento</ListItem.Title>
-							<Input onChangeText={setBirthDate} onBlur={() => handleProfileFieldBlur('date_of_birth', birthDate.toString())} value={birthDate.toString()} />
-						</ListItem.Content>
-					</ListItem>
-				</View>
-				<View style={profileEditModalStyles.sectionWrapper}>
-					<Section heading="Dados de contacto"></Section>
-					<ListItem>
-						<ListItem.Content>
-							<ListItem.Title style={profileEditModalStyles.inputLabel}>Email</ListItem.Title>
-							<Input onChangeText={setEmail} onBlur={() => handleProfileFieldBlur('email', email)} value={email} />
-						</ListItem.Content>
-					</ListItem>
-					<ListItem>
-						<ListItem.Content>
-							<ListItem.Title style={profileEditModalStyles.inputLabel}>Número de Telemóvel</ListItem.Title>
-							<Input onChangeText={setPhone} onBlur={() => handleProfileFieldBlur('phone', phone)} value={phone} />
-						</ListItem.Content>
-					</ListItem>
-				</View>
-				<View style={profileEditModalStyles.sectionWrapper}>
-					<Section heading="Perfil de Passageiro"></Section>
-					{passengerTypes.options.map((item, index) => (
-						<ListItem key={index}>
-							<ListItem.Content>
-								<CheckBox key={index} containerStyle={profileEditModalStyles.checkbox} textStyle={profileEditModalStyles.checkBoxText} checked={passengerProfile === item} checkedIcon="dot-circle-o" onPress={() => { setPassengerProfile(item), handleProfileFieldBlur('work_setting', item) }} title={item} uncheckedIcon="circle-o" />
-							</ListItem.Content>
-						</ListItem>
-					))}
-				</View>
-				<View style={profileEditModalStyles.sectionWrapper}>
-					<Section heading="Tipo de utilização"></Section>
-					{utilizationTypes.options.map((item, index) => (
-						<ListItem key={index}>
-							<ListItem.Content>
-								<CheckBox key={index} checked={usageType === item} checkedIcon="dot-circle-o" onPress={() => { setUsageType(item), handleProfileFieldBlur('utilization_type', item) }} title={item} uncheckedIcon="circle-o" containerStyle={profileEditModalStyles.checkbox} textStyle={profileEditModalStyles.checkBoxText} />
-							</ListItem.Content>
-						</ListItem>
-					))}
-				</View>
-				<View style={profileEditModalStyles.sectionWrapper}>
-					<Section heading="Temas de interesse"></Section>
-					{interestsTypes.options.map((item, index) => (
-						<ListItem key={index}>
-							<ListItem.Content>
-								<CheckBox
-									containerStyle={profileEditModalStyles.checkbox}
-									textStyle={profileEditModalStyles.checkBoxText}
-									checked={interestTopics.includes(item)}
-									checkedIcon={<IconSquareCheckFilled fill={accentColor || "#3D85C6"} color={"#FFFFFF"} size={28} />}
-									uncheckedIcon={<IconSquare color={accentColor || "#3D85C6"} fill={"#FFFFFF"} size={28} />}
-									onPress={() => {
-										if (interestTopics.includes(item)) {
-											setInterestTopics(interestTopics.filter(i => i !== item));
-										} else {
-											setInterestTopics([...interestTopics, item]);
-										}
-									}}
-									title={item}
-								/>
-							</ListItem.Content>
-						</ListItem>
-					))}
+		<ScrollView style={profileEditModalStyles.container}>
+			<View style={profileEditModalStyles.userSection}>
+				<ProfileImage borderWidth={10} color={accentColor || ''} size={200} type="url" backgroundColor={accentColor ? dimAvatarBackground(accentColor) : 'rgba(253,183,26,0.4))'} />
+				<ButtonGroup buttons={buttons} containerStyle={{ backgroundColor: backgroundColor, borderRadius: 30, marginTop: -20, width: '25%' }} />
+				<View style={{ flexDirection: 'row', marginBottom: 20, marginTop: 20 }}>
+					{accentColors.map((item, index) => (
+						<CheckBox key={index} checked={accentColor === item} checkedIcon={<IconCircle color={item} fill="#FFFFFF" size={32} />} onPress={() => setAccentColor(item)} title="" uncheckedIcon={<IconCircleFilled color="#FFFFFF" fill={item} size={32} />} />))}
 				</View>
 			</View>
-		</SafeAreaView>
+			<View style={profileEditModalStyles.sectionWrapper}>
+				<Section heading="Informações pessoais"></Section>
+				<ListItem>
+					<ListItem.Content>
+						<ListItem.Title style={profileEditModalStyles.inputLabel}><Text>Nome</Text></ListItem.Title>
+						<Input onChangeText={setUsername} onBlur={() => handleProfileFieldBlur('first_name', username)} value={username} />
+					</ListItem.Content>
+				</ListItem>
+				<ListItem>
+					<ListItem.Content>
+						<ListItem.Title style={profileEditModalStyles.inputLabel}><Text>Apelido</Text></ListItem.Title>
+						<Input onChangeText={setSurname} onBlur={() => handleProfileFieldBlur('last_name', surname)} value={surname} />
+					</ListItem.Content>
+				</ListItem>
+				<ListItem>
+					<ListItem.Content>
+						<ListItem.Title style={profileEditModalStyles.inputLabel}><Text>Data de Nascimento</Text></ListItem.Title>
+						<Input onChangeText={setBirthDate} onBlur={() => handleProfileFieldBlur('date_of_birth', birthDate.toString())} value={birthDate.toString()} />
+					</ListItem.Content>
+				</ListItem>
+			</View>
+			<View style={profileEditModalStyles.sectionWrapper}>
+				<Section heading="Dados de contacto"></Section>
+				<ListItem>
+					<ListItem.Content>
+						<ListItem.Title style={profileEditModalStyles.inputLabel}><Text>Email</Text></ListItem.Title>
+						<Input onChangeText={setEmail} onBlur={() => handleProfileFieldBlur('email', email)} value={email} />
+					</ListItem.Content>
+				</ListItem>
+				<ListItem>
+					<ListItem.Content>
+						<ListItem.Title style={profileEditModalStyles.inputLabel}><Text>Número de Telemóvel</Text></ListItem.Title>
+						<Input onChangeText={setPhone} onBlur={() => handleProfileFieldBlur('phone', phone)} value={phone} />
+					</ListItem.Content>
+				</ListItem>
+			</View>
+			<View style={profileEditModalStyles.sectionWrapper}>
+				<Section heading="Perfil de Passageiro"></Section>
+				{passengerTypes.options.map((item, index) => (
+					<ListItem key={index}>
+						<ListItem.Content>
+							<CheckBox key={index} containerStyle={profileEditModalStyles.checkbox} textStyle={profileEditModalStyles.checkBoxText} checked={passengerProfile === item} checkedIcon="dot-circle-o" onPress={() => { setPassengerProfile(item), handleProfileFieldBlur('work_setting', item) }} title={item} uncheckedIcon="circle-o" />
+						</ListItem.Content>
+					</ListItem>
+				))}
+			</View>
+			<View style={profileEditModalStyles.sectionWrapper}>
+				<Section heading="Tipo de utilização"></Section>
+				{utilizationTypes.options.map((item, index) => (
+					<ListItem key={index}>
+						<ListItem.Content>
+							<CheckBox key={index} checked={usageType === item} checkedIcon="dot-circle-o" onPress={() => { setUsageType(item), handleProfileFieldBlur('utilization_type', item) }} title={item} uncheckedIcon="circle-o" containerStyle={profileEditModalStyles.checkbox} textStyle={profileEditModalStyles.checkBoxText} />
+						</ListItem.Content>
+					</ListItem>
+				))}
+			</View>
+			<View style={profileEditModalStyles.sectionWrapper}>
+				<Section heading="Temas de interesse"></Section>
+				{interestsTypes.options.map((item, index) => (
+					<ListItem key={index}>
+						<ListItem.Content>
+							<CheckBox
+								containerStyle={profileEditModalStyles.checkbox}
+								textStyle={profileEditModalStyles.checkBoxText}
+								checked={interestTopics.includes(item)}
+								checkedIcon={<IconSquareCheckFilled fill={accentColor || "#3D85C6"} color={"#FFFFFF"} size={28} />}
+								uncheckedIcon={<IconSquare color={accentColor || "#3D85C6"} fill={"#FFFFFF"} size={28} />}
+								onPress={() => {
+									if (interestTopics.includes(item)) {
+										setInterestTopics(interestTopics.filter(i => i !== item));
+									} else {
+										setInterestTopics([...interestTopics, item]);
+									}
+								}}
+								title={item}
+							/>
+						</ListItem.Content>
+					</ListItem>
+				))}
+			</View>
+		</ScrollView>
 	);
 
 	//

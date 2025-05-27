@@ -12,13 +12,11 @@ interface LineItemProps {
     icon?: React.ReactNode;
 }
 
-export function LineItem({ lineData, municipality, size, onPress, icon}: LineItemProps) {
+export function LineItem({ lineData, municipality, size, onPress, icon }: LineItemProps) {
     return (
-        <ListItem bottomDivider topDivider>
+        <ListItem bottomDivider topDivider onPress={onPress}>
             <ListItem.Content>
-                <TouchableOpacity onPress={onPress}>
-                    <LineDisplay lineData={lineData} municipality={municipality} size={size}/>
-                </TouchableOpacity>
+                <LineDisplay lineData={lineData} municipality={municipality} size={size} />
             </ListItem.Content>
             {icon ?? <ListItem.Chevron />}
         </ListItem>

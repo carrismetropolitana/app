@@ -16,6 +16,7 @@ import { IconHomePlus, IconVolume } from '@tabler/icons-react-native';
 import { Image, View } from 'react-native';
 
 import { styles } from './styles';
+import { useEffect } from 'react';
 
 /* * */
 

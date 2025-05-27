@@ -27,26 +27,26 @@ export function VirtualizedListingStops({ data, icon, itemClick, items, size }: 
 	// B. Render components
 
 	const renderItem = ({ item }) => (
-		<ListItem bottomDivider topDivider>
+		<ListItem bottomDivider topDivider onPress={itemClick && (() => itemClick(item))}>
 			{itemClick
-				? (
+				?
+				(
 					<ListItem.Content>
 						<ListItem.Title>
-							<TouchableOpacity onPress={() => itemClick(item)}>
-								<StopDisplay size={size} stopData={item} />
-							</TouchableOpacity>
+							<StopDisplay size={size} stopData={item} />
 						</ListItem.Title>
 					</ListItem.Content>
 				)
-				: (
-					<ListItem.Content>
-						<Link href={`/stop/${item.id}`}>
+				:
+				(
+					<Link href={`/stop/${item.id}`} asChild>
+						<ListItem.Content>
 							<StopDisplay size={size} stopData={item} />
-						</Link>
-					</ListItem.Content>
+						</ListItem.Content>
+					</Link>
 				)}
 
-			{icon ? icon : <ListItem.Chevron /> }
+			{icon ? icon : <ListItem.Chevron />}
 		</ListItem>
 
 	);
