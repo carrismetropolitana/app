@@ -1,6 +1,6 @@
 /* * */
 
-import ProfileScreen from '@/components/screens/ProfileScreen';
+import AddFavoriteLineScreen from '@/components/screens/AddFavoriteLineScreen';
 import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
 import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
 import { useNavigation } from 'expo-router';
@@ -9,7 +9,7 @@ import { Platform } from 'react-native';
 
 /* * */
 
-export default function Profile() {
+export default function AddFavoriteLine() {
 	//
 
 	//
@@ -41,7 +41,7 @@ export default function Profile() {
 	return (
 		<LinesDetailContextProvider>
 			<StopsDetailContextProvider>
-				<ProfileScreen />
+				<AddFavoriteLineScreen />
 			</StopsDetailContextProvider>
 		</LinesDetailContextProvider>
 	);

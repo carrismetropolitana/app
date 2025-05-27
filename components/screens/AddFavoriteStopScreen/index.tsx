@@ -8,22 +8,18 @@ import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
 import { Pattern, Stop } from '@carrismetropolitana/api-types/network';
-import { Button, ListItem , Text} from '@rn-vui/themed';
+import { Button, ListItem, Text } from '@rn-vui/themed';
 import { IconArrowRight, IconBusStop, IconCircle, IconCircleCheckFilled, IconNotification, IconPlayerPlayFilled, IconSearch, IconX } from '@tabler/icons-react-native';
 import { useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
+import { useNavigation } from 'expo-router';
+import StopsListChooserModal from '@/app/(modal)/StopsListChooserModal';
 
-import StopsListChooserModal from '../StopsListChooserModal';
 import styles from './styles';
-import { useRouter } from 'expo-router';
 
 /* * */
 
-interface AddFavoriteStopProps {
-  onClose: () => void;
-}
-
-export default function AddFavoriteStop({ onClose }: AddFavoriteStopProps) {
+export default function AddFavoriteStopScreen() {
 	//
 
 	//
@@ -40,10 +36,18 @@ export default function AddFavoriteStop({ onClose }: AddFavoriteStopProps) {
 	const linesContext = useLinesContext();
 
 	const addFavoriteStopStyles = styles();
-	const router = useRouter();
+	const navigation = useNavigation();
 
 	//
 	// B. Handle Actions
+
+
+	useEffect(() => {
+		navigation.setOptions({
+			headerTitle: '',
+			headerShown: false,
+		});
+	}, [navigation]);
 
 	const handleSelectedStop = (stopData: Stop) => {
 		setSelectedStopId(stopData.id);
@@ -66,8 +70,6 @@ export default function AddFavoriteStop({ onClose }: AddFavoriteStopProps) {
 
 	const clearScreen = () => {
 		clearSelection();
-		 onClose();
-		// router.push('/(tabs)/profile');
 	};
 
 	const clearSelection = () => {
@@ -175,68 +177,68 @@ export default function AddFavoriteStop({ onClose }: AddFavoriteStopProps) {
 						heading="2. Escolher destinos "
 						subheading="Pode escolher apenas os destinos que lhe interessam a partir desta paragem. Personalize o seu painel de informação único."
 					/>
-				<View>
-					{selectedStop && selectedStop.pattern_ids.length > 0 ? (
-						Object.entries(
-							selectedStop.pattern_ids.reduce((acc: Record<string, string[]>, patternId: string) => {
-								const lineId = patternId.split('_')[0];
-								if (!acc[lineId]) acc[lineId] = [];
-								acc[lineId].push(patternId);
-								return acc;
-							}, {})
-						).map(([lineId, patternIds]) => {
-							const line = linesContext.data.lines.find(line => line.id === lineId);
-							const lineColor = line?.color;
-							return (
-								<View key={lineId} style={{ marginBottom: 16 }}>
-									<Text style={[addFavoriteStopStyles.listTitle, { marginBottom: 4 }]}>Linha {lineId}{line?.long_name ? ` - ${line.long_name}` : ''}</Text>
-									{patternIds.map((patternId) => {
-										const isSelected = selectedStopPatterns.includes(patternId);
-										return (
-											<ListItem
-												key={patternId}
-												onPress={() => togglePattern(patternId, selectedStopPatterns, setStopPatterns)}
-											>
-												<LineBadge
-													color={lineColor}
-													lineId={lineId}
-													size="lg"
-												/>
-												<IconArrowRight size={10} />
-												<ListItem.Content>
-													<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-														{patternNames[patternId] || 'Sem destino'}
-													</ListItem.Title>
-												</ListItem.Content>
-												{isSelected ? (
-													<IconCircleCheckFilled
-														fill="#3CB43C"
-														size={24}
-														color={
-															themeContext.theme.mode === 'light'
-															? theming.colorSystemBackgroundLight100
-															: theming.colorSystemBackgroundDark100
-														}
+					<View>
+						{selectedStop && selectedStop.pattern_ids.length > 0 ? (
+							Object.entries(
+								selectedStop.pattern_ids.reduce((acc: Record<string, string[]>, patternId: string) => {
+									const lineId = patternId.split('_')[0];
+									if (!acc[lineId]) acc[lineId] = [];
+									acc[lineId].push(patternId);
+									return acc;
+								}, {})
+							).map(([lineId, patternIds]) => {
+								const line = linesContext.data.lines.find(line => line.id === lineId);
+								const lineColor = line?.color;
+								return (
+									<View key={lineId} style={{ marginBottom: 16 }}>
+										<Text style={[addFavoriteStopStyles.listTitle, { marginBottom: 4 }]}>Linha {lineId}{line?.long_name ? ` - ${line.long_name}` : ''}</Text>
+										{patternIds.map((patternId) => {
+											const isSelected = selectedStopPatterns.includes(patternId);
+											return (
+												<ListItem
+													key={patternId}
+													onPress={() => togglePattern(patternId, selectedStopPatterns, setStopPatterns)}
+												>
+													<LineBadge
+														color={lineColor}
+														lineId={lineId}
+														size="lg"
 													/>
-												) : (
-													<IconCircle color="grey" size={24} />
-												)}
-											</ListItem>
-										);
-									})}
-								</View>
-							);
-						})
-					) : (
-						<ListItem>
-							<ListItem.Content>
-								<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-									<Text>Selecione uma paragem para ver os destinos.</Text>
-								</ListItem.Title>
-							</ListItem.Content>
-						</ListItem>
-					)}
-				</View>
+													<IconArrowRight size={10} />
+													<ListItem.Content>
+														<ListItem.Title style={addFavoriteStopStyles.listTitle}>
+															{patternNames[patternId] || 'Sem destino'}
+														</ListItem.Title>
+													</ListItem.Content>
+													{isSelected ? (
+														<IconCircleCheckFilled
+															fill="#3CB43C"
+															size={24}
+															color={
+																themeContext.theme.mode === 'light'
+																	? theming.colorSystemBackgroundLight100
+																	: theming.colorSystemBackgroundDark100
+															}
+														/>
+													) : (
+														<IconCircle color="grey" size={24} />
+													)}
+												</ListItem>
+											);
+										})}
+									</View>
+								);
+							})
+						) : (
+							<ListItem>
+								<ListItem.Content>
+									<ListItem.Title style={addFavoriteStopStyles.listTitle}>
+										<Text>Selecione uma paragem para ver os destinos.</Text>
+									</ListItem.Title>
+								</ListItem.Content>
+							</ListItem>
+						)}
+					</View>
 				</View>
 
 				<View style={{ marginBottom: 30 }}>

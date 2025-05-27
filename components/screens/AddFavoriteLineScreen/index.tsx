@@ -16,15 +16,11 @@ import { TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import styles from './styles';
-
-/* * */
-interface Props {
-	onClose: () => void;
-}
+import { useNavigation } from 'expo-router';
 
 /* * */
 
-export default function AddFavoriteLine({ onClose }: Props) {
+export default function AddFavoriteLineScreen() {
 	//
 
 	//
@@ -36,9 +32,18 @@ export default function AddFavoriteLine({ onClose }: Props) {
 	const themeContext = useThemeContext();
 	const profileContext = useProfileContext();
 	const addFavoriteLineStyles = styles();
+	const navigation = useNavigation();
 
 	//
 	// B. Fetch Data
+
+	useEffect(() => {
+		navigation.setOptions({
+			headerTitle: '',
+			headerShown: false,
+		});
+	}, [navigation]);
+
 	const fetchPattern = async (patternId: string) => {
 		try {
 			const response = await fetch(`${Routes.API}/patterns/${patternId}`);
@@ -81,9 +86,9 @@ export default function AddFavoriteLine({ onClose }: Props) {
 
 	//
 	// C. Handle actions
+
 	const clearScreen = () => {
 		linesDetailContext.actions.resetLineId();
-		onClose();
 	};
 
 	//
@@ -93,8 +98,6 @@ export default function AddFavoriteLine({ onClose }: Props) {
 		<View style={addFavoriteLineStyles.overlay}>
 			<SafeAreaView>
 				<View style={addFavoriteLineStyles.container}>
-
-
 					<Section
 						heading="Linha Favorita"
 						subheading="Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas."

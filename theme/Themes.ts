@@ -38,7 +38,9 @@ const lightThemeDefinition = {
 		},
 		ListItem: {
 			containerStyle: {
-				height: 70,
+				// height: 70,
+				// minHeigth: 70, ---> uncomment this to make lineItems slimmer, beware it breaks the profile inputs
+				// maxHeight: 200,
 				backgroundColor: theming.colorPrimaryWhite,
 				borderColor: theming.colorSystemBorder100,
 				borderWidth: 1,

@@ -28,19 +28,12 @@ export function LineDisplay({ color, lineData, longName, municipality, shortName
 	//
 
 	//
-	// A. Handle Actions
-
-	const onPress = () => {
-		alert('clicked');
-	};
-
-	//
-	// B. Render Components
+	// A. Render Components
 
 	if (lineData) {
 		return (
 			<View style={lineDisplayStyles.container}>
-				<LineBadge color={lineData.color} onPress={onPress} shortName={lineData.short_name} size={size} textColor={lineData.text_color} />
+				<LineBadge color={lineData.color} shortName={lineData.short_name} size={size} textColor={lineData.text_color} />
 				<LineName align="left" longName={lineData.long_name} />
 
 			</View>

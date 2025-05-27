@@ -34,9 +34,9 @@ export function LineName({ align = 'left', lineData, longName, municipality }: P
 	// B. Render components
 
 	return (
-		<View style={[styles]}>
+		<View style={styles}>
 			<Text style={lineNameStyles.name}>{lineData?.long_name || longName || '• • •'}</Text>
-			{municipality && <Text>LdfdfdLdfdfdLdfdfdLdfdfdLdfdfdLdfdfdLdfdfdLdfdfdfddfjsdhfjsL</Text>}
+			{municipality && <Text>{municipality.join(', ')}</Text>}
 		</View>
 	);
 

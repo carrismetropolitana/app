@@ -12,7 +12,7 @@ interface LineItemProps {
     icon?: React.ReactNode;
 }
 
-export function LineItem({ lineData, municipality, size, onPress, icon}: LineItemProps): JSX.Element {
+export function LineItem({ lineData, municipality, size, onPress, icon}: LineItemProps) {
     return (
         <ListItem bottomDivider topDivider>
             <ListItem.Content>

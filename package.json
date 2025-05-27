@@ -91,7 +91,8 @@
     "react-native-webview": "13.12.5",
     "styled-components": "^6.1.16",
     "swr": "^2.3.3",
-    "ukkonen": "^2.2.0"
+    "ukkonen": "^2.2.0",
+    "@shopify/flash-list": "1.7.3"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

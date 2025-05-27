@@ -1,4 +1,3 @@
-/* * */
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { Section } from '@/components/common/layout/Section';
 import { ProfileImage } from '@/components/ProfileImage';
@@ -6,21 +5,23 @@ import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { AccountWidget } from '@/types/account.types';
-import { ButtonGroup, ListItem } from '@rn-vui/themed';
+import { BottomSheet, Button, ButtonGroup, ListItem } from '@rn-vui/themed';
 import { IconArrowLoopRight, IconArrowNarrowLeft, IconArrowsShuffle, IconBellRinging, IconBusStop, IconCirclePlusFilled, IconUser } from '@tabler/icons-react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Platform, Pressable, Text, View } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import { styles } from './styles';
-import BottomSheetWrapper from '@/components/common/BottomSheet';
+// import BottomSheetWrapper from '@/components/common/BottomSheet';
 
-import type { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { useNavigation } from 'expo-router';
-import AddFavoriteStop from '@/app/(modal)/AddFavoriteStopModal';
-import AddFavoriteLine from '@/app/(modal)/AddFavoriteLineModal';
-import ProfileEditModal from '@/app/(modal)/ProfileEditModal';
+// import type { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { Link, router, useNavigation } from 'expo-router';
+// import AddFavoriteStop from '@/app/(modal)/AddFavoriteStopModal';
+// import AddFavoriteLine from '@/app/(modal)/AddFavoriteLineModal';
+// import ProfileEditModal from '@/app/(modal)/ProfileEditModal';
 import dimAvatarBackground from '@/utils/dimAvatarBackground';
 import FavoriteItem from '@/components/common/FavoriteItem';
+// import { NativeViewGestureHandler } from 'react-native-gesture-handler';
+
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
@@ -28,11 +29,12 @@ export default function ProfileScreen() {
   const profileStyles = styles();
   const profileContext = useProfileContext();
   const { persona_image, profile } = profileContext.data;
+
   const saveTimer = useRef<NodeJS.Timeout | null>(null);
 
-  const stopSheetRef = useRef<BottomSheetModal>(null);
-  const lineSheetRef = useRef<BottomSheetModal>(null);
-  const profileSheetRef = useRef<BottomSheetModal>(null);
+  // const stopSheetRef = useRef<BottomSheetModal>(null);
+  // const lineSheetRef = useRef<BottomSheetModal>(null);
+  // const profileSheetRef = useRef<BottomSheetModal>(null);
 
   const initialWidgets = (profile?.widgets ?? []).flatMap((widget) => {
     if (widget.data.type === 'lines') return [widget];
@@ -113,26 +115,35 @@ export default function ProfileScreen() {
   const ListFooter = () => (
     <View style={profileStyles.addFavoritesSection}>
       <Section heading="Adicionar favoritos" />
-      <ListItem onPress={() => stopSheetRef.current?.present()}>
-        <IconBusStop color="#FF6900" size={24} />
-        <ListItem.Content>
-          <ListItem.Title style={profileStyles.listTitle}>Paragem Favorita</ListItem.Title>
-        </ListItem.Content>
-        <IconCirclePlusFilled size={24} fill="#3CB43C" color="#FFFFFF" />
+      {/* <ListItem onPress={() => stopSheetRef.current?.present()}> */}
+      <ListItem>
+        <Link href="/addFavoriteStop" style={{ width: '100%' }}>
+          <IconBusStop color="#FF6900" size={24} />
+          <ListItem.Content>
+            <ListItem.Title style={profileStyles.listTitle}>Paragem Favorita</ListItem.Title>
+          </ListItem.Content>
+          <IconCirclePlusFilled size={24} fill="#3CB43C" color="#FFFFFF" />
+        </Link>
       </ListItem>
-      <ListItem onPress={() => lineSheetRef.current?.present()}>
-        <IconArrowLoopRight color="#C61D23" size={24} />
-        <ListItem.Content>
-          <ListItem.Title style={profileStyles.listTitle}>Linha Favorita</ListItem.Title>
-        </ListItem.Content>
-        <IconCirclePlusFilled size={24} fill="#3CB43C" color="#FFFFFF" />
+      <ListItem>
+        <Link href="/addFavoriteLine" style={{ width: '100%' }}>
+          {/* <ListItem onPress={() => router.push('/AddFavoriteLineModal')}> */}
+          <IconArrowLoopRight color="#C61D23" size={24} />
+          <ListItem.Content>
+            <ListItem.Title style={profileStyles.listTitle}>Linha Favorita</ListItem.Title>
+          </ListItem.Content>
+          <IconCirclePlusFilled size={24} fill="#3CB43C" color="#FFFFFF" />
+        </Link>
       </ListItem>
-      <ListItem onPress={() => profileSheetRef.current?.present()}>
-        <IconUser color="#0C807E" size={24} />
-        <ListItem.Content>
-          <ListItem.Title style={profileStyles.listTitle}>Editar Perfil</ListItem.Title>
-        </ListItem.Content>
-        <IconCirclePlusFilled size={24} fill="#3CB43C" color="#FFFFFF" />
+      {/* <ListItem onPress={() => profileSheetRef.current?.present()}> */}
+      <ListItem>
+        <Link href="/profileEdit" style={{ width: '100%' }}>
+          <IconUser color="#0C807E" size={24} />
+          <ListItem.Content>
+            <ListItem.Title style={profileStyles.listTitle}>Editar Perfil</ListItem.Title>
+          </ListItem.Content>
+          <IconCirclePlusFilled size={24} fill="#3CB43C" color="#FFFFFF" />
+        </Link>
       </ListItem>
       <ListItem disabledStyle={{ opacity: 0.6 }} disabled>
         <IconBellRinging color="#0C807E" size={24} />
@@ -146,6 +157,7 @@ export default function ProfileScreen() {
     </View>
   );
 
+
   return (
     <View>
       <DraggableFlatList
@@ -157,7 +169,8 @@ export default function ProfileScreen() {
         renderItem={renderFavoriteItem}
         scrollEnabled={true}
         showsVerticalScrollIndicator={false}
-        keyExtractor={item => item.data.type === 'lines' ? `line-${item.data.pattern_id}` : item.data.type === 'stops' ? `stop-${item.data.stop_id}-${item.data.pattern_ids[0]}` : `item`}
+        keyExtractor={item => item.data.type === 'lines' ? `line-${item.data.pattern_id}` : item.data.type === 'stops' ? `stop-${item.data.stop_id}-${item.data.pattern_ids[0]}` : JSON.stringify(item)
+        }
         onDragEnd={({ data }) => {
           setWidgetList(data);
           if (saveTimer.current) clearTimeout(saveTimer.current);
@@ -171,9 +184,11 @@ export default function ProfileScreen() {
           }, 1000);
         }}
       />
-      <BottomSheetWrapper ref={stopSheetRef}> <AddFavoriteStop onClose={() => stopSheetRef.current?.dismiss()} /></BottomSheetWrapper>
-      <BottomSheetWrapper ref={lineSheetRef}>  <AddFavoriteLine onClose={() => lineSheetRef.current?.dismiss()} /></BottomSheetWrapper>
-      <BottomSheetWrapper ref={profileSheetRef}> <ProfileEditModal onClose={() => profileSheetRef.current?.dismiss()} /></BottomSheetWrapper>
+
+      {/* <BottomSheetWrapper ref={stopSheetRef}> <AddFavoriteStop onClose={() => stopSheetRef.current?.dismiss()} /></BottomSheetWrapper> */}
+      {/* <BottomSheetWrapper ref={lineSheetRef}>  <AddFavoriteLine onClose={() => lineSheetRef.current?.dismiss()} /></BottomSheetWrapper> */}
+      {/* <BottomSheetWrapper ref={profileSheetRef}> <ProfileEditModal onClose={() => profileSheetRef.current?.dismiss()} /></BottomSheetWrapper> */}
+
     </View>
   );
 }

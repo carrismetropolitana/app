@@ -27,7 +27,7 @@ export default function NetworkOfflineBanner() {
     //B. Transform data
 
     const handleNetworkStatus = () => {
-        fetch(Routes.API_ACCOUNTS, { method: 'HEAD' })
+        fetch(Routes.DEV_API_ACCOUNTS, { method: 'HEAD' })
             .then(response => {
                 const isOnline = response.status === 200 || response.status === 403 || response.status === 401 || response.status === 500;
                 isOnline ? setVisible(false) : setVisible(true);

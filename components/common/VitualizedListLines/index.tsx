@@ -12,7 +12,7 @@ interface Props {
 	size?: 'lg' | 'md';
 }
 
-export function VirtualizedListingLines({ data, icon, itemClick, items = 10, municipality, size = 'md', }: Props) {
+export function VirtualizedListingLines({ data, icon, itemClick, items = 10, municipality, size = 'lg', }: Props) {
 	const getItem = useCallback((d: any[], i: number) => d[i], []);
 	const getItemCount = useCallback((d: any[]) => d.length, []);
 

@@ -9,21 +9,16 @@ import { ActivitySchema, InterestsSchema, UtilizationTypeSchema } from '@/types/
 import { ButtonGroup, CheckBox, Input, ListItem } from '@rn-vui/themed';
 import { IconArrowNarrowLeft, IconArrowsShuffle, IconCircle, IconCircleFilled, IconSquare, IconSquareCheckFilled, IconSquareFilled } from '@tabler/icons-react-native';
 import React, { useEffect, useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { Platform, Pressable, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import styles  from './styles';
+import styles from './styles';
 import dimAvatarBackground from '@/utils/dimAvatarBackground';
+import { useNavigation } from 'expo-router';
 
 /* * */
 
-interface Props {
-	onClose: () => void;
-}
-
-/* * */
-
-export default function ProfileEditModal({ onClose }: Props) {
+export default function ProfileEditScreen() {
 	//
 
 	//
@@ -48,7 +43,7 @@ export default function ProfileEditModal({ onClose }: Props) {
 	const [usageType, setUsageType] = useState(profileContext.data.profile?.profile?.utilization_type || '');
 	const [interestTopics, setInterestTopics] = useState<string[]>(Array.isArray(profileContext.data.profile?.profile?.interests) ? profileContext.data.profile?.profile?.interests : []);
 	const [accentColor, setAccentColor] = useState<string | null>(profileContext.data.accent_color || null);
-
+	const navigation = useNavigation();
 	//
 	// B. Handle actions
 
@@ -65,6 +60,13 @@ export default function ProfileEditModal({ onClose }: Props) {
 	useEffect(() => {
 		profileContext.actions.setAccentColor(accentColor || '');
 	}, [accentColor]);
+
+	useEffect(() => {
+		navigation.setOptions({
+			headerTitle: '',
+			headerShown: false,
+		});
+	}, [navigation]);
 
 	//
 	// D. Render Components

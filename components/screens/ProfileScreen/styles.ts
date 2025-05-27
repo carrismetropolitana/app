@@ -43,5 +43,17 @@ export const styles = () => {
 			justifyContent: 'center',
 			paddingTop: 36,
 		},
+		goBackHeader: {
+			alignItems: 'flex-start',
+			justifyContent: 'flex-start',
+			alignContent: 'flex-start',
+			padding: 20,
+			flexDirection: 'row',
+		},
+		goBackHeaderText:{
+			color: fontColor,
+			fontSize: 16,
+			fontWeight: '500',
+		}
 	});
 };

@@ -30,6 +30,7 @@ export const lineNameStyles = StyleSheet.create({
 		paddingEnd: 20,
 	},
 	name: {
+
 		fontSize: 16,
 		fontWeight: 700,
 	},
