@@ -104,6 +104,12 @@ export function VehiclesDetailPathList() {
 				const currentVehicleStopSequence = linesDetailContext.data.active_waypoint?.stop_sequence;
 				const thisStopSequence = waypoint.stop_sequence;
 				const hasBeenPassed = currentVehicleStopSequence !== undefined && thisStopSequence < currentVehicleStopSequence;
+
+				console.log(
+					`[VDPL] Waypoint: ${waypoint.stop_id} (Seq: ${thisStopSequence}), ` +
+					`CurrentVehicleSeq: ${currentVehicleStopSequence}, ` +
+					`HasBeenPassed: ${hasBeenPassed}`
+				);
 				
 				return (
 					<PathWaypoint

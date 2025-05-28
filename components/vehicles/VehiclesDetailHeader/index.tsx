@@ -9,6 +9,8 @@ import { View } from 'react-native';
 
 import { styles } from './styles';
 import { Vehicle } from '@carrismetropolitana/api-types/vehicles';
+import { IconBike, IconBikeOff, IconDisabled2, IconDisabledOff } from '@tabler/icons-react-native';
+import { LicensePlate } from '@/components/common/LicensePlate';
 
 /* * */
 
@@ -37,21 +39,23 @@ export function VehiclesDetailHeader({ data }: VehiclesDetailHeaderProps) {
 		<Surface>
 			<View style={lineDetailsHeaderStyles.headingSection}>
 				<View style={lineDetailsHeaderStyles.headingSectionRow}>
+
 					<View style={lineDetailsHeaderStyles.headingFirstSection}>
 						<LineBadge lineData={linesDetailContext.data.line} size="lg" />
+						<Text style={lineDetailsHeaderStyles.lineDestination} > {linesDetailContext.data.active_pattern?.headsign} </Text>
+						<Text style={lineDetailsHeaderStyles.lineName}>{linesDetailContext.data.line.long_name}</Text>
 					</View>
-					<Text style={lineDetailsHeaderStyles.lineName}>{linesDetailContext.data.line.long_name}</Text>
+					<View style={lineDetailsHeaderStyles.busInfoSection}>
+						<LicensePlate value={data?.license_plate || ''} />
+						<Text> {data?.make} {'•'} {data?.model} </Text>
+					</View>
+					<View style={lineDetailsHeaderStyles.accessibilitySection}>
+						{data?.wheelchair_accessible ? <IconDisabled2 size={32} color={linesDetailContext.data.line.color} /> : <IconDisabledOff size={32} color={linesDetailContext.data.line.color} />}
+						{data?.bikes_allowed ? <IconBike size={32} color={linesDetailContext.data.line.color} /> : <IconBikeOff size={32} color={linesDetailContext.data.line.color} />}
+					</View>
 				</View>
-				<Text> Vehicle ID: {data?.id} </Text>
-				<Text> vehicle license plate : {data?.license_plate} </Text>
-				<Text> vehicle model : {data?.model} </Text>
-				<Text> vehicle make : {data?.make} </Text>
-				<Text> line destiny: {linesDetailContext.data.active_pattern?.headsign}</Text>
-				<Text> Wheelchair: {data?.wheelchair_accessible ? "Yes" : "No"}</Text>
-				<Text> bikeallowed: {data?.bikes_allowed ? "Yes" : "No"}</Text>
-				
 			</View>
-		</Surface>
+		</Surface> 
 	);
 
 	//

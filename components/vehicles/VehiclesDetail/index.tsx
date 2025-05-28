@@ -5,12 +5,10 @@ import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { VehiclesDetailHeader } from '@/components/vehicles/VehiclesDetailHeader';
 import { VehiclesDetailPath } from '../VehiclesDetailPath';
-import { Text } from '@rn-vui/themed';
 import { useEffect, useState } from 'react';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useVehiclesContext } from '@/contexts/Vehicles.context';
 import { Vehicle } from '@carrismetropolitana/api-types/vehicles';
-import { Line } from '@carrismetropolitana/api-types/network';
 
 /* * */
 
@@ -19,8 +17,6 @@ interface VehiclesDetailProps {
 }
 
 /* * */
-
-
 
 export function VehiclesDetail({ id }: VehiclesDetailProps) {
     //
@@ -33,7 +29,6 @@ export function VehiclesDetail({ id }: VehiclesDetailProps) {
     const lineDetailContext = useLinesDetailContext();
 
     const [lineId, setLineID] = useState<string | null>(null);
-    const [lineData, setLineData] = useState<Line | null>(null);
     const [vehicleData, setVehicleData] = useState<Vehicle | null>(null);
 
     useEffect(() => {
@@ -41,28 +36,37 @@ export function VehiclesDetail({ id }: VehiclesDetailProps) {
         const fetchVehicle = async () => {
             const data = await vehiclesContext.actions.getVehicleById(id);
             if (data) setVehicleData(data);
-            console.log("this is a vehicle ===> ", data);
         };
         fetchVehicle();
-    }, [id, vehiclesContext.data.vehicles]);
+    }, [id, vehiclesContext.data.vehicles, vehiclesContext.flags.is_loading]);
 
     useEffect(() => {
         if (!vehicleData) return;
-        setLineID(vehicleData?.line_id || null);
-        if (vehicleData?.line_id) {
+
+        if (vehicleData.line_id && vehicleData.line_id !== lineDetailContext.data.lineId) {
             lineDetailContext.actions.setLineId(vehicleData.line_id);
             setLineID(vehicleData.line_id);
-        } else {
-            console.warn("Vehicle does not have a line_id");
         }
-    }, [vehicleData]);
+
+        if (vehicleData.pattern_id && vehicleData.pattern_id !== lineDetailContext.data.active_pattern?.id) {
+            lineDetailContext.actions.setActivePattern(vehicleData.pattern_id);
+        }
+
+    }, [vehicleData, lineDetailContext.actions, lineDetailContext.data.lineId, lineDetailContext.data.active_pattern?.id]);
 
     useEffect(() => {
-        if (!lineId) return;
-        const lineData = lineDetailContext.data.line;
-        setLineData(lineData ?? null);
-    }, [lineDetailContext.data.lineId, lineDetailContext.data.line]);
-
+        if (!vehicleData || !vehicleData.stop_id || !lineDetailContext.data.active_pattern || vehicleData.pattern_id !== lineDetailContext.data.active_pattern.id) {
+            return;
+        }
+        const currentPatternPath = lineDetailContext.data.active_pattern.path;
+        const vehicleCurrentWaypoint = currentPatternPath.find(waypoint => waypoint.stop_id === vehicleData.stop_id);
+        if (vehicleCurrentWaypoint) {
+            if (lineDetailContext.data.active_waypoint?.stop_id !== vehicleCurrentWaypoint.stop_id ||
+                lineDetailContext.data.active_waypoint?.stop_sequence !== vehicleCurrentWaypoint.stop_sequence) {
+                lineDetailContext.actions.setActiveWaypoint(vehicleCurrentWaypoint.stop_id, vehicleCurrentWaypoint.stop_sequence);
+            }
+        }
+    }, [vehicleData, lineDetailContext.data.active_pattern, lineDetailContext.data.active_waypoint, lineDetailContext.actions]);
 
     //
     // B. Render component

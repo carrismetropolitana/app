@@ -25,6 +25,9 @@ export const styles = () => {
 		text: {
 			color: theming.colorRealtime100,
 		},
+		textMuted: {
+			color: theming.colorSystemText200,
+		},
 		vehiclesCounter: {
 			alignItems: 'center',
 			alignSelf: 'flex-start',

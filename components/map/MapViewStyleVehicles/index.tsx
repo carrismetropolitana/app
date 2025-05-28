@@ -6,6 +6,7 @@ import { ShapeSource, SymbolLayer } from '@maplibre/maplibre-react-native';
 import { Text, View } from 'react-native';
 
 import { styles } from './styles';
+import { NoVehicleIcon } from '@/components/common/NoVehicleIcon';
 
 /* * */
 
@@ -35,16 +36,17 @@ export function MapViewStyleVehicles({ showCounter, vehiclesData = baseGeoJsonFe
 
 	//
 	// B. Render components
+			console.log(vehiclesData.features.length , showCounter);
 
 	return (
 		<>
 			<ShapeSource id="default-source-vehicles" shape={vehiclesData}
-			onPress={(e) => {
-				const feature = e.features?.[0];
-				if (feature && onVehiclePress) {
-					onVehiclePress(feature.properties?.id ?? '');
-				}
-			}}>
+				onPress={(e) => {
+					const feature = e.features?.[0];
+					if (feature && onVehiclePress) {
+						onVehiclePress(feature.properties?.id ?? '');
+					}
+				}}>
 				<SymbolLayer
 					id="default-layer-vehicles-delay"
 					sourceID="default-source-vehicles"
@@ -103,7 +105,17 @@ export function MapViewStyleVehicles({ showCounter, vehiclesData = baseGeoJsonFe
 				/>
 			</ShapeSource>
 
-			{showCounter === 'always' && (
+
+			{vehiclesData.features.length === 0 && showCounter && (
+				<View style={vehiclesData.features.length !== 0 ? counterStyles.vehiclesCounter : counterStyles.zeroCount}>
+					<NoVehicleIcon />
+					<Text style={counterStyles.textMuted}>
+						Sem veiculos em circulação
+					</Text>
+				</View>
+			)}
+
+			{showCounter === 'always' && vehiclesData.features.length > 0  && (
 
 				<View style={vehiclesData.features.length !== 0 ? counterStyles.vehiclesCounter : counterStyles.zeroCount}>
 					<LiveIcon />
@@ -119,6 +131,8 @@ export function MapViewStyleVehicles({ showCounter, vehiclesData = baseGeoJsonFe
 					<Text style={counterStyles.text}> {vehiclesData.features.length} veículos em circulação </Text>
 				</View>
 			)}
+
+
 		</>
 	);
 }

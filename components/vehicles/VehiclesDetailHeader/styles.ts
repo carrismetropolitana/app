@@ -26,14 +26,34 @@ export const styles = () => {
 	return StyleSheet.create({
 		headingFirstSection: {
 			alignItems: 'center',
-			flexDirection: 'row',
+			justifyContent: 'center',
+			flexDirection: 'column',
 			gap: 20,
 		},
 		headingSection: {
 			backgroundColor: theme.mode === 'light'
 				? theming.colorSystemBackgroundLight100
 				: theming.colorSystemBackgroundDark100,
-			height: 125,
+			flexDirection: 'column',
+			paddingTop: 16,
+			justifyContent: 'center',
+			alignContent: 'center',
+			alignItems: 'center',
+			textAlign: 'center',
+		},
+		busInfoSection: {
+			display: 'flex',
+			flexDirection: 'row',
+			gap: 10,
+			justifyContent: 'center',
+		},
+		accessibilitySection: {
+			flexDirection: 'row',
+			justifyContent: 'center',
+			gap: 10,
+			width: '70%',
+			alignItems: 'center',
+			alignContent: 'center',
 		},
 		headingSectionRow: {
 			gap: 15,
@@ -41,6 +61,11 @@ export const styles = () => {
 		lineName: {
 			color: fontColor,
 			fontSize: theming.fontSizeSubtitle,
+			fontWeight: theming.fontWeightHeading as '700',
+		},
+		lineDestination: {
+			color: theming.colorSystemText400,
+			fontSize: theming.fontSizeMuted,
 			fontWeight: theming.fontWeightHeading as '700',
 		},
 		mapSection: {
