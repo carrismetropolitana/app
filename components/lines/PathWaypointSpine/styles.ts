@@ -29,12 +29,40 @@ export const styles = StyleSheet.create({
 	containerSelected: {
 		paddingVertical: theming.sizeSpacing20,
 	},
-
 	marker: {
 		aspectRatio: 1,
 		borderRadius: 999,
 		margin: 6,
 		width: 10,
+	},
+	markerDisabled: {
+		aspectRatio: 1,
+		borderRadius: 999,
+		margin: 6,
+		width: 5,
+	},
+	markerFirstStopNext: {
+		display: 'none',
+	},
+	markerNext: {
+		aspectRatio: 1,
+		borderRadius: 999,
+		margin: 3,
+		transform: [{ translateY: -3 }],
+		backgroundColor: '#000000',
+	},
+	markerMiddleNext: {
+		aspectRatio: 1,
+		borderRadius: 999,
+		margin: 6,
+		width: 10,
+	},
+	markerLastStopNext: {
+		aspectRatio: 1,
+		borderRadius: 999,
+		margin: 3,
+		transform: [{ translateY: -20 }],
+		backgroundColor: '#000000',
 	},
 	markerFavorite: {
 		margin: 3,

@@ -46,6 +46,7 @@ export const styles = () => {
 			flexDirection: 'row',
 			gap: 10,
 			justifyContent: 'center',
+			padding: 10,
 		},
 		accessibilitySection: {
 			flexDirection: 'row',
@@ -56,7 +57,11 @@ export const styles = () => {
 			alignContent: 'center',
 		},
 		headingSectionRow: {
+			padding: 20,
 			gap: 15,
+			width: '100%',
+			justifyContent: 'space-around',
+			alignItems: 'center',
 		},
 		lineName: {
 			color: fontColor,
@@ -93,6 +98,14 @@ export const styles = () => {
 			height: 125,
 			marginBottom: 60,
 		},
+		occupancyFilled:{
+			backgroundColor: theming.colorRealtime100,
+			borderRadius: 999,
+		},
+		occupancyEmpty:{
+			backgroundColor: theming.colorSystemBorder200,
+			borderRadius: 999,
+		}
 	});
 
 	//

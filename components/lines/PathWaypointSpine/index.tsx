@@ -4,7 +4,7 @@
 
 import { useDebugContext } from '@/contexts/Debug.context';
 import { useProfileContext } from '@/contexts/Profile.context';
-import { IconHeartFilled } from '@tabler/icons-react-native';
+import { IconArrowBadgeDown, IconArrowDown, IconChevronDown, IconHeartFilled } from '@tabler/icons-react-native';
 import { Text, View } from 'react-native';
 
 import { styles } from './styles';
@@ -16,6 +16,8 @@ interface Props {
 	foregroundColor?: string
 	isFirstStop?: boolean
 	isLastStop?: boolean
+	isDisabled?: boolean
+	isNextStop?: boolean
 	isSelected: boolean
 	stopId: string
 	stopSequence: number
@@ -23,7 +25,7 @@ interface Props {
 
 /* * */
 
-export function PathWaypointSpine({ backgroundColor, foregroundColor, isFirstStop, isLastStop, isSelected, stopId, stopSequence }: Props) {
+export function PathWaypointSpine({ backgroundColor, foregroundColor, isFirstStop, isLastStop, isSelected, stopId, stopSequence, isDisabled, isNextStop }: Props) {
 	//
 
 	//
@@ -51,6 +53,7 @@ export function PathWaypointSpine({ backgroundColor, foregroundColor, isFirstSto
 				backgroundColor && { backgroundColor },
 			]}
 		>
+
 			{debugContext.flags.is_debug_mode && (
 				<Text
 					style={[
@@ -59,11 +62,27 @@ export function PathWaypointSpine({ backgroundColor, foregroundColor, isFirstSto
 						isFirstStop && styles.stopSequenceFirstStop,
 						isLastStop && styles.stopSequenceLastStop,
 						{ color: foregroundColor },
+						isDisabled && styles.markerDisabled,
+						isNextStop && styles.markerFirstStopNext,
+
 					]}
 				>
 					{stopSequence}
 				</Text>
 			)}
+
+			{!debugContext.flags.is_debug_mode && isLastStop && isFirstStop && (
+				<IconChevronDown
+					color={foregroundColor}
+					size={16}
+					style={[
+						styles.marker,
+						isFirstStop && styles.markerFirstStop,
+						isDisabled && styles.markerDisabled,
+					]}
+				/>
+			)}
+
 			{!debugContext.flags.is_debug_mode && isFavoriteStop && (
 				<IconHeartFilled
 					color={foregroundColor}
@@ -72,6 +91,8 @@ export function PathWaypointSpine({ backgroundColor, foregroundColor, isFirstSto
 						styles.markerFavorite,
 						isFirstStop && styles.markerFirstStop,
 						isFirstStop && styles.markerFirstStopFavorite,
+						isDisabled && styles.markerDisabled,
+						isNextStop && styles.markerNext,
 					]}
 				/>
 			)}
@@ -81,6 +102,8 @@ export function PathWaypointSpine({ backgroundColor, foregroundColor, isFirstSto
 						styles.marker,
 						isFirstStop && styles.markerFirstStop,
 						isSelected && styles.markerSelected,
+						isDisabled && styles.markerDisabled,
+						isNextStop && styles.markerLastStopNext,
 						{ backgroundColor: foregroundColor },
 					]}
 				/>

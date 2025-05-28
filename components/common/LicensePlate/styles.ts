@@ -26,7 +26,6 @@ export const styles = () => {
         /* * */
         /* CONTAINER */
         container: {
-            flex: 1,
             flexDirection: 'row',
             gap: 2,
             alignItems: 'center',
@@ -38,8 +37,8 @@ export const styles = () => {
         /* * */
         /* COUNTRY */
         countryContainer: {
-            paddingRight: 5,
-            paddingLeft: 5,
+            paddingRight:2,
+            paddingLeft: 2,
         },
         countryText: {
             textAlign: 'center',

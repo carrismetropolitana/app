@@ -24,7 +24,7 @@ export default function HomeScreen() {
 			<ScrollView showsVerticalScrollIndicator={false} style={{ paddingTop: insets.top + 95 }}>
 				<FavoritesBar />
 				<View style={{ paddingHorizontal: 20 }}>
-					<Link href='/vehicle/44|12740'>
+					<Link href='/vehicle/44|12643'>
 					HEYYYYYYY</Link>
 					<WidgetCards />
 				</View>

@@ -11,6 +11,7 @@ import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
 import { TouchableOpacity, View } from 'react-native';
 
 import { styles } from './styles';
+import { theming } from '@/theme/Variables';
 
 /* * */
 
@@ -23,11 +24,12 @@ interface Props {
 	waypointData: Waypoint
 	hasBeenPassed?: boolean
 	isVehiclePage?: boolean
+	isNextStop?: boolean
 }
 
 /* * */
 
-export function PathWaypoint({ arrivals, isFirstStop, isLastStop, isSelected, waypointData, hasBeenPassed, isVehiclePage }: Props) {
+export function PathWaypoint({ arrivals, isFirstStop, isLastStop, isSelected, waypointData, hasBeenPassed, isVehiclePage, isNextStop }: Props) {
 	//
 
 	//
@@ -39,8 +41,8 @@ export function PathWaypoint({ arrivals, isFirstStop, isLastStop, isSelected, wa
 	const pathWaypointStyles = styles();
 	const defaultBackgroundColor = linesDetailContext.data.active_pattern?.color;
 	const defaultForegroundColor = linesDetailContext.data.active_pattern?.text_color;
-	const backgroundColor = hasBeenPassed ? '#808080' : defaultBackgroundColor; 
-	const foregroundColor = hasBeenPassed ? '#FFFFFF' : defaultForegroundColor;
+	const backgroundColor = hasBeenPassed ? theming.colorSystemText400 : defaultBackgroundColor;
+	const foregroundColor = hasBeenPassed ? theming.colorSystemText300 : defaultForegroundColor;
 
 	//
 	// B. Transform data
@@ -70,13 +72,16 @@ export function PathWaypoint({ arrivals, isFirstStop, isLastStop, isSelected, wa
 				]}
 			>
 				<PathWaypointSpine
-					backgroundColor={backgroundColor} 
+					backgroundColor={backgroundColor}
 					foregroundColor={foregroundColor}
 					isFirstStop={isFirstStop}
 					isLastStop={isLastStop}
 					isSelected={isSelected}
 					stopId={waypointData.stop_id}
 					stopSequence={waypointData.stop_sequence}
+					isDisabled={hasBeenPassed}
+					isNextStop={isNextStop}
+
 				/>
 				<View style={pathWaypointStyles.detailsWrapper}>
 					<PathWaypointHeader
@@ -86,7 +91,7 @@ export function PathWaypoint({ arrivals, isFirstStop, isLastStop, isSelected, wa
 						waypointData={waypointData}
 					/>
 
-					{isSelected  && operationalDayContext.flags.is_today_selected && (
+					{isSelected && operationalDayContext.flags.is_today_selected && (
 						<PathWaypointNextArrivals
 							realtimeArrivals={realtimeArrivals}
 							scheduledArrivals={scheduledArrivals}
