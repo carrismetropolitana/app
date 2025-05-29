@@ -62,6 +62,7 @@ export default function AddFavoriteStopScreen() {
 		setStopPatterns([]);
 		setSelectedStopId('');
 		setPatternNames({});
+		navigation.goBack();
 	};
 
 	//
@@ -231,7 +232,7 @@ export default function AddFavoriteStopScreen() {
 					<IconNotification color="#E64B23" size={24} />
 					<ListItem.Content>
 						<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-							<Text>Notificações Intiligentes</Text>
+							<Text>Ativar Notificações</Text>
 						</ListItem.Title>
 					</ListItem.Content>
 					<ListItem.Chevron />

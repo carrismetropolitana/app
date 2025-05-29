@@ -27,7 +27,8 @@ const styles = () => {
 		/* CONTAINER */
 
 		container: {
-			paddingBottom: 50
+			paddingBottom: 50,
+			backgroundColor: backgroundColor,
 		},
 
 		/* * */
@@ -42,9 +43,11 @@ const styles = () => {
 
 		userSection: {
 			alignItems: 'center',
-			flex: 1,
 			justifyContent: 'center',
 			paddingTop: 36,
+			paddingBottom: 20,
+			marginBottom: 20,
+			backgroundColor: backgroundColor,
 		},
 
 		/* * */
@@ -56,6 +59,7 @@ const styles = () => {
 			fontWeight: theming.fontWeightBold as '700',
 			alignSelf: 'flex-start',
 			paddingBottom: 10,
+			backgroundColor: backgroundColor,
 		},
 		checkbox: {
 			backgroundColor: backgroundColor,
@@ -64,6 +68,7 @@ const styles = () => {
 			color: fontColor,
 			fontSize: 14,
 			fontWeight: theming.fontWeightText as '500',
+			backgroundColor: backgroundColor,
 		}
 
 		/* * */

@@ -89,7 +89,7 @@ export default function ProfileEditScreen() {
 				<ButtonGroup buttons={buttons} containerStyle={{ backgroundColor: backgroundColor, borderRadius: 30, marginTop: -20, width: '25%' }} />
 				<View style={{ flexDirection: 'row', marginBottom: 20, marginTop: 20 }}>
 					{accentColors.map((item, index) => (
-						<CheckBox key={index} checked={accentColor === item} checkedIcon={<IconCircle color={item} fill="#FFFFFF" size={32} />} onPress={() => setAccentColor(item)} title="" uncheckedIcon={<IconCircleFilled color="#FFFFFF" fill={item} size={32} />} />))}
+						<CheckBox containerStyle={{ backgroundColor: backgroundColor }} key={index} checked={accentColor === item} checkedIcon={<IconCircle color={item} fill="#FFFFFF" size={32} />} onPress={() => setAccentColor(item)} title="" uncheckedIcon={<IconCircleFilled color="#FFFFFF" fill={item} size={32} />} />))}
 				</View>
 			</View>
 			<View style={profileEditModalStyles.sectionWrapper}>

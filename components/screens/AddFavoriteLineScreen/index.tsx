@@ -89,6 +89,7 @@ export default function AddFavoriteLineScreen() {
 
 	const clearScreen = () => {
 		linesDetailContext.actions.resetLineId();
+		navigation.goBack();
 	};
 
 	//
@@ -107,7 +108,7 @@ export default function AddFavoriteLineScreen() {
 							<ListItem>
 								<IconPlayerPlayFilled color="#3D85C6" fill="#3D85C6" size={24} />
 								<ListItem.Content>
-									<ListItem.Title style={addFavoriteLineStyles.listTitle}>Ver Vídeo Explicativo</ListItem.Title>
+									<ListItem.Title style={addFavoriteLineStyles.listTitle}><Text>Ver Vídeo Explicativo</Text></ListItem.Title>
 								</ListItem.Content>
 								<ListItem.Chevron />
 							</ListItem>
@@ -124,7 +125,7 @@ export default function AddFavoriteLineScreen() {
 								<IconArrowLoopRight color="#C61D23" size={24} />
 								<ListItem.Content>
 									<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-										{linesDetailContext.data.line.long_name}
+										<Text>{linesDetailContext.data.line.long_name}</Text>
 									</ListItem.Title>
 								</ListItem.Content>
 								<IconX color="#9696A0" onPress={linesDetailContext.actions.resetLineId} size={24} />
@@ -134,7 +135,7 @@ export default function AddFavoriteLineScreen() {
 							<IconSearch color="#9696A0" size={24} />
 							<ListItem.Content>
 								<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-									Alterar Linha Selecionada
+									<Text>Alterar Linha Selecionada</Text>
 								</ListItem.Title>
 							</ListItem.Content>
 							<ListItem.Chevron />
@@ -174,7 +175,7 @@ export default function AddFavoriteLineScreen() {
 												<IconArrowRight size={10} />
 												<ListItem.Content>
 													<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-														{patternNames[item] || 'Sem destino'}
+														<Text>{patternNames[item] || 'Sem destino'}</Text>
 													</ListItem.Title>
 												</ListItem.Content>
 												{isFavorite ? (
@@ -198,7 +199,7 @@ export default function AddFavoriteLineScreen() {
 								<ListItem>
 									<ListItem.Content>
 										<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-											Selecione uma linha para ver os destinos.
+											<Text>Selecione uma linha para ver os destinos.</Text>
 										</ListItem.Title>
 									</ListItem.Content>
 								</ListItem>
@@ -214,7 +215,7 @@ export default function AddFavoriteLineScreen() {
 							<IconNotification color="#E64B23" size={24} />
 							<ListItem.Content>
 								<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-									Notificações Inteligentes
+									<Text>Ativar Notificações</Text>
 								</ListItem.Title>
 							</ListItem.Content>
 							<ListItem.Chevron />

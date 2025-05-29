@@ -128,7 +128,8 @@ export default function ProfileScreen() {
           </ListItem.Content>
           <IconCirclePlusFilled size={24} fill="#3CB43C" color="#FFFFFF" />
         </ListItem>
-      </Link> <Link href="/addFavoriteLine" asChild>
+      </Link> 
+      <Link href="/addFavoriteLine" asChild>
         <ListItem>
           <IconArrowLoopRight color="#C61D23" size={24} />
           <ListItem.Content>
