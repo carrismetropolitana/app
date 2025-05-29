@@ -34,7 +34,6 @@ export default function StopDetailLineGoTrough() {
 
 	//
 	// B. Render components
-
 	return (
 		<View style={stopDetailLineGoTroughStyles.sectionWrapper}>
 			<Text style={stopDetailLineGoTroughStyles.sectionHeading}>{t('second_heading')}</Text>

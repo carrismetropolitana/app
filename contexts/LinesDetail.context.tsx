@@ -176,10 +176,6 @@ export const LinesDetailContextProvider = ({ children, lineIdParams }: LinesDeta
 		})();
 	}, [dataLineState, stopsContext.data.stops]);
 
-	/**
-	 * TASK: Fetch shape data for the active pattern.
-	 * WHEN: The `dataActivePatternState` changes.
-	 */
 	useEffect(() => {
 		if (!dataActivePatternState) return;
 		(async () => {

@@ -132,7 +132,6 @@ export const OperationalDayContextProvider = ({ children }) => {
 	};
 
 	const updateSelectedDayToLessOneDay = () => {
-		console.log('yoooo');
 		const selectedDayPlusOneDay = DateTime.fromFormat(selectedDay || todayDateString, 'yyyyMMdd').minus({ days: 1 }).toFormat('yyyyMMdd');
 		setSelectedDay(selectedDayPlusOneDay);
 	};

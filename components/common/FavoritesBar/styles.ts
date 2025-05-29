@@ -14,7 +14,7 @@ export const styles = () => {
 			width: '100%',
 			borderBottomWidth: 1,
 			borderBottomColor: theming.colorSystemBorder100,
-
+			left:0 ,
 		},
 
 		/* * */

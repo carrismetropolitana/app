@@ -120,7 +120,7 @@ export default function StopDetailNextArrivals({ description, href, title }: Pro
 			{title && <Text style={stopDetailNextArrivals.sectionHeading}>{t('heading')}</Text>}
 			<>
 				{arrivalsToShow.map(tripData => (
-					<Link key={tripData.trip_id} href={`/line/${tripData.line_id}`} style={{ width: '100%' }}>
+					<Link key={tripData.trip_id} href={`/vehicle/${tripData.vehicle_id}`} style={{ width: '100%' }}>
 						<ArrivalRow key={tripData.trip_id} tripData={tripData} />
 					</Link>
 				))}
@@ -156,7 +156,7 @@ export default function StopDetailNextArrivals({ description, href, title }: Pro
 					</ListItem>
 				)}
 			</>
-			{ description && <Text style={stopDetailNextArrivals.upcomingCirculationsDescription}>{t('description')}</Text>}
+			{description && <Text style={stopDetailNextArrivals.upcomingCirculationsDescription}>{t('description')}</Text>}
 		</View>
 	);
 

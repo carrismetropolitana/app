@@ -118,8 +118,9 @@ export function VehiclesDetailPathMap({ hasToolbar }: Props) {
 				<MapViewStyleVehicles
 					showCounter="always"
 					vehiclesData={activeVehiclesFC ?? undefined}
-					onVehiclePress={(idFromChild) => console.log('Inline handler in VehiclesDetailPathMap DIRECT LOG, ID:', idFromChild)}
-				/>
+					onVehiclePress={(id) => {
+						console.log('Vehicle pressed, ID:', id);
+					}} />
 			</MapView>
 		</View>
 	);

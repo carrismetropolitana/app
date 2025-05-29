@@ -44,9 +44,10 @@ export const styles = () => {
 		busInfoSection: {
 			display: 'flex',
 			flexDirection: 'row',
-			gap: 10,
+			flexWrap: 'wrap',
+			gap: 20,
 			justifyContent: 'center',
-			padding: 10,
+			padding: 20,
 		},
 		accessibilitySection: {
 			flexDirection: 'row',
@@ -98,11 +99,11 @@ export const styles = () => {
 			height: 125,
 			marginBottom: 60,
 		},
-		occupancyFilled:{
+		occupancyFilled: {
 			backgroundColor: theming.colorRealtime100,
 			borderRadius: 999,
 		},
-		occupancyEmpty:{
+		occupancyEmpty: {
 			backgroundColor: theming.colorSystemBorder200,
 			borderRadius: 999,
 		}

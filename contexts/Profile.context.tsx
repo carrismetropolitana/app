@@ -271,9 +271,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 					console.log('Image already exists in history, refetching...');
 				}
 			} while (image.url && personaHistory.includes(image.url));
-
-			console.log(image);
-
 			if (image.url) {
 				setDataPersonaImageState(image.url);
 				setDataProfileState((prevState) => {

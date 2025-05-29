@@ -19,7 +19,7 @@ interface Props {
 	presentBeforeId?: string
 	showCounter?: 'always' | 'positive'
 	vehiclesData?: GeoJSON.FeatureCollection
-	onVehiclePress?: (vehicleId: string) => void
+	onVehiclePress: (id: string) => void
 }
 
 /* * */
@@ -36,15 +36,13 @@ export function MapViewStyleVehicles({ showCounter, vehiclesData = baseGeoJsonFe
 
 	//
 	// B. Render components
-	
+
 	return (
 		<>
 			<ShapeSource id="default-source-vehicles" shape={vehiclesData}
 				onPress={(e) => {
-					const feature = e.features?.[0];
-					if (feature && onVehiclePress) {
-						onVehiclePress(feature.properties?.id ?? '');
-					}
+					const id = e.features?.[0]?.properties?.id || '';
+					onVehiclePress(id);
 				}}>
 				<SymbolLayer
 					id="default-layer-vehicles-delay"
@@ -114,7 +112,7 @@ export function MapViewStyleVehicles({ showCounter, vehiclesData = baseGeoJsonFe
 				</View>
 			)}
 
-			{showCounter === 'always' && vehiclesData.features.length > 0  && (
+			{showCounter === 'always' && vehiclesData.features.length > 0 && (
 
 				<View style={vehiclesData.features.length !== 0 ? counterStyles.vehiclesCounter : counterStyles.zeroCount}>
 					<LiveIcon />

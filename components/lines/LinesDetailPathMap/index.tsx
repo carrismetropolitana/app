@@ -10,6 +10,7 @@ import { useVehiclesContext } from '@/contexts/Vehicles.context';
 import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
 import { getCenterAndZoom } from '@/utils/map.utils';
 import { Camera } from '@maplibre/maplibre-react-native';
+import { router } from 'expo-router';
 import React, { useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
 
@@ -116,7 +117,9 @@ export function LinesDetailPathMap({ hasToolbar }: Props) {
 					waypointsData={activePathFC ?? undefined}
 				/>
 				<MapViewStyleActiveStops stopsData={activeStopFC ?? undefined} />
-				<MapViewStyleVehicles showCounter="always" vehiclesData={activeVehiclesFC ?? undefined} />
+				<MapViewStyleVehicles showCounter="always" vehiclesData={activeVehiclesFC ?? undefined} onVehiclePress={(id) => {
+						router.push(`/vehicle/${id}`);
+					}} />
 			</MapView>
 		</View>
 	);
