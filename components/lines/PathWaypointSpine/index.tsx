@@ -8,6 +8,7 @@ import { IconArrowBadgeDown, IconArrowDown, IconChevronDown, IconHeartFilled } f
 import { Text, View } from 'react-native';
 
 import { styles } from './styles';
+import { theming } from '@/theme/Variables';
 
 /* * */
 
@@ -41,6 +42,7 @@ export function PathWaypointSpine({ backgroundColor, foregroundColor, isFirstSto
 	//
 	// C. Render components
 
+
 	return (
 		<View
 			style={[
@@ -53,7 +55,6 @@ export function PathWaypointSpine({ backgroundColor, foregroundColor, isFirstSto
 				backgroundColor && { backgroundColor },
 			]}
 		>
-
 			{debugContext.flags.is_debug_mode && (
 				<Text
 					style={[
@@ -64,26 +65,39 @@ export function PathWaypointSpine({ backgroundColor, foregroundColor, isFirstSto
 						{ color: foregroundColor },
 						isDisabled && styles.markerDisabled,
 						isNextStop && styles.markerFirstStopNext,
-
 					]}
 				>
 					{stopSequence}
 				</Text>
 			)}
 
-			{!debugContext.flags.is_debug_mode && isLastStop && isFirstStop && (
-				<IconChevronDown
-					color={foregroundColor}
-					size={16}
-					style={[
-						styles.marker,
-						isFirstStop && styles.markerFirstStop,
-						isDisabled && styles.markerDisabled,
-					]}
-				/>
+			{!debugContext.flags.is_debug_mode && isNextStop && (
+				<>
+					{!isFirstStop && <View style={{
+						position: 'absolute',
+						top: -10,
+						width: 16,
+						alignSelf: 'center',
+						height: 20,
+						backgroundColor: 'rgb(202, 202, 202)',
+						elevation: 1,
+					}} />
+					}
+					<View style={[
+						styles.topChevron,
+						!isFirstStop && { transform: [{ translateY: -18 }] },
+					]}>
+
+						<IconChevronDown
+							color={'#FFFFFF'}
+							size={18}
+							style={{ elevation: 4, alignSelf: 'center' }}
+						/>
+					</View>
+				</>
 			)}
 
-			{!debugContext.flags.is_debug_mode && isFavoriteStop && (
+			{!debugContext.flags.is_debug_mode && isFavoriteStop && (!isFirstStop || !isNextStop) && (
 				<IconHeartFilled
 					color={foregroundColor}
 					style={[
@@ -92,18 +106,20 @@ export function PathWaypointSpine({ backgroundColor, foregroundColor, isFirstSto
 						isFirstStop && styles.markerFirstStop,
 						isFirstStop && styles.markerFirstStopFavorite,
 						isDisabled && styles.markerDisabled,
-						isNextStop && styles.markerNext,
+						(isLastStop && !isFirstStop) ? styles.markerLastStopNext : null,
+						isNextStop && !isFirstStop && !isLastStop && styles.markerMiddleNext,
 					]}
 				/>
 			)}
-			{!debugContext.flags.is_debug_mode && !isFavoriteStop && (
+			{!debugContext.flags.is_debug_mode && !isFavoriteStop && (!isFirstStop || !isNextStop) && (
 				<View
 					style={[
 						styles.marker,
 						isFirstStop && styles.markerFirstStop,
 						isSelected && styles.markerSelected,
 						isDisabled && styles.markerDisabled,
-						isNextStop && styles.markerLastStopNext,
+						(isLastStop && !isFirstStop) && styles.markerLastStopNext,
+						isNextStop && !isFirstStop && !isLastStop && styles.markerMiddleNext,
 						{ backgroundColor: foregroundColor },
 					]}
 				/>

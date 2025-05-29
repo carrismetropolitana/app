@@ -104,15 +104,15 @@ export function VehiclesDetailPathList() {
 				const currentVehicleStopSequence = linesDetailContext.data.active_waypoint?.stop_sequence;
 				const thisStopSequence = waypoint.stop_sequence;
 				const hasBeenPassed = currentVehicleStopSequence !== undefined && thisStopSequence < currentVehicleStopSequence;
-				const isNextStop = currentVehicleStopSequence !== undefined && thisStopSequence === currentVehicleStopSequence + 1 || thisStopSequence === currentVehicleStopSequence;
+				const isNextStop = currentVehicleStopSequence !== undefined && thisStopSequence === currentVehicleStopSequence;
 
 
-				console.log(
-					`[VDPL] Waypoint: ${waypoint.stop_id} (Seq: ${thisStopSequence}), ` +
-					`CurrentVehicleSeq: ${currentVehicleStopSequence}, ` +
-					`HasBeenPassed: ${hasBeenPassed}, ` +
-					`IsNextStop: ${isNextStop}`
-				);
+				// console.log(
+				// 	`[VDPL] Waypoint: ${waypoint.stop_id} (Seq: ${thisStopSequence}), ` +
+				// 	`CurrentVehicleSeq: ${currentVehicleStopSequence}, ` +
+				// 	`HasBeenPassed: ${hasBeenPassed}, ` +
+				// 	`IsNextStop: ${isNextStop}`
+				// );
 
 				return (
 					<PathWaypoint

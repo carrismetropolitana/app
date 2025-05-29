@@ -36,8 +36,7 @@ export function MapViewStyleVehicles({ showCounter, vehiclesData = baseGeoJsonFe
 
 	//
 	// B. Render components
-			console.log(vehiclesData.features.length , showCounter);
-
+	
 	return (
 		<>
 			<ShapeSource id="default-source-vehicles" shape={vehiclesData}

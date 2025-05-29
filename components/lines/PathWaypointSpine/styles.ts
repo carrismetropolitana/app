@@ -2,6 +2,10 @@ import { theming } from '@/theme/Variables';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
+	topChevron:{
+		borderRadius: 999, 
+		backgroundColor: '#000000'
+	},
 	container: {
 		alignItems: 'center',
 		flexDirection: 'column',
@@ -61,7 +65,7 @@ export const styles = StyleSheet.create({
 		aspectRatio: 1,
 		borderRadius: 999,
 		margin: 3,
-		transform: [{ translateY: -20 }],
+		transform: [{ translateY: 0 }],
 		backgroundColor: '#000000',
 	},
 	markerFavorite: {
