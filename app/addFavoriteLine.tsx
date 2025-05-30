@@ -6,7 +6,6 @@ import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
-import { Platform } from 'react-native';
 
 /* * */
 
@@ -17,15 +16,15 @@ export default function AddFavoriteLine() {
 	// A. Setup variables
 
 	const navigation = useNavigation();
-	  const themeContext = useThemeContext();
+	const themeContext = useThemeContext();
 
-		useEffect(() => {
+	useEffect(() => {
 		navigation.setOptions({
-			headerTitle: '',
 			headerBackTitle: 'Linha Favorita',
-			 headerStyle: {
+			headerStyle: {
 				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
 			},
+			headerTitle: '',
 		});
 	}, [navigation]);
 

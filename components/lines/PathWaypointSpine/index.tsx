@@ -1,23 +1,20 @@
-'use client';
-
 /* * */
 
 import { useDebugContext } from '@/contexts/Debug.context';
 import { useProfileContext } from '@/contexts/Profile.context';
-import { IconArrowBadgeDown, IconArrowDown, IconChevronDown, IconHeartFilled } from '@tabler/icons-react-native';
+import { IconChevronDown, IconHeartFilled } from '@tabler/icons-react-native';
 import { Text, View } from 'react-native';
 
 import { styles } from './styles';
-import { theming } from '@/theme/Variables';
 
 /* * */
 
 interface Props {
 	backgroundColor?: string
 	foregroundColor?: string
+	isDisabled?: boolean
 	isFirstStop?: boolean
 	isLastStop?: boolean
-	isDisabled?: boolean
 	isNextStop?: boolean
 	isSelected: boolean
 	stopId: string
@@ -26,7 +23,7 @@ interface Props {
 
 /* * */
 
-export function PathWaypointSpine({ backgroundColor, foregroundColor, isFirstStop, isLastStop, isSelected, stopId, stopSequence, isDisabled, isNextStop }: Props) {
+export function PathWaypointSpine({ backgroundColor, foregroundColor, isDisabled, isFirstStop, isLastStop, isNextStop, isSelected, stopId, stopSequence }: Props) {
 	//
 
 	//
@@ -41,7 +38,6 @@ export function PathWaypointSpine({ backgroundColor, foregroundColor, isFirstSto
 
 	//
 	// C. Render components
-
 
 	return (
 		<View
@@ -73,25 +69,28 @@ export function PathWaypointSpine({ backgroundColor, foregroundColor, isFirstSto
 
 			{!debugContext.flags.is_debug_mode && isNextStop && (
 				<>
-					{!isFirstStop && <View style={{
-						position: 'absolute',
-						top: -10,
-						width: 16,
-						alignSelf: 'center',
-						height: 20,
-						backgroundColor: 'rgb(202, 202, 202)',
-						elevation: 1,
-					}} />
-					}
+					{!isFirstStop && (
+						<View style={{
+							alignSelf: 'center',
+							backgroundColor: 'rgb(202, 202, 202)',
+							elevation: 1,
+							height: 20,
+							position: 'absolute',
+							top: -10,
+							width: 16,
+						}}
+						/>
+					)}
 					<View style={[
 						styles.topChevron,
 						!isFirstStop && { transform: [{ translateY: -18 }] },
-					]}>
+					]}
+					>
 
 						<IconChevronDown
-							color={'#FFFFFF'}
+							color="#FFFFFF"
 							size={18}
-							style={{ elevation: 4, alignSelf: 'center' }}
+							style={{ alignSelf: 'center', elevation: 4 }}
 						/>
 					</View>
 				</>

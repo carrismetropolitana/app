@@ -25,7 +25,7 @@ const styles = () => {
 		},
 		container: {
 			backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
-			paddingBottom: 50
+			paddingBottom: 50,
 		},
 		deleteButton: {
 			backgroundColor: theming.colorAlerts3,

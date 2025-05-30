@@ -8,28 +8,28 @@ import { PathWaypointSpine } from '@/components/lines/PathWaypointSpine';
 import { PathWaypointTimetable } from '@/components/lines/PathWaypointTimetable';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
+import { theming } from '@/theme/Variables';
 import { TouchableOpacity, View } from 'react-native';
 
 import { styles } from './styles';
-import { theming } from '@/theme/Variables';
 
 /* * */
 
 interface Props {
 	arrivals: { type: 'realtime' | 'scheduled', unixTs: number }[]
+	hasBeenPassed?: boolean
 	id?: string
 	isFirstStop?: boolean
 	isLastStop?: boolean
-	isSelected: boolean
-	waypointData: Waypoint
-	hasBeenPassed?: boolean
-	isVehiclePage?: boolean
 	isNextStop?: boolean
+	isSelected: boolean
+	isVehiclePage?: boolean
+	waypointData: Waypoint
 }
 
 /* * */
 
-export function PathWaypoint({ arrivals, isFirstStop, isLastStop, isSelected, waypointData, hasBeenPassed, isVehiclePage, isNextStop }: Props) {
+export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isLastStop, isNextStop, isSelected, isVehiclePage, waypointData }: Props) {
 	//
 
 	//
@@ -74,13 +74,13 @@ export function PathWaypoint({ arrivals, isFirstStop, isLastStop, isSelected, wa
 				<PathWaypointSpine
 					backgroundColor={backgroundColor}
 					foregroundColor={foregroundColor}
+					isDisabled={hasBeenPassed}
 					isFirstStop={isFirstStop}
 					isLastStop={isLastStop}
+					isNextStop={isNextStop}
 					isSelected={isSelected}
 					stopId={waypointData.stop_id}
 					stopSequence={waypointData.stop_sequence}
-					isDisabled={hasBeenPassed}
-					isNextStop={isNextStop}
 
 				/>
 				<View style={pathWaypointStyles.detailsWrapper}>

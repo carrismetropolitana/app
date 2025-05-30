@@ -117,9 +117,13 @@ export function LinesDetailPathMap({ hasToolbar }: Props) {
 					waypointsData={activePathFC ?? undefined}
 				/>
 				<MapViewStyleActiveStops stopsData={activeStopFC ?? undefined} />
-				<MapViewStyleVehicles showCounter="always" vehiclesData={activeVehiclesFC ?? undefined} onVehiclePress={(id) => {
+				<MapViewStyleVehicles
+					showCounter="always"
+					vehiclesData={activeVehiclesFC ?? undefined}
+					onVehiclePress={(id) => {
 						router.push(`/vehicle/${id}`);
-					}} />
+					}}
+				/>
 			</MapView>
 		</View>
 	);

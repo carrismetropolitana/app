@@ -27,7 +27,7 @@ export function Header() {
 
 	const animation = theme.mode === 'light' ? zumeLight : zumeDark;
 	const headerBackground = theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100;
-	
+
 	//
 	// B. Render Components
 
@@ -55,7 +55,7 @@ export function Header() {
 				loop
 			/>
 			<Link href="/profile">
-				<ProfileImage color={profileContext.data.accent_color || ''} size={50} type="url" backgroundColor={profileContext.data.accent_color ? dimAvatarBackground(profileContext.data.accent_color) : 'rgba(253,183,26,0.4))'} />
+				<ProfileImage backgroundColor={profileContext.data.accent_color ? dimAvatarBackground(profileContext.data.accent_color) : 'rgba(253,183,26,0.4))'} color={profileContext.data.accent_color || ''} size={50} type="url" />
 			</Link>
 		</View>
 	);

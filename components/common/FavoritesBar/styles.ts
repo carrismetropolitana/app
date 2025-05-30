@@ -9,20 +9,20 @@ export const styles = () => {
 	return StyleSheet.create({
 		/* CONTAINER */
 		container: {
+			borderBottomColor: theming.colorSystemBorder100,
+			borderBottomWidth: 1,
 			height: 65,
+			left: 0,
 			marginBottom: 25,
 			width: '100%',
-			borderBottomWidth: 1,
-			borderBottomColor: theming.colorSystemBorder100,
-			left:0 ,
 		},
 
 		/* * */
 		/* ITEM */
 
 		item: {
-			paddingTop: 10,
 			paddingLeft: 35,
+			paddingTop: 10,
 		},
 	});
 };

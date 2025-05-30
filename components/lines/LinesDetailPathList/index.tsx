@@ -109,12 +109,12 @@ export function LinesDetailPathList() {
 					<PathWaypoint
 						key={`${waypoint.stop_id}-${waypoint.stop_sequence}`}
 						arrivals={preparedRealtimeData?.get(`${waypoint.stop_id}-${waypoint.stop_sequence}`) || []}
+						hasBeenPassed={hasBeenPassed}
 						id={`waypoint-${waypoint.stop_id}-${waypoint.stop_sequence}`}
 						isFirstStop={index === 0}
 						isLastStop={index === sortedStops.length - 1}
 						isSelected={linesDetailContext.data.active_waypoint?.stop_id === waypoint.stop_id && linesDetailContext.data.active_waypoint?.stop_sequence === waypoint.stop_sequence}
 						waypointData={waypoint}
-						hasBeenPassed={hasBeenPassed}
 					/>
 				);
 			})}

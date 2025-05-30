@@ -17,9 +17,9 @@ export const styles = () => {
 		alignItems: 'flex-start',
 		display: 'flex',
 		flexDirection: 'column',
+		flexWrap: 'wrap',
 		gap: theming.sizeSpacing5,
 		justifyContent: 'flex-start',
-		flexWrap: 'wrap',	
 	} as const;
 
 	return StyleSheet.create({
@@ -35,7 +35,7 @@ export const styles = () => {
 		// /* CONTAINER / MODIFIERS */
 		lg: {
 			...container,
-			fontSize: 22,},
+			fontSize: 22 },
 		md: {
 			...container,
 			fontSize: 16,

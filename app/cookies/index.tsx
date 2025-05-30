@@ -4,16 +4,16 @@ import { Section } from '@/components/common/layout/Section';
 import { Surface } from '@/components/common/layout/Surface';
 import { useConsentContext } from '@/contexts/Consent.context';
 import { useThemeContext } from '@/contexts/Theme.context';
+import { theming } from '@/theme/Variables';
 import { Text } from '@rn-vui/themed';
+import { Button, Dialog } from '@rn-vui/themed';
+import { IconChevronLeft } from '@tabler/icons-react-native';
+import { useNavigation } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
-import { Dialog, Button } from '@rn-vui/themed';
-import { useEffect, useState } from 'react';
 
 import styles from './styles';
-import { useNavigation } from 'expo-router';
-import { theming } from '@/theme/Variables';
-import { IconChevronLeft } from '@tabler/icons-react-native';
 
 /* * */
 
@@ -32,19 +32,19 @@ export default function Component() {
 	const fontColor = isLight ? theming.colorSystemText100 : theming.colorSystemText300;
 
 	const [dialogVisible, setDialogVisible] = useState(false);
-	const [onConfirmCallback, setOnConfirmCallback] = useState<() => void>(() => () => { });
+	const [onConfirmCallback, setOnConfirmCallback] = useState<() => void>(() => () => {});
 
 	useEffect(() => {
 		navigation.setOptions({
-			headerTitle: 'Politica de Privacidade e Cookies',
-			headerTintColor: backgroundColor,
-			headerStyle: { backgroundColor: backgroundColor },
-			headerTitleStyle: { color: fontColor },
 			headerLeft: () => (
 				<TouchableOpacity onPress={() => navigation.goBack()} style={{ marginLeft: 12 }}>
-					<IconChevronLeft size={24} color={fontColor} />
+					<IconChevronLeft color={fontColor} size={24} />
 				</TouchableOpacity>
 			),
+			headerStyle: { backgroundColor: backgroundColor },
+			headerTintColor: backgroundColor,
+			headerTitle: 'Politica de Privacidade e Cookies',
+			headerTitleStyle: { color: fontColor },
 		});
 	}, [themeContext.theme.mode]);
 
@@ -95,14 +95,14 @@ export default function Component() {
 						</View>
 						<View style={styles.section}>
 							<Text style={styles.title}>{t('sections.question_5.title')}</Text>
-							<View style={{ borderWidth: 1, borderColor: '#ccc', borderRadius: 4, overflow: 'hidden' }}>
-								<View style={{ flexDirection: 'row', backgroundColor: '#f0f0f0' }}>
+							<View style={{ borderColor: '#ccc', borderRadius: 4, borderWidth: 1, overflow: 'hidden' }}>
+								<View style={{ backgroundColor: '#f0f0f0', flexDirection: 'row' }}>
 									<Text style={{ flex: 1, fontWeight: 'bold', padding: 8 }}>{t('sections.question_5.table.header.col_1')}</Text>
 									<Text style={{ flex: 1, fontWeight: 'bold', padding: 8 }}>{t('sections.question_5.table.header.col_2')}</Text>
 									<Text style={{ flex: 1, fontWeight: 'bold', padding: 8 }}>{t('sections.question_5.table.header.col_3')}</Text>
 									<Text style={{ flex: 1, fontWeight: 'bold', padding: 8 }}>{t('sections.question_5.table.header.col_4')}</Text>
 								</View>
-								<View style={{ flexDirection: 'row', borderTopWidth: 1, borderColor: '#ccc' }}>
+								<View style={{ borderColor: '#ccc', borderTopWidth: 1, flexDirection: 'row' }}>
 									<Text style={{ flex: 1, padding: 8 }}>{t('sections.question_5.table.rows.2.col_1')}</Text>
 									<Text style={{ flex: 1, padding: 8 }}>{t('sections.question_5.table.rows.2.col_2')}</Text>
 									<Text style={{ flex: 1, padding: 8 }}>{t('sections.question_5.table.rows.2.col_3')}</Text>
@@ -116,9 +116,7 @@ export default function Component() {
 							<View style={styles.authorizationOptions}>
 
 								{consentContext.data.enabled_functional ? (
-									<Button color="green" onPress={() => handleShowConfirmDialog(() => consentContext.actions.disable(['functional']))} title={t('sections.question_6.options.functional.disable')}>
-
-									</Button>
+									<Button color="green" onPress={() => handleShowConfirmDialog(() => consentContext.actions.disable(['functional']))} title={t('sections.question_6.options.functional.disable')} />
 								) : (
 									<Button onPress={() => consentContext.actions.enable(['functional'])}>
 										{t('sections.question_6.options.functional.enable')}
@@ -126,13 +124,9 @@ export default function Component() {
 								)}
 
 								{consentContext.data.enabled_analytics ? (
-									<Button color="green" onPress={() => handleShowConfirmDialog(() => consentContext.actions.disable(['analytics']))} title={t('sections.question_6.options.analytics.disable')}>
-
-									</Button>
+									<Button color="green" onPress={() => handleShowConfirmDialog(() => consentContext.actions.disable(['analytics']))} title={t('sections.question_6.options.analytics.disable')} />
 								) : (
-									<Button onPress={() => consentContext.actions.enable(['analytics'])} title={t('sections.question_6.options.analytics.enable')}>
-
-									</Button>
+									<Button onPress={() => consentContext.actions.enable(['analytics'])} title={t('sections.question_6.options.analytics.enable')} />
 								)}
 
 							</View>
@@ -155,11 +149,14 @@ export default function Component() {
 			>
 				<Dialog.Title>{t('sections.question_6.refuse_modal.title')}</Dialog.Title>
 				<Text>{t('sections.question_6.refuse_modal.description')}</Text>
-				<Dialog.Button title={t('sections.question_6.refuse_modal.confirm')} onPress={() => {
-					onConfirmCallback();
-					setDialogVisible(false);
-				}} />
-				<Dialog.Button title={t('sections.question_6.refuse_modal.cancel')} onPress={() => setDialogVisible(false)} />
+				<Dialog.Button
+					title={t('sections.question_6.refuse_modal.confirm')}
+					onPress={() => {
+						onConfirmCallback();
+						setDialogVisible(false);
+					}}
+				/>
+				<Dialog.Button onPress={() => setDialogVisible(false)} title={t('sections.question_6.refuse_modal.cancel')} />
 			</Dialog>
 		</ScrollView>
 	);

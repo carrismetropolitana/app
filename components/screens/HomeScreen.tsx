@@ -1,14 +1,14 @@
 import FavoritesBar from '@/components/common/FavoritesBar';
 import { Header } from '@/components/common/layout/Header';
 import { useThemeContext } from '@/contexts/Theme.context';
+import { theming } from '@/theme/Variables';
+import { Button } from '@rn-vui/themed';
+import { router } from 'expo-router';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { WidgetCards } from '../widgets/WidgetCards';
-import { Button } from '@rn-vui/themed';
-import { theming } from '@/theme/Variables';
-import { Link, router } from 'expo-router';
 
 export default function HomeScreen() {
 	const themeContext = useThemeContext();
@@ -27,7 +27,7 @@ export default function HomeScreen() {
 					<WidgetCards />
 				</View>
 				{/* <Link href='/profile' asChild> */}
-					<Button onPress={() => router.push('/profile')} buttonStyle={{ borderRadius: 999, flexDirection: 'row', width: '30%', alignSelf: 'center', backgroundColor: buttonBackgroundColor, marginBottom: 20 }} titleStyle={{ color: titleColor, fontWeight: theming.fontWeightSemibold as '600', fontSize: theming.fontSizeMuted }} title={'Personalizar'} containerStyle={{ backgroundColor: backgroundColor, paddingTop: 10 }} />
+				<Button buttonStyle={{ alignSelf: 'center', backgroundColor: buttonBackgroundColor, borderRadius: 999, flexDirection: 'row', marginBottom: 20, width: '30%' }} containerStyle={{ backgroundColor: backgroundColor, paddingTop: 10 }} onPress={() => router.push('/profile')} title="Personalizar" titleStyle={{ color: titleColor, fontSize: theming.fontSizeMuted, fontWeight: theming.fontWeightSemibold as '600' }} />
 				{/* </Link> */}
 			</ScrollView>
 		</View>

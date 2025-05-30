@@ -49,15 +49,6 @@
 		"**/components/**/*.css": "${dirname} (${extname})",
 		"**/components/**/*.js": "${dirname} (${extname})",
 		"**/components/**/*.tsx": "${dirname} (${extname})"
-	},
-	"[typescriptreact]": {
-		"editor.defaultFormatter": "vscode.typescript-language-features"
-	},
-	"[typescript]": {
-		"editor.defaultFormatter": "vscode.typescript-language-features"
-	},
-	"[json]": {
-		"editor.defaultFormatter": "vscode.json-language-features"
 	}
 
 }

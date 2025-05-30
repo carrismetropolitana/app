@@ -1,12 +1,12 @@
 /* * */
 
 import { LiveIcon } from '@/components/common/LiveIcon';
+import { NoVehicleIcon } from '@/components/common/NoVehicleIcon';
 import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
 import { ShapeSource, SymbolLayer } from '@maplibre/maplibre-react-native';
 import { Text, View } from 'react-native';
 
 import { styles } from './styles';
-import { NoVehicleIcon } from '@/components/common/NoVehicleIcon';
 
 /* * */
 
@@ -16,10 +16,10 @@ export const MapViewStyleVehiclesInteractiveLayerId = 'default-layer-vehicles-re
 /* * */
 
 interface Props {
+	onVehiclePress: (id: string) => void
 	presentBeforeId?: string
 	showCounter?: 'always' | 'positive'
 	vehiclesData?: GeoJSON.FeatureCollection
-	onVehiclePress: (id: string) => void
 }
 
 /* * */
@@ -28,7 +28,7 @@ const baseGeoJsonFeatureCollection = getBaseGeoJsonFeatureCollection();
 
 /* * */
 
-export function MapViewStyleVehicles({ showCounter, vehiclesData = baseGeoJsonFeatureCollection, onVehiclePress }: Props) {
+export function MapViewStyleVehicles({ onVehiclePress, showCounter, vehiclesData = baseGeoJsonFeatureCollection }: Props) {
 	//
 	// A. Setup variables
 
@@ -39,11 +39,14 @@ export function MapViewStyleVehicles({ showCounter, vehiclesData = baseGeoJsonFe
 
 	return (
 		<>
-			<ShapeSource id="default-source-vehicles" shape={vehiclesData}
+			<ShapeSource
+				id="default-source-vehicles"
+				shape={vehiclesData}
 				onPress={(e) => {
 					const id = e.features?.[0]?.properties?.id || '';
 					onVehiclePress(id);
-				}}>
+				}}
+			>
 				<SymbolLayer
 					id="default-layer-vehicles-delay"
 					sourceID="default-source-vehicles"
@@ -102,7 +105,6 @@ export function MapViewStyleVehicles({ showCounter, vehiclesData = baseGeoJsonFe
 				/>
 			</ShapeSource>
 
-
 			{vehiclesData.features.length === 0 && showCounter && (
 				<View style={vehiclesData.features.length !== 0 ? counterStyles.vehiclesCounter : counterStyles.zeroCount}>
 					<NoVehicleIcon />
@@ -128,7 +130,6 @@ export function MapViewStyleVehicles({ showCounter, vehiclesData = baseGeoJsonFe
 					<Text style={counterStyles.text}> {vehiclesData.features.length} veículos em circulação </Text>
 				</View>
 			)}
-
 
 		</>
 	);

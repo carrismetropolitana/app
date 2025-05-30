@@ -1,13 +1,13 @@
 /* * */
 
 import { AccordionToggle } from '@/components/AccordionToggle';
+import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
 import { AccountWidget } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
 import { Pattern } from '@carrismetropolitana/api-types/network';
 import { ListItem } from '@rn-vui/themed';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
 
 import { LineWidgetCardBody } from '../LineWidgetCardBody';
 import { LineWidgetCardHeader } from '../LineWidgetCardHeader';

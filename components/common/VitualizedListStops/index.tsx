@@ -4,7 +4,7 @@ import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { StopDisplay } from '@/components/stops/StopDisplay';
 import { ListItem } from '@rn-vui/themed';
 import { Link } from 'expo-router';
-import { TouchableOpacity, VirtualizedList } from 'react-native';
+import { VirtualizedList } from 'react-native';
 
 /* * */
 interface Props {
@@ -27,18 +27,16 @@ export function VirtualizedListingStops({ data, icon, itemClick, items, size }: 
 	// B. Render components
 
 	const renderItem = ({ item }) => (
-		<ListItem bottomDivider topDivider onPress={itemClick && (() => itemClick(item))}>
+		<ListItem onPress={itemClick && (() => itemClick(item))} bottomDivider topDivider>
 			{itemClick
-				?
-				(
+				? (
 					<ListItem.Content>
 						<ListItem.Title>
 							<StopDisplay size={size} stopData={item} />
 						</ListItem.Title>
 					</ListItem.Content>
 				)
-				:
-				(
+				: (
 					<Link href={`/stop/${item.id}`} asChild>
 						<ListItem.Content>
 							<StopDisplay size={size} stopData={item} />

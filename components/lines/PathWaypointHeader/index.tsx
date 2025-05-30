@@ -76,7 +76,7 @@ export function PathWaypointHeader({ isFirstStop, isLastStop, isSelected, waypoi
 			<Text style={pathWaypointHeaderStyles.stopName}>
 				{stopData.long_name}
 				{isSelected && (
-					<Link href={`/stop/${waypointData.stop_id}`} style={pathWaypointHeaderStyles.stopNameUrl} target='_blank'>
+					<Link href={`/stop/${waypointData.stop_id}`} style={pathWaypointHeaderStyles.stopNameUrl} target="_blank">
 						<IconArrowUpRight size={20} />
 					</Link>
 				)}

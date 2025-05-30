@@ -1,7 +1,6 @@
 /* * */
-
-import { Text } from '@rn-vui/themed';
 import { Dialog } from '@rn-vui/themed';
+import { Text } from '@rn-vui/themed';
 
 /* * */
 

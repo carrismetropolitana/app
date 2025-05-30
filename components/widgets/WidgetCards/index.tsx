@@ -4,13 +4,12 @@ import type { AccountWidget } from '@/types/account.types';
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { Surface } from '@/components/common/layout/Surface';
+import { LineWidgetCard } from '@/components/widgets/WidgetCards/LinesWidgetCard';
+import { StopWidgetCard } from '@/components/widgets/WidgetCards/StopWidgetCard';
 import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
 import React, { useEffect, useState } from 'react';
-
-import { LineWidgetCard } from '@/components/widgets/WidgetCards/LinesWidgetCard';
-import { StopWidgetCard } from '@/components/widgets/WidgetCards/StopWidgetCard';
 
 /* * */
 

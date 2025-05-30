@@ -11,13 +11,13 @@ import { Routes } from '@/utils/routes';
 import { Pattern } from '@carrismetropolitana/api-types/network';
 import { Button, ListItem, Text } from '@rn-vui/themed';
 import { IconArrowLoopRight, IconArrowRight, IconCircle, IconCircleCheckFilled, IconNotification, IconPlayerPlayFilled, IconSearch, IconX } from '@tabler/icons-react-native';
+import { useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import styles from './styles';
-import { useNavigation } from 'expo-router';
-import { ScrollView } from 'react-native-gesture-handler';
 
 /* * */
 
@@ -155,9 +155,9 @@ export default function AddFavoriteLineScreen() {
 								{linesDetailContext.data.line.pattern_ids.map((item) => {
 									const isFavorite = profileContext.data.profile?.widgets?.some(
 										favorite =>
-											favorite.data &&
-											'pattern_id' in favorite.data &&
-											favorite.data.pattern_id === item,
+											favorite.data
+											&& 'pattern_id' in favorite.data
+											&& favorite.data.pattern_id === item,
 									);
 									return (
 										<ListItem

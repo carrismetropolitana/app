@@ -21,16 +21,16 @@ export const styles = () => {
 	// B. Render Components
 
 	return StyleSheet.create({
-		avatartWrapper: {
-			width: 500,
-			height: 500,
-			flex: 1,
-			backgroundColor: 'red',
-			justifyContent: 'center',
-			alignItems: 'center',
-		},
 		avatarContainer: {
 			backgroundColor,
+		},
+		avatartWrapper: {
+			alignItems: 'center',
+			backgroundColor: 'red',
+			flex: 1,
+			height: 500,
+			justifyContent: 'center',
+			width: 500,
 		},
 	});
 

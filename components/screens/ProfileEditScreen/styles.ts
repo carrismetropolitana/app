@@ -27,8 +27,8 @@ const styles = () => {
 		/* CONTAINER */
 
 		container: {
-			paddingBottom: 50,
 			backgroundColor: backgroundColor,
+			paddingBottom: 50,
 		},
 
 		/* * */
@@ -43,33 +43,33 @@ const styles = () => {
 
 		userSection: {
 			alignItems: 'center',
-			justifyContent: 'center',
-			paddingTop: 36,
-			paddingBottom: 20,
-			marginBottom: 20,
 			backgroundColor: backgroundColor,
+			justifyContent: 'center',
+			marginBottom: 20,
+			paddingBottom: 20,
+			paddingTop: 36,
 		},
 
 		/* * */
 		/* INPUTS / CHECKBOXES */
 
-		inputLabel: {
-			color: fontColor,
-			fontSize: 14,
-			fontWeight: theming.fontWeightBold as '700',
-			alignSelf: 'flex-start',
-			paddingBottom: 10,
-			backgroundColor: backgroundColor,
-		},
 		checkbox: {
 			backgroundColor: backgroundColor,
 		},
 		checkBoxText: {
+			backgroundColor: backgroundColor,
 			color: fontColor,
 			fontSize: 14,
 			fontWeight: theming.fontWeightText as '500',
+		},
+		inputLabel: {
+			alignSelf: 'flex-start',
 			backgroundColor: backgroundColor,
-		}
+			color: fontColor,
+			fontSize: 14,
+			fontWeight: theming.fontWeightBold as '700',
+			paddingBottom: 10,
+		},
 
 		/* * */
 
@@ -77,6 +77,5 @@ const styles = () => {
 
 	//
 };
-
 
 export default styles;

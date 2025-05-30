@@ -15,11 +15,38 @@ export const styles = () => {
 	const titleColor = theme.mode === 'light' ? theming.colorSystemText200 : theming.colorSystemText300;
 
 	return StyleSheet.create({
+		addFavoritesSection: {
+			paddingTop: 20,
+		},
+		button: {
+			alignSelf: 'center',
+			backgroundColor: buttonBackgroundColor,
+			borderRadius: 999,
+			flexDirection: 'row',
+		},
+		buttonContainer: {
+			backgroundColor: backgroundColor,
+			paddingTop: 10,
+		},
+		buttonTitle: {
+			color: titleColor,
+			fontSize: theming.fontSizeMuted,
+			fontWeight: theming.fontWeightSemibold as '600',
+		},
 		container: {
 			backgroundColor: backgroundColor,
 		},
-		addFavoritesSection: {
-			paddingTop: 20,
+		goBackHeader: {
+			alignContent: 'flex-start',
+			alignItems: 'flex-start',
+			flexDirection: 'row',
+			justifyContent: 'flex-start',
+			padding: 20,
+		},
+		goBackHeaderText: {
+			color: fontColor,
+			fontSize: 16,
+			fontWeight: '500',
 		},
 		listTitle: {
 			fontSize: theming.fontSizeNav,
@@ -41,38 +68,11 @@ export const styles = () => {
 		},
 		userSection: {
 			alignItems: 'center',
+			backgroundColor: backgroundColor,
 			justifyContent: 'center',
-			paddingTop: 36,
-			paddingBottom: 20,
 			marginBottom: 20,
-			backgroundColor: backgroundColor,
+			paddingBottom: 20,
+			paddingTop: 36,
 		},
-		goBackHeader: {
-			alignItems: 'flex-start',
-			justifyContent: 'flex-start',
-			alignContent: 'flex-start',
-			padding: 20,
-			flexDirection: 'row',
-		},
-		goBackHeaderText: {
-			color: fontColor,
-			fontSize: 16,
-			fontWeight: '500',
-		},
-		button: {
-			borderRadius: 999,
-			flexDirection: 'row',
-			alignSelf: 'center',
-			backgroundColor: buttonBackgroundColor
-		},
-		buttonTitle: {
-			color: titleColor,
-			fontWeight: theming.fontWeightSemibold as '600',
-			fontSize: theming.fontSizeMuted
-		},
-		buttonContainer: {
-			backgroundColor: backgroundColor,
-			paddingTop: 10
-		}
 	});
 };

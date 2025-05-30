@@ -20,11 +20,11 @@ export default function Profile() {
 
 	useEffect(() => {
 		navigation.setOptions({
-			headerTitle: '',
 			headerBackTitle: 'Editar Perfil',
 			headerStyle: {
 				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
 			},
+			headerTitle: '',
 		});
 	}, [navigation]);
 

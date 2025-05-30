@@ -30,7 +30,7 @@ export default function FavoritesBar() {
 	const favoritesLines: Line[] = favoriteLineIds
 		.map(id => linesContext.data.lines.find((line: Line) => line.id === id))
 		.filter((line): line is Line => !!line);
-		
+
 	//
 	// C. Render components
 
@@ -40,7 +40,7 @@ export default function FavoritesBar() {
 
 	return (
 		<View style={favoriteBarStyles.container}>
-			<ScrollView showsHorizontalScrollIndicator={false} horizontal bounces={false}>
+			<ScrollView bounces={false} showsHorizontalScrollIndicator={false} horizontal>
 				{favoritesLines.map(line => (
 					<View key={line.id} style={favoriteBarStyles.item}>
 						<Link href={`/line/${line.id}`}>

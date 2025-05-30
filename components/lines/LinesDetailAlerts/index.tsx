@@ -1,5 +1,3 @@
-'use client';
-
 /* * */
 
 import { AlertsCarousel } from '@/components/common/AlertsCarousel';

@@ -5,6 +5,7 @@ import { Surface } from '@/components/common/layout/Surface';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
 import { View } from 'react-native';
+
 import { VehiclesDetailPathMap } from '../VechilesDetailPathMap';
 import { VehiclesDetailPathList } from '../VehiclesDetailPathList';
 

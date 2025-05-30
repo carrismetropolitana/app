@@ -65,7 +65,7 @@ export function SelectOperationalDay() {
 	// C . Handle Actions
 	const handlePress = (i: number) => {
 		setSelectedIndex(i);
-		if (i === 2) { setShowPicker(true) }
+		if (i === 2) { setShowPicker(true); }
 	};
 	const handleConfirm = (picked: Date) => {
 		setShowPicker(false);
@@ -87,13 +87,13 @@ export function SelectOperationalDay() {
 				selectedIndex={selectedIndex}
 			/>
 			<DateTimePickerModal
-				pickerStyleIOS={{ alignItems: 'center' }}
 				date={operationalDayContext.data.selected_day_jsdate ?? undefined}
 				isVisible={showPicker}
 				locale={localeContext.locale}
 				mode="date"
 				onCancel={handleCancel}
 				onConfirm={handleConfirm}
+				pickerStyleIOS={{ alignItems: 'center' }}
 			/>
 		</View>
 	);

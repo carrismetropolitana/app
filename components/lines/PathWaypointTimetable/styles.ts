@@ -44,5 +44,5 @@ export const styles = () => {
 			fontStyle: 'italic',
 			fontWeight: theming.fontWeightMedium as '500',
 		},
-	})
+	});
 };

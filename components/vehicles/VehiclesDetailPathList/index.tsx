@@ -106,7 +106,6 @@ export function VehiclesDetailPathList() {
 				const hasBeenPassed = currentVehicleStopSequence !== undefined && thisStopSequence < currentVehicleStopSequence;
 				const isNextStop = currentVehicleStopSequence !== undefined && thisStopSequence === currentVehicleStopSequence;
 
-
 				// console.log(
 				// 	`[VDPL] Waypoint: ${waypoint.stop_id} (Seq: ${thisStopSequence}), ` +
 				// 	`CurrentVehicleSeq: ${currentVehicleStopSequence}, ` +
@@ -118,14 +117,14 @@ export function VehiclesDetailPathList() {
 					<PathWaypoint
 						key={`${waypoint.stop_id}-${waypoint.stop_sequence}`}
 						arrivals={preparedRealtimeData?.get(`${waypoint.stop_id}-${waypoint.stop_sequence}`) || []}
+						hasBeenPassed={hasBeenPassed}
 						id={`waypoint-${waypoint.stop_id}-${waypoint.stop_sequence}`}
 						isFirstStop={index === 0}
 						isLastStop={index === sortedStops.length - 1}
-						isSelected={linesDetailContext.data.active_waypoint?.stop_id === waypoint.stop_id && linesDetailContext.data.active_waypoint?.stop_sequence === waypoint.stop_sequence}
-						waypointData={waypoint}
-						hasBeenPassed={hasBeenPassed}
-						isVehiclePage={true}
 						isNextStop={isNextStop}
+						isSelected={linesDetailContext.data.active_waypoint?.stop_id === waypoint.stop_id && linesDetailContext.data.active_waypoint?.stop_sequence === waypoint.stop_sequence}
+						isVehiclePage={true}
+						waypointData={waypoint}
 					/>
 				);
 			})}

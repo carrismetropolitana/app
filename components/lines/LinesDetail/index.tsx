@@ -16,7 +16,7 @@ export function LinesDetail() {
 	// B. Render component
 
 	return (
-		<ScrollView >
+		<ScrollView>
 			<View style={{ backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background }}>
 				<LinesDetailHeader />
 				<LinesDetailPath />

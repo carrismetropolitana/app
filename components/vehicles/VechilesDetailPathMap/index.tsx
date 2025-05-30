@@ -120,7 +120,8 @@ export function VehiclesDetailPathMap({ hasToolbar }: Props) {
 					vehiclesData={activeVehiclesFC ?? undefined}
 					onVehiclePress={(id) => {
 						console.log('Vehicle pressed, ID:', id);
-					}} />
+					}}
+				/>
 			</MapView>
 		</View>
 	);

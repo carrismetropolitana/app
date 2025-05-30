@@ -12,41 +12,41 @@ import { useTranslation } from 'react-i18next';
 /* * */
 
 export default function Page() {
-    //
+	//
 
-    //
-    // A. Setup variables
+	//
+	// A. Setup variables
 
-    const { vehicle_id } = useLocalSearchParams<{ vehicle_id: string }>();
-    const themeContext = useThemeContext();
-    const navigation = useNavigation();
-    const { t } = useTranslation('translation', { keyPrefix: 'layout' });
+	const { vehicle_id } = useLocalSearchParams<{ vehicle_id: string }>();
+	const themeContext = useThemeContext();
+	const navigation = useNavigation();
+	const { t } = useTranslation('translation', { keyPrefix: 'layout' });
 
-    //
-    // B. Fetch Data
+	//
+	// B. Fetch Data
 
-    useEffect(() => {
-        navigation.setOptions({
-            headerBackTitle: 'Veículo',
-            headerStyle: {
-                backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
-            },
-            headerTitle: '',
-        });
-    }, [navigation, themeContext.theme.mode]);
+	useEffect(() => {
+		navigation.setOptions({
+			headerBackTitle: 'Veículo',
+			headerStyle: {
+				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
+			},
+			headerTitle: '',
+		});
+	}, [navigation, themeContext.theme.mode]);
 
-    //
-    // C. Render components
+	//
+	// C. Render components
 
-    return (
-        <LinesDetailContextProvider>
-            <StopsDetailContextProvider>
-                <VehiclesContextProvider>
-                    <VehiclesDetail id={vehicle_id} />
-                </VehiclesContextProvider>
-            </StopsDetailContextProvider>
-        </LinesDetailContextProvider>
-    );
+	return (
+		<LinesDetailContextProvider>
+			<StopsDetailContextProvider>
+				<VehiclesContextProvider>
+					<VehiclesDetail id={vehicle_id} />
+				</VehiclesContextProvider>
+			</StopsDetailContextProvider>
+		</LinesDetailContextProvider>
+	);
 
-    //
+	//
 }

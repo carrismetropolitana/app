@@ -36,6 +36,19 @@ export const styles = () => {
 			rowGap: theming.sizeSpacing15,
 
 		},
+		dynamicHourPillBase: {
+			backgroundColor: backgroundColor,
+			color: hourFontColor,
+			fontSize: 14,
+			fontWeight: theming.fontWeightExtrabold as '800',
+			lineHeight: 16,
+			marginBottom: 2,
+			textAlign: 'center',
+		},
+		dynamicHourPillLast: {
+			borderBottomRightRadius: 8,
+			borderTopRightRadius: 8,
+		},
 		exception: {
 			fontSize: 10,
 			fontWeight: theming.fontWeightBold as '700',
@@ -55,17 +68,10 @@ export const styles = () => {
 			paddingHorizontal: 6,
 			textAlign: 'center',
 		},
-		dynamicHourPillBase: {
-			backgroundColor: backgroundColor,
-			color: hourFontColor,
-			fontSize: 14,
-			fontWeight: theming.fontWeightExtrabold as '800',
-			lineHeight: 16,
-			marginBottom: 2,
-			textAlign: 'center',
-		},
 		hourPill: {
 			backgroundColor: backgroundColor,
+			borderBottomLeftRadius: 8,
+			borderTopLeftRadius: 8,
 			color: hourFontColor,
 			fontSize: 14,
 			fontWeight: theming.fontWeightExtrabold as '800',
@@ -73,22 +79,16 @@ export const styles = () => {
 			marginBottom: 2,
 			paddingHorizontal: 6,
 			textAlign: 'center',
-			borderTopLeftRadius: 8,
-			borderBottomLeftRadius: 8,
-		},
-		dynamicHourPillLast: {
-			borderTopRightRadius: 8,
-			borderBottomRightRadius: 8,
 		},
 		minute: {
 			borderRadius: 999,
+			color: fontColor,
 			fontSize: 14,
 			fontWeight: theming.fontWeightSemibold as '600',
 			lineHeight: 16,
 			marginBottom: 2,
 			paddingHorizontal: 6,
 			textAlign: 'center',
-			color: fontColor,
 		},
 		minuteIsHighlighted: {
 			backgroundColor: theming.colorBrand,

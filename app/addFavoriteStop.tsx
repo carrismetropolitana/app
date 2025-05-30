@@ -10,34 +10,34 @@ import { useEffect } from 'react';
 /* * */
 
 export default function AddFavoriteStop() {
-    //
+	//
 
-    //
-    // A. Setup variables
+	//
+	// A. Setup variables
 
-    const navigation = useNavigation();
-      const themeContext = useThemeContext();
+	const navigation = useNavigation();
+	const themeContext = useThemeContext();
 
 	useEffect(() => {
 		navigation.setOptions({
-            headerBackTitle: 'Paragem Favorita',
-			headerTitle: '',
-             headerStyle: {
+			headerBackTitle: 'Paragem Favorita',
+			headerStyle: {
 				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
 			},
+			headerTitle: '',
 		});
 	}, [navigation]);
 
-    //
-    // B. Render components
+	//
+	// B. Render components
 
-    return (
-        <LinesDetailContextProvider>
-            <StopsDetailContextProvider>
-                <AddFavoriteStopScreen />
-            </StopsDetailContextProvider>
-        </LinesDetailContextProvider>
-    );
+	return (
+		<LinesDetailContextProvider>
+			<StopsDetailContextProvider>
+				<AddFavoriteStopScreen />
+			</StopsDetailContextProvider>
+		</LinesDetailContextProvider>
+	);
 
-    //
+	//
 }

@@ -8,9 +8,11 @@ import StopDetailNextArrivals from '@/components/stops/StopDetailNextArrivals';
 import { useLocationsContext } from '@/contexts/Locations.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
+import { useThemeContext } from '@/contexts/Theme.context';
+import { theming } from '@/theme/Variables';
 import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import { Camera } from '@maplibre/maplibre-react-native';
-import { ListItem, useTheme } from '@rn-vui/themed';
+import { Camera, PointAnnotation } from '@maplibre/maplibre-react-native';
+import { ListItem } from '@rn-vui/themed';
 import { Link } from 'expo-router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
@@ -18,8 +20,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle } from 'react-native-svg';
 
 import { styles } from './styles';
-import { theming } from '@/theme/Variables';
-import { useThemeContext } from '@/contexts/Theme.context';
 
 /* * */
 
@@ -78,17 +78,41 @@ export default function StopsScreen() {
 	return (
 		<SafeAreaView style={stopMapDetailStyles.container}>
 			<MapView mapStyle="map">
-				<Camera animationDuration={1000} animationMode="flyTo" centerCoordinate={camera ? [camera.longitude, camera.latitude] : [0, 0]} zoomLevel={10} />
+				<Camera key={`${camera.longitude},${camera.latitude}`} animationDuration={1000} animationMode="flyTo" centerCoordinate={camera ? [camera.longitude, camera.latitude] : [0, 0]} zoomLevel={10} followUserLocation />
 				{stops && <MapViewStyleStops onStopPress={handleStopPress} stopsData={stops as GeoJSON.FeatureCollection<GeoJSON.Point>} />}
+				{camera && (
+					<PointAnnotation
+						coordinate={[camera.longitude, camera.latitude]}
+						id="userLocation"
+					>
+						<View
+							style={{
+								backgroundColor: '#007AFF',
+								borderColor: 'white',
+								borderRadius: 12,
+								borderWidth: 1,
+								height: 12,
+								width: 12,
+							}}
+						/>
+					</PointAnnotation>
+				)}
 			</MapView>
-			<BottomSheetModal ref={bottomSheetModalRef} snapPoints={['70%']} backgroundStyle={{
-				backgroundColor: themeContext.theme.mode === 'light'
-					? theming.colorSystemBackgroundLight200
-					: theming.colorSystemBackgroundDark200,
-			}} e>
-				<BottomSheetScrollView contentContainerStyle={{
-					paddingBottom: 74 + insets.bottom,
-				}} style={stopMapDetailStyles.contentContainer}>
+			<BottomSheetModal
+				ref={bottomSheetModalRef}
+				snapPoints={['70%']}
+				backgroundStyle={{
+					backgroundColor: themeContext.theme.mode === 'light'
+						? theming.colorSystemBackgroundLight200
+						: theming.colorSystemBackgroundDark200,
+				}}
+			>
+				<BottomSheetScrollView
+					style={stopMapDetailStyles.contentContainer}
+					contentContainerStyle={{
+						paddingBottom: 74 + insets.bottom,
+					}}
+				>
 					{!stopData && <NoDataLabel text="Nenhum dado encontrado" />}
 					{stopData && (
 						<>

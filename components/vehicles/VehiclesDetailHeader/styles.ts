@@ -24,22 +24,13 @@ export const styles = () => {
 	// B. Render Components
 
 	return StyleSheet.create({
-		headingFirstSection: {
-			alignItems: 'center',
-			justifyContent: 'center',
-			flexDirection: 'column',
-			gap: 20,
-		},
-		headingSection: {
-			backgroundColor: theme.mode === 'light'
-				? theming.colorSystemBackgroundLight100
-				: theming.colorSystemBackgroundDark100,
-			flexDirection: 'column',
-			paddingTop: 16,
-			justifyContent: 'center',
+		accessibilitySection: {
 			alignContent: 'center',
 			alignItems: 'center',
-			textAlign: 'center',
+			flexDirection: 'row',
+			gap: 10,
+			justifyContent: 'center',
+			width: '70%',
 		},
 		busInfoSection: {
 			display: 'flex',
@@ -49,34 +40,51 @@ export const styles = () => {
 			justifyContent: 'center',
 			padding: 20,
 		},
-		accessibilitySection: {
-			flexDirection: 'row',
-			justifyContent: 'center',
-			gap: 10,
-			width: '70%',
+		headingFirstSection: {
 			alignItems: 'center',
+			flexDirection: 'column',
+			gap: 20,
+			justifyContent: 'center',
+		},
+		headingSection: {
 			alignContent: 'center',
+			alignItems: 'center',
+			backgroundColor: theme.mode === 'light'
+				? theming.colorSystemBackgroundLight100
+				: theming.colorSystemBackgroundDark100,
+			flexDirection: 'column',
+			justifyContent: 'center',
+			paddingTop: 16,
+			textAlign: 'center',
 		},
 		headingSectionRow: {
-			padding: 20,
-			gap: 15,
-			width: '100%',
-			justifyContent: 'space-around',
 			alignItems: 'center',
-		},
-		lineName: {
-			color: fontColor,
-			fontSize: theming.fontSizeSubtitle,
-			fontWeight: theming.fontWeightHeading as '700',
+			gap: 15,
+			justifyContent: 'space-around',
+			padding: 20,
+			width: '100%',
 		},
 		lineDestination: {
 			color: theming.colorSystemText400,
 			fontSize: theming.fontSizeMuted,
 			fontWeight: theming.fontWeightHeading as '700',
 		},
+		lineName: {
+			color: fontColor,
+			fontSize: theming.fontSizeSubtitle,
+			fontWeight: theming.fontWeightHeading as '700',
+		},
 		mapSection: {
 			height: 200,
 			width: '100%',
+		},
+		occupancyEmpty: {
+			backgroundColor: theming.colorSystemBorder200,
+			borderRadius: 999,
+		},
+		occupancyFilled: {
+			backgroundColor: theming.colorRealtime100,
+			borderRadius: 999,
 		},
 		operationalDaySection: {
 			backgroundColor: theme.mode === 'light'
@@ -99,14 +107,6 @@ export const styles = () => {
 			height: 125,
 			marginBottom: 60,
 		},
-		occupancyFilled: {
-			backgroundColor: theming.colorRealtime100,
-			borderRadius: 999,
-		},
-		occupancyEmpty: {
-			backgroundColor: theming.colorSystemBorder200,
-			borderRadius: 999,
-		}
 	});
 
 	//

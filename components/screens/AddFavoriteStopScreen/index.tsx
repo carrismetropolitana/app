@@ -1,5 +1,6 @@
 /* * */
 
+import StopsListChooserModal from '@/app/(modal)/StopsListChooserModal';
 import { Section } from '@/components/common/layout/Section';
 import { LineBadge } from '@/components/lines/LineBadge';
 import { useLinesContext } from '@/contexts/Lines.context';
@@ -10,14 +11,12 @@ import { Routes } from '@/utils/routes';
 import { Pattern, Stop } from '@carrismetropolitana/api-types/network';
 import { Button, ListItem, Text } from '@rn-vui/themed';
 import { IconArrowRight, IconBusStop, IconCircle, IconCircleCheckFilled, IconNotification, IconPlayerPlayFilled, IconSearch, IconX } from '@tabler/icons-react-native';
+import { useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import { useNavigation } from 'expo-router';
-import StopsListChooserModal from '@/app/(modal)/StopsListChooserModal';
+import { ScrollView } from 'react-native-gesture-handler';
 
 import styles from './styles';
-import { ScrollView } from 'react-native-gesture-handler';
-import { use } from 'i18next';
 
 /* * */
 
@@ -88,7 +87,7 @@ export default function AddFavoriteStopScreen() {
 			await Promise.all(
 				selectedStop.pattern_ids.map(async (pattern) => {
 					const data = await fetchPattern(pattern);
-					if (data) { patternName[pattern] = data[0].headsign }
+					if (data) { patternName[pattern] = data[0].headsign; }
 				}),
 			);
 			setPatternNames(patternName);
@@ -111,7 +110,9 @@ export default function AddFavoriteStopScreen() {
 	return (
 
 		<ScrollView style={addFavoriteStopStyles.container}>
-			<Section heading="Paragem Favorita" subheading="Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas."
+			<Section
+				heading="Paragem Favorita"
+				subheading="Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas."
 			/>
 			<View style={addFavoriteStopStyles.videoContainer}>
 				<TouchableOpacity>
@@ -167,7 +168,7 @@ export default function AddFavoriteStopScreen() {
 								if (!acc[lineId]) acc[lineId] = [];
 								acc[lineId].push(patternId);
 								return acc;
-							}, {})
+							}, {}),
 						).map(([lineId, patternIds]) => {
 							const line = linesContext.data.lines.find(line => line.id === lineId);
 							const lineColor = line?.color;

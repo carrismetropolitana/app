@@ -12,9 +12,9 @@ import { styles } from './styles';
 /* * */
 
 interface ProfileImageProps {
+	backgroundColor?: string
 	borderWidth?: number
 	color?: string
-	backgroundColor?: string
 	height?: number
 	size?: number
 	type: 'local' | 'url'
@@ -22,7 +22,7 @@ interface ProfileImageProps {
 }
 
 /* * */
-export function ProfileImage({ borderWidth = 3, color = theming.colorBrand, height = 50, size = 50, type, width = 50, backgroundColor = theming.colorBrand }: ProfileImageProps) {
+export function ProfileImage({ backgroundColor = theming.colorBrand, borderWidth = 3, color = theming.colorBrand, height = 50, size = 50, type, width = 50 }: ProfileImageProps) {
 	//
 
 	//
@@ -33,17 +33,17 @@ export function ProfileImage({ borderWidth = 3, color = theming.colorBrand, heig
 	const profileContext = useProfileContext();
 	const profileImageStyles = styles();
 	const profileImage = useMemo(() => {
-		return profileContext.data.profile?.profile?.profile_image ? `${Routes.DEV_API_ACCOUNTS }/persona/${profileContext.data.profile?.profile?.profile_image}` : defaultImage;
+		return profileContext.data.profile?.profile?.profile_image ? `${Routes.DEV_API_ACCOUNTS}/persona/${profileContext.data.profile?.profile?.profile_image}` : defaultImage;
 	}, [profileContext.data.profile?.profile?.profile_image]);
 
 	//
 	// B. Render Components
 
 	if (type === 'url' && typeof profileImage === 'string' && profileContext.data.profile?.profile?.profile_image?.trim().charAt(0) === 'b') {
-		return  <Avatar containerStyle={[profileImageStyles.avatarContainer, { borderColor: color, borderWidth: borderWidth , backgroundColor: backgroundColor}]} size={size} source={{ uri: profileImage || '' }} rounded />
+		return <Avatar containerStyle={[profileImageStyles.avatarContainer, { backgroundColor: backgroundColor, borderColor: color, borderWidth: borderWidth }]} size={size} source={{ uri: profileImage || '' }} rounded />;
 	}
 	return (
-		<Image resizeMode="contain" source={defaultImage} style={{width: width, height: height}} />
+		<Image resizeMode="contain" source={defaultImage} style={{ height: height, width: width }} />
 	);
 
 	//

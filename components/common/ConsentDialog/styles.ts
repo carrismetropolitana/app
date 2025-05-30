@@ -7,91 +7,91 @@ import { StyleSheet } from 'react-native';
 /* * */
 
 export const styles = () => {
-    //
+	//
 
-    //
-    // A. Setup variables
+	//
+	// A. Setup variables
 
-    const { theme } = useThemeContext();
-    const isLight = theme.mode === 'light';
-    const backgroundColor = isLight
-        ? theming.colorSystemBackgroundLight100
-        : theming.colorSystemBackgroundDark100;
-    const fontColor = isLight
-        ? theming.colorSystemText100
-        : theming.colorSystemText300;
+	const { theme } = useThemeContext();
+	const isLight = theme.mode === 'light';
+	const backgroundColor = isLight
+		? theming.colorSystemBackgroundLight100
+		: theming.colorSystemBackgroundDark100;
+	const fontColor = isLight
+		? theming.colorSystemText100
+		: theming.colorSystemText300;
 
-    //
-    // B. Render Components
+	//
+	// B. Render Components
 
-    return StyleSheet.create({
-        /* LOGO */
-        logo: {
-            height: 75,
-            width: 150,
-            alignSelf: 'center',
-        },
-        /* * */
-        /* OVERRIDES */
+	return StyleSheet.create({
+		/* LOGO */
+		logo: {
+			alignSelf: 'center',
+			height: 75,
+			width: 150,
+		},
+		/* * */
+		/* OVERRIDES */
 
-        contentOverride: {
-            backgroundColor: backgroundColor,
-            borderRadius: theming.borderRadiusLg,
-        },
+		contentOverride: {
+			backgroundColor: backgroundColor,
+			borderRadius: theming.borderRadiusLg,
+		},
 
-        /* * */
-        /* TEXT & TITLE */
+		/* * */
+		/* TEXT & TITLE */
 
-        title: {
-            fontSize: 18,
-            fontWeight: 700,
-            textAlign: 'center',
-            marginBottom: theming.sizeSpacing15,
-        },
+		link: {
+			alignSelf: 'center',
+			color: fontColor,
+			fontSize: 12,
+			fontWeight: 500,
+			paddingTop: 10,
+			textAlign: 'center',
+		},
 
-        text: {
-            fontSize: 14,
-            fontWeight: 500,
-            textAlign: 'center',
-            color: fontColor,
-        },
+		text: {
+			color: fontColor,
+			fontSize: 14,
+			fontWeight: 500,
+			textAlign: 'center',
+		},
 
-        link: {
-            paddingTop: 10,
-            fontSize: 12,
-            fontWeight: 500,
-            color: fontColor,
-            textAlign: 'center',
-            alignSelf: 'center',
-        },
+		title: {
+			fontSize: 18,
+			fontWeight: 700,
+			marginBottom: theming.sizeSpacing15,
+			textAlign: 'center',
+		},
 
-        /* * */
-        /* ANSWERS WRAPPER */
+		/* * */
+		/* ANSWERS WRAPPER */
 
-        answersWrapper: {
-            gap: theming.sizeSpacing15,
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '100%',
-            marginTop: theming.sizeSpacing15,
-        },
+		answersWrapper: {
+			alignItems: 'center',
+			gap: theming.sizeSpacing15,
+			justifyContent: 'center',
+			marginTop: theming.sizeSpacing15,
+			width: '100%',
+		},
 
-        /* * */
-        /* REFUSE BUTTON */
+		/* * */
+		/* REFUSE BUTTON */
 
-        refuseButtonOverride: {
-            opacity: 1
-        },
+		refuseButtonOverride: {
+			opacity: 1,
+		},
 
-        /* * */
-        /* ACCEPT BUTTON */
+		/* * */
+		/* ACCEPT BUTTON */
 
-        acceptButtonOverride: {
-            backgroundColor:theming.colorBrand,
-            width: 100,
-            height: 50,
-        }
-    });
+		acceptButtonOverride: {
+			backgroundColor: theming.colorBrand,
+			height: 50,
+			width: 100,
+		},
+	});
 
-    //
+	//
 };

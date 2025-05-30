@@ -1,41 +1,36 @@
 /* * */
 
-import React, { forwardRef } from 'react';
 import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import { useThemeContext } from '@/contexts/Theme.context';
-import { theming } from '@/theme/Variables';
+import React, { forwardRef } from 'react';
 
 /* * */
 
 interface BottomSheetWrapperProps {
-  children: React.ReactNode;
-  snapPoints?: (string | number)[];
+	children: React.ReactNode
+	snapPoints?: (number | string)[]
 };
 
 /* * */
 
 const BottomSheetWrapper = forwardRef<BottomSheetModal, BottomSheetWrapperProps>(({ children, snapPoints = ['100%', '100%'] }, ref) => {
-  //
-  // A. Setup Variables
+	//
 
-  const themeContext = useThemeContext();
+	//
+	// A. Render components
 
-  //
-  // B. Render components
-
-  return (
-    <BottomSheetModal
-      ref={ref}
-      index={0}
-      snapPoints={snapPoints}
-      enablePanDownToClose={true}
-    >
-      <BottomSheetScrollView>
-        {children}
-      </BottomSheetScrollView>
-    </BottomSheetModal>
-  );
-}
+	return (
+		<BottomSheetModal
+			ref={ref}
+			enablePanDownToClose={true}
+			index={0}
+			snapPoints={snapPoints}
+		>
+			<BottomSheetScrollView>
+				{children}
+			</BottomSheetScrollView>
+		</BottomSheetModal>
+	);
+},
 );
 
 //

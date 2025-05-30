@@ -125,11 +125,11 @@ function TimetableSchedulesMinute({ isHighlighted, minuteData, onClick, selected
 			<Text style={timeteableShcedulesMinutesStyles.minute}>
 				{minuteData.minute_label}
 				{minuteData.exception_ids.length > 0
-					&& minuteData.exception_ids.map(exceptionId => (
-						<Text key={exceptionId} style={timeteableShcedulesMinutesStyles.exception}>
-							{exceptionId}
-						</Text>
-					))}
+				&& minuteData.exception_ids.map(exceptionId => (
+					<Text key={exceptionId} style={timeteableShcedulesMinutesStyles.exception}>
+						{exceptionId}
+					</Text>
+				))}
 			</Text>
 		</Pressable>
 	);

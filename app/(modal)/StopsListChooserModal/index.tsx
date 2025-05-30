@@ -81,9 +81,9 @@ export default function StopsListChooserModal({ isVisible, onBackdropPress, sele
 					</View>
 					<VirtualizedListingStops
 						data={filteredStops}
+						icon={(<IconCirclePlus color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100} fill="#3CB43C" size={24} />)}
 						itemClick={handleStopClick}
 						size="lg"
-						icon={(<IconCirclePlus fill="#3CB43C" size={24} color={ themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100 }/>)}
 					/>
 				</View>
 			</SafeAreaView>

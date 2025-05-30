@@ -1,10 +1,11 @@
 /* * */
 
 import type { AccountWidget } from '@/types/account.types';
+
 import { Routes } from '@/utils/routes';
 import { ListItem } from '@rn-vui/themed';
 import { IconGripVertical } from '@tabler/icons-react-native';
-import { Link, router } from 'expo-router';
+import { router } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 
@@ -18,8 +19,12 @@ interface FavoriteItemProps {
 
 const getPatternId = (widget: AccountWidget): string | undefined => {
 	const { pattern_id, pattern_ids, type } = widget.data as any;
-	if (type === 'lines' && typeof pattern_id === 'string') { return pattern_id; }
-	if (type === 'stops' && Array.isArray(pattern_ids) && pattern_ids.length > 0) { return pattern_ids[0]; }
+	if (type === 'lines' && typeof pattern_id === 'string') {
+		return pattern_id;
+	}
+	if (type === 'stops' && Array.isArray(pattern_ids) && pattern_ids.length > 0) {
+		return pattern_ids[0];
+	}
 	return undefined;
 };
 
@@ -35,11 +40,11 @@ export default function FavoriteItemComponent({ data }: FavoriteItemProps) {
 	const patternId = getPatternId(data);
 	const isLine = data.data.type === 'lines';
 
-
 	if (isLine && typeof patternId === 'string') {
 		const beforeUnderscore = patternId.split('_')[0];
 		linkHref = `/line/${beforeUnderscore}`;
-	} else if (data.data.type === 'stops' && data.data.pattern_ids) {
+	}
+	else if (data.data.type === 'stops' && data.data.pattern_ids) {
 		linkHref = `/stop/${(data.data).stop_id}`;
 	}
 
@@ -47,13 +52,22 @@ export default function FavoriteItemComponent({ data }: FavoriteItemProps) {
 	// B. Fech data
 
 	const fetchHeadsign = useCallback(async () => {
-		if (!patternId) { setHeadsign(''); return; }
+		if (!patternId) {
+			setHeadsign('');
+			return;
+		}
 
 		try {
 			const response = await fetch(`${Routes.API}/patterns/${patternId}`);
 			const json = await response.json();
-			if (Array.isArray(json) && json[0]?.headsign) { setHeadsign(json[0].headsign); } else { setHeadsign(''); }
-		} catch {
+			if (Array.isArray(json) && json[0]?.headsign) {
+				setHeadsign(json[0].headsign);
+			}
+			else {
+				setHeadsign('');
+			}
+		}
+		catch {
 			setHeadsign('');
 		}
 	}, [patternId]);

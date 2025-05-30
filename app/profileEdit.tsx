@@ -10,35 +10,34 @@ import { useEffect } from 'react';
 /* * */
 
 export default function ProfileEdit() {
-    //
+	//
 
-    //
-    // A. Setup variables
+	//
+	// A. Setup variables
 
-    const navigation = useNavigation();
-    const themeContext = useThemeContext();
+	const navigation = useNavigation();
+	const themeContext = useThemeContext();
 
-    useEffect(() => {
-
-        navigation.setOptions({
-            headerTitle: '',
-            headerBackTitle: 'Editar Perfil',
-            headerStyle: {
+	useEffect(() => {
+		navigation.setOptions({
+			headerBackTitle: 'Editar Perfil',
+			headerStyle: {
 				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
 			},
-        });
-    }, [navigation]);
+			headerTitle: '',
+		});
+	}, [navigation]);
 
-    //
-    // B. Render components
+	//
+	// B. Render components
 
-    return (
-        <LinesDetailContextProvider>
-            <StopsDetailContextProvider>
-                <ProfileEditScreen />
-            </StopsDetailContextProvider>
-        </LinesDetailContextProvider>
-    );
+	return (
+		<LinesDetailContextProvider>
+			<StopsDetailContextProvider>
+				<ProfileEditScreen />
+			</StopsDetailContextProvider>
+		</LinesDetailContextProvider>
+	);
 
-    //
+	//
 }

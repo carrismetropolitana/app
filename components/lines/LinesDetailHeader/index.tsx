@@ -12,7 +12,7 @@ import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { Text } from '@rn-vui/themed';
 import { IconHomePlus, IconVolume } from '@tabler/icons-react-native';
-import {  View } from 'react-native';
+import { View } from 'react-native';
 
 import { styles } from './styles';
 
