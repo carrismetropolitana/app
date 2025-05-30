@@ -7,7 +7,7 @@ import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Stop } from '@carrismetropolitana/api-types/network';
 import { Input, Overlay, Text } from '@rn-vui/themed';
-import { IconCirclePlusFilled } from '@tabler/icons-react-native';
+import { IconCirclePlus } from '@tabler/icons-react-native';
 import { useEffect, useMemo, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -83,7 +83,7 @@ export default function StopsListChooserModal({ isVisible, onBackdropPress, sele
 						data={filteredStops}
 						itemClick={handleStopClick}
 						size="lg"
-						icon={(<IconCirclePlusFilled fill="#3CB43C" size={24} color={ themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100 }/>)}
+						icon={(<IconCirclePlus fill="#3CB43C" size={24} color={ themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100 }/>)}
 					/>
 				</View>
 			</SafeAreaView>

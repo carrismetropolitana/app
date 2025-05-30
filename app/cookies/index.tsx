@@ -96,14 +96,12 @@ export default function Component() {
 						<View style={styles.section}>
 							<Text style={styles.title}>{t('sections.question_5.title')}</Text>
 							<View style={{ borderWidth: 1, borderColor: '#ccc', borderRadius: 4, overflow: 'hidden' }}>
-								{/* Table Header */}
 								<View style={{ flexDirection: 'row', backgroundColor: '#f0f0f0' }}>
 									<Text style={{ flex: 1, fontWeight: 'bold', padding: 8 }}>{t('sections.question_5.table.header.col_1')}</Text>
 									<Text style={{ flex: 1, fontWeight: 'bold', padding: 8 }}>{t('sections.question_5.table.header.col_2')}</Text>
 									<Text style={{ flex: 1, fontWeight: 'bold', padding: 8 }}>{t('sections.question_5.table.header.col_3')}</Text>
 									<Text style={{ flex: 1, fontWeight: 'bold', padding: 8 }}>{t('sections.question_5.table.header.col_4')}</Text>
 								</View>
-								{/* Table Row */}
 								<View style={{ flexDirection: 'row', borderTopWidth: 1, borderColor: '#ccc' }}>
 									<Text style={{ flex: 1, padding: 8 }}>{t('sections.question_5.table.rows.2.col_1')}</Text>
 									<Text style={{ flex: 1, padding: 8 }}>{t('sections.question_5.table.rows.2.col_2')}</Text>
@@ -118,8 +116,8 @@ export default function Component() {
 							<View style={styles.authorizationOptions}>
 
 								{consentContext.data.enabled_functional ? (
-									<Button color="green" onPress={() => handleShowConfirmDialog(() => consentContext.actions.disable(['functional']))}>
-										{t('sections.question_6.options.functional.disable')}
+									<Button color="green" onPress={() => handleShowConfirmDialog(() => consentContext.actions.disable(['functional']))} title={t('sections.question_6.options.functional.disable')}>
+
 									</Button>
 								) : (
 									<Button onPress={() => consentContext.actions.enable(['functional'])}>
@@ -128,12 +126,12 @@ export default function Component() {
 								)}
 
 								{consentContext.data.enabled_analytics ? (
-									<Button color="green" onPress={() => handleShowConfirmDialog(() => consentContext.actions.disable(['analytics']))}>
-										{t('sections.question_6.options.analytics.disable')}
+									<Button color="green" onPress={() => handleShowConfirmDialog(() => consentContext.actions.disable(['analytics']))} title={t('sections.question_6.options.analytics.disable')}>
+
 									</Button>
 								) : (
-									<Button onPress={() => consentContext.actions.enable(['analytics'])}>
-										{t('sections.question_6.options.analytics.enable')}
+									<Button onPress={() => consentContext.actions.enable(['analytics'])} title={t('sections.question_6.options.analytics.enable')}>
+
 									</Button>
 								)}
 

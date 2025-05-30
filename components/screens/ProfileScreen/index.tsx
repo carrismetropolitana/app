@@ -6,12 +6,12 @@ import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { AccountWidget } from '@/types/account.types';
 import { Button, ListItem } from '@rn-vui/themed';
-import { IconArrowLoopRight, IconArrowNarrowLeft, IconArrowsShuffle, IconBellRinging, IconBusStop, IconCirclePlusFilled } from '@tabler/icons-react-native';
+import { IconArrowLoopRight, IconArrowNarrowLeft, IconArrowsShuffle, IconBellRinging, IconBusStop, IconCirclePlus } from '@tabler/icons-react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import dimAvatarBackground from '@/utils/dimAvatarBackground';
 import FavoriteItem from '@/components/common/FavoriteItem';
-import { Link, useNavigation } from 'expo-router';
+import { Link, router, useNavigation } from 'expo-router';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 
 import { styles } from './styles';
@@ -29,7 +29,6 @@ export default function ProfileScreen() {
   const { persona_image, profile } = profileContext.data;
   const saveTimer = useRef<NodeJS.Timeout | null>(null);
 
-  const backgroundColor = themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background;
 
   const initialWidgets = (profile?.widgets ?? []).flatMap((widget) => {
     if (widget.data.type === 'lines') return [widget];
@@ -107,9 +106,9 @@ export default function ProfileScreen() {
           : <ProfileImage width={200} height={200} type="local" />}
         <Text style={profileStyles.userFullNameText}> {profileContext.data.profile?.profile?.first_name}{' '}{profileContext.data.profile?.profile?.last_name}
         </Text>
-        <Link href="/profileEdit" style={{ width: '100%' }} asChild>
-          <Button buttonStyle={profileStyles.button} titleStyle={profileStyles.buttonTitle} title={'Editar Perfil'} containerStyle={profileStyles.buttonContainer} />
-        </Link>
+        {/* <Link href="/profileEdit" style={{ width: '100%' }} asChild> */}
+        <Button onPress={() => router.push('/profileEdit')} buttonStyle={profileStyles.button} titleStyle={profileStyles.buttonTitle} title={'Editar Perfil'} containerStyle={profileStyles.buttonContainer} />
+        {/* </Link> */}
       </View>
 
       <Section heading="Personalizar widgets" />
@@ -120,24 +119,32 @@ export default function ProfileScreen() {
   const ListFooter = () => (
     <View style={profileStyles.addFavoritesSection}>
       <Section heading="Adicionar novo widget" />
-      <Link href="/addFavoriteStop" asChild>
-        <ListItem>
-          <IconBusStop color="#FF6900" size={24} />
-          <ListItem.Content>
-            <ListItem.Title style={profileStyles.listTitle}><Text>Paragem Favorita</Text></ListItem.Title>
-          </ListItem.Content>
-          <IconCirclePlusFilled size={24} fill="#3CB43C" color="#FFFFFF" />
-        </ListItem>
-      </Link> 
-      <Link href="/addFavoriteLine" asChild>
-        <ListItem>
-          <IconArrowLoopRight color="#C61D23" size={24} />
-          <ListItem.Content>
-            <ListItem.Title style={profileStyles.listTitle}><Text>Linha Favorita</Text></ListItem.Title>
-          </ListItem.Content>
-          <IconCirclePlusFilled size={24} fill="#3CB43C" color="#FFFFFF" />
-        </ListItem>
-      </Link>
+      {/* <Link href="/addFavoriteStop" asChild> */}
+      <ListItem onPress={() => router.push('/addFavoriteStop')}>
+        <IconBusStop color="#FF6900" size={24} />
+        <ListItem.Content>
+          <ListItem.Title style={profileStyles.listTitle}><Text>Paragem Favorita</Text></ListItem.Title>
+        </ListItem.Content>
+        <IconCirclePlus size={24} fill="#3CB43C" color={
+          themeContext.theme.mode === 'light'
+            ? theming.colorSystemBackgroundLight100
+            : theming.colorSystemBackgroundDark100
+        } />
+      </ListItem>
+      {/* </Link> */}
+      {/* <Link href="/addFavoriteLine" asChild> */}
+      <ListItem onPress={() => router.push('/addFavoriteLine')}>
+        <IconArrowLoopRight color="#C61D23" size={24} />
+        <ListItem.Content>
+          <ListItem.Title style={profileStyles.listTitle}><Text>Linha Favorita</Text></ListItem.Title>
+        </ListItem.Content>
+        <IconCirclePlus size={24} fill="#3CB43C" color={
+          themeContext.theme.mode === 'light'
+            ? theming.colorSystemBackgroundLight100
+            : theming.colorSystemBackgroundDark100
+        } />
+      </ListItem>
+      {/* </Link> */}
       <ListItem disabledStyle={{ opacity: 0.6 }} disabled>
         <IconBellRinging color="#0C807E" size={24} />
         <ListItem.Content>

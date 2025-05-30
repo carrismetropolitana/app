@@ -7,7 +7,7 @@ import { Pattern } from '@carrismetropolitana/api-types/network';
 import { ListItem } from '@rn-vui/themed';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context'; // Added import
+import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
 
 import { LineWidgetCardBody } from '../LineWidgetCardBody';
 import { LineWidgetCardHeader } from '../LineWidgetCardHeader';
@@ -67,7 +67,7 @@ export function LineWidgetCard({ data, expanded, onToggle }: LineWidgetCardProps
 			)}
 		>
 			<View style={cardStyles.cardBody}>
-				<LinesDetailContextProvider> {/* Added Provider */}
+				<LinesDetailContextProvider>
 					<LineWidgetCardBody lineId={lineId} />
 				</LinesDetailContextProvider>
 			</View>

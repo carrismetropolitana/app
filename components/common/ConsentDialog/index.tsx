@@ -109,8 +109,8 @@ export function ConsentPopup() {
             </Link>
 
             <View style={consentModalStyles.answersWrapper}>
-                <Button style={consentModalStyles.refuseButtonOverride} onPress={handleRefuse}>
-                    {t('actions.refuse')}
+                <Button style={consentModalStyles.refuseButtonOverride} onPress={handleRefuse} title={t('actions.refuse')}>
+
                 </Button>
                 <Button onPress={handleAccept} buttonStyle={consentModalStyles.acceptButtonOverride}>
                     <Text style={consentModalStyles.text}> {optionAnalyticsDecision && optionFunctionalDecision ? t('actions.accept') : t('actions.save')}</Text>

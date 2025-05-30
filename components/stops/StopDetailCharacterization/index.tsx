@@ -29,15 +29,15 @@ export default function StopDetailCharacterization() {
 			<View style={stopDetailCharacterizationStyles.stopDetailCharacterizationDetailsWrapper}>
 				<ListItem>
 					<ListItem.Content>
-						<ListItem.Title>THIS IS JUST A DEMO</ListItem.Title>
-						<ListItem.Subtitle>a functionalilty demo</ListItem.Subtitle>
+						<ListItem.Title><Text>THIS IS JUST A DEMO</Text></ListItem.Title>
+						<ListItem.Subtitle><Text>a functionalilty demo</Text></ListItem.Subtitle>
 					</ListItem.Content>
 					<ListItem.Chevron />
 				</ListItem>
 				<ListItem>
 					<ListItem.Content>
-						<ListItem.Title>THIS IS JUST A DEMO</ListItem.Title>
-						<ListItem.Subtitle>a functionalilty demo</ListItem.Subtitle>
+						<ListItem.Title><Text>THIS IS JUST A DEMO</Text></ListItem.Title>
+						<ListItem.Subtitle><Text>a functionalilty demo</Text></ListItem.Subtitle>
 					</ListItem.Content>
 					<ListItem.Chevron />
 				</ListItem>

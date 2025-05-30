@@ -40,7 +40,7 @@ export default function FavoritesBar() {
 
 	return (
 		<View style={favoriteBarStyles.container}>
-			<ScrollView showsHorizontalScrollIndicator={false} horizontal>
+			<ScrollView showsHorizontalScrollIndicator={false} horizontal bounces={false}>
 				{favoritesLines.map(line => (
 					<View key={line.id} style={favoriteBarStyles.item}>
 						<Link href={`/line/${line.id}`}>

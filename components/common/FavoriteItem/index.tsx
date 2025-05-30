@@ -4,7 +4,7 @@ import type { AccountWidget } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
 import { ListItem } from '@rn-vui/themed';
 import { IconGripVertical } from '@tabler/icons-react-native';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 
@@ -66,28 +66,28 @@ export default function FavoriteItemComponent({ data }: FavoriteItemProps) {
 	// C. Render components
 
 	return (
-		<Link href={linkHref} asChild>
-			<ListItem>
-				<TouchableOpacity style={{ padding: 8 }}>
-					<IconGripVertical color="#9696A0" size={24} />
-				</TouchableOpacity>
-				<ListItem.Content>
-					<ListItem.Title>
-						{headsign === null ? (
-							<ActivityIndicator size="small" />
-						) : (
-							<Text numberOfLines={1}>{headsign || (isLine ? 'Linha Favorita' : 'Paragem Favorita')}</Text>
-						)}
-					</ListItem.Title>
-					{headsign !== null && (
-						<ListItem.Subtitle>
-							<Text>{isLine ? 'Linha Favorita' : 'Paragem Favorita'}</Text>
-						</ListItem.Subtitle>
+		// <Link href={linkHref} asChild>
+		<ListItem onPress={() => router.push(linkHref)}>
+			<TouchableOpacity style={{ padding: 8 }}>
+				<IconGripVertical color="#9696A0" size={24} />
+			</TouchableOpacity>
+			<ListItem.Content>
+				<ListItem.Title>
+					{headsign === null ? (
+						<ActivityIndicator size="small" />
+					) : (
+						<Text numberOfLines={1}>{headsign || (isLine ? 'Linha Favorita' : 'Paragem Favorita')}</Text>
 					)}
-				</ListItem.Content>
-				<ListItem.Chevron />
-			</ListItem>
-		</Link>
+				</ListItem.Title>
+				{headsign !== null && (
+					<ListItem.Subtitle>
+						<Text>{isLine ? 'Linha Favorita' : 'Paragem Favorita'}</Text>
+					</ListItem.Subtitle>
+				)}
+			</ListItem.Content>
+			<ListItem.Chevron />
+		</ListItem>
+		// </Link>
 	);
 
 	//

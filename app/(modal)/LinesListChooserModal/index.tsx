@@ -8,7 +8,7 @@ import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Line } from '@carrismetropolitana/api-types/network';
 import { Input, Overlay, Text } from '@rn-vui/themed';
-import { IconCirclePlusFilled } from '@tabler/icons-react-native';
+import { IconCirclePlus } from '@tabler/icons-react-native';
 import { useEffect, useMemo, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -108,7 +108,7 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 						municipality={linesMunicipalities}
 						size="lg"
 						icon={(
-							<IconCirclePlusFilled
+							<IconCirclePlus
 								fill="#3CB43C"
 								size={24}
 								color={

@@ -126,7 +126,7 @@ export default function MoreScreen() {
 							selectedButtonStyle={{ backgroundColor: '#e2e2e2' }}
 							selectedIndex={selectedIndex}
 						/>
-						<Text style={moreStyles.version}>Versão 2025.03.27-01</Text>
+						<Text style={moreStyles.version}>Versão 2025.05.30</Text>
 					</>
 				)}
 			/>

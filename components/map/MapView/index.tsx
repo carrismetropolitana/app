@@ -15,7 +15,6 @@ export type MapStyle = 'map' | 'satellite';
 
 interface Props {
 	children: React.ReactNode
-	/** Pass [[minLon, minLat], [maxLon, maxLat]] to fit bounds on ready */
 	fitBoundsCoords?: [[number, number], [number, number]]
 	id?: string
 	mapStyle?: MapStyle
@@ -98,7 +97,7 @@ export function MapView({
 			});
 		}
 
-		mapOptionsContext.actions.setMap(map);
+		mapOptionsContext.actions.setMap(map as unknown as any);
 	}, [mapOptionsContext.actions, fitBoundsCoords]);
 
 	return (

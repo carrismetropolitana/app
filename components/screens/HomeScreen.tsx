@@ -8,7 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { WidgetCards } from '../widgets/WidgetCards';
 import { Button } from '@rn-vui/themed';
 import { theming } from '@/theme/Variables';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 
 export default function HomeScreen() {
 	const themeContext = useThemeContext();
@@ -19,16 +19,16 @@ export default function HomeScreen() {
 	const titleColor = themeContext.theme.mode === 'light' ? theming.colorSystemText900 : theming.colorSystemText300;
 
 	return (
-		<View style={{ backgroundColor, flex: 1, paddingBottom: insets.bottom + 100 }}>
+		<View style={{ backgroundColor, paddingBottom: insets.bottom + 70 }}>
 			<Header />
 			<ScrollView showsVerticalScrollIndicator={false} style={{ paddingTop: insets.top + 95 }}>
 				<FavoritesBar />
 				<View style={{ paddingHorizontal: 20 }}>
 					<WidgetCards />
 				</View>
-				<Link href='/profile' asChild>
-					<Button buttonStyle={{ borderRadius: 999, flexDirection: 'row', width: '30%', alignSelf: 'center', backgroundColor: buttonBackgroundColor }} titleStyle={{ color: titleColor, fontWeight: theming.fontWeightSemibold as '600', fontSize: theming.fontSizeMuted }} title={'Personalizar'} containerStyle={{ backgroundColor: backgroundColor, paddingTop: 10 }} />
-				</Link>
+				{/* <Link href='/profile' asChild> */}
+					<Button onPress={() => router.push('/profile')} buttonStyle={{ borderRadius: 999, flexDirection: 'row', width: '30%', alignSelf: 'center', backgroundColor: buttonBackgroundColor, marginBottom: 20 }} titleStyle={{ color: titleColor, fontWeight: theming.fontWeightSemibold as '600', fontSize: theming.fontSizeMuted }} title={'Personalizar'} containerStyle={{ backgroundColor: backgroundColor, paddingTop: 10 }} />
+				{/* </Link> */}
 			</ScrollView>
 		</View>
 	);
