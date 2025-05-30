@@ -4,7 +4,6 @@ import type { Waypoint } from '@carrismetropolitana/api-types/network';
 
 import { IconDisplay } from '@/components/common/IconDisplay';
 import { useLocationsContext } from '@/contexts/Locations.context';
-import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { Text } from '@rn-vui/themed';
 import { IconCheck, IconCopy } from '@tabler/icons-react-native';
@@ -35,7 +34,6 @@ export function PathWaypointHeader({ isFirstStop, isLastStop, isSelected, waypoi
 
 	const stopsContext = useStopsContext();
 	const locationsContext = useLocationsContext();
-	const operationalDayContext = useOperationalDayContext();
 	const [stopIdClipboard, setStopIdClipboard] = useState('');
 	const pathWaypointHeaderStyles = styles();
 

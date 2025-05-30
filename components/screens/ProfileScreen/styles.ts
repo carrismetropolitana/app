@@ -11,10 +11,13 @@ export const styles = () => {
 	const isLight = theme.mode === 'light';
 	const backgroundColor = isLight ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark200;
 	const fontColor = isLight ? theming.colorSystemText100 : theming.colorSystemText300;
-	const buttonBackgroundColor = theme.mode === 'light' ? theming.colorSystemBackgroundLight200: theming.colorSystemBackgroundDark200;
+	const buttonBackgroundColor = theme.mode === 'light' ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200;
 	const titleColor = theme.mode === 'light' ? theming.colorSystemText200 : theming.colorSystemText300;
 
 	return StyleSheet.create({
+		container: {
+			backgroundColor: backgroundColor,
+		},
 		addFavoritesSection: {
 			paddingTop: 20,
 		},
@@ -67,7 +70,7 @@ export const styles = () => {
 			fontWeight: theming.fontWeightSemibold as '600',
 			fontSize: theming.fontSizeMuted
 		},
-		buttonContainer:{
+		buttonContainer: {
 			backgroundColor: backgroundColor,
 			paddingTop: 10
 		}

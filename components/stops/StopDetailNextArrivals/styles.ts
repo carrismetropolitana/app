@@ -21,7 +21,7 @@ export const styles = () => {
 		/* SECTION WRAPPER */
 
 		sectionWrapper: {
-			backgroundColor: 'transparent',
+			backgroundColor: backgroundColor,
 			paddingTop: theming.sizeSpacing15,
 			width: '100%',
 		},
@@ -29,7 +29,7 @@ export const styles = () => {
 		/* SECTION HEADING */
 
 		sectionHeading: {
-
+			backgroundColor: backgroundColor,
 			color: fontColor,
 			fontSize: theming.fontSizeNav,
 			fontWeight: theming.fontWeightNav as '600',

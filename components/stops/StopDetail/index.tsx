@@ -1,6 +1,5 @@
 /* * */
 
-import StopDetailCharacterization from '@/components/stops/StopDetailCharacterization';
 import StopDetailLineGoTrough from '@/components/stops/StopDetailLineGoTrough';
 import StopDetailNextArrivals from '@/components/stops/StopDetailNextArrivals';
 import { StopDetailHeader } from '@/components/stops/StopDetailsHeader';
@@ -26,7 +25,7 @@ export function StopDetail() {
 			<StopDetailHeader />
 			<StopDetailNextArrivals description title />
 			<StopDetailLineGoTrough />
-			<StopDetailCharacterization />
+			{/* <StopDetailCharacterization /> */}
 		</ScrollView>
 	);
 

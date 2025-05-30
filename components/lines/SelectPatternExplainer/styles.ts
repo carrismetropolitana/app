@@ -16,7 +16,7 @@ export const styles = () => {
 	const isLight = theme.mode === 'light';
 	const backgroundColor = isLight
 		? theming.colorSystemBackgroundLight100
-		: theming.colorSystemBackgroundDark200;
+		: theming.colorSystemBackgroundDark100;
 	const fontColor = isLight
 		? theming.colorSystemText100
 		: theming.colorSystemText300;

@@ -3,6 +3,7 @@
 import React, { forwardRef } from 'react';
 import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { useThemeContext } from '@/contexts/Theme.context';
+import { theming } from '@/theme/Variables';
 
 /* * */
 
@@ -28,10 +29,6 @@ const BottomSheetWrapper = forwardRef<BottomSheetModal, BottomSheetWrapperProps>
       index={0}
       snapPoints={snapPoints}
       enablePanDownToClose={true}
-      backgroundStyle={{  backgroundColor: themeContext.theme.mode === 'light' 
-          ? themeContext.theme.lightColors?.background 
-          : themeContext.theme.darkColors?.background, 
-      }}
     >
       <BottomSheetScrollView>
         {children}

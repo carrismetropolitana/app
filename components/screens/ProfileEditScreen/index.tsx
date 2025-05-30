@@ -25,6 +25,7 @@ export default function ProfileEditScreen() {
 	//
 	// A. Setup Variables
 
+
 	const profileContext = useProfileContext();
 	const themeContext = useThemeContext();
 	const profileEditModalStyles = styles();
@@ -61,6 +62,16 @@ export default function ProfileEditScreen() {
 	useEffect(() => {
 		profileContext.actions.setAccentColor(accentColor || '');
 	}, [accentColor]);
+
+	useEffect(() => {
+		navigation.setOptions({
+			headerTitle: '',
+			headerBackTitle: 'Editar Perfil',
+			headerStyle: {
+				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
+			},
+		});
+	}, [navigation]);
 
 	//
 	// D. Render Components

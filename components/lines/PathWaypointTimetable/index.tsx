@@ -17,6 +17,7 @@ export function PathWaypointTimetable() {
 	const { t } = useTranslation('lines.PathWaypointTimetable');
 	const linesDetailContext = useLinesDetailContext();
 	const operationalDayContext = useOperationalDayContext();
+	const timeTableStyles = styles();
 	const showVariantsOnTimetable = true;
 
 	const timetableData = useMemo(() => {
@@ -55,11 +56,11 @@ export function PathWaypointTimetable() {
 	if (!timetableData || typeof timetableData === 'string') {
 		const nextDate = timetableData && DateTime.fromFormat(timetableData, 'yyyyMMdd').toJSDate();
 		return (
-			<View style={styles.container}>
-				<Text style={styles.noData}>{t('no_data')}</Text>
+			<View style={timeTableStyles.container}>
+				<Text style={timeTableStyles.noData}>{t('no_data')}</Text>
 				{nextDate && (
 					<Pressable onPress={() => handleNextDateClick(nextDate)} style={({ pressed }) => [{ opacity: pressed ? 0.8 : 1 }]}>
-						<Text style={styles.nextDate}>{t('next_date', { value: nextDate })}</Text>
+						<Text style={timeTableStyles.nextDate}>{t('next_date', { value: nextDate })}</Text>
 					</Pressable>
 				)}
 			</View>
@@ -67,8 +68,8 @@ export function PathWaypointTimetable() {
 	}
 
 	return (
-		<View style={styles.container}>
-			<Text style={styles.title}>{t('title')}</Text>
+		<View style={timeTableStyles.container}>
+			<Text style={timeTableStyles.title}>{t('title')}</Text>
 			<Timetable timetableData={timetableData} />
 		</View>
 	);

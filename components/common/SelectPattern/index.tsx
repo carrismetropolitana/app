@@ -2,6 +2,8 @@
 
 import { SelectPatternExplainer } from '@/components/lines/SelectPatternExplainer';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useThemeContext } from '@/contexts/Theme.context';
+import { theming } from '@/theme/Variables';
 import { IconArrowBarToRight, IconArrowRight } from '@tabler/icons-react-native';
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -16,8 +18,46 @@ export function SelectPattern() {
 	// A. Setup variables
 
 	const lineDetailContext = useLinesDetailContext();
+	const { theme } = useThemeContext();
 	const [selectedPattern, setSelectedPattern] = useState<string>();
 	const [isFocus, setIsFocus] = useState(false);
+
+	const styles = StyleSheet.create({
+		container: {
+			backgroundColor: theme.mode === 'light'
+				? theming.colorSystemBackgroundLight100
+				: theming.colorSystemBackgroundDark100,
+			color: '#9696A0',
+			padding: 16,
+		},
+		dropdown: {
+			borderColor: 'gray',
+			borderRadius: 8,
+			borderWidth: 0.5,
+			height: 50,
+			paddingHorizontal: 8,
+			backgroundColor: theme.mode === 'light'
+				? theming.colorSystemBackgroundLight100
+				: theming.colorSystemBackgroundDark100,
+		},
+		inputSearch: {
+			fontSize: 16,
+			height: 40,
+		},
+		dropdownText: {
+			color: theme.mode === 'light'
+				? theming.colorSystemText100
+				: theming.colorSystemText300,
+			fontSize: 16,
+		},
+		inputContainer: {
+			backgroundColor: theme.mode === 'light'
+				? theming.colorSystemBackgroundLight100
+				: theming.colorSystemBackgroundDark100,
+		},
+
+	});
+
 
 	useEffect(() => {
 		if (!selectedPattern) return;
@@ -26,7 +66,7 @@ export function SelectPattern() {
 	}, [selectedPattern]);
 
 	const dropdownData
-    = lineDetailContext.data.valid_patterns?.map(pattern => ({ label: pattern.headsign, value: pattern.id })) ?? [];
+		= lineDetailContext.data.valid_patterns?.map(pattern => ({ label: pattern.headsign, value: pattern.id })) ?? [];
 
 	//
 	// B. Render Components
@@ -36,7 +76,16 @@ export function SelectPattern() {
 			<SelectPatternExplainer />
 			<Dropdown
 				data={dropdownData}
-				inputSearchStyle={styles.inputSearchStyle}
+				inputSearchStyle={styles.inputSearch}
+				itemTextStyle={styles.dropdownText}
+				containerStyle={styles.inputContainer}
+				selectedTextStyle={styles.dropdownText}
+				placeholderStyle={styles.dropdownText}
+				itemContainerStyle={styles.dropdown}
+				activeColor={theme.mode === 'light'
+					? theming.colorSystemBackgroundLight100
+					: theming.colorSystemBackgroundDark100}
+				style={styles.dropdown}
 				labelField="label"
 				maxHeight={300}
 				onBlur={() => setIsFocus(false)}
@@ -45,7 +94,6 @@ export function SelectPattern() {
 				renderLeftIcon={() => <IconArrowBarToRight color="#9696A0" size={24} />}
 				renderRightIcon={() => <IconArrowRight color="#D2D2DC" size={20} />}
 				searchPlaceholder="Pesquisar..."
-				style={styles.dropdown}
 				value={selectedPattern}
 				valueField="value"
 				onChange={(item) => {
@@ -59,23 +107,3 @@ export function SelectPattern() {
 
 	//
 }
-
-const styles = StyleSheet.create({
-	container: {
-		backgroundColor: 'white',
-		color: '#9696A0',
-		padding: 16,
-	},
-	dropdown: {
-		borderColor: 'gray',
-		borderRadius: 8,
-		borderWidth: 0.5,
-		height: 50,
-		paddingHorizontal: 8,
-	},
-	inputSearchStyle: {
-		fontSize: 16,
-		height: 40,
-	},
-
-});

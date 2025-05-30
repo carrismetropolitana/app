@@ -16,8 +16,11 @@ export const styles = () => {
 		? theming.colorSystemBackgroundLight200
 		: theming.colorSystemBackgroundDark200;
 	const fontColor = isLight
-		? theming.colorSystemText100
+		? theming.colorSystemText200
 		: theming.colorSystemText300;
+	const headerfontColor = isLight
+		? theming.colorSystemText100
+		: theming.colorSystemText400;
 
 	/* * */
 	/* CONTAINER */
@@ -42,7 +45,7 @@ export const styles = () => {
 		/* STOP NAME */
 
 		stopName: {
-			color: theming.colorSystemText100,
+			color: headerfontColor,
 			flex: 1,
 			flexDirection: 'row',
 			fontSize: 15,
@@ -117,7 +120,7 @@ export const styles = () => {
 		},
 		isSelected: {
 			backgroundColor,
-			
+
 		},
 	});
 

@@ -151,7 +151,7 @@ export default function ProfileScreen() {
   );
 
   return (
-    <View>
+    <View style={profileStyles.container}>
       <DraggableFlatList
         data={widgetList}
         ListFooterComponent={ListFooter}

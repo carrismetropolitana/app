@@ -10,13 +10,11 @@ import { SelectActivePatternGroup } from '@/components/lines/SelectActivePattern
 import { useDebugContext } from '@/contexts/Debug.context';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useProfileContext } from '@/contexts/Profile.context';
-import { IconsMap } from '@/settings/assets.settings';
 import { Text } from '@rn-vui/themed';
 import { IconHomePlus, IconVolume } from '@tabler/icons-react-native';
-import { Image, View } from 'react-native';
+import {  View } from 'react-native';
 
 import { styles } from './styles';
-import { useEffect } from 'react';
 
 /* * */
 
@@ -60,7 +58,6 @@ export function LinesDetailHeader() {
 	return (
 		<>
 			<Surface>
-
 				<View style={lineDetailsHeaderStyles.headingSection}>
 					<Section withBottomDivider>
 						<View style={lineDetailsHeaderStyles.headingSectionRow}>
@@ -79,12 +76,10 @@ export function LinesDetailHeader() {
 						<SelectOperationalDay />
 					</View>
 					<View style={lineDetailsHeaderStyles.patternGroupSection}>
-
 						<SelectActivePatternGroup />
 					</View>
 				</View>
 			</Surface>
-
 			{debugContext.flags.is_debug_mode && (
 				<Surface variant="debug">
 					<Section withPadding>
@@ -96,7 +91,6 @@ export function LinesDetailHeader() {
 					</Section>
 				</Surface>
 			)}
-
 		</>
 	);
 
