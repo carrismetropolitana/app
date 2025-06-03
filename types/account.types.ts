@@ -1,6 +1,4 @@
 /* * */
-
-import { getUnixTimestamp } from '@tmlmobilidade/utils';
 import { DateTime } from 'luxon';
 import { z } from 'zod';
 
@@ -103,11 +101,11 @@ const ProfileSchema = z.object({
 	email: z.string().email().nullish(),
 	first_name: z.string().nullish(),
 	gender: GenderSchema.nullish(),
+	interests: z.array(z.string(InterestsSchema)).nullish(),
 	last_name: z.string().nullish(),
 	phone: PhoneSchema.nullish(),
 	profile_image: z.string().nullish(),
 	utilization_type: UtilizationTypeSchema.nullish(),
-	interests:  z.array(z.string(InterestsSchema)).nullish(),
 	work_setting: WorkSettingSchema.nullish(),
 }).strict();
 
@@ -150,16 +148,16 @@ export type AccountProfile = Omit<z.infer<typeof ProfileSchema>,
   | 'activity'
   | 'date_of_birth'
   | 'gender'
+  | 'interests'
   | 'utilization_type'
   | 'work_setting'
-  | 'interests'
 > & {
 	activity?: AccountActivity
 	date_of_birth?: null | undefined | UnixTimestamp
 	gender?: AccountGender
+	interests?: AccountInterests
 	utilization_type?: AccountUtilizationType
 	work_setting?: AccountWorkSetting
-	interests?: AccountInterests
 };
 
 export type Account = Omit<

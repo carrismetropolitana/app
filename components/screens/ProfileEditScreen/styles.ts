@@ -16,13 +16,16 @@ const styles = () => {
 	const backgroundColor = isLight
 		? theming.colorSystemBackgroundLight100
 		: theming.colorSystemBackgroundDark100;
+	const headerBackgroundColor = isLight
+		? theming.colorSystemBackgroundLight200
+		: theming.colorSystemBackgroundDark200;
 	const fontColor = isLight
 		? theming.colorSystemText100
 		: theming.colorSystemText300;
 
 	//
 	// B. Render Components
-
+	// C. Return styles
 	return StyleSheet.create({
 		/* CONTAINER */
 
@@ -35,7 +38,9 @@ const styles = () => {
 		/* SECTION WRAPPER */
 
 		sectionWrapper: {
-			marginBottom: 20,
+			backgroundColor: headerBackgroundColor,
+			paddingBottom: 20,
+			paddingTop: 10,
 		},
 
 		/* * */
@@ -45,7 +50,6 @@ const styles = () => {
 			alignItems: 'center',
 			backgroundColor: backgroundColor,
 			justifyContent: 'center',
-			marginBottom: 20,
 			paddingBottom: 20,
 			paddingTop: 36,
 		},
@@ -61,6 +65,9 @@ const styles = () => {
 			color: fontColor,
 			fontSize: 14,
 			fontWeight: theming.fontWeightText as '500',
+		},
+		inputContainer: {
+			backgroundColor: headerBackgroundColor,
 		},
 		inputLabel: {
 			alignSelf: 'flex-start',

@@ -15,8 +15,8 @@ import { useConsentContext } from './Consent.context';
 /* * */
 
 const LOCAL_STORAGE_KEYS = {
-	cloud_profile: 'cloud_profile',
 	accent_color: 'profile|accent_color',
+	cloud_profile: 'cloud_profile',
 	device_id: 'profile|device_id',
 	favorite_lines: 'profile|favorite_lines',
 	favorite_stops: 'profile|favorite_stops',
@@ -37,6 +37,7 @@ interface ProfileContextState {
 	actions: {
 		checkProfile: (profile: Account) => Promise<void>
 		fetchPersona: () => Promise<void>
+		setAccentColor: (color: string) => void
 		setNewEmptyProfile: (profile: CreateAccountDto) => Promise<void>
 		setPreviousPersona: () => void
 		setSelectedLine: (line: string) => void
@@ -46,7 +47,6 @@ interface ProfileContextState {
 		toggleWidgetStop: (stopId: string, patternId: string[]) => Promise<void>
 		toogleAccountSync: () => void
 		updateLocalProfile: (profile: Account) => Promise<void>
-		setAccentColor: (color: string) => void
 	}
 	counters: {
 		favorite_lines: number
@@ -55,6 +55,7 @@ interface ProfileContextState {
 		widget_stops: number
 	}
 	data: {
+		accent_color: string
 		cloud_profile: Account | null
 		favorite_lines: null | string[]
 		favorite_stops: null | string[]
@@ -63,7 +64,6 @@ interface ProfileContextState {
 		selected_line: Line | string
 		widget_lines: AccountWidget[] | null
 		widget_stops: AccountWidget[] | null
-		accent_color: string
 	}
 	flags: {
 		is_enabled: boolean
@@ -86,7 +86,6 @@ export function useProfileContext() {
 }
 
 export const ProfileContextProvider = ({ children }: { children: ReactNode }) => {
-
 	//
 	// A. Setup variables
 
@@ -104,7 +103,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const [dataSelectedLineState, setSelectedLineState] = useState<Line | string>('');
 	const [dataFavoriteLinesState, setDataFavoriteLinesState] = useState<ProfileContextState['data']['favorite_lines']>(null);
 	const [dataFavoriteStopsState, setDataFavoriteStopsState] = useState<ProfileContextState['data']['favorite_stops']>(null);
-	const [dataAccentColorState, setDataAccentColorState] = useState<string | null>(null);
+	const [dataAccentColorState, setDataAccentColorState] = useState<null | string>(null);
 
 	const [flagIsLoadingState, setFlagIsLoadingState] = useState<ProfileContextState['flags']['is_loading']>(true);
 
@@ -116,22 +115,23 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			_id: cloud._id || local._id,
 			created_at: cloud.created_at || local.created_at,
 			devices: local.devices || cloud.devices || [],
-			email: local.email || cloud.email,
+			email: cloud.email || local.email,
 			email_verified: cloud.email_verified || local.email_verified,
 			favorites: {
-				lines:  local.favorites?.lines ||  cloud.favorites?.lines || [],
+				lines: local.favorites?.lines || cloud.favorites?.lines || [],
 				stops: local.favorites?.stops || cloud.favorites?.stops || [],
 			},
 			profile: {
 				activity: cloud.profile?.activity || local.profile?.activity,
 				date_of_birth: cloud.profile?.date_of_birth || local.profile?.date_of_birth,
+				email: cloud.profile?.email || local.profile?.email,
 				first_name: cloud.profile?.first_name || local.profile?.first_name,
 				gender: cloud.profile?.gender || local.profile?.gender,
 				last_name: cloud.profile?.last_name || local.profile?.last_name,
 				phone: cloud.profile?.phone || local.profile?.phone,
 				profile_image: local.profile?.profile_image || cloud.profile?.profile_image,
 				utilization_type: cloud.profile?.utilization_type || local.profile?.utilization_type,
-				work_setting: cloud.profile?.work_setting || local.profile?.work_setting,
+				// work_setting: cloud.profile?.work_setting || local.profile?.work_setting,
 			},
 			role: cloud.role,
 			updated_at: cloud.updated_at,
@@ -149,6 +149,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			if (JSON.stringify(localProfile) !== JSON.stringify(mergedProfile)) {
 				setDataProfileState(mergedProfile);
 				await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(mergedProfile));
+
 				updateProfileOnCloud(mergedProfile);
 			}
 			else {
@@ -265,7 +266,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		try {
 			let image;
 			do {
-				const response = await fetch(`${Routes.DEV_API_ACCOUNTS }/persona/`);
+				const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/persona/`);
 				image = await response.json();
 				if (image.url && personaHistory.includes(image.url)) {
 					console.log('Image already exists in history, refetching...');
@@ -335,7 +336,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			return null;
 		}
 
-		const response = await fetch(`${Routes.DEV_API_ACCOUNTS }/${id}`, {
+		const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/${id}`, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Cookie': `session_token=${token}`,
@@ -356,7 +357,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 		const { _id, created_at, role, updated_at, ...cleanedProfile } = profile;
 		try {
-			await fetch(`${Routes.DEV_API_ACCOUNTS }/${profile.devices[0].device_id}`, {
+			await fetch(`${Routes.DEV_API_ACCOUNTS}/${profile.devices[0].device_id}`, {
 				body: JSON.stringify(cleanedProfile),
 				headers: {
 					'Content-Type': 'application/json',
@@ -588,18 +589,18 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				email: null,
 				first_name: null,
 				gender: undefined,
+				interests: undefined,
 				last_name: null,
 				phone: null,
 				profile_image: null,
 				utilization_type: undefined,
 				work_setting: undefined,
-				interests: undefined,
 			},
 			role: 'user',
 			widgets: [],
 		};
 
-		const apiResponse = await fetch(`${Routes.DEV_API_ACCOUNTS }`, {
+		const apiResponse = await fetch(`${Routes.DEV_API_ACCOUNTS}`, {
 			body: JSON.stringify(newProfileStructure),
 			headers: { 'Content-Type': 'application/json' },
 			method: 'POST',
@@ -609,7 +610,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		setDataProfileState(newProfileStructure);
 		setAPIToken(apiResponse.session_token);
 		localStorage.setItem(LOCAL_STORAGE_KEYS.token, apiResponse.session_token);
-
 	};
 
 	const checkProfile = async (profile: Account | null) => {
@@ -639,6 +639,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		actions: {
 			checkProfile,
 			fetchPersona,
+			setAccentColor,
 			setNewEmptyProfile,
 			setPreviousPersona,
 			setSelectedLine,
@@ -648,7 +649,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			toggleWidgetStop,
 			toogleAccountSync,
 			updateLocalProfile,
-			setAccentColor,
 		},
 		counters: {
 			favorite_lines: dataFavoriteLinesState ? dataFavoriteLinesState.length : 0,
@@ -657,6 +657,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			widget_stops: dataWidgetStopsState ? dataWidgetStopsState.length : 0,
 		},
 		data: {
+			accent_color: dataAccentColorState || 'rgba(253,183,26,0.4)',
 			cloud_profile: dataCloudProfileState,
 			favorite_lines: dataFavoriteLinesState,
 			favorite_stops: dataFavoriteStopsState,
@@ -665,7 +666,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			selected_line: dataSelectedLineState,
 			widget_lines: dataWidgetLinesState,
 			widget_stops: dataWidgetStopsState,
-			accent_color: dataAccentColorState || 'rgba(253,183,26,0.4)',
 		},
 		flags: {
 			is_enabled: consentContext.data.enabled_functional,

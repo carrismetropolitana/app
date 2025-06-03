@@ -24,7 +24,6 @@ const lightThemeDefinition = {
 				borderRadius: 5,
 				borderWidth: 1,
 				height: 50,
-			
 				paddingTop: 5,
 			},
 			inputContainerStyle: {
