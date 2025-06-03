@@ -13,6 +13,8 @@ import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 
 interface FavoriteItemProps {
 	data: AccountWidget
+	drag?: () => void
+	isActive?: boolean
 }
 
 /* * */
@@ -30,7 +32,7 @@ const getPatternId = (widget: AccountWidget): string | undefined => {
 
 /* * */
 
-export default function FavoriteItemComponent({ data }: FavoriteItemProps) {
+export default function FavoriteItemComponent({ data, drag, isActive }: FavoriteItemProps) {
 	//
 
 	// A.Setup variables
@@ -82,7 +84,7 @@ export default function FavoriteItemComponent({ data }: FavoriteItemProps) {
 	return (
 		// <Link href={linkHref} asChild>
 		<ListItem onPress={() => router.push(linkHref)}>
-			<TouchableOpacity style={{ padding: 8 }}>
+			<TouchableOpacity disabled={isActive} onLongPress={drag} style={{ padding: 8 }}>
 				<IconGripVertical color="#9696A0" size={24} />
 			</TouchableOpacity>
 			<ListItem.Content>

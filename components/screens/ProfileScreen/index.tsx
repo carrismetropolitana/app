@@ -66,9 +66,7 @@ export default function ProfileScreen() {
 	// C. Render components
 
 	const renderFavoriteItem = ({ drag, isActive, item }: any) => (
-		<Pressable disabled={isActive} onLongPress={drag}>
-			<FavoriteItem data={item} />
-		</Pressable>
+		<FavoriteItem data={item} drag={drag} isActive={isActive} />
 	);
 
 	useEffect(() => {

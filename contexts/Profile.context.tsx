@@ -21,6 +21,7 @@ const LOCAL_STORAGE_KEYS = {
 	favorite_lines: 'profile|favorite_lines',
 	favorite_stops: 'profile|favorite_stops',
 	first_name: 'profile|first_name',
+	interests: 'profile|interests',
 	last_name: 'profile|last_name',
 	persona_history: 'profile|persona_history',
 	persona_image: 'profile|persona_image',
@@ -38,6 +39,7 @@ interface ProfileContextState {
 		checkProfile: (profile: Account) => Promise<void>
 		fetchPersona: () => Promise<void>
 		setAccentColor: (color: string) => void
+		setInterests: (topics: string[]) => void
 		setNewEmptyProfile: (profile: CreateAccountDto) => Promise<void>
 		setPreviousPersona: () => void
 		setSelectedLine: (line: string) => void
@@ -59,6 +61,7 @@ interface ProfileContextState {
 		cloud_profile: Account | null
 		favorite_lines: null | string[]
 		favorite_stops: null | string[]
+		interests: null | string[]
 		persona_image: null | string
 		profile: Account | null
 		selected_line: Line | string
@@ -104,6 +107,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const [dataFavoriteLinesState, setDataFavoriteLinesState] = useState<ProfileContextState['data']['favorite_lines']>(null);
 	const [dataFavoriteStopsState, setDataFavoriteStopsState] = useState<ProfileContextState['data']['favorite_stops']>(null);
 	const [dataAccentColorState, setDataAccentColorState] = useState<null | string>(null);
+	const [dataInterestsState, setDataInterestsState] = useState<string[]>([]);
 
 	const [flagIsLoadingState, setFlagIsLoadingState] = useState<ProfileContextState['flags']['is_loading']>(true);
 
@@ -165,17 +169,25 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		try {
 			setFlagIsLoadingState(true);
 
-			const [storedProfile, storedPersona, storedToken, storedHistory, storedAccentColor] = await Promise.all([
+			const [storedProfile, storedPersona, storedToken, storedHistory, storedAccentColor, storedInterests] = await Promise.all([
 				localStorage.getItem(LOCAL_STORAGE_KEYS.profile),
 				localStorage.getItem(LOCAL_STORAGE_KEYS.persona_image),
 				localStorage.getItem(LOCAL_STORAGE_KEYS.token),
 				localStorage.getItem(LOCAL_STORAGE_KEYS.persona_history),
 				localStorage.getItem(LOCAL_STORAGE_KEYS.accent_color),
+				localStorage.getItem(LOCAL_STORAGE_KEYS.interests),
 			]);
 
 			setAPIToken(prev => prev === storedToken ? prev : storedToken);
 			setDataAccentColorState(prev => prev === storedAccentColor ? prev : storedAccentColor);
 			setDataPersonaImageState(prev => prev === storedPersona ? prev : storedPersona);
+			const parsedInterests = storedInterests ? JSON.parse(storedInterests) : [];
+			setDataInterestsState((prev) => {
+				if (JSON.stringify(prev) === JSON.stringify(parsedInterests)) {
+					return prev;
+				}
+				return parsedInterests;
+			});
 			setPersonaHistory((prev) => {
 				const parsed = storedHistory ? JSON.parse(storedHistory) : [];
 				if (prev.length === parsed.length && prev.every((v, i) => v === parsed[i])) {
@@ -252,8 +264,12 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		if (dataAccentColorState) {
 			localStorage.setItem(LOCAL_STORAGE_KEYS.accent_color, dataAccentColorState || '');
 		}
+		if (dataInterestsState) {
+			localStorage.setItem(LOCAL_STORAGE_KEYS.interests, JSON.stringify(dataInterestsState) || '');
+		}
 	}, [
 		dataWidgetLinesState,
+		dataInterestsState,
 		dataWidgetStopsState,
 		dataApiTokenState,
 		dataProfileState,
@@ -571,6 +587,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
 		await updateProfileOnCloud(updatedProfile);
 	};
+
 	const setNewEmptyProfile = async () => {
 		if (!consentContext.data.enabled_functional) return;
 		const newProfileStructure: Account = {
@@ -633,6 +650,11 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		setDataAccentColorState(color);
 	};
 
+	const setInterests = (topics: string[]) => {
+		if (!consentContext.data.enabled_functional) return;
+		setDataInterestsState(topics);
+	};
+
 	//
 	// E. Define context value
 	const contextValue: ProfileContextState = {
@@ -640,6 +662,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			checkProfile,
 			fetchPersona,
 			setAccentColor,
+			setInterests,
 			setNewEmptyProfile,
 			setPreviousPersona,
 			setSelectedLine,
@@ -661,6 +684,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			cloud_profile: dataCloudProfileState,
 			favorite_lines: dataFavoriteLinesState,
 			favorite_stops: dataFavoriteStopsState,
+			interests: dataInterestsState,
 			persona_image: dataPersonaImageState,
 			profile: dataProfileState,
 			selected_line: dataSelectedLineState,

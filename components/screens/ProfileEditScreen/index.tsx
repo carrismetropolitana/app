@@ -63,7 +63,7 @@ export default function ProfileEditScreen() {
 	const [birthDate, setBirthDate] = useState(profileContext.data.profile?.profile?.date_of_birth || '');
 	const [activityProfile, setActivityProfile] = useState(profileContext.data.profile?.profile?.activity || '');
 	const [usageType, setUsageType] = useState(profileContext.data.profile?.profile?.utilization_type || '');
-	const [interestTopics, setInterestTopics] = useState<string[]>(profileContext.data.profile?.profile?.interests?.split(',') || []);
+	const [interestTopics, setInterestTopics] = useState<string[]>(profileContext.data.interests || []);
 	const [accentColor, setAccentColor] = useState<null | string>(profileContext.data.accent_color || null);
 	const [showPicker, setShowPicker] = useState(false);
 	const navigation = useNavigation();
@@ -96,6 +96,10 @@ export default function ProfileEditScreen() {
 
 	useEffect(() => {
 		profileContext.actions.setAccentColor(accentColor || '');
+	}, [accentColor]);
+
+	useEffect(() => {
+		profileContext.actions.setInterests(interestTopics || []);
 	}, [accentColor]);
 
 	useEffect(() => {
@@ -254,12 +258,15 @@ export default function ProfileEditScreen() {
 								title={InterestsLabels[item]}
 								uncheckedIcon={<IconSquare color={accentColor || '#3D85C6'} fill="#FFFFFF" size={28} />}
 								onPress={() => {
+									let newTopics;
 									if (interestTopics.includes(item)) {
-										setInterestTopics(interestTopics.filter(i => i !== item));
+										newTopics = interestTopics.filter(i => i !== item);
 									}
 									else {
-										setInterestTopics([...interestTopics, item]);
+										newTopics = [...interestTopics, item];
 									}
+									setInterestTopics(newTopics);
+									profileContext.actions.setInterests(newTopics);
 								}}
 							/>
 						</ListItem.Content>
