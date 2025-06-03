@@ -11,6 +11,7 @@ import dimAvatarBackground from '@/utils/dimAvatarBackground';
 import { ButtonGroup, CheckBox, Input, ListItem, Text } from '@rn-vui/themed';
 import { IconArrowNarrowLeft, IconArrowsShuffle, IconCircle, IconCircleFilled, IconSquare, IconSquareCheckFilled } from '@tabler/icons-react-native';
 import { useNavigation } from 'expo-router';
+import { DateTime } from 'luxon';
 import React, { useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -74,16 +75,23 @@ export default function ProfileEditScreen() {
 	const handleRefreshPersona = () => profileContext.actions.fetchPersona();
 	const goBackInHistory = () => profileContext.actions.setPreviousPersona();
 
-	const handleProfileFieldBlur = (field: string, value: string) => {
+	const handleProfileFieldBlur = async (field: string, value: number | string) => {
 		if (profileContext.data.profile) {
-			const updatedProfile = { ...profileContext.data.profile, profile: { ...profileContext.data.profile.profile, [field]: value } };
-			profileContext.actions.updateLocalProfile(updatedProfile);
+			const updatedProfile = {
+				...profileContext.data.profile,
+				profile: {
+					...profileContext.data.profile.profile,
+					[field]: value,
+				},
+			};
+			await profileContext.actions.updateLocalProfile(updatedProfile);
 		}
 	};
 
 	const handleBirthChange = (date: Date) => {
-		setBirthDate(date.getTime().toString());
-		handleProfileFieldBlur('date_of_birth', date.getTime().toString());
+		const timeStamp = date.getTime();
+		setBirthDate(timeStamp.toString());
+		handleProfileFieldBlur('date_of_birth', timeStamp);
 	};
 
 	useEffect(() => {
@@ -159,7 +167,7 @@ export default function ProfileEditScreen() {
 							<Text>Data de Nascimento</Text>
 						</ListItem.Title>
 						<DateTimePickerModal
-							date={birthDate ? new Date(birthDate) : new Date()}
+							date={birthDate ? new Date(Number(birthDate)) : new Date()}
 							isVisible={showPicker}
 							locale={localeContext.locale}
 							mode="date"
@@ -173,7 +181,7 @@ export default function ProfileEditScreen() {
 							editable={false}
 							onPressIn={() => setShowPicker(true)}
 							placeholder="Selecionar data"
-							value={birthDate ? new Date(Number(birthDate)).toLocaleDateString(localeContext.locale) : ''}
+							value={birthDate ? DateTime.fromJSDate(new Date(Number(birthDate))).setLocale(localeContext.locale).toLocaleString(DateTime.DATE_MED).replaceAll('de', '') : ''}
 						/>
 					</ListItem.Content>
 				</ListItem>
