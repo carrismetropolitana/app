@@ -33,9 +33,11 @@ const circleStyle: CircleLayerStyle = {
 	circleStrokeWidth: ['interpolate', ['linear'], ['zoom'], 9, 0.01, 26, 7] as any,
 };
 
-export function MapViewStyleActiveStops({
-	stopsData = getBaseGeoJsonFeatureCollection(),
-}: MapViewStyleActiveStopsProps) {
+export function MapViewStyleActiveStops({ stopsData = getBaseGeoJsonFeatureCollection() }: MapViewStyleActiveStopsProps) {
+	if (stopsData && stopsData.type !== 'FeatureCollection' && stopsData.type !== 'Feature') {
+		throw new Error('stopsData must be a GeoJSON FeatureCollection');
+	}
+
 	return (
 		<ShapeSource id="active-stops-source" shape={stopsData}>
 			<SymbolLayer

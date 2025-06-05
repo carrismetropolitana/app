@@ -22,7 +22,7 @@ export const styles = () => {
 
 		sectionWrapper: {
 			backgroundColor: backgroundColor,
-			paddingTop: theming.sizeSpacing15,
+			// paddingTop: theming.sizeSpacing15,
 			width: '100%',
 		},
 		/* * */

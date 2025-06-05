@@ -9,13 +9,17 @@ import { StyleSheet } from 'react-native';
 export const styles = () => {
 	const { theme } = useThemeContext();
 	const isLight = theme.mode === 'light';
-	const backgroundColor = isLight ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark200;
+	const backgroundColor = isLight ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100;
+	const headerBackgroundColor = isLight
+		? theming.colorSystemBackgroundLight200
+		: theming.colorSystemBackgroundDark200;
 	const fontColor = isLight ? theming.colorSystemText100 : theming.colorSystemText300;
 	const buttonBackgroundColor = theme.mode === 'light' ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200;
 	const titleColor = theme.mode === 'light' ? theming.colorSystemText200 : theming.colorSystemText300;
 
 	return StyleSheet.create({
 		addFavoritesSection: {
+			backgroundColor: headerBackgroundColor,
 			paddingTop: 20,
 		},
 		button: {
@@ -35,6 +39,10 @@ export const styles = () => {
 		},
 		container: {
 			backgroundColor: backgroundColor,
+		},
+		favoritesListSection: {
+			backgroundColor: headerBackgroundColor,
+			paddingTop: 20,
 		},
 		goBackHeader: {
 			alignContent: 'flex-start',

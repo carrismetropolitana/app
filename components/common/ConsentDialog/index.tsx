@@ -9,7 +9,7 @@ import { Link, usePathname } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TouchableOpacity, View } from 'react-native';
+import { Image, Platform, TouchableOpacity, View } from 'react-native';
 
 import { styles } from './styles';
 
@@ -88,7 +88,19 @@ export function ConsentPopup() {
 
 	return (
 		<Dialog backdropStyle={{ opacity: 0.55 }} isVisible={isPopupOpen} onBackdropPress={() => setIsPopupOpen(false)} overlayStyle={consentModalStyles.contentOverride}>
-			<LottieView source={animation} style={consentModalStyles.logo} autoPlay loop />
+
+			{Platform.OS !== 'android' && (
+				<LottieView
+					source={animation}
+					style={consentModalStyles.logo}
+				/>
+			)}
+
+			{Platform.OS === 'android' && (
+			// eslint-disable-next-line @typescript-eslint/no-require-imports
+				<Image source={require('@/assets/images/logo.png')} style={{ height: 100, left: 20, resizeMode: 'contain', width: 100 }} />
+			)}
+
 			<Text style={consentModalStyles.title}>{t('title')}</Text>
 			<Text style={consentModalStyles.text}>{t('text')}</Text>
 			<TouchableOpacity onPress={() => setShowOptions(prev => !prev)}>

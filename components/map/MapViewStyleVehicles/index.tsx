@@ -24,11 +24,7 @@ interface Props {
 
 /* * */
 
-const baseGeoJsonFeatureCollection = getBaseGeoJsonFeatureCollection();
-
-/* * */
-
-export function MapViewStyleVehicles({ onVehiclePress, showCounter, vehiclesData = baseGeoJsonFeatureCollection }: Props) {
+export function MapViewStyleVehicles({ onVehiclePress, showCounter, vehiclesData = getBaseGeoJsonFeatureCollection() }: Props) {
 	//
 	// A. Setup variables
 
@@ -37,13 +33,18 @@ export function MapViewStyleVehicles({ onVehiclePress, showCounter, vehiclesData
 	//
 	// B. Render components
 
+	if (!vehiclesData || !vehiclesData.features || vehiclesData.features.length === 0) {
+		console.log('===> NO VEHICLES', vehiclesData.features.length);
+		return null;
+	}
+
 	return (
 		<>
 			<ShapeSource
 				id="default-source-vehicles"
 				shape={vehiclesData}
 				onPress={(e) => {
-					const id = e.features?.[0]?.properties?.id || '';
+					const id = e.features?.[0]?.properties?.id || 0;
 					onVehiclePress(id);
 				}}
 			>
@@ -59,13 +60,13 @@ export function MapViewStyleVehicles({ onVehiclePress, showCounter, vehiclesData
 						iconOpacity: [
 							'interpolate',
 							['linear'],
-							['get', 'delay'],
+							['coalesce', ['get', 'delay'], 0],
 							20,
 							0,
 							40,
 							1,
 						],
-						iconRotate: ['get', 'bearing'],
+						iconRotate: ['coalesce', ['get', 'bearing'], 0],
 						iconRotationAlignment: 'map',
 						iconSize: [
 							'interpolate',
@@ -89,7 +90,7 @@ export function MapViewStyleVehicles({ onVehiclePress, showCounter, vehiclesData
 						iconIgnorePlacement: true,
 						iconImage: 'cmet-bus-regular',
 						iconOffset: [0, 0],
-						iconRotate: ['get', 'bearing'],
+						iconRotate: ['coalesce', ['get', 'bearing'], 0],
 						iconRotationAlignment: 'map',
 						iconSize: [
 							'interpolate',
@@ -114,8 +115,11 @@ export function MapViewStyleVehicles({ onVehiclePress, showCounter, vehiclesData
 				</View>
 			)}
 
-			{showCounter === 'always' && vehiclesData.features.length > 0 && (
+			{ !showCounter && vehiclesData.features.length === 0 && (
+				<></>
+			)}
 
+			{showCounter === 'always' && vehiclesData.features.length > 0 && (
 				<View style={vehiclesData.features.length !== 0 ? counterStyles.vehiclesCounter : counterStyles.zeroCount}>
 					<LiveIcon />
 					<Text style={counterStyles.text}>

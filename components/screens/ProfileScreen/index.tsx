@@ -11,7 +11,7 @@ import { Button, ListItem } from '@rn-vui/themed';
 import { IconArrowLoopRight, IconBellRinging, IconBusStop, IconCirclePlus } from '@tabler/icons-react-native';
 import { router, useNavigation } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 
 import { styles } from './styles';
@@ -70,7 +70,7 @@ export default function ProfileScreen() {
 	);
 
 	useEffect(() => {
-		navigation.setOptions({ headerStyle: { backgroundColor: themeContext.theme.lightColors?.background } });
+		navigation.setOptions({ headerStyle: { backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background } });
 	}, [navigation, themeContext.theme.mode]);
 
 	const ListHeader = () => (
@@ -84,9 +84,10 @@ export default function ProfileScreen() {
 				<Button buttonStyle={profileStyles.button} containerStyle={profileStyles.buttonContainer} onPress={() => router.push('/profileEdit')} title="Editar Perfil" titleStyle={profileStyles.buttonTitle} />
 				{/* </Link> */}
 			</View>
-
-			<Section heading="Personalizar widgets" />
-			{!widgetList.length && <NoDataLabel text="Sem widgets" fill />}
+			<View style={profileStyles.favoritesListSection}>
+				<Section heading="Personalizar widgets" />
+				{!widgetList.length && <NoDataLabel text="Sem widgets" fill />}
+			</View>
 		</>
 	);
 

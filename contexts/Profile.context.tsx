@@ -119,8 +119,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			_id: cloud._id || local._id,
 			created_at: cloud.created_at || local.created_at,
 			devices: local.devices || cloud.devices || [],
-			email: cloud.email || local.email,
-			email_verified: cloud.email_verified || local.email_verified,
 			favorites: {
 				lines: local.favorites?.lines || cloud.favorites?.lines || [],
 				stops: local.favorites?.stops || cloud.favorites?.stops || [],
@@ -135,7 +133,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				phone: cloud.profile?.phone || local.profile?.phone,
 				profile_image: local.profile?.profile_image || cloud.profile?.profile_image,
 				utilization_type: cloud.profile?.utilization_type || local.profile?.utilization_type,
-				// work_setting: cloud.profile?.work_setting || local.profile?.work_setting,
 			},
 			role: cloud.role,
 			updated_at: cloud.updated_at,

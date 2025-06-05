@@ -26,9 +26,7 @@ export default function HomeScreen() {
 				<View style={{ paddingHorizontal: 20 }}>
 					<WidgetCards />
 				</View>
-				{/* <Link href='/profile' asChild> */}
 				<Button buttonStyle={{ alignSelf: 'center', backgroundColor: buttonBackgroundColor, borderRadius: 999, flexDirection: 'row', marginBottom: 20, width: '30%' }} containerStyle={{ backgroundColor: backgroundColor, paddingTop: 10 }} onPress={() => router.push('/profile')} title="Personalizar" titleStyle={{ color: titleColor, fontSize: theming.fontSizeMuted, fontWeight: theming.fontWeightSemibold as '600' }} />
-				{/* </Link> */}
 			</ScrollView>
 		</View>
 	);

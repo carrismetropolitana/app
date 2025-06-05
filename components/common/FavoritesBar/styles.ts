@@ -1,15 +1,19 @@
 /* * */
 
+import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { StyleSheet } from 'react-native';
 
 /* * */
 
 export const styles = () => {
+	const { theme } = useThemeContext();
+	const borderColor = theme.mode === 'light' ? theming.colorSystemBorder100 : theming.colorSystemBorderDark200;
+
 	return StyleSheet.create({
 		/* CONTAINER */
 		container: {
-			borderBottomColor: theming.colorSystemBorder100,
+			borderBottomColor: borderColor,
 			borderBottomWidth: 1,
 			height: 65,
 			left: 0,

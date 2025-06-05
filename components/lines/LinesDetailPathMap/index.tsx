@@ -113,13 +113,13 @@ export function LinesDetailPathMap({ hasToolbar }: Props) {
 					zoomLevel={camera.zoomLevel}
 				/>
 				<MapViewStylePath
-					shapeData={linesDetailContext.data.active_shape?.geojson}
-					waypointsData={activePathFC ?? undefined}
+					shapeData={linesDetailContext.data.active_shape?.geojson || getBaseGeoJsonFeatureCollection()}
+					waypointsData={activePathFC || getBaseGeoJsonFeatureCollection()}
 				/>
-				<MapViewStyleActiveStops stopsData={activeStopFC ?? undefined} />
+				<MapViewStyleActiveStops stopsData={activeStopFC || getBaseGeoJsonFeatureCollection()} />
 				<MapViewStyleVehicles
 					showCounter="always"
-					vehiclesData={activeVehiclesFC ?? undefined}
+					vehiclesData={activeVehiclesFC ?? getBaseGeoJsonFeatureCollection()}
 					onVehiclePress={(id) => {
 						router.push(`/vehicle/${id}`);
 					}}
