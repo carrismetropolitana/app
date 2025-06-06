@@ -27,7 +27,7 @@ interface Props {
 export function MapViewStyleVehicles({ onVehiclePress, showCounter, vehiclesCount = 0, vehiclesData }: Props) {
 	//
 	const counterStyles = styles();
-	console.log(vehiclesCount);
+	// console.log(vehiclesCount);
 
 	return (
 		<>
@@ -95,24 +95,6 @@ export function MapViewStyleVehicles({ onVehiclePress, showCounter, vehiclesCoun
 					}}
 				/>
 			</ShapeSource>
-
-			{/* {
-				(vehiclesCount === 0 && showCounter) && (
-					<View style={counterStyles.zeroCount}>
-						<NoVehicleIcon />
-						<Text style={counterStyles.textMuted}>Sem veiculos em circulação</Text>
-					</View>
-				)
-			}
-
-			{ (vehiclesCount > 0 && (showCounter === 'always' || showCounter === 'positive')) && (
-				(
-					<View style={counterStyles.vehiclesCounter}>
-						<LiveIcon />
-						<Text style={counterStyles.text}>{vehiclesCount} veículos em circulação</Text>
-					</View>
-				)
-			)} */}
 		</>
 	);
 }

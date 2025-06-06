@@ -1,5 +1,8 @@
 /* * */
 
+import { LiveIcon } from '@/components/common/LiveIcon';
+import { NoVehicleIcon } from '@/components/common/NoVehicleIcon';
+import VehicleCounter from '@/components/common/VehicleCounter';
 import { MapView } from '@/components/map/MapView';
 import { MapViewStyleActiveStops } from '@/components/map/MapViewStyleActiveStops';
 import { MapViewStylePath } from '@/components/map/MapViewStylePath';
@@ -12,7 +15,9 @@ import { getCenterAndZoom } from '@/utils/map.utils';
 import { Camera } from '@maplibre/maplibre-react-native';
 import { router } from 'expo-router';
 import React, { useEffect, useMemo, useState } from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+
+import { styles } from './styles';
 
 /* * */
 
@@ -30,6 +35,7 @@ export function LinesDetailPathMap({ hasToolbar }: Props) {
 	const vehiclesContext = useVehiclesContext();
 	const linesDetailContext = useLinesDetailContext();
 	const stopsContext = useStopsContext();
+	const counterStyles = styles();
 
 	//
 	// B. Fetch data
@@ -124,7 +130,9 @@ export function LinesDetailPathMap({ hasToolbar }: Props) {
 						router.push(`/vehicle/${id}`);
 					}}
 				/>
+
 			</MapView>
+			<VehicleCounter count={activeVehiclesFC?.features.length || 0} />
 		</View>
 	);
 }

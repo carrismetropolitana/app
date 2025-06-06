@@ -144,7 +144,6 @@ export function MapView({
 						mapDefaultConfig.initialViewState.latitude,
 					]}
 				/>
-
 				{children}
 			</RNMapView>
 			<TouchableOpacity
@@ -238,7 +237,7 @@ const styles = StyleSheet.create({
 	modalButton: {
 		backgroundColor: '#007AFF',
 		borderRadius: 6,
-		marginTop: 8,
+		marginTop: 10,
 		paddingHorizontal: 16,
 		paddingVertical: 8,
 	},

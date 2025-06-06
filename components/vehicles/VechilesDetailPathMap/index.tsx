@@ -1,5 +1,7 @@
 /* * */
 
+import { LiveIcon } from '@/components/common/LiveIcon';
+import VehicleCounter from '@/components/common/VehicleCounter';
 import { MapView } from '@/components/map/MapView';
 import { MapViewStyleActiveStops } from '@/components/map/MapViewStyleActiveStops';
 import { MapViewStylePath } from '@/components/map/MapViewStylePath';
@@ -11,7 +13,7 @@ import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
 import { getCenterAndZoom } from '@/utils/map.utils';
 import { Camera } from '@maplibre/maplibre-react-native';
 import React, { useEffect, useMemo, useState } from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 
 /* * */
 
@@ -123,6 +125,7 @@ export function VehiclesDetailPathMap({ hasToolbar }: Props) {
 						console.log('Vehicle pressed, ID:', id);
 					}}
 				/>
+				<VehicleCounter count={activeVehiclesFC?.features.length || 0} />
 			</MapView>
 		</View>
 	);
