@@ -78,7 +78,6 @@ export function LinesDetailPathMap({ hasToolbar }: Props) {
 		return coll;
 	}, [linesDetailContext.data.active_waypoint, linesDetailContext.data.active_pattern]);
 
-	// Calculate center and zoom for the path
 	const fitPath = useMemo(() => {
 		if (activePathFC?.features?.length) {
 			return getCenterAndZoom(activePathFC.features, 1.2);
@@ -119,6 +118,7 @@ export function LinesDetailPathMap({ hasToolbar }: Props) {
 				<MapViewStyleActiveStops stopsData={activeStopFC || getBaseGeoJsonFeatureCollection()} />
 				<MapViewStyleVehicles
 					showCounter="always"
+					vehiclesCount={activeVehiclesFC?.features.length || 0}
 					vehiclesData={activeVehiclesFC ?? getBaseGeoJsonFeatureCollection()}
 					onVehiclePress={(id) => {
 						router.push(`/vehicle/${id}`);

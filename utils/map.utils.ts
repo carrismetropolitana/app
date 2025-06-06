@@ -116,10 +116,7 @@ export const getBaseGeoJsonFeatureCollection = (): GeoJSON.FeatureCollection<Geo
  * @returns The center coordinates and zoom level, or null if features are empty
  */
 
-export function getCenterAndZoom(
-	features: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>[],
-	padding = 1.4,
-): null | { center: [number, number], zoom: number } {
+export function getCenterAndZoom(features: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>[], padding = 1.4): null | { center: [number, number], zoom: number } {
 	if (!features.length) return null;
 
 	const featureCollection = turf.featureCollection(features);
@@ -133,14 +130,17 @@ export function getCenterAndZoom(
 	];
 
 	const { height, width } = Dimensions.get('window');
+
 	function latRad(lat: number) {
 		const sin = Math.sin((lat * Math.PI) / 180);
 		const radX2 = Math.log((1 + sin) / (1 - sin)) / 2;
 		return Math.max(Math.min(radX2, Math.PI), -Math.PI) / 2;
 	}
+
 	function zoom(mapPx: number, worldPx: number, fraction: number) {
 		return Math.floor(Math.log(mapPx / worldPx / fraction) / Math.LN2);
 	}
+
 	const WORLD_DIM = { height: 256, width: 256 };
 	const ZOOM_MAX = 20;
 	const latFraction = (latRad(maxLat) - latRad(minLat)) / Math.PI;

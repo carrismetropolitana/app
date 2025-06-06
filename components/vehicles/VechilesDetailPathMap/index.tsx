@@ -117,6 +117,7 @@ export function VehiclesDetailPathMap({ hasToolbar }: Props) {
 				<MapViewStyleActiveStops stopsData={activeStopFC ?? getBaseGeoJsonFeatureCollection()} />
 				<MapViewStyleVehicles
 					showCounter="always"
+					vehiclesCount={activeVehiclesFC?.features.length || 0}
 					vehiclesData={activeVehiclesFC ?? getBaseGeoJsonFeatureCollection()}
 					onVehiclePress={(id) => {
 						console.log('Vehicle pressed, ID:', id);

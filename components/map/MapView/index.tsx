@@ -2,14 +2,16 @@ import { MapViewToolbar } from '@/components/map/MapViewToolbar';
 import { useMapOptionsContext } from '@/contexts/MapOptions.context';
 import { IconsMap } from '@/settings/assets.settings';
 import { mapDefaultConfig } from '@/settings/map.settings';
+import { theming } from '@/theme/Variables';
 import {
 	Camera,
 	Images,
 	MapViewRef,
 	MapView as RNMapView,
 } from '@maplibre/maplibre-react-native';
-import React, { useCallback, useRef } from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
+import { IconInfoCircle } from '@tabler/icons-react-native';
+import React, { useCallback, useRef, useState } from 'react';
+import { Dimensions, Linking, Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export type MapStyle = 'map' | 'satellite';
 
@@ -59,7 +61,6 @@ function getBoundsZoomLevel(
 export function MapView({
 	children,
 	fitBoundsCoords,
-	id,
 	mapStyle,
 	onCenterMap,
 	onPress,
@@ -69,6 +70,7 @@ export function MapView({
 	scrollZoom = true,
 	toolbar = true,
 }: Props) {
+	const [modalVisible, setModalVisible] = useState(false);
 	const mapRef = useRef<MapViewRef>(null);
 	const mapOptionsContext = useMapOptionsContext();
 
@@ -79,8 +81,6 @@ export function MapView({
 	const handleMapReady = useCallback(() => {
 		const map = mapRef.current;
 		if (!map) return;
-
-		// Fit bounds if coordinates are provided
 		if (fitBoundsCoords && typeof (map as any).setCamera === 'function') {
 			const [sw, ne] = fitBoundsCoords;
 			const center = [
@@ -105,9 +105,9 @@ export function MapView({
 			{toolbar && (
 				<MapViewToolbar onCenterMap={onCenterMap} />
 			)}
-
 			<RNMapView
 				ref={mapRef}
+				attributionEnabled={false}
 				mapStyle={styleUrl}
 				onDidFinishLoadingMap={handleMapReady}
 				onPress={onPress}
@@ -147,18 +147,121 @@ export function MapView({
 
 				{children}
 			</RNMapView>
+			<TouchableOpacity
+				activeOpacity={0.7}
+				onPress={() => setModalVisible(true)}
+				style={styles.customInfoButton}
+			>
+				<Text style={styles.infoIcon}><IconInfoCircle color={theming.colorSystemText300} size={24} /></Text>
+			</TouchableOpacity>
+
+			<Modal
+				animationType="fade"
+				onRequestClose={() => setModalVisible(false)}
+				visible={modalVisible}
+				transparent
+			>
+				<View style={styles.modalOverlay}>
+					<View style={styles.modalContent}>
+						<Text style={styles.modalTitle}>Map Attribution</Text>
+						<Text style={styles.modalBody}>
+							This map uses tiles from OpenStreetMap contributors and MapTiler.
+						</Text>
+						<Pressable
+							style={styles.modalButton}
+							onPress={() => {
+								Linking.openURL('https://www.openstreetmap.org/copyright');
+								setModalVisible(false);
+							}}
+						>
+							<Text style={styles.modalButtonText}>© OpenStreetMap contributors</Text>
+						</Pressable>
+						<Pressable
+							style={styles.modalButton}
+							onPress={() => {
+								Linking.openURL('https://www.openmaptiles.org/');
+								setModalVisible(false);
+							}}
+						>
+							<Text style={styles.modalButtonText}> © OpenMapTiles </Text>
+						</Pressable>
+						<Pressable
+							style={styles.modalButton}
+							onPress={() => {
+								Linking.openURL('https://maplibre.org/');
+								setModalVisible(false);
+							}}
+						>
+							<Text style={styles.modalButtonText}>MapLibre</Text>
+						</Pressable>
+						<Pressable
+							onPress={() => setModalVisible(false)}
+							style={[styles.modalButton, { marginTop: 8 }]}
+						>
+							<Text style={styles.modalButtonText}>Close</Text>
+						</Pressable>
+					</View>
+				</View>
+			</Modal>
 		</View>
 	);
 }
 
 const styles = StyleSheet.create({
-	container: { flex: 1 },
-	map: { flex: 1 },
-	toolbar: {
-		left: 10,
+	container: { alignSelf: 'stretch', flex: 1 },
+	customInfoButton: {
+		alignItems: 'center',
+		backgroundColor: 'rgba(255,255,255,0.9)',
+		borderRadius: 16,
+		bottom: 12,
+		elevation: 3,
+		height: 32,
+		justifyContent: 'center',
 		position: 'absolute',
-		right: 10,
-		top: 10,
-		zIndex: 2,
+		right: 12,
+		shadowColor: '#000',
+		shadowOffset: { height: 1, width: 0 },
+		shadowOpacity: 0.2,
+		shadowRadius: 2,
+		width: 32,
+	},
+	infoIcon: {
+		color: '#333',
+		fontSize: 18,
+	},
+	map: { flex: 1 },
+	modalBody: {
+		fontSize: 14,
+		marginBottom: 12,
+		textAlign: 'center',
+	},
+	modalButton: {
+		backgroundColor: '#007AFF',
+		borderRadius: 6,
+		marginTop: 8,
+		paddingHorizontal: 16,
+		paddingVertical: 8,
+	},
+	modalButtonText: {
+		color: 'white',
+		fontSize: 14,
+	},
+	modalContent: {
+		alignItems: 'center',
+		backgroundColor: '#fff',
+		borderRadius: 8,
+		padding: 16,
+		width: '80%',
+	},
+	modalOverlay: {
+		alignItems: 'center',
+		backgroundColor: 'rgba(0,0,0,0.3)',
+		flex: 1,
+		justifyContent: 'center',
+	},
+	modalTitle: {
+		fontSize: 16,
+		fontWeight: '600',
+		marginBottom: 8,
 	},
 });

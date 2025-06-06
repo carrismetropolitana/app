@@ -9,7 +9,7 @@ export const mapDefaultValues = Object.freeze({
 	duration: 1800,
 	latitude: 38.7,
 	longitude: -9.0,
-	picth: 0,
+	pitch: 0,
 	speed: 4000,
 	zoom: 10,
 	zoom_margin: 3,
@@ -60,7 +60,7 @@ export const mapDefaultConfig = Object.freeze({
 		bearing: mapDefaultValues.bearing,
 		latitude: mapDefaultValues.latitude,
 		longitude: mapDefaultValues.longitude,
-		pitch: mapDefaultValues.picth,
+		pitch: mapDefaultValues.pitch,
 		zoom: mapDefaultValues.zoom,
 	},
 	maxZoom: mapDefaultValues.zoom_max,
@@ -73,7 +73,7 @@ export const mapDefaultConfig = Object.freeze({
 	viewport: {
 		bearing: mapDefaultValues.bearing,
 		center: [mapDefaultValues.longitude, mapDefaultValues.latitude],
-		pitch: mapDefaultValues.picth,
+		pitch: mapDefaultValues.pitch,
 		zoom: mapDefaultValues.zoom,
 	},
 });

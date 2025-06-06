@@ -2,7 +2,6 @@
 
 import { LiveIcon } from '@/components/common/LiveIcon';
 import { NoVehicleIcon } from '@/components/common/NoVehicleIcon';
-import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
 import { ShapeSource, SymbolLayer } from '@maplibre/maplibre-react-native';
 import { Text, View } from 'react-native';
 
@@ -19,24 +18,16 @@ interface Props {
 	onVehiclePress: (id: string) => void
 	presentBeforeId?: string
 	showCounter?: 'always' | 'positive'
+	vehiclesCount?: number
 	vehiclesData?: GeoJSON.FeatureCollection
 }
 
 /* * */
 
-export function MapViewStyleVehicles({ onVehiclePress, showCounter, vehiclesData = getBaseGeoJsonFeatureCollection() }: Props) {
+export function MapViewStyleVehicles({ onVehiclePress, showCounter, vehiclesCount = 0, vehiclesData }: Props) {
 	//
-	// A. Setup variables
-
 	const counterStyles = styles();
-
-	//
-	// B. Render components
-
-	if (!vehiclesData || !vehiclesData.features || vehiclesData.features.length === 0) {
-		console.log('===> NO VEHICLES', vehiclesData.features.length);
-		return null;
-	}
+	console.log(vehiclesCount);
 
 	return (
 		<>
@@ -80,7 +71,6 @@ export function MapViewStyleVehicles({ onVehiclePress, showCounter, vehiclesData
 						symbolPlacement: 'point',
 					}}
 				/>
-
 				<SymbolLayer
 					id="default-layer-vehicles-regular"
 					sourceID="default-source-vehicles"
@@ -106,35 +96,23 @@ export function MapViewStyleVehicles({ onVehiclePress, showCounter, vehiclesData
 				/>
 			</ShapeSource>
 
-			{vehiclesData.features.length === 0 && showCounter && (
-				<View style={vehiclesData.features.length !== 0 ? counterStyles.vehiclesCounter : counterStyles.zeroCount}>
-					<NoVehicleIcon />
-					<Text style={counterStyles.textMuted}>
-						Sem veiculos em circulação
-					</Text>
-				</View>
-			)}
+			{/* {
+				(vehiclesCount === 0 && showCounter) && (
+					<View style={counterStyles.zeroCount}>
+						<NoVehicleIcon />
+						<Text style={counterStyles.textMuted}>Sem veiculos em circulação</Text>
+					</View>
+				)
+			}
 
-			{ !showCounter && vehiclesData.features.length === 0 && (
-				<></>
-			)}
-
-			{showCounter === 'always' && vehiclesData.features.length > 0 && (
-				<View style={vehiclesData.features.length !== 0 ? counterStyles.vehiclesCounter : counterStyles.zeroCount}>
-					<LiveIcon />
-					<Text style={counterStyles.text}>
-						{vehiclesData.features.length} veículos em circulação
-					</Text>
-				</View>
-			)}
-
-			{showCounter === 'positive' && vehiclesData.features.length > 0 && (
-				<View style={vehiclesData.features.length !== 0 ? counterStyles.vehiclesCounter : counterStyles.zeroCount}>
-					<LiveIcon />
-					<Text style={counterStyles.text}> {vehiclesData.features.length} veículos em circulação </Text>
-				</View>
-			)}
-
+			{ (vehiclesCount > 0 && (showCounter === 'always' || showCounter === 'positive')) && (
+				(
+					<View style={counterStyles.vehiclesCounter}>
+						<LiveIcon />
+						<Text style={counterStyles.text}>{vehiclesCount} veículos em circulação</Text>
+					</View>
+				)
+			)} */}
 		</>
 	);
 }
