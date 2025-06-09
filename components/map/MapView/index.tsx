@@ -16,6 +16,10 @@ import { Dimensions, Linking, Modal, Pressable, StyleSheet, Text, TouchableOpaci
 export type MapStyle = 'map' | 'satellite';
 
 interface Props {
+	camera?: {
+		centerCoordinate?: [number, number]
+		zoomLevel?: number
+	}
 	children: React.ReactNode
 	fitBoundsCoords?: [[number, number], [number, number]]
 	id?: string
@@ -59,6 +63,7 @@ function getBoundsZoomLevel(
 }
 
 export function MapView({
+	camera,
 	children,
 	fitBoundsCoords,
 	mapStyle,
@@ -131,19 +136,22 @@ export function MapView({
 						'cmet-store-open': IconsMap.store_open,
 					}}
 				/>
-
-				<Camera
-					animationMode="flyTo"
-					heading={mapDefaultConfig.initialViewState.bearing}
-					maxZoomLevel={mapDefaultConfig.maxZoom}
-					minZoomLevel={mapDefaultConfig.minZoom}
-					pitch={mapDefaultConfig.initialViewState.pitch}
-					zoomLevel={mapDefaultConfig.initialViewState.zoom}
-					centerCoordinate={[
-						mapDefaultConfig.initialViewState.longitude,
-						mapDefaultConfig.initialViewState.latitude,
-					]}
-				/>
+				{camera && (
+					<Camera
+						animationMode="flyTo"
+						centerCoordinate={camera ? camera.centerCoordinate : [mapDefaultConfig.initialViewState.longitude, mapDefaultConfig.initialViewState.latitude]}
+						heading={mapDefaultConfig.initialViewState.bearing}
+						zoomLevel={camera ? camera.zoomLevel : mapDefaultConfig.initialViewState.zoom}
+						defaultSettings={{
+							centerCoordinate: [
+								mapDefaultConfig.initialViewState.longitude,
+								mapDefaultConfig.initialViewState.latitude,
+							],
+							pitch: mapDefaultConfig.initialViewState.pitch,
+							zoomLevel: mapDefaultConfig.initialViewState.zoom,
+						}}
+					/>
+				)}
 				{children}
 			</RNMapView>
 			<TouchableOpacity
@@ -155,7 +163,7 @@ export function MapView({
 			</TouchableOpacity>
 
 			<Modal
-				animationType="fade"
+				animationType="slide"
 				onRequestClose={() => setModalVisible(false)}
 				visible={modalVisible}
 				transparent
@@ -166,6 +174,15 @@ export function MapView({
 						<Text style={styles.modalBody}>
 							This map uses tiles from OpenStreetMap contributors and MapTiler.
 						</Text>
+						<Pressable
+							style={styles.modalButton}
+							onPress={() => {
+								Linking.openURL('https://maps.carrismetropolitana.pt/');
+								setModalVisible(false);
+							}}
+						>
+							<Text style={styles.modalButtonText}>Se quiser utilizar este mapa</Text>
+						</Pressable>
 						<Pressable
 							style={styles.modalButton}
 							onPress={() => {

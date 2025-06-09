@@ -1,13 +1,14 @@
 import type { CircleLayerStyle } from '@maplibre/maplibre-react-native';
 
 import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
-import { CircleLayer, ShapeSource } from '@maplibre/maplibre-react-native';
+import { CircleLayer, ShapeSource, SymbolLayer } from '@maplibre/maplibre-react-native';
 import React from 'react';
 
 export const MapViewStyleStopsPrimaryLayerId = 'default-layer-stops-all';
 export const MapViewStyleStopsInteractiveLayerId = 'default-layer-stops-all-muted';
 
 interface Props {
+	flaggedStopId?: string // NEW
 	onStopPress?: (stopId: string) => void
 	presentBeforeId?: string
 	stopsData?: GeoJSON.FeatureCollection
@@ -64,25 +65,42 @@ const mutedPaint = {
 	] as const,
 } satisfies CircleLayerStyle;
 
-export function MapViewStyleStops({ onStopPress, stopsData = baseGeoJsonFeatureCollection, style = 'primary' }: Props) {
-	const layerId = style === 'primary'
-		? MapViewStyleStopsPrimaryLayerId
-		: MapViewStyleStopsInteractiveLayerId;
-
+export function MapViewStyleStops({ flaggedStopId, onStopPress, stopsData = baseGeoJsonFeatureCollection, style = 'primary' }: Props) {
+	const layerId = style === 'primary' ? MapViewStyleStopsPrimaryLayerId : MapViewStyleStopsInteractiveLayerId;
 	const paintStyle = style === 'primary' ? primaryPaint : mutedPaint;
+	const flaggedFeature = flaggedStopId && stopsData.features ? stopsData.features.find(f => f.properties && f.properties.id == flaggedStopId) : undefined;
+	const flaggedGeoJson = flaggedFeature
+		? { features: [flaggedFeature], type: 'FeatureCollection' as const }
+		: null;
 
+	console.log(flaggedStopId);
 	return (
-		<ShapeSource
-			id="default-source-stops-all"
-			shape={stopsData}
-			onPress={(e) => {
-				const feature = e.features?.[0];
-				if (feature && onStopPress) {
-					onStopPress(feature.properties?.id ?? '');
-				}
-			}}
-		>
-			<CircleLayer id={layerId} style={paintStyle} />
-		</ShapeSource>
+		<>
+			<ShapeSource
+				id="default-source-stops-all"
+				shape={stopsData}
+				onPress={(e) => {
+					const feature = e.features?.[0];
+					if (feature && onStopPress) {
+						onStopPress(feature.properties?.id ?? '');
+					}
+				}}
+			>
+				<CircleLayer id={layerId} style={paintStyle} />
+			</ShapeSource>
+			{flaggedGeoJson && (
+				<ShapeSource id="flagged-stop-source" shape={flaggedGeoJson}>
+					<SymbolLayer
+						id="flagged-stop-flag"
+						style={{
+							iconAnchor: 'bottom',
+							iconImage: 'cmet-stop-selected',
+							iconOffset: [0, -20],
+							iconSize: 0.1,
+						}}
+					/>
+				</ShapeSource>
+			)}
+		</>
 	);
 }

@@ -1,9 +1,9 @@
 /* * */
 
-// import { expireAllCookies } from '@/utils/expire-all-cookies.util';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DateTime } from 'luxon';
 import { createContext, useContext, useEffect, useState } from 'react';
+
 /* * */
 
 const DECISION_EXPIRATION_IN_DAYS_YES = 365;
@@ -166,7 +166,6 @@ export const ConsentContextProvider = ({ children }) => {
 	};
 
 	const enable = (options: AvailableConsentOption[]) => {
-
 		AsyncStorage.setItem(ASYNC_STORAGE_KEYS.decision_date, DateTime.now().toFormat('yyyyMMdd'));
 		if (options.includes('analytics')) AsyncStorage.setItem(ASYNC_STORAGE_KEYS.enabled_analytics, 'yes');
 		if (options.includes('functional')) AsyncStorage.setItem(ASYNC_STORAGE_KEYS.enabled_functional, 'yes');

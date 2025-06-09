@@ -1,7 +1,5 @@
 /* * */
 
-import { LiveIcon } from '@/components/common/LiveIcon';
-import { NoVehicleIcon } from '@/components/common/NoVehicleIcon';
 import VehicleCounter from '@/components/common/VehicleCounter';
 import { MapView } from '@/components/map/MapView';
 import { MapViewStyleActiveStops } from '@/components/map/MapViewStyleActiveStops';
@@ -12,12 +10,9 @@ import { transformStopDataIntoGeoJsonFeature, useStopsContext } from '@/contexts
 import { useVehiclesContext } from '@/contexts/Vehicles.context';
 import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
 import { getCenterAndZoom } from '@/utils/map.utils';
-import { Camera } from '@maplibre/maplibre-react-native';
 import { router } from 'expo-router';
-import React, { useEffect, useMemo, useState } from 'react';
-import { Text, View } from 'react-native';
-
-import { styles } from './styles';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { ActivityIndicator, View } from 'react-native';
 
 /* * */
 
@@ -35,7 +30,7 @@ export function LinesDetailPathMap({ hasToolbar }: Props) {
 	const vehiclesContext = useVehiclesContext();
 	const linesDetailContext = useLinesDetailContext();
 	const stopsContext = useStopsContext();
-	const counterStyles = styles();
+	const mapRef = useRef<any>(null);
 
 	//
 	// B. Fetch data
@@ -86,7 +81,7 @@ export function LinesDetailPathMap({ hasToolbar }: Props) {
 
 	const fitPath = useMemo(() => {
 		if (activePathFC?.features?.length) {
-			return getCenterAndZoom(activePathFC.features, 1.2);
+			return getCenterAndZoom(activePathFC.features, 2);
 		}
 		return null;
 	}, [activePathFC]);
@@ -108,29 +103,28 @@ export function LinesDetailPathMap({ hasToolbar }: Props) {
 	//
 	// C. Render components
 
+	if (!fitPath) {
+		return (
+			<View style={{ alignItems: 'center', height: 360, justifyContent: 'center', width: '100%' }}>
+				<ActivityIndicator />
+			</View>
+		);
+	}
+
 	return (
 		<View style={{ height: 360, width: '100%' }}>
-			<MapView mapStyle="map" toolbar={hasToolbar}>
-				<Camera
-					animationDuration={1000}
-					animationMode="flyTo"
-					centerCoordinate={camera.centerCoordinate}
-					zoomLevel={camera.zoomLevel}
-				/>
+			<MapView camera={camera} mapStyle="map" toolbar={hasToolbar}>
 				<MapViewStylePath
 					shapeData={linesDetailContext.data.active_shape?.geojson || getBaseGeoJsonFeatureCollection()}
 					waypointsData={activePathFC || getBaseGeoJsonFeatureCollection()}
 				/>
 				<MapViewStyleActiveStops stopsData={activeStopFC || getBaseGeoJsonFeatureCollection()} />
 				<MapViewStyleVehicles
-					showCounter="always"
-					vehiclesCount={activeVehiclesFC?.features.length || 0}
 					vehiclesData={activeVehiclesFC ?? getBaseGeoJsonFeatureCollection()}
 					onVehiclePress={(id) => {
 						router.push(`/vehicle/${id}`);
 					}}
 				/>
-
 			</MapView>
 			<VehicleCounter count={activeVehiclesFC?.features.length || 0} />
 		</View>

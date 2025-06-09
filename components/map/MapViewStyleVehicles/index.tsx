@@ -1,11 +1,6 @@
 /* * */
 
-import { LiveIcon } from '@/components/common/LiveIcon';
-import { NoVehicleIcon } from '@/components/common/NoVehicleIcon';
 import { ShapeSource, SymbolLayer } from '@maplibre/maplibre-react-native';
-import { Text, View } from 'react-native';
-
-import { styles } from './styles';
 
 /* * */
 
@@ -17,17 +12,13 @@ export const MapViewStyleVehiclesInteractiveLayerId = 'default-layer-vehicles-re
 interface Props {
 	onVehiclePress: (id: string) => void
 	presentBeforeId?: string
-	showCounter?: 'always' | 'positive'
-	vehiclesCount?: number
 	vehiclesData?: GeoJSON.FeatureCollection
 }
 
 /* * */
 
-export function MapViewStyleVehicles({ onVehiclePress, showCounter, vehiclesCount = 0, vehiclesData }: Props) {
+export function MapViewStyleVehicles({ onVehiclePress, vehiclesData }: Props) {
 	//
-	const counterStyles = styles();
-	// console.log(vehiclesCount);
 
 	return (
 		<>

@@ -15,7 +15,7 @@ const DEFAULT_OPTIONS = {
 
 // Extend MapViewRef to include setCamera
 interface ExtendedMapViewRef extends MapViewRef {
-	fitBounds(coordinates: Position, coordinates1: Position, arg2: { padding: number; }): unknown;
+	fitBounds(coordinates: Position, coordinates1: Position, arg2: { padding: number }): unknown
 	setCamera: (options: {
 		animationDuration: number
 		centerCoordinate: [number, number]
