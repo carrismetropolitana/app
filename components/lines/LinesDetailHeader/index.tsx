@@ -14,6 +14,7 @@ import { Text } from '@rn-vui/themed';
 import { IconHomePlus, IconVolume } from '@tabler/icons-react-native';
 import { View } from 'react-native';
 
+import { LineDisplayTts } from '../LineDisplayTts';
 import { styles } from './styles';
 
 /* * */
@@ -65,7 +66,8 @@ export function LinesDetailHeader() {
 								<LineBadge lineData={linesDetailContext.data.line} size="lg" />
 								<FavoriteToggle color={linesDetailContext.data.line.color} isActive={linesDetailContext.flags.is_favorite} onToggle={handleToggleFavorite} />
 								<IconHomePlus color="#9696A0" size={24} />
-								<IconVolume color="#9696A0" size={24} />
+								<LineDisplayTts patternId={linesDetailContext.data.active_pattern?.id} />
+
 							</View>
 							<Text style={lineDetailsHeaderStyles.lineName}>{linesDetailContext.data.line.long_name}</Text>
 						</View>
