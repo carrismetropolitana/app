@@ -128,14 +128,22 @@ export default function ProfileScreen() {
 				/>
 			</ListItem>
 			{/* </Link> */}
-			<ListItem disabledStyle={{ opacity: 0.6 }} disabled>
+			<ListItem onPress={() => router.push('/addSmartNotification')}>
 				<IconBellRinging color="#0C807E" size={24} />
 				<ListItem.Content>
 					<ListItem.Title style={profileStyles.listTitle}>
 						<Text>Notificações Inteligentes</Text>
 					</ListItem.Title>
-					<ListItem.Subtitle><Text>Disponível em breve</Text></ListItem.Subtitle>
 				</ListItem.Content>
+				<IconCirclePlus
+					fill="#3CB43C"
+					size={24}
+					color={
+						themeContext.theme.mode === 'light'
+							? theming.colorSystemBackgroundLight100
+							: theming.colorSystemBackgroundDark100
+					}
+				/>
 			</ListItem>
 		</View>
 	);

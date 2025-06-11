@@ -109,11 +109,33 @@
 		},
 		"title": "Cookies Policy"
 	},
+	"analytics": {
+		"ConsentPopup": {
+			"actions": {
+				"accept": "OK",
+				"hide_options": "Esconder Opções",
+				"refuse": "Não, obrigado",
+				"save": "Guardar",
+				"show_options": "Mostrar Opções"
+			},
+			"options": {
+				"analytics": "Guardar dados analíticos",
+				"functional": "Guardar dados funcionais"
+			},
+			"policy_page": "Consultar Política de Cookies",
+			"text": "In order to improve the performance, content and security of this website, TML intends to use cookies or similar technologies.",
+			"title": "We respect your privacy"
+		}
+	},
 	"common": {
 		"NextArrivals": {
 			"arriving": "Incoming",
 			"hours": "h",
 			"minutes": "min"
+		},
+		"SelectNotificationControl": {
+			"hours": "Hours",
+			"meters": "Meters"
 		},
 		"SelectOperationalDay": {
 			"today": "Today",
@@ -309,24 +331,6 @@
 			"heading": "Next Circulations",
 			"second_heading": "Lines that pass in this stop",
 			"third_heading": "Caracterization"
-		}
-	},
-	"analytics": {
-		"ConsentPopup": {
-			"actions": {
-				"accept": "OK",
-				"hide_options": "Esconder Opções",
-				"refuse": "Não, obrigado",
-				"save": "Guardar",
-				"show_options": "Mostrar Opções"
-			},
-			"options": {
-				"analytics": "Guardar dados analíticos",
-				"functional": "Guardar dados funcionais"
-			},
-			"policy_page": "Consultar Política de Cookies",
-			"text": "In order to improve the performance, content and security of this website, TML intends to use cookies or similar technologies.",
-			"title": "We respect your privacy"
 		}
 	}
 }

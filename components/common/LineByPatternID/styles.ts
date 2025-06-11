@@ -9,9 +9,7 @@ import { StyleSheet } from 'react-native';
 export const styles = () => {
 	const { theme } = useThemeContext();
 	const isLight = theme.mode === 'light';
-	const fontColor = isLight
-		? theming.colorSystemText200
-		: theming.colorSystemText300;
+	const fontColor = isLight ? theming.colorSystemText200 : theming.colorSystemText300;
 
 	return StyleSheet.create({
 		/* * */

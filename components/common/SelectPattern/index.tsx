@@ -60,7 +60,6 @@ export function SelectPattern() {
 
 	useEffect(() => {
 		if (!selectedPattern) return;
-
 		lineDetailContext.actions.setActivePattern(selectedPattern);
 	}, [selectedPattern]);
 

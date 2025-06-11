@@ -7,6 +7,7 @@ import { Section } from '@/components/common/layout/Section';
 import { Surface } from '@/components/common/layout/Surface';
 import { StopDisplayLocation } from '@/components/stops/StopDisplayLocation';
 import { StopDisplayName } from '@/components/stops/StopDisplayName';
+import { StopDisplayTts } from '@/components/stops/StopDisplayTts';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { theming } from '@/theme/Variables';
@@ -24,8 +25,10 @@ export function StopDetailHeader() {
 	// A. Setup variables
 	const profileContext = useProfileContext();
 	const stopsDetailContext = useStopsDetailContext();
-
 	const stopDetailsHeader = styles();
+	const isInWidgets = profileContext.data.widget_stops?.some(
+		w => w.data && w.data.type === 'stops' && w.data.stop_id === stopsDetailContext.data.stop?.id,
+	);
 
 	//
 	// B. Handle actions
@@ -34,6 +37,18 @@ export function StopDetailHeader() {
 		if (!stopsDetailContext.data.stop) return;
 		try {
 			profileContext.actions.toggleFavoriteStop(stopsDetailContext.data.stop.id);
+		}
+		catch (error) {
+			console.error({ message: 'Error: ' + error });
+		}
+	};
+
+	const handleToggleWidgetStop = () => {
+		if (!stopsDetailContext.data.stop) return;
+		try {
+			const patternGroup = stopsDetailContext.data.active_pattern_group;
+			const patternIds = patternGroup ? [patternGroup.id] : [];
+			profileContext.actions.toggleWidgetStop(stopsDetailContext.data.stop.id, patternIds);
 		}
 		catch (error) {
 			console.error({ message: 'Error: ' + error });
@@ -54,13 +69,16 @@ export function StopDetailHeader() {
 					<View style={stopDetailsHeader.headerDetailsContainer}>
 						<View style={stopDetailsHeader.nameWrapper}>
 							<StopDisplayName longName={stopsDetailContext.data.stop.long_name} size="lg" />
-
-							{/* <StopDisplayTts stopId={stopsDetailContext.data.stop.id} /> */}
 						</View>
 						<View style={stopDetailsHeader.actionsWrapper}>
 							<FavoriteToggle color={theming.colorBrand} isActive={stopsDetailContext.flags.is_favorite} onToggle={handleToggleFavorite} />
-							<IconHomePlus color="#9696A0" size={24} />
-							<IconVolume color="#9696A0" size={24} />
+							<IconHomePlus
+								color={isInWidgets ? theming.colorBrand : '#9696A0'}
+								disabled={!stopsDetailContext.data.stop}
+								onPress={handleToggleWidgetStop}
+								size={24}
+							/>
+							<StopDisplayTts stopId={stopsDetailContext.data.stop.id} />
 						</View>
 					</View>
 					<StopDisplayLocation localityId={stopsDetailContext.data.stop.locality_id} municipalityId={stopsDetailContext.data.stop.municipality_id} size="lg" />

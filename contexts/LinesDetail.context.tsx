@@ -17,6 +17,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 
 interface LinesDetailContextState {
 	actions: {
+		resetActivePattern: () => void
 		resetLineId: () => void
 		setActivePattern: (patternGroupId: string) => void
 		setActiveWaypoint: (stopId: string, stopSequence: number,) => void
@@ -324,6 +325,7 @@ export const LinesDetailContextProvider = ({ children, lineIdParams }: LinesDeta
 		const foundPatternData = dataValidPatternsState.find(validPattern => validPattern.version_id === patternVersionId);
 		// Update the state
 		if (foundPatternData) {
+			console.log('suk mess ' + JSON.stringify(foundPatternData));
 			setFilterActivePatternIdState(foundPatternData.id);
 			setFlagIsInteractiveModeState(false);
 		}
@@ -369,11 +371,17 @@ export const LinesDetailContextProvider = ({ children, lineIdParams }: LinesDeta
 		setDataLineState(undefined);
 	};
 
+	const resetActivePattern = () => {
+		setActivePattern('');
+		setDataActivePatternState(null);
+	};
+
 	//
 	// E. Define context value
 
 	const contextValue: LinesDetailContextState = {
 		actions: {
+			resetActivePattern,
 			resetLineId,
 			setActivePattern,
 			setActiveWaypoint,
