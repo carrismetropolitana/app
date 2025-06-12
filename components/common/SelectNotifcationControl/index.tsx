@@ -31,7 +31,7 @@ export function SelectNotificationControl({ selectedSelector }: Props) {
 
 	const buttons = [
 		{ element: () => <Text style={selectedIndex === 0 ? selectStyles.textSelected : selectStyles.text}>{t('meters')}</Text> },
-		{ element: () => <Text style={selectedIndex === 1 ? selectStyles.textSelected : selectStyles.text}>{t('hours')}</Text> },
+		// { element: () => <Text style={selectedIndex === 1 ? selectStyles.textSelected : selectStyles.text} disabled>{t('hours')}</Text> },
 	];
 
 	//

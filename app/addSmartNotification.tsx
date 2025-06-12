@@ -20,7 +20,7 @@ export default function AddSmartNotification() {
 
 	useEffect(() => {
 		navigation.setOptions({
-			headerBackTitle: 'Paragem Favorita',
+			headerBackTitle: 'Voltar',
 			headerStyle: {
 				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
 			},

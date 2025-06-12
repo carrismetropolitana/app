@@ -181,7 +181,6 @@ export const LinesDetailContextProvider = ({ children, lineIdParams }: LinesDeta
 		if (!dataActivePatternState) return;
 		(async () => {
 			try {
-				console.log(dataActivePatternState.shape_id);
 				const shapeData = await fetch(`${Routes.API}/shapes/${dataActivePatternState.shape_id}`).then((response) => {
 					if (!response.ok) console.log(`Failed to fetch shape data for shapeId: ${dataActivePatternState.shape_id}`);
 					else return response.json();
@@ -320,12 +319,13 @@ export const LinesDetailContextProvider = ({ children, lineIdParams }: LinesDeta
 	 */
 	const setActivePattern = (patternVersionId: string) => {
 		// Return early if there are no valid patterns
+
 		if (!dataValidPatternsState) return;
 		// Find the pattern data that matches the pattern version id
 		const foundPatternData = dataValidPatternsState.find(validPattern => validPattern.version_id === patternVersionId);
+
 		// Update the state
 		if (foundPatternData) {
-			console.log('suk mess ' + JSON.stringify(foundPatternData));
 			setFilterActivePatternIdState(foundPatternData.id);
 			setFlagIsInteractiveModeState(false);
 		}

@@ -9,6 +9,7 @@ export const useSectionStyles = () => {
 		/* * */
 		/* CONTAINER */
 		container: {
+			// backgroundColor: themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight300 : theming.colorSystemBackgroundDark300,
 			flex: 1,
 			paddingBottom: 0,
 			width: '100%',
@@ -27,6 +28,7 @@ export const useSectionStyles = () => {
 		/* HEADING  WRAPPER */
 		headingWrapper: {
 			alignItems: 'flex-start',
+			// backgroundColor: themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100,
 			display: 'flex',
 			flexDirection: 'column',
 			gap: 5,
@@ -34,6 +36,7 @@ export const useSectionStyles = () => {
 			padding: 10,
 			paddingLeft: 15,
 			width: '100%',
+
 		},
 		headingWrapperWithPadding: {
 			alignItems: 'flex-start',

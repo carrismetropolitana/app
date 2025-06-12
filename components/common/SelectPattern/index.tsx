@@ -63,8 +63,7 @@ export function SelectPattern() {
 		lineDetailContext.actions.setActivePattern(selectedPattern);
 	}, [selectedPattern]);
 
-	const dropdownData
-		= lineDetailContext.data.valid_patterns?.map(pattern => ({ label: pattern.headsign, value: pattern.id })) ?? [];
+	const dropdownData = lineDetailContext.data.valid_patterns?.map(pattern => ({ label: pattern.headsign, value: pattern.id })) ?? [];
 
 	//
 	// B. Render Components

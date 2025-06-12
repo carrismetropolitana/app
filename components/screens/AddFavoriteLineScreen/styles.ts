@@ -7,6 +7,7 @@ import { StyleSheet } from 'react-native';
 /* * */
 const styles = () => {
 	const themeContext = useThemeContext();
+	const selectorBackgroundColor = themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100;
 
 	return StyleSheet.create({
 		arrow: {
@@ -36,6 +37,9 @@ const styles = () => {
 			color: '#FFFFFF',
 			fontSize: 16,
 			fontWeight: '600',
+		},
+		firstHeader: {
+			backgroundColor: selectorBackgroundColor,
 		},
 		header: {
 			alignItems: 'center',

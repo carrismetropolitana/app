@@ -98,10 +98,13 @@ export default function AddFavoriteLineScreen() {
 	return (
 		<ScrollView style={addFavoriteLineStyles.overlay}>
 			<View style={addFavoriteLineStyles.container}>
-				<Section
-					heading="Linha Favorita"
-					subheading="Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas."
-				/>
+
+				<View style={addFavoriteLineStyles.firstHeader}>
+					<Section
+						heading="Linha Favorita"
+						subheading="Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas."
+					/>
+				</View>
 				<View style={addFavoriteLineStyles.videoContainer}>
 					<TouchableOpacity>
 						<ListItem>

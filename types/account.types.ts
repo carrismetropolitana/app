@@ -76,13 +76,27 @@ const WidgetStopsSchema = z.object({
 	type: WidgetTypeSchema.pipe(z.literal('stops')),
 });
 
-// const WidgetSmartNotificationsSchema = z.object({
-//     type: WidgetTypeSchema.pipe(z.literal('smart_notifications')),
-//     notification_ids: z.array(z.string()),
-// });
+const WidgetSmartNotificationsSchema = z.object({
+	distance: z.number(),
+	end_time: z.number().gt(0).lte(86400),
+	id: z.string(),
+	pattern_id: z.string(),
+	start_time: z.number().gte(0).lt(86400),
+	stop_id: z.string(),
+	user_id: z.string(),
+	week_days: z.array(z.enum(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'])).nonempty(),
+}).superRefine(({ end_time, start_time }, ctx) => {
+	if (start_time > end_time) {
+		ctx.addIssue({
+			code: z.ZodIssueCode.custom,
+			message: 'Start time must be less than end time',
+			path: ['start_time', 'end_time'],
+		});
+	}
+});
 
 const WidgetSchema = z.object({
-	data: z.union([WidgetLinesSchema, WidgetStopsSchema]),
+	data: z.union([WidgetLinesSchema, WidgetStopsSchema, WidgetSmartNotificationsSchema]),
 	settings: z.object({
 		display_order: z.number().nullish(),
 		is_open: z.boolean().default(true),

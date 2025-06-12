@@ -6,12 +6,15 @@ import { SelectNotificationControl } from '@/components/common/SelectNotifcation
 import { LineBadge } from '@/components/lines/LineBadge';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useStopsContext } from '@/contexts/Stops.context';
+import { useThemeContext } from '@/contexts/Theme.context';
+import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
 import { Pattern, Waypoint } from '@carrismetropolitana/api-types/network';
-import { Button, Input, ListItem, Text } from '@rn-vui/themed';
+import { Button, ButtonGroup, Input, ListItem, Text } from '@rn-vui/themed';
 import { IconArrowLoopRight, IconArrowRight, IconCircle, IconCircleCheckFilled, IconPlayerPlayFilled, IconSearch, IconX } from '@tabler/icons-react-native';
 import { useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Svg, { Circle, Rect } from 'react-native-svg';
@@ -25,12 +28,20 @@ export default function AddSmartNotificationScreen() {
 
 	//
 	// A. Setup Variables
+	const { t } = useTranslation('translation', { keyPrefix: 'smartNotifications' });
 	const [lineChooserVisibility, setLineChooserVisibility] = useState(false);
 	const [patternNames, setPatternNames] = useState<Record<string, string>>({});
+	const [patternVersionIds, setPatternVersionIds] = useState<Record<string, string>>({});
 	const [selectedStopId, setSelectedStopId] = useState<null | string>(null);
 	const [selectedPatternId, setSelectedPatternId] = useState<null | string>(null);
+	const [selectedDays, setSelectedDays] = useState<string[]>([]);
+	const [radius, setRadius] = useState<string | undefined>(undefined);
+	const [startingHour, setStartingHour] = useState<string | undefined>(undefined);
+	const [endingHour, setEndingHour] = useState<string | undefined>(undefined);
+	const [selectedIndex, setSelectedIndex] = useState([]);
 	const linesDetailContext = useLinesDetailContext();
 	const stopsContext = useStopsContext();
+	const themeContext = useThemeContext();
 	const addFavoriteLineStyles = styles();
 	const navigation = useNavigation();
 
@@ -39,7 +50,10 @@ export default function AddSmartNotificationScreen() {
 	const fetchPattern = async (patternId: string) => {
 		try {
 			const response = await fetch(`${Routes.API}/patterns/${patternId}`);
-			const data: Pattern = await response.json();
+			const data: Pattern | Pattern[] = await response.json();
+			if (Array.isArray(data)) {
+				return data[0];
+			}
 			return data;
 		}
 		catch (error) {
@@ -50,36 +64,38 @@ export default function AddSmartNotificationScreen() {
 
 	useEffect(() => {
 		if (!linesDetailContext.data.line?.pattern_ids) return;
-
 		const fetchPatterns = async () => {
 			const patternName: Record<string, string> = {};
+			const patternVersionId: Record<string, string> = {};
 			const patterns = linesDetailContext.data.line?.pattern_ids;
 
 			if (patterns) {
 				await Promise.all(
 					patterns.map(async (pattern) => {
 						const data = await fetchPattern(pattern);
-
 						if (data) {
-							patternName[pattern] = data[0].headsign;
+							patternName[pattern] = data.headsign;
+							patternVersionId[pattern] = data.version_id;
 						}
 					}),
 				);
 
 				setPatternNames(patternName);
+				setPatternVersionIds(patternVersionId);
 			}
 			else {
 				return;
 			}
 		};
-
 		fetchPatterns();
 	}, [linesDetailContext.data.line?.pattern_ids]);
 
 	useEffect(() => {
-		setSelectedPatternId(null);
-		linesDetailContext.actions.resetActivePattern();
-	}, [linesDetailContext.data.line?.id]);
+		if (!selectedIndex) return;
+		const weekDays = ['Seg', 'Ter', 'Qua', 'Quin', 'Sex', 'Sáb', 'Dom'];
+		console.log(selectedIndex.map(index => weekDays[index]));
+		setSelectedDays(selectedIndex.map(index => weekDays[index]));
+	}, [selectedIndex]);
 
 	useEffect(() => {
 		if (selectedPatternId) {
@@ -101,13 +117,15 @@ export default function AddSmartNotificationScreen() {
 	};
 
 	const handlePatternSelect = (item: string) => {
-		if (selectedPatternId === item) {
+		const versionId = patternVersionIds[item];
+		if (selectedPatternId === versionId) {
 			setSelectedPatternId(null);
 			linesDetailContext.actions.resetActivePattern();
 		}
 		else {
-			setSelectedPatternId(item);
-			linesDetailContext.actions.setActivePattern(item);
+			console.log('pattern is updateing:', item, 'version:', versionId);
+			setSelectedPatternId(versionId);
+			linesDetailContext.actions.setActivePattern(versionId);
 		}
 	};
 
@@ -115,12 +133,16 @@ export default function AddSmartNotificationScreen() {
 	// D. Render Components
 
 	return (
-		<ScrollView style={addFavoriteLineStyles.overlay}>
+		<ScrollView showsVerticalScrollIndicator={false} style={addFavoriteLineStyles.overlay}>
 			<View style={addFavoriteLineStyles.container}>
-				<Section
-					heading="Notificação Inteligente"
-					subheading="Utiliza todos os dias a mesma linha? Gostava de saber exatamente quando sair de casa, ou quando acabar de tomar o café, para ir para a paragem?"
-				/>
+
+				<View style={addFavoriteLineStyles.header}>
+					<Section
+						heading={t('heading')}
+						subheading={t('subheading')}
+					/>
+
+				</View>
 				<View style={addFavoriteLineStyles.videoContainer}>
 					<TouchableOpacity>
 						<ListItem>
@@ -132,11 +154,12 @@ export default function AddSmartNotificationScreen() {
 						</ListItem>
 					</TouchableOpacity>
 				</View>
+
 				<Svg fill="none" height="36" style={addFavoriteLineStyles.svg} viewBox="0 0 12 36" width="100%">
 					<Circle cx="6" cy="6" fill="#BEBEC8" r="6" />
 					<Rect fill="#BEBEC8" height="30" width="2" x="5" y="6" />
 				</Svg>
-				<Text style={addFavoriteLineStyles.text}> Notificar-me quando um autocarro da linha </Text>
+				<Text style={addFavoriteLineStyles.text}> {t('chooseLineTitle')}</Text>
 				<View>
 					{linesDetailContext.data.line && (
 						<ListItem>
@@ -159,14 +182,16 @@ export default function AddSmartNotificationScreen() {
 						<ListItem.Chevron />
 					</ListItem>
 				</View>
+
 				<View>
 					{linesDetailContext.data.line?.pattern_ids ? (
 						<View>
-							<Text style={{ fontWeight: 'bold', marginVertical: 8 }}>
+							<Text style={[addFavoriteLineStyles.lineDescriptionTitle, addFavoriteLineStyles.listTitle]}>
 								Linha {linesDetailContext.data.line.id} - {linesDetailContext.data.line.long_name}
 							</Text>
 							{linesDetailContext.data.line.pattern_ids.map((item) => {
-								const isSelected = selectedPatternId === item;
+								const versionId = patternVersionIds[item];
+								const isSelected = selectedPatternId === versionId;
 								return (
 									<ListItem
 										key={item}
@@ -196,20 +221,19 @@ export default function AddSmartNotificationScreen() {
 				<Svg fill="none" height="30" style={addFavoriteLineStyles.svg} viewBox="0 0 2 30" width="100%">
 					<Rect fill="#BEBEC8" height="30" width="2" />
 				</Svg>
-
-				<Text style={addFavoriteLineStyles.text}>estiver a</Text>
-
+				<Text style={addFavoriteLineStyles.text}>{t('radiusAt')}</Text>
 				<View style={addFavoriteLineStyles.selectNotificationContol}>
-					<Input containerStyle={addFavoriteLineStyles.input} placeholder="Valor" />
+					<Input containerStyle={addFavoriteLineStyles.input} onChangeText={setRadius} placeholder="Valor" value={radius} />
 					<SelectNotificationControl />
 				</View>
 
 				<Svg fill="none" height="30" style={addFavoriteLineStyles.svg} viewBox="0 0 2 30" width="100%">
 					<Rect fill="#BEBEC8" height="30" width="2" />
 				</Svg>
-				<Text style={addFavoriteLineStyles.text}>da paragem</Text>
+
+				<Text style={addFavoriteLineStyles.text}>{t('stopSelectorTitle')}</Text>
 				<View>
-					{selectedPatternId && linesDetailContext.data.active_pattern && (
+					{selectedPatternId && linesDetailContext.data.active_pattern ? (
 						linesDetailContext.data.active_pattern.path.map((waypoint: Waypoint) => {
 							const stop = stopsContext.actions.getStopById(waypoint.stop_id);
 							const isSelected = selectedStopId === waypoint.stop_id;
@@ -229,49 +253,68 @@ export default function AddSmartNotificationScreen() {
 								</ListItem>
 							);
 						})
+					) : (
+						<ListItem>
+							<ListItem.Content>
+								<ListItem.Title style={[{ marginLeft: 30 }, addFavoriteLineStyles.listTitle]}>
+									<Text style={[{ textAlign: 'center' }, addFavoriteLineStyles.muted]}>Selecione uma linha e destino para ver as paragens</Text>
+								</ListItem.Title>
+							</ListItem.Content>
+						</ListItem>
 					)}
-					<ListItem>
-						<IconSearch color="#9696A0" size={24} />
-						<ListItem.Content>
-							<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-								<Text style={addFavoriteLineStyles.muted}>Alterar Paragem Selecionada</Text>
-							</ListItem.Title>
-						</ListItem.Content>
-						<ListItem.Chevron />
-					</ListItem>
 				</View>
 
 				<Svg fill="none" height="30" style={addFavoriteLineStyles.svg} viewBox="0 0 2 30" width="100%">
 					<Rect fill="#BEBEC8" height="30" width="2" />
 				</Svg>
-
-				<Text style={addFavoriteLineStyles.text}>no período</Text>
-				<View style={addFavoriteLineStyles.selectNotificationContol}>
-					<Input containerStyle={addFavoriteLineStyles.input} placeholder="Valor" />
-					<SelectNotificationControl />
+				<Text style={addFavoriteLineStyles.text}>{t('periodSelectorTitle')}</Text>
+				<View style={addFavoriteLineStyles.lastSectionWrapper}>
+					<View style={addFavoriteLineStyles.timeSelectors}>
+						<Text style={addFavoriteLineStyles.text}>{t('startingTime')}</Text>
+						<Input containerStyle={addFavoriteLineStyles.input} onChangeText={setStartingHour} placeholder="07:00" value={startingHour} />
+					</View>
+					<View style={addFavoriteLineStyles.timeSelectors}>
+						<Text style={addFavoriteLineStyles.text}>{t('endingTime')}</Text>
+						<Input containerStyle={addFavoriteLineStyles.input} onChangeText={setEndingHour} placeholder="08:00" value={endingHour} />
+					</View>
+					<View style={addFavoriteLineStyles.daysSelectors}>
+						<Text style={addFavoriteLineStyles.textLeft}>{t('weekDaysTitle')}</Text>
+						<ButtonGroup
+							buttonStyle={addFavoriteLineStyles.button}
+							containerStyle={addFavoriteLineStyles.buttonContainer}
+							onPress={setSelectedIndex}
+							selectedButtonStyle={{ backgroundColor: theming.colorBrand }}
+							selectedIndexes={selectedIndex}
+							buttons={[
+								<Text>{t('monday')}</Text>,
+								<Text>{t('tuesday')}</Text>,
+								<Text>{t('wednesday')}</Text>,
+								<Text>{t('thursday')}</Text>,
+								<Text>{t('friday')}</Text>,
+								<Text>{t('saturday')}</Text>,
+								<Text>{t('sunday')}</Text>,
+							]}
+							selectMultiple
+						/>
+					</View>
 				</View>
 
 			</View>
-
-			<Section
-				heading="Atenção"
-				subheading="Por favor teste esta funcionalidade antes de utilizar com confiança. Poderá ser necessário ajustar os tempos para garantir que chega ao local."
-			/>
-
+			<View style={addFavoriteLineStyles.warningContainer}>
+				<Text style={addFavoriteLineStyles.warningTitle}>{t('warningTitle')}</Text>
+				<Text style={addFavoriteLineStyles.warningText}>{t('warningText')}</Text>
+			</View>
 			<Button
 				buttonStyle={addFavoriteLineStyles.saveButton}
-				// onPress={clearScreen}
 				title="Guardar"
 				titleStyle={addFavoriteLineStyles.saveButtonText}
 			/>
-
 			<Button
 				buttonStyle={addFavoriteLineStyles.saveButton}
 				onPress={exitScreen}
 				title="Eliminar"
 				titleStyle={addFavoriteLineStyles.saveButtonText}
 			/>
-
 			<LinesListChooserModal
 				isVisible={lineChooserVisibility}
 				onBackdropPress={() => setLineChooserVisibility(!lineChooserVisibility)}

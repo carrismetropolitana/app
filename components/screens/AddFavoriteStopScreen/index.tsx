@@ -110,10 +110,13 @@ export default function AddFavoriteStopScreen() {
 	return (
 
 		<ScrollView style={addFavoriteStopStyles.container}>
-			<Section
-				heading="Paragem Favorita"
-				subheading="Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas."
-			/>
+
+			<View style={addFavoriteStopStyles.firstHeader}>
+				<Section
+					heading="Paragem Favorita"
+					subheading="Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas."
+				/>
+			</View>
 			<View style={addFavoriteStopStyles.videoContainer}>
 				<TouchableOpacity>
 					<ListItem>

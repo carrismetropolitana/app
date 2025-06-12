@@ -285,6 +285,29 @@
 			"where_to_buy": "Onde Comprar"
 		}
 	},
+	"smartNotifications": {
+		"chooseLineTitle": "Notificar-me quando um autocarro da linha",
+		"endingTime": "Hora de fim",
+		"friday": "Sex",
+		"heading": "Notificações Inteligentes",
+		"monday": "Seg",
+		"noLineSelected": "Nenhuma linha selecionada",
+		"periodSelectorTitle": "no período",
+		"radiusAt": "estiver a",
+		"radiusMeters": "metros",
+		"radiusTime": "minutos",
+		"saturday": "Sáb",
+		"startingTime": "Hora de Início",
+		"stopSelectorTitle": "da paragem",
+		"subheading": "Utiliza todos os dias a mesma linha? Gostava de saber exatamente quando sair de casa, ou quando acabar de tomar o café, para ir para a paragem?",
+		"sunday": "Dom",
+		"thursday": "Qui",
+		"tuesday": "Ter",
+		"warningText": "Por favor teste esta funcionalidade antes de utilizar com confiança. Poderá ser necessário ajustar os tempos para garantir que chega ao local.",
+		"warningTitle": "Atenção",
+		"wednesday": "Qua",
+		"weekDaysTitle": "Dias da Semana"
+	},
 	"stops": {
 		"StopDetails": {
 			"NextArrivals": {

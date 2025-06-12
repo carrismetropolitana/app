@@ -215,10 +215,13 @@ export default function ProfileEditScreen() {
 								checked={activityProfile === item}
 								checkedIcon="dot-circle-o"
 								containerStyle={profileEditModalStyles.checkbox}
-								onPress={() => { setActivityProfile(item), handleProfileFieldBlur('activity', item); }}
 								textStyle={profileEditModalStyles.checkBoxText}
 								title={ActivityLabels[item]}
 								uncheckedIcon="circle-o"
+								onPress={() => {
+									setActivityProfile(item);
+									handleProfileFieldBlur('activity', item);
+								}}
 							/>
 						</ListItem.Content>
 					</ListItem>
@@ -238,7 +241,8 @@ export default function ProfileEditScreen() {
 								title={UtilizationTypeLabels[item]}
 								uncheckedIcon="circle-o"
 								onPress={() => {
-									setUsageType(item), handleProfileFieldBlur('utilization_type', item);
+									setUsageType(item);
+									handleProfileFieldBlur('utilization_type', item);
 								}}
 							/>
 						</ListItem.Content>

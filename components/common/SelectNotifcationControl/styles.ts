@@ -39,7 +39,7 @@ export const styles = () => {
 		container: {
 			alignSelf: 'stretch',
 			borderRadius: 3,
-			width: '80%',
+			width: '40%',
 		},
 		operationalDayContainer: {
 			alignItems: 'center',
