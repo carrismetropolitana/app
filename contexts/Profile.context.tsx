@@ -652,6 +652,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		};
 		setDataProfileState(updatedProfile);
 		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
+
 		await updateProfileOnCloud(updatedProfile);
 	};
 
