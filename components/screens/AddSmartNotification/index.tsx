@@ -41,7 +41,6 @@ export default function AddSmartNotificationScreen() {
 	const [selectedIndex, setSelectedIndex] = useState([]);
 	const linesDetailContext = useLinesDetailContext();
 	const stopsContext = useStopsContext();
-	const themeContext = useThemeContext();
 	const addFavoriteLineStyles = styles();
 	const navigation = useNavigation();
 

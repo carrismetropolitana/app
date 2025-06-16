@@ -5,7 +5,8 @@
 				"backgroundColor": "#ffffff",
 				"foregroundImage": "./assets/images/adaptive-icon.png"
 			},
-			"package": "pt.carrismetropolitana.mobile"
+			"googleServicesFile": "./android/google-services.json",
+			"package": "pt.devcarrismetropolitana.mobile"
 		},
 		"experiments": {
 			"typedRoutes": true
@@ -22,8 +23,10 @@
 		"ios": {
 			"appleTeamId": "QGATT2W97P",
 			"bundleIdentifier": "pt.devcarrismetropolitana.app",
+			"googleServicesFile": "./ios/GoogleService-Info.plist",
 			"infoPlist": {
-				"ITSAppUsesNonExemptEncryption": false
+				"ITSAppUsesNonExemptEncryption": false,
+				"NSUserNotificationUsageDescription": "Precisamos enviar notificações para avisar sobre novidades."
 			},
 			"jsEngine": "hermes",
 			"supportsTablet": true
@@ -34,6 +37,7 @@
 		"orientation": "portrait",
 		"owner": "skasix00",
 		"plugins": [
+			"expo-notifications",
 			[
 				"expo-alternate-app-icons",
 				[
@@ -106,7 +110,7 @@
 			"url": "https://u.expo.dev/43d60702-1266-4217-8cb8-54e1f9a722fe"
 		},
 		"userInterfaceStyle": "automatic",
-		"version": "2025.06.11",
+		"version": "2025.06.16",
 		"web": {
 			"bundler": "metro",
 			"favicon": "./assets/images/adaptive-icon.png",

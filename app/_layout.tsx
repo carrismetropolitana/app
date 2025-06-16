@@ -2,9 +2,10 @@
 
 import NetworkOffline from '@/components/common/NetworkOfflineBanner';
 import 'react-native-reanimated';
-import { ThemeProvider } from '@/contexts/Theme.context';
+import { NotificationsProvider } from '@/contexts/Notifications.context';
 import '@/i18n';
 import 'expo-dev-client';
+import { ThemeProvider } from '@/contexts/Theme.context';
 import { ConfigProviders } from '@/providers/config-providers';
 import { DataProviders } from '@/providers/data-providers';
 import { MapProviders } from '@/providers/map-providers';
@@ -56,29 +57,31 @@ export default function RootLayout() {
 
 	return (
 		<GestureHandlerRootView style={{ flex: 1 }}>
-			<ConfigProviders>
-				<PrivacyProviders>
-					<DataProviders>
-						<ProfileProviders>
-							<MapProviders>
-								<BottomSheetModalProvider>
-									<QueryClientProvider client={queryClient}>
-										<ThemeProvider>
-											<SafeAreaProvider>
-												<NetworkOffline />
-												<StatusBar backgroundColor="transparent" style="auto" translucent />
-												<Stack>
-													<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-												</Stack>
-											</SafeAreaProvider>
-										</ThemeProvider>
-									</QueryClientProvider>
-								</BottomSheetModalProvider>
-							</MapProviders>
-						</ProfileProviders>
-					</DataProviders>
-				</PrivacyProviders>
-			</ConfigProviders>
+			<NotificationsProvider>
+				<ConfigProviders>
+					<PrivacyProviders>
+						<DataProviders>
+							<ProfileProviders>
+								<MapProviders>
+									<BottomSheetModalProvider>
+										<QueryClientProvider client={queryClient}>
+											<ThemeProvider>
+												<SafeAreaProvider>
+													<NetworkOffline />
+													<StatusBar backgroundColor="transparent" style="auto" translucent />
+													<Stack>
+														<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+													</Stack>
+												</SafeAreaProvider>
+											</ThemeProvider>
+										</QueryClientProvider>
+									</BottomSheetModalProvider>
+								</MapProviders>
+							</ProfileProviders>
+						</DataProviders>
+					</PrivacyProviders>
+				</ConfigProviders>
+			</NotificationsProvider>
 		</GestureHandlerRootView>
 	);
 
