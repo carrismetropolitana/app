@@ -9,6 +9,9 @@ import { StyleSheet } from 'react-native';
 export const styles = () => {
 	const { theme } = useThemeContext();
 	const isLight = theme.mode === 'light';
+	const backgroundColor = isLight
+		? theming.colorSystemBackgroundLight200
+		: theming.colorSystemBackgroundDark200;
 	const fontColor = isLight
 		? theming.colorSystemText100
 		: theming.colorSystemText300;
@@ -16,24 +19,19 @@ export const styles = () => {
 	return StyleSheet.create({
 		/* CONTAINER */
 		container: {
-			flexDirection: 'column',
-			gap: 5,
-			width: '88%',
+			alignItems: 'center',
+			backgroundColor: backgroundColor,
+			flexDirection: 'row',
+			gap: 20,
+			justifyContent: 'center',
 		},
 		/* * */
 		/* HEADER TITLE */
 		headerTitle: {
 			color: fontColor,
-			fontSize: theming.fontSizeNav,
-			fontWeight: theming.fontWeightTitle as '700',
-		},
-		/* * */
-		/* HEADER SUBTITLE */
-		headerSubtitle: {
-			color: theming.colorSystemText200,
-			fontSize: theming.fontSizeMuted,
-			fontWeight: theming.fontWeightSemibold as '600',
-		},
+			fontSize: theming.fontSizeText,
+			fontWeight: theming.fontWeightSemibold as '700',
 
+		},
 	});
 };

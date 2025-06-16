@@ -16,7 +16,7 @@ export const styles = () => {
 	return StyleSheet.create({
 		/* CONTAINER */
 		container: {
-			flexDirection: 'column',
+			flexDirection: 'row',
 			gap: 5,
 			width: '88%',
 		},

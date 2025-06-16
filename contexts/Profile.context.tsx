@@ -29,6 +29,7 @@ const LOCAL_STORAGE_KEYS = {
 	token: 'token',
 	user_type: 'profile|user_type',
 	widget_lines: 'profile|widget_lines',
+	widget_smart_notifications: 'profile|widget_smart_notifications',
 	widget_stops: 'profile|widget_stops',
 };
 
@@ -46,6 +47,7 @@ interface ProfileContextState {
 		toggleFavoriteLine: (lineId: string) => Promise<void>
 		toggleFavoriteStop: (stopId: string) => Promise<void>
 		toggleWidgetLine: (lineId: string[]) => Promise<void>
+		toggleWidgetSmartNotification: (notificationId: string) => Promise<void>
 		toggleWidgetStop: (stopId: string, patternId: string[]) => Promise<void>
 		toogleAccountSync: () => void
 		updateLocalProfile: (profile: Account) => Promise<void>
@@ -66,6 +68,7 @@ interface ProfileContextState {
 		profile: Account | null
 		selected_line: Line | string
 		widget_lines: AccountWidget[] | null
+		widget_smart_notifications: AccountWidget[] | null
 		widget_stops: AccountWidget[] | null
 	}
 	flags: {
@@ -97,6 +100,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	const [dataWidgetLinesState, setDataWidgetLinesState] = useState<AccountWidget[] | null>(null);
 	const [dataWidgetStopsState, setDataWidgetStopsState] = useState<AccountWidget[] | null>(null);
+	const [dataWidgetSmartNotificationsState, setDataWidgetSmartNotificationsState] = useState<AccountWidget[] | null>(null);
 	const [personaHistory, setPersonaHistory] = useState<string[]>([]);
 	const [dataProfileState, setDataProfileState] = useState<Account | null>(null);
 	const [dataCloudProfileState] = useState<Account | null>(null);
@@ -243,6 +247,9 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		if (dataWidgetStopsState) {
 			localStorage.setItem(LOCAL_STORAGE_KEYS.widget_stops, JSON.stringify(dataWidgetStopsState) || '');
 		}
+		if (dataWidgetSmartNotificationsState) {
+			localStorage.setItem(LOCAL_STORAGE_KEYS.widget_smart_notifications, JSON.stringify(dataWidgetSmartNotificationsState) || '');
+		}
 		if (dataFavoriteLinesState) {
 			localStorage.setItem(LOCAL_STORAGE_KEYS.favorite_lines, JSON.stringify(dataFavoriteLinesState) || '');
 		}
@@ -272,6 +279,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		dataProfileState,
 		dataAccentColorState,
 		dataPersonaImageState,
+		dataWidgetSmartNotificationsState,
 		consentContext.data.enabled_functional,
 	]);
 
@@ -585,6 +593,68 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		await updateProfileOnCloud(updatedProfile);
 	};
 
+	const toggleWidgetSmartNotification = async (notificationId: string) => {
+		if (!consentContext.data.enabled_functional) return;
+
+		const currentWidgets = dataWidgetSmartNotificationsState || [];
+		const updatedWidgets = [...currentWidgets];
+
+		const widgetIndex = updatedWidgets.findIndex(
+			widget =>
+				widget.data
+				&& widget.data.type === 'smart_notifications'
+				&& widget.data.id === notificationId,
+		);
+
+		if (widgetIndex !== -1) {
+			// Remove if exists
+			updatedWidgets.splice(widgetIndex, 1);
+		}
+		else {
+			// Add new widget
+			const newWidgetSmartNotification: AccountWidget = {
+				data: {
+					id: notificationId,
+					type: 'smart_notifications',
+					// You may want to fill these with actual values if available
+					distance: 0,
+					end_time: 0,
+					pattern_id: '0',
+					start_time: 0,
+					stop_id: '',
+					user_id: '',
+					week_days: [
+						'monday',
+						'tuesday',
+						'wednesday',
+						'thursday',
+						'friday',
+					],
+				},
+				settings: {
+					display_order: null,
+					is_open: true,
+					label: null,
+				},
+			};
+			updatedWidgets.push(newWidgetSmartNotification);
+		}
+
+		setDataWidgetSmartNotificationsState(updatedWidgets);
+
+		const updatedProfile: Account = {
+			...(dataProfileState || {}),
+			widgets: [
+				...(dataWidgetLinesState || []),
+				...(dataWidgetStopsState || []),
+				...updatedWidgets,
+			],
+		};
+		setDataProfileState(updatedProfile);
+		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
+		await updateProfileOnCloud(updatedProfile);
+	};
+
 	const setNewEmptyProfile = async () => {
 		if (!consentContext.data.enabled_functional) return;
 		const newProfileStructure: Account = {
@@ -666,6 +736,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			toggleFavoriteLine,
 			toggleFavoriteStop,
 			toggleWidgetLine,
+			toggleWidgetSmartNotification,
 			toggleWidgetStop,
 			toogleAccountSync,
 			updateLocalProfile,
@@ -686,6 +757,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			profile: dataProfileState,
 			selected_line: dataSelectedLineState,
 			widget_lines: dataWidgetLinesState,
+			widget_smart_notifications: dataWidgetSmartNotificationsState,
 			widget_stops: dataWidgetStopsState,
 		},
 		flags: {

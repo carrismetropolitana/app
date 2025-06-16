@@ -76,13 +76,14 @@ const WidgetStopsSchema = z.object({
 	type: WidgetTypeSchema.pipe(z.literal('stops')),
 });
 
-const WidgetSmartNotificationsSchema = z.object({
+export const WidgetSmartNotificationsSchema = z.object({
 	distance: z.number(),
 	end_time: z.number().gt(0).lte(86400),
 	id: z.string(),
 	pattern_id: z.string(),
 	start_time: z.number().gte(0).lt(86400),
 	stop_id: z.string(),
+	type: WidgetTypeSchema.pipe(z.literal('smart_notifications')),
 	user_id: z.string(),
 	week_days: z.array(z.enum(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'])).nonempty(),
 }).superRefine(({ end_time, start_time }, ctx) => {

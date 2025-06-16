@@ -6,7 +6,6 @@ import { SelectNotificationControl } from '@/components/common/SelectNotifcation
 import { LineBadge } from '@/components/lines/LineBadge';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useStopsContext } from '@/contexts/Stops.context';
-import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
 import { Pattern, Waypoint } from '@carrismetropolitana/api-types/network';
