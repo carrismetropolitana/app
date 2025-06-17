@@ -18,6 +18,7 @@ export const styles = () => {
 		container: {
 			flexDirection: 'row',
 			gap: 5,
+			justifyContent: 'space-between',
 			width: '88%',
 		},
 		/* * */

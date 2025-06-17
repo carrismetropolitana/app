@@ -1,3 +1,4 @@
+import { LinesDetailAlerts } from '@/components/lines/LinesDetailAlerts';
 import { LinesDetailHeader } from '@/components/lines/LinesDetailHeader';
 import { LinesDetailPath } from '@/components/lines/LinesDetailPath';
 import { useThemeContext } from '@/contexts/Theme.context';
@@ -19,6 +20,7 @@ export function LinesDetail() {
 		<ScrollView>
 			<View style={{ backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background }}>
 				<LinesDetailHeader />
+				<LinesDetailAlerts />
 				<LinesDetailPath />
 			</View>
 		</ScrollView>

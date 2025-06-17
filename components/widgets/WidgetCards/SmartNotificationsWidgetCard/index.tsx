@@ -21,7 +21,7 @@ interface SmartNotificationWidgetCardProps {
 
 /* * */
 
-export function SmartNotificationWidgetCard({ data, expanded = true, onToggle = () => console.log('jello') }: SmartNotificationWidgetCardProps) {
+export function SmartNotificationWidgetCard({ data, expanded = true, onToggle = () => console.log('Bcastelo') }: SmartNotificationWidgetCardProps) {
 	//
 
 	//
@@ -42,7 +42,7 @@ export function SmartNotificationWidgetCard({ data, expanded = true, onToggle = 
 			isExpanded={expanded}
 			onPress={onToggle}
 			content={(
-				<SmartNotificationsWidgetCardHeader municipality="test" title="test 2" />
+				<SmartNotificationsWidgetCardHeader municipality="test" startHour="08:00" title="test 2" />
 			)}
 		>
 			<View style={cardStyles.cardBody}>

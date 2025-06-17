@@ -44,7 +44,7 @@ export default function FavoritesBar() {
 				{favoritesLines.map(line => (
 					<View key={line.id} style={favoriteBarStyles.item}>
 						<Link href={`/line/${line.id}`}>
-							<LineBadge lineData={line} size="lg" />
+							<LineBadge lineData={line} lineId={line.id} size="lg" />
 						</Link>
 					</View>
 				))}

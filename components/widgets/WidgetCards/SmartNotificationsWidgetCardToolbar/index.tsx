@@ -1,4 +1,5 @@
 import { Text } from '@rn-vui/themed';
+import { IconArrowRight, IconBell } from '@tabler/icons-react-native';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -21,23 +22,27 @@ export function SmartNotificationsWidgetCardToolbar({ data = [] }: SmartNotifica
 	// B. Render Components
 	return (
 		<View style={headerStyles.container}>
-			<Text style={headerStyles.headerTitle}>Start Time:  7:30</Text>
-			<Text style={headerStyles.headerSubtitle}>End Time:  7:30</Text>
-			<View style={{ flexDirection: 'row', gap: 8, marginTop: 8 }}>
+			<View style={{ alignItems: 'center', flexDirection: 'row', gap: 8, padding: 20 }}>
+				<IconBell color="#5F5F5F" size={32} />
+				<Text>7:30</Text>
+				<IconArrowRight color="#5F5F5F" size={18} />
+				<Text>7:30</Text>
+			</View>
+			<View style={{ alignContent: 'center', flexDirection: 'row' }}>
 				{weekDays.map((day) => {
 					const isActive = data.includes(day);
 					return (
 						<View
 							key={day}
 							style={{
-								backgroundColor: isActive ? '#FDB71A' : '#E0E0E0',
-								borderRadius: 8,
-								marginRight: 4,
+								backgroundColor: '#FAFAFA',
+								borderRadius: 4,
+								justifyContent: 'center',
 								paddingHorizontal: 8,
-								paddingVertical: 4,
+								width: 29,
 							}}
 						>
-							<Text style={{ color: isActive ? '#222' : '#888', fontWeight: 'bold' }}>
+							<Text style={{ color: isActive ? '#5F5F5F' : '#F0F0FA', fontWeight: 'bold' }}>
 								{t(`${day}`)}
 							</Text>
 						</View>

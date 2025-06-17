@@ -18,7 +18,7 @@ export const styles = () => {
 		container: {
 			flexDirection: 'row',
 			gap: 5,
-			width: '88%',
+			width: '90%',
 		},
 		/* * */
 		/* HEADER TITLE */

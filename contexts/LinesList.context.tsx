@@ -2,9 +2,9 @@
 
 import type { Line, Stop } from '@carrismetropolitana/api-types/network';
 
-import createDocCollection from '@/hooks/useOtheSearch';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useProfileContext } from '@/contexts/Profile.context';
+import createDocCollection from '@/hooks/useOtheSearch';
 import { getDistance } from 'geolib';
 import { createContext, useContext, useEffect, useState } from 'react';
 

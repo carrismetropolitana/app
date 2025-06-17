@@ -109,6 +109,12 @@
 		},
 		"title": "Cookies Policy"
 	},
+	"alerts": {
+		"AlertActivePeriod": {
+			"end": "End: <parsedDate>{end, date, dayShort} {end, date, monthLong} {end, date, yearLong}</parsedDate>",
+			"start": "Start: <parsedDate>{start, date, dayShort} {start, date, monthLong} {start, date, yearLong}</parsedDate>"
+		}
+	},
 	"analytics": {
 		"ConsentPopup": {
 			"actions": {
@@ -319,13 +325,13 @@
 	},
 	"smartNotifications": {
 		"Toolbar": {
-			"friday": "Fri",
-			"monday": "Mon",
-			"saturday": "Sat",
-			"sunday": "Sun",
-			"thursday": "Thu",
-			"tuesday": "Tue",
-			"wednesday": "Wed"
+			"friday": "F",
+			"monday": "M",
+			"saturday": "S",
+			"sunday": "S",
+			"thursday": "T",
+			"tuesday": "T",
+			"wednesday": "W"
 		},
 		"chooseLineTitle": "Notifiy me when a bus from the line",
 		"endingTime": "To",

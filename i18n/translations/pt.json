@@ -109,6 +109,12 @@
 		},
 		"title": "Política de Cookies"
 	},
+	"alerts": {
+		"AlertActivePeriod": {
+			"end": "Fim: <parsedDate>{end, date, dayShort} {end, date, monthLong} {end, date, yearLong}</parsedDate>",
+			"start": "Início: <parsedDate>{start, date, dayShort} {start, date, monthLong} {start, date, yearLong}</parsedDate>"
+		}
+	},
 	"analytics": {
 		"ConsentPopup": {
 			"actions": {
@@ -287,13 +293,13 @@
 	},
 	"smartNotifications": {
 		"Toolbar": {
-			"friday": "Sex",
-			"monday": "Seg",
-			"saturday": "Sáb",
-			"sunday": "Dom",
-			"thursday": "Qui",
-			"tuesday": "Ter",
-			"wednesday": "Qua"
+			"friday": "S",
+			"monday": "S",
+			"saturday": "S",
+			"sunday": "D",
+			"thursday": "Q",
+			"tuesday": "T",
+			"wednesday": "Q"
 		},
 		"chooseLineTitle": "Notificar-me quando um autocarro da linha",
 		"endingTime": "Hora de fim",

@@ -41,7 +41,9 @@ const RemoteImageCarousel = memo(({ imageUrls, onImagePress }: { imageUrls: stri
 	//
 	// A. Handle actions
 
-	const handlePress = useCallback((index: number) => { onImagePress(index); }, [onImagePress]);
+	const handlePress = useCallback((index: number) => {
+		onImagePress(index);
+	}, [onImagePress]);
 
 	//
 	// B. Render components

@@ -1,10 +1,10 @@
 /* * */
 
 import { AlertsCarousel } from '@/components/common/AlertsCarousel';
-import { Section } from '@/components/layout/Section';
-import { Surface } from '@/components/layout/Surface';
+import { Section } from '@/components/common/layout/Section';
+import { Surface } from '@/components/common/layout/Surface';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
-import { useTranslations } from 'next-intl';
+import { useTranslation } from 'react-i18next';
 
 /* * */
 
@@ -14,7 +14,7 @@ export function LinesDetailAlerts() {
 	//
 	// A. Setup variables
 
-	const t = useTranslations('lines.LinesDetailAlerts');
+	const { t } = useTranslation('lines.LinesDetailAlerts');
 	const linesDetailContext = useLinesDetailContext();
 
 	//
