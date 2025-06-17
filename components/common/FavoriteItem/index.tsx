@@ -91,13 +91,19 @@ export default function FavoriteItemComponent({ data, drag, isActive }: Favorite
 				<ListItem.Title>
 					{headsign === null ? (
 						<ActivityIndicator size="small" />
+					) : data.data.type === 'smart_notifications' ? (
+						<Text numberOfLines={1}>Notificação Inteligente</Text>
 					) : (
 						<Text numberOfLines={1}>{headsign || (isLine ? 'Linha Favorita' : 'Paragem Favorita')}</Text>
 					)}
 				</ListItem.Title>
 				{headsign !== null && (
 					<ListItem.Subtitle>
-						<Text>{isLine ? 'Linha Favorita' : 'Paragem Favorita'}</Text>
+						{data.data.type === 'smart_notifications' ? (
+							<Text>Descrição da Notificação Inteligente</Text>
+						) : (
+							<Text>{isLine ? 'Linha Favorita' : 'Paragem Favorita'}</Text>
+						)}
 					</ListItem.Subtitle>
 				)}
 			</ListItem.Content>

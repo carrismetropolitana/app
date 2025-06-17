@@ -1,39 +1,33 @@
 /* * */
 
-import { useThemeContext } from '@/contexts/Theme.context';
-import { theming } from '@/theme/Variables';
-import { StyleSheet } from 'react-native';
+import { Text } from '@rn-vui/themed';
+import { View } from 'react-native';
+
+import { styles } from './styles';
+/* * */
+
+interface StopWidgetCardHeaderProps {
+	municipality: string
+	title: string
+}
 
 /* * */
 
-export const styles = () => {
-	const { theme } = useThemeContext();
-	const isLight = theme.mode === 'light';
-	const fontColor = isLight
-		? theming.colorSystemText100
-		: theming.colorSystemText300;
+export function StopWidgetCardHeader({ municipality, title }: StopWidgetCardHeaderProps) {
+	//
 
-	return StyleSheet.create({
-		/* CONTAINER */
-		container: {
-			flexDirection: 'column',
-			gap: 5,
-			width: '88%',
-		},
-		/* * */
-		/* HEADER TITLE */
-		headerTitle: {
-			color: fontColor,
-			fontSize: theming.fontSizeNav,
-			fontWeight: theming.fontWeightTitle as '700',
-		},
-		/* * */
-		/* HEADER SUBTITLE */
-		headerSubtitle: {
-			color: theming.colorSystemText200,
-			fontSize: theming.fontSizeMuted,
-			fontWeight: theming.fontWeightSemibold as '600',
-		},
+	//
+	// A. Setup variables
+	const headerStyles = styles();
+	//
+	// B. Render Components
 
-	});
-};
+	return (
+		<View style={headerStyles.container}>
+			<Text style={headerStyles.headerTitle}>{title}</Text>
+			<Text style={headerStyles.headerSubtitle}>{municipality}</Text>
+		</View>
+	);
+
+	//
+}

@@ -286,6 +286,15 @@
 		}
 	},
 	"smartNotifications": {
+		"Toolbar": {
+			"friday": "Sex",
+			"monday": "Seg",
+			"saturday": "Sáb",
+			"sunday": "Dom",
+			"thursday": "Qui",
+			"tuesday": "Ter",
+			"wednesday": "Qua"
+		},
 		"chooseLineTitle": "Notificar-me quando um autocarro da linha",
 		"endingTime": "Hora de fim",
 		"friday": "Sex",

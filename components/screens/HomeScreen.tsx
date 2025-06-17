@@ -36,19 +36,9 @@ export default function HomeScreen() {
 	}, []);
 
 	useEffect(() => {
-		if (notifcationsContext.notification) {
-			try {
-				const notificationObj = JSON.parse(notifcationsContext.notification);
-				console.log('🔔 Received in foreground:', notificationObj.notification?.body);
-			}
-			catch (e) {
-				console.log('🔔 Received in foreground (raw):', notifcationsContext.notification);
-			}
-		}
 		if (notifcationsContext.response) {
 			try {
 				const responseObj = JSON.parse(notifcationsContext.response);
-				console.log('🎯 Tapped notification, data:', responseObj.data);
 				const screen = responseObj.data?.screen as string | undefined;
 				if (screen) {
 					router.push(`/${screen}`);

@@ -74,7 +74,6 @@ export function LinesDetailHeader() {
 									size={24}
 									onPress={() => {
 										if (activePattern) {
-											console.log(activePattern.id);
 											profileContext.actions.toggleWidgetLine([activePattern.id]);
 										}
 									}}

@@ -87,7 +87,9 @@ export default function AddFavoriteStopScreen() {
 			await Promise.all(
 				selectedStop.pattern_ids.map(async (pattern) => {
 					const data = await fetchPattern(pattern);
-					if (data) { patternName[pattern] = data[0].headsign; }
+					if (data) {
+						patternName[pattern] = data[0].headsign;
+					}
 				}),
 			);
 			setPatternNames(patternName);

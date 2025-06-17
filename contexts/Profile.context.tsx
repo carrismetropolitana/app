@@ -47,7 +47,7 @@ interface ProfileContextState {
 		toggleFavoriteLine: (lineId: string) => Promise<void>
 		toggleFavoriteStop: (stopId: string) => Promise<void>
 		toggleWidgetLine: (lineId: string[]) => Promise<void>
-		toggleWidgetSmartNotification: (notificationId: string) => Promise<void>
+		toggleWidgetSmartNotification: (pattern_id: string, radius: number, start_time: number, end_time: number, stop_id: string, week_days: ('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[]) => Promise<void>
 		toggleWidgetStop: (stopId: string, patternId: string[]) => Promise<void>
 		toogleAccountSync: () => void
 		updateLocalProfile: (profile: Account) => Promise<void>
@@ -150,11 +150,9 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			if (!cloudProfile) return;
 
 			const mergedProfile = mergeProfiles(localProfile, cloudProfile);
-
 			if (JSON.stringify(localProfile) !== JSON.stringify(mergedProfile)) {
 				setDataProfileState(mergedProfile);
 				await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(mergedProfile));
-
 				updateProfileOnCloud(mergedProfile);
 			}
 			else {
@@ -377,6 +375,9 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		if (!consentContext.data.enabled_functional || !dataApiTokenState) return;
 
 		const { _id, created_at, role, updated_at, ...cleanedProfile } = profile;
+
+		console.log('Updating profile on cloud:', JSON.stringify(cleanedProfile, null, 2));
+
 		try {
 			await fetch(`${Routes.DEV_API_ACCOUNTS}/${profile.devices[0].device_id}`, {
 				body: JSON.stringify(cleanedProfile),
@@ -493,19 +494,21 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const toggleWidgetLine = async (pattern_ids: string[]) => {
 		if (!consentContext.data.enabled_functional) return;
 
-		const currentWidgets = dataWidgetLinesState || [];
-		const updatedWidgets = [...currentWidgets];
+		// Get all widgets from the current profile
+		const allWidgets = (dataProfileState?.widgets || []) as AccountWidget[];
+		const lineWidgets = allWidgets.filter(w => w.data && w.data.type === 'lines');
+		const otherWidgets = allWidgets.filter(w => !w.data || w.data.type !== 'lines');
 
+		const updatedLineWidgets = [...lineWidgets];
 		pattern_ids.forEach((pattern_id) => {
-			const index = updatedWidgets.findIndex(
+			const index = updatedLineWidgets.findIndex(
 				widget =>
 					widget.data
 					&& widget.data.type === 'lines'
 					&& widget.data.pattern_id === pattern_id,
 			);
-
 			if (index !== -1) {
-				updatedWidgets.splice(index, 1);
+				updatedLineWidgets.splice(index, 1);
 			}
 			else {
 				const newFavoriteLine: AccountWidget = {
@@ -519,37 +522,42 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 						label: null,
 					},
 				};
-				updatedWidgets.push(newFavoriteLine);
+				updatedLineWidgets.push(newFavoriteLine);
 			}
 		});
 
-		setDataWidgetLinesState(updatedWidgets);
+		setDataWidgetLinesState(updatedLineWidgets);
 
-		const stopsWidgets = dataWidgetStopsState || [];
+		const mergedWidgets = [...otherWidgets, ...updatedLineWidgets];
 		const updatedProfile: Account = {
 			...(dataProfileState || {}),
-			widgets: [
-				...stopsWidgets,
-				...updatedWidgets,
-			],
+			widgets: mergedWidgets,
 		};
 		setDataProfileState(updatedProfile);
-		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
+		await localStorage.setItem(
+			LOCAL_STORAGE_KEYS.profile,
+			JSON.stringify(updatedProfile) || '',
+		);
 		await updateProfileOnCloud(updatedProfile);
 	};
 
 	const toggleWidgetStop = async (stopId: string, pattern_ids: string[]) => {
 		if (!consentContext.data.enabled_functional) return;
-		const currentWidgets = dataWidgetStopsState || [];
-		const updatedWidgets = [...currentWidgets];
-		const stopWidgetIndex = updatedWidgets.findIndex(
+
+		// Get all widgets from the current profile
+		const allWidgets = (dataProfileState?.widgets || []) as AccountWidget[];
+		const stopWidgets = allWidgets.filter(w => w.data && w.data.type === 'stops');
+		const otherWidgets = allWidgets.filter(w => !w.data || w.data.type !== 'stops');
+
+		const updatedStopWidgets = [...stopWidgets];
+		const stopWidgetIndex = updatedStopWidgets.findIndex(
 			widget =>
 				widget.data
 				&& widget.data.type === 'stops'
 				&& widget.data.stop_id === stopId,
 		);
 		if (stopWidgetIndex !== -1) {
-			const widget = updatedWidgets[stopWidgetIndex];
+			const widget = updatedStopWidgets[stopWidgetIndex];
 			let currentPatternIds: string[] = [];
 			if (widget.data.type === 'stops') {
 				currentPatternIds = widget.data.pattern_ids || [];
@@ -560,10 +568,10 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				? currentPatternIds.filter(id => id !== patternId)
 				: [...currentPatternIds, patternId];
 			if (newPatternIds.length === 0) {
-				updatedWidgets.splice(stopWidgetIndex, 1);
+				updatedStopWidgets.splice(stopWidgetIndex, 1);
 			}
 			else {
-				updatedWidgets[stopWidgetIndex] = {
+				updatedStopWidgets[stopWidgetIndex] = {
 					...widget,
 					data: {
 						...(widget.data.type === 'stops'
@@ -578,81 +586,105 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				data: { pattern_ids: pattern_ids, stop_id: stopId, type: 'stops' as const },
 				settings: { is_open: true },
 			};
-			updatedWidgets.push(newFavoriteStop);
+			updatedStopWidgets.push(newFavoriteStop);
 		}
-		setDataWidgetStopsState(updatedWidgets);
+
+		setDataWidgetStopsState(updatedStopWidgets);
+
+		const mergedWidgets = [...otherWidgets, ...updatedStopWidgets];
 		const updatedProfile: Account = {
 			...(dataProfileState || {}),
-			widgets: [
-				...(dataWidgetLinesState || []),
-				...updatedWidgets,
-			],
+			widgets: mergedWidgets,
 		};
 		setDataProfileState(updatedProfile);
-		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
+		await localStorage.setItem(
+			LOCAL_STORAGE_KEYS.profile,
+			JSON.stringify(updatedProfile) || '',
+		);
 		await updateProfileOnCloud(updatedProfile);
 	};
 
-	const toggleWidgetSmartNotification = async (notificationId: string) => {
+	const toggleWidgetSmartNotification = async (
+		pattern_id: string,
+		radius: number,
+		start_time: number,
+		end_time: number,
+		stop_id: string,
+		week_days: ('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[],
+	) => {
 		if (!consentContext.data.enabled_functional) return;
 
-		const currentWidgets = dataWidgetSmartNotificationsState || [];
-		const updatedWidgets = [...currentWidgets];
-
-		const widgetIndex = updatedWidgets.findIndex(
+		const allWidgets = (dataProfileState?.widgets || []) as AccountWidget[];
+		const smartNotificationWidgets = allWidgets.filter(
+			w => w.data && w.data.type === 'smart_notifications',
+		);
+		const otherWidgets = allWidgets.filter(
+			w => !w.data || w.data.type !== 'smart_notifications',
+		);
+		const updatedSmartWidgets = [...smartNotificationWidgets];
+		const widgetIndex = updatedSmartWidgets.findIndex(
 			widget =>
 				widget.data
 				&& widget.data.type === 'smart_notifications'
-				&& widget.data.id === notificationId,
+				&& widget.data.pattern_id === pattern_id
+				&& widget.data.stop_id === stop_id,
 		);
-
 		if (widgetIndex !== -1) {
-			// Remove if exists
-			updatedWidgets.splice(widgetIndex, 1);
+			updatedSmartWidgets.splice(widgetIndex, 1);
 		}
 		else {
-			// Add new widget
+			const user_id = dataProfileState?.devices[0].device_id || '';
+			const defaultWeekDays = [
+				'monday',
+				'tuesday',
+				'wednesday',
+				'thursday',
+				'friday',
+				'saturday',
+				'sunday',
+			] as const;
+			const validWeekDays = Array.isArray(week_days) && week_days.length > 0 ? week_days : defaultWeekDays;
+			console.log(start_time, end_time);
 			const newWidgetSmartNotification: AccountWidget = {
 				data: {
-					id: notificationId,
+					distance: radius || 0,
+					end_time: end_time || 0,
+					id: (updatedSmartWidgets.length + 1).toString() || '0',
+					pattern_id: pattern_id || '0',
+					start_time: start_time || 0,
+					stop_id: stop_id || '',
 					type: 'smart_notifications',
-					// You may want to fill these with actual values if available
-					distance: 0,
-					end_time: 0,
-					pattern_id: '0',
-					start_time: 0,
-					stop_id: '',
-					user_id: '',
-					week_days: [
-						'monday',
-						'tuesday',
-						'wednesday',
-						'thursday',
-						'friday',
-					],
+					user_id: user_id || '',
+					week_days: (
+						Array.isArray(week_days) && week_days.length > 0
+							? week_days as [
+								'friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday',
+								...('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[],
+							]
+							: validWeekDays as [
+								'friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday',
+								...('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[],
+							]
+					),
 				},
 				settings: {
-					display_order: null,
 					is_open: true,
-					label: null,
 				},
 			};
-			updatedWidgets.push(newWidgetSmartNotification);
+			console.log('Adding new smart notification widget:', newWidgetSmartNotification);
+			updatedSmartWidgets.push(newWidgetSmartNotification);
 		}
-
-		setDataWidgetSmartNotificationsState(updatedWidgets);
-
+		setDataWidgetSmartNotificationsState(updatedSmartWidgets);
+		const mergedWidgets = [...otherWidgets, ...updatedSmartWidgets];
 		const updatedProfile: Account = {
 			...(dataProfileState || {}),
-			widgets: [
-				...(dataWidgetLinesState || []),
-				...(dataWidgetStopsState || []),
-				...updatedWidgets,
-			],
+			widgets: mergedWidgets,
 		};
 		setDataProfileState(updatedProfile);
-		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
-
+		await localStorage.setItem(
+			LOCAL_STORAGE_KEYS.profile,
+			JSON.stringify(updatedProfile) || '',
+		);
 		await updateProfileOnCloud(updatedProfile);
 	};
 

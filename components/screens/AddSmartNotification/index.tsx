@@ -5,18 +5,23 @@ import { Section } from '@/components/common/layout/Section';
 import { SelectNotificationControl } from '@/components/common/SelectNotifcationControl';
 import { LineBadge } from '@/components/lines/LineBadge';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useLocaleContext } from '@/contexts/Locale.context';
+import { useProfileContext } from '@/contexts/Profile.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
 import { Pattern, Waypoint } from '@carrismetropolitana/api-types/network';
+import RNDateTimePicker from '@react-native-community/datetimepicker';
 import { Button, ButtonGroup, Input, ListItem, Text } from '@rn-vui/themed';
 import { IconArrowLoopRight, IconArrowRight, IconCircle, IconCircleCheckFilled, IconPlayerPlayFilled, IconSearch, IconX } from '@tabler/icons-react-native';
 import { useNavigation } from 'expo-router';
+import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Svg, { Circle, Rect } from 'react-native-svg';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 import styles from './styles';
 
@@ -27,24 +32,33 @@ export default function AddSmartNotificationScreen() {
 
 	//
 	// A. Setup Variables
+
 	const { t } = useTranslation('translation', { keyPrefix: 'smartNotifications' });
 	const [lineChooserVisibility, setLineChooserVisibility] = useState(false);
 	const [patternNames, setPatternNames] = useState<Record<string, string>>({});
 	const [patternVersionIds, setPatternVersionIds] = useState<Record<string, string>>({});
 	const [selectedStopId, setSelectedStopId] = useState<null | string>(null);
 	const [selectedPatternId, setSelectedPatternId] = useState<null | string>(null);
-	const [selectedDays, setSelectedDays] = useState<string[]>([]);
-	const [radius, setRadius] = useState<string | undefined>(undefined);
-	const [startingHour, setStartingHour] = useState<string | undefined>(undefined);
-	const [endingHour, setEndingHour] = useState<string | undefined>(undefined);
+	const [selectedVersionId, setSelectedVersionId] = useState<null | string>(null);
+	const [selectedDays, setSelectedDays] = useState<('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[]>(['friday', 'monday', 'saturday', 'sunday', 'thursday', 'tuesday', 'wednesday']);
+	const [radius, setRadius] = useState<0 | number>(0);
+	const [startingHour, setStartingHour] = useState<Date | null>(null);
+	const [endingHour, setEndingHour] = useState<Date | null>(null);
+	const [startingSeconds, setStartingSeconds] = useState<0 | number>(0);
+	const [endingSeconds, setEndingSeconds] = useState<0 | number>(0);
 	const [selectedIndex, setSelectedIndex] = useState([]);
+
 	const linesDetailContext = useLinesDetailContext();
 	const stopsContext = useStopsContext();
+	const profileContext = useProfileContext();
+	const locale = useLocaleContext();
+
 	const addFavoriteLineStyles = styles();
 	const navigation = useNavigation();
 
 	//
-	// C. Handle actions
+	// B. Fetch Data
+
 	const fetchPattern = async (patternId: string) => {
 		try {
 			const response = await fetch(`${Routes.API}/patterns/${patternId}`);
@@ -65,6 +79,7 @@ export default function AddSmartNotificationScreen() {
 		const fetchPatterns = async () => {
 			const patternName: Record<string, string> = {};
 			const patternVersionId: Record<string, string> = {};
+			let patternId = '';
 			const patterns = linesDetailContext.data.line?.pattern_ids;
 
 			if (patterns) {
@@ -74,12 +89,14 @@ export default function AddSmartNotificationScreen() {
 						if (data) {
 							patternName[pattern] = data.headsign;
 							patternVersionId[pattern] = data.version_id;
+							patternId = data.id;
 						}
 					}),
 				);
 
 				setPatternNames(patternName);
 				setPatternVersionIds(patternVersionId);
+				setSelectedPatternId(patternId);
 			}
 			else {
 				return;
@@ -88,21 +105,41 @@ export default function AddSmartNotificationScreen() {
 		fetchPatterns();
 	}, [linesDetailContext.data.line?.pattern_ids]);
 
+	// C Handle Actions
+	//
+
+	function getSecondsSinceMidnight(date: Date) {
+		return date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds();
+	}
 	useEffect(() => {
 		if (!selectedIndex) return;
-		const weekDays = ['Seg', 'Ter', 'Qua', 'Quin', 'Sex', 'Sáb', 'Dom'];
-		console.log(selectedIndex.map(index => weekDays[index]));
+		const weekDays: (
+			'friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday'
+		)[] = [
+			'monday',
+			'tuesday',
+			'wednesday',
+			'thursday',
+			'friday',
+			'saturday',
+			'sunday',
+		];
 		setSelectedDays(selectedIndex.map(index => weekDays[index]));
 	}, [selectedIndex]);
 
 	useEffect(() => {
-		if (selectedPatternId) {
-			linesDetailContext.actions.setActivePattern(selectedPatternId);
+		if (selectedVersionId) {
+			linesDetailContext.actions.setActivePattern(selectedVersionId);
 		}
 		else {
 			linesDetailContext.actions.resetActivePattern();
 		}
-	}, [selectedPatternId, linesDetailContext.data.line?.id]);
+	}, [selectedVersionId, linesDetailContext.data.line?.id]);
+
+	useEffect(() => {
+		setStartingSeconds(getSecondsSinceMidnight(startingHour || new Date()));
+		setEndingSeconds(getSecondsSinceMidnight(endingHour || new Date()));
+	}, [startingHour, endingHour]);
 
 	const exitScreen = () => {
 		clearScreen();
@@ -112,19 +149,30 @@ export default function AddSmartNotificationScreen() {
 	const clearScreen = () => {
 		linesDetailContext.actions.resetLineId();
 		linesDetailContext.actions.resetActivePattern();
+		setSelectedPatternId(null);
+		setSelectedStopId(null);
+		setSelectedDays([]);
+		setRadius(0);
+		setStartingHour(new Date());
+		setEndingHour(new Date());
+		setSelectedVersionId(null);
 	};
 
 	const handlePatternSelect = (item: string) => {
 		const versionId = patternVersionIds[item];
-		if (selectedPatternId === versionId) {
-			setSelectedPatternId(null);
+		if (selectedVersionId === versionId) {
+			setSelectedVersionId(null);
 			linesDetailContext.actions.resetActivePattern();
 		}
 		else {
-			console.log('pattern is updateing:', item, 'version:', versionId);
-			setSelectedPatternId(versionId);
+			setSelectedVersionId(versionId);
 			linesDetailContext.actions.setActivePattern(versionId);
 		}
+	};
+
+	const toggleWidgetSmartNotification = () => {
+		profileContext.actions.toggleWidgetSmartNotification(selectedPatternId ?? '', radius, startingSeconds, endingSeconds, selectedStopId ?? '', selectedDays);
+		exitScreen();
 	};
 
 	//
@@ -189,7 +237,7 @@ export default function AddSmartNotificationScreen() {
 							</Text>
 							{linesDetailContext.data.line.pattern_ids.map((item) => {
 								const versionId = patternVersionIds[item];
-								const isSelected = selectedPatternId === versionId;
+								const isSelected = selectedVersionId === versionId;
 								return (
 									<ListItem
 										key={item}
@@ -221,7 +269,7 @@ export default function AddSmartNotificationScreen() {
 				</Svg>
 				<Text style={addFavoriteLineStyles.text}>{t('radiusAt')}</Text>
 				<View style={addFavoriteLineStyles.selectNotificationContol}>
-					<Input containerStyle={addFavoriteLineStyles.input} onChangeText={setRadius} placeholder="Valor" value={radius} />
+					<Input containerStyle={addFavoriteLineStyles.input} onChangeText={text => setRadius(Number(text))} placeholder="Valor" value={radius.toString()} />
 					<SelectNotificationControl />
 				</View>
 
@@ -231,7 +279,7 @@ export default function AddSmartNotificationScreen() {
 
 				<Text style={addFavoriteLineStyles.text}>{t('stopSelectorTitle')}</Text>
 				<View>
-					{selectedPatternId && linesDetailContext.data.active_pattern ? (
+					{selectedVersionId && linesDetailContext.data.active_pattern ? (
 						linesDetailContext.data.active_pattern.path.map((waypoint: Waypoint) => {
 							const stop = stopsContext.actions.getStopById(waypoint.stop_id);
 							const isSelected = selectedStopId === waypoint.stop_id;
@@ -269,11 +317,33 @@ export default function AddSmartNotificationScreen() {
 				<View style={addFavoriteLineStyles.lastSectionWrapper}>
 					<View style={addFavoriteLineStyles.timeSelectors}>
 						<Text style={addFavoriteLineStyles.text}>{t('startingTime')}</Text>
-						<Input containerStyle={addFavoriteLineStyles.input} onChangeText={setStartingHour} placeholder="07:00" value={startingHour} />
+						<RNDateTimePicker
+							display="compact"
+							locale={locale.locale}
+							mode="time"
+							style={addFavoriteLineStyles.input}
+							value={startingHour ?? new Date()}
+							onChange={(event, date) => {
+								if (date) {
+									setStartingHour(date);
+								}
+							}}
+						/>
 					</View>
 					<View style={addFavoriteLineStyles.timeSelectors}>
 						<Text style={addFavoriteLineStyles.text}>{t('endingTime')}</Text>
-						<Input containerStyle={addFavoriteLineStyles.input} onChangeText={setEndingHour} placeholder="08:00" value={endingHour} />
+						<RNDateTimePicker
+							display="compact"
+							mode="time"
+							style={addFavoriteLineStyles.input}
+							timeZoneName="Europe/Lisbon"
+							value={endingHour ?? new Date()}
+							onChange={(event, date) => {
+								if (date) {
+									setEndingHour(date);
+								}
+							}}
+						/>
 					</View>
 					<View style={addFavoriteLineStyles.daysSelectors}>
 						<Text style={addFavoriteLineStyles.textLeft}>{t('weekDaysTitle')}</Text>
@@ -304,6 +374,7 @@ export default function AddSmartNotificationScreen() {
 			</View>
 			<Button
 				buttonStyle={addFavoriteLineStyles.saveButton}
+				onPress={() => toggleWidgetSmartNotification()}
 				title="Guardar"
 				titleStyle={addFavoriteLineStyles.saveButtonText}
 			/>

@@ -37,6 +37,9 @@ export default function ProfileScreen() {
 				data: { ...widget.data, pattern_ids: [patternId] },
 			}));
 		}
+		if (widget.data.type === 'smart_notifications') {
+			return widget;
+		}
 		return [];
 	});
 	const [widgetList, setWidgetList] = useState(() => initialWidgets);
@@ -50,6 +53,9 @@ export default function ProfileScreen() {
 		}
 		if (widget.data.type === 'stops') {
 			return `stops-${widget.data.stop_id}-${widget.data.pattern_ids.join(',')}`;
+		}
+		if (widget.data.type === 'smart_notifications') {
+			return `smart_notifications-${widget.data.id || ''}`;
 		}
 		return JSON.stringify(widget);
 	}
@@ -80,9 +86,7 @@ export default function ProfileScreen() {
 					: <ProfileImage height={200} type="local" width={200} />}
 				<Text style={profileStyles.userFullNameText}> {profileContext.data.profile?.profile?.first_name}{' '}{profileContext.data.profile?.profile?.last_name}
 				</Text>
-				{/* <Link href="/profileEdit" style={{ width: '100%' }} asChild> */}
 				<Button buttonStyle={profileStyles.button} containerStyle={profileStyles.buttonContainer} onPress={() => router.push('/profileEdit')} title="Editar Perfil" titleStyle={profileStyles.buttonTitle} />
-				{/* </Link> */}
 			</View>
 			<View style={profileStyles.favoritesListSection}>
 				<Section heading="Personalizar widgets" />
@@ -94,40 +98,28 @@ export default function ProfileScreen() {
 	const ListFooter = () => (
 		<View style={profileStyles.addFavoritesSection}>
 			<Section heading="Adicionar novo widget" />
-			{/* <Link href="/addFavoriteStop" asChild> */}
 			<ListItem onPress={() => router.push('/addFavoriteStop')}>
 				<IconBusStop color="#FF6900" size={24} />
 				<ListItem.Content>
 					<ListItem.Title style={profileStyles.listTitle}><Text>Paragem Favorita</Text></ListItem.Title>
 				</ListItem.Content>
 				<IconCirclePlus
+					color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100}
 					fill="#3CB43C"
 					size={24}
-					color={
-						themeContext.theme.mode === 'light'
-							? theming.colorSystemBackgroundLight100
-							: theming.colorSystemBackgroundDark100
-					}
 				/>
 			</ListItem>
-			{/* </Link> */}
-			{/* <Link href="/addFavoriteLine" asChild> */}
 			<ListItem onPress={() => router.push('/addFavoriteLine')}>
 				<IconArrowLoopRight color="#C61D23" size={24} />
 				<ListItem.Content>
 					<ListItem.Title style={profileStyles.listTitle}><Text>Linha Favorita</Text></ListItem.Title>
 				</ListItem.Content>
 				<IconCirclePlus
+					color={themeContext.theme.mode === 'light'	? theming.colorSystemBackgroundLight100	: theming.colorSystemBackgroundDark100}
 					fill="#3CB43C"
 					size={24}
-					color={
-						themeContext.theme.mode === 'light'
-							? theming.colorSystemBackgroundLight100
-							: theming.colorSystemBackgroundDark100
-					}
 				/>
 			</ListItem>
-			{/* </Link> */}
 			<ListItem onPress={() => router.push('/addSmartNotification')}>
 				<IconBellRinging color="#0C807E" size={24} />
 				<ListItem.Content>
@@ -136,13 +128,9 @@ export default function ProfileScreen() {
 					</ListItem.Title>
 				</ListItem.Content>
 				<IconCirclePlus
+					color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100}
 					fill="#3CB43C"
 					size={24}
-					color={
-						themeContext.theme.mode === 'light'
-							? theming.colorSystemBackgroundLight100
-							: theming.colorSystemBackgroundDark100
-					}
 				/>
 			</ListItem>
 		</View>
@@ -152,13 +140,18 @@ export default function ProfileScreen() {
 		<View style={profileStyles.container}>
 			<DraggableFlatList
 				data={widgetList}
-				keyExtractor={item => item.data.type === 'lines' ? `line-${item.data.pattern_id}` : item.data.type === 'stops' ? `stop-${item.data.stop_id}-${item.data.pattern_ids[0]}` : JSON.stringify(item)}
 				ListFooterComponent={ListFooter}
 				ListHeaderComponent={ListHeader}
 				nestedScrollEnabled={false}
 				renderItem={renderFavoriteItem}
 				scrollEnabled={true}
 				showsVerticalScrollIndicator={false}
+				keyExtractor={(item) => {
+					if (item.data.type === 'lines') return `line-${item.data.pattern_id}`;
+					if (item.data.type === 'stops') return `stop-${item.data.stop_id}-${item.data.pattern_ids[0]}`;
+					if (item.data.type === 'smart_notifications') return `smart_notifications-${item.data.id || ''}`;
+					return JSON.stringify(item);
+				}}
 				onDragEnd={({ data }) => {
 					setWidgetList(data);
 					if (saveTimer.current) clearTimeout(saveTimer.current);

@@ -114,17 +114,14 @@ export const OperationalDayContextProvider = ({ children }) => {
 	};
 
 	const updateSelectedDayToToday = () => {
-		console.log('today', todayDateString);
 		setSelectedDay(todayDateString);
 	};
 
 	const updateSelectedDayToTomorrow = () => {
-		console.log('tomorow', tomorrowDateString);
 		setSelectedDay(tomorrowDateString);
 	};
 
 	const updateSelectedDayToPlusOneDay = () => {
-		console.log('tomorrow');
 		const selectedDayPlusOneDay = DateTime.fromFormat(selectedDay || todayDateString, 'yyyyMMdd').plus({ days: 1 }).toFormat('yyyyMMdd');
 		setSelectedDay(selectedDayPlusOneDay);
 	};

@@ -1,6 +1,5 @@
 import { Text } from '@rn-vui/themed';
 import { IconBell } from '@tabler/icons-react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect, useRef } from 'react';
 import { Animated, StyleSheet, View } from 'react-native';
 
@@ -8,10 +7,11 @@ import { styles } from './styles';
 
 interface SmartNotificationsWidgetCardHeaderProps {
 	municipality: string
+	startHour?: string
 	title: string
 }
 
-export function SmartNotificationsWidgetCardHeader({ municipality, title }: SmartNotificationsWidgetCardHeaderProps) {
+export function SmartNotificationsWidgetCardHeader({ municipality, startHour, title }: SmartNotificationsWidgetCardHeaderProps) {
 	// A. Setup variables
 	const headerStyles = styles();
 
@@ -38,7 +38,7 @@ export function SmartNotificationsWidgetCardHeader({ municipality, title }: Smar
 		<View style={headerStyles.container}>
 			<Text style={headerStyles.headerTitle}>{title}</Text>
 			<Text style={headerStyles.headerSubtitle}>{municipality}</Text>
-			<Text>07:30</Text>
+			<Text>{startHour}</Text>
 			<View style={{ alignItems: 'center', height: 64, justifyContent: 'center', marginTop: 16, width: 64 }}>
 				<Animated.View
 					style={[stylesPulse.gradientCircle, { backgroundColor: '#daf0ef', position: 'absolute', transform: [{ scale: pulseAnim }], zIndex: 0 },

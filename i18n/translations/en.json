@@ -318,6 +318,15 @@
 		}
 	},
 	"smartNotifications": {
+		"Toolbar": {
+			"friday": "Fri",
+			"monday": "Mon",
+			"saturday": "Sat",
+			"sunday": "Sun",
+			"thursday": "Thu",
+			"tuesday": "Tue",
+			"wednesday": "Wed"
+		},
 		"chooseLineTitle": "Notifiy me when a bus from the line",
 		"endingTime": "To",
 		"friday": "Fri",
