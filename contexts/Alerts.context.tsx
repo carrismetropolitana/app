@@ -1,10 +1,11 @@
 /* * */
-import type { Alert, SimplifiedAlert } from '@/types/alerts.types.js';
 
+import { Alert, SimplifiedAlert } from '@/types/alerts.types';
 import convertToSimplifiedAlert from '@/utils/convertToSimplifiedAlert';
 import { Routes } from '@/utils/routes';
 import { getLocales } from 'expo-localization';
 import { createContext, useContext, useEffect, useState } from 'react';
+import { ReactNode } from 'react';
 import useSWR from 'swr';
 
 // import { useAnalyticsContext } from './Analytics.context';
@@ -40,7 +41,7 @@ export function useAlertsContext() {
 
 /* * */
 
-export const AlertsContextProvider = ({ children }) => {
+export const AlertsContextProvider = ({ children }: { children: ReactNode }) => {
 	//
 
 	//

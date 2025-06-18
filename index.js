@@ -1,4 +1,9 @@
 import { registerRootComponent } from 'expo';
+import '@formatjs/intl-locale/polyfill';
+import '@formatjs/intl-datetimeformat/polyfill';
+import '@formatjs/intl-datetimeformat/locale-data/pt';
+import '@formatjs/intl-datetimeformat/locale-data/en';
+// Add more as needed
 
 import App from './App';
 

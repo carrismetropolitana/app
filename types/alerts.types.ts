@@ -66,7 +66,7 @@ export interface SimplifiedAlert {
 	cause: AlertCause
 	description: string
 	effect: AlertEffect
-	end_date: Date
+	end_date?: Date
 	image_url: null | string
 	informed_entity: EntitySelector[]
 	locale: string

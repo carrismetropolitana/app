@@ -21,6 +21,8 @@
 	"dependencies": {
 		"@amplitude/analytics-react-native": "^1.4.13",
 		"@expo/vector-icons": "^14.0.2",
+		"@formatjs/intl-datetimeformat": "^6.18.0",
+		"@formatjs/intl-locale": "^4.2.11",
 		"@gorhom/bottom-sheet": "^5.1.4",
 		"@maplibre/maplibre-react-native": "^10.1.4",
 		"@react-native-async-storage/async-storage": "1.23.1",

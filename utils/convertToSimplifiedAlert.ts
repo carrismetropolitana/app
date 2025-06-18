@@ -26,11 +26,11 @@ export default (alertData: Alert, currentLocale = 'pt'): SimplifiedAlert => {
 		else localizedImageUrl = imageLocaleMatch.url.length > 0 ? imageLocaleMatch.url : null;
 	}
 	// Start date
-	const startDate = alertData.active_period.start ? alertData.active_period.start : -Infinity;
-	const startDateObject = DateTime.fromSeconds(startDate).toJSDate();
+	const startDate = alertData.active_period[0].start ? alertData.active_period[0].start : -Infinity;
+	const startDateObject = DateTime.fromSeconds(startDate, { zone: 'UTC' }).toLocal().toJSDate();
 	// End date
-	const endDate = alertData.active_period.end ? alertData.active_period.end : +Infinity;
-	const endDateObject = DateTime.fromSeconds(endDate).toJSDate();
+	const endDate = alertData.active_period[0].end ? alertData.active_period[0].end : +Infinity;
+	const endDateObject = endDate === +Infinity ? undefined : DateTime.fromSeconds(endDate, { zone: 'UTC' }).toLocal().toJSDate();
 	//
 	return {
 		alert_id: alertData.alert_id,

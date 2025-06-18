@@ -1,15 +1,16 @@
 /* * */
 
-import Counter from '@/components/common/Counter';
+import LineSearchBar from '@/components/common/LineSearchBar';
 import { VirtualizedListingLines } from '@/components/common/VitualizedListLines';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useLinesListContext } from '@/contexts/LinesList.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Line } from '@carrismetropolitana/api-types/network';
-import { Input, Overlay, Text } from '@rn-vui/themed';
+import { Overlay, Text } from '@rn-vui/themed';
 import { IconCirclePlus } from '@tabler/icons-react-native';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -32,16 +33,15 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 
 	const linesDetailContext = useLinesDetailContext();
 	const linesContext = useLinesContext();
+	const linesListContext = useLinesListContext();
 	const themeContext = useThemeContext();
-	const [allLines] = useState<Line[]>(linesContext.data.lines);
-	const [allMunicipalities] = useState(linesContext.data.municipalities);
+	const allLines = linesListContext.data.filtered; // <-- use directly, not useState
+	const allMunicipalities = linesContext.data.municipalities; // <-- use directly, not useState
 	const [linesMunicipalities, setLineMunicipalities] = useState<string[]>();
-	const [lineSearch, setLineSearch] = useState('');
 	const [selectedLine, setSelectedLine] = useState('');
 
 	//
 	// B.Fetch Data
-
 	useEffect(() => {
 		if (!selectedLine) return;
 		linesDetailContext.actions.setLineId(selectedLine);
@@ -59,13 +59,6 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 			})
 			.filter((name): name is string => name !== null);
 	};
-
-	const filteredLines = useMemo(() => {
-		return allLines.filter(line =>
-			line.long_name.toLowerCase().includes(lineSearch.toLowerCase())
-			|| String(line.id).includes(lineSearch),
-		);
-	}, [allLines, lineSearch]);
 
 	//
 	// C. Handle Actions
@@ -92,18 +85,9 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 							<Text style={styles.backText}>Voltar</Text>
 						</TouchableOpacity>
 					</View>
-
-					<View>
-						<Input
-							clearButtonMode="while-editing"
-							onChangeText={text => setLineSearch(text)}
-							placeholder="Pesquisar por número ou nome"
-							value={lineSearch}
-						/>
-						<Counter quantity={filteredLines.length} text="Encontradas" type="linhas" />
-					</View>
+					<LineSearchBar />
 					<VirtualizedListingLines
-						data={filteredLines}
+						data={allLines}
 						itemClick={handleLineClick}
 						municipality={linesMunicipalities}
 						size="lg"

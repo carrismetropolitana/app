@@ -376,7 +376,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 		const { _id, created_at, role, updated_at, ...cleanedProfile } = profile;
 
-		console.log('Updating profile on cloud:', JSON.stringify(cleanedProfile, null, 2));
+		// console.log('Updating profile on cloud:', JSON.stringify(cleanedProfile, null, 2));
 
 		try {
 			await fetch(`${Routes.DEV_API_ACCOUNTS}/${profile.devices[0].device_id}`, {
@@ -644,7 +644,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				'sunday',
 			] as const;
 			const validWeekDays = Array.isArray(week_days) && week_days.length > 0 ? week_days : defaultWeekDays;
-			console.log(start_time, end_time);
 			const newWidgetSmartNotification: AccountWidget = {
 				data: {
 					distance: radius || 0,
@@ -671,7 +670,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 					is_open: true,
 				},
 			};
-			console.log('Adding new smart notification widget:', newWidgetSmartNotification);
+			// console.log('Adding new smart notification widget:', newWidgetSmartNotification);
 			updatedSmartWidgets.push(newWidgetSmartNotification);
 		}
 		setDataWidgetSmartNotificationsState(updatedSmartWidgets);

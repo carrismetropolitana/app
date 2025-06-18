@@ -13,6 +13,12 @@ export const styles = () => {
 	const fontColor = theme.mode === 'light' ? theming.colorSystemText100 : theming.colorSystemText300;
 
 	return StyleSheet.create({
+		bodyContentContainer: {
+			alignItems: 'center',
+			display: 'flex',
+			flexDirection: 'row',
+			gap: theming.sizeSpacing5,
+		},
 		container: {
 			backgroundColor: backgroundColor,
 			borderColor: borderColor,
@@ -31,7 +37,7 @@ export const styles = () => {
 		},
 		imageContainer: {
 			elevation: 6,
-			padding: 14,
+			padding: 0,
 			shadowColor: '#000',
 			shadowOffset: { height: 0, width: 0 },
 			shadowOpacity: 0.05,
@@ -46,13 +52,14 @@ export const styles = () => {
 		/* * */
 		/* TITLE */
 		title: {
-			color: fontColor,
+			color: '#054B8C',
 			fontSize: 14,
 			fontWeight: theming.fontWeightBold as 'bold',
 		},
 		/* * */
 		/* ICON */
 		icon: {
+			color: '#054B8C',
 			marginLeft: 4,
 		},
 	});

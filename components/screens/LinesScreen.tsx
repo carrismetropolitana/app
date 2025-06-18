@@ -10,8 +10,10 @@ import { router } from 'expo-router';
 import React, { useCallback } from 'react';
 import { SafeAreaView, SectionList, StyleSheet } from 'react-native';
 
+import LineSearchBar from '../common/LineSearchBar';
+
 export default function LinesScreen() {
-	const { data: { lines: allLines } } = useLinesContext();
+	const { data: { filtered: allLines } } = useLinesListContext();
 	const { data: { linesAroundLocation: nearbyLines } } = useLinesListContext();
 	const { data: { locationPermission } } = useLocationsContext();
 	const { theme } = useThemeContext();
@@ -44,6 +46,7 @@ export default function LinesScreen() {
 
 	return (
 		<SafeAreaView style={styles.container}>
+			<LineSearchBar />
 			<SectionList
 				getItemLayout={getItemLayout}
 				initialNumToRender={5}

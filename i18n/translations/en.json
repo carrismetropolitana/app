@@ -111,8 +111,8 @@
 	},
 	"alerts": {
 		"AlertActivePeriod": {
-			"end": "End: <parsedDate>{end, date, dayShort} {end, date, monthLong} {end, date, yearLong}</parsedDate>",
-			"start": "Start: <parsedDate>{start, date, dayShort} {start, date, monthLong} {start, date, yearLong}</parsedDate>"
+			"end": "End: <parsedDate>{{parsedDate}}</parsedDate>",
+			"start": "Start: <parsedDate>{{parsedDate}}</parsedDate>"
 		}
 	},
 	"analytics": {

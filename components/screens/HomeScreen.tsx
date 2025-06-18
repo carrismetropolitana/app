@@ -55,7 +55,7 @@ export default function HomeScreen() {
 		<View style={{ backgroundColor, flex: 1, paddingBottom: insets.bottom + 70 }}>
 			<Header />
 			<ScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} style={{ paddingTop: insets.top + 95 }}>
-				<View style={{ alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+				{/* <View style={{ alignItems: 'center', justifyContent: 'center', padding: 20 }}>
 					<Text>FCM Token:</Text>
 					<Text style={{ marginVertical: 8 }} selectable> {fcmToken ?? 'A obter token...'} </Text>
 					<Button
@@ -66,10 +66,10 @@ export default function HomeScreen() {
 						onPress={() => notifcationsContext.unsubscribeFromTopic('news')}
 						title="Unsubscribe from News"
 					/>
-				</View>
+				</View> */}
 				<FavoritesBar />
 				<View style={{ paddingHorizontal: 20 }}>
-					<SmartNotificationWidgetCard />
+					{/* <SmartNotificationWidgetCard /> */}
 					<WidgetCards />
 
 				</View>

@@ -1,9 +1,10 @@
 /* * */
+import type { SimplifiedAlert } from '@/types/alerts.types';
+
 import { AlertActivePeriodStart } from '@/components/alerts/AlertActivePeriod';
-import { SimplifiedAlert } from '@/types/alerts.types.js'; ;
 import { Routes } from '@/utils/routes';
 import { Text } from '@rn-vui/themed';
-import { IconArrowsDiagonal, IconCircleArrowRightFilled } from '@tabler/icons-react-native';
+import { IconCircleArrowRightFilled } from '@tabler/icons-react-native';
 import { Link } from 'expo-router';
 import React, { memo } from 'react';
 import {
@@ -41,9 +42,10 @@ const Carousel = memo(({ slides }: { slides: SimplifiedAlert[] }) => {
 					<View style={alertCarouselStyles.imageContainer}>
 						<Link href={`${Routes.CARRIS_METROPOLITANA}/alerts/${item.alert_id}`} style={alertCarouselStyles.container} target="_parent">
 							<AlertActivePeriodStart date={item.start_date} size="sm" />
-							<Text style={alertCarouselStyles.title}>{item.title}</Text>
-							<Text style={alertCarouselStyles.title}>{item.description}</Text>
-							<IconArrowsDiagonal fill={alertCarouselStyles.container.backgroundColor} size={16} style={alertCarouselStyles.icon} />
+							<View style={alertCarouselStyles.bodyContentContainer}>
+								<Text style={alertCarouselStyles.title}>{item.title}</Text>
+								<IconCircleArrowRightFilled fill={alertCarouselStyles.container.backgroundColor} size={16} style={alertCarouselStyles.icon} />
+							</View>
 						</Link>
 					</View>
 				</Pressable>
