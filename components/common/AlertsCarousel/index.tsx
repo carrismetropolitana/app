@@ -15,12 +15,10 @@ interface Props {
 export function AlertsCarousel({ alerts }: Props) {
 	//
 
-	const onAlertPress = (index: number) => {
-		console.log(`Alert ${index + 1} pressed:`, alerts[index]);
-	};
-
+	//
+	// A. Render Components
 	return (
-		<Carousel onAlertPress={onAlertPress} slides={alerts} />
+		<Carousel slides={alerts} />
 	);
 
 	//

@@ -26,11 +26,11 @@ export function AlertActivePeriodEnd({ date, size = 'md' }: AlertActivePeriodEnd
 	// A. Setup variables
 
 	const alertActivePeriodStyles = styles();
-	const { t } = useTranslation('alerts.AlertActivePeriod');
+	const { t } = useTranslation('translation', { keyPrefix: 'alerts.AlertActivePeriod' });
 
 	//
 	// B. Render components
-
+	console.log(date);
 	if (date && !isNaN(date.getTime())) {
 		return (
 			<Text style={[alertActivePeriodStyles.text, alertActivePeriodStyles[size === 'md' ? 'sm' : size]]}>
@@ -51,29 +51,19 @@ export function AlertActivePeriodEnd({ date, size = 'md' }: AlertActivePeriodEnd
 
 export function AlertActivePeriodStart({ date, size = 'md' }: AlertActivePeriodStartProps) {
 	//
+
+	//
+	// A. Setup variables
+
 	const alertActivePeriodStyles = styles();
-
-	if (date && !isNaN(date.getTime())) {
-		return (
-			<Text style={[alertActivePeriodStyles.text, alertActivePeriodStyles[size === 'md' ? 'sm' : size]]}>
-				<Trans
-					components={{ parsedDate: <Text /> }}
-					i18nKey="start"
-					ns="alerts.AlertActivePeriod"
-					values={{ start: date }}
-				/>
-			</Text>
-		);
-	}
-
-	const { t } = useTranslation('alerts.AlertActivePeriod');
+	const { t } = useTranslation('translation', { keyPrefix: 'alerts.AlertActivePeriod' });
 
 	//
 	// B. Render components
 
 	if (date && !isNaN(date.getTime())) {
 		return (
-			<Text style={[alertActivePeriodStyles.text, alertActivePeriodStyles[size === 'md' ? 'sm' : size]]}>
+			<Text style={[alertActivePeriodStyles.text, size && alertActivePeriodStyles.sm]}>
 				<Trans
 					components={{ parsedDate: <Text /> }}
 					i18nKey="start"

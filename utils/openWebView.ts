@@ -15,7 +15,6 @@ export function openWebView({ locale, url }: OpenWebViewProps) {
 
 	//
 	// A. Hanlde Actions
-
 	return router.push(`/OpenWebView?url=${encodeURIComponent(url)}&locale=${locale}`);
 
 	//

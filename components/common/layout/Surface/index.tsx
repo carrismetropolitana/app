@@ -3,7 +3,7 @@
 import React from 'react';
 import { View, ViewStyle } from 'react-native';
 
-import { surfaceStyles } from './styles';
+import { styles } from './styles';
 
 /* * */
 
@@ -22,6 +22,8 @@ export function Surface({ children, forceOverflow, fullHeight, style, variant }:
 
 	//
 	// A. Setup variables
+
+	const surfaceStyles = styles();
 
 	const containerStyles = [
 		variant === 'default' && surfaceStyles.containerDefault,

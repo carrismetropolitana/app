@@ -14,7 +14,7 @@ export function LinesDetailAlerts() {
 	//
 	// A. Setup variables
 
-	const { t } = useTranslation('lines.LinesDetailAlerts');
+	const { t } = useTranslation('translation', { keyPrefix: 'lines.LinesDetailAlerts' });
 	const linesDetailContext = useLinesDetailContext();
 
 	//
@@ -26,7 +26,7 @@ export function LinesDetailAlerts() {
 
 	return (
 		<Surface variant="alerts">
-			<Section heading={t('heading')} withGap>
+			<Section heading={t('heading')}>
 				<AlertsCarousel alerts={linesDetailContext.data.active_alerts} />
 			</Section>
 		</Surface>

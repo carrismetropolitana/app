@@ -46,8 +46,6 @@ export function LineBadge({ color, lineData, lineId, onPress, shortName, size = 
 	const fetchedLineData = lineId ? linesContext.actions.getLineDataById(lineId) : undefined;
 	const hasAlerts = alertsContext.actions.getSimplifiedAlertsByLineId((lineData?.id ?? '') || (lineId ?? '')).length > 0;
 
-	console.log(hasAlerts, lineId, 'hasAlerts');
-
 	//
 	// C. Render components
 	return (

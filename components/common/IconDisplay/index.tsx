@@ -22,7 +22,7 @@ export function IconDisplay({ category, name }: Props) {
 	//
 	// A. Setup variables
 
-	const { t } = useTranslation('IconDisplay');
+	const { t } = useTranslation('translation', { keyPrefix: 'IconDisplay' });
 
 	//
 	// B. Transform data
