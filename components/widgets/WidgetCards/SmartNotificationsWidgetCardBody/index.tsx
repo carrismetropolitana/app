@@ -1,5 +1,6 @@
 /* * */
 
+import { LineDisplay } from '@/components/lines/LineDisplay';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { Text } from '@rn-vui/themed';
 import { useEffect } from 'react';
@@ -9,24 +10,25 @@ import { View } from 'react-native';
 
 interface Props {
 	lineId: string
-	stopId: string
 }
 
 /* * */
 
-export function SmartNotificationWidgetCardBody({ lineId, stopId }: Props) {
+export function SmartNotificationWidgetCardBody({ lineId }: Props) {
 	//
 
 	//
 	// A. Setup Variables
 	const lineDetailContext = useLinesDetailContext();
+	const lineData = lineDetailContext.data.line;
+
 	//
 	// B. Fetch Data
 
 	useEffect(() => {
 		if (!lineId) return;
 		lineDetailContext.actions.setLineId(lineId);
-	}, [lineId]);
+	}, [lineDetailContext.data.line, lineId]);
 
 	// B. Render Components
 
@@ -39,8 +41,7 @@ export function SmartNotificationWidgetCardBody({ lineId, stopId }: Props) {
 	}
 	return (
 		<View>
-			<Text>Line ID: {lineId}</Text>
-			<Text>Stop ID: {stopId}</Text>
+			<LineDisplay lineData={lineData} />
 		</View>
 	);
 

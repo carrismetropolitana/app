@@ -4,6 +4,7 @@ import { Account, AccountWidget, CreateAccountDto } from '@/types/account.types'
 import { Routes } from '@/utils/routes';
 import { Line } from '@carrismetropolitana/api-types/network';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import messagingLib from '@react-native-firebase/messaging';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { ReactNode } from 'react';
 import { Platform } from 'react-native';
@@ -604,14 +605,45 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		await updateProfileOnCloud(updatedProfile);
 	};
 
-	const toggleWidgetSmartNotification = async (
-		pattern_id: string,
-		radius: number,
-		start_time: number,
-		end_time: number,
-		stop_id: string,
-		week_days: ('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[],
-	) => {
+	const postSmartNotificationToCloud = async ( pattern_id: string, radius: number, start_time: number, end_time: number, stop_id: string, week_days: ('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[]) => {
+		if (!consentContext.data.enabled_functional || !dataApiTokenState) return;
+
+		const user_id = dataProfileState?.devices[0].device_id || '';
+		const body = {
+			distance: radius || 0,
+			end_time: end_time || 0,
+			pattern_id: pattern_id || '0',
+			start_time: start_time || 0,
+			stop_id: stop_id || '',
+			type: 'smart_notifications',
+			user_id: user_id || '',
+			week_days: (
+				Array.isArray(week_days) && week_days.length > 0
+					? week_days as [
+						'friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday',
+						...('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[],
+					]
+					: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const
+			),
+		};
+
+		try {
+			await fetch(`${Routes.DEV_API_ACCOUNTS}/smart-notifications`, {
+				body: JSON.stringify(body),
+				headers: {
+					'Content-Type': 'application/json',
+					'Cookie': `session_token=${dataApiTokenState}`,
+				},
+				method: 'POST',
+			});
+		}
+		catch (error) {
+			console.error('Error posting smart notification to cloud:', error);
+		}
+	};
+
+	// Toggle
+	const toggleWidgetSmartNotification = async (pattern_id: string, radius: number, start_time: number, end_time: number, stop_id: string, week_days: ('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[]) => {
 		if (!consentContext.data.enabled_functional) return;
 
 		const allWidgets = (dataProfileState?.widgets || []) as AccountWidget[];
@@ -629,6 +661,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				&& widget.data.pattern_id === pattern_id
 				&& widget.data.stop_id === stop_id,
 		);
+
 		if (widgetIndex !== -1) {
 			updatedSmartWidgets.splice(widgetIndex, 1);
 		}
@@ -643,7 +676,9 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				'saturday',
 				'sunday',
 			] as const;
+
 			const validWeekDays = Array.isArray(week_days) && week_days.length > 0 ? week_days : defaultWeekDays;
+
 			const newWidgetSmartNotification: AccountWidget = {
 				data: {
 					distance: radius || 0,
@@ -673,18 +708,30 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			// console.log('Adding new smart notification widget:', newWidgetSmartNotification);
 			updatedSmartWidgets.push(newWidgetSmartNotification);
 		}
+
+		// Update profile
 		setDataWidgetSmartNotificationsState(updatedSmartWidgets);
 		const mergedWidgets = [...otherWidgets, ...updatedSmartWidgets];
 		const updatedProfile: Account = {
 			...(dataProfileState || {}),
 			widgets: mergedWidgets,
 		};
+
 		setDataProfileState(updatedProfile);
-		await localStorage.setItem(
-			LOCAL_STORAGE_KEYS.profile,
-			JSON.stringify(updatedProfile) || '',
-		);
-		await updateProfileOnCloud(updatedProfile);
+
+		// Update local storage
+		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
+
+		// await updateProfileOnCloud(updatedProfile);
+
+		// Post to notification service
+		await postSmartNotificationToCloud(pattern_id, radius, start_time, end_time, stop_id, week_days);
+
+		// Subscribe to topic
+		if (dataApiTokenState) {
+			await messagingLib().subscribeToTopic('lel');
+			console.log('Subscribed to smart notification: ', pattern_id);
+		}
 	};
 
 	const setNewEmptyProfile = async () => {

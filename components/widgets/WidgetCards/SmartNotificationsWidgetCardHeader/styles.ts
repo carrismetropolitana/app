@@ -17,7 +17,6 @@ export const styles = () => {
 		/* CONTAINER */
 		container: {
 			flexDirection: 'row',
-			gap: 5,
 			width: '90%',
 		},
 		/* * */
@@ -34,6 +33,17 @@ export const styles = () => {
 			fontSize: theming.fontSizeMuted,
 			fontWeight: theming.fontWeightSemibold as '600',
 		},
-
+		/* * */
+		/* HEADER STARTHOUR */
+		headerStarthour: {
+			color: fontColor,
+			fontSize: theming.fontSizeTitle,
+			fontWeight: theming.fontWeightSemibold as '600',
+		},
+		/* * */
+		/* HEADER STARTHOUR CONTAINER */
+		headerStarthourContainer: {
+			paddingHorizontal: 10,
+		},
 	});
 };

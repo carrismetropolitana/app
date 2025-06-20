@@ -12,6 +12,7 @@ export const theming = {
 	colorDebug: '#055252',
 
 	// COLOR / SYSTEM
+	colorSystemBackground100: '#0F0FA',
 	colorSystemBackground900: '#000000',
 	colorSystemBackgroundDark100: '#282832',
 	colorSystemBackgroundDark200: '#1e1e28',

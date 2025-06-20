@@ -10,30 +10,36 @@ export const styles = () => {
 	const { theme } = useThemeContext();
 	const isLight = theme.mode === 'light';
 	const fontColor = isLight
-		? theming.colorSystemText100
+		? theming.colorSystemText200
 		: theming.colorSystemText300;
+	const borderColor = isLight ? theming.colorSystemBorder100 : theming.colorSystemBorderDark200;
 
 	return StyleSheet.create({
 		/* CONTAINER */
 		container: {
+			borderBottomWidth: 2,
+			borderColor: borderColor,
+			borderTopWidth: 2,
 			flexDirection: 'row',
-			gap: 5,
+			gap: 25,
 			justifyContent: 'space-between',
-			width: '88%',
+			marginBottom: 10,
+			marginTop: 10,
+			padding: 20,
 		},
 		/* * */
-		/* HEADER TITLE */
-		headerTitle: {
+		/* TEXT */
+		text: {
 			color: fontColor,
-			fontSize: theming.fontSizeNav,
-			fontWeight: theming.fontWeightTitle as '700',
+			fontSize: 16,
+			fontWeight: 'bold',
 		},
 		/* * */
-		/* HEADER SUBTITLE */
-		headerSubtitle: {
-			color: theming.colorSystemText200,
-			fontSize: theming.fontSizeMuted,
-			fontWeight: theming.fontWeightSemibold as '600',
+		/* TEXT UNSELECTED */
+		textUnselected: {
+			color: '#F0F0FA',
+			fontSize: 16,
+			fontWeight: 'bold',
 		},
 
 	});

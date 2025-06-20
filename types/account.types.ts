@@ -79,6 +79,7 @@ const WidgetStopsSchema = z.object({
 export const WidgetSmartNotificationsSchema = z.object({
 	distance: z.number(),
 	end_time: z.number().gt(0).lte(86400),
+	geo_json: z.any().nullish(),
 	id: z.string(),
 	pattern_id: z.string(),
 	start_time: z.number().gte(0).lt(86400),

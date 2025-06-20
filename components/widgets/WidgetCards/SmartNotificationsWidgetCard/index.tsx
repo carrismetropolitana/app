@@ -1,10 +1,11 @@
 /* * */
 
-import { AccordionToggle } from '@/components/AccordionToggle';
 import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
 import { AccountWidget } from '@/types/account.types';
 import { ListItem } from '@rn-vui/themed';
-import { View } from 'react-native';
+import { IconBell } from '@tabler/icons-react-native';
+import { useEffect, useRef } from 'react';
+import { Animated, StyleSheet, View } from 'react-native';
 
 import { SmartNotificationWidgetCardBody } from '../SmartNotificationsWidgetCardBody';
 import { SmartNotificationsWidgetCardHeader } from '../SmartNotificationsWidgetCardHeader';
@@ -28,9 +29,57 @@ export function SmartNotificationWidgetCard({ data, expanded = true, onToggle = 
 	// A. Setup variables
 
 	const cardStyles = styles();
+	const pulseAnim = useRef(new Animated.Value(1)).current;
+
+	const stylesPulse = StyleSheet.create({
+		gradientCircle: {
+			alignItems: 'center',
+			borderRadius: 32,
+			height: 40,
+			justifyContent: 'center',
+			top: -2,
+			width: 40,
+		},
+		innerCircle: {
+			alignItems: 'center',
+			backgroundColor: '#0C807E',
+			borderRadius: 999,
+			height: 35,
+			justifyContent: 'center',
+			width: 35,
+		},
+		notificationDot: {
+			backgroundColor: '#FFFFFF',
+			borderColor: '#fff',
+			borderRadius: 5,
+			borderWidth: 2,
+			height: 10,
+			position: 'absolute',
+			right: 6,
+			top: 6,
+			width: 10,
+		},
+	});
 
 	//
-	// B. Fetch Data
+	// B. Transform Data
+
+	useEffect(() => {
+		Animated.loop(
+			Animated.sequence([
+				Animated.timing(pulseAnim, {
+					duration: 800,
+					toValue: 1.15,
+					useNativeDriver: true,
+				}),
+				Animated.timing(pulseAnim, {
+					duration: 800,
+					toValue: 1,
+					useNativeDriver: true,
+				}),
+			]),
+		).start();
+	}, [pulseAnim]);
 
 	//
 	// D. Render Components
@@ -38,17 +87,27 @@ export function SmartNotificationWidgetCard({ data, expanded = true, onToggle = 
 	return (
 		<ListItem.Accordion
 			containerStyle={!expanded ? cardStyles.cardClosed : cardStyles.cardOpen}
-			icon={<AccordionToggle expanded={expanded} size={24} />}
 			isExpanded={expanded}
 			onPress={onToggle}
 			content={(
 				<SmartNotificationsWidgetCardHeader municipality="test" startHour="08:00" title="test 2" />
 			)}
+			icon={(
+				<View style={{ alignItems: 'center', marginTop: -20 }}>
+					<Animated.View
+						style={[stylesPulse.gradientCircle, { backgroundColor: '#daf0ef', position: 'absolute', transform: [{ scale: pulseAnim }], zIndex: 0 }]}
+					/>
+					<View style={[stylesPulse.innerCircle, { alignSelf: 'center', position: 'absolute', zIndex: 1 }]}>
+						<IconBell color="#fff" size={32} />
+						<View style={stylesPulse.notificationDot} />
+					</View>
+				</View>
+			)}
 		>
 			<View style={cardStyles.cardBody}>
 				<SmartNotificationsWidgetCardToolbar />
 				<LinesDetailContextProvider>
-					<SmartNotificationWidgetCardBody lineId="10001" stopId="20001" />
+					<SmartNotificationWidgetCardBody lineId="1001" />
 				</LinesDetailContextProvider>
 			</View>
 		</ListItem.Accordion>
