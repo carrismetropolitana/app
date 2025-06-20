@@ -69,7 +69,7 @@ export default function HomeScreen() {
 				</View> */}
 				<FavoritesBar />
 				<View style={{ paddingHorizontal: 20 }}>
-					<SmartNotificationWidgetCard />
+					{/* <SmartNotificationWidgetCard /> */}
 					<WidgetCards />
 				</View>
 				<Button
