@@ -39,7 +39,7 @@ export function SelectPattern() {
 			borderColor: 'gray',
 			borderRadius: 8,
 			borderWidth: 0.5,
-			height: 50,
+			height: 60,
 			paddingHorizontal: 8,
 		},
 		dropdownText: {
