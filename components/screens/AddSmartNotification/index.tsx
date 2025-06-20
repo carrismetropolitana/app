@@ -15,13 +15,11 @@ import RNDateTimePicker from '@react-native-community/datetimepicker';
 import { Button, ButtonGroup, Input, ListItem, Text } from '@rn-vui/themed';
 import { IconArrowLoopRight, IconArrowRight, IconCircle, IconCircleCheckFilled, IconPlayerPlayFilled, IconSearch, IconX } from '@tabler/icons-react-native';
 import { useNavigation } from 'expo-router';
-import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Svg, { Circle, Rect } from 'react-native-svg';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 import styles from './styles';
 

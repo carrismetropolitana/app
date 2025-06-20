@@ -2,6 +2,7 @@
 
 import AddSmartNotificationScreen from '@/components/screens/AddSmartNotification';
 import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
+import { LinesListContextProvider } from '@/contexts/LinesList.context';
 import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { useNavigation } from 'expo-router';
@@ -32,11 +33,13 @@ export default function AddSmartNotification() {
 	// B. Render components
 
 	return (
-		<LinesDetailContextProvider>
-			<StopsDetailContextProvider>
-				<AddSmartNotificationScreen />
-			</StopsDetailContextProvider>
-		</LinesDetailContextProvider>
+		<LinesListContextProvider>
+			<LinesDetailContextProvider>
+				<StopsDetailContextProvider>
+					<AddSmartNotificationScreen />
+				</StopsDetailContextProvider>
+			</LinesDetailContextProvider>
+		</LinesListContextProvider>
 	);
 
 	//

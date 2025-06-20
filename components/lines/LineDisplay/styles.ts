@@ -8,9 +8,9 @@ export const lineDisplayStyles = StyleSheet.create({
 		alignItems: 'center',
 		flexDirection: 'row',
 		gap: 10,
+		justifyContent: 'flex-start',
 		left: 10,
 		right: 10,
-		justifyContent: 'flex-start',
 		width: '80%',
 	},
 

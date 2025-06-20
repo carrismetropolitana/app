@@ -35,8 +35,8 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 	const linesContext = useLinesContext();
 	const linesListContext = useLinesListContext();
 	const themeContext = useThemeContext();
-	const allLines = linesListContext.data.filtered; // <-- use directly, not useState
-	const allMunicipalities = linesContext.data.municipalities; // <-- use directly, not useState
+	const allLines = linesListContext.data.filtered;
+	const allMunicipalities = linesContext.data.municipalities;
 	const [linesMunicipalities, setLineMunicipalities] = useState<string[]>();
 	const [selectedLine, setSelectedLine] = useState('');
 

@@ -35,7 +35,6 @@ export function LineDisplay({ color, lineData, longName, municipality, shortName
 			<View style={lineDisplayStyles.container}>
 				<LineBadge color={lineData.color} lineId={lineData.id} shortName={lineData.short_name} size={size} textColor={lineData.text_color} />
 				<LineName align="left" longName={lineData.long_name} />
-
 			</View>
 		);
 	}

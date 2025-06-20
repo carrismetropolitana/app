@@ -22,7 +22,7 @@ export default function LineSearchBar() {
 	}, [allLines, lineSearch]);
 
 	return (
-		<View>
+		<View style={{ padding: 20 }}>
 			<Input
 				clearButtonMode="while-editing"
 				placeholder="Pesquisar por número ou nome"

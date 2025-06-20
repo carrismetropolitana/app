@@ -1,11 +1,12 @@
 // src/components/common/LineItem.tsx
 import { LineDisplay } from '@/components/lines/LineDisplay';
+import { Line } from '@carrismetropolitana/api-types/network';
 import { ListItem } from '@rn-vui/themed';
 import React from 'react';
 
 interface LineItemProps {
 	icon?: React.ReactNode
-	lineData: any
+	lineData: Line
 	municipality?: string[]
 	onPress?: () => void
 	size?: 'lg' | 'md'
