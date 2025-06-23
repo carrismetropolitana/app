@@ -110,7 +110,7 @@
 			"url": "https://u.expo.dev/43d60702-1266-4217-8cb8-54e1f9a722fe"
 		},
 		"userInterfaceStyle": "automatic",
-		"version": "2025.06.18",
+		"version": "2025.06.20",
 		"web": {
 			"bundler": "metro",
 			"favicon": "./assets/images/adaptive-icon.png",
