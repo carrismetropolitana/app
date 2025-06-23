@@ -748,8 +748,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			widgets: orderedWidgets,
 		};
 
-		console.log(updatedProfile);
-
 		setDataProfileState(updatedProfile);
 		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
 		await updateProfileOnCloud(updatedProfile);

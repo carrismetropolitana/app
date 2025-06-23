@@ -23,6 +23,7 @@ import {
 	GestureHandlerRootView,
 	PanGestureHandler,
 } from 'react-native-gesture-handler';
+import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import SwipeableItem, {
 	OpenDirection,
 	SwipeableItemImperativeRef,
@@ -91,26 +92,30 @@ export default function ProfileScreen() {
 
 	// D. Render Components
 	const MyUnderlay = ({ direction, index, open, percentOpen }: { direction: OpenDirection, index: number, open: () => void, percentOpen: { value: number } }) => {
+		const animatedStyle = useAnimatedStyle(() => ({
+			opacity: percentOpen.value,
+		}));
+
 		return (
-			<TouchableOpacity
-				onPress={() => {
-					open();
-					if (direction === OpenDirection.LEFT) {
-						profileContext.actions.deleteWidgetByDisplayOrder(index);
-						itemRefs.current.get(widgetKey(widgetList[index]))?.close();
-					}
-				}}
-				style={{
-					alignItems: 'flex-end',
-					backgroundColor: 'red',
-					flex: 1,
-					justifyContent: 'center',
-					opacity: percentOpen.value,
-					paddingHorizontal: 20,
-				}}
-			>
-				<IconTrash color={themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background} size={24} />
-			</TouchableOpacity>
+			<Animated.View style={[{ flex: 1 }, animatedStyle]}>
+				<TouchableOpacity
+					onPress={() => {
+						open();
+						if (direction === OpenDirection.LEFT) {
+							profileContext.actions.deleteWidgetByDisplayOrder(index);
+						}
+					}}
+					style={{
+						alignItems: 'flex-end',
+						backgroundColor: 'red',
+						flex: 1,
+						justifyContent: 'center',
+						paddingHorizontal: 20,
+					}}
+				>
+					<IconTrash color={themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background} size={24} />
+				</TouchableOpacity>
+			</Animated.View>
 		);
 	};
 
@@ -137,7 +142,7 @@ export default function ProfileScreen() {
 					renderUnderlayLeft={({ open, percentOpen }) => (
 						<MyUnderlay
 							direction={OpenDirection.LEFT}
-							index={index}
+							index={item.settings?.display_order ?? index}
 							open={open}
 							percentOpen={percentOpen}
 						/>
