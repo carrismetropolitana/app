@@ -102,7 +102,6 @@ export const OperationalDayContextProvider = ({ children }) => {
 
 	const updateSelectedDayFromJsDate = (value: Date) => {
 		const valueAsString = DateTime.fromJSDate(value).toFormat('yyyyMMdd');
-		console.log('custom_date', valueAsString);
 		setSelectedDay(valueAsString);
 
 		// if (valueAsString > todayDateString) {

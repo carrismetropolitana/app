@@ -8,7 +8,7 @@ import messagingLib from '@react-native-firebase/messaging';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { ReactNode } from 'react';
 import { Platform } from 'react-native';
-
+import uuid from 'react-native-uuid';
 /* * */
 
 import { useConsentContext } from './Consent.context';
@@ -39,6 +39,7 @@ const LOCAL_STORAGE_KEYS = {
 interface ProfileContextState {
 	actions: {
 		checkProfile: (profile: Account) => Promise<void>
+		deleteWidgetByDisplayOrder: (display_order: number) => Promise<void>
 		fetchPersona: () => Promise<void>
 		setAccentColor: (color: string) => void
 		setInterests: (topics: string[]) => void
@@ -605,7 +606,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		await updateProfileOnCloud(updatedProfile);
 	};
 
-	const postSmartNotificationToCloud = async ( pattern_id: string, radius: number, start_time: number, end_time: number, stop_id: string, week_days: ('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[]) => {
+	const postSmartNotificationToCloud = async (pattern_id: string, radius: number, start_time: number, end_time: number, stop_id: string, week_days: ('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[]) => {
 		if (!consentContext.data.enabled_functional || !dataApiTokenState) return;
 
 		const user_id = dataProfileState?.devices[0].device_id || '';
@@ -683,7 +684,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				data: {
 					distance: radius || 0,
 					end_time: end_time || 0,
-					id: (updatedSmartWidgets.length + 1).toString() || '0',
+					id: uuid.v4(),
 					pattern_id: pattern_id || '0',
 					start_time: start_time || 0,
 					stop_id: stop_id || '',
@@ -709,7 +710,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			updatedSmartWidgets.push(newWidgetSmartNotification);
 		}
 
-		// Update profile
 		setDataWidgetSmartNotificationsState(updatedSmartWidgets);
 		const mergedWidgets = [...otherWidgets, ...updatedSmartWidgets];
 		const updatedProfile: Account = {
@@ -718,20 +718,41 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		};
 
 		setDataProfileState(updatedProfile);
-
-		// Update local storage
 		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
 
 		// await updateProfileOnCloud(updatedProfile);
-
-		// Post to notification service
 		await postSmartNotificationToCloud(pattern_id, radius, start_time, end_time, stop_id, week_days);
-
-		// Subscribe to topic
 		if (dataApiTokenState) {
-			await messagingLib().subscribeToTopic('lel');
+			await messagingLib().subscribeToTopic('news');
 			console.log('Subscribed to smart notification: ', pattern_id);
 		}
+	};
+
+	const deleteWidgetByDisplayOrder = async (displayOrder: number) => {
+		if (!consentContext.data.enabled_functional) return;
+
+		const currentProfile = dataProfileState;
+		if (!currentProfile) return;
+
+		const newList = (currentProfile.widgets || []).filter(
+			widget => widget.settings?.display_order !== displayOrder,
+		);
+
+		const orderedWidgets = newList.map((widget, idx) => ({
+			...widget,
+			settings: { ...widget.settings, display_order: idx },
+		}));
+
+		const updatedProfile: Account = {
+			...currentProfile,
+			widgets: orderedWidgets,
+		};
+
+		console.log(updatedProfile);
+
+		setDataProfileState(updatedProfile);
+		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
+		await updateProfileOnCloud(updatedProfile);
 	};
 
 	const setNewEmptyProfile = async () => {
@@ -806,6 +827,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const contextValue: ProfileContextState = {
 		actions: {
 			checkProfile,
+			deleteWidgetByDisplayOrder,
 			fetchPersona,
 			setAccentColor,
 			setInterests,

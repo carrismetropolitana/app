@@ -41,7 +41,7 @@ export function useLinesContext() {
 	return context;
 }
 
-export const LinesContextProvider: React.FC = ({ children }) => {
+export const LinesContextProvider = ({ children }) => {
 	//
 
 	//
@@ -63,7 +63,8 @@ export const LinesContextProvider: React.FC = ({ children }) => {
 
 	const getServiceMetricsByLineId = (lineId: string) => serviceMetricsData.data.filter(metric => metric.line_id === lineId);
 
-	// D. Context value
+	//
+	// C. Context value
 	const contextValue: LinesContextState = useMemo(() => ({
 		actions: {
 			getDemandMetricsByLineId,

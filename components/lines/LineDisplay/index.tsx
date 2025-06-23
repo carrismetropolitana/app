@@ -29,9 +29,6 @@ export function LineDisplay({ color, lineData, longName, municipality, shortName
 
 	//
 	// A. Render Components
-
-	console.log(lineData, 'lineData');
-
 	if (lineData) {
 		return (
 			<View style={lineDisplayStyles.container}>

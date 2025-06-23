@@ -40,7 +40,7 @@ export function SmartNotificationWidgetCardBody({ lineId }: Props) {
 		);
 	}
 	return (
-		<View style={{ height: 50, marginLeft: 2, marginRight: 15 }}>
+		<View style={{ alignContent: 'center', height: 60, justifyContent: 'center', padding: 15, paddingTop: 5 }}>
 			<LineDisplay lineData={lineData} size="lg" />
 		</View>
 	);

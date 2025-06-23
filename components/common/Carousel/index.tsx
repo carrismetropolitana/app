@@ -2,15 +2,16 @@
 import type { SimplifiedAlert } from '@/types/alerts.types';
 
 import { AlertActivePeriodStart } from '@/components/alerts/AlertActivePeriod';
-import { Routes } from '@/utils/routes';
+import { useLocaleContext } from '@/contexts/Locale.context';
+import { openWebView } from '@/utils/openWebView';
 import { Text } from '@rn-vui/themed';
 import { IconCircleArrowRightFilled } from '@tabler/icons-react-native';
-import { Link } from 'expo-router';
 import React, { memo } from 'react';
 import {
 	Dimensions,
 	FlatList,
 	Pressable,
+	TouchableOpacity,
 	View,
 } from 'react-native';
 
@@ -23,11 +24,13 @@ const Carousel = memo(({ slides }: { slides: SimplifiedAlert[] }) => {
 
 	//
 	// A. Setup variables
+
+	const localeContext = useLocaleContext();
 	const alertCarouselStyles = styles();
 	const { width } = Dimensions.get('window');
 
 	//
-	// C. Render components
+	// C. Render components() => openWebView({ locale: localeContext.locale, url: 'https://carrismetropolitana.pt/about' })
 
 	return (
 		<FlatList
@@ -40,13 +43,13 @@ const Carousel = memo(({ slides }: { slides: SimplifiedAlert[] }) => {
 			renderItem={({ index, item }) => (
 				<Pressable accessibilityLabel={`Alert ${index + 1}`} accessibilityRole="button">
 					<View style={alertCarouselStyles.imageContainer}>
-						<Link href={`${Routes.CARRIS_METROPOLITANA}/alerts/${item.alert_id}`} style={alertCarouselStyles.container} target="_parent">
+						<TouchableOpacity onPress={() => openWebView({ locale: localeContext.locale, url: `https://carrismetropolitana.pt/alerts/${item.alert_id}` })} style={alertCarouselStyles.container}>
 							<AlertActivePeriodStart date={item.start_date} size="sm" />
 							<View style={alertCarouselStyles.bodyContentContainer}>
 								<Text style={alertCarouselStyles.title}>{item.title}</Text>
 								<IconCircleArrowRightFilled fill={alertCarouselStyles.container.backgroundColor} size={16} style={alertCarouselStyles.icon} />
 							</View>
-						</Link>
+						</TouchableOpacity>
 					</View>
 				</Pressable>
 			)}

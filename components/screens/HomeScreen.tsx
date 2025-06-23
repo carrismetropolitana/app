@@ -6,12 +6,10 @@ import { theming } from '@/theme/Variables';
 import { Button } from '@rn-vui/themed';
 import { router } from 'expo-router';
 import React, { useEffect } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { WidgetCards } from '../widgets/WidgetCards';
-import { SmartNotificationWidgetCard } from '../widgets/WidgetCards/SmartNotificationsWidgetCard';
-import { SmartNotificationWidgetCardBody } from '../widgets/WidgetCards/SmartNotificationsWidgetCardBody';
 
 export default function HomeScreen() {
 	//
@@ -69,7 +67,6 @@ export default function HomeScreen() {
 				</View> */}
 				<FavoritesBar />
 				<View style={{ paddingHorizontal: 20 }}>
-					{/* <SmartNotificationWidgetCard /> */}
 					<WidgetCards />
 				</View>
 				<Button
