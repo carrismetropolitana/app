@@ -5,7 +5,6 @@ import { useLinesContext } from '@/contexts/Lines.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { AccountWidget } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
-import { Pattern } from '@carrismetropolitana/api-types/network';
 import { ListItem } from '@rn-vui/themed';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
@@ -26,13 +25,9 @@ interface StopWidgetCardProps {
 
 export function StopWidgetCard({ data, expanded, onToggle }: StopWidgetCardProps) {
 	//
-
-	//
 	// A. Setup variables
 
-	const [patternIds] = useState<string[]>(
-		data.data.type === 'stops' ? data.data.pattern_ids : [],
-	);
+	const stopId = data.data.type === 'stops' ? data.data.stop_id : '';
 	const [stopName, setStopName] = useState<string>('');
 	const [stopMunicipality, setStopMunicipality] = useState<string>();
 
@@ -44,26 +39,36 @@ export function StopWidgetCard({ data, expanded, onToggle }: StopWidgetCardProps
 	// B. Fetch Data
 
 	useEffect(() => {
-		if (stopsContext.flags.is_loading || !data || !stopsContext.actions.getStopById) return;
-		patternIds.forEach(id => fetchStopName(id));
-		patternIds.forEach(() => fetchMunicipalities(data));
-	}, [stopsContext.flags.is_loading, data]);
+		if (stopsContext.flags.is_loading || !stopId || !stopsContext.actions.getStopById) return;
+		fetchStopName(stopId);
+		fetchMunicipalities(stopId);
+	}, [stopsContext.flags.is_loading, stopId]);
 
 	const fetchStopName = async (id: string) => {
 		if (!id) return;
-		const response = await fetch(`${Routes.API}/patterns/${id}`);
-		const data: Pattern[] = await response.json();
-		if (data) {
-			setStopName(data[0].headsign);
+		const stop = stopsContext.actions.getStopById(id);
+		if (stop && stop.long_name) {
+			setStopName(stop.long_name);
+			return;
+		}
+		// fallback to API if not found in context
+		try {
+			const response = await fetch(`${Routes.API}/stops/${id}`);
+			const data = await response.json();
+			if (data && data.long_name) {
+				setStopName(data.long_name);
+			}
+		}
+		catch {
+			setStopName('');
 		}
 	};
 
-	const fetchMunicipalities = (data: AccountWidget) => {
-		if (!data) return;
-		const stopId = data.data.type === 'stops' ? data.data.stop_id : '';
-		const stop = stopsContext.actions.getStopById(stopId);
+	const fetchMunicipalities = (id: string) => {
+		if (!id) return;
+		const stop = stopsContext.actions.getStopById(id);
 		if (!stop) {
-			console.error(`Stop data not found for id: ${stopId}`);
+			console.error(`Stop data not found for id: ${id}`);
 			return;
 		}
 		if (stop.municipality_id) {
@@ -86,7 +91,7 @@ export function StopWidgetCard({ data, expanded, onToggle }: StopWidgetCardProps
 			onPress={onToggle}
 		>
 			<View style={cardStyles.cardBody}>
-				<StopWidgetCardBody stopId={data.data.type === 'stops' ? data.data.stop_id : ''} />
+				<StopWidgetCardBody patternIds={data.data.type === 'stops' ? data.data.pattern_ids : []} stopId={stopId} />
 			</View>
 		</ListItem.Accordion>
 	);

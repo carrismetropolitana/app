@@ -2,6 +2,7 @@
 
 import type { AccountWidget } from '@/types/account.types';
 
+import { useStopsContext } from '@/contexts/Stops.context';
 import { Routes } from '@/utils/routes';
 import { ListItem } from '@rn-vui/themed';
 import { IconGripVertical } from '@tabler/icons-react-native';
@@ -37,21 +38,49 @@ export default function FavoriteItemComponent({ data, drag, isActive }: Favorite
 
 	// A.Setup variables
 
+	const stopsContext = useStopsContext();
 	let linkHref = '';
 	const [headsign, setHeadsign] = useState<null | string>(null);
+	const [stopName, setStopName] = useState<null | string>(null);
 	const patternId = getPatternId(data);
 	const isLine = data.data.type === 'lines';
+	const isStop = data.data.type === 'stops';
+	const isSmartNotification = data.data.type === 'smart_notifications';
+
+	// Type guards for stop_id and pattern_ids
+	function getStopId(widget: AccountWidget): string | undefined {
+		if (widget.data.type === 'stops' && 'stop_id' in widget.data) {
+			return widget.data.stop_id;
+		}
+		if (widget.data.type === 'smart_notifications' && 'stop_id' in widget.data) {
+			return widget.data.stop_id;
+		}
+		return undefined;
+	}
+	function getPatternIds(widget: AccountWidget): string[] | undefined {
+		if (widget.data.type === 'stops' && 'pattern_ids' in widget.data) {
+			return widget.data.pattern_ids;
+		}
+		return undefined;
+	}
+
+	const stopId = getStopId(data);
+	const patternIds = getPatternIds(data);
 
 	if (isLine && typeof patternId === 'string') {
 		const beforeUnderscore = patternId.split('_')[0];
 		linkHref = `/line/${beforeUnderscore}`;
 	}
-	else if (data.data.type === 'stops' && data.data.pattern_ids) {
-		linkHref = `/stop/${(data.data).stop_id}`;
+	else if (isStop && patternIds && stopId) {
+		linkHref = `/stop/${stopId}`;
+	}
+	else if (isSmartNotification) {
+		const smartNotificationData = data.data.type === 'smart_notifications' ? data.data : null;
+		linkHref = `/addSmartNotification/?smartNotificationId=${smartNotificationData?.id}`;
 	}
 
 	//
-	// B. Fech data
+	// B. Fetch data
 
 	const fetchHeadsign = useCallback(async () => {
 		if (!patternId) {
@@ -74,42 +103,62 @@ export default function FavoriteItemComponent({ data, drag, isActive }: Favorite
 		}
 	}, [patternId]);
 
+	const fetchStopName = useCallback(() => {
+		if (!stopId || !stopsContext.actions.getStopById) {
+			setStopName('');
+			return;
+		}
+		const stop = stopsContext.actions.getStopById(stopId);
+		if (stop && stop.long_name) {
+			setStopName(stop.long_name);
+		}
+		else {
+			setStopName('');
+		}
+	}, [stopId, stopsContext.actions]);
+
 	useEffect(() => {
 		fetchHeadsign();
 	}, [fetchHeadsign]);
 
+	useEffect(() => {
+		if (isStop || isSmartNotification) {
+			fetchStopName();
+		}
+	}, [fetchStopName, isStop, isSmartNotification]);
+
 	//
 	// C. Render components
 
+	const mainLabel = isLine
+		? (headsign || 'Linha Favorita')
+		: (stopName || (isStop ? 'Paragem Favorita' : isSmartNotification ? 'Notificação Inteligente' : ''));
+
+	const subLabel = isLine
+		? 'Linha Favorita'
+		: (isStop ? 'Paragem Favorita' : isSmartNotification ? 'Notificação Inteligente' : '');
+
 	return (
-		// <Link href={linkHref} asChild>
 		<ListItem onPress={() => router.push(linkHref)}>
 			<TouchableOpacity disabled={isActive} onLongPress={drag} style={{ padding: 8 }}>
 				<IconGripVertical color="#9696A0" size={24} />
 			</TouchableOpacity>
 			<ListItem.Content>
 				<ListItem.Title>
-					{headsign === null ? (
+					{(isLine && headsign === null) || ((isStop || isSmartNotification) && stopName === null) ? (
 						<ActivityIndicator size="small" />
-					) : data.data.type === 'smart_notifications' ? (
-						<Text numberOfLines={1}>Notificação Inteligente</Text>
 					) : (
-						<Text numberOfLines={1}>{headsign || (isLine ? 'Linha Favorita' : 'Paragem Favorita')}</Text>
+						<Text numberOfLines={1}>{mainLabel}</Text>
 					)}
 				</ListItem.Title>
-				{headsign !== null && (
+				{((isLine && headsign !== null) || ((isStop || isSmartNotification) && stopName !== null)) && (
 					<ListItem.Subtitle>
-						{data.data.type === 'smart_notifications' ? (
-							<Text>Descrição da Notificação Inteligente</Text>
-						) : (
-							<Text>{isLine ? 'Linha Favorita' : 'Paragem Favorita'}</Text>
-						)}
+						<Text>{subLabel}</Text>
 					</ListItem.Subtitle>
 				)}
 			</ListItem.Content>
 			<ListItem.Chevron />
 		</ListItem>
-		// </Link>
 	);
 
 	//

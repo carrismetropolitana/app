@@ -1,20 +1,20 @@
 /* * */
 
-import StopDetailNextArrivals from '@/components/stops/StopDetailNextArrivals';
+import StopDetailNextArrivalsByPatternID from '@/components/stops/StopDetailNextArrivalsByPatternID';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
-import { Routes } from '@/utils/routes';
 import { useEffect } from 'react';
 import { Text, View } from 'react-native';
 
 /* * */
 
 interface Props {
+	patternIds?: string[]
 	stopId: string
 }
 
 /* * */
 
-export function StopWidgetCardBody({ stopId }: Props) {
+export function StopWidgetCardBody({ patternIds, stopId }: Props) {
 	//
 
 	//
@@ -42,7 +42,7 @@ export function StopWidgetCardBody({ stopId }: Props) {
 	return (
 		<View>
 			{ stopId && (
-				<StopDetailNextArrivals key={stopId} href={`/stop/${stopId}`} />
+				<StopDetailNextArrivalsByPatternID key={stopId} href={`/stop/${stopId}`} patternIds={patternIds} />
 			)}
 		</View>
 	);

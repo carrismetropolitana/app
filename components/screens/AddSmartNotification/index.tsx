@@ -15,6 +15,7 @@ import RNDateTimePicker from '@react-native-community/datetimepicker';
 import { Button, ButtonGroup, Input, ListItem, Text } from '@rn-vui/themed';
 import { IconArrowLoopRight, IconArrowRight, IconCircle, IconCircleCheckFilled, IconPlayerPlayFilled, IconSearch, IconX } from '@tabler/icons-react-native';
 import { useNavigation } from 'expo-router';
+import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
@@ -25,12 +26,15 @@ import styles from './styles';
 
 /* * */
 
-export default function AddSmartNotificationScreen() {
+interface AddSmartNotificationScreenProps {
+	Id?: string
+}
+
+export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationScreenProps) {
+	//
 	//
 
-	//
 	// A. Setup Variables
-
 	const { t } = useTranslation('translation', { keyPrefix: 'smartNotifications' });
 	const [lineChooserVisibility, setLineChooserVisibility] = useState(false);
 	const [patternNames, setPatternNames] = useState<Record<string, string>>({});
@@ -44,7 +48,16 @@ export default function AddSmartNotificationScreen() {
 	const [endingHour, setEndingHour] = useState<Date | null>(null);
 	const [startingSeconds, setStartingSeconds] = useState<0 | number>(0);
 	const [endingSeconds, setEndingSeconds] = useState<0 | number>(0);
-	const [selectedIndex, setSelectedIndex] = useState([]);
+	const [selectedIndex, setSelectedIndex] = useState<number[]>([]);
+	const weekDays: ('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[] = [
+		'monday',
+		'tuesday',
+		'wednesday',
+		'thursday',
+		'friday',
+		'saturday',
+		'sunday',
+	];
 
 	const linesDetailContext = useLinesDetailContext();
 	const stopsContext = useStopsContext();
@@ -56,6 +69,27 @@ export default function AddSmartNotificationScreen() {
 
 	//
 	// B. Fetch Data
+
+	useEffect(() => {
+		if (!Id) return;
+		const widget = profileContext.data.profile?.widgets?.find(w => w.data && w.data.type === 'smart_notifications' && 'id' in w.data && w.data.id === Id);
+		if (widget && widget.data && widget.data.type === 'smart_notifications') {
+			console.log('week_days', widget.data.week_days);
+			const data = widget.data;
+			if (data.pattern_id) setSelectedPatternId(data.pattern_id);
+			if (data.stop_id) setSelectedStopId(data.stop_id);
+			if (data.distance !== undefined) setRadius(data.distance);
+			if (data.week_days) {
+				setSelectedIndex(data.week_days.map(day => weekDays.indexOf(day)));
+			}
+			if (data.start_time !== undefined) {
+				setStartingHour(DateTime.fromSeconds(data.start_time).toJSDate());
+			}
+			if (data.end_time !== undefined) {
+				setEndingHour(DateTime.fromSeconds(data.end_time).toJSDate());
+			}
+		}
+	}, [Id]);
 
 	const fetchPattern = async (patternId: string) => {
 		try {
@@ -102,29 +136,16 @@ export default function AddSmartNotificationScreen() {
 		};
 		fetchPatterns();
 	}, [linesDetailContext.data.line?.pattern_ids]);
-
-	// C Handle Actions
 	//
-
+	// C Handle Actions
 	function getSecondsSinceMidnight(date: Date) {
 		return date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds();
 	}
 	useEffect(() => {
 		if (!selectedIndex) return;
-		const weekDays: (
-			'friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday'
-		)[] = [
-			'monday',
-			'tuesday',
-			'wednesday',
-			'thursday',
-			'friday',
-			'saturday',
-			'sunday',
-		];
+
 		setSelectedDays(selectedIndex.map(index => weekDays[index]));
 	}, [selectedIndex]);
-
 	useEffect(() => {
 		if (selectedVersionId) {
 			linesDetailContext.actions.setActivePattern(selectedVersionId);
@@ -133,17 +154,14 @@ export default function AddSmartNotificationScreen() {
 			linesDetailContext.actions.resetActivePattern();
 		}
 	}, [selectedVersionId, linesDetailContext.data.line?.id]);
-
 	useEffect(() => {
 		setStartingSeconds(getSecondsSinceMidnight(startingHour || new Date()));
 		setEndingSeconds(getSecondsSinceMidnight(endingHour || new Date()));
 	}, [startingHour, endingHour]);
-
 	const exitScreen = () => {
 		clearScreen();
 		navigation.goBack();
 	};
-
 	const clearScreen = () => {
 		linesDetailContext.actions.resetLineId();
 		linesDetailContext.actions.resetActivePattern();
@@ -155,7 +173,6 @@ export default function AddSmartNotificationScreen() {
 		setEndingHour(new Date());
 		setSelectedVersionId(null);
 	};
-
 	const handlePatternSelect = (item: string) => {
 		const versionId = patternVersionIds[item];
 		if (selectedVersionId === versionId) {
@@ -167,19 +184,16 @@ export default function AddSmartNotificationScreen() {
 			linesDetailContext.actions.setActivePattern(versionId);
 		}
 	};
-
 	const toggleWidgetSmartNotification = () => {
 		profileContext.actions.toggleWidgetSmartNotification(selectedPatternId ?? '', radius, startingSeconds, endingSeconds, selectedStopId ?? '', selectedDays);
 		exitScreen();
 	};
-
 	//
 	// D. Render Components
 
 	return (
 		<ScrollView showsVerticalScrollIndicator={false} style={addFavoriteLineStyles.overlay}>
 			<View style={addFavoriteLineStyles.container}>
-
 				<View style={addFavoriteLineStyles.header}>
 					<Section
 						heading={t('heading')}
@@ -237,16 +251,8 @@ export default function AddSmartNotificationScreen() {
 								const versionId = patternVersionIds[item];
 								const isSelected = selectedVersionId === versionId;
 								return (
-									<ListItem
-										key={item}
-										onPress={() => handlePatternSelect(item)}
-										style={{ backgroundColor: isSelected ? '#e6f7ff' : undefined }}
-									>
-										<LineBadge
-											color={linesDetailContext.data.line?.color}
-											lineId={linesDetailContext.data.lineId}
-											size="lg"
-										/>
+									<ListItem key={item} onPress={() => handlePatternSelect(item)} style={{ backgroundColor: isSelected ? '#e6f7ff' : undefined }}>
+										<LineBadge color={linesDetailContext.data.line?.color} lineId={linesDetailContext.data.lineId} size="lg" />
 										<IconArrowRight size={10} />
 										<ListItem.Content>
 											<ListItem.Title style={addFavoriteLineStyles.listTitle}>

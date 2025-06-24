@@ -546,7 +546,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const toggleWidgetStop = async (stopId: string, pattern_ids: string[]) => {
 		if (!consentContext.data.enabled_functional) return;
 
-		// Get all widgets from the current profile
 		const allWidgets = (dataProfileState?.widgets || []) as AccountWidget[];
 		const stopWidgets = allWidgets.filter(w => w.data && w.data.type === 'stops');
 		const otherWidgets = allWidgets.filter(w => !w.data || w.data.type !== 'stops');
@@ -560,33 +559,23 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		);
 		if (stopWidgetIndex !== -1) {
 			const widget = updatedStopWidgets[stopWidgetIndex];
-			let currentPatternIds: string[] = [];
-			if (widget.data.type === 'stops') {
-				currentPatternIds = widget.data.pattern_ids || [];
-			}
-			const patternId = pattern_ids[0];
-			const patternExists = currentPatternIds.includes(patternId);
-			const newPatternIds = patternExists
-				? currentPatternIds.filter(id => id !== patternId)
-				: [...currentPatternIds, patternId];
-			if (newPatternIds.length === 0) {
+			updatedStopWidgets[stopWidgetIndex] = {
+				...widget,
+				data: {
+					...(widget.data.type === 'stops'
+						? { ...widget.data, pattern_ids: pattern_ids }
+						: widget.data),
+				},
+			};
+			if (!pattern_ids.length) {
 				updatedStopWidgets.splice(stopWidgetIndex, 1);
-			}
-			else {
-				updatedStopWidgets[stopWidgetIndex] = {
-					...widget,
-					data: {
-						...(widget.data.type === 'stops'
-							? { ...widget.data, pattern_ids: newPatternIds }
-							: widget.data),
-					},
-				};
 			}
 		}
 		else {
+			const newDisplayOrder = updatedStopWidgets.length;
 			const newFavoriteStop: AccountWidget = {
 				data: { pattern_ids: pattern_ids, stop_id: stopId, type: 'stops' as const },
-				settings: { is_open: true },
+				settings: { display_order: newDisplayOrder, is_open: true },
 			};
 			updatedStopWidgets.push(newFavoriteStop);
 		}
@@ -643,7 +632,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		}
 	};
 
-	// Toggle
 	const toggleWidgetSmartNotification = async (pattern_id: string, radius: number, start_time: number, end_time: number, stop_id: string, week_days: ('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[]) => {
 		if (!consentContext.data.enabled_functional) return;
 

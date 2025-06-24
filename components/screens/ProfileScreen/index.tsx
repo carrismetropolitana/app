@@ -48,12 +48,7 @@ export default function ProfileScreen() {
 
 	const initialWidgets = (profile?.widgets ?? []).flatMap((widget) => {
 		if (widget.data.type === 'lines') return [widget];
-		if (widget.data.type === 'stops' && Array.isArray(widget.data.pattern_ids)) {
-			return widget.data.pattern_ids.map(patternId => ({
-				...widget,
-				data: { ...widget.data, pattern_ids: [patternId] },
-			}));
-		}
+		if (widget.data.type === 'stops') return [widget];
 		if (widget.data.type === 'smart_notifications') return widget;
 		return [];
 	});
@@ -65,7 +60,7 @@ export default function ProfileScreen() {
 		if (widget.data.type === 'lines')
 			return `lines-${widget.data.pattern_id}`;
 		if (widget.data.type === 'stops')
-			return `stops-${widget.data.stop_id}-${widget.data.pattern_ids.join(',')}`;
+			return `stops-${widget.data.stop_id}`;
 		if (widget.data.type === 'smart_notifications')
 			return `smart_notifications-${widget.data.id || ''}`;
 		return JSON.stringify(widget);

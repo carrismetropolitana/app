@@ -5,7 +5,7 @@ import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
 import { LinesListContextProvider } from '@/contexts/LinesList.context';
 import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
-import { useNavigation } from 'expo-router';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 
 /* * */
@@ -18,6 +18,8 @@ export default function AddSmartNotification() {
 
 	const navigation = useNavigation();
 	const themeContext = useThemeContext();
+	const params = useLocalSearchParams();
+	const smartNotificationID = typeof params.smartNotificationId === 'string' ? params.smartNotificationId : undefined;
 
 	useEffect(() => {
 		navigation.setOptions({
@@ -36,7 +38,7 @@ export default function AddSmartNotification() {
 		<LinesListContextProvider>
 			<LinesDetailContextProvider>
 				<StopsDetailContextProvider>
-					<AddSmartNotificationScreen />
+					<AddSmartNotificationScreen Id={smartNotificationID || undefined} />
 				</StopsDetailContextProvider>
 			</LinesDetailContextProvider>
 		</LinesListContextProvider>
