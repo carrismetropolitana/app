@@ -56,6 +56,25 @@ export default function ProfileScreen() {
 
 	//
 	// B. Transform Data
+
+	function AddWidgetListItem({ icon, label, route }: { icon: React.ReactNode, label: string, route: string }) {
+		return (
+			<ListItem onPress={() => router.push(route)}>
+				{icon}
+				<ListItem.Content>
+					<ListItem.Title style={profileStyles.listTitle}>
+						<Text>{label}</Text>
+					</ListItem.Title>
+				</ListItem.Content>
+				<IconCirclePlus
+					color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100}
+					fill="#3CB43C"
+					size={24}
+				/>
+			</ListItem>
+		);
+	}
+
 	function widgetKey(widget: AccountWidget) {
 		if (widget.data.type === 'lines')
 			return `lines-${widget.data.pattern_id}`;
@@ -160,15 +179,11 @@ export default function ProfileScreen() {
 			<View style={profileStyles.userSection}>
 				{persona_image ? (
 					<ProfileImage
+						backgroundColor={profileContext.data.accent_color ? dimAvatarBackground(profileContext.data.accent_color) : 'rgba(253,183,26,0.4)'}
 						borderWidth={10}
 						color={profileContext.data.accent_color || ''}
 						size={200}
 						type="url"
-						backgroundColor={
-							profileContext.data.accent_color
-								? dimAvatarBackground(profileContext.data.accent_color)
-								: 'rgba(253,183,26,0.4)'
-						}
 					/>
 				) : (
 					<ProfileImage height={200} type="local" width={200} />
@@ -195,41 +210,9 @@ export default function ProfileScreen() {
 	const ListFooter = () => (
 		<View style={profileStyles.addFavoritesSection}>
 			<Section heading="Adicionar novo widget" />
-			<ListItem onPress={() => router.push('/addFavoriteStop')}>
-				<IconBusStop color="#FF6900" size={24} />
-				<ListItem.Content>
-					<ListItem.Title style={profileStyles.listTitle}><Text>Paragem Favorita</Text></ListItem.Title>
-				</ListItem.Content>
-				<IconCirclePlus
-					color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100}
-					fill="#3CB43C"
-					size={24}
-				/>
-			</ListItem>
-			<ListItem onPress={() => router.push('/addFavoriteLine')}>
-				<IconArrowLoopRight color="#C61D23" size={24} />
-				<ListItem.Content>
-					<ListItem.Title style={profileStyles.listTitle}><Text>Linha Favorita</Text></ListItem.Title>
-				</ListItem.Content>
-				<IconCirclePlus
-					color={themeContext.theme.mode === 'light'	? theming.colorSystemBackgroundLight100	: theming.colorSystemBackgroundDark100}
-					fill="#3CB43C"
-					size={24}
-				/>
-			</ListItem>
-			<ListItem onPress={() => router.push('/addSmartNotification')}>
-				<IconBellRinging color="#0C807E" size={24} />
-				<ListItem.Content>
-					<ListItem.Title style={profileStyles.listTitle}>
-						<Text>Notificações Inteligentes</Text>
-					</ListItem.Title>
-				</ListItem.Content>
-				<IconCirclePlus
-					color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100}
-					fill="#3CB43C"
-					size={24}
-				/>
-			</ListItem>
+			<AddWidgetListItem icon={<IconBusStop color="#FF6900" size={24} />} label="Paragem Favorita" route="/addFavoriteStop" />
+			<AddWidgetListItem icon={<IconArrowLoopRight color="#C61D23" size={24} />} label="Linha Favorita" route="/addFavoriteLine" />
+			<AddWidgetListItem icon={<IconBellRinging color="#0C807E" size={24} />} label="Notificações Inteligentes" route="/addSmartNotification" />
 		</View>
 	);
 
@@ -249,9 +232,7 @@ export default function ProfileScreen() {
 					setWidgetList(data);
 					data.forEach((widget) => {
 						const ref = itemRefs.current.get(widgetKey(widget));
-						if (ref) {
-							itemRefs.current.set(widgetKey(widget), ref);
-						}
+						if (ref) return itemRefs.current.set(widgetKey(widget), ref);
 					});
 					if (saveTimer.current) clearTimeout(saveTimer.current);
 					saveTimer.current = setTimeout(() => {

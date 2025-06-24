@@ -20,6 +20,7 @@ export const styles = () => {
 	return StyleSheet.create({
 		addFavoritesSection: {
 			backgroundColor: headerBackgroundColor,
+			paddingBottom: 20,
 			paddingTop: 20,
 		},
 		button: {
