@@ -72,8 +72,6 @@ export function MapViewStyleStops({ flaggedStopId, onStopPress, stopsData = base
 	const flaggedGeoJson = flaggedFeature
 		? { features: [flaggedFeature], type: 'FeatureCollection' as const }
 		: null;
-
-	console.log(flaggedStopId);
 	return (
 		<>
 			<ShapeSource

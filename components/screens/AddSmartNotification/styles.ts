@@ -60,11 +60,9 @@ const styles = () => {
 		},
 		header: {
 			alignItems: 'center',
+			backgroundColor: selectorBackgroundColor,
 			flexDirection: 'row',
 			paddingHorizontal: 16,
-		},
-		header: {
-			backgroundColor: selectorBackgroundColor,
 		},
 		input: {
 			alignSelf: 'center',

@@ -109,6 +109,10 @@
 		},
 		"title": "Cookies Policy"
 	},
+	"TestingNeedWarning": {
+		"warningText": "Please test this functionality before utilizing it with full trust. It may be needed to adjust the necessary times to garantee that you'll reach the the desired stop.",
+		"warningTitle": "Warning"
+	},
 	"alerts": {
 		"AlertActivePeriod": {
 			"end": "End: <parsedDate>{{parsedDate}}</parsedDate>",
@@ -324,6 +328,23 @@
 		}
 	},
 	"smartNotifications": {
+		"DaysSelector": {
+			"friday": "Fri",
+			"monday": "Mon",
+			"saturday": "Sat",
+			"sunday": "Sun",
+			"thursday": "Thu",
+			"tuesday": "Tue",
+			"wednesday": "Wed",
+			"weekDaysTitle": "At the days of the week"
+		},
+		"IntervalInputs": {
+			"endingTime": "To",
+			"startingTime": "From"
+		},
+		"StopSelector": {
+			"stopSelectorTitle": "from the stop"
+		},
 		"Toolbar": {
 			"friday": "F",
 			"monday": "M",
@@ -334,7 +355,6 @@
 			"wednesday": "W"
 		},
 		"chooseLineTitle": "Notifiy me when a bus from the line",
-		"endingTime": "To",
 		"friday": "Fri",
 		"heading": "Smart Notifications",
 		"monday": "Mon",
@@ -343,16 +363,11 @@
 		"radiusMeters": "meters",
 		"radiusTime": "minutes",
 		"saturday": "Sat",
-		"startingTime": "From",
-		"stopSelectorTitle": "from the stop",
 		"subheading": "Do you use the same line everyday? Would you like to know exactly when to leave the house, or when to finish drinking your coffe, to go to the stop and catch your bus?",
 		"sunday": "Sun",
 		"thursday": "Thu",
 		"tuesday": "Tue",
-		"warningText": "Please test this functionality before utilizing it with full trust. It may be needed to adjust the necessary times to garantee that you'll reach the the desired stop.",
-		"warningTitle": "Warning",
-		"wednesday": "Wed",
-		"weekDaysTitle": "At the days of the week"
+		"wednesday": "Wed"
 	},
 	"stops": {
 		"StopDetails": {

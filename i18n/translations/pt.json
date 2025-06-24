@@ -109,6 +109,10 @@
 		},
 		"title": "Política de Cookies"
 	},
+	"TestingNeedWarning": {
+		"warningText": "Por favor teste esta funcionalidade antes de utilizar com confiança. Poderá ser necessário ajustar os tempos para garantir que chega ao local.",
+		"warningTitle": "Atenção"
+	},
 	"alerts": {
 		"AlertActivePeriod": {
 			"end": "Fim: <parsedDate>{{parsedDate}}</parsedDate>",
@@ -292,6 +296,23 @@
 		}
 	},
 	"smartNotifications": {
+		"DaysSelector": {
+			"friday": "Sex",
+			"monday": "Seg",
+			"saturday": "Sáb",
+			"sunday": "Dom",
+			"thursday": "Qui",
+			"tuesday": "Ter",
+			"wednesday": "Qua",
+			"weekDaysTitle": "Dias da Semana"
+		},
+		"IntervalInputs": {
+			"endingTime": "Hora de fim",
+			"startingTime": "Hora de Início"
+		},
+		"StopSelector": {
+			"stopSelectorTitle": "da paragem"
+		},
 		"Toolbar": {
 			"friday": "S",
 			"monday": "S",
@@ -302,7 +323,6 @@
 			"wednesday": "Q"
 		},
 		"chooseLineTitle": "Notificar-me quando um autocarro da linha",
-		"endingTime": "Hora de fim",
 		"friday": "Sex",
 		"heading": "Notificações Inteligentes",
 		"monday": "Seg",
@@ -312,16 +332,11 @@
 		"radiusMeters": "metros",
 		"radiusTime": "minutos",
 		"saturday": "Sáb",
-		"startingTime": "Hora de Início",
-		"stopSelectorTitle": "da paragem",
 		"subheading": "Utiliza todos os dias a mesma linha? Gostava de saber exatamente quando sair de casa, ou quando acabar de tomar o café, para ir para a paragem?",
 		"sunday": "Dom",
 		"thursday": "Qui",
 		"tuesday": "Ter",
-		"warningText": "Por favor teste esta funcionalidade antes de utilizar com confiança. Poderá ser necessário ajustar os tempos para garantir que chega ao local.",
-		"warningTitle": "Atenção",
-		"wednesday": "Qua",
-		"weekDaysTitle": "Dias da Semana"
+		"wednesday": "Qua"
 	},
 	"stops": {
 		"StopDetails": {
