@@ -17,13 +17,14 @@ export const styles = () => {
 		/* CONTAINER */
 		container: {
 			flexDirection: 'row',
+			flexWrap: 'wrap',
 			width: '90%',
 		},
 		/* * */
 		/* HEADER TITLE */
 		headerTitle: {
 			color: fontColor,
-			fontSize: theming.fontSizeNav,
+			fontSize: theming.fontSizeText,
 			fontWeight: theming.fontWeightTitle as '700',
 		},
 		/* * */
@@ -43,7 +44,8 @@ export const styles = () => {
 		/* * */
 		/* HEADER STARTHOUR CONTAINER */
 		headerStarthourContainer: {
-			paddingHorizontal: 10,
+			justifyContent: 'center',
+			paddingHorizontal: 15,
 		},
 	});
 };

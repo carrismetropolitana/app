@@ -19,7 +19,7 @@ import { Button, Input, ListItem, Text } from '@rn-vui/themed';
 import { IconArrowLoopRight, IconArrowRight, IconCircle, IconCircleCheckFilled, IconSearch, IconX } from '@tabler/icons-react-native';
 import { useNavigation } from 'expo-router';
 import { DateTime } from 'luxon';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -129,10 +129,8 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 
 	//
 	// C Handle Actions
-	
 	useEffect(() => {
 		if (!selectedIndex) return;
-
 		setSelectedDays(selectedIndex.map(index => weekDays[index]));
 	}, [selectedIndex]);
 	useEffect(() => {
@@ -147,22 +145,24 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 		setStartingSeconds(getSecondsSinceMidnight(startingHour || new Date()));
 		setEndingSeconds(getSecondsSinceMidnight(endingHour || new Date()));
 	}, [startingHour, endingHour]);
-	const exitScreen = () => {
-		clearScreen();
-		navigation.goBack();
-	};
-	const clearScreen = () => {
+	const clearScreen = useCallback(() => {
 		linesDetailContext.actions.resetLineId();
 		linesDetailContext.actions.resetActivePattern();
 		setSelectedPatternId(null);
 		setSelectedStopId(null);
-		setSelectedDays([]);
 		setRadius(0);
 		setStartingHour(new Date());
 		setEndingHour(new Date());
 		setSelectedVersionId(null);
-	};
-	const handlePatternSelect = (item: string) => {
+		setSelectedIndex([]);
+	}, [linesDetailContext.actions]);
+
+	const exitScreen = useCallback(() => {
+		clearScreen();
+		navigation.goBack();
+	}, [navigation, clearScreen]);
+
+	const handlePatternSelect = useCallback((item: string) => {
 		const versionId = patternVersionIds[item];
 		if (selectedVersionId === versionId) {
 			setSelectedVersionId(null);
@@ -172,11 +172,13 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 			setSelectedVersionId(versionId);
 			linesDetailContext.actions.setActivePattern(versionId);
 		}
-	};
-	const toggleWidgetSmartNotification = () => {
+	}, [patternVersionIds, selectedVersionId, linesDetailContext.actions]);
+
+	const toggleWidgetSmartNotification = useCallback(() => {
 		profileContext.actions.toggleWidgetSmartNotification(selectedPatternId ?? '', radius, startingSeconds, endingSeconds, selectedStopId ?? '', selectedDays);
 		exitScreen();
-	};
+	}, [profileContext.actions, selectedPatternId, radius, startingSeconds, endingSeconds, selectedStopId, selectedDays, exitScreen]);
+
 	//
 	// D. Render Components
 	return (

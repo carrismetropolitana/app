@@ -15,7 +15,6 @@ import { useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import styles from './styles';
 
@@ -29,6 +28,7 @@ export default function AddFavoriteLineScreen() {
 
 	const [lineChooserVisibility, setLineChooserVisibility] = useState(false);
 	const [patternNames, setPatternNames] = useState<Record<string, string>>({});
+	const [selectedPatterns, setSelectedPatterns] = useState<string[]>([]);
 	const linesDetailContext = useLinesDetailContext();
 	const themeContext = useThemeContext();
 	const profileContext = useProfileContext();
@@ -88,9 +88,18 @@ export default function AddFavoriteLineScreen() {
 	// C. Handle actions
 
 	const clearScreen = () => {
+		setSelectedPatterns([]);
 		linesDetailContext.actions.resetLineId();
 		navigation.goBack();
 	};
+
+	function togglePattern(patternId: string) {
+		setSelectedPatterns(prev =>
+			prev.includes(patternId)
+				? prev.filter(id => id !== patternId)
+				: [...prev, patternId],
+		);
+	}
 
 	//
 	// D. Render Components
@@ -156,18 +165,11 @@ export default function AddFavoriteLineScreen() {
 									Linha {linesDetailContext.data.line.id} - {linesDetailContext.data.line.long_name}
 								</Text>
 								{linesDetailContext.data.line.pattern_ids.map((item) => {
-									const isFavorite = profileContext.data.profile?.widgets?.some(
-										favorite =>
-											favorite.data
-											&& 'pattern_id' in favorite.data
-											&& favorite.data.pattern_id === item,
-									);
+									const isSelected = selectedPatterns.includes(item);
 									return (
 										<ListItem
 											key={item}
-											onPress={() => {
-												profileContext.actions.toggleWidgetLine([item]);
-											}}
+											onPress={() => togglePattern(item)}
 										>
 											<LineBadge
 												color={linesDetailContext.data.line?.color}
@@ -180,7 +182,7 @@ export default function AddFavoriteLineScreen() {
 													<Text>{patternNames[item] || 'Sem destino'}</Text>
 												</ListItem.Title>
 											</ListItem.Content>
-											{isFavorite ? (
+											{isSelected ? (
 												<IconCircleCheckFilled
 													fill="#3CB43C"
 													size={24}
@@ -224,6 +226,18 @@ export default function AddFavoriteLineScreen() {
 					</ListItem>
 				</View>
 
+				<Button
+					buttonStyle={addFavoriteLineStyles.saveButton}
+					disabled={selectedPatterns.length === 0}
+					title="Guardar"
+					titleStyle={addFavoriteLineStyles.saveButtonText}
+					onPress={async () => {
+						if (selectedPatterns.length > 0) {
+							await profileContext.actions.toggleWidgetLine(selectedPatterns);
+							clearScreen();
+						}
+					}}
+				/>
 				<Button
 					buttonStyle={addFavoriteLineStyles.saveButton}
 					onPress={clearScreen}

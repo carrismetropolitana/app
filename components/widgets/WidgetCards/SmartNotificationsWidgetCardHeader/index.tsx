@@ -23,7 +23,7 @@ export function SmartNotificationsWidgetCardHeader({ municipality, startHour, ti
 
 	return (
 		<View style={[headerStyles.container, { flexDirection: 'row', justifyContent: 'space-between' }]}>
-			<View>
+			<View style={{ width: '70%' }}>
 				<Text style={headerStyles.headerTitle}>{title}</Text>
 				<Text style={headerStyles.headerSubtitle}>{municipality}</Text>
 			</View>

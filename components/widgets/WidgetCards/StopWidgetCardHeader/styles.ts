@@ -24,8 +24,10 @@ export const styles = () => {
 		/* HEADER TITLE */
 		headerTitle: {
 			color: fontColor,
-			fontSize: theming.fontSizeNav,
-			fontWeight: theming.fontWeightTitle as '700',
+			fontSize: theming.fontSizeText,
+			fontWeight: theming.fontWeightSemibold as '700',
+			paddingRight: 5,
+			width: '70%',
 		},
 		/* * */
 		/* HEADER SUBTITLE */
