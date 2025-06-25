@@ -1,5 +1,7 @@
 import { MapViewToolbar } from '@/components/map/MapViewToolbar';
+import { useLocationsContext } from '@/contexts/Locations.context';
 import { useMapOptionsContext } from '@/contexts/MapOptions.context';
+import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { IconsMap } from '@/settings/assets.settings';
 import { mapDefaultConfig } from '@/settings/map.settings';
 import { theming } from '@/theme/Variables';
@@ -78,10 +80,12 @@ export function MapView({
 	const [modalVisible, setModalVisible] = useState(false);
 	const mapRef = useRef<MapViewRef>(null);
 	const mapOptionsContext = useMapOptionsContext();
+	const locationsContext = useLocationsContext();
+	const stopsDetailContext = useStopsDetailContext();
 
 	const styleUrl = mapStyle
 		? mapDefaultConfig.styles[mapStyle]
-		: mapOptionsContext.data.style;
+		: mapDefaultConfig.styles[mapOptionsContext.data.style === 'satellite' ? 'satellite' : 'map'];
 
 	const handleMapReady = useCallback(() => {
 		const map = mapRef.current;
@@ -111,6 +115,7 @@ export function MapView({
 				<MapViewToolbar onCenterMap={onCenterMap} />
 			)}
 			<RNMapView
+				key={typeof styleUrl === 'string' ? styleUrl : JSON.stringify(styleUrl)}
 				ref={mapRef}
 				attributionEnabled={false}
 				mapStyle={styleUrl}
@@ -138,6 +143,7 @@ export function MapView({
 				/>
 				{camera && (
 					<Camera
+
 						animationMode="flyTo"
 						centerCoordinate={camera ? camera.centerCoordinate : [mapDefaultConfig.initialViewState.longitude, mapDefaultConfig.initialViewState.latitude]}
 						heading={mapDefaultConfig.initialViewState.bearing}
