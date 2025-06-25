@@ -80,7 +80,13 @@ export function MapViewStyleStops({ flaggedStopId, onStopPress, stopsData = base
 				onPress={(e) => {
 					const feature = e.features?.[0];
 					if (feature && onStopPress) {
-						onStopPress(feature.properties?.id ?? '');
+						const stopId = feature.properties?.id ?? '';
+						if (flaggedStopId === stopId) {
+							onStopPress('');
+						}
+						else {
+							onStopPress(stopId);
+						}
 					}
 				}}
 			>

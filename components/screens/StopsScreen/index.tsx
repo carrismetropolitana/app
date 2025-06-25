@@ -2,16 +2,17 @@
 import type { Stop } from '@carrismetropolitana/api-types/network';
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
-import { MapView } from '@/components/map/MapView';
+import { MapStyle, MapView } from '@/components/map/MapView';
 import { MapViewStyleStops } from '@/components/map/MapViewStyleStops';
 import StopDetailNextArrivals from '@/components/stops/StopDetailNextArrivals';
 import { useLocationsContext } from '@/contexts/Locations.context';
+import { useMapOptionsContext } from '@/contexts/MapOptions.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import { PointAnnotation } from '@maplibre/maplibre-react-native';
+import { MapViewRef, PointAnnotation } from '@maplibre/maplibre-react-native';
 import { ListItem } from '@rn-vui/themed';
 import { Link } from 'expo-router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -31,6 +32,7 @@ export default function StopsScreen() {
 
 	const stopsContext = useStopsContext();
 	const stopDetailContext = useStopsDetailContext();
+	const mapOptionsContext = useMapOptionsContext();
 	const themeContext = useThemeContext();
 	const stops = stopsContext.actions.getAllStopsGeoJsonFC();
 	const locationContext = useLocationsContext();
@@ -47,6 +49,7 @@ export default function StopsScreen() {
 	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
 	const stopMapDetailStyles = styles();
+	const mapRef = useRef<MapViewRef>(null);
 
 	//
 	// B, Transform data
@@ -78,7 +81,23 @@ export default function StopsScreen() {
 		setSelectedStop(stopId);
 		setFlaggedStopId(stopId);
 		stopDetailContext.actions.setActiveStopId(stopId);
-	}, [stopDetailContext.actions]);
+	}, []);
+
+	const handleStopDeselect = useCallback(() => {
+		setSelectedStop('');
+		setFlaggedStopId(null);
+		stopDetailContext.actions.setActiveStopId('');
+	}, []);
+
+	const handleCenterMap = useCallback(() => {
+		if (mapRef.current && userLocation) {
+			(mapRef.current as unknown as any).setCamera({
+				animationDuration: 1000,
+				centerCoordinate: [userLocation.longitude, userLocation.latitude],
+				zoomLevel: 10,
+			});
+		}
+	}, []);
 
 	//
 	// D. Render components
@@ -94,7 +113,9 @@ export default function StopsScreen() {
 						},
 					}
 					: {})}
-				mapStyle="map"
+				mapStyle={mapOptionsContext.data.style as MapStyle || 'map'}
+				onCenterMap={handleCenterMap}
+				onPress={handleStopDeselect}
 				scrollZoom={true}
 				toolbar={true}
 				onRegionDidChange={() => {
