@@ -19,19 +19,21 @@ export default function HomeScreen() {
 	const themeContext = useThemeContext();
 	const insets = useSafeAreaInsets();
 	const notifcationsContext = useNotifications();
-	const fcmToken = notifcationsContext.fcmToken;
 	const backgroundColor = themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background;
 	const buttonBackgroundColor = themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.primary : themeContext.theme.darkColors?.primary;
 	const titleColor = themeContext.theme.mode === 'light' ? theming.colorSystemText900 : theming.colorSystemText300;
+
+	const fcmToken = notifcationsContext.fcmToken;
 	//
 	// B. Fetch Data
-	useEffect(() => {
-		notifcationsContext.askForPermissions();
-		notifcationsContext.subscribeToTopic('news');
-		return () => {
-			notifcationsContext.unsubscribeFromTopic('news');
-		};
-	}, []);
+
+	// useEffect(() => {
+	// 	notifcationsContext.askForPermissions();
+	// 	notifcationsContext.subscribeToTopic('news');
+	// 	return () => {
+	// 		notifcationsContext.unsubscribeFromTopic('news');
+	// 	};
+	// }, []);
 
 	useEffect(() => {
 		if (notifcationsContext.response) {
