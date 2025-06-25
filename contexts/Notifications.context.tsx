@@ -1,8 +1,24 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import messaging from '@react-native-firebase/messaging';
-import messagingLib from '@react-native-firebase/messaging';
+import { getApp } from '@react-native-firebase/app';
+import {
+	subscribeToTopic as firebaseSubscribeToTopic,
+	unsubscribeFromTopic as firebaseUnsubscribeFromTopic,
+	getInitialNotification,
+	getMessaging,
+	getToken,
+	onMessage,
+	onNotificationOpenedApp,
+	requestPermission,
+} from '@react-native-firebase/messaging';
 import * as Notifications from 'expo-notifications';
-import React, { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
+import React, {
+	createContext,
+	ReactNode,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import { Platform } from 'react-native';
 
 interface NotificationsContextState {
@@ -38,30 +54,38 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 			return stored;
 		}
 
-		const newStatus = await messaging().requestPermission();
-		const enabled = newStatus === messaging.AuthorizationStatus.AUTHORIZED || newStatus === messaging.AuthorizationStatus.PROVISIONAL;
+		const app = getApp();
+		const messaging = getMessaging(app);
+
+		const newStatus = await requestPermission(messaging);
+		const authStatus = newStatus;
+		const enabled = authStatus === 1 || authStatus === 2;
 
 		if (!enabled) {
 			console.warn('❌ FCM messaging permission denied');
 			return null;
 		}
 
-		const token = await messaging().getToken();
+		const token = await getToken(messaging);
 		setFcmToken(token);
 		await AsyncStorage.setItem(TOKEN_STORAGE_KEY, token);
 		console.log('✅ FCM Token:', token);
+
 		if (Platform.OS === 'android') {
 			await Notifications.setNotificationChannelAsync('default', {
 				importance: Notifications.AndroidImportance.MAX,
 				name: 'default',
 			});
 		}
+
 		return token;
 	};
 
 	const subscribeToTopic = async (topic: string) => {
 		try {
-			await messagingLib().subscribeToTopic(topic);
+			const app = getApp();
+			const messaging = getMessaging(app);
+			await firebaseSubscribeToTopic(messaging, topic);
 			console.log(`✅ Subscribed to topic "${topic}"`);
 		}
 		catch (e) {
@@ -71,7 +95,9 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 
 	const unsubscribeFromTopic = async (topic: string) => {
 		try {
-			await messagingLib().unsubscribeFromTopic(topic);
+			const app = getApp();
+			const messaging = getMessaging(app);
+			await firebaseUnsubscribeFromTopic(messaging, topic);
 			console.log(`✅ Unsubscribed from topic "${topic}"`);
 		}
 		catch (e) {
@@ -80,24 +106,32 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 	};
 
 	useEffect(() => {
+		const app = getApp();
+		const modularMessaging = getMessaging(app);
+
 		askForPermissions();
-		messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+
+		modularMessaging.setBackgroundMessageHandler(async (remoteMessage) => {
 			console.log('📥 Background FCM message:', remoteMessage);
 		});
-		msgListener.current = messagingLib().onMessage((msg) => {
+
+		msgListener.current = onMessage(modularMessaging, (msg) => {
 			console.log('📲 Firebase foreground message:', msg);
 			setNotification(JSON.stringify(msg));
 		});
-		openedListener.current = messagingLib().onNotificationOpenedApp((msg) => {
+
+		openedListener.current = onNotificationOpenedApp(modularMessaging, (msg) => {
 			console.log('🔓 Opened from background state:', msg);
 			setResponse(JSON.stringify(msg));
 		});
-		messagingLib().getInitialNotification().then((msg) => {
+
+		getInitialNotification(modularMessaging).then((msg) => {
 			if (msg) {
 				console.log('🚀 Opened from quit state:', msg);
 				setResponse(JSON.stringify(msg));
 			}
 		});
+
 		return () => {
 			msgListener.current?.();
 			openedListener.current?.();

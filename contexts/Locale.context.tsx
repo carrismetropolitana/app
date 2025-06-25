@@ -14,10 +14,8 @@ export interface LocaleContextState {
 const LocaleContext = createContext<LocaleContextState | undefined>(undefined);
 
 export const LocaleContextProvider = ({ children }: { children: ReactNode }) => {
-	// Initialize state with the current language from i18next
 	const [locale, setLocale] = useState(i18n.language);
 
-	// Listen for language changes on the i18n instance
 	useEffect(() => {
 		const handleLanguageChanged = (lng: string) => setLocale(lng);
 		i18n.on('languageChanged', handleLanguageChanged);
@@ -26,7 +24,6 @@ export const LocaleContextProvider = ({ children }: { children: ReactNode }) => 
 		};
 	}, []);
 
-	// Function to change the language using i18next
 	const changeLanguage = (lang: string) => {
 		i18n.changeLanguage(lang);
 	};

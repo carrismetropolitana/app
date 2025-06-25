@@ -247,9 +247,9 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		if (dataWidgetStopsState) {
 			localStorage.setItem(LOCAL_STORAGE_KEYS.widget_stops, JSON.stringify(dataWidgetStopsState) || '');
 		}
-		if (dataWidgetSmartNotificationsState) {
-			localStorage.setItem(LOCAL_STORAGE_KEYS.widget_smart_notifications, JSON.stringify(dataWidgetSmartNotificationsState) || '');
-		}
+		// if (dataWidgetSmartNotificationsState) {
+		// 	localStorage.setItem(LOCAL_STORAGE_KEYS.widget_smart_notifications, JSON.stringify(dataWidgetSmartNotificationsState) || '');
+		// }
 		if (dataFavoriteLinesState) {
 			localStorage.setItem(LOCAL_STORAGE_KEYS.favorite_lines, JSON.stringify(dataFavoriteLinesState) || '');
 		}
@@ -279,7 +279,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		dataProfileState,
 		dataAccentColorState,
 		dataPersonaImageState,
-		dataWidgetSmartNotificationsState,
+		// dataWidgetSmartNotificationsState,
 		consentContext.data.enabled_functional,
 	]);
 
@@ -595,31 +595,14 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		await updateProfileOnCloud(updatedProfile);
 	};
 
-	const postSmartNotificationToCloud = async (pattern_id: string, radius: number, start_time: number, end_time: number, stop_id: string, week_days: ('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[]) => {
+	const postSmartNotificationToCloud = async (notification: AccountWidget) => {
 		if (!consentContext.data.enabled_functional || !dataApiTokenState) return;
 
 		const user_id = dataProfileState?.devices[0].device_id || '';
-		const body = {
-			distance: radius || 0,
-			end_time: end_time || 0,
-			pattern_id: pattern_id || '0',
-			start_time: start_time || 0,
-			stop_id: stop_id || '',
-			type: 'smart_notifications',
-			user_id: user_id || '',
-			week_days: (
-				Array.isArray(week_days) && week_days.length > 0
-					? week_days as [
-						'friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday',
-						...('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[],
-					]
-					: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const
-			),
-		};
 
 		try {
-			await fetch(`${Routes.DEV_API_ACCOUNTS}/smart-notifications`, {
-				body: JSON.stringify(body),
+			await fetch(`${Routes.DEV_API_ACCOUNTS}/${user_id}/smart-notifications`, {
+				body: JSON.stringify(notification),
 				headers: {
 					'Content-Type': 'application/json',
 					'Cookie': `session_token=${dataApiTokenState}`,
@@ -635,7 +618,10 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const toggleWidgetSmartNotification = async (pattern_id: string, radius: number, start_time: number, end_time: number, stop_id: string, week_days: ('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[]) => {
 		if (!consentContext.data.enabled_functional) return;
 
+		const id = uuid.v4();
+
 		const allWidgets = (dataProfileState?.widgets || []) as AccountWidget[];
+
 		const smartNotificationWidgets = allWidgets.filter(
 			w => w.data && w.data.type === 'smart_notifications',
 		);
@@ -672,7 +658,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				data: {
 					distance: radius || 0,
 					end_time: end_time || 0,
-					id: uuid.v4(),
+					id: id,
 					pattern_id: pattern_id || '0',
 					start_time: start_time || 0,
 					stop_id: stop_id || '',
@@ -694,26 +680,37 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 					is_open: true,
 				},
 			};
-			// console.log('Adding new smart notification widget:', newWidgetSmartNotification);
+			console.log('Adding new smart notification widget:', newWidgetSmartNotification);
 			updatedSmartWidgets.push(newWidgetSmartNotification);
+
+			if (dataApiTokenState) {
+				console.log('token notificação ====>', dataApiTokenState);
+				console.log('id notificação====>', id);
+				try {
+					console.log('Subscribed to smart notification: ', id);
+					await postSmartNotificationToCloud(newWidgetSmartNotification);
+					await messagingLib().subscribeToTopic(id);
+				}
+				catch (error) {
+					console.error('Error subscribing to topic:', error);
+				}
+			}
 		}
 
-		setDataWidgetSmartNotificationsState(updatedSmartWidgets);
+		/* Update profile state */
 		const mergedWidgets = [...otherWidgets, ...updatedSmartWidgets];
 		const updatedProfile: Account = {
 			...(dataProfileState || {}),
 			widgets: mergedWidgets,
 		};
-
 		setDataProfileState(updatedProfile);
+		/* Update profile state */
+
+		setDataWidgetSmartNotificationsState(updatedSmartWidgets);
+
 		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
 
 		// await updateProfileOnCloud(updatedProfile);
-		await postSmartNotificationToCloud(pattern_id, radius, start_time, end_time, stop_id, week_days);
-		if (dataApiTokenState) {
-			await messagingLib().subscribeToTopic('news');
-			console.log('Subscribed to smart notification: ', pattern_id);
-		}
 	};
 
 	const deleteWidgetByDisplayOrder = async (displayOrder: number) => {
