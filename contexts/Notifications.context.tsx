@@ -106,10 +106,12 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 	};
 
 	useEffect(() => {
+		askForPermissions();
+	}, []);
+
+	useEffect(() => {
 		const app = getApp();
 		const modularMessaging = getMessaging(app);
-
-		askForPermissions();
 
 		modularMessaging.setBackgroundMessageHandler(async (remoteMessage) => {
 			console.log('📥 Background FCM message:', remoteMessage);

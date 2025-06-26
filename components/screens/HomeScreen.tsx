@@ -19,54 +19,17 @@ export default function HomeScreen() {
 
 	const themeContext = useThemeContext();
 	const insets = useSafeAreaInsets();
-	const notifcationsContext = useNotifications();
 	const backgroundColor = themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background;
 	const buttonBackgroundColor = themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.primary : themeContext.theme.darkColors?.primary;
 	const titleColor = themeContext.theme.mode === 'light' ? theming.colorSystemText900 : theming.colorSystemText300;
 
 	//
-	// B. Fetch Data
+	// B. Render Components
 
-	useEffect(() => {
-		notifcationsContext.askForPermissions();
-		notifcationsContext.subscribeToTopic('TEST');
-		// return () => {
-		// 	notifcationsContext.unsubscribeFromTopic('news');
-		// };
-	}, []);
-
-	useEffect(() => {
-		if (notifcationsContext.response) {
-			try {
-				const responseObj = JSON.parse(notifcationsContext.response);
-				const screen = responseObj.data?.screen as string | undefined;
-				if (screen) {
-					router.push(`/${screen}`);
-				}
-			}
-			catch (e) {
-				console.log('🎯 Tapped notification (raw):', notifcationsContext.response);
-			}
-		}
-	}, [notifcationsContext.notification, notifcationsContext.response]);
-	//
-	// C. Render Components
 	return (
 		<View style={{ backgroundColor, flex: 1, paddingBottom: insets.bottom + 70 }}>
 			<Header />
 			<ScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} style={{ paddingTop: insets.top + 95 }}>
-				{/* <View style={{ alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-					<Text>FCM Token:</Text>
-					<Text style={{ marginVertical: 8 }} selectable> {fcmToken ?? 'A obter token...'} </Text>
-					<Button
-						onPress={() => notifcationsContext.subscribeToTopic('news')}
-						title="Subscribe to News"
-					/>
-					<Button
-						onPress={() => notifcationsContext.unsubscribeFromTopic('news')}
-						title="Unsubscribe from News"
-					/>
-				</View> */}
 				<FavoritesBar />
 				<View style={{ paddingHorizontal: 20 }}>
 					<WidgetCards />
@@ -95,5 +58,6 @@ export default function HomeScreen() {
 			</ScrollView>
 		</View>
 	);
+
 	//
 }

@@ -33,7 +33,7 @@ export function ProfileImage({ backgroundColor = theming.colorBrand, borderWidth
 	const profileContext = useProfileContext();
 	const profileImageStyles = styles();
 	const profileImage = useMemo(() => {
-		return profileContext.data.profile?.profile?.profile_image ? `${Routes.API_ACCOUNTS}/persona/${profileContext.data.profile?.profile?.profile_image}` : defaultImage;
+		return profileContext.data.profile?.profile?.profile_image ? `${Routes.DEV_API_ACCOUNTS}/persona/${profileContext.data.profile?.profile?.profile_image}` : defaultImage;
 	}, [profileContext.data.profile?.profile?.profile_image]);
 
 	//

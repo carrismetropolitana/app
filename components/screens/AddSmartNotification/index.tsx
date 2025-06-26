@@ -145,6 +145,7 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 		setStartingSeconds(getSecondsSinceMidnight(startingHour || new Date()));
 		setEndingSeconds(getSecondsSinceMidnight(endingHour || new Date()));
 	}, [startingHour, endingHour]);
+
 	const clearScreen = useCallback(() => {
 		linesDetailContext.actions.resetLineId();
 		linesDetailContext.actions.resetActivePattern();
@@ -170,22 +171,29 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 		}
 		else {
 			setSelectedVersionId(versionId);
-			linesDetailContext.actions.setActivePattern(versionId);
+			setTimeout(() => {
+				linesDetailContext.actions.setActivePattern(versionId);
+			}, 0);
 		}
-	}, [patternVersionIds, selectedVersionId, linesDetailContext.actions]);
 
-	const toggleWidgetSmartNotification = useCallback(() => {
+		console.log(`Selected pattern: ${item}, Version ID: ${versionId}`);
+		console.log(`Current active pattern: ${linesDetailContext.data.active_pattern?.id}`);
+	}, [patternVersionIds, selectedVersionId]);
+
+	const toggleWidgetSmartNotification = () => {
 		profileContext.actions.toggleWidget({
-			type: 'smart_notifications',
+			end_time: endingSeconds,
 			pattern_id: selectedPatternId ?? '',
 			radius,
 			start_time: startingSeconds,
-			end_time: endingSeconds,
 			stop_id: selectedStopId ?? '',
+			type: 'smart_notifications',
 			week_days: selectedDays,
 		});
 		exitScreen();
-	}, [profileContext.actions, selectedPatternId, radius, startingSeconds, endingSeconds, selectedStopId, selectedDays, exitScreen]);
+	};
+
+	console.log(`Current selected stop ID: ${selectedStopId}`);
 
 	//
 	// D. Render Components

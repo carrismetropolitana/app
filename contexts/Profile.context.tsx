@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* * */
 
 import { Account, AccountWidget, CreateAccountDto } from '@/types/account.types';
@@ -12,6 +13,7 @@ import { Platform } from 'react-native';
 import uuid from 'react-native-uuid';
 
 import { useConsentContext } from './Consent.context';
+import { useNotifications } from './Notifications.context';
 
 /* * */
 
@@ -99,8 +101,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	// A. Setup variables
 
 	const consentContext = useConsentContext();
+	const notificationContext = useNotifications();
 	const localStorage = AsyncStorage;
-
 	const [dataWidgetLinesState, setDataWidgetLinesState] = useState<AccountWidget[] | null>(null);
 	const [dataWidgetStopsState, setDataWidgetStopsState] = useState<AccountWidget[] | null>(null);
 	const [dataWidgetSmartNotificationsState, setDataWidgetSmartNotificationsState] = useState<AccountWidget[] | null>(null);
@@ -114,12 +116,10 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const [dataFavoriteStopsState, setDataFavoriteStopsState] = useState<ProfileContextState['data']['favorite_stops']>(null);
 	const [dataAccentColorState, setDataAccentColorState] = useState<null | string>(null);
 	const [dataInterestsState, setDataInterestsState] = useState<string[]>([]);
-
 	const [flagIsLoadingState, setFlagIsLoadingState] = useState<ProfileContextState['flags']['is_loading']>(true);
 
 	//
 	// C. Fetch Data
-
 	// Fetch initial data and set up interval for periodic updates (profile sync - only if functional consent is enabled)
 	useEffect(() => {
 		if (!consentContext.data.enabled_functional) {
@@ -127,6 +127,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			return;
 		}
 		fetchData();
+		subscribeToAllWidgetTopics();
 
 		const intervalId = setInterval(() => {
 			fetchData();
@@ -290,7 +291,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 			let response: Response;
 			try {
-				response = await fetch(`${Routes.API_ACCOUNTS}/persona/`);
+				response = await fetch(`${Routes.DEV_API_ACCOUNTS}/persona/`);
 			}
 			catch (networkError) {
 				console.error('Network error fetching persona:', networkError);
@@ -375,7 +376,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	// Fetch profile from cloud
 	const getProfileFromCloud = async () => {
 		if (!consentContext.data.enabled_functional && !dataApiTokenState) return;
-		const response = await fetch(`${Routes.API_ACCOUNTS}`, { headers: { 'Content-Type': 'application/json', 'Cookie': `session_token=${dataApiTokenState}` } });
+		const response = await fetch(`${Routes.DEV_API_ACCOUNTS}`, { headers: { 'Content-Type': 'application/json', 'Cookie': `session_token=${dataApiTokenState}` } });
 		if (!response.ok) {
 			alert('Failed to fetch profile from cloud. Please try again later.');
 			console.error('Failed to fetch profile from cloud:', response);
@@ -412,7 +413,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		if (!consentContext.data.enabled_functional || !dataApiTokenState) return;
 		const { _id, created_at, role, updated_at, ...cleanedProfile } = profile;
 		try {
-			await fetch(`${Routes.API_ACCOUNTS}`, {
+			await fetch(`${Routes.DEV_API_ACCOUNTS}`, {
 				body: JSON.stringify(cleanedProfile),
 				headers: {
 					'Content-Type': 'application/json',
@@ -430,6 +431,15 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	//
 	// D. Action handlers
 
+	// Initial notification subscription
+	const subscribeToAllWidgetTopics = async () => {
+		const widgets = dataProfileState?.widgets || [];
+		await Promise.all(
+			widgets
+				.filter(widget => widget.data.type === 'smart_notifications' && widget.data.id)
+				.map(widget => notificationContext.subscribeToTopic(widget.data.type === 'smart_notifications' ? widget.data.id : '')),
+		);
+	};
 	// Toggle favorite item (line or stop) and update profile with error handling
 	const toggleFavoriteItem = async (type: 'lines' | 'stops', id: string) => {
 		try {
@@ -479,7 +489,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			const allWidgets = (dataProfileState?.widgets || []) as AccountWidget[];
 
 			if (params.type === 'lines') {
-				// --- LINES ---
+				// LINES
 				const lineWidgets = allWidgets.filter(w => w.data && w.data.type === 'lines');
 				const otherWidgets = allWidgets.filter(w => !w.data || w.data.type !== 'lines');
 				const updatedLineWidgets = [...lineWidgets];
@@ -514,7 +524,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				await updateProfileOnCloud(updatedProfile);
 			}
 			else if (params.type === 'stops') {
-				// --- STOPS ---
+				// STOPS
 				const stopWidgets = allWidgets.filter(w => w.data && w.data.type === 'stops');
 				const otherWidgets = allWidgets.filter(w => !w.data || w.data.type !== 'stops');
 				const updatedStopWidgets = [...stopWidgets];
@@ -559,7 +569,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				await updateProfileOnCloud(updatedProfile);
 			}
 			else if (params.type === 'smart_notifications') {
-				// --- SMART NOTIFICATIONS ---
+				// SMART NOTIFICATIONS
 				const id = uuid.v4();
 				const smartNotificationWidgets = allWidgets.filter(
 					w => w.data && w.data.type === 'smart_notifications',
@@ -585,7 +595,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 						user_id: user_id || '',
 						week_days: validWeekDays,
 					},
-					settings: { is_open: true },
+					settings: { display_order: otherWidgets.length + smartNotificationWidgets.length + 1, is_open: true },
 				};
 				updatedSmartWidgets.push(newWidgetSmartNotification);
 				if (dataApiTokenState) {
@@ -619,7 +629,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 						...(dataProfileState as Account || {}),
 						widgets: mergedWidgets,
 					};
-					setDataProfileState(updatedProfile);
+					// setDataProfileState(updatedProfile);
 					await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
 				}
 				setDataWidgetSmartNotificationsState(updatedSmartWidgets);
@@ -634,7 +644,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const postSmartNotificationToCloud = async (notification: AccountWidget) => {
 		if (!consentContext.data.enabled_functional || !dataApiTokenState) return;
 		try {
-			const response = await fetch(`${Routes.API_ACCOUNTS}/smart-notifications`, {
+			const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/smart-notifications`, {
 				body: JSON.stringify(notification),
 				headers: {
 					'Content-Type': 'application/json',
@@ -669,6 +679,16 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		const newList = (currentProfile.widgets || []).filter(
 			widget => widget.settings?.display_order !== displayOrder,
 		);
+
+		const removedWidget = currentProfile.widgets?.find(
+			widget => widget.settings?.display_order === displayOrder,
+		);
+
+		if (removedWidget && removedWidget.data && removedWidget.data.type) {
+			if (removedWidget.data.type === 'smart_notifications') {
+				notificationContext.unsubscribeFromTopic(removedWidget.data.id);
+			}
+		}
 
 		const orderedWidgets = newList.map((widget, idx) => ({
 			...widget,
@@ -714,7 +734,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			widgets: [],
 		};
 
-		const apiResponse = await fetch(`${Routes.API_ACCOUNTS}`, {
+		const apiResponse = await fetch(`${Routes.DEV_API_ACCOUNTS}`, {
 			body: JSON.stringify(newProfileStructure),
 			headers: { 'Content-Type': 'application/json' },
 			method: 'POST',

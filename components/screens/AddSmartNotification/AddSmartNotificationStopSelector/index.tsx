@@ -26,15 +26,18 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 	return (
 		<>
 			<Text style={stopSelectorStyles.text}>{t('stopSelectorTitle')}</Text>
-			<View>
+			<View key={linesDetailContext.data.active_pattern?.id || selectedVersionId}>
 				{selectedVersionId && linesDetailContext.data.active_pattern ? (
-					linesDetailContext.data.active_pattern.path.map((waypoint: Waypoint) => {
+					linesDetailContext.data.active_pattern.path.map((waypoint: Waypoint, idx: number) => {
 						const stop = stopsContext.actions.getStopById(waypoint.stop_id);
 						const isSelected = selectedStopId === waypoint.stop_id;
+						const isFirst = idx === 0;
 						return (
 							<ListItem
 								key={waypoint.stop_sequence}
-								onPress={() => setSelectedStopId(waypoint.stop_id)}
+								disabled={isFirst}
+								disabledStyle={{ opacity: 0.5 }}
+								onPress={() => !isFirst && setSelectedStopId(waypoint.stop_id)}
 								style={{ backgroundColor: isSelected ? '#e6f7ff' : undefined }}
 							>
 								<IconArrowLoopRight color="#C61D23" size={24} />

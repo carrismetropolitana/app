@@ -6,7 +6,7 @@ import { SWRConfig, SWRConfiguration } from 'swr';
 
 /* * */
 
-export function ConfigProviders({ children }) {
+export function ConfigProviders({ children }: { children: React.ReactNode }) {
 	//
 
 	//

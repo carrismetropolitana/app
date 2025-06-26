@@ -4,11 +4,13 @@ import { ConsentPopup } from '@/components/common/ConsentDialog';
 import { HapticTab } from '@/components/HapticTab';
 import OfflineScreen from '@/components/OfflineScreen';
 import TabBarBackground from '@/components/ui/TabBarBackground';
+import { useNotifications } from '@/contexts/Notifications.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { useNetInfo } from '@react-native-community/netinfo';
 import { IconArrowLoopRight, IconDots, IconMap, IconUserCircle } from '@tabler/icons-react-native';
 import { Tabs } from 'expo-router';
+import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -21,6 +23,7 @@ export default function TabLayout() {
 	//
 	// A. Setup Variables
 
+	const notificationsContext = useNotifications();
 	const themeContext = useThemeContext();
 	const insets = useSafeAreaInsets();
 	const netInfo = useNetInfo();
@@ -41,6 +44,10 @@ export default function TabLayout() {
 			borderRadius: 22,
 		},
 	});
+
+	useEffect(() => {
+		notificationsContext.askForPermissions();
+	}, []);
 
 	//
 	// B. Render components
