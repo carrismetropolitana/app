@@ -233,7 +233,7 @@ export default function AddFavoriteLineScreen() {
 					titleStyle={addFavoriteLineStyles.saveButtonText}
 					onPress={async () => {
 						if (selectedPatterns.length > 0) {
-							await profileContext.actions.toggleWidgetLine(selectedPatterns);
+							await profileContext.actions.toggleWidget({ type: 'lines', pattern_ids: selectedPatterns });
 							clearScreen();
 						}
 					}}

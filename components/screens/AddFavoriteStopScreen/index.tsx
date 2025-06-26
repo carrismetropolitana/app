@@ -253,7 +253,7 @@ export default function AddFavoriteStopScreen() {
 					titleStyle={addFavoriteStopStyles.saveButtonText}
 					onPress={async () => {
 						if (selectedStopId && selectedStopPatterns.length > 0) {
-							await profileContext.actions.toggleWidgetStop(selectedStopId, selectedStopPatterns);
+							await profileContext.actions.toggleWidget({ type: 'stops', stopId: selectedStopId, pattern_ids: selectedStopPatterns });
 							clearSelection();
 						}
 					}}

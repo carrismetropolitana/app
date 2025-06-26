@@ -1,6 +1,6 @@
 /* * */
 
-import { Account, AccountWidget, CreateAccountDto } from '@/types/account.types';
+import { Account, AccountWidget } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
 import { Line } from '@carrismetropolitana/api-types/network';
 import AsyncStorage from '@react-native-async-storage/async-storage';

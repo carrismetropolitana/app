@@ -40,15 +40,10 @@ export function LinesDetailHeader() {
 	const handleToggleFavorite = async () => {
 		if (!linesDetailContext.data.line) return;
 		try {
-			await profileContext.actions.toggleFavoriteLine(linesDetailContext.data.line.id);
+			await profileContext.actions.toggleFavoriteItem('lines', linesDetailContext.data.line.id);
 		}
 		catch (error) {
-			if (error instanceof Error) {
-				alert(error.message);
-			}
-			else {
-				alert(String(error));
-			}
+			alert(error);
 		}
 	};
 
@@ -74,7 +69,7 @@ export function LinesDetailHeader() {
 									size={24}
 									onPress={() => {
 										if (activePattern) {
-											profileContext.actions.toggleWidgetLine([activePattern.id]);
+											profileContext.actions.toggleWidget({ pattern_ids: [activePattern.id], type: 'lines' });
 										}
 									}}
 								/>

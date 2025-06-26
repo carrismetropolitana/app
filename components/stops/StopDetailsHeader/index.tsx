@@ -11,7 +11,7 @@ import { StopDisplayTts } from '@/components/stops/StopDisplayTts';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { theming } from '@/theme/Variables';
-import { IconHomePlus, IconVolume } from '@tabler/icons-react-native';
+import { IconHomePlus } from '@tabler/icons-react-native';
 import { View } from 'react-native';
 
 import { styles } from './styles';
@@ -36,7 +36,7 @@ export function StopDetailHeader() {
 	const handleToggleFavorite = () => {
 		if (!stopsDetailContext.data.stop) return;
 		try {
-			profileContext.actions.toggleFavoriteStop(stopsDetailContext.data.stop.id);
+			profileContext.actions.toggleFavoriteItem('stops', stopsDetailContext.data.stop.id);
 		}
 		catch (error) {
 			console.error({ message: 'Error: ' + error });
@@ -48,7 +48,7 @@ export function StopDetailHeader() {
 		try {
 			const patternGroup = stopsDetailContext.data.active_pattern_group;
 			const patternIds = patternGroup ? [patternGroup.id] : [];
-			profileContext.actions.toggleWidgetStop(stopsDetailContext.data.stop.id, patternIds);
+			profileContext.actions.toggleWidget({ type: 'stops', stopId: stopsDetailContext.data.stop.id, pattern_ids: patternIds });
 		}
 		catch (error) {
 			console.error({ message: 'Error: ' + error });

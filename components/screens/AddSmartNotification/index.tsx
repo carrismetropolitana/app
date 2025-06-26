@@ -175,7 +175,15 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 	}, [patternVersionIds, selectedVersionId, linesDetailContext.actions]);
 
 	const toggleWidgetSmartNotification = useCallback(() => {
-		profileContext.actions.toggleWidgetSmartNotification(selectedPatternId ?? '', radius, startingSeconds, endingSeconds, selectedStopId ?? '', selectedDays);
+		profileContext.actions.toggleWidget({
+			type: 'smart_notifications',
+			pattern_id: selectedPatternId ?? '',
+			radius,
+			start_time: startingSeconds,
+			end_time: endingSeconds,
+			stop_id: selectedStopId ?? '',
+			week_days: selectedDays,
+		});
 		exitScreen();
 	}, [profileContext.actions, selectedPatternId, radius, startingSeconds, endingSeconds, selectedStopId, selectedDays, exitScreen]);
 
