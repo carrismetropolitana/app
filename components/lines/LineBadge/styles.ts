@@ -26,9 +26,7 @@ export const lineBadgeStyles = StyleSheet.create({
 
 	},
 	clickable: {
-		transitionDuration: '0.2s',
-		transitionProperty: 'all',
-		transitionTimingFunction: 'ease',
+		backgroundColor: '#5a5a64',
 	},
 	default: {
 		...container,

@@ -4,7 +4,6 @@ import type { Line } from '@carrismetropolitana/api-types/network';
 
 import { useAlertsContext } from '@/contexts/Alerts.context';
 import { useLinesContext } from '@/contexts/Lines.context';
-import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { Text } from '@rn-vui/themed';
 import { IconInfoTriangleFilled } from '@tabler/icons-react-native';
 import { View } from 'react-native';
@@ -34,11 +33,12 @@ export function LineBadge({ color, lineData, lineId, onPress, shortName, size = 
 
 	const linesContext = useLinesContext();
 	const alertsContext = useAlertsContext();
+
 	const badgeStyles = [
-		size === 'lg' ? lineBadgeStyles.sizeLg : undefined,
-		size === 'md' ? lineBadgeStyles.sizeMd : undefined,
-		onPress ? lineBadgeStyles.clickable : undefined,
-	].filter(Boolean);
+		size === 'lg' && lineBadgeStyles.sizeLg,
+		size === 'md' && lineBadgeStyles.sizeMd,
+		onPress && lineBadgeStyles.clickable,
+	];
 
 	//
 	// B. Transform data
@@ -54,7 +54,7 @@ export function LineBadge({ color, lineData, lineId, onPress, shortName, size = 
 				{shortName || lineData?.short_name || fetchedLineData?.short_name || '• • •'}
 			</Text>
 			{(withAlertIcon || hasAlerts) && (
-				<View style={[lineBadgeStyles.alertIcon, { backgroundColor: '#FFFFFF', borderColor: color ? color : fetchedLineData?.color || lineData?.color, borderRadius: 999, borderWidth: 3 }]}>
+				<View style={[lineBadgeStyles.alertIcon, { backgroundColor: '#FFFFFF', borderColor: color ? color : fetchedLineData?.color || lineData?.color, borderRadius: 999, borderWidth: 2 }]}>
 					<IconInfoTriangleFilled color={color ? color : fetchedLineData?.color || lineData?.color} fill="#FFFFFF" size={14} />
 				</View>
 			)}

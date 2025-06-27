@@ -69,7 +69,7 @@ export function LinesDetailHeader() {
 									size={24}
 									onPress={() => {
 										if (activePattern) {
-											profileContext.actions.toggleWidget({ pattern_ids: [activePattern.id], type: 'lines' });
+											profileContext.actions.createWidget({ pattern_ids: [activePattern.id], type: 'lines' });
 										}
 									}}
 								/>

@@ -43,12 +43,12 @@ export function StopDetailHeader() {
 		}
 	};
 
-	const handleToggleWidgetStop = () => {
+	const handleCreateWidgetStop = () => {
 		if (!stopsDetailContext.data.stop) return;
 		try {
 			const patternGroup = stopsDetailContext.data.active_pattern_group;
 			const patternIds = patternGroup ? [patternGroup.id] : [];
-			profileContext.actions.toggleWidget({ type: 'stops', stopId: stopsDetailContext.data.stop.id, pattern_ids: patternIds });
+			profileContext.actions.createWidget({ pattern_ids: patternIds, stopId: stopsDetailContext.data.stop.id, type: 'stops' });
 		}
 		catch (error) {
 			console.error({ message: 'Error: ' + error });
@@ -75,7 +75,7 @@ export function StopDetailHeader() {
 							<IconHomePlus
 								color={isInWidgets ? theming.colorBrand : '#9696A0'}
 								disabled={!stopsDetailContext.data.stop}
-								onPress={handleToggleWidgetStop}
+								onPress={handleCreateWidgetStop}
 								size={24}
 							/>
 							<StopDisplayTts stopId={stopsDetailContext.data.stop.id} />

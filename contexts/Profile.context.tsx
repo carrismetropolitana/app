@@ -46,6 +46,7 @@ type WidgetToggleParams =
 interface ProfileContextState {
 	actions: {
 		checkProfile: (profile: Account) => Promise<void>
+		createWidget: (params: WidgetToggleParams) => Promise<void>
 		deleteWidgetByDisplayOrder: (display_order: number) => Promise<void>
 		fetchPersona: () => Promise<void>
 		setAccentColor: (color: string) => void
@@ -54,7 +55,6 @@ interface ProfileContextState {
 		setPreviousPersona: () => void
 		setSelectedLine: (line: string) => void
 		toggleFavoriteItem: (type: 'lines' | 'stops', id: string) => Promise<void>
-		toggleWidget: (params: WidgetToggleParams) => Promise<void>
 		updateLocalProfile: (profile: Account) => Promise<void>
 	}
 	counters: {
@@ -483,7 +483,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		}
 	};
 	// Unified widget toggle function
-	const toggleWidget = async (params: WidgetToggleParams) => {
+	const createWidget = async (params: WidgetToggleParams) => {
 		try {
 			if (!consentContext.data.enabled_functional) return;
 			const allWidgets = (dataProfileState?.widgets || []) as AccountWidget[];
@@ -601,11 +601,11 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				if (dataApiTokenState) {
 					try {
 						const postResponse = await postSmartNotificationToCloud(newWidgetSmartNotification);
-						await messagingLib().subscribeToTopic(id);
-						if (postResponse) {
-							setDataProfileState(postResponse);
+						if (postResponse.ok) {
+							await messagingLib().subscribeToTopic(id);
 							await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(postResponse) || '');
 							await updateProfileOnCloud(postResponse);
+							setDataProfileState(postResponse);
 						}
 						else {
 							const mergedWidgets = [...otherWidgets, ...updatedSmartWidgets];
@@ -776,6 +776,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const contextValue: ProfileContextState = {
 		actions: {
 			checkProfile,
+			createWidget,
 			deleteWidgetByDisplayOrder,
 			fetchPersona,
 			setAccentColor,
@@ -784,7 +785,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			setPreviousPersona,
 			setSelectedLine,
 			toggleFavoriteItem,
-			toggleWidget,
 			updateLocalProfile,
 		},
 		counters: {

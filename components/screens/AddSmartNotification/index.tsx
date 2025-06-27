@@ -180,8 +180,8 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 		console.log(`Current active pattern: ${linesDetailContext.data.active_pattern?.id}`);
 	}, [patternVersionIds, selectedVersionId]);
 
-	const toggleWidgetSmartNotification = () => {
-		profileContext.actions.toggleWidget({
+	const createWidgetSmartNotification = () => {
+		profileContext.actions.createWidget({
 			end_time: endingSeconds,
 			pattern_id: selectedPatternId ?? '',
 			radius,
@@ -273,7 +273,7 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 				</View>
 			</View>
 			<TestingNeedWarning />
-			<Button buttonStyle={addFavoriteLineStyles.saveButton} onPress={() => toggleWidgetSmartNotification()} title="Guardar" titleStyle={addFavoriteLineStyles.saveButtonText} />
+			<Button buttonStyle={addFavoriteLineStyles.saveButton} onPress={() => createWidgetSmartNotification()} title="Guardar" titleStyle={addFavoriteLineStyles.saveButtonText} />
 			<Button buttonStyle={addFavoriteLineStyles.saveButton} onPress={exitScreen} title="Eliminar" titleStyle={addFavoriteLineStyles.saveButtonText} />
 			<LinesListChooserModal isVisible={lineChooserVisibility} onBackdropPress={() => setLineChooserVisibility(!lineChooserVisibility)} />
 		</ScrollView>
