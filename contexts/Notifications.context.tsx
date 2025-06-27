@@ -141,16 +141,7 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 	}, []);
 
 	return (
-		<NotificationsContext.Provider
-			value={{
-				askForPermissions,
-				fcmToken,
-				notification,
-				response,
-				subscribeToTopic,
-				unsubscribeFromTopic,
-			}}
-		>
+		<NotificationsContext.Provider value={{ askForPermissions, fcmToken, notification, response, subscribeToTopic, unsubscribeFromTopic }}>
 			{children}
 		</NotificationsContext.Provider>
 	);

@@ -37,10 +37,7 @@ export default function StopsScreen() {
 	const stops = stopsContext.actions.getAllStopsGeoJsonFC();
 	const locationContext = useLocationsContext();
 	const insets = useSafeAreaInsets();
-	const [userLocation, setUserLocation] = useState({
-		latitude: locationContext.data.currentCords?.latitude ?? 0,
-		longitude: locationContext.data.currentCords?.longitude ?? 0,
-	});
+	const [userLocation, setUserLocation] = useState({ latitude: locationContext.data.currentCords?.latitude ?? 0, longitude: locationContext.data.currentCords?.longitude ?? 0 });
 	const [selectedStop, setSelectedStop] = useState<'' | string>('');
 	const [stopData, setStopData] = useState<Stop | undefined>(undefined);
 	const [initialCameraSet, setInitialCameraSet] = useState(false);
@@ -52,7 +49,7 @@ export default function StopsScreen() {
 	const mapRef = useRef<MapViewRef>(null);
 
 	//
-	// B, Transform data
+	// B, Fetch data
 
 	useEffect(() => {
 		if (locationContext.data.currentCords) {
@@ -78,12 +75,15 @@ export default function StopsScreen() {
 	// C. Handle actions
 
 	const handleStopPress = useCallback((stopId: string) => {
+		handleCenterMapByStopId();
 		setSelectedStop(stopId);
 		setFlaggedStopId(stopId);
 		stopDetailContext.actions.setActiveStopId(stopId);
 	}, []);
 
 	const handleStopDeselect = useCallback(() => {
+		handleCenterMap();
+		bottomSheetModalRef.current?.close();
 		setSelectedStop('');
 		setFlaggedStopId(null);
 		stopDetailContext.actions.setActiveStopId('');
@@ -95,6 +95,18 @@ export default function StopsScreen() {
 				animationDuration: 1000,
 				centerCoordinate: [userLocation.longitude, userLocation.latitude],
 				zoomLevel: 10,
+			});
+		}
+	}, []);
+
+	const handleCenterMapByStopId = useCallback(() => {
+		console.log('Centering map on stop:', stopData);
+		if (mapRef.current && stopData) {
+			console.log('Centering map on stop:', stopData);
+			(mapRef.current as unknown as any).setCamera({
+				animationDuration: 1000,
+				centerCoordinate: [stopData.lat, stopData.lon],
+				zoomLevel: 20,
 			});
 		}
 	}, []);

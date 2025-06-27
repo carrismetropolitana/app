@@ -4,12 +4,16 @@ import { ConsentPopup } from '@/components/common/ConsentDialog';
 import { HapticTab } from '@/components/HapticTab';
 import OfflineScreen from '@/components/OfflineScreen';
 import TabBarBackground from '@/components/ui/TabBarBackground';
+import { useLinesContext } from '@/contexts/Lines.context';
 import { useNotifications } from '@/contexts/Notifications.context';
+import { useProfileContext } from '@/contexts/Profile.context';
+import { useStopsContext } from '@/contexts/Stops.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { useNetInfo } from '@react-native-community/netinfo';
 import { IconArrowLoopRight, IconDots, IconMap, IconUserCircle } from '@tabler/icons-react-native';
-import { Tabs } from 'expo-router';
+import { useFonts } from 'expo-font';
+import { SplashScreen, Tabs } from 'expo-router';
 import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Platform } from 'react-native';
@@ -45,12 +49,32 @@ export default function TabLayout() {
 		},
 	});
 
+	const stopContext = useStopsContext();
+	const linesContext = useLinesContext();
+	const profileContext = useProfileContext();
+
+	const [loaded] = useFonts({
+		// eslint-disable-next-line
+		Inter: require('@/assets/fonts/Inter-VariableFont_opsz,wght.ttf'),
+		// eslint-disable-next-line
+		SpaceMono: require('@/assets/fonts/SpaceMono-Regular.ttf'),
+	});
+
+	//
+	// B. Transform data
+
+	useEffect(() => {
+		if (loaded && !stopContext.flags.is_loading && !linesContext.flags.is_loading && !profileContext.flags.is_loading) {
+			SplashScreen.hideAsync();
+		}
+	}, [loaded, stopContext.flags.is_loading, linesContext.flags.is_loading, profileContext.flags.is_loading]);
+
 	useEffect(() => {
 		notificationsContext.askForPermissions();
 	}, []);
 
 	//
-	// B. Render components
+	// C. Render components
 
 	return (
 		<>

@@ -27,7 +27,7 @@ export default function HomeScreen() {
 	// B. Render Components
 
 	return (
-		<View style={{ backgroundColor, flex: 1, paddingBottom: insets.bottom + 70 }}>
+		<View style={{ backgroundColor, flex: 1, paddingBottom: insets.bottom + 100 }}>
 			<Header />
 			<ScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} style={{ paddingTop: insets.top + 95 }}>
 				<FavoritesBar />
