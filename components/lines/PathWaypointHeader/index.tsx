@@ -1,10 +1,9 @@
 /* * */
 
-import type { Waypoint } from '@carrismetropolitana/api-types/network';
-
 import { IconDisplay } from '@/components/common/IconDisplay';
 import { useLocationsContext } from '@/contexts/Locations.context';
 import { useStopsContext } from '@/contexts/Stops.context';
+import { type Waypoint } from '@carrismetropolitana/api-types/network';
 import { Text } from '@rn-vui/themed';
 import { IconCheck, IconCopy } from '@tabler/icons-react-native';
 import { IconArrowUpRight } from '@tabler/icons-react-native';
@@ -55,6 +54,7 @@ export function PathWaypointHeader({ isFirstStop, isLastStop, isSelected, waypoi
 	const stopData = stopsContext.actions.getStopById(waypointData.stop_id);
 	const localityData = stopData?.locality_id ? locationsContext.actions.getLocalityById(stopData.locality_id) : undefined;
 	const municipalityData = stopData?.municipality_id ? locationsContext.actions.getMunicipalityById(stopData.municipality_id) : undefined;
+
 	//
 	// C. Handle actions
 
