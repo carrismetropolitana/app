@@ -1,28 +1,13 @@
 import { getApp } from '@react-native-firebase/app';
-import {
-	subscribeToTopic as firebaseSubscribeToTopic,
-	unsubscribeFromTopic as firebaseUnsubscribeFromTopic,
-	getInitialNotification,
-	getMessaging,
-	getToken,
-	onMessage,
-	onNotificationOpenedApp,
-	requestPermission,
-} from '@react-native-firebase/messaging';
+import { subscribeToTopic as firebaseSubscribeToTopic, unsubscribeFromTopic as firebaseUnsubscribeFromTopic, getInitialNotification, getMessaging, getToken, onMessage, onNotificationOpenedApp, requestPermission } from '@react-native-firebase/messaging';
 import * as Notifications from 'expo-notifications';
-import React, {
-	createContext,
-	ReactNode,
-	useContext,
-	useEffect,
-	useRef,
-	useState,
-} from 'react';
+import React, { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import { PermissionsAndroid, Platform } from 'react-native';
 
 interface NotificationsContextState {
 	actions: {
 		askForPermissions: () => Promise<null | string>
+		sendTestNotification: () => Promise<void>
 		subscribeToTopic: (topic: string) => Promise<void>
 		unsubscribeFromTopic: (topic: string) => Promise<void>
 	}
@@ -54,6 +39,8 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 			shouldPlaySound: true,
 			shouldSetBadge: true,
 			shouldShowAlert: true,
+			shouldShowBanner: true,
+			shouldShowList: true,
 		}),
 	});
 
@@ -82,15 +69,6 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 					console.warn('❌ Erro ao pedir permissão de notificações', err);
 					return null;
 				}
-			}
-		}
-
-		if (Platform.OS === 'ios') {
-			try {
-				await messaging.registerDeviceForRemoteMessages();
-			}
-			catch (err) {
-				console.warn('❌ Falha a registar no APNs', err);
 			}
 		}
 
@@ -143,20 +121,48 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 		askForPermissions();
 	}, []);
 
+	const sendTestNotification = async () => {
+		try {
+			await Notifications.scheduleNotificationAsync({
+				content: {
+					body: 'Isto é um push simulado no dispositivo!',
+					data: { teste: true },
+					sound: 'default',
+					title: '🚀 Teste Local',
+				},
+				trigger: {
+					seconds: 2,
+					type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+				},
+			});
+			console.log('✅ Test notification agendada');
+		}
+		catch (err) {
+			console.warn('❌ Falha a agendar test notification:', err);
+		}
+	};
+
 	useEffect(() => {
 		const app = getApp();
 		const messaging = getMessaging(app);
 
+		console.log('Inside of this 1: ');
+
 		msgListener.current = onMessage(messaging, async (msg) => {
+			console.log('Inside of this 2: ');
 			console.log('📲 [onMessage] FCM message:', msg);
 			setNotification(JSON.stringify(msg));
 
+			const title = (msg.notification?.title ?? msg.data?.title ?? 'Notificação') as string;
+			const body = (msg.notification?.body ?? msg.data?.body ?? 'Nova mensagem') as string;
+
 			try {
+				console.log('Inside of this 3: ');
 				await Notifications.scheduleNotificationAsync({
 					content: {
-						body: msg.notification?.body ?? 'Nova mensagem',
-						sound: true,
-						title: msg.notification?.title ?? 'Notificação',
+						body,
+						sound: 'default',
+						title,
 					},
 					trigger: null,
 				});
@@ -168,11 +174,13 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 		});
 
 		openedListener.current = onNotificationOpenedApp(messaging, (msg) => {
+			console.log('Inside of this 4: ');
 			console.log('🔓 [onNotificationOpenedApp]:', msg);
 			setResponse(JSON.stringify(msg));
 		});
 
 		getInitialNotification(messaging).then((msg) => {
+			console.log('Inside of this 5: ');
 			if (msg) {
 				console.log('🚀 [getInitialNotification]:', msg);
 				setResponse(JSON.stringify(msg));
@@ -180,6 +188,7 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 		});
 
 		return () => {
+			console.log('Inside of this 6: ');
 			msgListener.current?.();
 			openedListener.current?.();
 		};
@@ -190,6 +199,7 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 			value={{
 				actions: {
 					askForPermissions,
+					sendTestNotification,
 					subscribeToTopic,
 					unsubscribeFromTopic,
 				},

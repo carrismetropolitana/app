@@ -2,8 +2,8 @@
 	"name": "CMetropolitanaRN",
 	"version": "1.0.0",
 	"private": true,
-	"main": "expo-router/entry",
 	"type": "commonjs",
+	"main": "expo-router/entry",
 	"scripts": {
 		"android": "expo run:android --device",
 		"dev": "expo start --dev-client",

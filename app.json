@@ -23,10 +23,12 @@
 		"ios": {
 			"appleTeamId": "QGATT2W97P",
 			"bundleIdentifier": "pt.devcarrismetropolitana.app",
+			"entitlements": { "aps-environment": "development" },
 			"googleServicesFile": "./ios/GoogleService-Info.plist",
 			"infoPlist": {
 				"ITSAppUsesNonExemptEncryption": false,
-				"NSUserNotificationUsageDescription": "Precisamos enviar notificações para avisar sobre novidades."
+				"NSUserNotificationUsageDescription": "Precisamos enviar notificações para avisar sobre novidades.",
+				"UIBackgroundModes": ["remote-notification"]
 			},
 			"jsEngine": "hermes",
 			"supportsTablet": true
@@ -37,7 +39,12 @@
 		"orientation": "portrait",
 		"owner": "skasix00",
 		"plugins": [
-			"expo-notifications",
+			[
+				"expo-notifications",
+				{
+					"enableBackgroundRemoteNotifications": true
+				}
+			],
 			[
 				"expo-alternate-app-icons",
 				[
@@ -68,7 +75,6 @@
 				]
 			],
 			"expo-router",
-			"@maplibre/maplibre-react-native",
 			[
 				"expo-splash-screen",
 				{
@@ -98,7 +104,6 @@
 				}
 			],
 			"expo-localization",
-			"expo-alternate-app-icons",
 			"expo-audio"
 		],
 		"runtimeVersion": {

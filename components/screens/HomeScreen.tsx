@@ -5,7 +5,6 @@ import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Button } from '@rn-vui/themed';
 import { router } from 'expo-router';
-import { use } from 'i18next';
 import React, { useEffect } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -41,6 +40,7 @@ export default function HomeScreen() {
 				<View style={{ paddingHorizontal: 20 }}>
 					<WidgetCards />
 				</View>
+				<Button onPress={notificationsContext.actions.sendTestNotification}>Enviar Notificação</Button>
 				<Button
 					onPress={() => router.push('/profile')}
 					title="Personalizar"

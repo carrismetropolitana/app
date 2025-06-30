@@ -102,26 +102,24 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 		const fetchPatterns = async () => {
 			const patternName: Record<string, string> = {};
 			const patternVersionId: Record<string, string> = {};
-			let patternId = '';
+			let firstPatternId = '';
 			const patterns = linesDetailContext.data.line?.pattern_ids;
 
 			if (patterns) {
 				await Promise.all(
-					patterns.map(async (pattern) => {
+					patterns.map(async (pattern, idx) => {
 						const data = await fetchPattern(pattern);
 						if (data) {
 							patternName[pattern] = data.headsign;
 							patternVersionId[pattern] = data.version_id;
-							patternId = data.id;
+							if (idx === 0) firstPatternId = data.id;
 						}
 					}),
 				);
 				setPatternNames(patternName);
 				setPatternVersionIds(patternVersionId);
-				setSelectedPatternId(patternId);
-			}
-			else {
-				return;
+				// Only set selectedPatternId if it is null (first load)
+				setSelectedPatternId(prev => prev ?? firstPatternId);
 			}
 		};
 		fetchPatterns();
@@ -165,19 +163,12 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 
 	const handlePatternSelect = useCallback((item: string) => {
 		const versionId = patternVersionIds[item];
-		if (selectedVersionId === versionId) {
-			setSelectedVersionId(null);
-			linesDetailContext.actions.resetActivePattern();
-		}
-		else {
-			setSelectedVersionId(versionId);
-			setTimeout(() => {
-				linesDetailContext.actions.setActivePattern(versionId);
-			}, 0);
-		}
+		setSelectedPatternId(item);
 
-		console.log(`Selected pattern: ${item}, Version ID: ${versionId}`);
-		console.log(`Current active pattern: ${linesDetailContext.data.active_pattern?.id}`);
+		setSelectedVersionId(versionId);
+		setTimeout(() => {
+			linesDetailContext.actions.setActivePattern(versionId);
+		}, 0);
 	}, [patternVersionIds, selectedVersionId]);
 
 	const createWidgetSmartNotification = () => {
@@ -193,7 +184,17 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 		exitScreen();
 	};
 
-	console.log(`Current selected stop ID: ${selectedStopId}`);
+	useEffect(() => {
+		if (selectedPatternId) {
+			console.log(`selectedPatternId changed: ${selectedPatternId}`);
+		}
+	}, [selectedPatternId]);
+
+	useEffect(() => {
+		if (linesDetailContext.data.active_pattern?.id) {
+			console.log(`active_pattern changed: ${linesDetailContext.data.active_pattern.id}`);
+		}
+	}, [linesDetailContext.data.active_pattern?.id]);
 
 	//
 	// D. Render Components
