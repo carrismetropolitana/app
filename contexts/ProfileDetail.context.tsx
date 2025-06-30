@@ -137,7 +137,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const getProfileFromCloud = useCallback(async (deviceId: string): Promise<Account | null> => {
 		if (!consentContext.data.enabled_functional || !dataApiTokenState) return null;
 		try {
-			const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/`, {
+			const response = await fetch(`${Routes.API_ACCOUNTS}/`, {
 				headers: {
 					'Content-Type': 'application/json',
 					'Cookie': `session_token=${dataApiTokenState}`,
@@ -170,7 +170,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const saveProfileToCloud = useCallback(async (profile: Account) => {
 		if (!consentContext.data.enabled_functional || !dataApiTokenState) return;
 		try {
-			await fetch(`${Routes.DEV_API_ACCOUNTS}`, {
+			await fetch(`${Routes.API_ACCOUNTS}`, {
 				body: JSON.stringify(profile),
 				headers: {
 					'Content-Type': 'application/json',
@@ -357,7 +357,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		try {
 			let image;
 			do {
-				const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/persona/`);
+				const response = await fetch(`${Routes.API_ACCOUNTS}/persona/`);
 				image = await response.json();
 				if (image.url && personaHistory.includes(image.url)) {
 					console.log('Image already exists in history, refetching...');
@@ -425,7 +425,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		// console.log('Updating profile on cloud:', JSON.stringify(cleanedProfile, null, 2));
 
 		try {
-			await fetch(`${Routes.DEV_API_ACCOUNTS}`, {
+			await fetch(`${Routes.API_ACCOUNTS}`, {
 				body: JSON.stringify(cleanedProfile),
 				headers: {
 					'Content-Type': 'application/json',
@@ -558,7 +558,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		if (!consentContext.data.enabled_functional || !dataApiTokenState) return;
 		const user_id = dataProfileState?.devices[0].device_id || '';
 		try {
-			await fetch(`${Routes.DEV_API_ACCOUNTS}/${user_id}/smart-notifications`, {
+			await fetch(`${Routes.API_ACCOUNTS}/${user_id}/smart-notifications`, {
 				body: JSON.stringify(notification),
 				headers: {
 					'Content-Type': 'application/json',
@@ -791,7 +791,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			widgets: [],
 		};
 
-		const apiResponse = await fetch(`${Routes.DEV_API_ACCOUNTS}`, {
+		const apiResponse = await fetch(`${Routes.API_ACCOUNTS}`, {
 			body: JSON.stringify(newProfileStructure),
 			headers: { 'Content-Type': 'application/json' },
 			method: 'POST',

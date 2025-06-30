@@ -70,7 +70,7 @@ export default function TabLayout() {
 	}, [loaded, stopContext.flags.is_loading, linesContext.flags.is_loading, profileContext.flags.is_loading]);
 
 	useEffect(() => {
-		notificationsContext.askForPermissions();
+		notificationsContext.actions.askForPermissions();
 	}, []);
 
 	//

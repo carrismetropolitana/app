@@ -291,7 +291,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 			let response: Response;
 			try {
-				response = await fetch(`${Routes.DEV_API_ACCOUNTS}/persona/`);
+				response = await fetch(`${Routes.API_ACCOUNTS}/persona/`);
 			}
 			catch (networkError) {
 				console.error('Network error fetching persona:', networkError);
@@ -376,7 +376,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	// Fetch profile from cloud
 	const getProfileFromCloud = async () => {
 		if (!consentContext.data.enabled_functional && !dataApiTokenState) return;
-		const response = await fetch(`${Routes.DEV_API_ACCOUNTS}`, { headers: { 'Content-Type': 'application/json', 'Cookie': `session_token=${dataApiTokenState}` } });
+		const response = await fetch(`${Routes.API_ACCOUNTS}`, { headers: { 'Content-Type': 'application/json', 'Cookie': `session_token=${dataApiTokenState}` } });
 		if (!response.ok) {
 			alert('Failed to fetch profile from cloud. Please try again later.');
 			console.error('Failed to fetch profile from cloud:', response);
@@ -413,7 +413,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		if (!consentContext.data.enabled_functional || !dataApiTokenState) return;
 		const { _id, created_at, role, updated_at, ...cleanedProfile } = profile;
 		try {
-			await fetch(`${Routes.DEV_API_ACCOUNTS}`, {
+			await fetch(`${Routes.API_ACCOUNTS}`, {
 				body: JSON.stringify(cleanedProfile),
 				headers: {
 					'Content-Type': 'application/json',
@@ -485,7 +485,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	// Unified widget toggle function
 	const createWidget = async (params: WidgetToggleParams) => {
 		try {
-			if (!consentContext.data.enabled_functional) return;
+			if (!consentContext.data.enabled_functional && !dataApiTokenState) return;
 			const allWidgets = (dataProfileState?.widgets || []) as AccountWidget[];
 
 			if (params.type === 'lines') {
@@ -510,18 +510,24 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 						});
 					}
 				});
-				setDataWidgetLinesState(updatedLineWidgets);
 				const mergedWidgets = [...otherWidgets, ...updatedLineWidgets];
 				const updatedProfile: Account = {
 					...(dataProfileState as Account || {}),
 					widgets: mergedWidgets,
 				};
-				setDataProfileState(updatedProfile);
-				await localStorage.setItem(
-					LOCAL_STORAGE_KEYS.profile,
-					JSON.stringify(updatedProfile) || '',
-				);
-				await updateProfileOnCloud(updatedProfile);
+				try {
+					await localStorage.setItem(
+						LOCAL_STORAGE_KEYS.profile,
+						JSON.stringify(updatedProfile) || '',
+					);
+					await updateProfileOnCloud(updatedProfile);
+					setDataWidgetLinesState(updatedLineWidgets);
+					setDataProfileState(updatedProfile);
+				}
+				catch (error) {
+					console.error('Error updating line widgets:', error);
+					alert('An error occurred while updating line widgets. Please try again.');
+				}
 			}
 			else if (params.type === 'stops') {
 				// STOPS
@@ -555,18 +561,18 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 						settings: { display_order: newDisplayOrder, is_open: true },
 					});
 				}
-				setDataWidgetStopsState(updatedStopWidgets);
 				const mergedWidgets = [...otherWidgets, ...updatedStopWidgets];
-				const updatedProfile: Account = {
-					...(dataProfileState as Account || {}),
-					widgets: mergedWidgets,
-				};
-				setDataProfileState(updatedProfile);
-				await localStorage.setItem(
-					LOCAL_STORAGE_KEYS.profile,
-					JSON.stringify(updatedProfile) || '',
-				);
-				await updateProfileOnCloud(updatedProfile);
+				const updatedProfile: Account = { ...(dataProfileState as Account || {}), widgets: mergedWidgets };
+				try {
+					await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
+					await updateProfileOnCloud(updatedProfile);
+					setDataWidgetStopsState(updatedStopWidgets);
+					setDataProfileState(updatedProfile);
+				}
+				catch (error) {
+					console.error('Error updating stop widgets:', error);
+					alert('An error occurred while updating stop widgets. Please try again.');
+				}
 			}
 			else if (params.type === 'smart_notifications') {
 				// SMART NOTIFICATIONS
@@ -601,38 +607,26 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				if (dataApiTokenState) {
 					try {
 						const postResponse = await postSmartNotificationToCloud(newWidgetSmartNotification);
-						if (postResponse.ok) {
-							await messagingLib().subscribeToTopic(id);
-							await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(postResponse) || '');
-							await updateProfileOnCloud(postResponse);
-							setDataProfileState(postResponse);
+						if (!postResponse || !postResponse.widgets) {
+							alert('Failed to create smart notification. Please try again.');
+							return;
 						}
-						else {
-							const mergedWidgets = [...otherWidgets, ...updatedSmartWidgets];
-							const updatedProfile: Account = {
-								...(dataProfileState as Account || {}),
-								widgets: mergedWidgets,
-							};
-							setDataProfileState(updatedProfile);
-							await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
-							await updateProfileOnCloud(updatedProfile);
-						}
+						await messagingLib().subscribeToTopic(id);
+						await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(postResponse) || '');
+						await updateProfileOnCloud(postResponse);
+						setDataProfileState(postResponse);
+						setDataWidgetSmartNotificationsState(updatedSmartWidgets);
 					}
 					catch (error) {
 						console.error('Error subscribing to topic or updating profile:', error);
 						alert('An error occurred while subscribing to smart notification.');
+						return;
 					}
 				}
 				else {
-					const mergedWidgets = [...otherWidgets, ...updatedSmartWidgets];
-					const updatedProfile: Account = {
-						...(dataProfileState as Account || {}),
-						widgets: mergedWidgets,
-					};
-					// setDataProfileState(updatedProfile);
-					await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
+					alert('No API token available. Please try again.');
+					return;
 				}
-				setDataWidgetSmartNotificationsState(updatedSmartWidgets);
 			}
 		}
 		catch (error) {
@@ -644,7 +638,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const postSmartNotificationToCloud = async (notification: AccountWidget) => {
 		if (!consentContext.data.enabled_functional || !dataApiTokenState) return;
 		try {
-			const response = await fetch(`${Routes.DEV_API_ACCOUNTS}/smart-notifications`, {
+			const response = await fetch(`${Routes.API_ACCOUNTS}/smart-notifications`, {
 				body: JSON.stringify(notification),
 				headers: {
 					'Content-Type': 'application/json',
@@ -734,7 +728,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			widgets: [],
 		};
 
-		const apiResponse = await fetch(`${Routes.DEV_API_ACCOUNTS}`, {
+		const apiResponse = await fetch(`${Routes.API_ACCOUNTS}`, {
 			body: JSON.stringify(newProfileStructure),
 			headers: { 'Content-Type': 'application/json' },
 			method: 'POST',

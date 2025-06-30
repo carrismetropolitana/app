@@ -5,6 +5,7 @@ import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Button } from '@rn-vui/themed';
 import { router } from 'expo-router';
+import { use } from 'i18next';
 import React, { useEffect } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -22,6 +23,12 @@ export default function HomeScreen() {
 	const backgroundColor = themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background;
 	const buttonBackgroundColor = themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.primary : themeContext.theme.darkColors?.primary;
 	const titleColor = themeContext.theme.mode === 'light' ? theming.colorSystemText900 : theming.colorSystemText300;
+
+	const notificationsContext = useNotifications();
+
+	useEffect(() => {
+		notificationsContext.actions.subscribeToTopic('Test');
+	}, []);
 
 	//
 	// B. Render Components

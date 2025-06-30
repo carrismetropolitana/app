@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getApp } from '@react-native-firebase/app';
 import {
 	subscribeToTopic as firebaseSubscribeToTopic,
@@ -19,15 +18,19 @@ import React, {
 	useRef,
 	useState,
 } from 'react';
-import { Platform } from 'react-native';
+import { PermissionsAndroid, Platform } from 'react-native';
 
 interface NotificationsContextState {
-	askForPermissions: () => Promise<null | string>
-	fcmToken: null | string
-	notification: null | string
-	response: null | string
-	subscribeToTopic: (topic: string) => Promise<void>
-	unsubscribeFromTopic: (topic: string) => Promise<void>
+	actions: {
+		askForPermissions: () => Promise<null | string>
+		subscribeToTopic: (topic: string) => Promise<void>
+		unsubscribeFromTopic: (topic: string) => Promise<void>
+	}
+	data: {
+		fcmToken: null | string
+		notification: null | string
+		response: null | string
+	}
 }
 
 const NotificationsContext = createContext<NotificationsContextState | undefined>(undefined);
@@ -39,36 +42,67 @@ export function useNotifications() {
 }
 
 export const NotificationsProvider = ({ children }: { children: ReactNode }) => {
-	const TOKEN_STORAGE_KEY = '@notifications/fcmToken';
 	const [fcmToken, setFcmToken] = useState<null | string>(null);
 	const [notification, setNotification] = useState<null | string>(null);
 	const [response, setResponse] = useState<null | string>(null);
 
-	const msgListener = useRef<() => void>();
-	const openedListener = useRef<() => void>();
+	const msgListener = useRef<(() => void) | null>(null);
+	const openedListener = useRef<(() => void) | null>(null);
+
+	Notifications.setNotificationHandler({
+		handleNotification: async () => ({
+			shouldPlaySound: true,
+			shouldSetBadge: true,
+			shouldShowAlert: true,
+		}),
+	});
 
 	const askForPermissions = async (): Promise<null | string> => {
-		const stored = await AsyncStorage.getItem(TOKEN_STORAGE_KEY);
-		if (stored) {
-			setFcmToken(stored);
-			return stored;
-		}
-
 		const app = getApp();
 		const messaging = getMessaging(app);
 
-		const newStatus = await requestPermission(messaging);
-		const authStatus = newStatus;
-		const enabled = authStatus === 1 || authStatus === 2;
+		if (Platform.OS === 'android') {
+			if (Platform.Version >= 33) {
+				try {
+					const granted = await PermissionsAndroid.request(
+						PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+						{
+							buttonPositive: 'Permitir',
+							message: 'A CarrisMetroplitana precisa de permissão para enviar notificações.',
+							title: 'Permissão de Notificações',
+						},
+					);
 
+					if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+						console.warn('❌ Permissão de notificações não concedida');
+						return null;
+					}
+				}
+				catch (err) {
+					console.warn('❌ Erro ao pedir permissão de notificações', err);
+					return null;
+				}
+			}
+		}
+
+		if (Platform.OS === 'ios') {
+			try {
+				await messaging.registerDeviceForRemoteMessages();
+			}
+			catch (err) {
+				console.warn('❌ Falha a registar no APNs', err);
+			}
+		}
+
+		const authStatus = await requestPermission(messaging);
+		const enabled = authStatus === 1 || authStatus === 2;
 		if (!enabled) {
-			console.warn('❌ FCM messaging permission denied');
+			console.warn('❌ Permissão Firebase não concedida');
 			return null;
 		}
 
 		const token = await getToken(messaging);
 		setFcmToken(token);
-		await AsyncStorage.setItem(TOKEN_STORAGE_KEY, token);
 		console.log('✅ FCM Token:', token);
 
 		if (Platform.OS === 'android') {
@@ -89,7 +123,7 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 			console.log(`✅ Subscribed to topic "${topic}"`);
 		}
 		catch (e) {
-			console.warn(`❌ Failed to subscribe to "${topic}"`, e);
+			console.warn(`❌ Falha ao subscrever "${topic}"`, e);
 		}
 	};
 
@@ -101,7 +135,7 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 			console.log(`✅ Unsubscribed from topic "${topic}"`);
 		}
 		catch (e) {
-			console.warn(`❌ Failed to unsubscribe from "${topic}"`, e);
+			console.warn(`❌ Falha ao desinscrever "${topic}"`, e);
 		}
 	};
 
@@ -111,25 +145,36 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 
 	useEffect(() => {
 		const app = getApp();
-		const modularMessaging = getMessaging(app);
+		const messaging = getMessaging(app);
 
-		modularMessaging.setBackgroundMessageHandler(async (remoteMessage) => {
-			console.log('📥 Background FCM message:', remoteMessage);
-		});
-
-		msgListener.current = onMessage(modularMessaging, (msg) => {
-			console.log('📲 Firebase foreground message:', msg);
+		msgListener.current = onMessage(messaging, async (msg) => {
+			console.log('📲 [onMessage] FCM message:', msg);
 			setNotification(JSON.stringify(msg));
+
+			try {
+				await Notifications.scheduleNotificationAsync({
+					content: {
+						body: msg.notification?.body ?? 'Nova mensagem',
+						sound: true,
+						title: msg.notification?.title ?? 'Notificação',
+					},
+					trigger: null,
+				});
+				console.log('📲 [onMessage] Local notification agendada');
+			}
+			catch (err) {
+				console.warn('❌ [onMessage] Falha a agendar local:', err);
+			}
 		});
 
-		openedListener.current = onNotificationOpenedApp(modularMessaging, (msg) => {
-			console.log('🔓 Opened from background state:', msg);
+		openedListener.current = onNotificationOpenedApp(messaging, (msg) => {
+			console.log('🔓 [onNotificationOpenedApp]:', msg);
 			setResponse(JSON.stringify(msg));
 		});
 
-		getInitialNotification(modularMessaging).then((msg) => {
+		getInitialNotification(messaging).then((msg) => {
 			if (msg) {
-				console.log('🚀 Opened from quit state:', msg);
+				console.log('🚀 [getInitialNotification]:', msg);
 				setResponse(JSON.stringify(msg));
 			}
 		});
@@ -141,7 +186,20 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 	}, []);
 
 	return (
-		<NotificationsContext.Provider value={{ askForPermissions, fcmToken, notification, response, subscribeToTopic, unsubscribeFromTopic }}>
+		<NotificationsContext.Provider
+			value={{
+				actions: {
+					askForPermissions,
+					subscribeToTopic,
+					unsubscribeFromTopic,
+				},
+				data: {
+					fcmToken,
+					notification,
+					response,
+				},
+			}}
+		>
 			{children}
 		</NotificationsContext.Provider>
 	);
