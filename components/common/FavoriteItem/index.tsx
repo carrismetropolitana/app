@@ -68,11 +68,13 @@ export default function FavoriteItemComponent({ data, drag, isActive }: Favorite
 	const patternIds = getPatternIds(data);
 
 	if (isLine && typeof patternId === 'string') {
-		const beforeUnderscore = patternId.split('_')[0];
-		linkHref = `/line/${beforeUnderscore}`;
+		const favoriteLineWidgetID = data.data.type === 'lines' ? data.settings?.display_order : null;
+		// const beforeUnderscore = patternId.split('_')[0];
+		linkHref = `/addFavoriteLine/?widgetId=${favoriteLineWidgetID}`;
 	}
 	else if (isStop && patternIds && stopId) {
-		linkHref = `/stop/${stopId}`;
+		const favoriteStopWidgetID = data.data.type === 'stops' ? data.settings?.display_order : null;
+		linkHref = `/addFavoriteStop/?widgetId=${favoriteStopWidgetID}`;
 	}
 	else if (isSmartNotification) {
 		const smartNotificationData = data.data.type === 'smart_notifications' ? data.data : null;

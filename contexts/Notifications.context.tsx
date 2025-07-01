@@ -1,7 +1,25 @@
 import { getApp } from '@react-native-firebase/app';
-import { subscribeToTopic as firebaseSubscribeToTopic, unsubscribeFromTopic as firebaseUnsubscribeFromTopic, getInitialNotification, getMessaging, getToken, onMessage, onNotificationOpenedApp, requestPermission } from '@react-native-firebase/messaging';
+import {
+	subscribeToTopic as firebaseSubscribeToTopic,
+	unsubscribeFromTopic as firebaseUnsubscribeFromTopic,
+	getInitialNotification,
+	getMessaging,
+	getToken,
+	isDeviceRegisteredForRemoteMessages,
+	onMessage,
+	onNotificationOpenedApp,
+	registerDeviceForRemoteMessages,
+	requestPermission,
+} from '@react-native-firebase/messaging';
 import * as Notifications from 'expo-notifications';
-import React, { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
+import React, {
+	createContext,
+	ReactNode,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import { PermissionsAndroid, Platform } from 'react-native';
 
 interface NotificationsContextState {
@@ -31,183 +49,183 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 	const [notification, setNotification] = useState<null | string>(null);
 	const [response, setResponse] = useState<null | string>(null);
 
-	const msgListener = useRef<(() => void) | null>(null);
-	const openedListener = useRef<(() => void) | null>(null);
+	const expoListenerRef = useRef<Notifications.EventSubscription>();
+
+	const app = getApp();
+	const messaging = getMessaging(app);
 
 	Notifications.setNotificationHandler({
 		handleNotification: async () => ({
 			shouldPlaySound: true,
 			shouldSetBadge: true,
 			shouldShowAlert: true,
-			shouldShowBanner: true,
-			shouldShowList: true,
 		}),
 	});
 
 	const askForPermissions = async (): Promise<null | string> => {
-		const app = getApp();
-		const messaging = getMessaging(app);
-
-		if (Platform.OS === 'android') {
-			if (Platform.Version >= 33) {
-				try {
-					const granted = await PermissionsAndroid.request(
-						PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
-						{
-							buttonPositive: 'Permitir',
-							message: 'A CarrisMetroplitana precisa de permissão para enviar notificações.',
-							title: 'Permissão de Notificações',
-						},
-					);
-
-					if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
-						console.warn('❌ Permissão de notificações não concedida');
-						return null;
-					}
-				}
-				catch (err) {
-					console.warn('❌ Erro ao pedir permissão de notificações', err);
-					return null;
-				}
+		if (Platform.OS === 'ios') {
+			const { status } = await Notifications.requestPermissionsAsync();
+			if (status !== 'granted') {
+				console.warn('🔒 iOS notification permission not granted');
+				return null;
 			}
+		}
+
+		if (Platform.OS === 'android' && Platform.Version >= 33) {
+			const granted = await PermissionsAndroid.request(
+				PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+				{
+					buttonPositive: 'Permitir',
+					message: 'A Carris Metropolitana precisa de permissão para enviar notificações.',
+					title: 'Permissão de Notificações',
+				},
+			);
+			if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+				console.warn('❌ Android notification permission not granted');
+				return null;
+			}
+		}
+
+		if (!(await isDeviceRegisteredForRemoteMessages(messaging))) {
+			await registerDeviceForRemoteMessages(messaging);
 		}
 
 		const authStatus = await requestPermission(messaging);
 		const enabled = authStatus === 1 || authStatus === 2;
 		if (!enabled) {
-			console.warn('❌ Permissão Firebase não concedida');
+			console.warn('❌ Firebase permission not granted');
 			return null;
 		}
 
 		const token = await getToken(messaging);
-		setFcmToken(token);
-		console.log('✅ FCM Token:', token);
-
-		if (Platform.OS === 'android') {
-			await Notifications.setNotificationChannelAsync('default', {
-				importance: Notifications.AndroidImportance.MAX,
-				name: 'default',
-			});
-		}
-
 		return token;
 	};
-
-	const subscribeToTopic = async (topic: string) => {
-		try {
-			const app = getApp();
-			const messaging = getMessaging(app);
-			await firebaseSubscribeToTopic(messaging, topic);
-			console.log(`✅ Subscribed to topic "${topic}"`);
-		}
-		catch (e) {
-			console.warn(`❌ Falha ao subscrever "${topic}"`, e);
-		}
-	};
-
-	const unsubscribeFromTopic = async (topic: string) => {
-		try {
-			const app = getApp();
-			const messaging = getMessaging(app);
-			await firebaseUnsubscribeFromTopic(messaging, topic);
-			console.log(`✅ Unsubscribed from topic "${topic}"`);
-		}
-		catch (e) {
-			console.warn(`❌ Falha ao desinscrever "${topic}"`, e);
-		}
-	};
-
-	useEffect(() => {
-		askForPermissions();
-	}, []);
 
 	const sendTestNotification = async () => {
 		try {
 			await Notifications.scheduleNotificationAsync({
 				content: {
 					body: 'Isto é um push simulado no dispositivo!',
-					data: { teste: true },
+					data: { localTest: true },
 					sound: 'default',
 					title: '🚀 Teste Local',
+					vibrate: [100, 200, 300],
 				},
-				trigger: {
-					seconds: 2,
-					type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
-				},
+				trigger: null,
 			});
-			console.log('✅ Test notification agendada');
+			console.log('✅ Test local notification scheduled');
 		}
 		catch (err) {
-			console.warn('❌ Falha a agendar test notification:', err);
+			console.warn('❌ Error scheduling test notification:', err);
+		}
+	};
+
+	const subscribeToTopic = async (topic: string) => {
+		try {
+			await firebaseSubscribeToTopic(messaging, topic);
+			console.log(`✅ Subscribed to topic "${topic}"`);
+		}
+		catch (e) {
+			console.warn(`❌ Failed to subscribe to "${topic}"`, e);
+		}
+	};
+
+	const unsubscribeFromTopic = async (topic: string) => {
+		try {
+			await firebaseUnsubscribeFromTopic(messaging, topic);
+			console.log(`✅ Unsubscribed from topic "${topic}"`);
+		}
+		catch (e) {
+			console.warn(`❌ Failed to unsubscribe from "${topic}"`, e);
 		}
 	};
 
 	useEffect(() => {
-		const app = getApp();
-		const messaging = getMessaging(app);
+		let isMounted = true;
 
-		console.log('Inside of this 1: ');
-
-		msgListener.current = onMessage(messaging, async (msg) => {
-			console.log('Inside of this 2: ');
-			console.log('📲 [onMessage] FCM message:', msg);
-			setNotification(JSON.stringify(msg));
-
-			const title = (msg.notification?.title ?? msg.data?.title ?? 'Notificação') as string;
-			const body = (msg.notification?.body ?? msg.data?.body ?? 'Nova mensagem') as string;
-
+		(async () => {
 			try {
-				console.log('Inside of this 3: ');
-				await Notifications.scheduleNotificationAsync({
-					content: {
-						body,
-						sound: 'default',
-						title,
-					},
-					trigger: null,
+				const token = await askForPermissions();
+				if (!token || !isMounted) return;
+				setFcmToken(token);
+				console.log('✅ FCM Token:', token);
+
+				// Subscribes after obtaining token
+				await subscribeToTopic('test');
+
+				// Handle tap when killed
+				const initial = await getInitialNotification(messaging);
+				if (initial && isMounted) {
+					console.log('🚀 getInitialNotification fired:', initial);
+					setResponse(JSON.stringify(initial));
+				}
+
+				// Firebase: foreground messages
+				const unsubMsg = onMessage(messaging, async (msg) => {
+					console.log('📲 [onMessage] FCM message:', msg);
+					if (Platform.OS === 'ios') {
+						console.log('📲 [onMessage] (iOS) raw payload:', JSON.stringify(msg));
+					}
+					setNotification(JSON.stringify(msg));
+					try {
+						await Notifications.scheduleNotificationAsync({
+							content: {
+								body: msg.notification?.body ?? 'Nova mensagem',
+								data: msg.data || {},
+								sound: 'default',
+								title: msg.notification?.title ?? 'Notificação',
+							},
+							trigger: null,
+						});
+						console.log('🔔 [onMessage] Local notification scheduled');
+					}
+					catch (err) {
+						console.error('❌ [onMessage] Failed to schedule local notification:', err);
+					}
 				});
-				console.log('📲 [onMessage] Local notification agendada');
-			}
-			catch (err) {
-				console.warn('❌ [onMessage] Falha a agendar local:', err);
-			}
-		});
 
-		openedListener.current = onNotificationOpenedApp(messaging, (msg) => {
-			console.log('Inside of this 4: ');
-			console.log('🔓 [onNotificationOpenedApp]:', msg);
-			setResponse(JSON.stringify(msg));
-		});
+				// Firebase: background/killed taps
+				const unsubOpen = onNotificationOpenedApp(messaging, (msg) => {
+					console.log('🔓 [onNotificationOpenedApp]:', msg);
+					if (Platform.OS === 'ios') {
+						console.log('🔓 [onNotificationOpenedApp] (iOS) raw payload:', JSON.stringify(msg));
+					}
+					setResponse(JSON.stringify(msg));
+				});
 
-		getInitialNotification(messaging).then((msg) => {
-			console.log('Inside of this 5: ');
-			if (msg) {
-				console.log('🚀 [getInitialNotification]:', msg);
-				setResponse(JSON.stringify(msg));
+				// Expo listener for receipt in foreground
+				expoListenerRef.current = Notifications.addNotificationReceivedListener((n) => {
+					console.log('🔔 [Expo] Notification received via Expo listener:', n);
+					if (Platform.OS === 'ios') {
+						console.log('🔔 [Expo] (iOS) notification payload:', JSON.stringify(n));
+					}
+					setNotification(JSON.stringify(n));
+				});
+
+				// Extra: Log when permissions are checked
+				Notifications.getPermissionsAsync().then((perm) => {
+					console.log('🔍 [Permissions] Notification permissions:', perm);
+				});
+
+				// Cleanup on unmount
+				return () => {
+					isMounted = false;
+					unsubMsg();
+					unsubOpen();
+					expoListenerRef.current?.remove();
+				};
 			}
-		});
-
-		return () => {
-			console.log('Inside of this 6: ');
-			msgListener.current?.();
-			openedListener.current?.();
-		};
+			catch (error) {
+				console.error('❌ FCM setup failed:', error);
+			}
+		})();
 	}, []);
 
 	return (
 		<NotificationsContext.Provider
 			value={{
-				actions: {
-					askForPermissions,
-					sendTestNotification,
-					subscribeToTopic,
-					unsubscribeFromTopic,
-				},
-				data: {
-					fcmToken,
-					notification,
-					response,
-				},
+				actions: { askForPermissions, sendTestNotification, subscribeToTopic, unsubscribeFromTopic },
+				data: { fcmToken, notification, response },
 			}}
 		>
 			{children}

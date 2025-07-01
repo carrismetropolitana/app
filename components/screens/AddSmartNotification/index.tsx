@@ -172,6 +172,7 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 	}, [patternVersionIds, selectedVersionId]);
 
 	const createWidgetSmartNotification = () => {
+		console.log(selectedPatternId, linesDetailContext.data.active_pattern?.id, selectedStopId);
 		profileContext.actions.createWidget({
 			end_time: endingSeconds,
 			pattern_id: selectedPatternId ?? '',
@@ -183,18 +184,6 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 		});
 		exitScreen();
 	};
-
-	useEffect(() => {
-		if (selectedPatternId) {
-			console.log(`selectedPatternId changed: ${selectedPatternId}`);
-		}
-	}, [selectedPatternId]);
-
-	useEffect(() => {
-		if (linesDetailContext.data.active_pattern?.id) {
-			console.log(`active_pattern changed: ${linesDetailContext.data.active_pattern.id}`);
-		}
-	}, [linesDetailContext.data.active_pattern?.id]);
 
 	//
 	// D. Render Components
@@ -274,7 +263,19 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 				</View>
 			</View>
 			<TestingNeedWarning />
-			<Button buttonStyle={addFavoriteLineStyles.saveButton} onPress={() => createWidgetSmartNotification()} title="Guardar" titleStyle={addFavoriteLineStyles.saveButtonText} />
+			<Button
+				buttonStyle={addFavoriteLineStyles.saveButton}
+				title="Guardar"
+				titleStyle={addFavoriteLineStyles.saveButtonText}
+				onPress={() => {
+					if (Id) {
+						profileContext.actions.updateWidget(Id);
+					}
+					else {
+						createWidgetSmartNotification();
+					}
+				}}
+			/>
 			<Button buttonStyle={addFavoriteLineStyles.saveButton} onPress={exitScreen} title="Eliminar" titleStyle={addFavoriteLineStyles.saveButtonText} />
 			<LinesListChooserModal isVisible={lineChooserVisibility} onBackdropPress={() => setLineChooserVisibility(!lineChooserVisibility)} />
 		</ScrollView>

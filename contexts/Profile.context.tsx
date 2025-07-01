@@ -56,6 +56,7 @@ interface ProfileContextState {
 		setSelectedLine: (line: string) => void
 		toggleFavoriteItem: (type: 'lines' | 'stops', id: string) => Promise<void>
 		updateLocalProfile: (profile: Account) => Promise<void>
+		updateWidget: (id: string) => Promise<void>
 	}
 	counters: {
 		favorite_lines: number
@@ -117,6 +118,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const [dataAccentColorState, setDataAccentColorState] = useState<null | string>(null);
 	const [dataInterestsState, setDataInterestsState] = useState<string[]>([]);
 	const [flagIsLoadingState, setFlagIsLoadingState] = useState<ProfileContextState['flags']['is_loading']>(true);
+
+	// console.log('==> dataAPITokwn State', dataProfileState?.devices[0].device_id);
 
 	//
 	// C. Fetch Data
@@ -437,7 +440,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		await Promise.all(
 			widgets
 				.filter(widget => widget.data.type === 'smart_notifications' && widget.data.id)
-				.map(widget => notificationContext.subscribeToTopic(widget.data.type === 'smart_notifications' ? widget.data.id : '')),
+				.map(widget => notificationContext.actions.subscribeToTopic(widget.data.type === 'smart_notifications' ? widget.data.id : '')),
 		);
 	};
 	// Toggle favorite item (line or stop) and update profile with error handling
@@ -487,26 +490,24 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		try {
 			if (!consentContext.data.enabled_functional && !dataApiTokenState) return;
 			const allWidgets = (dataProfileState?.widgets || []) as AccountWidget[];
-
 			if (params.type === 'lines') {
-				// LINES
+				if (!params.pattern_ids || params.pattern_ids.length === 0) {
+					return;
+				}
 				const lineWidgets = allWidgets.filter(w => w.data && w.data.type === 'lines');
 				const otherWidgets = allWidgets.filter(w => !w.data || w.data.type !== 'lines');
 				const updatedLineWidgets = [...lineWidgets];
 				params.pattern_ids.forEach((pattern_id) => {
-					const index = updatedLineWidgets.findIndex(
+					const exists = updatedLineWidgets.some(
 						widget =>
 							widget.data
 							&& widget.data.type === 'lines'
 							&& widget.data.pattern_id === pattern_id,
 					);
-					if (index !== -1) {
-						updatedLineWidgets.splice(index, 1);
-					}
-					else {
+					if (!exists) {
 						updatedLineWidgets.push({
 							data: { pattern_id, type: 'lines' },
-							settings: { display_order: null, is_open: true, label: null },
+							settings: { display_order: otherWidgets.length + updatedLineWidgets.length + 1, is_open: true },
 						});
 					}
 				});
@@ -530,35 +531,22 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				}
 			}
 			else if (params.type === 'stops') {
-				// STOPS
+				if (!params.pattern_ids || params.pattern_ids.length === 0) {
+					return;
+				}
 				const stopWidgets = allWidgets.filter(w => w.data && w.data.type === 'stops');
 				const otherWidgets = allWidgets.filter(w => !w.data || w.data.type !== 'stops');
 				const updatedStopWidgets = [...stopWidgets];
-				const stopWidgetIndex = updatedStopWidgets.findIndex(
+				const exists = updatedStopWidgets.some(
 					widget =>
 						widget.data
 						&& widget.data.type === 'stops'
 						&& widget.data.stop_id === params.stopId,
 				);
-				if (stopWidgetIndex !== -1) {
-					const widget = updatedStopWidgets[stopWidgetIndex];
-					updatedStopWidgets[stopWidgetIndex] = {
-						...widget,
-						data: {
-							...(widget.data.type === 'stops'
-								? { ...widget.data, pattern_ids: params.pattern_ids }
-								: widget.data),
-						},
-					};
-					if (!params.pattern_ids.length) {
-						updatedStopWidgets.splice(stopWidgetIndex, 1);
-					}
-				}
-				else {
-					const newDisplayOrder = updatedStopWidgets.length;
+				if (!exists) {
 					updatedStopWidgets.push({
 						data: { pattern_ids: params.pattern_ids, stop_id: params.stopId, type: 'stops' as const },
-						settings: { display_order: newDisplayOrder, is_open: true },
+						settings: { display_order: otherWidgets.length + updatedStopWidgets.length + 1, is_open: true },
 					});
 				}
 				const mergedWidgets = [...otherWidgets, ...updatedStopWidgets];
@@ -575,11 +563,11 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				}
 			}
 			else if (params.type === 'smart_notifications') {
-				// SMART NOTIFICATIONS
 				const id = uuid.v4();
 				const smartNotificationWidgets = allWidgets.filter(
 					w => w.data && w.data.type === 'smart_notifications',
 				);
+
 				const otherWidgets = allWidgets.filter(
 					w => !w.data || w.data.type !== 'smart_notifications',
 				);
@@ -589,6 +577,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 					'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
 				] as const;
 				const validWeekDays = (Array.isArray(params.week_days) && params.week_days.length > 0 ? params.week_days : defaultWeekDays) as any;
+				console.log('stopid, pattern', params.stop_id, params.pattern_id);
 				const newWidgetSmartNotification: AccountWidget = {
 					data: {
 						distance: params.radius || 0,
@@ -666,28 +655,30 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	// Delete any widget by display order
 	const deleteWidgetByDisplayOrder = async (displayOrder: number) => {
 		if (!consentContext.data.enabled_functional) return;
-
 		const currentProfile = dataProfileState;
 		if (!currentProfile) return;
-
 		const newList = (currentProfile.widgets || []).filter(
 			widget => widget.settings?.display_order !== displayOrder,
 		);
-
 		const removedWidget = currentProfile.widgets?.find(
 			widget => widget.settings?.display_order === displayOrder,
 		);
-
 		if (removedWidget && removedWidget.data && removedWidget.data.type) {
 			if (removedWidget.data.type === 'smart_notifications') {
-				notificationContext.unsubscribeFromTopic(removedWidget.data.id);
+				notificationContext.actions.unsubscribeFromTopic(removedWidget.data.id);
 			}
 		}
+
+		console.log('newList', newList);
 
 		const orderedWidgets = newList.map((widget, idx) => ({
 			...widget,
 			settings: { ...widget.settings, display_order: idx },
 		}));
+
+		setDataWidgetLinesState(orderedWidgets.filter(w => w.data?.type === 'lines'));
+		setDataWidgetStopsState(orderedWidgets.filter(w => w.data?.type === 'stops'));
+		setDataWidgetSmartNotificationsState(orderedWidgets.filter(w => w.data?.type === 'smart_notifications'));
 
 		const updatedProfile: Account = {
 			...currentProfile,
@@ -695,9 +686,9 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		};
 
 		setDataProfileState(updatedProfile);
-		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
 		await updateProfileOnCloud(updatedProfile);
 	};
+
 	// Create an empty profile with default values
 	const setNewEmptyProfile = async () => {
 		if (!consentContext.data.enabled_functional) return;
@@ -748,6 +739,53 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		}
 		else { console.log('Profile exists.'); }
 	};
+	// Update Widget by ID
+	const updateWidget = async (id: string) => {
+		if (!consentContext.data.enabled_functional) return;
+		const currentProfile = dataProfileState;
+		if (!currentProfile) return;
+
+		const updatedWidgets = (currentProfile.widgets || []).map((existingWidget) => {
+			if (existingWidget.data?.type === 'smart_notifications' && existingWidget.data.id === id) {
+				return {
+					...existingWidget,
+					settings: {
+						...existingWidget.settings,
+						is_open: !existingWidget.settings?.is_open,
+					},
+				};
+			}
+			if (existingWidget.data?.type === 'lines' && existingWidget.data.pattern_id === id) {
+				return {
+					...existingWidget,
+					settings: {
+						...existingWidget.settings,
+						is_open: !existingWidget.settings?.is_open,
+					},
+				};
+			}
+			if (existingWidget.data?.type === 'stops' && existingWidget.data.stop_id === id) {
+				return {
+					...existingWidget,
+					settings: {
+						...existingWidget.settings,
+						is_open: !existingWidget.settings?.is_open,
+					},
+				};
+			}
+			return existingWidget;
+		});
+
+		const updatedProfile: Account = {
+			...currentProfile,
+			widgets: updatedWidgets,
+		};
+
+		setDataProfileState(updatedProfile);
+		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
+		await updateProfileOnCloud(updatedProfile);
+	};
+
 	// Set user selected line
 	const setSelectedLine = (line: string) => {
 		if (!consentContext.data.enabled_functional) return;
@@ -780,6 +818,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			setSelectedLine,
 			toggleFavoriteItem,
 			updateLocalProfile,
+			updateWidget,
 		},
 		counters: {
 			favorite_lines: dataFavoriteLinesState ? dataFavoriteLinesState.length : 0,

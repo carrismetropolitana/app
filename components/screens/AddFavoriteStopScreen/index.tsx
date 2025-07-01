@@ -5,13 +5,14 @@ import { Section } from '@/components/common/layout/Section';
 import { LineBadge } from '@/components/lines/LineBadge';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useProfileContext } from '@/contexts/Profile.context';
+import { useStopsContext } from '@/contexts/Stops.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
 import { Pattern, Stop } from '@carrismetropolitana/api-types/network';
 import { Button, ListItem, Text } from '@rn-vui/themed';
 import { IconArrowRight, IconBusStop, IconCircle, IconCircleCheckFilled, IconNotification, IconPlayerPlayFilled, IconSearch, IconX } from '@tabler/icons-react-native';
-import { useNavigation } from 'expo-router';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -27,14 +28,16 @@ export default function AddFavoriteStopScreen() {
 	// A. Setup Variables
 
 	const [stopChooserVisibility, setStopChooserVisibility] = useState(false);
-	const [selectedStopPatterns, setStopPatterns] = useState<string[]>([]);
+	const [selectedStopPatterns, setSelectedStopPatterns] = useState<string[]>([]);
 	const [selectedStop, setSelectedStop] = useState<Stop | undefined>(undefined);
 	const [selectedStopId, setSelectedStopId] = useState<string>('');
 	const [patternNames, setPatternNames] = useState<Record<string, string>>({});
+	const { widgetId } = useLocalSearchParams<{ widgetId?: string }>();
 
 	const themeContext = useThemeContext();
 	const profileContext = useProfileContext();
 	const linesContext = useLinesContext();
+	const stopsContext = useStopsContext();
 
 	const addFavoriteStopStyles = styles();
 	const navigation = useNavigation();
@@ -53,12 +56,28 @@ export default function AddFavoriteStopScreen() {
 		setSelectedStop(stopData);
 		const favoriteStopWidget = profileContext.data.widget_stops?.find(widget => widget.data && widget.data.type === 'stops' && widget.data.stop_id === stopData.id);
 		const favoritedPatterns = favoriteStopWidget?.data.type === 'stops' ? favoriteStopWidget.data.pattern_ids : [];
-		setStopPatterns(favoritedPatterns);
+		setSelectedStopPatterns(favoritedPatterns);
 	};
+
+	useEffect(() => {
+		if (widgetId) {
+			const stopsWidgets = profileContext.data.profile?.widgets?.filter(w => w.data.type === 'stops') || [];
+			console.log(stopsWidgets, 'stops');
+			const widget = stopsWidgets.find(w => w.settings?.display_order === Number(widgetId));
+			if (widget && widget.data.type === 'stops') {
+				const stopData = stopsContext.actions.getStopById(widget.data.stop_id);
+
+				console.log('Selected Stop Data:', stopData);
+				setSelectedStop(stopData);
+				setSelectedStopPatterns(widget.data.pattern_ids);
+			}
+			console.log(widget);
+		}
+	}, [widgetId, profileContext.data.widget_stops]);
 
 	const clearSelection = () => {
 		setSelectedStop(undefined);
-		setStopPatterns([]);
+		setSelectedStopPatterns([]);
 		setSelectedStopId('');
 		setPatternNames({});
 		navigation.goBack();
@@ -112,7 +131,6 @@ export default function AddFavoriteStopScreen() {
 	return (
 
 		<ScrollView style={addFavoriteStopStyles.container}>
-
 			<View style={addFavoriteStopStyles.firstHeader}>
 				<Section
 					heading="Paragem Favorita"
@@ -185,7 +203,7 @@ export default function AddFavoriteStopScreen() {
 										return (
 											<ListItem
 												key={patternId}
-												onPress={() => togglePattern(patternId, selectedStopPatterns, setStopPatterns)}
+												onPress={() => togglePattern(patternId, selectedStopPatterns, setSelectedStopPatterns)}
 											>
 												<LineBadge
 													color={lineColor}

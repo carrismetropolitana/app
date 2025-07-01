@@ -11,7 +11,7 @@ import { Routes } from '@/utils/routes';
 import { Pattern } from '@carrismetropolitana/api-types/network';
 import { Button, ListItem, Text } from '@rn-vui/themed';
 import { IconArrowLoopRight, IconArrowRight, IconCircle, IconCircleCheckFilled, IconNotification, IconPlayerPlayFilled, IconSearch, IconX } from '@tabler/icons-react-native';
-import { useNavigation } from 'expo-router';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -29,6 +29,8 @@ export default function AddFavoriteLineScreen() {
 	const [lineChooserVisibility, setLineChooserVisibility] = useState(false);
 	const [patternNames, setPatternNames] = useState<Record<string, string>>({});
 	const [selectedPatterns, setSelectedPatterns] = useState<string[]>([]);
+
+	const { widgetId } = useLocalSearchParams<{ widgetId?: string }>();
 	const linesDetailContext = useLinesDetailContext();
 	const themeContext = useThemeContext();
 	const profileContext = useProfileContext();
@@ -100,6 +102,17 @@ export default function AddFavoriteLineScreen() {
 				: [...prev, patternId],
 		);
 	}
+
+	useEffect(() => {
+		if (widgetId && profileContext.data.widget_lines) {
+			const widget = profileContext.data.widget_lines.find(w => w.data && w.data.type === 'lines' && (w.data.pattern_id === widgetId || (w.data.type === 'lines' ? String(w.settings?.display_order) === widgetId : false)));
+			if (widget && widget.data.type === 'lines') {
+				setSelectedPatterns([widget.data.pattern_id]);
+			}
+
+			console.log(widget);
+		}
+	}, [widgetId, profileContext.data.widget_lines]);
 
 	//
 	// D. Render Components

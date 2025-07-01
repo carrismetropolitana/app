@@ -39,6 +39,8 @@
 		"orientation": "portrait",
 		"owner": "skasix00",
 		"plugins": [
+			"@react-native-firebase/app",
+			"@react-native-firebase/messaging",
 			[
 				"expo-notifications",
 				{
@@ -110,12 +112,12 @@
 			"policy": "appVersion"
 		},
 		"scheme": "devcarrismetropolitana",
-		"slug": "Carris Metropolitana DEV",
+		"slug": "cm-mobile",
 		"updates": {
 			"url": "https://u.expo.dev/43d60702-1266-4217-8cb8-54e1f9a722fe"
 		},
 		"userInterfaceStyle": "automatic",
-		"version": "2025.06.27",
+		"version": "2025.06.30",
 		"web": {
 			"bundler": "metro",
 			"favicon": "./assets/images/adaptive-icon.png",

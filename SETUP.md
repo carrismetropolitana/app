@@ -5,7 +5,7 @@
 
 Copy the required environment files:
 - For Android, copy to the `/android` folder: `google-services.json`
-- For iOS copy to the `/ios` folder: `GoogleService-Info.plist`
+- For iOS copy to the `/ios` folder: `Info.plist`
 
 `npx expo prebuild`
 

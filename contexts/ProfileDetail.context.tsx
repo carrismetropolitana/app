@@ -55,14 +55,7 @@ interface ProfileSyncContextState {
 			start_time: number,
 			end_time: number,
 			stop_id: string,
-			week_days: (
-			  | 'friday'
-			  | 'monday'
-			  | 'saturday'
-			  | 'sunday'
-			  | 'thursday'
-			  | 'tuesday'
-			  | 'wednesday'
+			week_days: ('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday'
 			)[],
 		) => Promise<void>
 		toggleWidgetStop: (stopId: string, pattern_ids: string[]) => Promise<void>
@@ -676,8 +669,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		start_time: number,
 		end_time: number,
 		stop_id: string,
-		week_days: (
-		  | 'friday'
+		week_days: (| 'friday'
 		  | 'monday'
 		  | 'saturday'
 		  | 'sunday'
