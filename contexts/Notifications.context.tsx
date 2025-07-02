@@ -12,20 +12,12 @@ import {
 	requestPermission,
 } from '@react-native-firebase/messaging';
 import * as Notifications from 'expo-notifications';
-import React, {
-	createContext,
-	ReactNode,
-	useContext,
-	useEffect,
-	useRef,
-	useState,
-} from 'react';
+import React, { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import { PermissionsAndroid, Platform } from 'react-native';
 
 interface NotificationsContextState {
 	actions: {
 		askForPermissions: () => Promise<null | string>
-		sendTestNotification: () => Promise<void>
 		subscribeToTopic: (topic: string) => Promise<void>
 		unsubscribeFromTopic: (topic: string) => Promise<void>
 	}
@@ -99,24 +91,6 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 
 		const token = await getToken(messaging);
 		return token;
-	};
-
-	const sendTestNotification = async () => {
-		try {
-			await Notifications.scheduleNotificationAsync({
-				content: {
-					body: 'Isto é um push simulado no dispositivo!',
-					data: { localTest: true },
-					sound: 'default',
-					title: '🚀 Teste Local',
-					vibrate: [100, 200, 300],
-				},
-				trigger: null,
-			});
-		}
-		catch (err) {
-			console.warn('❌ Error scheduling test notification:', err);
-		}
 	};
 
 	const subscribeToTopic = async (topic: string) => {
@@ -202,8 +176,16 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 	return (
 		<NotificationsContext.Provider
 			value={{
-				actions: { askForPermissions, sendTestNotification, subscribeToTopic, unsubscribeFromTopic },
-				data: { fcmToken, notification, response },
+				actions: {
+					askForPermissions,
+					subscribeToTopic,
+					unsubscribeFromTopic,
+				},
+				data: {
+					fcmToken,
+					notification,
+					response,
+				},
 			}}
 		>
 			{children}
