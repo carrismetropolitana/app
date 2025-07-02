@@ -38,7 +38,7 @@ const LOCAL_STORAGE_KEYS = {
 
 /* * */
 
-type WidgetToggleParams =
+type WidgetCreateParams =
   | { end_time: number, pattern_id: string, radius: number, start_time: number, stop_id: string, type: 'smart_notifications', week_days: ('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[] }
   | { pattern_ids: string[], stopId: string, type: 'stops' }
   | { pattern_ids: string[], type: 'lines' };
@@ -46,7 +46,7 @@ type WidgetToggleParams =
 interface ProfileContextState {
 	actions: {
 		checkProfile: (profile: Account) => Promise<void>
-		createWidget: (params: WidgetToggleParams) => Promise<void>
+		createWidget: (params: WidgetCreateParams) => Promise<void>
 		deleteWidgetByDisplayOrder: (display_order: number) => Promise<void>
 		fetchPersona: () => Promise<void>
 		setAccentColor: (color: string) => void

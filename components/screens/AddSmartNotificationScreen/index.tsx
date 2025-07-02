@@ -1,15 +1,14 @@
 /* * */
 
 import LinesListChooserModal from '@/app/(modal)/LinesListChooserModal';
-import { Section } from '@/components/common/layout/Section';
+import { HeaderExplainer } from '@/components/common/HeaderExplainer';
 import { SelectNotificationControl } from '@/components/common/SelectNotifcationControl';
 import { TestingNeedWarning } from '@/components/common/TestingNeedWarning';
 import { VerticalContentSeparator } from '@/components/common/VerticalContentSeparator';
-import { VideoExplainer } from '@/components/common/VideoExplainer';
 import { LineBadge } from '@/components/lines/LineBadge';
-import { AddSmartNotificationDaysSelector } from '@/components/screens/AddSmartNotification/AddSmartNotificationDaysSelector';
-import { AddSmartNotificationsIntervalInputs } from '@/components/screens/AddSmartNotification/AddSmartNotificationIntervalInputs';
-import { AddSmartNotificationsStopSelector } from '@/components/screens/AddSmartNotification/AddSmartNotificationStopSelector';
+import { AddSmartNotificationDaysSelector } from '@/components/screens/AddSmartNotificationScreen/AddSmartNotificationDaysSelector';
+import { AddSmartNotificationsIntervalInputs } from '@/components/screens/AddSmartNotificationScreen/AddSmartNotificationIntervalInputs';
+import { AddSmartNotificationsStopSelector } from '@/components/screens/AddSmartNotificationScreen/AddSmartNotificationStopSelector';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { getSecondsSinceMidnight } from '@/utils/getSeconsSinceMidnight';
@@ -62,6 +61,8 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 
 	//
 	// B. Fetch Data
+
+	console.log('ID in the screen:', Id);
 	useEffect(() => {
 		if (!Id) return;
 		const widget = profileContext.data.profile?.widgets?.find(w => w.data && w.data.type === 'smart_notifications' && 'id' in w.data && w.data.id === Id);
@@ -118,7 +119,6 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 				);
 				setPatternNames(patternName);
 				setPatternVersionIds(patternVersionId);
-				// Only set selectedPatternId if it is null (first load)
 				setSelectedPatternId(prev => prev ?? firstPatternId);
 			}
 		};
@@ -164,7 +164,6 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 	const handlePatternSelect = useCallback((item: string) => {
 		const versionId = patternVersionIds[item];
 		setSelectedPatternId(item);
-
 		setSelectedVersionId(versionId);
 		setTimeout(() => {
 			linesDetailContext.actions.setActivePattern(versionId);
@@ -172,7 +171,6 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 	}, [patternVersionIds, selectedVersionId]);
 
 	const createWidgetSmartNotification = () => {
-		console.log(selectedPatternId, linesDetailContext.data.active_pattern?.id, selectedStopId);
 		profileContext.actions.createWidget({
 			end_time: endingSeconds,
 			pattern_id: selectedPatternId ?? '',
@@ -190,13 +188,7 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 	return (
 		<ScrollView showsVerticalScrollIndicator={false} style={addFavoriteLineStyles.overlay}>
 			<View style={addFavoriteLineStyles.container}>
-				<View style={addFavoriteLineStyles.header}>
-					<Section
-						heading={t('heading')}
-						subheading={t('subheading')}
-					/>
-				</View>
-				<VideoExplainer />
+				<HeaderExplainer heading={t('heading')} subheading={t('subheading')} />
 				<VerticalContentSeparator starting />
 				<Text style={addFavoriteLineStyles.text}> {t('chooseLineTitle')}</Text>
 				<View>

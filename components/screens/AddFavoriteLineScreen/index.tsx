@@ -1,19 +1,22 @@
 /* * */
 
 import LinesListChooserModal from '@/app/(modal)/LinesListChooserModal';
+import { HeaderExplainer } from '@/components/common/HeaderExplainer';
 import { Section } from '@/components/common/layout/Section';
 import { LineBadge } from '@/components/lines/LineBadge';
+import { OpenAddSmartNotification } from '@/components/widgets/OpenAddSmartNotification';
+import { WidgetActionsButtonGroup } from '@/components/widgets/WidgetsActionsButtonGroup';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
 import { Pattern } from '@carrismetropolitana/api-types/network';
-import { Button, ListItem, Text } from '@rn-vui/themed';
-import { IconArrowLoopRight, IconArrowRight, IconCircle, IconCircleCheckFilled, IconNotification, IconPlayerPlayFilled, IconSearch, IconX } from '@tabler/icons-react-native';
+import { ListItem, Text } from '@rn-vui/themed';
+import { IconArrowLoopRight, IconArrowRight, IconCircle, IconCircleCheckFilled, IconSearch, IconX } from '@tabler/icons-react-native';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import styles from './styles';
@@ -30,6 +33,7 @@ export default function AddFavoriteLineScreen() {
 	const [patternNames, setPatternNames] = useState<Record<string, string>>({});
 	const [selectedPatterns, setSelectedPatterns] = useState<string[]>([]);
 
+	const isLight = useThemeContext().theme.mode === 'light';
 	const { widgetId } = useLocalSearchParams<{ widgetId?: string }>();
 	const linesDetailContext = useLinesDetailContext();
 	const themeContext = useThemeContext();
@@ -37,11 +41,14 @@ export default function AddFavoriteLineScreen() {
 	const addFavoriteLineStyles = styles();
 	const navigation = useNavigation();
 
+	const backgroundColor = isLight ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200;
+
 	//
 	// B. Fetch Data
 
 	useEffect(() => {
 		navigation.setOptions({
+			headerStyle: { backgroundColor: backgroundColor },
 			headerTitle: 'Linha Favorita',
 		});
 	}, [navigation]);
@@ -60,7 +67,6 @@ export default function AddFavoriteLineScreen() {
 
 	useEffect(() => {
 		if (!linesDetailContext.data.line?.pattern_ids) return;
-
 		const fetchPatterns = async () => {
 			const patternName: Record<string, string> = {};
 			const patterns = linesDetailContext.data.line?.pattern_ids;
@@ -75,14 +81,12 @@ export default function AddFavoriteLineScreen() {
 						}
 					}),
 				);
-
 				setPatternNames(patternName);
 			}
 			else {
 				return;
 			}
 		};
-
 		fetchPatterns();
 	}, [linesDetailContext.data.line?.pattern_ids]);
 
@@ -109,8 +113,6 @@ export default function AddFavoriteLineScreen() {
 			if (widget && widget.data.type === 'lines') {
 				setSelectedPatterns([widget.data.pattern_id]);
 			}
-
-			console.log(widget);
 		}
 	}, [widgetId, profileContext.data.widget_lines]);
 
@@ -120,25 +122,10 @@ export default function AddFavoriteLineScreen() {
 	return (
 		<ScrollView style={addFavoriteLineStyles.overlay}>
 			<View style={addFavoriteLineStyles.container}>
-
-				<View style={addFavoriteLineStyles.firstHeader}>
-					<Section
-						heading="Linha Favorita"
-						subheading="Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas."
-					/>
-				</View>
-				<View style={addFavoriteLineStyles.videoContainer}>
-					<TouchableOpacity>
-						<ListItem>
-							<IconPlayerPlayFilled color="#3D85C6" fill="#3D85C6" size={24} />
-							<ListItem.Content>
-								<ListItem.Title style={addFavoriteLineStyles.listTitle}><Text>Ver Vídeo Explicativo</Text></ListItem.Title>
-							</ListItem.Content>
-							<ListItem.Chevron />
-						</ListItem>
-					</TouchableOpacity>
-				</View>
-
+				<HeaderExplainer
+					heading="Linha Favorita"
+					subheading="Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas."
+				/>
 				<Section
 					heading="1. Selecionar Linha "
 					subheading="Escolha uma linha para visualizar na página principal"
@@ -223,39 +210,18 @@ export default function AddFavoriteLineScreen() {
 						)}
 					</View>
 				</View>
-				<View style={{ marginBottom: 30 }}>
-					<Section
-						heading="3. Notificações "
-						subheading="Pode escolher receber uma notificação sempre que existir um alerta para a paragem e para os destinos que selecionou."
-					/>
-					<ListItem onPress={() => setLineChooserVisibility(true)} disabled>
-						<IconNotification color="#E64B23" size={24} />
-						<ListItem.Content>
-							<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-								<Text>Ativar Notificações</Text>
-							</ListItem.Title>
-						</ListItem.Content>
-						<ListItem.Chevron />
-					</ListItem>
-				</View>
 
-				<Button
-					buttonStyle={addFavoriteLineStyles.saveButton}
+				<OpenAddSmartNotification
 					disabled={selectedPatterns.length === 0}
-					title="Guardar"
-					titleStyle={addFavoriteLineStyles.saveButtonText}
-					onPress={async () => {
-						if (selectedPatterns.length > 0) {
-							await profileContext.actions.createWidget({ pattern_ids: selectedPatterns, type: 'lines' });
-							clearScreen();
-						}
-					}}
+					heading="3. Notificações"
+					subheading="Pode escolher receber uma notificação sempre que existir um alerta para a paragem e para os destinos que selecionou."
 				/>
-				<Button
-					buttonStyle={addFavoriteLineStyles.saveButton}
-					onPress={clearScreen}
-					title="Fechar"
-					titleStyle={addFavoriteLineStyles.saveButtonText}
+
+				<WidgetActionsButtonGroup
+					dataToSubmit={{ data: { pattern_id: selectedPatterns[0], type: 'lines' }, settings: { is_open: true } }}
+					length={selectedPatterns.length}
+					onClear={() => clearScreen()}
+					type="lines"
 				/>
 
 			</View>

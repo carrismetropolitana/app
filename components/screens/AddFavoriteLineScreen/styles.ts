@@ -56,25 +56,8 @@ const styles = () => {
 			backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
 		},
 
-		saveButton: {
-			backgroundColor: theming.colorBrand,
-			borderRadius: 30,
-			borderWidth: 0,
-			marginBottom: 20,
-			width: '100%',
-		},
 
-		saveButtonText: {
-			borderWidth: 0,
-			color: '#000000',
-			fontSize: 16,
-			fontWeight: '600',
-		},
-		videoContainer: {
-			marginBottom: 20,
-			padding: 0,
-			width: '100%',
-		},
+
 	});
 };
 export default styles;

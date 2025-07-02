@@ -1,6 +1,6 @@
 /* * */
 
-import AddSmartNotificationScreen from '@/components/screens/AddSmartNotification';
+import AddSmartNotificationScreen from '@/components/screens/AddSmartNotificationScreen';
 import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
 import { LinesListContextProvider } from '@/contexts/LinesList.context';
 import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
@@ -20,6 +20,10 @@ export default function AddSmartNotification() {
 	const themeContext = useThemeContext();
 	const params = useLocalSearchParams();
 	const smartNotificationID = typeof params.smartNotificationId === 'string' ? params.smartNotificationId : undefined;
+	const lineID = typeof params.lineID === 'string' ? params.lineID : undefined;
+	const id = smartNotificationID ? smartNotificationID : lineID;
+
+	console.log(id);
 
 	useEffect(() => {
 		navigation.setOptions({
@@ -38,7 +42,7 @@ export default function AddSmartNotification() {
 		<LinesListContextProvider>
 			<LinesDetailContextProvider>
 				<StopsDetailContextProvider>
-					<AddSmartNotificationScreen Id={smartNotificationID || undefined} />
+					<AddSmartNotificationScreen Id={id} />
 				</StopsDetailContextProvider>
 			</LinesDetailContextProvider>
 		</LinesListContextProvider>

@@ -3,6 +3,7 @@
 import StopsListChooserModal from '@/app/(modal)/StopsListChooserModal';
 import { Section } from '@/components/common/layout/Section';
 import { LineBadge } from '@/components/lines/LineBadge';
+import { WidgetActionsButtonGroup } from '@/components/widgets/WidgetsActionsButtonGroup';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useStopsContext } from '@/contexts/Stops.context';
@@ -10,8 +11,8 @@ import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
 import { Pattern, Stop } from '@carrismetropolitana/api-types/network';
-import { Button, ListItem, Text } from '@rn-vui/themed';
-import { IconArrowRight, IconBusStop, IconCircle, IconCircleCheckFilled, IconNotification, IconPlayerPlayFilled, IconSearch, IconX } from '@tabler/icons-react-native';
+import { ListItem, Text } from '@rn-vui/themed';
+import { IconArrowRight, IconBusStop, IconCircle, IconCircleCheckFilled, IconPlayerPlayFilled, IconSearch, IconX } from '@tabler/icons-react-native';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
@@ -34,6 +35,7 @@ export default function AddFavoriteStopScreen() {
 	const [patternNames, setPatternNames] = useState<Record<string, string>>({});
 	const { widgetId } = useLocalSearchParams<{ widgetId?: string }>();
 
+	const isLight = useThemeContext().theme.mode === 'light';
 	const themeContext = useThemeContext();
 	const profileContext = useProfileContext();
 	const linesContext = useLinesContext();
@@ -42,11 +44,14 @@ export default function AddFavoriteStopScreen() {
 	const addFavoriteStopStyles = styles();
 	const navigation = useNavigation();
 
+	const backgroundColor = isLight ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200;
+
 	//
 	// B. Handle Actions
 
 	useEffect(() => {
 		navigation.setOptions({
+			headerStyle: { backgroundColor: backgroundColor },
 			headerTitle: 'Paragem Favorita',
 		});
 	}, [navigation]);
@@ -66,12 +71,9 @@ export default function AddFavoriteStopScreen() {
 			const widget = stopsWidgets.find(w => w.settings?.display_order === Number(widgetId));
 			if (widget && widget.data.type === 'stops') {
 				const stopData = stopsContext.actions.getStopById(widget.data.stop_id);
-
-				console.log('Selected Stop Data:', stopData);
 				setSelectedStop(stopData);
 				setSelectedStopPatterns(widget.data.pattern_ids);
 			}
-			console.log(widget);
 		}
 	}, [widgetId, profileContext.data.widget_stops]);
 
@@ -100,7 +102,6 @@ export default function AddFavoriteStopScreen() {
 
 	useEffect(() => {
 		if (!selectedStop || !selectedStop.pattern_ids) return;
-
 		const fetchPatterns = async () => {
 			const patternName: Record<string, string> = {};
 			await Promise.all(
@@ -247,42 +248,8 @@ export default function AddFavoriteStopScreen() {
 				</View>
 			</View>
 
-			<View style={{ marginBottom: 30 }}>
-				<Section
-					heading="3. Notificações "
-					subheading="Pode escolher receber uma notificação sempre que existir um alerta para a paragem e para os destinos que selecionou."
-				/>
-				<ListItem onPress={() => setStopChooserVisibility(true)}>
-					<IconNotification color="#E64B23" size={24} />
-					<ListItem.Content>
-						<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-							<Text>Ativar Notificações</Text>
-						</ListItem.Title>
-					</ListItem.Content>
-					<ListItem.Chevron />
-				</ListItem>
-			</View>
+			<WidgetActionsButtonGroup length={selectedStopPatterns.length} onClear={clearSelection} type="stops" />
 
-			<View>
-				<Button
-					buttonStyle={addFavoriteStopStyles.saveButton}
-					disabled={!selectedStopId}
-					title="Guardar"
-					titleStyle={addFavoriteStopStyles.saveButtonText}
-					onPress={async () => {
-						if (selectedStopId && selectedStopPatterns.length > 0) {
-							await profileContext.actions.createWidget({ pattern_ids: selectedStopPatterns, stopId: selectedStopId, type: 'stops' });
-							clearSelection();
-						}
-					}}
-				/>
-				<Button
-					buttonStyle={addFavoriteStopStyles.saveButton}
-					onPress={clearSelection}
-					title="Fechar"
-					titleStyle={addFavoriteStopStyles.saveButtonText}
-				/>
-			</View>
 			<StopsListChooserModal
 				isVisible={stopChooserVisibility}
 				onBackdropPress={() => setStopChooserVisibility(!stopChooserVisibility)}

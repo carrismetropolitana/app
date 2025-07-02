@@ -82,9 +82,6 @@ export function MapViewToolbar({ onCenterMap }: Props) {
 	//
 	// C. Render components
 
-	useEffect(() => {
-		console.log('Map style changed:', mapOptionsContext?.data?.style);
-	}, [mapOptionsContext?.data?.style]);
 	return (
 		<View style={styles.container}>
 			<Button

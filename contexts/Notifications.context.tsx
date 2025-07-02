@@ -113,7 +113,6 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 				},
 				trigger: null,
 			});
-			console.log('✅ Test local notification scheduled');
 		}
 		catch (err) {
 			console.warn('❌ Error scheduling test notification:', err);
@@ -148,24 +147,17 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 				const token = await askForPermissions();
 				if (!token || !isMounted) return;
 				setFcmToken(token);
-				console.log('✅ FCM Token:', token);
-
 				// Subscribes after obtaining token
 				await subscribeToTopic('test');
 
 				// Handle tap when killed
 				const initial = await getInitialNotification(messaging);
 				if (initial && isMounted) {
-					console.log('🚀 getInitialNotification fired:', initial);
 					setResponse(JSON.stringify(initial));
 				}
 
 				// Firebase: foreground messages
 				const unsubMsg = onMessage(messaging, async (msg) => {
-					console.log('📲 [onMessage] FCM message:', msg);
-					if (Platform.OS === 'ios') {
-						console.log('📲 [onMessage] (iOS) raw payload:', JSON.stringify(msg));
-					}
 					setNotification(JSON.stringify(msg));
 					try {
 						await Notifications.scheduleNotificationAsync({
@@ -177,7 +169,6 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 							},
 							trigger: null,
 						});
-						console.log('🔔 [onMessage] Local notification scheduled');
 					}
 					catch (err) {
 						console.error('❌ [onMessage] Failed to schedule local notification:', err);
@@ -186,25 +177,12 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 
 				// Firebase: background/killed taps
 				const unsubOpen = onNotificationOpenedApp(messaging, (msg) => {
-					console.log('🔓 [onNotificationOpenedApp]:', msg);
-					if (Platform.OS === 'ios') {
-						console.log('🔓 [onNotificationOpenedApp] (iOS) raw payload:', JSON.stringify(msg));
-					}
 					setResponse(JSON.stringify(msg));
 				});
 
 				// Expo listener for receipt in foreground
 				expoListenerRef.current = Notifications.addNotificationReceivedListener((n) => {
-					console.log('🔔 [Expo] Notification received via Expo listener:', n);
-					if (Platform.OS === 'ios') {
-						console.log('🔔 [Expo] (iOS) notification payload:', JSON.stringify(n));
-					}
 					setNotification(JSON.stringify(n));
-				});
-
-				// Extra: Log when permissions are checked
-				Notifications.getPermissionsAsync().then((perm) => {
-					console.log('🔍 [Permissions] Notification permissions:', perm);
 				});
 
 				// Cleanup on unmount

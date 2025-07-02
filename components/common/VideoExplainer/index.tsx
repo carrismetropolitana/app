@@ -1,10 +1,23 @@
+/* * */
+
 import { ListItem, Text } from '@rn-vui/themed';
 import { IconPlayerPlayFilled } from '@tabler/icons-react-native';
 import { TouchableOpacity, View } from 'react-native';
 
+/* * */
+
 import styles from './styles';
 
-export const VideoExplainer = () => {
+/* * */
+
+interface Props {
+	referer?: string
+	source?: string
+}
+
+/* * */
+
+export const VideoExplainer = ({ referer, source }: Props) => {
 	const videoExplainerStyles = styles();
 	return (
 		<View style={videoExplainerStyles.videoContainer}>
