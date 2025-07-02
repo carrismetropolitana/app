@@ -119,22 +119,21 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const [dataInterestsState, setDataInterestsState] = useState<string[]>([]);
 	const [flagIsLoadingState, setFlagIsLoadingState] = useState<ProfileContextState['flags']['is_loading']>(true);
 
-	// console.log('==> dataAPITokwn State', dataProfileState?.devices[0].device_id);
-
 	//
 	// C. Fetch Data
 	// Fetch initial data and set up interval for periodic updates (profile sync - only if functional consent is enabled)
 	useEffect(() => {
+		setFlagIsLoadingState(true);
 		if (!consentContext.data.enabled_functional) {
 			setFlagIsLoadingState(false);
 			return;
 		}
 		fetchData();
 		subscribeToAllWidgetTopics();
-
+		setFlagIsLoadingState(false);
 		const intervalId = setInterval(() => {
 			fetchData();
-		}, 10000);
+		}, 3000);
 
 		return () => clearInterval(intervalId);
 	}, [consentContext.data.enabled_functional]);
@@ -226,9 +225,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				setDataProfileState(mergedProfile);
 				await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(mergedProfile));
 				updateProfileOnCloud(mergedProfile);
-			}
-			else {
-				console.log('Profiles already in sync.');
 			}
 		}
 		catch (error) {
@@ -486,7 +482,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		}
 	};
 	// Unified widget toggle function
-	const createWidget = async (params: WidgetToggleParams) => {
+	const createWidget = async (params: WidgetCreateParams) => {
 		try {
 			if (!consentContext.data.enabled_functional && !dataApiTokenState) return;
 			const allWidgets = (dataProfileState?.widgets || []) as AccountWidget[];

@@ -9,6 +9,7 @@ import { LineBadge } from '@/components/lines/LineBadge';
 import { AddSmartNotificationDaysSelector } from '@/components/screens/AddSmartNotificationScreen/AddSmartNotificationDaysSelector';
 import { AddSmartNotificationsIntervalInputs } from '@/components/screens/AddSmartNotificationScreen/AddSmartNotificationIntervalInputs';
 import { AddSmartNotificationsStopSelector } from '@/components/screens/AddSmartNotificationScreen/AddSmartNotificationStopSelector';
+import { WidgetActionsButtonGroup } from '@/components/widgets/WidgetsActionsButtonGroup';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { getSecondsSinceMidnight } from '@/utils/getSeconsSinceMidnight';
@@ -30,6 +31,8 @@ import styles from './styles';
 interface AddSmartNotificationScreenProps {
 	Id?: string
 }
+
+/* * */
 
 export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationScreenProps) {
 	//
@@ -126,7 +129,8 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 	}, [linesDetailContext.data.line?.pattern_ids]);
 
 	//
-	// C Handle Actions
+	// C. Handle Actions
+
 	useEffect(() => {
 		if (!selectedIndex) return;
 		setSelectedDays(selectedIndex.map(index => weekDays[index]));
@@ -170,21 +174,9 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 		}, 0);
 	}, [patternVersionIds, selectedVersionId]);
 
-	const createWidgetSmartNotification = () => {
-		profileContext.actions.createWidget({
-			end_time: endingSeconds,
-			pattern_id: selectedPatternId ?? '',
-			radius,
-			start_time: startingSeconds,
-			stop_id: selectedStopId ?? '',
-			type: 'smart_notifications',
-			week_days: selectedDays,
-		});
-		exitScreen();
-	};
-
 	//
 	// D. Render Components
+
 	return (
 		<ScrollView showsVerticalScrollIndicator={false} style={addFavoriteLineStyles.overlay}>
 			<View style={addFavoriteLineStyles.container}>
@@ -255,20 +247,28 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 				</View>
 			</View>
 			<TestingNeedWarning />
-			<Button
-				buttonStyle={addFavoriteLineStyles.saveButton}
-				title="Guardar"
-				titleStyle={addFavoriteLineStyles.saveButtonText}
-				onPress={() => {
-					if (Id) {
-						profileContext.actions.updateWidget(Id);
-					}
-					else {
-						createWidgetSmartNotification();
-					}
+
+			<WidgetActionsButtonGroup
+				length={selectedStopId ? 1 : 0}
+				onClear={() => exitScreen()}
+				type="smart-notifications"
+				dataToSubmit={{
+					data: {
+						distance: radius,
+						end_time: endingSeconds,
+						id: Id ?? '',
+						pattern_id: selectedPatternId ?? '',
+						start_time: startingSeconds,
+						stop_id: selectedStopId ?? '',
+						type: 'smart_notifications',
+						user_id: profileContext.data.profile?.devices[0].device_id ?? '',
+						week_days: selectedDays.length > 0 ? selectedDays as [
+							'friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday',
+							...('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[],
+						] : ['monday'],
+					}, settings: { is_open: true },
 				}}
 			/>
-			<Button buttonStyle={addFavoriteLineStyles.saveButton} onPress={exitScreen} title="Eliminar" titleStyle={addFavoriteLineStyles.saveButtonText} />
 			<LinesListChooserModal isVisible={lineChooserVisibility} onBackdropPress={() => setLineChooserVisibility(!lineChooserVisibility)} />
 		</ScrollView>
 	);

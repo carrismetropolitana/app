@@ -248,7 +248,13 @@ export default function AddFavoriteStopScreen() {
 				</View>
 			</View>
 
-			<WidgetActionsButtonGroup length={selectedStopPatterns.length} onClear={clearSelection} type="stops" />
+			<WidgetActionsButtonGroup
+				length={selectedStopPatterns.length}
+				onClear={clearSelection}
+				type="stops"
+				dataToSubmit={{ data: { pattern_ids: selectedStopPatterns, stop_id: selectedStopId, type: 'stops' }, settings: { is_open: true },
+				}}
+			/>
 
 			<StopsListChooserModal
 				isVisible={stopChooserVisibility}

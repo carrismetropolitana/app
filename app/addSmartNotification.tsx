@@ -20,7 +20,7 @@ export default function AddSmartNotification() {
 	const themeContext = useThemeContext();
 	const params = useLocalSearchParams();
 	const smartNotificationID = typeof params.smartNotificationId === 'string' ? params.smartNotificationId : undefined;
-	const lineID = typeof params.lineID === 'string' ? params.lineID : undefined;
+	const lineID = typeof params.lineId === 'string' ? params.lineID : undefined;
 	const id = smartNotificationID ? smartNotificationID : lineID;
 
 	console.log(id);

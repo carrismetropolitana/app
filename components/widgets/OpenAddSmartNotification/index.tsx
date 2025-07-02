@@ -5,6 +5,7 @@ import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { ListItem, Text } from '@rn-vui/themed';
 import { IconNotification } from '@tabler/icons-react-native';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import styles from './styles';
@@ -26,23 +27,22 @@ export const OpenAddSmartNotification = ({ disabled, heading, subheading }: Prop
 	const openAddSmartNotificationStyles = styles();
 	const linesDetailContext = useLinesDetailContext();
 
-	//
-	// B. Handle Actions
+	const { t } = useTranslation('translation', { keyPrefix: 'common' });
 
 	//
 	// C. Render Components
 
 	return (
-		<View style={{ marginBottom: 30 }}>
+		<View style={{ marginBottom: 30, marginTop: 30 }}>
 			<Section
 				heading={heading}
 				subheading={subheading}
 			/>
-			<ListItem disabled={disabled} disabledStyle={openAddSmartNotificationStyles.disabled} onPress={() => router.push(`/addSmartNotification/?LineId=${linesDetailContext.data.line?.id}`)}>
+			<ListItem disabled={disabled} disabledStyle={openAddSmartNotificationStyles.disabled} onPress={() => router.push(`/addSmartNotification?lineId=${linesDetailContext.data.line?.id}`)}>
 				<IconNotification color="#E64B23" size={24} />
 				<ListItem.Content>
 					<ListItem.Title style={openAddSmartNotificationStyles.listTitle}>
-						<Text>Ativar Notificações</Text>
+						<Text>{t('enable_notifications')}</Text>
 					</ListItem.Title>
 				</ListItem.Content>
 				<ListItem.Chevron />

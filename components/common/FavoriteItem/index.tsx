@@ -47,7 +47,6 @@ export default function FavoriteItemComponent({ data, drag, isActive }: Favorite
 	const isStop = data.data.type === 'stops';
 	const isSmartNotification = data.data.type === 'smart_notifications';
 
-	// Type guards for stop_id and pattern_ids
 	function getStopId(widget: AccountWidget): string | undefined {
 		if (widget.data.type === 'stops' && 'stop_id' in widget.data) {
 			return widget.data.stop_id;
@@ -132,13 +131,8 @@ export default function FavoriteItemComponent({ data, drag, isActive }: Favorite
 	//
 	// C. Render components
 
-	const mainLabel = isLine
-		? (headsign || 'Linha Favorita')
-		: (stopName || (isStop ? 'Paragem Favorita' : isSmartNotification ? 'Notificação Inteligente' : ''));
-
-	const subLabel = isLine
-		? 'Linha Favorita'
-		: (isStop ? 'Paragem Favorita' : isSmartNotification ? 'Notificação Inteligente' : '');
+	const mainLabel = isLine ? (headsign || 'Linha Favorita') : (stopName || (isStop ? 'Paragem Favorita' : isSmartNotification ? 'Notificação Inteligente' : ''));
+	const subLabel = isLine ? 'Linha Favorita' : (isStop ? 'Paragem Favorita' : isSmartNotification ? 'Notificação Inteligente' : '');
 
 	return (
 		<ListItem onPress={() => router.push(linkHref)}>

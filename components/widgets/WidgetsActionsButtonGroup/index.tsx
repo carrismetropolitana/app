@@ -29,11 +29,11 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, length, onClear, type }
 	//
 	// B. Handle Actions
 
-	async function handleSave() {
+	const handleSave = async () => {
 		if (dataToSubmit) {
 			switch (type) {
 				case 'lines':
-					if ('data' in dataToSubmit && 'pattern_id' in dataToSubmit.data) {
+					if ('pattern_id' in dataToSubmit.data) {
 						await profileContext.actions.createWidget({ pattern_ids: [dataToSubmit.data.pattern_id], type: 'lines' });
 					}
 					break;
@@ -61,7 +61,7 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, length, onClear, type }
 			}
 		}
 		if (onClear) onClear();
-	}
+	};
 	const handleCancel = () => {
 		alert('No changes made ');
 		if (onClear) onClear();
@@ -72,20 +72,8 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, length, onClear, type }
 
 	return (
 		<View>
-			<Button
-				buttonStyle={headerExplainerStyles.saveButton}
-				disabled={length === 0}
-				onPress={handleSave}
-				title="Guardar"
-				titleStyle={headerExplainerStyles.saveButtonText}
-			/>
-			<Button
-				buttonStyle={headerExplainerStyles.saveButton}
-				onPress={handleCancel}
-				title="Fechar"
-				titleStyle={headerExplainerStyles.saveButtonText}
-			/>
-
+			<Button buttonStyle={headerExplainerStyles.saveButton} disabled={length === 0} onPress={() => handleSave()} title="Guardar" titleStyle={headerExplainerStyles.saveButtonText} />
+			<Button buttonStyle={headerExplainerStyles.saveButton} onPress={() => handleCancel()} title="Fechar" titleStyle={headerExplainerStyles.saveButtonText} />
 		</View>
 	);
 

@@ -2,6 +2,7 @@
 
 import ProfileScreen from '@/components/screens/ProfileScreen';
 import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
+import ProfileContextProvider from '@/contexts/Profile.context';
 import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { useNavigation } from 'expo-router';
@@ -32,11 +33,13 @@ export default function Profile() {
 	// B. Render components
 
 	return (
-		<LinesDetailContextProvider>
-			<StopsDetailContextProvider>
-				<ProfileScreen />
-			</StopsDetailContextProvider>
-		</LinesDetailContextProvider>
+		<ProfileContextProvider>
+			<LinesDetailContextProvider>
+				<StopsDetailContextProvider>
+					<ProfileScreen />
+				</StopsDetailContextProvider>
+			</LinesDetailContextProvider>
+		</ProfileContextProvider>
 	);
 
 	//

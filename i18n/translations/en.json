@@ -157,6 +157,7 @@
 			"option_label": "Início do percurso: {locality}",
 			"placeholder": "Selecionar Percurso / Destino..."
 		},
+		"enable_notifications": "Enable Notifications",
 		"offlineBanner": {
 			"message": "There has been a problem with the connection to the server. Please check your internet connection."
 		}

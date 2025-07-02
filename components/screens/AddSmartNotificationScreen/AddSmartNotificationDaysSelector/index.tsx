@@ -1,3 +1,5 @@
+/* * */
+
 import { theming } from '@/theme/Variables';
 import { ButtonGroup, Text } from '@rn-vui/themed';
 import { useTranslation } from 'react-i18next';
@@ -5,14 +7,26 @@ import { View } from 'react-native';
 
 import styles from './styles';
 
+/* * */
+
 interface DaysSelectorProps {
 	selectedIndex: number[]
 	setSelectedIndex: (index: number[]) => void
 }
 
+/* * */
+
 export const AddSmartNotificationDaysSelector = ({ selectedIndex, setSelectedIndex }: DaysSelectorProps) => {
+	//
+
+	//
+	// A. Setup Variables
+
 	const { t } = useTranslation('translation', { keyPrefix: 'smartNotifications.DaysSelector' });
 	const daysSelectortyles = styles();
+
+	//
+	// B. Render Components
 
 	return (
 		<View style={daysSelectortyles.daysSelectors}>
@@ -36,4 +50,6 @@ export const AddSmartNotificationDaysSelector = ({ selectedIndex, setSelectedInd
 			/>
 		</View>
 	);
+
+	//
 };

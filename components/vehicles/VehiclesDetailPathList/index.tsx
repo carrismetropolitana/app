@@ -48,14 +48,10 @@ export function VehiclesDetailPathList() {
 			if (!result.get(objectKey)) result.set(objectKey, []);
 			// Push the arrival data
 			if (arrivalData.estimated_arrival_unix) {
-				result
-					.get(objectKey)
-					?.push({ type: 'realtime', unixTs: arrivalData.estimated_arrival_unix * 1000 });
+				result.get(objectKey)?.push({ type: 'realtime', unixTs: arrivalData.estimated_arrival_unix * 1000 });
 			}
 			else {
-				result
-					.get(objectKey)
-					?.push({ type: 'scheduled', unixTs: arrivalData.scheduled_arrival_unix * 1000 });
+				result.get(objectKey)?.push({ type: 'scheduled', unixTs: arrivalData.scheduled_arrival_unix * 1000 });
 			}
 		});
 		for (const key of Object.keys(result)) {
@@ -73,21 +69,11 @@ export function VehiclesDetailPathList() {
 	const scrollViewRef = useRef<ScrollView>(null);
 
 	const selectedIndex = sortedStops?.findIndex(
-		waypoint =>
-			linesDetailContext.data.active_waypoint?.stop_id === waypoint.stop_id
-			&& linesDetailContext.data.active_waypoint?.stop_sequence === waypoint.stop_sequence,
-	);
+		waypoint => linesDetailContext.data.active_waypoint?.stop_id === waypoint.stop_id && linesDetailContext.data.active_waypoint?.stop_sequence === waypoint.stop_sequence);
 
 	useEffect(() => {
-		if (
-			selectedIndex !== undefined
-			&& selectedIndex !== -1
-			&& scrollViewRef.current
-		) {
-			scrollViewRef.current.scrollTo({
-				animated: true,
-				y: selectedIndex * 80,
-			});
+		if (selectedIndex !== undefined && selectedIndex !== -1 && scrollViewRef.current) {
+			scrollViewRef.current.scrollTo({ animated: true, y: selectedIndex * 80 });
 		}
 	}, [selectedIndex, linesDetailContext.data.active_waypoint]);
 
@@ -105,13 +91,6 @@ export function VehiclesDetailPathList() {
 				const thisStopSequence = waypoint.stop_sequence;
 				const hasBeenPassed = currentVehicleStopSequence !== undefined && thisStopSequence < currentVehicleStopSequence;
 				const isNextStop = currentVehicleStopSequence !== undefined && thisStopSequence === currentVehicleStopSequence;
-
-				// console.log(
-				// 	`[VDPL] Waypoint: ${waypoint.stop_id} (Seq: ${thisStopSequence}), ` +
-				// 	`CurrentVehicleSeq: ${currentVehicleStopSequence}, ` +
-				// 	`HasBeenPassed: ${hasBeenPassed}, ` +
-				// 	`IsNextStop: ${isNextStop}`
-				// );
 
 				return (
 					<PathWaypoint

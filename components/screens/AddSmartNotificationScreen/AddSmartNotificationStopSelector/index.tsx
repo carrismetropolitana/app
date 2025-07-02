@@ -1,3 +1,5 @@
+/* * */
+
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { Waypoint } from '@carrismetropolitana/api-types/network';
@@ -15,13 +17,22 @@ interface StopSelectorProps {
 	selectedVersionId?: string
 	setSelectedStopId: (stopId: string) => void
 }
+
 /* * */
 
 export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVersionId, setSelectedStopId }: StopSelectorProps) => {
+	//
+
+	//
+	// A. Setup Variables
+
 	const { t } = useTranslation('translation', { keyPrefix: 'smartNotifications.StopSelector' });
 	const stopSelectorStyles = styles();
 	const linesDetailContext = useLinesDetailContext();
 	const stopsContext = useStopsContext();
+
+	//
+	// B. Render Components
 
 	return (
 		<>
@@ -62,4 +73,6 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 			</View>
 		</>
 	);
+
+	//
 };
