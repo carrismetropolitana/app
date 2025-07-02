@@ -39,6 +39,9 @@
 		"orientation": "portrait",
 		"owner": "skasix00",
 		"plugins": [
+			"@react-native-firebase/app",
+			"@react-native-firebase/messaging",
+			"@maplibre/maplibre-react-native",
 			[
 				"expo-notifications",
 				{

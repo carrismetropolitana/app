@@ -627,6 +627,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const postSmartNotificationToCloud = async (notification: AccountWidget) => {
 		if (!consentContext.data.enabled_functional || !dataApiTokenState) return;
 		try {
+			console.log('dataapi token state', dataApiTokenState);
 			const response = await fetch(`${Routes.API_ACCOUNTS}/smart-notifications`, {
 				body: JSON.stringify(notification),
 				headers: {
