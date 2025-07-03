@@ -72,7 +72,8 @@ export default function ProfileScreen() {
 		return JSON.stringify(widget);
 	};
 
-	// D. Render Components
+	//
+	// C. Render Components
 
 	return (
 		<GestureHandlerRootView style={{ flex: 1, ...profileStyles.container }}>
@@ -105,4 +106,6 @@ export default function ProfileScreen() {
 			/>
 		</GestureHandlerRootView>
 	);
+
+	//
 }
