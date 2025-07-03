@@ -15,14 +15,14 @@ import { useProfileContext } from '@/contexts/Profile.context';
 import { getSecondsSinceMidnight } from '@/utils/getSeconsSinceMidnight';
 import { Routes } from '@/utils/routes';
 import { Pattern } from '@carrismetropolitana/api-types/network';
-import { Button, Input, ListItem, Text } from '@rn-vui/themed';
+import { Input, ListItem, Text } from '@rn-vui/themed';
 import { IconArrowLoopRight, IconArrowRight, IconCircle, IconCircleCheckFilled, IconSearch, IconX } from '@tabler/icons-react-native';
 import { useNavigation } from 'expo-router';
 import { DateTime } from 'luxon';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native';
 
 import styles from './styles';
 
@@ -56,6 +56,7 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 	const [startingSeconds, setStartingSeconds] = useState<0 | number>(0);
 	const [endingSeconds, setEndingSeconds] = useState<0 | number>(0);
 	const [selectedIndex, setSelectedIndex] = useState<number[]>([]);
+	const [loadedWidgetData, setLoadedWidgetData] = useState<any>(null);
 
 	const linesDetailContext = useLinesDetailContext();
 	const profileContext = useProfileContext();
@@ -65,12 +66,12 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 	//
 	// B. Fetch Data
 
-	console.log('ID in the screen:', Id);
 	useEffect(() => {
 		if (!Id) return;
 		const widget = profileContext.data.profile?.widgets?.find(w => w.data && w.data.type === 'smart_notifications' && 'id' in w.data && w.data.id === Id);
 		if (widget && widget.data && widget.data.type === 'smart_notifications') {
 			const data = widget.data;
+			setLoadedWidgetData(data);
 			if (data.week_days) {
 				setSelectedIndex(data.week_days.map(day => weekDays.indexOf(day)));
 			}
@@ -80,11 +81,38 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 			if (data.end_time !== undefined) {
 				setEndingHour(DateTime.fromSeconds(data.end_time).toJSDate());
 			}
-			if (data.pattern_id) setSelectedPatternId(data.pattern_id);
-			if (data.stop_id) setSelectedStopId(data.stop_id);
 			if (data.distance !== undefined) setRadius(data.distance);
+			// Do NOT set selectedPatternId here; do it in a separate effect below
+			if (data.pattern_id) {
+				const lineIdFromPattern = data.pattern_id.split('_')[0];
+				linesDetailContext.actions.setLineId(lineIdFromPattern);
+				linesDetailContext.actions.setActivePattern(data.pattern_id);
+			}
 		}
 	}, [Id]);
+
+	useEffect(() => {
+		const setPatternFromWidget = async () => {
+			if (
+				loadedWidgetData
+				&& loadedWidgetData.pattern_id
+				&& linesDetailContext.data.line?.pattern_ids?.includes(loadedWidgetData.pattern_id)
+			) {
+				const patternData = await fetchPattern(loadedWidgetData.pattern_id);
+				if (patternData) {
+					setSelectedPatternId(patternData.id);
+					setSelectedVersionId(patternData.version_id);
+				}
+			}
+		};
+		setPatternFromWidget();
+	}, [loadedWidgetData, linesDetailContext.data.line?.pattern_ids]);
+
+	useEffect(() => {
+		if (loadedWidgetData && loadedWidgetData.stop_id && selectedPatternId) {
+			setSelectedStopId(loadedWidgetData.stop_id);
+		}
+	}, [loadedWidgetData, selectedPatternId]);
 
 	const fetchPattern = async (patternId: string) => {
 		try {
@@ -178,7 +206,7 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 	// D. Render Components
 
 	return (
-		<ScrollView showsVerticalScrollIndicator={false} style={addFavoriteLineStyles.overlay}>
+		<ScrollView scrollEventThrottle={16} showsVerticalScrollIndicator={false} style={addFavoriteLineStyles.overlay}>
 			<View style={addFavoriteLineStyles.container}>
 				<HeaderExplainer heading={t('heading')} subheading={t('subheading')} />
 				<VerticalContentSeparator starting />

@@ -133,7 +133,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		setFlagIsLoadingState(false);
 		const intervalId = setInterval(() => {
 			fetchData();
-		}, 3000);
+		}, 1000);
 
 		return () => clearInterval(intervalId);
 	}, [consentContext.data.enabled_functional]);
@@ -142,7 +142,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		if (consentContext.data.enabled_functional && dataApiTokenState && dataProfileState) {
 			syncProfiles(dataProfileState);
 		}
-	}, [dataProfileState, consentContext.data.enabled_functional]);
+	}, [dataProfileState, consentContext.data.enabled_functional, dataPersonaImageState, dataApiTokenState]);
 	// Load data on initial render
 	useEffect(() => {
 		if (!consentContext.data.enabled_functional) return;
@@ -287,16 +287,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		}
 		try {
 			let image: null | ProfileImage = null;
-
-			let response: Response;
-			try {
-				response = await fetch(`${Routes.API_ACCOUNTS}/persona/`);
-			}
-			catch (networkError) {
-				console.error('Network error fetching persona:', networkError);
-				alert('Network error. Please check your connection and try again.');
-				return;
-			}
+			const response = await fetch(`${Routes.API_ACCOUNTS}/persona/`);
 
 			if (!response.ok) {
 				console.error('Error fetching persona:', response.status, response.statusText);

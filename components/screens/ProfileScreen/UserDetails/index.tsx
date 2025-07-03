@@ -22,6 +22,7 @@ interface Props {
 export const UserDetails = ({ widgetList }: Props) => {
 	//
 
+	//
 	// A. Setup Variables
 
 	const profileContext = useProfileContext();
@@ -36,6 +37,7 @@ export const UserDetails = ({ widgetList }: Props) => {
 		setProfile(profileContext.data.profile || null);
 		setAccentColor(profileContext.data?.accent_color || null);
 	}, [profileContext]);
+
 	//
 	// C. Render Components
 
@@ -56,4 +58,6 @@ export const UserDetails = ({ widgetList }: Props) => {
 			</View>
 		</>
 	);
+
+	//
 };
