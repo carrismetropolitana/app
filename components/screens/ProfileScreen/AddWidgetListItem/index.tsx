@@ -29,8 +29,8 @@ export const AddWidgetListItem = ({ icon, label, route }: Props) => {
 	// B. Render Components
 	return (
 		<ListItem onPress={() => router.push(route)}>
-			{icon}
-			<ListItem.Content> <ListItem.Title style={addWidgetListItemStyles.listTitle}><Text>{label}</Text></ListItem.Title> </ListItem.Content>
+			<Text>{icon}</Text>
+			<ListItem.Content><ListItem.Title style={addWidgetListItemStyles.listTitle}><Text>{label}</Text></ListItem.Title></ListItem.Content>
 			<IconCirclePlus color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100} fill="#3CB43C" size={24} />
 		</ListItem>
 	);

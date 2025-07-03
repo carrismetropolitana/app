@@ -5,7 +5,6 @@ import { SwipeUnderlay } from '@/components/screens/ProfileScreen/SwipeUnderlay'
 import { AccountWidget } from '@/types/account.types';
 import { useRef } from 'react';
 import { ScaleDecorator } from 'react-native-draggable-flatlist';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import SwipeableItem, { OpenDirection, SwipeableItemImperativeRef } from 'react-native-swipeable-item';
 
 /* * */
@@ -17,32 +16,31 @@ interface RenderFavoriteItemProps {
 	item: AccountWidget
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const RenderFavoriteItem = ({ drag, index, isActive, item }: any) => {
+/* * */
+
+export const RenderFavoriteItem = ({ drag, index, isActive, item }: RenderFavoriteItemProps) => {
 	//
 
 	//
 	// A. Setup Variables
+
 	const key = widgetKey(item);
 	const itemRefs = useRef<Map<string, SwipeableItemImperativeRef>>(new Map());
 
 	function widgetKey(widget: AccountWidget) {
-		if (widget.data.type === 'lines')
-			return `lines-${widget.data.pattern_id}`;
-		if (widget.data.type === 'stops')
-			return `stops-${widget.data.stop_id}`;
-		if (widget.data.type === 'smart_notifications')
-			return `smart_notifications-${widget.data.id || ''}`;
-		return JSON.stringify(widget);
+		if (widget.data.type === 'lines') return `lines-${widget.data.pattern_id}`;
+		if (widget.data.type === 'stops') return `stops-${widget.data.stop_id}`;
+		if (widget.data.type === 'smart_notifications') return `smart_notifications-${widget.data.id || ''}`;
 	}
 
 	//
 	// B.Render Components
+
 	return (
 		<ScaleDecorator>
 			<SwipeableItem
 				key={key}
-				ref={(ref) => { if (ref) itemRefs.current.set(key, ref); }}
+				ref={(ref) => { if (ref && key) itemRefs.current.set(key, ref); }}
 				activationThreshold={20}
 				item={item}
 				snapPointsLeft={[100]}
@@ -58,10 +56,10 @@ export const RenderFavoriteItem = ({ drag, index, isActive, item }: any) => {
 					<SwipeUnderlay direction={OpenDirection.LEFT} index={item.settings?.display_order ?? index} open={open} percentOpen={percentOpen} />
 				)}
 			>
-				<TouchableOpacity delayLongPress={200} disabled={isActive} onLongPress={drag}>
-					<FavoriteItem data={item} drag={drag} isActive={isActive} />
-				</TouchableOpacity>
+				<FavoriteItem data={item} drag={drag} isActive={isActive} />
 			</SwipeableItem>
 		</ScaleDecorator>
 	);
+
+	//
 };
