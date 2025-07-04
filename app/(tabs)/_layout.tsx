@@ -33,7 +33,6 @@ export default function TabLayout() {
 	const netInfo = useNetInfo();
 	const icons = { home: IconUserCircle, lines: IconArrowLoopRight, more: IconDots, stops: IconMap };
 	const borderColor = themeContext.theme.mode === 'light' ? theming.colorSystemBorder100 : theming.colorSystemBorderDark200;
-	const backgroundColor = themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200;
 
 	const styles = StyleSheet.create({
 		iconWrapper: {
@@ -101,14 +100,18 @@ export default function TabLayout() {
 							tabBarShowLabel: false,
 							tabBarStyle: Platform.select({
 								android: {
-									backgroundColor: backgroundColor,
+									backgroundColor: 'transparent',
 									borderTopColor: borderColor,
 									height: 74 + insets.bottom,
 									paddingBottom: 30,
 									paddingTop: 20,
 									position: 'absolute',
 								},
-								default: { height: 74 + insets.bottom, paddingBottom: 30, paddingTop: 20 },
+								default: {
+									height: 74 + insets.bottom,
+									paddingBottom: 30,
+									paddingTop: 20,
+								},
 								ios: {
 									backgroundColor: 'transparent',
 									borderTopColor: borderColor,

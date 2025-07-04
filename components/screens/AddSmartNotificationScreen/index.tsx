@@ -30,11 +30,12 @@ import styles from './styles';
 
 interface AddSmartNotificationScreenProps {
 	Id?: string
+	PatternId?: string
 }
 
 /* * */
 
-export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationScreenProps) {
+export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNotificationScreenProps) {
 	//
 	//
 
@@ -65,9 +66,8 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 
 	//
 	// B. Fetch Data
-
 	useEffect(() => {
-		if (!Id) return;
+		if (!Id && !PatternId) return;
 		const widget = profileContext.data.profile?.widgets?.find(w => w.data && w.data.type === 'smart_notifications' && 'id' in w.data && w.data.id === Id);
 		if (widget && widget.data && widget.data.type === 'smart_notifications') {
 			const data = widget.data;
@@ -82,14 +82,30 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 				setEndingHour(DateTime.fromSeconds(data.end_time).toJSDate());
 			}
 			if (data.distance !== undefined) setRadius(data.distance);
-			// Do NOT set selectedPatternId here; do it in a separate effect below
 			if (data.pattern_id) {
 				const lineIdFromPattern = data.pattern_id.split('_')[0];
 				linesDetailContext.actions.setLineId(lineIdFromPattern);
 				linesDetailContext.actions.setActivePattern(data.pattern_id);
 			}
 		}
-	}, [Id]);
+		if (Id) {
+			linesDetailContext.actions.setLineId(Id);
+		}
+		if (PatternId) {
+			const lineIdFromPattern = PatternId.split('_')[0];
+			linesDetailContext.actions.setLineId(lineIdFromPattern);
+			linesDetailContext.actions.setActivePattern(PatternId);
+		}
+	}, [Id, PatternId]);
+
+	useEffect(() => {
+		if (PatternId && patternVersionIds && Object.keys(patternVersionIds).length > 0) {
+			setSelectedPatternId(PatternId);
+			if (patternVersionIds[PatternId]) {
+				setSelectedVersionId(patternVersionIds[PatternId]);
+			}
+		}
+	}, [PatternId, patternVersionIds]);
 
 	useEffect(() => {
 		const setPatternFromWidget = async () => {
@@ -206,7 +222,14 @@ export default function AddSmartNotificationScreen({ Id }: AddSmartNotificationS
 	// D. Render Components
 
 	return (
-		<ScrollView scrollEventThrottle={16} showsVerticalScrollIndicator={false} style={addFavoriteLineStyles.overlay}>
+		<ScrollView
+			bounces={false}
+			contentContainerStyle={addFavoriteLineStyles.scrollContent} // ← new
+			keyboardShouldPersistTaps="handled"
+			overScrollMode="never"
+			showsVerticalScrollIndicator={false}
+			style={addFavoriteLineStyles.overlay}
+		>
 			<View style={addFavoriteLineStyles.container}>
 				<HeaderExplainer heading={t('heading')} subheading={t('subheading')} />
 				<VerticalContentSeparator starting />

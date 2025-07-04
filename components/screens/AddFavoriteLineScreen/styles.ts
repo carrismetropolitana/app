@@ -7,57 +7,34 @@ import { StyleSheet } from 'react-native';
 /* * */
 const styles = () => {
 	const themeContext = useThemeContext();
-	const selectorBackgroundColor = themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100;
+	const backgroundColor = themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200;
+	const fontColor = themeContext.theme.mode === 'light' ? theming.colorSystemText200 : theming.colorSystemText300;
 
 	return StyleSheet.create({
-		arrow: {
-			color: '#3D85C6',
-			fontSize: 20,
-			marginRight: 6,
-		},
-		backButton: {
-			alignItems: 'center',
-			flexDirection: 'row',
-		},
-		backText: {
-			color: '#3D85C6',
-			fontSize: 16,
-			fontWeight: '500',
-		},
 		container: {
-			backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
+			backgroundColor: backgroundColor,
 			paddingBottom: 50,
 		},
-		deleteButton: {
-			backgroundColor: theming.colorAlerts3,
-			borderRadius: 30,
-			color: '#FFFFFF',
+		lineIdentifier: {
+			fontSize: 14,
+			fontWeight: theming.fontWeightBold as '700',
+			padding: 13,
+			textAlign: 'left',
 		},
-		deleteButtonText: {
-			color: '#FFFFFF',
-			fontSize: 16,
-			fontWeight: '600',
-		},
-		firstHeader: {
-			backgroundColor: selectorBackgroundColor,
-		},
-		header: {
-			alignItems: 'center',
-			flexDirection: 'row',
-			paddingHorizontal: 16,
-		},
+
 		listTitle: {
-			color: theming.colorSystemText200,
+			color: fontColor,
 			fontSize: 16,
 			fontWeight: '600',
 		},
-
 		overlay: {
-			backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
+			backgroundColor: backgroundColor,
+			flex: 1,
 		},
-
-
-
+		sectionContainer: {
+			marginBottom: 20,
+			marginTop: 10,
+		},
 	});
 };
 export default styles;

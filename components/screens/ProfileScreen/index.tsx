@@ -76,7 +76,7 @@ export default function ProfileScreen() {
 	// C. Render Components
 
 	return (
-		<GestureHandlerRootView style={{ flex: 1, ...profileStyles.container }}>
+		<GestureHandlerRootView style={{ flex: 1, ...profileStyles.container, backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background }}>
 			<DraggableFlatList
 				activationDistance={10}
 				data={widgetList}

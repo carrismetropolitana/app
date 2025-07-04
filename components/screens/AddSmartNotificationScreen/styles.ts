@@ -13,7 +13,6 @@ const styles = () => {
 	const selectorBackgroundColor = themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100;
 
 	return StyleSheet.create({
-
 		container: {
 			backgroundColor: backgroundColor,
 			paddingBottom: 60,
@@ -27,7 +26,6 @@ const styles = () => {
 			backgroundColor: selectorBackgroundColor,
 			flexDirection: 'column',
 		},
-
 		lineDescriptionTitle: {
 			marginBottom: 15,
 			marginTop: 20,
@@ -39,8 +37,13 @@ const styles = () => {
 			fontSize: 16,
 			fontWeight: theming.fontWeightSemibold as '600',
 		},
+
 		overlay: {
 			backgroundColor: backgroundColor,
+		},
+		scrollContent: {
+			flexGrow: 1,
+			paddingBottom: 60, // if you still want that bottom space
 		},
 		selectNotificationContol: {
 			alignItems: 'center',

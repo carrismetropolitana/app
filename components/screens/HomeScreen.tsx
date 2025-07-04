@@ -28,7 +28,7 @@ export default function HomeScreen() {
 	return (
 		<View style={{ backgroundColor, flex: 1 }}>
 			<Header />
-			<ScrollView contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false} style={{ paddingTop: insets.top + 95 }}>
+			<ScrollView contentContainerStyle={{ paddingBottom: 74 + insets.bottom }} showsVerticalScrollIndicator={false} style={{ paddingTop: insets.top + 95 }}>
 				<FavoritesBar />
 				<View style={{ paddingHorizontal: 20 }}>
 					<WidgetCards />

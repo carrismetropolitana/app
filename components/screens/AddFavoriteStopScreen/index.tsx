@@ -1,6 +1,7 @@
 /* * */
 
 import StopsListChooserModal from '@/app/(modal)/StopsListChooserModal';
+import { HeaderExplainer } from '@/components/common/HeaderExplainer';
 import { Section } from '@/components/common/layout/Section';
 import { LineBadge } from '@/components/lines/LineBadge';
 import { WidgetActionsButtonGroup } from '@/components/widgets/WidgetsActionsButtonGroup';
@@ -82,7 +83,6 @@ export default function AddFavoriteStopScreen() {
 		setSelectedStopPatterns([]);
 		setSelectedStopId('');
 		setPatternNames({});
-		navigation.goBack();
 	};
 
 	//
@@ -130,32 +130,15 @@ export default function AddFavoriteStopScreen() {
 	}
 
 	return (
-
 		<ScrollView style={addFavoriteStopStyles.container}>
-			<View style={addFavoriteStopStyles.firstHeader}>
+			<HeaderExplainer heading="Paragem Favorita" subheading="Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas." />
+
+			<View style={addFavoriteStopStyles.sectionContainer}>
 				<Section
-					heading="Paragem Favorita"
-					subheading="Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas."
+					heading="1. Selecionar Paragem "
+					subheading="Escolha uma paragem para visualizar na página principal"
 				/>
 			</View>
-			<View style={addFavoriteStopStyles.videoContainer}>
-				<TouchableOpacity>
-					<ListItem>
-						<IconPlayerPlayFilled color="#3D85C6" fill="#3D85C6" size={24} />
-						<ListItem.Content>
-							<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-								<Text>Ver Vídeo Explicativo</Text>
-							</ListItem.Title>
-						</ListItem.Content>
-						<ListItem.Chevron />
-					</ListItem>
-				</TouchableOpacity>
-			</View>
-
-			<Section
-				heading="1. Selecionar Paragem "
-				subheading="Escolha uma paragem para visualizar na página principal"
-			/>
 			<View>
 				{selectedStop && (
 					<ListItem>
@@ -179,88 +162,65 @@ export default function AddFavoriteStopScreen() {
 				</ListItem>
 			</View>
 
-			<View style={{ marginBottom: 20, marginTop: 20 }}>
-				<Section
-					heading="2. Escolher destinos "
-					subheading="Pode escolher apenas os destinos que lhe interessam a partir desta paragem. Personalize o seu painel de informação único."
-				/>
+			<View style={{ marginBottom: 10, marginTop: 10 }}>
+				<View style={addFavoriteStopStyles.sectionContainer}>
+					<Section
+						heading="2. Escolher destinos "
+						subheading="Pode escolher apenas os destinos que lhe interessam a partir desta paragem. Personalize o seu painel de informação único."
+					/>
+				</View>
 				<View>
-					{selectedStop && selectedStop.pattern_ids.length > 0 ? (
-						Object.entries(
-							selectedStop.pattern_ids.reduce((acc: Record<string, string[]>, patternId: string) => {
-								const lineId = patternId.split('_')[0];
-								if (!acc[lineId]) acc[lineId] = [];
-								acc[lineId].push(patternId);
-								return acc;
-							}, {}),
-						).map(([lineId, patternIds]) => {
-							const line = linesContext.data.lines.find(line => line.id === lineId);
-							const lineColor = line?.color;
-							return (
-								<View key={lineId} style={{ marginBottom: 16 }}>
-									<Text style={[addFavoriteStopStyles.listTitle, { marginBottom: 4 }]}>Linha {lineId}{line?.long_name ? ` - ${line.long_name}` : ''}</Text>
-									{patternIds.map((patternId) => {
-										const isSelected = selectedStopPatterns.includes(patternId);
-										return (
-											<ListItem
-												key={patternId}
-												onPress={() => togglePattern(patternId, selectedStopPatterns, setSelectedStopPatterns)}
-											>
-												<LineBadge
-													color={lineColor}
-													lineId={lineId}
-													size="lg"
+					{selectedStop && Object.entries(
+						selectedStop.pattern_ids.reduce((acc: Record<string, string[]>, patternId: string) => {
+							const lineId = patternId.split('_')[0];
+							if (!acc[lineId]) acc[lineId] = [];
+							acc[lineId].push(patternId);
+							return acc;
+						}, {}),
+					).map(([lineId, patternIds]) => {
+						const line = linesContext.data.lines.find(line => line.id === lineId);
+						const lineColor = line?.color;
+						return (
+							<View key={lineId} style={{ marginBottom: 16 }}>
+								<Text style={[addFavoriteStopStyles.listTitle, addFavoriteStopStyles.lineIdentifier]}>Linha {lineId}{line?.long_name ? ` - ${line.long_name}` : ''}</Text>
+								{patternIds.map((patternId) => {
+									const isSelected = selectedStopPatterns.includes(patternId);
+									return (
+										<ListItem key={patternId} onPress={() => togglePattern(patternId, selectedStopPatterns, setSelectedStopPatterns)}>
+											<LineBadge color={lineColor} lineId={lineId} size="lg" />
+											<IconArrowRight size={10} />
+											<ListItem.Content>
+												<ListItem.Title style={addFavoriteStopStyles.listTitle}> {patternNames[patternId] || 'Sem destino'}</ListItem.Title>
+											</ListItem.Content>
+											{isSelected && (
+												<IconCircleCheckFilled
+													fill="#3CB43C"
+													size={24}
+													color={
+														themeContext.theme.mode === 'light'
+															? theming.colorSystemBackgroundLight100
+															: theming.colorSystemBackgroundDark100
+													}
 												/>
-												<IconArrowRight size={10} />
-												<ListItem.Content>
-													<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-														{patternNames[patternId] || 'Sem destino'}
-													</ListItem.Title>
-												</ListItem.Content>
-												{isSelected ? (
-													<IconCircleCheckFilled
-														fill="#3CB43C"
-														size={24}
-														color={
-															themeContext.theme.mode === 'light'
-																? theming.colorSystemBackgroundLight100
-																: theming.colorSystemBackgroundDark100
-														}
-													/>
-												) : (
-													<IconCircle color="grey" size={24} />
-												)}
-											</ListItem>
-										);
-									})}
-								</View>
-							);
-						})
-					) : (
+											)}
+											{!isSelected && (<IconCircle color="grey" size={24} />)}
+										</ListItem>
+									);
+								})}
+							</View>
+						);
+					})}
+					{!selectedStop && selectedStopPatterns.length === 0 && (
 						<ListItem>
 							<ListItem.Content>
-								<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-									<Text>Selecione uma paragem para ver os destinos.</Text>
-								</ListItem.Title>
+								<ListItem.Title style={addFavoriteStopStyles.listTitle}> <Text>Selecione uma paragem para ver os destinos.</Text> </ListItem.Title>
 							</ListItem.Content>
 						</ListItem>
 					)}
 				</View>
 			</View>
-
-			<WidgetActionsButtonGroup
-				length={selectedStopPatterns.length}
-				onClear={clearSelection}
-				type="stops"
-				dataToSubmit={{ data: { pattern_ids: selectedStopPatterns, stop_id: selectedStopId, type: 'stops' }, settings: { is_open: true },
-				}}
-			/>
-
-			<StopsListChooserModal
-				isVisible={stopChooserVisibility}
-				onBackdropPress={() => setStopChooserVisibility(!stopChooserVisibility)}
-				selectedStopData={stopData => handleSelectedStop(stopData)}
-			/>
+			<WidgetActionsButtonGroup dataToSubmit={{ data: { pattern_ids: selectedStopPatterns, stop_id: selectedStopId, type: 'stops' }, settings: { is_open: true } }} length={selectedStopPatterns.length} onClear={clearSelection}type="stops" />
+			<StopsListChooserModal isVisible={stopChooserVisibility} onBackdropPress={() => setStopChooserVisibility(!stopChooserVisibility)} selectedStopData={stopData => handleSelectedStop(stopData)} />
 		</ScrollView>
 	);
 

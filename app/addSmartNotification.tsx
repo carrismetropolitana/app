@@ -19,8 +19,9 @@ export default function AddSmartNotification() {
 	const navigation = useNavigation();
 	const themeContext = useThemeContext();
 	const params = useLocalSearchParams();
-	const smartNotificationID = typeof params.smartNotificationId === 'string' ? params.smartNotificationId : undefined;
-	const lineID = typeof params.lineId === 'string' ? params.lineID : undefined;
+	const smartNotificationID = typeof params.smartNotificationId === 'string' ? params.smartNotificationId : Array.isArray(params.smartNotificationId) ? params.smartNotificationId[0] : undefined;
+	const lineID = typeof params.lineId === 'string' ? params.lineId : Array.isArray(params.lineId) ? params.lineId[0] : undefined;
+	const patternId = typeof params.patternId === 'string' ? params.patternId : Array.isArray(params.patternId) ? params.patternId[0] : undefined;
 	const id = smartNotificationID ? smartNotificationID : lineID;
 
 	console.log(id);
@@ -42,7 +43,7 @@ export default function AddSmartNotification() {
 		<LinesListContextProvider>
 			<LinesDetailContextProvider>
 				<StopsDetailContextProvider>
-					<AddSmartNotificationScreen Id={id} />
+					<AddSmartNotificationScreen Id={id} PatternId={patternId} />
 				</StopsDetailContextProvider>
 			</LinesDetailContextProvider>
 		</LinesListContextProvider>

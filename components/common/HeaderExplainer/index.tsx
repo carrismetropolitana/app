@@ -1,7 +1,6 @@
 /* * */
-
-import { Section } from '@/components/common/layout/Section';
 import { VideoExplainer } from '@/components/common/VideoExplainer';
+import { Text } from '@rn-vui/themed';
 import { View } from 'react-native';
 
 import styles from './styles';
@@ -17,12 +16,12 @@ interface Props {
 export const HeaderExplainer = ({ heading, subheading }: Props) => {
 	const headerExplainerStyles = styles();
 	return (
-		<View style={headerExplainerStyles.firstHeader}>
-			<Section
-				heading={heading}
-				subheading={subheading}
-			/>
+		<>
+			<View style={headerExplainerStyles.firstHeader}>
+				<Text style={headerExplainerStyles.heading}>{heading}</Text>
+				<Text style={headerExplainerStyles.subheading}>{subheading}</Text>
+			</View>
 			<VideoExplainer />
-		</View>
+		</>
 	);
 };
