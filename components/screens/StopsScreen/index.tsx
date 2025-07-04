@@ -1,0 +1,214 @@
+/* * */
+import type { Stop } from '@carrismetropolitana/api-types/network';
+
+import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
+import { MapStyle, MapView } from '@/components/map/MapView';
+import { MapViewStyleStops } from '@/components/map/MapViewStyleStops';
+import StopDetailNextArrivals from '@/components/stops/StopDetailNextArrivals';
+import { useLocationsContext } from '@/contexts/Locations.context';
+import { useMapOptionsContext } from '@/contexts/MapOptions.context';
+import { useStopsContext } from '@/contexts/Stops.context';
+import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
+import { useThemeContext } from '@/contexts/Theme.context';
+import { theming } from '@/theme/Variables';
+import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import { MapViewRef, PointAnnotation } from '@maplibre/maplibre-react-native';
+import { ListItem } from '@rn-vui/themed';
+import { Link } from 'expo-router';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { SafeAreaView, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Svg, { Circle } from 'react-native-svg';
+
+import { styles } from './styles';
+
+/* * */
+
+export default function StopsScreen() {
+	//
+
+	//
+	// A.Setup variables
+
+	const stopsContext = useStopsContext();
+	const stopDetailContext = useStopsDetailContext();
+	const mapOptionsContext = useMapOptionsContext();
+	const themeContext = useThemeContext();
+	const stops = stopsContext.actions.getAllStopsGeoJsonFC();
+	const locationContext = useLocationsContext();
+	const insets = useSafeAreaInsets();
+	const [userLocation, setUserLocation] = useState({ latitude: locationContext.data.currentCords?.latitude ?? 0, longitude: locationContext.data.currentCords?.longitude ?? 0 });
+	const [selectedStop, setSelectedStop] = useState<'' | string>('');
+	const [stopData, setStopData] = useState<Stop | undefined>(undefined);
+	const [initialCameraSet, setInitialCameraSet] = useState(false);
+	const [flaggedStopId, setFlaggedStopId] = useState<null | string>(null);
+
+	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+	const stopMapDetailStyles = styles();
+	const mapRef = useRef<MapViewRef>(null);
+
+	//
+	// B, Fetch data
+
+	useEffect(() => {
+		if (locationContext.data.currentCords) {
+			setUserLocation({
+				latitude: locationContext.data.currentCords.latitude,
+				longitude: locationContext.data.currentCords.longitude,
+			});
+		}
+	}, [locationContext.data.currentCords]);
+
+	useEffect(() => {
+		if (!selectedStop) return;
+
+		const stopData = stopsContext.actions.getStopById(selectedStop);
+
+		if (stopData) {
+			setStopData(stopData);
+			bottomSheetModalRef.current?.present();
+		}
+	}, [selectedStop]);
+
+	//
+	// C. Handle actions
+
+	const handleStopPress = useCallback((stopId: string) => {
+		handleCenterMapByStopId();
+		setSelectedStop(stopId);
+		setFlaggedStopId(stopId);
+		stopDetailContext.actions.setActiveStopId(stopId);
+	}, []);
+
+	const handleStopDeselect = useCallback(() => {
+		handleCenterMap();
+		bottomSheetModalRef.current?.close();
+		setSelectedStop('');
+		setFlaggedStopId(null);
+		stopDetailContext.actions.setActiveStopId('');
+	}, []);
+
+	const handleCenterMap = useCallback(() => {
+		if (mapRef.current && userLocation) {
+			(mapRef.current as unknown as any).setCamera({
+				animationDuration: 1000,
+				centerCoordinate: [userLocation.longitude, userLocation.latitude],
+				zoomLevel: 10,
+			});
+		}
+	}, []);
+
+	const handleCenterMapByStopId = useCallback(() => {
+		console.log('Centering map on stop:', stopData);
+		if (mapRef.current && stopData) {
+			console.log('Centering map on stop:', stopData);
+			(mapRef.current as unknown as any).setCamera({
+				animationDuration: 1000,
+				centerCoordinate: [stopData.lat, stopData.lon],
+				zoomLevel: 20,
+			});
+		}
+	}, []);
+
+	//
+	// D. Render components
+
+	return (
+		<SafeAreaView style={stopMapDetailStyles.container}>
+			<MapView
+				{...(userLocation && !initialCameraSet
+					? {
+						camera: {
+							centerCoordinate: [userLocation.longitude, userLocation.latitude],
+							zoomLevel: 10,
+						},
+					}
+					: {})}
+				mapStyle={mapOptionsContext.data.style as MapStyle || 'map'}
+				onCenterMap={handleCenterMap}
+				onPress={handleStopDeselect}
+				scrollZoom={true}
+				toolbar={true}
+				onRegionDidChange={() => {
+					if (!initialCameraSet) setInitialCameraSet(true);
+				}}
+			>
+				{stops && (
+					<MapViewStyleStops
+						flaggedStopId={flaggedStopId || undefined}
+						onStopPress={handleStopPress}
+						stopsData={stops as GeoJSON.FeatureCollection<GeoJSON.Point>}
+					/>
+				)}
+				{userLocation && (
+					<PointAnnotation
+						coordinate={[userLocation.longitude, userLocation.latitude]}
+						id="userLocation"
+					>
+						<View
+							style={{
+								backgroundColor: '#007AFF',
+								borderColor: 'white',
+								borderRadius: 12,
+								borderWidth: 1,
+								height: 12,
+								width: 12,
+							}}
+						/>
+					</PointAnnotation>
+				)}
+			</MapView>
+			<BottomSheetModal
+				ref={bottomSheetModalRef}
+				snapPoints={['70%']}
+				backgroundStyle={{
+					backgroundColor: themeContext.theme.mode === 'light'
+						? theming.colorSystemBackgroundLight200
+						: theming.colorSystemBackgroundDark200,
+				}}
+			>
+				<BottomSheetScrollView
+					style={stopMapDetailStyles.contentContainer}
+					contentContainerStyle={{
+						paddingBottom: 74 + insets.bottom,
+					}}
+				>
+					{!stopData && <NoDataLabel text="Nenhum dado encontrado" />}
+					{stopData && (
+						<>
+							<ListItem>
+								<ListItem.Content>
+									<Link href={`/stop/${stopData.id}`} style={{ width: '100%' }}>
+										<View style={{ alignItems: 'center', flexDirection: 'row', gap: 10 }}>
+											<Svg fill="none" height={21} viewBox="0 0 20 21" width={20}>
+												<Circle cx={10} cy={10.5} fill="#FFDD00" r={9} stroke="black" strokeWidth={2} />
+											</Svg>
+											<View style={{ alignItems: 'flex-start', flexDirection: 'column', gap: 10 }}>
+												<ListItem.Title>
+													<Text style={stopMapDetailStyles.stopName}>{stopData.long_name}</Text>
+												</ListItem.Title>
+												<ListItem.Subtitle>
+													<Text style={stopMapDetailStyles.metaData}>{stopData.id}</Text>
+													<Text style={stopMapDetailStyles.metaData}> • </Text>
+													<Text style={stopMapDetailStyles.metaData}>{stopData.municipality_id}</Text>
+												</ListItem.Subtitle>
+											</View>
+										</View>
+									</Link>
+								</ListItem.Content>
+								<View style={{ width: 24 }} />
+								<ListItem.Chevron />
+
+							</ListItem>
+							<StopDetailNextArrivals href={`/stop/${selectedStop}`} description title />
+						</>
+					)}
+				</BottomSheetScrollView>
+			</BottomSheetModal>
+
+		</SafeAreaView>
+	);
+
+	//
+}

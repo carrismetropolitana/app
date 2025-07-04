@@ -1,25 +1,26 @@
-import { View, Text, StyleSheet } from "react-native";
+/* * */
 
-export default function LinesScreen() {
+import LinesScreen from '@/components/screens/LinesScreen';
+import { AlertsContextProvider } from '@/contexts/Alerts.context';
+import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
+import { LinesListContextProvider } from '@/contexts/LinesList.context';
+
+/* * */
+export default function Lines() {
+	//
+
+	//
+	// A . Render components
+
 	return (
-		<View style={styles.container}>
-			<Text style={styles.text}>Lines</Text>
-		</View>
-	);
-}
 
-const styles = StyleSheet.create({
-	container: {
-		fontFamily: "Inter",
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		backgroundColor: "#fff",
-	},
-	text: {
-		fontSize: 20,
-		textTransform: "uppercase",
-		fontWeight: 900,
-		color: "rgba(150, 150, 160, 1)",
-	},
-});
+		<LinesListContextProvider>
+			<AlertsContextProvider>
+				<LinesScreen />
+			</AlertsContextProvider>
+		</LinesListContextProvider>
+
+	);
+
+	//
+};

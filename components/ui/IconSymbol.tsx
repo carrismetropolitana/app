@@ -1,22 +1,23 @@
 // This file is a fallback for using MaterialIcons on Android and web.
 
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import type { SymbolWeight } from "expo-symbols";
-import type React from "react";
-import type { OpaqueColorValue, StyleProp, TextStyle } from "react-native";
+import type { SymbolWeight } from 'expo-symbols';
+import type React from 'react';
+import type { OpaqueColorValue, StyleProp, TextStyle } from 'react-native';
+
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 // Add your SFSymbol to MaterialIcons mappings here.
 const MAPPING = {
 	// See MaterialIcons here: https://icons.expo.fyi
 	// See SF Symbols in the SF Symbols app on Mac.
-	"house.fill": "home",
-	"paperplane.fill": "send",
-	"chevron.left.forwardslash.chevron.right": "code",
-	"chevron.right": "chevron-right",
+	'chevron.left.forwardslash.chevron.right': 'code',
+	'chevron.right': 'chevron-right',
+	'house.fill': 'home',
+	'paperplane.fill': 'send',
 } as Partial<
 	Record<
-		import("expo-symbols").SymbolViewProps["name"],
-		React.ComponentProps<typeof MaterialIcons>["name"]
+		import('expo-symbols').SymbolViewProps['name'],
+		React.ComponentProps<typeof MaterialIcons>['name']
 	>
 >;
 
@@ -28,22 +29,22 @@ export type IconSymbolName = keyof typeof MAPPING;
  * Icon `name`s are based on SFSymbols and require manual mapping to MaterialIcons.
  */
 export function IconSymbol({
+	color,
 	name,
 	size = 24,
-	color,
 	style,
 }: {
-	name: IconSymbolName;
-	size?: number;
-	color: string | OpaqueColorValue;
-	style?: StyleProp<TextStyle>;
-	weight?: SymbolWeight;
+	color: OpaqueColorValue | string
+	name: IconSymbolName
+	size?: number
+	style?: StyleProp<TextStyle>
+	weight?: SymbolWeight
 }) {
 	return (
 		<MaterialIcons
 			color={color}
-			size={size}
 			name={MAPPING[name]}
+			size={size}
 			style={style}
 		/>
 	);

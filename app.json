@@ -1,45 +1,128 @@
 {
-  "expo": {
-    "name": "cm-mobile",
-    "slug": "cm-mobile",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "carrismetropolitana",
-    "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "pt.carrismetropolitana.app",
-      "appleTeamId": "QGATT2W97P"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "pt.carrismetropolitana.mobile"
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
-    },
-    "plugins": [
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ],
-      "@maplibre/maplibre-react-native"
-    ],
-    "experiments": {
-      "typedRoutes": true
-    }
-  }
+	"expo": {
+		"android": {
+			"adaptiveIcon": {
+				"backgroundColor": "#ffffff",
+				"foregroundImage": "./assets/images/adaptive-icon.png"
+			},
+			"googleServicesFile": "./android/google-services.json",
+			"package": "pt.devcarrismetropolitana.mobile"
+		},
+		"experiments": {
+			"typedRoutes": true
+		},
+		"extra": {
+			"eas": {
+				"projectId": "43d60702-1266-4217-8cb8-54e1f9a722fe"
+			},
+			"router": {
+				"origin": false
+			}
+		},
+		"icon": "./assets/images/icon.png",
+		"ios": {
+			"appleTeamId": "QGATT2W97P",
+			"bundleIdentifier": "pt.devcarrismetropolitana.app",
+			"entitlements": { "aps-environment": "development" },
+			"googleServicesFile": "./ios/GoogleService-Info.plist",
+			"infoPlist": {
+				"ITSAppUsesNonExemptEncryption": false,
+				"NSUserNotificationUsageDescription": "Precisamos enviar notificações para avisar sobre novidades.",
+				"UIBackgroundModes": ["remote-notification"]
+			},
+			"jsEngine": "hermes",
+			"supportsTablet": true
+		},
+		"jsEngine": "hermes",
+		"name": "Carris Metropolitana DEV",
+		"newArchEnabled": true,
+		"orientation": "portrait",
+		"owner": "skasix00",
+		"plugins": [
+			"@react-native-firebase/app",
+			"@react-native-firebase/messaging",
+			"@maplibre/maplibre-react-native",
+			[
+				"expo-notifications",
+				{
+					"enableBackgroundRemoteNotifications": true
+				}
+			],
+			[
+				"expo-alternate-app-icons",
+				[
+					{
+						"android": {
+							"backgroundColor": "#FFFFFF",
+							"foregroundImage": "./assets/images/adaptive-icon.png"
+						},
+						"ios": {
+							"dark": "./assets/images/adaptive-icon.png",
+							"light": "./assets/images/adaptive-icon.png",
+							"tinted": "./assets/images/adaptive-icon.png"
+						},
+						"name": "default"
+					},
+					{
+						"android": {
+							"backgroundColor": "#000000",
+							"foregroundImage": "./assets/images/adaptive-icon.png"
+						},
+						"ios": {
+							"dark": "./assets/images/adaptive-icon.png",
+							"light": "./assets/images/adaptive-icon.png",
+							"tinted": "./assets/images/adaptive-icon.png"
+						},
+						"name": "dark"
+					}
+				]
+			],
+			"expo-router",
+			[
+				"expo-splash-screen",
+				{
+					"backgroundColor": "#ffffff",
+					"dark": {
+						"backgroundColor": "#1e1e28",
+						"image": "./assets/images/adaptive-icon.png"
+					},
+					"image": "./assets/images/adaptive-icon.png",
+					"imageWidth": 200,
+					"resizeMode": "contain"
+				}
+			],
+			[
+				"expo-font",
+				{
+					"fonts": [
+						"./assets/fonts/Inter-VariableFont_opsz,wght.ttf",
+						"./assets/fonts/SpaceMono-Regular.ttf"
+					]
+				}
+			],
+			[
+				"expo-location",
+				{
+					"locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+				}
+			],
+			"expo-localization",
+			"expo-audio"
+		],
+		"runtimeVersion": {
+			"policy": "appVersion"
+		},
+		"scheme": "devcarrismetropolitana",
+		"slug": "Carris Metropolitana DEV",
+		"updates": {
+			"url": "https://u.expo.dev/43d60702-1266-4217-8cb8-54e1f9a722fe"
+		},
+		"userInterfaceStyle": "automatic",
+		"version": "2025.06.27",
+		"web": {
+			"bundler": "metro",
+			"favicon": "./assets/images/adaptive-icon.png",
+			"output": "static"
+		}
+	}
 }

@@ -1,61 +1,74 @@
+/* * */
+
+import React, { memo, useCallback } from 'react';
 import {
-	View,
+	Dimensions,
 	FlatList,
 	Image,
-	Dimensions,
-	StyleSheet,
 	Pressable,
-} from "react-native";
+	StyleSheet,
+	View,
+} from 'react-native';
 
-const { width } = Dimensions.get("window");
+/* * */
 
-const RemoteImageCarousel = ({
-	imageUrls,
-	onImagePress,
-}: {
-	imageUrls: string[];
-	onImagePress: (index: number) => void;
-}) => {
+const { width } = Dimensions.get('window');
+const styles = StyleSheet.create({
+	image: {
+		borderRadius: 12,
+		height: '100%',
+		resizeMode: 'cover',
+		width: '100%',
+	},
+	imageContainer: {
+		alignItems: 'center',
+		elevation: 6,
+		justifyContent: 'center',
+		padding: 14,
+		shadowColor: '#000',
+		shadowOffset: { height: 0, width: 0 },
+		shadowOpacity: 0.05,
+		shadowRadius: 5,
+		width,
+	},
+	list: {
+		height: 250,
+	},
+});
+const RemoteImageCarousel = memo(({ imageUrls, onImagePress }: { imageUrls: string[], onImagePress: (index: number) => void }) => {
+	//
+
+	//
+	// A. Handle actions
+
+	const handlePress = useCallback((index: number) => {
+		onImagePress(index);
+	}, [onImagePress]);
+
+	//
+	// B. Render components
+
 	return (
 		<FlatList
 			data={imageUrls}
-			keyExtractor={(item, index) => index.toString()}
-			horizontal
+			decelerationRate="fast"
+			keyExtractor={item => item}
 			showsHorizontalScrollIndicator={false}
 			snapToInterval={width}
-			decelerationRate="fast"
-			style={{ height: 250 }}
-			renderItem={({ item }) => (
-				<Pressable onPress={() => onImagePress(imageUrls.indexOf(item))}>
+			style={styles.list}
+			renderItem={({ index, item }) => (
+				<Pressable accessibilityLabel={`Image ${index + 1}`} accessibilityRole="button" onPress={() => handlePress(index)}>
 					<View style={styles.imageContainer}>
-						{/* TODO: cache images for offline fallback, consider requesting with If-Modified-Since header */}
 						<Image source={{ uri: item }} style={styles.image} />
 					</View>
 				</Pressable>
 			)}
+			horizontal
 		/>
 	);
-};
+},
 
-const styles = StyleSheet.create({
-	imageContainer: {
-		width,
-		justifyContent: "center",
-		alignItems: "center",
-		padding: 14,
-
-		shadowColor: "#000", // shadow color for ios
-		shadowOffset: { width: 0, height: 0 }, // offset for shadow
-		shadowOpacity: 0.05, // shadow transparency
-		shadowRadius: 5, // blur radius for shadow
-		elevation: 6, // shadow for android
-	},
-	image: {
-		width: "100%",
-		height: "100%",
-		resizeMode: "cover",
-		borderRadius: 12,
-	},
-});
+	//
+);
 
 export default RemoteImageCarousel;

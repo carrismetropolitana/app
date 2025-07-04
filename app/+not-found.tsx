@@ -1,32 +1,49 @@
-import { Link, Stack } from "expo-router";
-import { StyleSheet } from "react-native";
+/* * */
 
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { useThemeContext } from '@/contexts/Theme.context';
+import { Text } from '@rn-vui/themed';
+import { Link, Stack } from 'expo-router';
+import { View } from 'react-native';
+import { StyleSheet } from 'react-native';
+
+/* * */
 
 export default function NotFoundScreen() {
+	//
+
+	//
+	// A. Setup Variables
+
+	const themeContext = useThemeContext();
+	const styles = StyleSheet.create({
+		container: {
+			alignItems: 'center',
+			backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
+			flex: 1,
+			justifyContent: 'center',
+			padding: 20,
+		},
+		link: {
+			color: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.primary : themeContext.theme.darkColors?.primary,
+			marginTop: 15,
+			paddingVertical: 15,
+		},
+	});
+
+	//
+	// B. Render Components
+
 	return (
 		<>
-			<Stack.Screen options={{ title: "Oops!" }} />
-			<ThemedView style={styles.container}>
-				<ThemedText type="title">This screen doesn't exist.</ThemedText>
-				<Link href="/" style={styles.link}>
-					<ThemedText type="link">Go to home screen!</ThemedText>
+			<Stack.Screen options={{ headerShown: false, title: 'Oops!' }} />
+			<View style={styles.container}>
+				<Text>This screen doesn't exist.</Text>
+				<Link href="/home" style={styles.link}>
+					<Text>Go to home screen!</Text>
 				</Link>
-			</ThemedView>
+			</View>
 		</>
 	);
-}
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
-		padding: 20,
-	},
-	link: {
-		marginTop: 15,
-		paddingVertical: 15,
-	},
-});
+	//
+}
