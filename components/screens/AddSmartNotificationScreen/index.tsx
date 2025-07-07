@@ -22,7 +22,7 @@ import { DateTime } from 'luxon';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import { ScrollView } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 import styles from './styles';
 
@@ -223,10 +223,7 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 
 	return (
 		<ScrollView
-			bounces={false}
-			contentContainerStyle={addFavoriteLineStyles.scrollContent} // ← new
-			keyboardShouldPersistTaps="handled"
-			overScrollMode="never"
+			contentContainerStyle={addFavoriteLineStyles.scrollContent}
 			showsVerticalScrollIndicator={false}
 			style={addFavoriteLineStyles.overlay}
 		>

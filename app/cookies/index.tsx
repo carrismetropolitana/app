@@ -11,7 +11,8 @@ import { IconChevronLeft } from '@tabler/icons-react-native';
 import { useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 import styles from './styles';
 

@@ -3,7 +3,7 @@
 import StopDetailLineGoTrough from '@/components/stops/StopDetailLineGoTrough';
 import StopDetailNextArrivals from '@/components/stops/StopDetailNextArrivals';
 import { StopDetailHeader } from '@/components/stops/StopDetailsHeader';
-import { ScrollView } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 import { styles } from './styles';
 

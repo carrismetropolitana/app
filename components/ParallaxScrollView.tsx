@@ -48,9 +48,9 @@ export default function ParallaxScrollView({
 		<ThemedView style={styles.container}>
 			<Animated.ScrollView
 				ref={scrollRef}
-				contentContainerStyle={{ paddingBottom: bottom }}
+				contentContainerStyle={{ paddingBottom: typeof bottom === 'number' ? bottom : 0 }}
 				scrollEventThrottle={16}
-				scrollIndicatorInsets={{ bottom }}
+				scrollIndicatorInsets={{ bottom: typeof bottom === 'number' ? bottom : 0, left: 0, right: 0, top: 0 }}
 			>
 				<Animated.View
 					style={[

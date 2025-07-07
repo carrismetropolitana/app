@@ -13,7 +13,8 @@ const styles = () => {
 	return StyleSheet.create({
 		addFavoritesSection: {
 			backgroundColor: headerBackgroundColor,
-			paddingBottom: 20,
+			marginBottom: 20,
+			paddingBottom: 70,
 			paddingTop: 20,
 		},
 	});

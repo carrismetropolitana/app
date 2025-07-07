@@ -7,9 +7,9 @@ import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { AccountWidget } from '@/types/account.types';
 import { useNavigation } from 'expo-router';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { View } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
-import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import { SwipeableItemImperativeRef } from 'react-native-swipeable-item';
 
 import { styles } from './styles';
@@ -22,7 +22,7 @@ export default function ProfileScreen() {
 	//
 	// A. Setup Variables
 
-	const flatListGestureRef = useRef<PanGestureHandler>(null);
+	const flatListGestureRef = useRef(null);
 	const itemRefs = useRef<Map<string, SwipeableItemImperativeRef>>(new Map());
 	const saveTimer = useRef<NodeJS.Timeout | null>(null);
 
@@ -32,12 +32,15 @@ export default function ProfileScreen() {
 	const profileContext = useProfileContext();
 	const { profile } = profileContext.data;
 
-	const initialWidgets = (profile?.widgets ?? []).flatMap((widget) => {
-		if (widget.data.type === 'lines') return [widget];
-		if (widget.data.type === 'stops') return [widget];
-		if (widget.data.type === 'smart_notifications') return widget;
-		return [];
-	});
+	const initialWidgets = useMemo(() => {
+		return (profile?.widgets ?? []).flatMap((widget) => {
+			if (widget.data.type === 'lines') return [widget];
+			if (widget.data.type === 'stops') return [widget];
+			if (widget.data.type === 'smart_notifications') return widget;
+			return [];
+		});
+	}, [profile?.widgets]);
+
 	const [widgetList, setWidgetList] = useState(() => initialWidgets);
 
 	//
@@ -54,13 +57,11 @@ export default function ProfileScreen() {
 	useEffect(() => {
 		const currentKeys = widgetList.map(widgetKey);
 		const newKeys = initialWidgets.map(widgetKey);
-		if (
-			currentKeys.length !== newKeys.length
-			|| currentKeys.some((k, i) => k !== newKeys[i])
-		) {
+		const isSame = currentKeys.length === newKeys.length && currentKeys.every((k, i) => k === newKeys[i]);
+		if (!isSame) {
 			setWidgetList(initialWidgets);
 		}
-	}, [profile?.widgets]);
+	}, [initialWidgets]);
 
 	const widgetKey = (widget: AccountWidget) => {
 		if (widget.data.type === 'lines')
@@ -74,15 +75,14 @@ export default function ProfileScreen() {
 
 	//
 	// C. Render Components
-
 	return (
-		<GestureHandlerRootView style={{ flex: 1, ...profileStyles.container, backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background }}>
+		<View style={{ ...profileStyles.container, backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background }}>
 			<DraggableFlatList
-				activationDistance={10}
+				activationDistance={20}
 				data={widgetList}
 				keyExtractor={item => widgetKey(item)}
-				ListFooterComponent={AddWidgetList}
-				ListHeaderComponent={(<UserDetails widgetList={widgetList} />)}
+				ListFooterComponent={() => <AddWidgetList />}
+				ListHeaderComponent={useMemo(() => <UserDetails widgetList={widgetList} />, [widgetList])}
 				nestedScrollEnabled={false}
 				renderItem={({ drag, getIndex, isActive, item }) => (<RenderFavoriteItem drag={drag} index={getIndex() ?? 0} isActive={isActive} item={item} />)}
 				showsVerticalScrollIndicator={false}
@@ -104,7 +104,8 @@ export default function ProfileScreen() {
 					}, 1000);
 				}}
 			/>
-		</GestureHandlerRootView>
+
+		</View>
 	);
 
 	//

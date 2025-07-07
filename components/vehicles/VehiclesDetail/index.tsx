@@ -61,8 +61,7 @@ export function VehiclesDetail({ id }: VehiclesDetailProps) {
 		const currentPatternPath = lineDetailContext.data.active_pattern.path;
 		const vehicleCurrentWaypoint = currentPatternPath.find(waypoint => waypoint.stop_id === vehicleData.stop_id);
 		if (vehicleCurrentWaypoint) {
-			if (lineDetailContext.data.active_waypoint?.stop_id !== vehicleCurrentWaypoint.stop_id
-			  || lineDetailContext.data.active_waypoint?.stop_sequence !== vehicleCurrentWaypoint.stop_sequence) {
+			if (lineDetailContext.data.active_waypoint?.stop_id !== vehicleCurrentWaypoint.stop_id || lineDetailContext.data.active_waypoint?.stop_sequence !== vehicleCurrentWaypoint.stop_sequence) {
 				lineDetailContext.actions.setActiveWaypoint(vehicleCurrentWaypoint.stop_id, vehicleCurrentWaypoint.stop_sequence);
 			}
 		}

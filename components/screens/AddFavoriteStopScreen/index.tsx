@@ -13,10 +13,10 @@ import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
 import { Pattern, Stop } from '@carrismetropolitana/api-types/network';
 import { ListItem, Text } from '@rn-vui/themed';
-import { IconArrowRight, IconBusStop, IconCircle, IconCircleCheckFilled, IconPlayerPlayFilled, IconSearch, IconX } from '@tabler/icons-react-native';
+import { IconArrowRight, IconBusStop, IconCircle, IconCircleCheckFilled, IconSearch, IconX } from '@tabler/icons-react-native';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import styles from './styles';

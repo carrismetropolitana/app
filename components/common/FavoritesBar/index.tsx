@@ -7,7 +7,8 @@ import { useLinesContext } from '@/contexts/Lines.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { Link } from 'expo-router';
 import React from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 import { styles } from './styles';
 

@@ -5,7 +5,8 @@ import { theming } from '@/theme/Variables';
 import { Button } from '@rn-vui/themed';
 import { router } from 'expo-router';
 import React from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { WidgetCards } from '../widgets/WidgetCards';

@@ -121,6 +121,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	//
 	// C. Fetch Data
+
 	// Fetch initial data and set up interval for periodic updates (profile sync - only if functional consent is enabled)
 	useEffect(() => {
 		setFlagIsLoadingState(true);
@@ -232,46 +233,49 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			console.error('Error synchronizing profiles:', error);
 		}
 	};
+
 	// Fetch profile data from local storage and set state
 	const fetchData = async () => {
 		try {
 			setFlagIsLoadingState(true);
 			// Load existing data from local storage
+			const [storedProfile, storedPersona, storedToken, storedHistory, storedAccentColor, storedInterests] = await Promise.all([
+				localStorage.getItem(LOCAL_STORAGE_KEYS.profile),
+				localStorage.getItem(LOCAL_STORAGE_KEYS.persona_image),
+				localStorage.getItem(LOCAL_STORAGE_KEYS.token),
+				localStorage.getItem(LOCAL_STORAGE_KEYS.persona_history),
+				localStorage.getItem(LOCAL_STORAGE_KEYS.accent_color),
+				localStorage.getItem(LOCAL_STORAGE_KEYS.interests),
+			]);
 
-			// const [storedProfile, storedPersona, storedToken, storedHistory, storedAccentColor, storedInterests] = await Promise.all([
-			// 	localStorage.getItem(LOCAL_STORAGE_KEYS.profile),
-			// 	localStorage.getItem(LOCAL_STORAGE_KEYS.persona_image),
-			// 	localStorage.getItem(LOCAL_STORAGE_KEYS.token),
-			// 	localStorage.getItem(LOCAL_STORAGE_KEYS.persona_history),
-			// 	localStorage.getItem(LOCAL_STORAGE_KEYS.accent_color),
-			// 	localStorage.getItem(LOCAL_STORAGE_KEYS.interests),
-			// ]);
-
-			// setAPIToken(prev => prev === storedToken ? prev : storedToken);
-			// setDataAccentColorState(prev => prev === storedAccentColor ? prev : storedAccentColor);
-			// setDataPersonaImageState(prev => prev === storedPersona ? prev : storedPersona);
+			setAPIToken(prev => prev === storedToken ? prev : storedToken);
+			setDataAccentColorState(prev => prev === storedAccentColor ? prev : storedAccentColor);
+			setDataPersonaImageState(prev => prev === storedPersona ? prev : storedPersona);
 			// Set user interests
-			// const parsedInterests = storedInterests ? JSON.parse(storedInterests) : [];
-			// setDataInterestsState((prev) => {
-			// 	if (JSON.stringify(prev) === JSON.stringify(parsedInterests)) {
-			// 		return prev;
-			// 	}
-			// 	return parsedInterests;
-			// });
-			// // Set persona history
-			// setPersonaHistory((prev) => {
-			// 	const parsed = storedHistory ? JSON.parse(storedHistory) : [];
-			// 	if (prev.length === parsed.length && prev.every((v, i) => v === parsed[i])) {
-			// 		return prev;
-			// 	}
-			// 	return parsed;
-			// });
-
-			// Set profile data
-			const localProfile = dataProfileState;
-			setDataProfileState(prev => (
-				JSON.stringify(prev) === JSON.stringify(localProfile) ? prev : localProfile
-			));
+			const parsedInterests = storedInterests ? JSON.parse(storedInterests) : [];
+			setDataInterestsState((prev) => {
+				if (JSON.stringify(prev) === JSON.stringify(parsedInterests)) {
+					return prev;
+				}
+				return parsedInterests;
+			});
+			// Set persona history
+			setPersonaHistory((prev) => {
+				const parsed = storedHistory ? JSON.parse(storedHistory) : [];
+				if (prev.length === parsed.length && prev.every((v, i) => v === parsed[i])) {
+					return prev;
+				}
+				return parsed;
+			});
+			// Set profile data only if changed
+			const localProfile = storedProfile ? JSON.parse(storedProfile) : '';
+			setDataProfileState((prev) => {
+				if (JSON.stringify(prev) === JSON.stringify(localProfile)) {
+					return prev;
+				}
+				return localProfile;
+			});
+			// Only call setNewEmptyProfile if prev and localProfile are both falsy
 			if (!localProfile) await setNewEmptyProfile();
 		}
 		catch (error) {
@@ -281,6 +285,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			setFlagIsLoadingState(false);
 		}
 	};
+
 	// Fetch Persona Image
 	const fetchPersona = async () => {
 		if (!consentContext.data.enabled_functional) {

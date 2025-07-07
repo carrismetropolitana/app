@@ -88,7 +88,7 @@
 		"react-native": "0.76.9",
 		"react-native-draggable-flatlist": "^4.0.3",
 		"react-native-element-dropdown": "^2.12.4",
-		"react-native-gesture-handler": "~2.20.2",
+		"react-native-gesture-handler": "^2.27.1",
 		"react-native-modal-datetime-picker": "^18.0.0",
 		"react-native-pager-view": "6.5.1",
 		"react-native-reanimated": "~3.16.1",
