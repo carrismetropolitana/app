@@ -28,9 +28,9 @@ export const styles = () => {
 			alignItems: 'center',
 			backgroundColor: 'red',
 			flex: 1,
-			height: 500,
+			height: 50,
 			justifyContent: 'center',
-			width: 500,
+			width: 50,
 		},
 	});
 

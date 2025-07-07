@@ -133,7 +133,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		setFlagIsLoadingState(false);
 		const intervalId = setInterval(() => {
 			fetchData();
-		}, 1000);
+		}, 10000);
 
 		return () => clearInterval(intervalId);
 	}, [consentContext.data.enabled_functional]);
@@ -237,36 +237,38 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		try {
 			setFlagIsLoadingState(true);
 			// Load existing data from local storage
-			const [storedProfile, storedPersona, storedToken, storedHistory, storedAccentColor, storedInterests] = await Promise.all([
-				localStorage.getItem(LOCAL_STORAGE_KEYS.profile),
-				localStorage.getItem(LOCAL_STORAGE_KEYS.persona_image),
-				localStorage.getItem(LOCAL_STORAGE_KEYS.token),
-				localStorage.getItem(LOCAL_STORAGE_KEYS.persona_history),
-				localStorage.getItem(LOCAL_STORAGE_KEYS.accent_color),
-				localStorage.getItem(LOCAL_STORAGE_KEYS.interests),
-			]);
 
-			setAPIToken(prev => prev === storedToken ? prev : storedToken);
-			setDataAccentColorState(prev => prev === storedAccentColor ? prev : storedAccentColor);
-			setDataPersonaImageState(prev => prev === storedPersona ? prev : storedPersona);
+			// const [storedProfile, storedPersona, storedToken, storedHistory, storedAccentColor, storedInterests] = await Promise.all([
+			// 	localStorage.getItem(LOCAL_STORAGE_KEYS.profile),
+			// 	localStorage.getItem(LOCAL_STORAGE_KEYS.persona_image),
+			// 	localStorage.getItem(LOCAL_STORAGE_KEYS.token),
+			// 	localStorage.getItem(LOCAL_STORAGE_KEYS.persona_history),
+			// 	localStorage.getItem(LOCAL_STORAGE_KEYS.accent_color),
+			// 	localStorage.getItem(LOCAL_STORAGE_KEYS.interests),
+			// ]);
+
+			// setAPIToken(prev => prev === storedToken ? prev : storedToken);
+			// setDataAccentColorState(prev => prev === storedAccentColor ? prev : storedAccentColor);
+			// setDataPersonaImageState(prev => prev === storedPersona ? prev : storedPersona);
 			// Set user interests
-			const parsedInterests = storedInterests ? JSON.parse(storedInterests) : [];
-			setDataInterestsState((prev) => {
-				if (JSON.stringify(prev) === JSON.stringify(parsedInterests)) {
-					return prev;
-				}
-				return parsedInterests;
-			});
-			// Set persona history
-			setPersonaHistory((prev) => {
-				const parsed = storedHistory ? JSON.parse(storedHistory) : [];
-				if (prev.length === parsed.length && prev.every((v, i) => v === parsed[i])) {
-					return prev;
-				}
-				return parsed;
-			});
+			// const parsedInterests = storedInterests ? JSON.parse(storedInterests) : [];
+			// setDataInterestsState((prev) => {
+			// 	if (JSON.stringify(prev) === JSON.stringify(parsedInterests)) {
+			// 		return prev;
+			// 	}
+			// 	return parsedInterests;
+			// });
+			// // Set persona history
+			// setPersonaHistory((prev) => {
+			// 	const parsed = storedHistory ? JSON.parse(storedHistory) : [];
+			// 	if (prev.length === parsed.length && prev.every((v, i) => v === parsed[i])) {
+			// 		return prev;
+			// 	}
+			// 	return parsed;
+			// });
+
 			// Set profile data
-			const localProfile = storedProfile ? JSON.parse(storedProfile) : '';
+			const localProfile = dataProfileState;
 			setDataProfileState(prev => (
 				JSON.stringify(prev) === JSON.stringify(localProfile) ? prev : localProfile
 			));

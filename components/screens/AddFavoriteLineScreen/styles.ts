@@ -13,7 +13,6 @@ const styles = () => {
 	return StyleSheet.create({
 		container: {
 			backgroundColor: backgroundColor,
-			paddingBottom: 50,
 		},
 		lineIdentifier: {
 			fontSize: 14,
@@ -26,10 +25,6 @@ const styles = () => {
 			color: fontColor,
 			fontSize: 16,
 			fontWeight: '600',
-		},
-		overlay: {
-			backgroundColor: backgroundColor,
-			flex: 1,
 		},
 		sectionContainer: {
 			marginBottom: 20,

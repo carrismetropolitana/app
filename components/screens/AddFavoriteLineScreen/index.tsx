@@ -17,7 +17,7 @@ import { IconArrowLoopRight, IconArrowRight, IconCircle, IconCircleCheckFilled, 
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native';
 
 import styles from './styles';
 
@@ -34,7 +34,6 @@ export default function AddFavoriteLineScreen() {
 	const [selectedPatterns, setSelectedPatterns] = useState<string[]>([]);
 	// const [isToggled, setIsToggled] = useState(false);
 
-	const isLight = useThemeContext().theme.mode === 'light';
 	const { widgetId } = useLocalSearchParams<{ widgetId?: string }>();
 	const linesDetailContext = useLinesDetailContext();
 	const themeContext = useThemeContext();
@@ -42,17 +41,8 @@ export default function AddFavoriteLineScreen() {
 	const addFavoriteLineStyles = styles();
 	const navigation = useNavigation();
 
-	const backgroundColor = isLight ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200;
-
 	//
 	// B. Fetch Data
-
-	useEffect(() => {
-		navigation.setOptions({
-			headerStyle: { backgroundColor: backgroundColor },
-			headerTitle: 'Linha Favorita',
-		});
-	}, [navigation]);
 
 	const fetchPattern = async (patternId: string) => {
 		try {
@@ -124,126 +114,122 @@ export default function AddFavoriteLineScreen() {
 	// D. Render Components
 
 	return (
-		<>
-			<ScrollView style={addFavoriteLineStyles.overlay}>
-				<View style={addFavoriteLineStyles.container}>
-					<HeaderExplainer
-						heading="Linha Favorita"
-						subheading="Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas."
+		<View style={{ flex: 1 }}>
+			<ScrollView showsVerticalScrollIndicator={false} style={addFavoriteLineStyles.container}>
+				<HeaderExplainer
+					heading="Linha Favorita"
+					subheading="Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas."
+				/>
+				<View style={addFavoriteLineStyles.sectionContainer}>
+					<Section
+						heading="1. Selecionar Linha "
+						subheading="Escolha uma linha para visualizar na página principal"
 					/>
+				</View>
+				<View>
+					{linesDetailContext.data.line && (
+						<ListItem>
+							<IconArrowLoopRight color="#C61D23" size={24} />
+							<ListItem.Content>
+								<ListItem.Title style={addFavoriteLineStyles.listTitle}>
+									<Text>{linesDetailContext.data.line.long_name}</Text>
+								</ListItem.Title>
+							</ListItem.Content>
+							<IconX color="#9696A0" onPress={linesDetailContext.actions.resetLineId} size={24} />
+						</ListItem>
+					)}
+					<ListItem onPress={() => setLineChooserVisibility(true)}>
+						<IconSearch color="#9696A0" size={24} />
+						<ListItem.Content>
+							<ListItem.Title style={addFavoriteLineStyles.listTitle}>
+								<Text>Alterar Linha Selecionada</Text>
+							</ListItem.Title>
+						</ListItem.Content>
+						<ListItem.Chevron />
+					</ListItem>
+				</View>
 
+				<View style={{ marginBottom: 20, marginTop: 20 }}>
 					<View style={addFavoriteLineStyles.sectionContainer}>
 						<Section
-							heading="1. Selecionar Linha "
-							subheading="Escolha uma linha para visualizar na página principal"
+							heading="2. Escolher destinos "
+							subheading="Pode escolher apenas os destinos que lhe interessam a partir desta paragem. Personalize o seu painel de informação único."
 						/>
 					</View>
 					<View>
-						{linesDetailContext.data.line && (
+						{linesDetailContext.data.line?.pattern_ids ? (
+							<View>
+								<Text style={addFavoriteLineStyles.lineIdentifier}>Linha {linesDetailContext.data.line.id} - {linesDetailContext.data.line.long_name}</Text>
+								{linesDetailContext.data.line.pattern_ids.map((item) => {
+									const isSelected = selectedPatterns.includes(item);
+									return (
+										<ListItem
+											key={item}
+											onPress={() => togglePattern(item)}
+										>
+											<LineBadge
+												color={linesDetailContext.data.line?.color}
+												lineId={linesDetailContext.data.lineId}
+												size="lg"
+											/>
+											<IconArrowRight size={10} />
+											<ListItem.Content>
+												<ListItem.Title style={addFavoriteLineStyles.listTitle}>
+													<Text>{patternNames[item] || 'Sem destino'}</Text>
+												</ListItem.Title>
+											</ListItem.Content>
+											{isSelected ? (
+												<IconCircleCheckFilled
+													fill="#3CB43C"
+													size={24}
+													color={
+														themeContext.theme.mode === 'light'
+															? theming.colorSystemBackgroundLight100
+															: theming.colorSystemBackgroundDark100
+													}
+												/>
+											) : (
+												<IconCircle color="grey" size={24} />
+											)}
+										</ListItem>
+									);
+								})}
+							</View>
+						) : (
 							<ListItem>
-								<IconArrowLoopRight color="#C61D23" size={24} />
 								<ListItem.Content>
 									<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-										<Text>{linesDetailContext.data.line.long_name}</Text>
+										<Text>Selecione uma linha para ver os destinos.</Text>
 									</ListItem.Title>
 								</ListItem.Content>
-								<IconX color="#9696A0" onPress={linesDetailContext.actions.resetLineId} size={24} />
 							</ListItem>
 						)}
-						<ListItem onPress={() => setLineChooserVisibility(true)}>
-							<IconSearch color="#9696A0" size={24} />
-							<ListItem.Content>
-								<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-									<Text>Alterar Linha Selecionada</Text>
-								</ListItem.Title>
-							</ListItem.Content>
-							<ListItem.Chevron />
-						</ListItem>
 					</View>
-
-					<View style={{ marginBottom: 20, marginTop: 20 }}>
-						<View style={addFavoriteLineStyles.sectionContainer}>
-							<Section
-								heading="2. Escolher destinos "
-								subheading="Pode escolher apenas os destinos que lhe interessam a partir desta paragem. Personalize o seu painel de informação único."
-							/>
-						</View>
-						<View>
-							{linesDetailContext.data.line?.pattern_ids ? (
-								<View>
-									<Text style={addFavoriteLineStyles.lineIdentifier}>Linha {linesDetailContext.data.line.id} - {linesDetailContext.data.line.long_name}</Text>
-									{linesDetailContext.data.line.pattern_ids.map((item) => {
-										const isSelected = selectedPatterns.includes(item);
-										return (
-											<ListItem
-												key={item}
-												onPress={() => togglePattern(item)}
-											>
-												<LineBadge
-													color={linesDetailContext.data.line?.color}
-													lineId={linesDetailContext.data.lineId}
-													size="lg"
-												/>
-												<IconArrowRight size={10} />
-												<ListItem.Content>
-													<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-														<Text>{patternNames[item] || 'Sem destino'}</Text>
-													</ListItem.Title>
-												</ListItem.Content>
-												{isSelected ? (
-													<IconCircleCheckFilled
-														fill="#3CB43C"
-														size={24}
-														color={
-															themeContext.theme.mode === 'light'
-																? theming.colorSystemBackgroundLight100
-																: theming.colorSystemBackgroundDark100
-														}
-													/>
-												) : (
-													<IconCircle color="grey" size={24} />
-												)}
-											</ListItem>
-										);
-									})}
-								</View>
-							) : (
-								<ListItem>
-									<ListItem.Content>
-										<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-											<Text>Selecione uma linha para ver os destinos.</Text>
-										</ListItem.Title>
-									</ListItem.Content>
-								</ListItem>
-							)}
-						</View>
-					</View>
-
-					<OpenAddSmartNotification
-						disabled={selectedPatterns.length === 0}
-						heading="3. Notificações"
-						patternId={selectedPatterns[0]}
-						subheading="Pode escolher receber uma notificação sempre que existir um alerta para a paragem e para os destinos que selecionou."
-						// toggle={handleToggle}
-						// toggled={isToggled}
-						// untoggle={handleUntoggle}
-						// isToggle
-					/>
-
-					<WidgetActionsButtonGroup
-						dataToSubmit={{ data: { pattern_id: selectedPatterns[0], type: 'lines' }, settings: { is_open: true } }}
-						length={selectedPatterns.length}
-						onClear={() => clearScreen()}
-						type="lines"
-					/>
 
 				</View>
+				<OpenAddSmartNotification
+					disabled={selectedPatterns.length === 0}
+					heading="3. Notificações"
+					patternId={selectedPatterns[0]}
+					subheading="Pode escolher receber uma notificação sempre que existir um alerta para a paragem e para os destinos que selecionou."
+				// toggle={handleToggle}
+				// toggled={isToggled}
+				// untoggle={handleUntoggle}
+				// isToggle
+				/>
+				<WidgetActionsButtonGroup
+					dataToSubmit={{ data: { pattern_id: selectedPatterns[0], type: 'lines' }, settings: { is_open: true } }}
+					length={selectedPatterns.length}
+					onClear={clearScreen}
+					type="lines"
+				/>
+				<LinesListChooserModal
+					isVisible={lineChooserVisibility}
+					onBackdropPress={() => setLineChooserVisibility(!lineChooserVisibility)}
+				/>
 			</ScrollView>
-			<LinesListChooserModal
-				isVisible={lineChooserVisibility}
-				onBackdropPress={() => setLineChooserVisibility(!lineChooserVisibility)}
-			/>
-		</>
+		</View>
+
 	);
 
 	//

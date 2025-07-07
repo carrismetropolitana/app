@@ -47,7 +47,7 @@ export const UserDetails = ({ widgetList }: Props) => {
 				{profile?.profile?.profile_image ? (
 					<ProfileImage backgroundColor={accentColor ? dimAvatarBackground(accentColor) : 'rgba(253,183,26,0.4)'} borderWidth={10} color={accentColor || ''} size={200} type="url" />
 				) : (
-					<ProfileImage height={400} type="local" width={400} />
+					<ProfileImage height={200} type="local" width={200} />
 				)}
 				<Text style={userDetailsStyles.userFullNameText}>{profile?.profile?.first_name} {profile?.profile?.last_name}</Text>
 				<Button buttonStyle={userDetailsStyles.button} containerStyle={userDetailsStyles.buttonContainer} onPress={() => router.push('/profileEdit')} title="Editar Perfil" titleStyle={userDetailsStyles.buttonTitle} />
