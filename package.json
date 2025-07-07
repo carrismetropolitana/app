@@ -10,6 +10,7 @@
 		"ios": "expo run:ios --device",
 		"ios-setup": "cd ios && pod install && cd ..",
 		"lint": "eslint .",
+		"postinstall": "expo prebuild",
 		"prebuild": "expo prebuild",
 		"reset-project": "node ./scripts/reset-project.js",
 		"start": "expo start --dev-client",
