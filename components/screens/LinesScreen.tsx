@@ -2,13 +2,13 @@
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { Section } from '@/components/common/layout/Section';
 import { MemoizedLineItem } from '@/components/common/LineItem';
-import { useLinesContext } from '@/contexts/Lines.context';
 import { useLinesListContext } from '@/contexts/LinesList.context';
 import { useLocationsContext } from '@/contexts/Locations.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { router } from 'expo-router';
 import React, { useCallback } from 'react';
-import { SafeAreaView, SectionList, StyleSheet } from 'react-native';
+import { SectionList, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import LineSearchBar from '../common/LineSearchBar';
 

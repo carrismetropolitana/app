@@ -1,7 +1,7 @@
 /* * */
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
-import { LineBadge } from '@/components/lines/LineBadge';
+import ArrivalRow from '@/components/stops/ArrivalRow';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { NextArrivalStop } from '@/types/timetables.types';
 import { ListItem, Text } from '@rn-vui/themed';
@@ -78,6 +78,41 @@ export default function StopDetailNextArrivalsByPatternID({ description, href, p
 		return filtered;
 	}, [showAll, timetable, patternIds]);
 
+	const memoizedArrivals = useMemo(() => arrivalsToShow.map((tripData) => {
+		const status = tripData.estimated_arrival_unix && tripData.estimated_arrival_unix !== tripData.scheduled_arrival_unix ? 'realtime' : 'scheduled';
+		const formatted = allFormattedArrivals.map[tripData.scheduled_arrival_unix];
+		return (
+			<View key={tripData.trip_id} style={{ width: '100%' }}>
+				{status === 'realtime' && (
+					<Link href={`/vehicle/${tripData.vehicle_id}`} style={{ width: '100%' }}>
+						<ArrivalRow
+							formatted={formatted}
+							status={status}
+							stopDetailNextArrivals={stopDetailNextArrivals}
+							tripData={{
+								...tripData,
+								vehicle_id: tripData.vehicle_id ?? undefined,
+							}}
+						/>
+					</Link>
+				)}
+				{status === 'scheduled' && (
+					<Link href={`/line/${tripData.line_id}`} style={{ width: '100%' }}>
+						<ArrivalRow
+							formatted={formatted}
+							status={status}
+							stopDetailNextArrivals={stopDetailNextArrivals}
+							tripData={{
+								...tripData,
+								vehicle_id: tripData.vehicle_id ?? undefined,
+							}}
+						/>
+					</Link>
+				)}
+			</View>
+		);
+	}), [arrivalsToShow, allFormattedArrivals, stopDetailNextArrivals]);
+
 	//
 	// C. Render components
 
@@ -91,66 +126,33 @@ export default function StopDetailNextArrivalsByPatternID({ description, href, p
 		);
 	}
 
-	const ArrivalRow = ({ tripData }: { tripData: typeof timetable[number] }) => {
-		const formatted = allFormattedArrivals.map[tripData.scheduled_arrival_unix];
-
-		return (
-			<View style={{ flex: 1, width: '100%' }}>
-				<ListItem key={tripData.trip_id} bottomDivider>
-					<ListItem.Content>
-						<ListItem.Title>
-							<View style={stopDetailNextArrivals.arrivalContainer}>
-								<LineBadge lineId={tripData.line_id} size="lg" />
-								<Text style={stopDetailNextArrivals.headsign}>{tripData.headsign}</Text>
-								<View style={{ flex: 1 }} />
-								{formatted && (
-									<View style={stopDetailNextArrivals.rippleContainer}>
-										<View style={stopDetailNextArrivals.ripple}>
-											<View style={stopDetailNextArrivals.dot} />
-										</View>
-										<Text style={stopDetailNextArrivals.arrival}>{formatted.label}</Text>
-									</View>
-								)}
-							</View>
-						</ListItem.Title>
-					</ListItem.Content>
-					<ListItem.Chevron />
-				</ListItem>
-			</View>
-		);
-	};
 	return (
 		<View style={stopDetailNextArrivals.sectionWrapper}>
 			{title && <Text style={stopDetailNextArrivals.sectionHeading}>{t('heading')}</Text>}
-			<>
-				{arrivalsToShow.map(tripData => (
-					<Link key={tripData.trip_id + '-' + tripData.vehicle_id} href={`/vehicle/${tripData.vehicle_id}`} style={{ width: '100%' }}>
-						<ArrivalRow key={tripData.trip_id} tripData={tripData} />
-					</Link>
-				))}
-				{(patternIds && patternIds.length > 0 && timetable.filter(arrival => arrival.pattern_id && patternIds.includes(arrival.pattern_id)).length > 3) && (
-					<ListItem onPress={() => setShowAll(!showAll)} bottomDivider>
-						<ListItem.Content>
-							{href && (
-								<Link href={href} style={stopDetailNextArrivals.see_more}>
-									<Text>
-										{!showAll
-											? t('NextArrivals.see_more')
-											: t('NextArrivals.see_less')}
-									</Text>
-								</Link>
-							)}
-							{!href && (
-								<Text style={stopDetailNextArrivals.see_more}>
+			{memoizedArrivals}
+			{(patternIds && patternIds.length > 0 && timetable.filter(arrival => arrival.pattern_id && patternIds.includes(arrival.pattern_id)).length > 3) && (
+				<ListItem onPress={() => setShowAll(!showAll)} bottomDivider>
+					<ListItem.Content>
+						{href && (
+							<Link href={href} style={stopDetailNextArrivals.see_more}>
+								<Text>
 									{!showAll
 										? t('NextArrivals.see_more')
 										: t('NextArrivals.see_less')}
 								</Text>
-							)}
-						</ListItem.Content>
-					</ListItem>
-				)}
-			</>
+							</Link>
+						)}
+						{!href && (
+							<Text style={stopDetailNextArrivals.see_more}>
+								{!showAll
+									? t('NextArrivals.see_more')
+									: t('NextArrivals.see_less')}
+							</Text>
+						)}
+					</ListItem.Content>
+				</ListItem>
+			)}
+
 			{description && <Text style={stopDetailNextArrivals.upcomingCirculationsDescription}>{t('description')}</Text>}
 		</View>
 	);

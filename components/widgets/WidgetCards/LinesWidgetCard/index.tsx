@@ -61,7 +61,7 @@ export function LineWidgetCard({ data, expanded, onToggle }: LineWidgetCardProps
 			containerStyle={!expanded ? cardStyles.cardClosed : cardStyles.cardOpen}
 			icon={<AccordionToggle expanded={expanded} size={24} />}
 			isExpanded={expanded}
-			onPress={onToggle}
+			onPress={() => onToggle()}
 			content={(
 				<LineWidgetCardHeader lineId={lineId} title={lineName} />
 			)}

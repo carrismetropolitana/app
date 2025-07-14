@@ -104,7 +104,7 @@ export function SmartNotificationWidgetCard({ data, expanded = true, onToggle }:
 		<ListItem.Accordion
 			containerStyle={!expanded ? cardStyles.cardClosed : cardStyles.cardOpen}
 			isExpanded={expanded}
-			onPress={onToggle}
+			onPress={() => onToggle}
 			content={(
 				<SmartNotificationsWidgetCardHeader municipality={stopMunicipality || ''} startHour={smartNotificationHour} title={stopName || ''} />
 			)}

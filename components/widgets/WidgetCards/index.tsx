@@ -44,6 +44,20 @@ export function WidgetCards({ type }: WidgetCardsProps) {
 	//
 	// C. Handle actions
 
+	//
+	// B. Transform data);
+	useEffect(() => {
+		const filtered = type ? widgets.filter(w => w.data.type === type) : widgets;
+		const ordered = filtered
+			.slice()
+			.sort((a, b) => (a.settings?.display_order ?? 0) - (b.settings?.display_order ?? 0));
+		if (ordered.length === 0) return;
+		setSortedWidgets(ordered);
+	}, [widgets, type]);
+
+	//
+	// C. Handle actions
+
 	const handleToggle = (key: string) => {
 		const updatedWidgets = widgets.map((widget) => {
 			let widgetKey = '';
@@ -88,48 +102,58 @@ export function WidgetCards({ type }: WidgetCardsProps) {
 	}
 
 	return (
-		<StopsDetailContextProvider>
-			<LinesDetailContextProvider>
-				<Surface>
-					{sortedWidgets.map((widget) => {
-						if (widget.data.type === 'lines') {
-							const key = widget.data.pattern_id;
-							return (
+
+		<Surface>
+			{sortedWidgets.map((widget) => {
+				if (widget.data.type === 'lines') {
+					const key = widget.data.pattern_id;
+					return (
+						<LinesDetailContextProvider>
+							<StopsDetailContextProvider>
 								<LineWidgetCard
 									key={key}
 									data={widget}
 									expanded={!!widget.settings?.is_open}
 									onToggle={() => handleToggle(key)}
 								/>
-							);
-						}
-						if (widget.data.type === 'stops') {
-							const key = `${widget.data.stop_id}-${Array.isArray(widget.data.pattern_ids) ? widget.data.pattern_ids[0] : ''}`;
-							return (
+							</StopsDetailContextProvider>
+						</LinesDetailContextProvider>
+
+					);
+				}
+				if (widget.data.type === 'stops') {
+					const key = `${widget.data.stop_id}-${widget.data.pattern_ids.join(',') ? widget.data.pattern_ids[0] : ''}`;
+					return (
+						<LinesDetailContextProvider>
+							<StopsDetailContextProvider>
 								<StopWidgetCard
 									key={key}
 									data={widget}
 									expanded={!!widget.settings?.is_open}
 									onToggle={() => handleToggle(key)}
 								/>
-							);
-						}
-						if (widget.data.type === 'smart_notifications') {
-							const key = widget.data.id;
-							return (
+							</StopsDetailContextProvider>
+						</LinesDetailContextProvider>
+					);
+				}
+				if (widget.data.type === 'smart_notifications') {
+					const key = widget.data.id;
+					return (
+						<LinesDetailContextProvider>
+							<StopsDetailContextProvider>
 								<SmartNotificationWidgetCard
 									key={key}
 									data={widget}
 									expanded={!!widget.settings?.is_open}
 									onToggle={() => handleToggle(key)}
 								/>
-							);
-						}
-						return null;
-					})}
-				</Surface>
-			</LinesDetailContextProvider>
-		</StopsDetailContextProvider>
+							</StopsDetailContextProvider>
+						</LinesDetailContextProvider>
+					);
+				}
+				return null;
+			})}
+		</Surface>
 	);
 
 	//

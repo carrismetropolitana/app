@@ -58,6 +58,15 @@ export const styles = () => {
 		},
 
 		/* * */
+		/* ARRIVAL TIME */
+		arrivalScheduled: {
+			color: fontColor,
+			fontSize: 16,
+			fontWeight: theming.fontWeightTitle as '600',
+			marginLeft: 5,
+		},
+
+		/* * */
 		/* ARRIVAL CONTAINER */
 		arrivalContainer: {
 			alignItems: 'center',

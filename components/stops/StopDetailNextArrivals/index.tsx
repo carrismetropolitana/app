@@ -3,9 +3,12 @@
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { LineBadge } from '@/components/lines/LineBadge';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
+import { theming } from '@/theme/Variables';
 import { NextArrivalStop } from '@/types/timetables.types';
 import { ListItem, Text } from '@rn-vui/themed';
+import { IconClock } from '@tabler/icons-react-native';
 import { Link } from 'expo-router';
+import { LineString } from 'geojson';
 import { DateTime } from 'luxon';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -16,9 +19,9 @@ import { styles } from './styles';
 /* * */
 
 interface Props {
-	description?: boolean
+	description?: LineString
 	href?: string
-	title?: boolean
+	title?: string
 }
 
 /* * */
@@ -86,7 +89,7 @@ export default function StopDetailNextArrivals({ description, href, title }: Pro
 		);
 	}
 
-	const ArrivalRow = ({ tripData }) => {
+	const ArrivalRow = ({ status, tripData }: any) => {
 		const formatted = allFormattedArrivals.map[tripData.scheduled_arrival_unix];
 
 		return (
@@ -98,14 +101,19 @@ export default function StopDetailNextArrivals({ description, href, title }: Pro
 								<LineBadge lineId={tripData.line_id} size="lg" />
 								<Text style={stopDetailNextArrivals.headsign}>{tripData.headsign}</Text>
 								<View style={{ flex: 1 }} />
-								{formatted && (
+								{formatted && status === 'realtime' ? (
 									<View style={stopDetailNextArrivals.rippleContainer}>
 										<View style={stopDetailNextArrivals.ripple}>
 											<View style={stopDetailNextArrivals.dot} />
 										</View>
 										<Text style={stopDetailNextArrivals.arrival}>{formatted.label}</Text>
 									</View>
-								)}
+								) : formatted && status === 'scheduled' ? (
+									<View style={stopDetailNextArrivals.rippleContainer}>
+										<IconClock color={theming.colorSystemText300} size={24} />
+										<Text style={stopDetailNextArrivals.arrivalScheduled}>{DateTime.fromSeconds(formatted.estimated_arrival_unix).toFormat('HH:mm')}</Text>
+									</View>
+								) : null}
 							</View>
 						</ListItem.Title>
 					</ListItem.Content>
@@ -119,11 +127,21 @@ export default function StopDetailNextArrivals({ description, href, title }: Pro
 		<View style={stopDetailNextArrivals.sectionWrapper}>
 			{title && <Text style={stopDetailNextArrivals.sectionHeading}>{t('heading')}</Text>}
 			<>
-				{arrivalsToShow.map(tripData => (
-					<Link key={tripData.trip_id} href={`/vehicle/${tripData.vehicle_id}`} style={{ width: '100%' }}>
-						<ArrivalRow key={tripData.trip_id} tripData={tripData} />
-					</Link>
-				))}
+				{arrivalsToShow.map((tripData) => {
+					const status = tripData.estimated_arrival_unix && tripData.estimated_arrival_unix !== tripData.scheduled_arrival_unix ? 'realtime' : 'scheduled';
+					return (
+						<View key={tripData.trip_id} style={{ width: '100%' }}>
+							{status === 'realtime' && (
+								<Link key={tripData.trip_id} href={`/vehicle/${tripData.vehicle_id}`} style={{ width: '100%' }}>
+									<ArrivalRow key={tripData.trip_id} status={status} tripData={tripData} />
+								</Link>
+							)}
+							{status === 'scheduled' && (
+								<ArrivalRow key={tripData.trip_id} status={status} tripData={tripData} />
+							)}
+						</View>
+					);
+				})}
 
 				{showAll && (
 					<ListItem>

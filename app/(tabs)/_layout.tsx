@@ -100,10 +100,12 @@ export default function TabLayout() {
 							tabBarShowLabel: false,
 							tabBarStyle: Platform.select({
 								android: {
-									backgroundColor: 'transparent',
+									backgroundColor: themeContext.theme.mode === 'light'
+										? theming.colorSystemBackgroundLight100
+										: theming.colorSystemBackgroundDark100,
 									borderTopColor: borderColor,
 									height: 74 + insets.bottom,
-									paddingBottom: 30,
+									paddingBottom: 0,
 									paddingTop: 20,
 									position: 'absolute',
 								},
