@@ -1,3 +1,5 @@
+/* * */
+
 import type { Stop } from '@carrismetropolitana/api-types/network';
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
@@ -21,29 +23,39 @@ import Svg, { Circle } from 'react-native-svg';
 
 import { styles } from './styles';
 
+/* * */
+
 export default function StopsScreen() {
+	//
+
+	//
+	// A. Setup Variables
+
 	const stopsContext = useStopsContext();
 	const stopDetailContext = useStopsDetailContext();
 	const locationsContext = useLocationsContext();
 	const mapOptionsContext = useMapOptionsContext();
 	const themeContext = useThemeContext();
 	const insets = useSafeAreaInsets();
-
 	const stopMapDetailStyles = styles();
 	const [initialCameraSet, setInitialCameraSet] = useState(false);
 	const [selectedStop, setSelectedStop] = useState<string>('');
 	const [flaggedStopId, setFlaggedStopId] = useState<null | string>(null);
 	const [stopData, setStopData] = useState<Stop | undefined>(undefined);
-
 	const [cameraState, setCameraState] = useState<{ center: [number, number], zoom: number }>(() => {
 		const camera = locationsContext.data.currentCords;
-		return camera ? { center: [camera.longitude, camera.latitude], zoom: 10 } : { center: [0, 0], zoom: 10 };
+		return camera ? { center: [camera.longitude, camera.latitude], zoom: 16 } : { center: [0, 0], zoom: 16 };
 	});
+	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+	const stops = stopsContext.actions.getAllStopsGeoJsonFC();
+
+	//
+	// B. Fetch Data
 
 	useEffect(() => {
 		const c = locationsContext.data.currentCords;
 		if (c && !initialCameraSet) {
-			setCameraState({ center: [c.longitude, c.latitude], zoom: 10 });
+			setCameraState({ center: [c.longitude, c.latitude], zoom: 16 });
 		}
 	}, [locationsContext.data.currentCords, initialCameraSet]);
 
@@ -56,20 +68,16 @@ export default function StopsScreen() {
 		}
 	}, [selectedStop]);
 
+	//
+	// C. Handle Actions
+
 	const handleCenterUser = () => {
 		const loc = locationsContext.data.currentCords;
-		if (loc) {
-			setCameraState({
-				center: [loc.longitude, loc.latitude],
-				zoom: 14,
-			});
-		}
+		if (loc) setCameraState({ center: [loc.longitude, loc.latitude], zoom: 18 });
 	};
-
 	const handleCenterStop = (stop: Stop) => {
 		setCameraState({ center: [stop.lon, stop.lat], zoom: 18 });
 	};
-
 	const handleStopPress = (stopId: string) => {
 		const stop = stopsContext.actions.getStopById(stopId);
 		if (!stop) return;
@@ -79,7 +87,6 @@ export default function StopsScreen() {
 		handleCenterStop(stop);
 		bottomSheetModalRef.current?.present();
 	};
-
 	const handleStopDeselect = () => {
 		bottomSheetModalRef.current?.close();
 		setSelectedStop('');
@@ -88,48 +95,28 @@ export default function StopsScreen() {
 		handleCenterUser();
 	};
 
-	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-
-	const stops = stopsContext.actions.getAllStopsGeoJsonFC();
+	//
+	// D. Render Components
 
 	return (
 		<SafeAreaView style={stopMapDetailStyles.container}>
 			<MapView
+				camera={{ centerCoordinate: cameraState.center, zoomLevel: cameraState.zoom }}
 				mapStyle={(mapOptionsContext.data.style as MapStyle) ?? 'map'}
-				onCenterMap={handleCenterUser}
 				onPress={handleStopDeselect}
-				camera={{
-					centerCoordinate: cameraState.center,
-					zoomLevel: cameraState.zoom,
-				}}
-				onRegionDidChange={() => {
-					if (!initialCameraSet) setInitialCameraSet(true);
-				}}
+				onRegionDidChange={() => { if (!initialCameraSet) setInitialCameraSet(true); }}
 				scrollZoom
 				toolbar
 			>
 				{stops && (
-					<MapViewStyleStops
-						flaggedStopId={flaggedStopId || undefined}
-						onStopPress={handleStopPress}
-						stopsData={stops}
-					/>
+					<MapViewStyleStops flaggedStopId={flaggedStopId || undefined} onStopPress={handleStopPress}stopsData={stops} />
 				)}
-
 				{locationsContext.data.currentCords && (
 					<PointAnnotation
 						coordinate={[locationsContext.data.currentCords.longitude, locationsContext.data.currentCords.latitude]}
 						id="userLocation"
 					>
-						<View style={{
-							backgroundColor: '#007AFF',
-							borderColor: 'white',
-							borderRadius: 12,
-							borderWidth: 1,
-							height: 12,
-							width: 12,
-						}}
-						/>
+						<View style={{ backgroundColor: '#007AFF', borderColor: 'white', borderRadius: 12, borderWidth: 1, height: 12, width: 12 }} />
 					</PointAnnotation>
 				)}
 			</MapView>
@@ -170,7 +157,6 @@ export default function StopsScreen() {
 								</ListItem.Content>
 								<View style={{ width: 24 }} />
 								<ListItem.Chevron />
-
 							</ListItem>
 							<StopDetailNextArrivals href={`/stop/${selectedStop}`} />
 						</>
@@ -179,4 +165,6 @@ export default function StopsScreen() {
 			</BottomSheetModal>
 		</SafeAreaView>
 	);
+
+	//
 }

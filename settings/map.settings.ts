@@ -11,10 +11,10 @@ export const mapDefaultValues = Object.freeze({
 	longitude: -9.0,
 	pitch: 0,
 	speed: 4000,
-	zoom: 10,
-	zoom_margin: 3,
+	zoom: 14,
+	zoom_margin: 1,
 	zoom_max: 16,
-	zoom_min: 5,
+	zoom_min: 12,
 });
 
 /* * */
@@ -34,8 +34,6 @@ export const mapDefaultStyles = Object.freeze({
 				type: 'raster',
 			},
 		],
-		maxZoom: 18,
-		minZoom: 5,
 		sources: {
 			'raster-tiles': {
 				attribution: 'Esri, Maxar, Earthstar Geographics, and the GIS User Community',
