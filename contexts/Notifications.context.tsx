@@ -121,8 +121,6 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 				const token = await askForPermissions();
 				if (!token || !isMounted) return;
 				setFcmToken(token);
-				// Subscribes after obtaining token
-				await subscribeToTopic('test');
 
 				// Handle tap when killed
 				const initial = await getInitialNotification(messaging);

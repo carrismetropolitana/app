@@ -26,7 +26,8 @@ interface ExtendedMapViewRef extends MapViewRef {
 
 interface MapOptionsContextState {
 	actions: {
-		centerMap: (coordinates: [number, number][]) => void
+		centerMap: (coordinates: [number, number]) => void
+		centerMapOnStop: (coordinates: [number, number]) => void
 		setMap: (map: ExtendedMapViewRef) => void
 		setStyle: (value: MapStyle) => void
 		setViewportHeight: (value: number) => void
@@ -98,13 +99,43 @@ export const MapOptionsContextProvider = ({ children }: { children: React.ReactN
 		setDataMapState(map);
 	};
 
-	const centerMap = (coordinates: [number, number][]) => {
+	const centerMap = (coordinates: [number, number]) => {
+		console.log('Centering map to coordinates:', coordinates);
 		if (!dataMapState || !coordinates.length) return;
 
 		const featureCollection: FeatureCollection<Point> = {
 			features: coordinates.map(coord => ({
 				geometry: {
-					coordinates: coord,
+					coordinates: Array.isArray(coord) ? coord : [coord, 0],
+					type: 'Point',
+				},
+				properties: {},
+				type: 'Feature',
+			})),
+			type: 'FeatureCollection',
+		};
+
+		const bbox = turf.bbox(featureCollection);
+		// Derive center from bbox.
+		const [minLng, minLat, maxLng, maxLat] = bbox;
+		const center: [number, number] = [(minLng + maxLng) / 2, (minLat + maxLat) / 2];
+		const zoom = 10;
+
+		dataMapState.setCamera({
+			animationDuration: 1000,
+			centerCoordinate: center,
+			zoom,
+		});
+	};
+
+	const centerMapOnStop = (coordinates: [number, number]) => {
+		console.log('Centering map on stop:', coordinates);
+		if (!dataMapState || !coordinates.length) return;
+
+		const featureCollection: FeatureCollection<Point> = {
+			features: coordinates.map(coord => ({
+				geometry: {
+					coordinates: Array.isArray(coord) ? coord : [coord, 0],
 					type: 'Point',
 				},
 				properties: {},
@@ -129,6 +160,7 @@ export const MapOptionsContextProvider = ({ children }: { children: React.ReactN
 	const contextValue: MapOptionsContextState = {
 		actions: {
 			centerMap,
+			centerMapOnStop,
 			setMap,
 			setStyle,
 			setViewportHeight,

@@ -1,7 +1,7 @@
 /* * */
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
-import ArrivalRow from '@/components/stops/ArrivalRow';
+import { StopArrivalRow } from '@/components/stops/StopArrivalRow';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { NextArrivalStop } from '@/types/timetables.types';
 import { ListItem, Text } from '@rn-vui/themed';
@@ -85,10 +85,9 @@ export default function StopDetailNextArrivalsByPatternID({ description, href, p
 			<View key={tripData.trip_id} style={{ width: '100%' }}>
 				{status === 'realtime' && (
 					<Link href={`/vehicle/${tripData.vehicle_id}`} style={{ width: '100%' }}>
-						<ArrivalRow
+						<StopArrivalRow
 							formatted={formatted}
 							status={status}
-							stopDetailNextArrivals={stopDetailNextArrivals}
 							tripData={{
 								...tripData,
 								vehicle_id: tripData.vehicle_id ?? undefined,
@@ -98,10 +97,9 @@ export default function StopDetailNextArrivalsByPatternID({ description, href, p
 				)}
 				{status === 'scheduled' && (
 					<Link href={`/line/${tripData.line_id}`} style={{ width: '100%' }}>
-						<ArrivalRow
+						<StopArrivalRow
 							formatted={formatted}
 							status={status}
-							stopDetailNextArrivals={stopDetailNextArrivals}
 							tripData={{
 								...tripData,
 								vehicle_id: tripData.vehicle_id ?? undefined,

@@ -14,13 +14,7 @@ import React, { useEffect, useState } from 'react';
 
 /* * */
 
-interface WidgetCardsProps {
-	type?: 'lines' | 'stops'
-}
-
-/* * */
-
-export function WidgetCards({ type }: WidgetCardsProps) {
+export function WidgetCards() {
 	//
 
 	//
@@ -31,44 +25,28 @@ export function WidgetCards({ type }: WidgetCardsProps) {
 	const [sortedWidgets, setSortedWidgets] = useState<AccountWidget[]>([]);
 
 	//
-	// B. Transform data);
-	useEffect(() => {
-		const filtered = type ? widgets.filter(w => w.data.type === type) : widgets;
-		const ordered = filtered
-			.slice()
-			.sort((a, b) => (a.settings?.display_order ?? 0) - (b.settings?.display_order ?? 0));
-		if (ordered.length === 0) return;
-		setSortedWidgets(ordered);
-	}, [widgets, type]);
+	// B. Transform data
 
-	//
-	// C. Handle actions
-
-	//
-	// B. Transform data);
 	useEffect(() => {
-		const filtered = type ? widgets.filter(w => w.data.type === type) : widgets;
-		const ordered = filtered
-			.slice()
-			.sort((a, b) => (a.settings?.display_order ?? 0) - (b.settings?.display_order ?? 0));
-		if (ordered.length === 0) return;
+		if (widgets.length === 0) return;
+		const ordered = widgets.slice().sort((widget, index) => (widget.settings?.display_order ?? 0) - (index.settings?.display_order ?? 0));
 		setSortedWidgets(ordered);
-	}, [widgets, type]);
+	}, [widgets]);
 
 	//
 	// C. Handle actions
 
 	const handleToggle = (key: string) => {
-		const updatedWidgets = widgets.map((widget) => {
+		const updatedWidgets = widgets.map((widget, idx) => {
 			let widgetKey = '';
 			if (widget.data.type === 'lines') {
-				widgetKey = widget.data.pattern_id;
+				widgetKey = `${widget.data.pattern_id}-${widget.data.type}-${idx}-${widget.settings.display_order}`;
 			}
 			else if (widget.data.type === 'stops') {
-				widgetKey = `${widget.data.stop_id}-${Array.isArray(widget.data.pattern_ids) ? widget.data.pattern_ids[0] : ''}`;
+				widgetKey = `${widget.data.stop_id}-${Array.isArray(widget.data.pattern_ids) ? widget.data.pattern_ids[0] : ''}-${widget.data.type}-${idx}-${widget.settings.display_order}`;
 			}
 			else if (widget.data.type === 'smart_notifications') {
-				widgetKey = widget.data.id;
+				widgetKey = `${widget.data.id}-${widget.data.type}-${idx}-${widget.settings.display_order}`;
 			}
 			if (widgetKey === key) {
 				return {
@@ -102,11 +80,11 @@ export function WidgetCards({ type }: WidgetCardsProps) {
 	}
 
 	return (
-
 		<Surface>
-			{sortedWidgets.map((widget) => {
+			{sortedWidgets.map((widget, idx) => {
+				let key = '';
 				if (widget.data.type === 'lines') {
-					const key = widget.data.pattern_id;
+					key = `${widget.data.pattern_id}-${widget.data.type}-${idx}-${widget.settings.display_order}`;
 					return (
 						<LinesDetailContextProvider>
 							<StopsDetailContextProvider>
@@ -122,7 +100,7 @@ export function WidgetCards({ type }: WidgetCardsProps) {
 					);
 				}
 				if (widget.data.type === 'stops') {
-					const key = `${widget.data.stop_id}-${widget.data.pattern_ids.join(',') ? widget.data.pattern_ids[0] : ''}`;
+					key = `${widget.data.stop_id}-${Array.isArray(widget.data.pattern_ids) ? widget.data.pattern_ids[0] : ''}-${widget.data.type}-${idx}-${widget.settings.display_order}`;
 					return (
 						<LinesDetailContextProvider>
 							<StopsDetailContextProvider>
@@ -137,7 +115,7 @@ export function WidgetCards({ type }: WidgetCardsProps) {
 					);
 				}
 				if (widget.data.type === 'smart_notifications') {
-					const key = widget.data.id;
+					key = `${widget.data.id}-${widget.data.type}-${idx}-${widget.settings.display_order}-${widget.settings.display_order}`;
 					return (
 						<LinesDetailContextProvider>
 							<StopsDetailContextProvider>

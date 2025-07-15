@@ -4,7 +4,6 @@ import { AccordionToggle } from '@/components/AccordionToggle';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { AccountWidget } from '@/types/account.types';
-import { Routes } from '@/utils/routes';
 import { ListItem } from '@rn-vui/themed';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
@@ -47,20 +46,9 @@ export function StopWidgetCard({ data, expanded, onToggle }: StopWidgetCardProps
 	const fetchStopName = async (id: string) => {
 		if (!id) return;
 		const stop = stopsContext.actions.getStopById(id);
-		if (stop && stop.long_name) {
+		if (stop) {
 			setStopName(stop.long_name);
 			return;
-		}
-		// fallback to API if not found in context
-		try {
-			const response = await fetch(`${Routes.API}/stops/${id}`);
-			const data = await response.json();
-			if (data && data.long_name) {
-				setStopName(data.long_name);
-			}
-		}
-		catch {
-			setStopName('');
 		}
 	};
 
@@ -71,6 +59,7 @@ export function StopWidgetCard({ data, expanded, onToggle }: StopWidgetCardProps
 			console.error(`Stop data not found for id: ${id}`);
 			return;
 		}
+
 		if (stop.municipality_id) {
 			const municipality = linesContext.data.municipalities.find(m => m.id === stop.municipality_id);
 			if (municipality) {

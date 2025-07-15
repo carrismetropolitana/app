@@ -4,7 +4,7 @@ import { theming } from '@/theme/Variables';
 import { Button } from '@rn-vui/themed';
 import { IconExternalLink, IconMap, IconSatellite, IconTarget } from '@tabler/icons-react-native';
 import * as Location from 'expo-location';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, Linking, StyleSheet, View } from 'react-native';
 
