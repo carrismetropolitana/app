@@ -23,7 +23,12 @@ import styles from './styles';
 
 /* * */
 
-export default function AddFavoriteLineScreen() {
+interface Props {
+	lineId?: string
+}
+/* * */
+
+export default function AddFavoriteLineScreen({ lineId }: Props) {
 	//
 
 	//
@@ -44,6 +49,12 @@ export default function AddFavoriteLineScreen() {
 
 	//
 	// B. Fetch Data
+
+	useEffect(() => {
+		if (lineId) {
+			linesDetailContext.actions.setLineId(lineId);
+		}
+	}, [lineId]);
 
 	const fetchPattern = async (patternId: string) => {
 		try {

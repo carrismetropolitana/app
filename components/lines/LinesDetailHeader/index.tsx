@@ -11,7 +11,8 @@ import { useDebugContext } from '@/contexts/Debug.context';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { Text } from '@rn-vui/themed';
-// import { IconHomePlus } from '@tabler/icons-react-native';
+import { IconHomePlus } from '@tabler/icons-react-native';
+import { router } from 'expo-router';
 import { View } from 'react-native';
 
 import { LineDisplayTts } from '../LineDisplayTts';
@@ -29,10 +30,10 @@ export function LinesDetailHeader() {
 	const linesDetailContext = useLinesDetailContext();
 	const debugContext = useDebugContext();
 	const lineDetailsHeaderStyles = styles();
-	// const activePattern = linesDetailContext.data.active_pattern;
-	// const isInWidgets = profileContext.data.widget_lines?.some(
-	// 	w => w.data && w.data.type === 'lines' && w.data.pattern_id === activePattern?.id,
-	// );
+	const activePattern = linesDetailContext.data.active_pattern;
+	const isInWidgets = profileContext.data.widget_lines?.some(
+		w => w.data && w.data.type === 'lines' && w.data.pattern_id === activePattern?.id,
+	);
 
 	//
 	// B. Handle actions
@@ -63,16 +64,18 @@ export function LinesDetailHeader() {
 							<View style={lineDetailsHeaderStyles.headingFirstSection}>
 								<LineBadge lineData={linesDetailContext.data.line} size="lg" />
 								<FavoriteToggle color={linesDetailContext.data.line.color} isActive={linesDetailContext.flags.is_favorite} onToggle={handleToggleFavorite} />
-								{/* <IconHomePlus
+								<IconHomePlus
 									color={isInWidgets ? linesDetailContext.data.line.color : '#9696A0'}
-									disabled={!activePattern}
+									// disabled={!activePattern}
+									onPress={() => router.push(`/addFavoriteLine/?lineId=${linesDetailContext.data.line?.id}`)}
 									size={24}
-									onPress={() => {
+								/>
+
+								{/* onPress={() => {
 										if (activePattern) {
 											profileContext.actions.createWidget({ pattern_ids: [activePattern.id], type: 'lines' });
 										}
-									}}
-								/> */}
+									}} */}
 								<LineDisplayTts patternId={linesDetailContext.data.active_pattern?.id} />
 							</View>
 							<Text style={lineDetailsHeaderStyles.lineName}>{linesDetailContext.data.line.long_name}</Text>

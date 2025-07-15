@@ -58,15 +58,15 @@ export function LineDisplayTts({ patternId }: Props) {
 		};
 	}, [sound]);
 
-	//
 	// C. Handle actions
 
-	const handleToogleAudio = () => {
+	const handleToogleAudio = async () => {
+		if (!sound) return;
 		if (isPlaying) {
-			sound?.pauseAsync();
+			await sound.pauseAsync();
 		}
 		else {
-			sound?.playAsync();
+			await sound.playFromPositionAsync(0);
 		}
 		// analyticsContext.actions.capture(ampli => ampli.stopAudioPlayed({ audio_played: 'true', stop_id: patternId || '' }));
 	};

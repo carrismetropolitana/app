@@ -126,6 +126,8 @@ export function SelectPattern() {
 		<View style={styles.container}>
 			<SelectPatternExplainer />
 			<Dropdown
+				activeColor={theming.colorBrand}
+				closeModalWhenSelectedItem={false}
 				containerStyle={styles.inputContainer}
 				data={dropdownData}
 				inputSearchStyle={styles.inputSearch}
@@ -144,9 +146,6 @@ export function SelectPattern() {
 				style={styles.dropdown}
 				value={selectedPatternId}
 				valueField="value"
-				activeColor={theme.mode === 'light'
-					? theming.colorSystemBackgroundLight100
-					: theming.colorSystemBackgroundDark100}
 				onChange={(item) => {
 					setSelectedPatternId(item.value);
 					setSelectedVersionId(patternVersionIds[item.value] || null);

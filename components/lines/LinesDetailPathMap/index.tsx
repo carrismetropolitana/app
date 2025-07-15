@@ -11,7 +11,7 @@ import { useVehiclesContext } from '@/contexts/Vehicles.context';
 import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
 import { getCenterAndZoom } from '@/utils/map.utils';
 import { router } from 'expo-router';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
 /* * */
@@ -21,7 +21,7 @@ interface Props {
 }
 
 /* * */
-export function LinesDetailPathMap({ hasToolbar }: Props) {
+export function LinesDetailPathMap({ hasToolbar = false }: Props) {
 	//
 
 	//
@@ -113,7 +113,7 @@ export function LinesDetailPathMap({ hasToolbar }: Props) {
 
 	return (
 		<View style={{ height: 360, width: '100%' }}>
-			<MapView camera={camera} mapStyle="map" toolbar={false}>
+			<MapView camera={camera} mapStyle="map" toolbar={hasToolbar}>
 				<MapViewStylePath
 					shapeData={linesDetailContext.data.active_shape?.geojson || getBaseGeoJsonFeatureCollection()}
 					waypointsData={activePathFC || getBaseGeoJsonFeatureCollection()}
