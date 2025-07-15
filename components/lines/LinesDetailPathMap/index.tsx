@@ -113,7 +113,7 @@ export function LinesDetailPathMap({ hasToolbar }: Props) {
 
 	return (
 		<View style={{ height: 360, width: '100%' }}>
-			<MapView camera={camera} mapStyle="map" toolbar={hasToolbar}>
+			<MapView camera={camera} mapStyle="map" toolbar={false}>
 				<MapViewStylePath
 					shapeData={linesDetailContext.data.active_shape?.geojson || getBaseGeoJsonFeatureCollection()}
 					waypointsData={activePathFC || getBaseGeoJsonFeatureCollection()}

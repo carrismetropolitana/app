@@ -46,7 +46,7 @@ export function WidgetCards() {
 				widgetKey = `${widget.data.stop_id}-${Array.isArray(widget.data.pattern_ids) ? widget.data.pattern_ids[0] : ''}-${widget.data.type}-${idx}-${widget.settings.display_order}`;
 			}
 			else if (widget.data.type === 'smart_notifications') {
-				widgetKey = `${widget.data.id}-${widget.data.type}-${idx}-${widget.settings.display_order}`;
+				widgetKey = `${widget.data.id}-${widget.data.type}-${idx}-${widget.settings.display_order}-${widget.settings.display_order}`;
 			}
 			if (widgetKey === key) {
 				return {
