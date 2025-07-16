@@ -32,9 +32,7 @@ export function LineDisplayTts({ patternId }: Props) {
 
 	useEffect(() => {
 		const loadSound = async () => {
-			const { sound } = await Audio.Sound.createAsync(
-				{ uri: `${audioTtsUrl}/patterns/${patternId}.mp3` },
-			);
+			const { sound } = await Audio.Sound.createAsync({ uri: `${audioTtsUrl}/patterns/${patternId}.mp3` });
 			setSound(sound);
 		};
 		loadSound();
@@ -42,7 +40,6 @@ export function LineDisplayTts({ patternId }: Props) {
 
 	useEffect(() => {
 		if (!sound) return;
-
 		const onPlaybackStatusUpdate = (status: AVPlaybackStatus) => {
 			if (!status.isLoaded) {
 				setIsPlaying(false);
@@ -50,9 +47,7 @@ export function LineDisplayTts({ patternId }: Props) {
 			}
 			setIsPlaying(status.isPlaying);
 		};
-
 		sound.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
-
 		return () => {
 			sound.setOnPlaybackStatusUpdate(null);
 		};
@@ -76,11 +71,7 @@ export function LineDisplayTts({ patternId }: Props) {
 
 	return sound && (
 		<TouchableOpacity onPress={handleToogleAudio}>
-			<View>
-				{isPlaying
-					? <IconPlayerPause color={ttsStyles.icon.color} />
-					: <IconVolume color={ttsStyles.icon.color} />}
-			</View>
+			<View> {isPlaying ? <IconPlayerPause color={ttsStyles.icon.color} /> : <IconVolume color={ttsStyles.icon.color} />} </View>
 		</TouchableOpacity>
 	);
 
