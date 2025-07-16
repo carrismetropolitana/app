@@ -14,8 +14,6 @@ import { useNavigation } from 'expo-router';
 import { DateTime } from 'luxon';
 import React, { useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
-import { Image } from 'react-native';
-import { FlatList, Modal, TouchableOpacity } from 'react-native';
 import CountryPicker, { Country, CountryCode } from 'react-native-country-picker-modal';
 import { ScrollView } from 'react-native-gesture-handler';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -71,43 +69,6 @@ export default function ProfileEditScreen() {
 	const [withFlag, setWithFlag] = useState(true);
 	const [withCallingCode, setWithCallingCode] = useState(true);
 	const [phone, setPhone] = useState(profileContext.data.profile?.profile?.phone || '');
-	const [countries, setCountries] = useState<CountryInfo[]>([]);
-	const [flagPickerVisible, setFlagPickerVisible] = useState(false);
-
-	// Fetch countries for picker
-	useEffect(() => {
-		const fetchCountries = async () => {
-			try {
-				const res = await fetch('https://restcountries.com/v3.1/all?fields=name,flags,idd');
-				const data = await res.json();
-				const parsed: CountryInfo[] = data.map((c: any) => ({
-					code: c.idd?.root ? `${c.idd.root}${c.idd.suffixes && c.idd.suffixes.length ? c.idd.suffixes[0] : ''}` : '',
-					flag: c.flags?.png || '',
-					name: c.name?.common || '',
-				})).filter((c: CountryInfo) => c.code);
-				setCountries(parsed);
-				if (!selectedCountry) {
-					setSelectedCountry(parsed.find(c => c.code === '+351') || parsed[0]); // Default Portugal
-				}
-			}
-			catch {
-				setCountries([]);
-			}
-		};
-		fetchCountries();
-	}, []);
-
-	// Phone validation effect
-	useEffect(() => {
-		if (!country || !phone) {
-			setPhoneValid(true);
-			return;
-		}
-		// Basic regex: starts with country calling code, then 6-15 digits
-		const code = country.callingCode[0] ? `+${country.callingCode[0]}` : '';
-		const regex = new RegExp(`^${code.replace('+', '\+')}[0-9]{6,15}$`);
-		setPhoneValid(regex.test(phone));
-	}, [phone, country]);
 	const [username, setUsername] = useState(profileContext.data.profile?.profile?.first_name || '');
 	const [surname, setSurname] = useState(profileContext.data.profile?.profile?.last_name || '');
 	const [email, setEmail] = useState(profileContext.data.profile?.profile?.email || '');
@@ -157,6 +118,16 @@ export default function ProfileEditScreen() {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		return emailRegex.test(email);
 	};
+
+	useEffect(() => {
+		if (!country || !phone) {
+			setPhoneValid(true);
+			return;
+		}
+		const code = country.callingCode[0] ? `+${country.callingCode[0]}` : '';
+		const regex = new RegExp(`^${code.replace('+', '\+')}[0-9]{6,15}$`);
+		setPhoneValid(regex.test(phone));
+	}, [phone, country]);
 
 	useEffect(() => {
 		navigation.setOptions({
