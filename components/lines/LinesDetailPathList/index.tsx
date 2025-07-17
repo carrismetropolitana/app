@@ -24,6 +24,7 @@ export function LinesDetailPathList() {
 
 	const linesDetailContext = useLinesDetailContext();
 	const LinesDetailPathListStyles = styles();
+	const scrollViewRef = useRef<ScrollView>(null);
 	// const analyticsContext = useAnalyticsContext();
 
 	//
@@ -42,20 +43,13 @@ export function LinesDetailPathList() {
 		// Organize arrivals by Stop ID
 		const result = new Map<string, NextArrival[]>();
 		arrivalsForCurrentPattern.forEach((arrivalData) => {
-			// Setup the object key
 			const objectKey = `${arrivalData.stop_id}-${arrivalData.stop_sequence}`;
-			// Initialize the array if it doesn't exist
 			if (!result.get(objectKey)) result.set(objectKey, []);
-			// Push the arrival data
 			if (arrivalData.estimated_arrival_unix) {
-				result
-					.get(objectKey)
-					?.push({ type: 'realtime', unixTs: arrivalData.estimated_arrival_unix * 1000 });
+				result.get(objectKey)?.push({ type: 'realtime', unixTs: arrivalData.estimated_arrival_unix * 1000 });
 			}
 			else {
-				result
-					.get(objectKey)
-					?.push({ type: 'scheduled', unixTs: arrivalData.scheduled_arrival_unix * 1000 });
+				result.get(objectKey)?.push({ type: 'scheduled', unixTs: arrivalData.scheduled_arrival_unix * 1000 });
 			}
 		});
 		for (const key of Object.keys(result)) {
@@ -70,7 +64,6 @@ export function LinesDetailPathList() {
 
 	//
 	// D. Handle actions
-	const scrollViewRef = useRef<ScrollView>(null);
 
 	const selectedIndex = sortedStops?.findIndex(
 		waypoint =>
@@ -114,6 +107,8 @@ export function LinesDetailPathList() {
 						isFirstStop={index === 0}
 						isLastStop={index === sortedStops.length - 1}
 						isSelected={linesDetailContext.data.active_waypoint?.stop_id === waypoint.stop_id && linesDetailContext.data.active_waypoint?.stop_sequence === waypoint.stop_sequence}
+						selectionEnabled={true}
+						trackProgress={false}
 						waypointData={waypoint}
 					/>
 				);

@@ -86,7 +86,6 @@ export function PathWaypointSpine({ backgroundColor, foregroundColor, isDisabled
 						!isFirstStop && { transform: [{ translateY: -18 }] },
 					]}
 					>
-
 						<IconChevronDown
 							color="#FFFFFF"
 							size={18}

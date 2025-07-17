@@ -101,8 +101,9 @@ export function VehiclesDetailPathList() {
 						isFirstStop={index === 0}
 						isLastStop={index === sortedStops.length - 1}
 						isNextStop={isNextStop}
-						isSelected={linesDetailContext.data.active_waypoint?.stop_id === waypoint.stop_id && linesDetailContext.data.active_waypoint?.stop_sequence === waypoint.stop_sequence}
 						isVehiclePage={true}
+						selectionEnabled={false}
+						trackProgress={true}
 						waypointData={waypoint}
 					/>
 				);

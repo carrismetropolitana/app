@@ -24,25 +24,28 @@ interface Props {
 	isNextStop?: boolean
 	isSelected?: boolean
 	isVehiclePage?: boolean
+	selectionEnabled?: boolean
+	trackProgress?: boolean
 	waypointData: Waypoint
 }
 
 /* * */
 
-export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isLastStop, isNextStop, isSelected, isVehiclePage, waypointData }: Props) {
+export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isLastStop, isNextStop, isSelected, isVehiclePage, selectionEnabled, trackProgress, waypointData }: Props) {
 	//
 
 	//
 	// A. Setup variables
 
+	const now = Date.now();
+
 	const linesDetailContext = useLinesDetailContext();
 	const operationalDayContext = useOperationalDayContext();
-	const now = Date.now();
+
 	const pathWaypointStyles = styles();
-	const defaultBackgroundColor = linesDetailContext.data.active_pattern?.color;
-	const defaultForegroundColor = linesDetailContext.data.active_pattern?.text_color;
-	const backgroundColor = hasBeenPassed ? theming.colorSystemText400 : defaultBackgroundColor;
-	const foregroundColor = hasBeenPassed ? theming.colorSystemText300 : defaultForegroundColor;
+
+	const backgroundColor = hasBeenPassed && trackProgress && !selectionEnabled ? theming.colorSystemText400 : linesDetailContext.data.active_pattern?.color;
+	const foregroundColor = hasBeenPassed && trackProgress && !selectionEnabled ? theming.colorSystemText300 : linesDetailContext.data.active_pattern?.text_color;
 
 	//
 	// B. Transform data
@@ -62,7 +65,7 @@ export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isLastStop,
 	// D. Render components
 
 	return (
-		<TouchableOpacity onPress={handleToggleStop}>
+		<TouchableOpacity onPress={!selectionEnabled ? undefined : handleToggleStop}>
 			<View
 				style={[
 					pathWaypointStyles.container,
@@ -74,7 +77,7 @@ export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isLastStop,
 				<PathWaypointSpine
 					backgroundColor={backgroundColor}
 					foregroundColor={foregroundColor}
-					isDisabled={hasBeenPassed}
+					isDisabled={hasBeenPassed && !trackProgress}
 					isFirstStop={isFirstStop}
 					isLastStop={isLastStop}
 					isNextStop={isNextStop}
