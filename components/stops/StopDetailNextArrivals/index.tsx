@@ -137,7 +137,9 @@ export default function StopDetailNextArrivals({ description, href, title }: Pro
 								</Link>
 							)}
 							{status === 'scheduled' && (
-								<ArrivalRow key={tripData.trip_id} status={status} tripData={tripData} />
+								<Link key={tripData.trip_id} href={`/line/${tripData.line_id}`} style={{ width: '100%' }}>
+									<ArrivalRow key={tripData.trip_id} status={status} tripData={tripData} />
+								</Link>
 							)}
 						</View>
 					);

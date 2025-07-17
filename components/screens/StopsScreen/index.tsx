@@ -92,7 +92,6 @@ export default function StopsScreen() {
 			bottomSheetModalRef.current.close();
 		}
 		setSelectedStop('');
-
 		setFlaggedStopId(null);
 		setStopData(undefined);
 		stopDetailContext.actions.resetActiveStopId();
@@ -131,12 +130,7 @@ export default function StopsScreen() {
 				backgroundStyle={{ backgroundColor: themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200 }}
 				snapPoints={['70%']}
 			>
-				<BottomSheetScrollView
-					style={stopMapDetailStyles.contentContainer}
-					contentContainerStyle={{
-						paddingBottom: 74 + insets.bottom,
-					}}
-				>
+				<BottomSheetScrollView contentContainerStyle={{ paddingBottom: 74 + insets.bottom }} style={stopMapDetailStyles.contentContainer}>
 					{stopData && (
 						<>
 							<ListItem>
