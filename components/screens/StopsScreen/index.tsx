@@ -88,9 +88,14 @@ export default function StopsScreen() {
 		bottomSheetModalRef.current?.present();
 	};
 	const handleStopDeselect = () => {
-		bottomSheetModalRef.current?.close();
+		if (bottomSheetModalRef.current) {
+			bottomSheetModalRef.current.close();
+		}
 		setSelectedStop('');
+
 		setFlaggedStopId(null);
+		setStopData(undefined);
+		stopDetailContext.actions.resetActiveStopId();
 		stopDetailContext.actions.setActiveStopId('');
 		handleCenterUser();
 	};
@@ -132,7 +137,6 @@ export default function StopsScreen() {
 						paddingBottom: 74 + insets.bottom,
 					}}
 				>
-					{!stopData && <NoDataLabel text="Nenhum dado encontrado" />}
 					{stopData && (
 						<>
 							<ListItem>
@@ -161,6 +165,7 @@ export default function StopsScreen() {
 							<StopDetailNextArrivals href={`/stop/${selectedStop}`} />
 						</>
 					)}
+					{!stopData && <NoDataLabel text="Nenhum dado encontrado" />}
 				</BottomSheetScrollView>
 			</BottomSheetModal>
 		</SafeAreaView>

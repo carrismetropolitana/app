@@ -21,11 +21,11 @@ export const styles = () => {
 			borderColor: borderColor,
 			borderTopWidth: 2,
 			flexDirection: 'row',
-			gap: 25,
-			justifyContent: 'space-between',
+			justifyContent: 'space-evenly',
 			marginBottom: 10,
 			marginTop: 10,
 			padding: 20,
+			width: '100%',
 		},
 		/* * */
 		/* TEXT */

@@ -37,13 +37,12 @@ interface AddSmartNotificationScreenProps {
 
 export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNotificationScreenProps) {
 	//
+
 	//
-
 	// A. Setup Variables
+
 	const weekDays: ('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-
 	const { t } = useTranslation('translation', { keyPrefix: 'smartNotifications' });
-
 	const [lineChooserVisibility, setLineChooserVisibility] = useState(false);
 	const [patternNames, setPatternNames] = useState<Record<string, string>>({});
 	const [patternVersionIds, setPatternVersionIds] = useState<Record<string, string>>({});
@@ -84,17 +83,11 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 			if (data.distance !== undefined) setRadius(data.distance);
 			if (data.pattern_id) {
 				const lineIdFromPattern = data.pattern_id.split('_')[0];
+				console.log('pattern_id', data.pattern_id);
+				console.log('lineIdFromPattern', lineIdFromPattern);
 				linesDetailContext.actions.setLineId(lineIdFromPattern);
 				linesDetailContext.actions.setActivePattern(data.pattern_id);
 			}
-		}
-		if (Id) {
-			linesDetailContext.actions.setLineId(Id);
-		}
-		if (PatternId) {
-			const lineIdFromPattern = PatternId.split('_')[0];
-			linesDetailContext.actions.setLineId(lineIdFromPattern);
-			linesDetailContext.actions.setActivePattern(PatternId);
 		}
 	}, [Id, PatternId]);
 
@@ -282,7 +275,7 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 				<VerticalContentSeparator middle />
 				<Text style={addFavoriteLineStyles.text}>{t('radiusAt')}</Text>
 				<View style={addFavoriteLineStyles.selectNotificationContol}>
-					<Input containerStyle={addFavoriteLineStyles.input} onChangeText={text => setRadius(Number(text))} placeholder="Valor" value={radius.toString()} />
+					<Input containerStyle={addFavoriteLineStyles.input} keyboardType="number-pad" onChangeText={text => setRadius(Number(text))} placeholder="Valor" value={radius.toString()} />
 					<SelectNotificationControl />
 				</View>
 				<VerticalContentSeparator middle />

@@ -22,13 +22,32 @@ const styles = () => {
 			fontSize: 16,
 			fontWeight: theming.fontWeightSemibold as '600',
 		},
-		text: {
+		showLess: {
 			color: fontColor,
 			fontSize: 16,
 			fontWeight: theming.fontWeightSemibold as '600',
-			justifyContent: 'center',
-			marginBottom: 10,
+			marginTop: 10,
 			textAlign: 'center',
+		},
+		showMore: {
+			alignItems: 'center',
+			color: fontColor,
+			fontSize: 18,
+			fontWeight: theming.fontWeightSemibold as '600',
+			paddingBottom: 10,
+			paddingTop: 10,
+			textAlign: 'center',
+			width: '100%',
+		},
+		text: {
+			alignItems: 'center',
+			color: fontColor,
+			fontSize: 18,
+			fontWeight: theming.fontWeightSemibold as '600',
+			paddingBottom: 10,
+			paddingTop: 10,
+			textAlign: 'center',
+			width: '100%',
 		},
 	});
 };

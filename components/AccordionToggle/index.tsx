@@ -1,26 +1,48 @@
 /* * */
 
-import { IconCaretLeft } from '@tabler/icons-react-native';
+import { IconBell, IconCaretLeft } from '@tabler/icons-react-native';
 import React, { useEffect, useRef } from 'react';
-import { Animated, Easing, StyleProp, ViewStyle } from 'react-native';
+import { Animated, Easing, StyleProp, View, ViewStyle } from 'react-native';
+
+import { styles } from './styles';
 
 /* * */
 
 interface AccordionToggleProps {
 	expanded: boolean
+	isNotification?: boolean
 	size?: number
 	style?: StyleProp<ViewStyle>
 }
 
 /* * */
 
-export const AccordionToggle = ({ expanded, size = 24, style }: AccordionToggleProps) => {
+export const AccordionToggle = ({ expanded, isNotification, size = 24, style }: AccordionToggleProps) => {
 	//
 
 	//
 	// A. Setup Variables
 
+	const pulseAnim = useRef(new Animated.Value(1)).current;
 	const rotateAnim = useRef(new Animated.Value(0)).current;
+	const accordionToggleStyles = styles();
+
+	useEffect(() => {
+		Animated.loop(
+			Animated.sequence([
+				Animated.timing(pulseAnim, {
+					duration: 800,
+					toValue: 1.15,
+					useNativeDriver: true,
+				}),
+				Animated.timing(pulseAnim, {
+					duration: 800,
+					toValue: 1,
+					useNativeDriver: true,
+				}),
+			]),
+		).start();
+	}, [pulseAnim]);
 
 	useEffect(() => {
 		Animated.timing(rotateAnim, {
@@ -40,9 +62,23 @@ export const AccordionToggle = ({ expanded, size = 24, style }: AccordionToggleP
 	// B. Render Components
 
 	return (
-		<Animated.View style={[{ transform: [{ rotate }] }, style]}>
-			<IconCaretLeft color="#D2D2DC" fill="#D2D2DC" size={size} />
-		</Animated.View>
+		<>
+			{isNotification && (
+				<Animated.View style={[accordionToggleStyles.gradientCircle, { backgroundColor: '#daf0ef', position: 'absolute', transform: [{ scale: pulseAnim }], zIndex: 0 }]}>
+					<View style={[accordionToggleStyles.gradientCircle, { backgroundColor: 'transparent', position: 'absolute', zIndex: 1 }]}>
+						<Animated.View style={[accordionToggleStyles.innerCircle, { alignSelf: 'center', position: 'absolute', transform: [], zIndex: 2 }]}>
+							<IconBell color="#fff" size={32} />
+							<View style={accordionToggleStyles.notificationDot} />
+						</Animated.View>
+					</View>
+				</Animated.View>
+			)}
+			{!isNotification && (
+				<Animated.View style={[{ transform: [{ rotate: rotate }] }]}>
+					<IconCaretLeft color="#5F5F5F" fill="#5F5F5F" size={size} />
+				</Animated.View>
+			)}
+		</>
 	);
 
 	//

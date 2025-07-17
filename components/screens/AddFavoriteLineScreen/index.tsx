@@ -78,7 +78,6 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 				await Promise.all(
 					patterns.map(async (pattern) => {
 						const data = await fetchPattern(pattern);
-
 						if (data) {
 							patternName[pattern] = data[0].headsign;
 						}

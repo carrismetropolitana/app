@@ -586,6 +586,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 					},
 					settings: { display_order: otherWidgets.length + smartNotificationWidgets.length + 1, is_open: true },
 				};
+				console.log('newWidgetSmartNotification', newWidgetSmartNotification);
 				updatedSmartWidgets.push(newWidgetSmartNotification);
 				if (dataApiTokenState) {
 					try {

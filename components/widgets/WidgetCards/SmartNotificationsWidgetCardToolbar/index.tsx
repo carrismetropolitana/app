@@ -32,28 +32,31 @@ export function SmartNotificationsWidgetCardToolbar({ data }: SmartNotifications
 	// B. Render Components
 	return (
 		<View style={headerStyles.container}>
-			<View style={{ alignItems: 'center', backgroundColor: '#FAFAFA', borderRadius: 4, flexDirection: 'row', gap: 8, height: 50, padding: 10 }}>
-				<IconBell color="#5F5F5F" size={24} />
-				<Text style={headerStyles.text}>{smartNotificationStartHour}</Text>
-				<IconArrowRight color="#5F5F5F" size={22} />
-				<Text style={headerStyles.text}>{smartNotificationEndHour}</Text>
-			</View>
-			<View style={{ alignItems: 'center', backgroundColor: '#FAFAFA', borderRadius: 4, flexDirection: 'row', gap: 8, height: 50, padding: 10 }}>
-				{weekDays.map((day) => {
-					const isActive = smartNotificationsData?.week_days?.includes(day);
-					return (
-						<View
-							key={day}
-							style={{
-								justifyContent: 'center',
-							}}
-						>
-							<Text style={isActive ? headerStyles.text : headerStyles.textUnselected}>
-								{t(`${day}`)}
-							</Text>
-						</View>
-					);
-				})}
+			<View style={{ flexDirection: 'row', gap: 10 }}>
+				<View style={{ alignItems: 'center', backgroundColor: '#FAFAFA', borderRadius: 4, flexDirection: 'row', gap: 5, height: 50, padding: 10 }}>
+					<IconBell color="#5F5F5F" size={24} />
+					<Text style={headerStyles.text}>{smartNotificationStartHour}</Text>
+					<IconArrowRight color="#5F5F5F" size={22} />
+					<Text style={headerStyles.text}>{smartNotificationEndHour}</Text>
+				</View>
+				<View style={{ alignItems: 'center', backgroundColor: '#FAFAFA', borderRadius: 4, flexDirection: 'row', gap: 5, height: 50, padding: 10 }}>
+
+					{weekDays.map((day) => {
+						const isActive = smartNotificationsData?.week_days?.includes(day);
+						return (
+							<View
+								key={day}
+								style={{
+									justifyContent: 'center',
+								}}
+							>
+								<Text style={isActive ? headerStyles.text : headerStyles.textUnselected}>
+									{t(`${day}`)}
+								</Text>
+							</View>
+						);
+					})}
+				</View>
 			</View>
 		</View>
 	);

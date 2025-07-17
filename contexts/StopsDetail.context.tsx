@@ -13,6 +13,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 
 interface StopsDetailContextState {
 	actions: {
+		resetActiveStopId: () => void
 		resetActiveTripId: () => void
 		setActiveStopId: (stopId: string) => void
 		setActiveTripId: (tripId: string, stopSequence: number) => void
@@ -288,8 +289,14 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 		setDataActiveStopSequenceState(undefined);
 	};
 
+	const resetActiveStopId = () => {
+		setActiveStopId('');
+		setDataStopState(undefined);
+	};
+
 	const contextValue: StopsDetailContextState = {
 		actions: {
+			resetActiveStopId,
 			resetActiveTripId,
 			setActiveStopId,
 			setActiveTripId,

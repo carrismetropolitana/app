@@ -1,10 +1,11 @@
 import { useMapOptionsContext } from '@/contexts/MapOptions.context';
+import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Button } from '@rn-vui/themed';
 import { IconExternalLink, IconMap, IconSatellite, IconTarget } from '@tabler/icons-react-native';
 import * as Location from 'expo-location';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, Linking, StyleSheet, View } from 'react-native';
 
@@ -21,6 +22,9 @@ export function MapViewToolbar({ onCenterMap }: Props) {
 	const { t } = useTranslation('map.toolbar');
 	const themeContext = useThemeContext();
 	const mapOptionsContext = useMapOptionsContext();
+	const stopDetailsContext = useStopsDetailContext();
+	const [stopLat, setStopLat] = useState(stopDetailsContext.data.stop?.lat);
+	const [stopLon, setStopLon] = useState(stopDetailsContext.data.stop?.lon);
 	const backgroundColor = themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100;
 	const styles = StyleSheet.create({
 		button: {
@@ -53,11 +57,29 @@ export function MapViewToolbar({ onCenterMap }: Props) {
 	//
 	// B. Handle actions
 
-	const handleOpenInGoogle = async () => {
+	useEffect(() => {
+		if (!stopDetailsContext.data.stop || stopDetailsContext.data.stop.id === '') {
+			setStopLat(undefined);
+			setStopLon(undefined);
+			return;
+		}
+		setStopLat(stopDetailsContext.data.stop.lat);
+		setStopLon(stopDetailsContext.data.stop.lon);
+	}, [stopDetailsContext.data.stop]);
+
+	const handleOpenExternalLocation = async () => {
 		try {
+			let url = '';
 			const location = await Location.getCurrentPositionAsync();
 			const { latitude, longitude } = location.coords;
-			const url = `https://www.google.com/maps?q=${latitude},${longitude}&z=10`;
+			if (stopLat && stopLon) {
+				console.log('Using stop coordinates:', stopLat, stopLon);
+				url = `https://www.google.com/maps?q=${stopLat},${stopLon}&z=10`;
+			}
+			else {
+				console.log('Using current location coordinates:', latitude, longitude);
+				url = `https://www.google.com/maps?q=${latitude},${longitude}&z=10`;
+			}
 			Linking.openURL(url);
 		}
 		catch (error) {
@@ -100,7 +122,7 @@ export function MapViewToolbar({ onCenterMap }: Props) {
 				accessibilityLabel={t('open_in_google_maps')}
 				buttonStyle={styles.button}
 				icon={<IconExternalLink color="#9696a0" size={24} />}
-				onPress={handleOpenInGoogle}
+				onPress={handleOpenExternalLocation}
 			/>
 		</View>
 	);
