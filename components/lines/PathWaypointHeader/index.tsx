@@ -3,6 +3,7 @@
 import { IconDisplay } from '@/components/common/IconDisplay';
 import { useLocationsContext } from '@/contexts/Locations.context';
 import { useStopsContext } from '@/contexts/Stops.context';
+import { theming } from '@/theme/Variables';
 import { type Waypoint } from '@carrismetropolitana/api-types/network';
 import { Text } from '@rn-vui/themed';
 import { IconCheck, IconCopy } from '@tabler/icons-react-native';
@@ -35,7 +36,7 @@ export function PathWaypointHeader({ isFirstStop, isLastStop, isSelected, waypoi
 	const locationsContext = useLocationsContext();
 	const [stopIdClipboard, setStopIdClipboard] = useState('');
 	const pathWaypointHeaderStyles = styles();
-
+	const iconColor = isSelected ? theming.colorSystemText300 : theming.colorSystemText400;
 	const containerStyles = [
 		pathWaypointHeaderStyles.container,
 		isFirstStop && pathWaypointHeaderStyles.isFirstStop,
@@ -75,11 +76,9 @@ export function PathWaypointHeader({ isFirstStop, isLastStop, isSelected, waypoi
 		<View style={containerStyles}>
 			<Text style={pathWaypointHeaderStyles.stopName}>
 				{stopData.long_name}
-				{isSelected && (
-					<Link href={`/stop/${waypointData.stop_id}`} style={pathWaypointHeaderStyles.stopNameUrl} target="_blank">
-						<IconArrowUpRight size={20} />
-					</Link>
-				)}
+				<Link href={`/stop/${waypointData.stop_id}`} style={pathWaypointHeaderStyles.stopNameUrl}>
+					<IconArrowUpRight color={iconColor} size={14} />
+				</Link>
 			</Text>
 			<View style={pathWaypointHeaderStyles.subHeaderWrapper}>
 				<Text style={pathWaypointHeaderStyles.stopLocation}>{localityData?.display || municipalityData?.name}</Text>

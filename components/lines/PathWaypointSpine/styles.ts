@@ -2,10 +2,6 @@ import { theming } from '@/theme/Variables';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-	topChevron:{
-		borderRadius: 999, 
-		backgroundColor: '#000000'
-	},
 	container: {
 		alignItems: 'center',
 		flexDirection: 'column',
@@ -45,29 +41,6 @@ export const styles = StyleSheet.create({
 		margin: 6,
 		width: 5,
 	},
-	markerFirstStopNext: {
-		display: 'none',
-	},
-	markerNext: {
-		aspectRatio: 1,
-		borderRadius: 999,
-		margin: 3,
-		transform: [{ translateY: -3 }],
-		backgroundColor: '#000000',
-	},
-	markerMiddleNext: {
-		aspectRatio: 1,
-		borderRadius: 999,
-		margin: 6,
-		width: 10,
-	},
-	markerLastStopNext: {
-		aspectRatio: 1,
-		borderRadius: 999,
-		margin: 3,
-		transform: [{ translateY: 0 }],
-		backgroundColor: '#000000',
-	},
 	markerFavorite: {
 		margin: 3,
 		marginTop: 0,
@@ -79,10 +52,32 @@ export const styles = StyleSheet.create({
 	markerFirstStopFavorite: {
 		transform: [],
 	},
+	markerFirstStopNext: {
+		display: 'none',
+	},
+	markerLastStopNext: {
+		aspectRatio: 1,
+		backgroundColor: '#000000',
+		borderRadius: 999,
+		margin: 3,
+		transform: [{ translateY: 0 }],
+	},
+	markerMiddleNext: {
+		aspectRatio: 1,
+		borderRadius: 999,
+		margin: 6,
+		width: 10,
+	},
+	markerNext: {
+		aspectRatio: 1,
+		backgroundColor: '#000000',
+		borderRadius: 999,
+		margin: 3,
+		transform: [{ translateY: -3 }],
+	},
 	markerSelected: {
 		margin: 4,
 	},
-
 	stopSequence: {
 		aspectRatio: 1,
 		borderRadius: 999,
@@ -93,10 +88,15 @@ export const styles = StyleSheet.create({
 		transform: [{ translateY: 2 }],
 		width: '100%',
 	},
+
 	stopSequenceFirstStop: {
 		transform: [{ translateY: 6 }],
 	},
 	stopSequenceLastStop: {
 		transform: [{ translateY: -6 }],
+	},
+	topChevron: {
+		backgroundColor: '#000000',
+		borderRadius: 999,
 	},
 });

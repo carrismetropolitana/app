@@ -23,19 +23,12 @@ export const styles = () => {
 		paddingLeft: theming.sizeSpacing20,
 		paddingRight: theming.sizeSpacing20,
 	};
-
-	/* * */
-	/* CONTAINER */
-	const container = {
-		...containerBase,
-	};
-
 	//
 	// B. Render Components
 
 	return StyleSheet.create({
 		container: {
-			...container,
+			...containerBase,
 		},
 		isFirstStop: {
 			...containerBase,

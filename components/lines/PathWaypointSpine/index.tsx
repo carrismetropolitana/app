@@ -116,7 +116,7 @@ export function PathWaypointSpine({ backgroundColor, foregroundColor, isDisabled
 						styles.marker,
 						isFirstStop && styles.markerFirstStop,
 						isSelected && styles.markerSelected,
-						isDisabled && styles.markerDisabled,
+						isDisabled ? styles.markerDisabled : null,
 						(isLastStop && !isFirstStop) && styles.markerLastStopNext,
 						isNextStop && !isFirstStop && !isLastStop && styles.markerMiddleNext,
 						{ backgroundColor: foregroundColor },

@@ -41,12 +41,6 @@ const InterestsLabels = {
 	[InterestsSchema.enum['network changes']]: 'Alterações de Rede',
 };
 
-interface CountryInfo {
-	code: string
-	flag: string
-	name: string
-}
-
 export default function ProfileEditScreen() {
 	//
 
@@ -62,7 +56,6 @@ export default function ProfileEditScreen() {
 	const interestsTypes = InterestsSchema;
 	const accentColors = ['rgba(61,133,198,1)', 'rgba(198,29,35,1)', 'rgba(253,183,26,1)', 'rgba(187,62,150,1)', 'rgba(12,128,126,1)', 'rgba(255,105,0,1)'];
 	const backgroundColor = themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100;
-	const [selectedCountry, setSelectedCountry] = useState<CountryInfo | null>(null);
 	const [phoneValid, setPhoneValid] = useState(true);
 	const [countryCode, setCountryCode] = useState<CountryCode>('PT');
 	const [country, setCountry] = useState<Country | null>(null);
@@ -120,16 +113,6 @@ export default function ProfileEditScreen() {
 	};
 
 	useEffect(() => {
-		if (!country || !phone) {
-			setPhoneValid(true);
-			return;
-		}
-		const code = country.callingCode[0] ? `+${country.callingCode[0]}` : '';
-		const regex = new RegExp(`^${code.replace('+', '\+')}[0-9]{6,15}$`);
-		setPhoneValid(regex.test(phone));
-	}, [phone, country]);
-
-	useEffect(() => {
 		navigation.setOptions({
 			headerBackTitle: 'Editar Perfil',
 			headerStyle: {
@@ -140,8 +123,25 @@ export default function ProfileEditScreen() {
 	}, [navigation]);
 
 	useEffect(() => {
+		if (!country || !phone) {
+			setPhoneValid(false);
+			return;
+		}
+		let regex;
+		const callingCode = country.callingCode && country.callingCode[0] ? country.callingCode[0] : '';
+
+		if (callingCode && /^\d+$/.test(callingCode)) {
+			regex = new RegExp(`^\\+${callingCode}[0-9]{6,15}$`);
+		}
+		else {
+			regex = /^[0-9]{6,15}$/;
+		}
+		setPhoneValid(regex.test(phone));
+	}, [phone, country]);
+
+	useEffect(() => {
+		if (!email) return;
 		const handler = setTimeout(() => {
-			if (email === '') return;
 			const valid = verifyEmail(email);
 			setEmailValid(valid);
 			if (valid) {
@@ -157,7 +157,7 @@ export default function ProfileEditScreen() {
 
 	useEffect(() => {
 		profileContext.actions.setInterests(interestTopics || []);
-	}, [accentColor]);
+	}, [interestTopics]);
 
 	//
 	// D. Render Components
@@ -180,7 +180,7 @@ export default function ProfileEditScreen() {
 	];
 
 	return (
-		<ScrollView style={profileEditModalStyles.container}>
+		<ScrollView contentContainerStyle={{ flexGrow: 1 }} style={profileEditModalStyles.container}>
 			<View style={profileEditModalStyles.userSection}>
 				<ProfileImage backgroundColor={accentColor ? dimAvatarBackground(accentColor) : 'rgba(253,183,26,0.4))'} borderWidth={10} color={accentColor || ''} size={200} type="url" />
 				<ButtonGroup buttons={buttons} containerStyle={{ backgroundColor: backgroundColor, borderRadius: 30, marginTop: -20, width: '25%' }} />
@@ -232,7 +232,7 @@ export default function ProfileEditScreen() {
 							editable={false}
 							onPressIn={() => setShowPicker(true)}
 							placeholder="Selecionar data"
-							value={birthDate ? DateTime.fromJSDate(new Date(Number(birthDate))).setLocale(localeContext.locale).toLocaleString(DateTime.DATE_MED).replaceAll('de', '') : ''}
+							value={birthDate ? DateTime.fromJSDate(new Date(Number(birthDate))).setLocale(localeContext.locale).toLocaleString(DateTime.DATE_MED).replace(/\bde\b/g, '') : ''}
 						/>
 					</ListItem.Content>
 				</ListItem>
@@ -253,17 +253,16 @@ export default function ProfileEditScreen() {
 				<ListItem>
 					<ListItem.Content>
 						<ListItem.Title style={profileEditModalStyles.inputLabel}><Text>Número de Telemóvel</Text></ListItem.Title>
-						<View style={{ alignItems: 'center', flexDirection: 'row', gap: 8 }}>
+						<View style={{ alignItems: 'center', flexDirection: 'row' }}>
 							<CountryPicker
-								containerButtonStyle={{ marginRight: 8 }}
 								countryCode={countryCode}
 								withCallingCode={withCallingCode}
 								withFlag={withFlag}
-								onSelect={(c) => {
-									setCountryCode(c.cca2);
-									setCountry(c);
-									if (c.callingCode[0]) {
-										setPhone(`+${c.callingCode[0]}`);
+								onSelect={(country) => {
+									setCountryCode(country.cca2);
+									setCountry(country);
+									if (country.callingCode[0]) {
+										setPhone(`+${country.callingCode[0]}`);
 									}
 								}}
 								withFilter
@@ -273,7 +272,7 @@ export default function ProfileEditScreen() {
 								errorMessage={!phoneValid && phone ? 'Número inválido para o país selecionado.' : undefined}
 								keyboardType="phone-pad"
 								onBlur={() => phoneValid && handleProfileFieldBlur('phone', phone)}
-								onChangeText={val => setPhone(val.startsWith(country && country.callingCode[0] ? `+${country.callingCode[0]}` : '') ? val : (country && country.callingCode[0] ? `+${country.callingCode[0]}` : '') + val.replace(/[^0-9]/g, ''))}
+								onChangeText={value => setPhone(value.startsWith(country && country.callingCode[0] ? `+${country.callingCode[0]}` : '') ? value : (country && country.callingCode[0] ? `+${country.callingCode[0]}` : '') + value.replace(/[^0-9]/g, ''))}
 								placeholder={country ? `+${country.callingCode[0]} 123456789` : 'Número de Telemóvel'}
 								value={phone}
 							/>

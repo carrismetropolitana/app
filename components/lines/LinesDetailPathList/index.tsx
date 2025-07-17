@@ -95,7 +95,7 @@ export function LinesDetailPathList() {
 	// E. Render components
 
 	if (!sortedStops?.length || !linesDetailContext.data.active_pattern) {
-		return <NoDataLabel />;
+		return <NoDataLabel fill />;
 	}
 
 	return (

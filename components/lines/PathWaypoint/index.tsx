@@ -22,7 +22,7 @@ interface Props {
 	isFirstStop?: boolean
 	isLastStop?: boolean
 	isNextStop?: boolean
-	isSelected: boolean
+	isSelected?: boolean
 	isVehiclePage?: boolean
 	waypointData: Waypoint
 }
@@ -78,7 +78,7 @@ export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isLastStop,
 					isFirstStop={isFirstStop}
 					isLastStop={isLastStop}
 					isNextStop={isNextStop}
-					isSelected={isSelected}
+					isSelected={isSelected || false}
 					stopId={waypointData.stop_id}
 					stopSequence={waypointData.stop_sequence}
 
@@ -87,7 +87,7 @@ export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isLastStop,
 					<PathWaypointHeader
 						isFirstStop={isFirstStop}
 						isLastStop={isLastStop}
-						isSelected={isSelected}
+						isSelected={isSelected || false}
 						waypointData={waypointData}
 					/>
 
