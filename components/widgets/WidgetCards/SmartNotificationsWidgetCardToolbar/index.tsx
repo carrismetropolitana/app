@@ -34,6 +34,7 @@ export function SmartNotificationsWidgetCardToolbar({ data }: SmartNotifications
 
 	//
 	// B. Render Components
+
 	return (
 		<View style={headerStyles.container}>
 			<View style={{ flexDirection: 'row', gap: 10 }}>
@@ -48,9 +49,7 @@ export function SmartNotificationsWidgetCardToolbar({ data }: SmartNotifications
 						const isActive = smartNotificationsData?.week_days?.includes(day);
 						return (
 							<View key={day} style={{ justifyContent: 'center' }}>
-								<Text style={isActive ? headerStyles.text : headerStyles.textUnselected}>
-									{t(`${day}`)}
-								</Text>
+								<Text style={isActive ? headerStyles.text : headerStyles.textUnselected}>{t(`${day}`)}</Text>
 							</View>
 						);
 					})}

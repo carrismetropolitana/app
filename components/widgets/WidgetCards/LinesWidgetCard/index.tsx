@@ -59,12 +59,10 @@ export function LineWidgetCard({ data, expanded, onToggle }: LineWidgetCardProps
 	return (
 		<ListItem.Accordion
 			containerStyle={!expanded ? cardStyles.cardClosed : cardStyles.cardOpen}
+			content={(<LineWidgetCardHeader lineId={lineId} title={lineName} />)}
 			icon={<AccordionToggle expanded={expanded} size={24} />}
 			isExpanded={expanded}
-			onPress={() => onToggle()}
-			content={(
-				<LineWidgetCardHeader lineId={lineId} title={lineName} />
-			)}
+			onPress={onToggle}
 		>
 			<View style={cardStyles.cardBody}>
 				<LinesDetailContextProvider>

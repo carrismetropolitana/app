@@ -20,7 +20,6 @@ export const styles = () => {
 			borderRadius: 999,
 			height: 35,
 			justifyContent: 'center',
-			transform: [],
 			width: 35,
 		},
 		notificationDot: {

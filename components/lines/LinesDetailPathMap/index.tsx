@@ -30,7 +30,6 @@ export function LinesDetailPathMap({ hasToolbar = false }: Props) {
 	const vehiclesContext = useVehiclesContext();
 	const linesDetailContext = useLinesDetailContext();
 	const stopsContext = useStopsContext();
-	const mapRef = useRef<any>(null);
 
 	//
 	// B. Fetch data
@@ -64,16 +63,15 @@ export function LinesDetailPathMap({ hasToolbar = false }: Props) {
 	const activeStopFC = useMemo(() => {
 		const wp = linesDetailContext.data.active_waypoint;
 		const pat = linesDetailContext.data.active_pattern;
+
 		if (!wp || !pat) return null;
 		const stop = stopsContext.actions.getStopById(wp.stop_id);
+
 		if (!stop) return null;
+
 		const feat = transformStopDataIntoGeoJsonFeature(stop);
-		feat.properties = {
-			...feat.properties,
-			color: pat.color,
-			stop_id: wp.stop_id,
-			text_color: pat.text_color,
-		};
+		feat.properties = { ...feat.properties, color: pat.color, stop_id: wp.stop_id, text_color: pat.text_color };
+
 		const coll = getBaseGeoJsonFeatureCollection();
 		coll.features.push(feat);
 		return coll;
@@ -92,12 +90,7 @@ export function LinesDetailPathMap({ hasToolbar = false }: Props) {
 	});
 
 	useEffect(() => {
-		if (fitPath) {
-			setCamera({
-				centerCoordinate: fitPath.center,
-				zoomLevel: fitPath.zoom,
-			});
-		}
+		if (fitPath) setCamera({ centerCoordinate: fitPath.center, zoomLevel: fitPath.zoom });
 	}, [fitPath]);
 
 	//
@@ -105,9 +98,7 @@ export function LinesDetailPathMap({ hasToolbar = false }: Props) {
 
 	if (!fitPath) {
 		return (
-			<View style={{ alignItems: 'center', height: 360, justifyContent: 'center', width: '100%' }}>
-				<ActivityIndicator />
-			</View>
+			<View style={{ alignItems: 'center', height: 360, justifyContent: 'center', width: '100%' }}><ActivityIndicator /></View>
 		);
 	}
 
@@ -120,10 +111,8 @@ export function LinesDetailPathMap({ hasToolbar = false }: Props) {
 				/>
 				<MapViewStyleActiveStops stopsData={activeStopFC || getBaseGeoJsonFeatureCollection()} />
 				<MapViewStyleVehicles
+					onVehiclePress={(id) => { router.push(`/vehicle/${id}`); }}
 					vehiclesData={activeVehiclesFC ?? getBaseGeoJsonFeatureCollection()}
-					onVehiclePress={(id) => {
-						router.push(`/vehicle/${id}`);
-					}}
 				/>
 			</MapView>
 			<VehicleCounter count={activeVehiclesFC?.features.length || 0} />

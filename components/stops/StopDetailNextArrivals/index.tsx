@@ -175,6 +175,7 @@ export default function StopDetailNextArrivals({ description, href, title }: Pro
 						</ListItem.Content>
 					</ListItem>
 				)}
+
 			</>
 			{description && <Text style={stopDetailNextArrivals.upcomingCirculationsDescription}>{t('description')}</Text>}
 		</View>

@@ -23,6 +23,9 @@ export function VehiclesDetailPathList() {
 
 	const linesDetailContext = useLinesDetailContext();
 	const [showAllPassed, setShowAllPassed] = useState(false);
+	// Info selection state for future stops
+	const [infoSelectedStopId, setInfoSelectedStopId] = useState<null | string>(null);
+	const [infoSelectedStopSequence, setInfoSelectedStopSequence] = useState<null | number>(null);
 	const sortedStops = useMemo(() => {
 		return linesDetailContext.data.active_pattern?.path?.slice().sort((a, b) => a.stop_sequence - b.stop_sequence) || [];
 	}, [linesDetailContext.data.active_pattern?.path]);
@@ -197,6 +200,7 @@ export function VehiclesDetailPathList() {
 				const isFirstStop = index === 0 && passedStops.length === 0;
 				const isLastStop = index === futureStops.length - 1;
 				const isNextStop = currentVehicleStopSequence !== undefined && waypoint.stop_sequence === currentVehicleStopSequence;
+				const isInfoSelected = waypoint.stop_id === infoSelectedStopId && waypoint.stop_sequence === infoSelectedStopSequence;
 				return (
 					<PathWaypoint
 						key={`${waypoint.stop_id}-${waypoint.stop_sequence}`}
@@ -204,12 +208,17 @@ export function VehiclesDetailPathList() {
 						hasBeenPassed={false}
 						id={`waypoint-${waypoint.stop_id}-${waypoint.stop_sequence}`}
 						isFirstStop={isFirstStop}
+						isInfoSelected={isInfoSelected}
 						isLastStop={isLastStop}
 						isNextStop={isNextStop}
 						isVehiclePage={true}
-						selectionEnabled={false}
+						selectionEnabled={true}
 						trackProgress={true}
 						waypointData={waypoint}
+						onInfoSelect={() => {
+							setInfoSelectedStopId(waypoint.stop_id);
+							setInfoSelectedStopSequence(waypoint.stop_sequence);
+						}}
 					/>
 				);
 			})}

@@ -33,8 +33,6 @@ export default function Page() {
 		});
 	}, [navigation, themeContext.theme.mode]);
 
-	console.log('stop_id', stop_id);
-
 	//
 	// C. Render components
 

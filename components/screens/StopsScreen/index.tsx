@@ -135,7 +135,7 @@ export default function StopsScreen() {
 						<>
 							<ListItem>
 								<ListItem.Content>
-									<Link href={`/stop/${stopData.id}`} style={{ width: '100%' }}>
+									<Link href={`/stop/?stop_id=${stopData.id}}`} style={{ width: '100%' }}>
 										<View style={{ alignItems: 'center', flexDirection: 'row', gap: 10 }}>
 											<Svg fill="none" height={21} viewBox="0 0 20 21" width={20}>
 												<Circle cx={10} cy={10.5} fill="#FFDD00" r={9} stroke="black" strokeWidth={2} />

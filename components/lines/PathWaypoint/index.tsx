@@ -20,10 +20,12 @@ interface Props {
 	hasBeenPassed?: boolean
 	id?: string
 	isFirstStop?: boolean
+	isInfoSelected?: boolean
 	isLastStop?: boolean
 	isNextStop?: boolean
 	isSelected?: boolean
 	isVehiclePage?: boolean
+	onInfoSelect?: () => void
 	selectionEnabled?: boolean
 	trackProgress?: boolean
 	waypointData: Waypoint
@@ -31,7 +33,7 @@ interface Props {
 
 /* * */
 
-export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isLastStop, isNextStop, isSelected, isVehiclePage, selectionEnabled, trackProgress, waypointData }: Props) {
+export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isInfoSelected, isLastStop, isNextStop, isSelected, isVehiclePage, onInfoSelect, selectionEnabled, trackProgress, waypointData }: Props) {
 	//
 
 	//
@@ -58,14 +60,27 @@ export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isLastStop,
 	// C. Handle actions
 
 	const handleToggleStop = () => {
+		console.log('Toggle stop:', waypointData.stop_id, waypointData.stop_sequence);
 		linesDetailContext.actions.setActiveWaypoint(waypointData.stop_id, waypointData.stop_sequence);
 	};
 
 	//
 	// D. Render components
 
+	// Only allow info selection for future stops, keep vehicle selection logic for vehicle
+	const handlePress = () => {
+		if (selectionEnabled && onInfoSelect) {
+			onInfoSelect();
+		}
+
+		if (!onInfoSelect && selectionEnabled) {
+			console.log('Toggle stop normal:', waypointData.stop_id, waypointData.stop_sequence);
+			handleToggleStop();
+		}
+	};
+
 	return (
-		<TouchableOpacity onPress={!selectionEnabled ? undefined : handleToggleStop}>
+		<TouchableOpacity onPress={handlePress}>
 			<View
 				style={[
 					pathWaypointStyles.container,
@@ -84,7 +99,6 @@ export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isLastStop,
 					isSelected={isSelected || false}
 					stopId={waypointData.stop_id}
 					stopSequence={waypointData.stop_sequence}
-
 				/>
 				<View style={pathWaypointStyles.detailsWrapper}>
 					<PathWaypointHeader
@@ -101,7 +115,7 @@ export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isLastStop,
 						/>
 					)}
 
-					{isSelected && !isVehiclePage && (
+					{(isSelected || isInfoSelected) && (
 						<PathWaypointTimetable />
 					)}
 				</View>
