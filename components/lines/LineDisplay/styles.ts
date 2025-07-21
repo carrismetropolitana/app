@@ -1,9 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 export const lineDisplayStyles = StyleSheet.create({
-/* * */
-/* CONTAINER */
-
+	/* CONTAINER */
 	container: {
 		alignItems: 'center',
 		flexDirection: 'row',
@@ -13,5 +11,12 @@ export const lineDisplayStyles = StyleSheet.create({
 		right: 10,
 		width: '80%',
 	},
-
+	/* * */
+	/* Skeleton */
+	skeleton: {
+		backgroundColor: '#eee',
+		borderRadius: 9999,
+		height: 24,
+		width: '100%',
+	},
 });

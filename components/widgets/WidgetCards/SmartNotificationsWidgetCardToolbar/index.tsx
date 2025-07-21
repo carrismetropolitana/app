@@ -1,3 +1,5 @@
+/* * */
+
 import type { AccountWidget } from '@/types/account.types';
 
 import { Text } from '@rn-vui/themed';
@@ -9,21 +11,23 @@ import { View } from 'react-native';
 
 import { styles } from './styles';
 
+/* * */
+
 interface SmartNotificationsWidgetCardToolbarProps {
 	data: AccountWidget
 }
+
+/* * */
 
 export function SmartNotificationsWidgetCardToolbar({ data }: SmartNotificationsWidgetCardToolbarProps) {
 	//
 
 	//
 	// A. Setup variables
+
 	const headerStyles = styles();
-
 	const { t } = useTranslation('translation', { keyPrefix: 'smartNotifications.Toolbar' });
-
 	const weekDays: ('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-
 	const smartNotificationsData = data?.data.type === 'smart_notifications' ? data.data : undefined;
 	const smartNotificationStartHour = DateTime.fromSeconds(smartNotificationsData?.start_time || 0).toFormat('HH:mm');
 	const smartNotificationEndHour = DateTime.fromSeconds(smartNotificationsData?.end_time || 0).toFormat('HH:mm');
@@ -40,16 +44,10 @@ export function SmartNotificationsWidgetCardToolbar({ data }: SmartNotifications
 					<Text style={headerStyles.text}>{smartNotificationEndHour}</Text>
 				</View>
 				<View style={{ alignItems: 'center', backgroundColor: '#FAFAFA', borderRadius: 4, flexDirection: 'row', gap: 5, height: 50, padding: 10 }}>
-
 					{weekDays.map((day) => {
 						const isActive = smartNotificationsData?.week_days?.includes(day);
 						return (
-							<View
-								key={day}
-								style={{
-									justifyContent: 'center',
-								}}
-							>
+							<View key={day} style={{ justifyContent: 'center' }}>
 								<Text style={isActive ? headerStyles.text : headerStyles.textUnselected}>
 									{t(`${day}`)}
 								</Text>
@@ -60,5 +58,6 @@ export function SmartNotificationsWidgetCardToolbar({ data }: SmartNotifications
 			</View>
 		</View>
 	);
+
 	//
 }

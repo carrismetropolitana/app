@@ -4,7 +4,7 @@ import type { Line } from '@carrismetropolitana/api-types/network';
 
 import { LineBadge } from '@/components/lines/LineBadge';
 import { LineName } from '@/components/lines/LineName';
-import { Text } from '@rn-vui/themed';
+import { Skeleton, Text } from '@rn-vui/themed';
 import { View } from 'react-native';
 
 import { lineDisplayStyles } from './styles';
@@ -48,14 +48,10 @@ export function LineDisplay({ color, lineData, longName, municipality, shortName
 	}
 
 	return (
-		<View>
-			<Text>000</Text>
+		<View style={lineDisplayStyles.skeleton}>
+			<Skeleton height={24} width={65} />
+			<Skeleton height={24} width={width} />
 		</View>
-		// TODO Add skeleton loader
-		// <div className={lineDisplayStyles.container}>
-		// 	<Skeleton height={24} radius={9999} width={65} />
-		// 	<Skeleton height={24} width={width} />
-		// </div>
 	);
 
 	//

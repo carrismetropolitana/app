@@ -6,10 +6,9 @@ import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { NextArrival } from '@/types/timetables.types';
 import { PatternRealtime } from '@/types/types';
 import { Routes } from '@/utils/routes';
-import { useMemo } from 'react';
-import { useEffect, useRef } from 'react';
-import { View } from 'react-native';
-import { ScrollView } from 'react-native';
+import { Text } from '@rn-vui/themed';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
 import useSWR from 'swr';
 
 import { styles } from './styles';
@@ -23,9 +22,25 @@ export function VehiclesDetailPathList() {
 	// A. Setup variables
 
 	const linesDetailContext = useLinesDetailContext();
+	const [showAllPassed, setShowAllPassed] = useState(false);
+	const sortedStops = useMemo(() => {
+		return linesDetailContext.data.active_pattern?.path?.slice().sort((a, b) => a.stop_sequence - b.stop_sequence) || [];
+	}, [linesDetailContext.data.active_pattern?.path]);
+	const currentVehicleStopSequence = linesDetailContext.data.active_waypoint?.stop_sequence;
+	const passedStops = sortedStops.filter(
+		waypoint => currentVehicleStopSequence !== undefined && waypoint.stop_sequence < currentVehicleStopSequence,
+	);
+	const futureStops = sortedStops.filter(
+		waypoint => !(currentVehicleStopSequence !== undefined && waypoint.stop_sequence < currentVehicleStopSequence),
+	);
+	const topCount = 3;
+	const bottomCount = 3;
+	const totalPassed = passedStops.length;
+	const showCollapseButton = totalPassed > (topCount + bottomCount);
+	const topPassedStops = passedStops.slice(0, topCount);
+	const bottomPassedStops = passedStops.slice(totalPassed - bottomCount, totalPassed);
 	const LinesDetailPathListStyles = styles();
-	// const analyticsContext = useAnalyticsContext();
-
+	const scrollViewRef = useRef<ScrollView>(null);
 	//
 	// B. Fetch data
 
@@ -35,18 +50,12 @@ export function VehiclesDetailPathList() {
 	// C. Transform data
 
 	const preparedRealtimeData = useMemo<Map<string, NextArrival[]> | undefined>(() => {
-		// Return early if there is no patternRealtimeData
 		if (!patternRealtimeData) return;
-		// Filter arrrivals for the current pattern
 		const arrivalsForCurrentPattern = patternRealtimeData?.filter(arrivalData => arrivalData.pattern_id === linesDetailContext.data.active_pattern?.id) || [];
-		// Organize arrivals by Stop ID
 		const result = new Map<string, NextArrival[]>();
 		arrivalsForCurrentPattern.forEach((arrivalData) => {
-			// Setup the object key
 			const objectKey = `${arrivalData.stop_id}-${arrivalData.stop_sequence}`;
-			// Initialize the array if it doesn't exist
 			if (!result.get(objectKey)) result.set(objectKey, []);
-			// Push the arrival data
 			if (arrivalData.estimated_arrival_unix) {
 				result.get(objectKey)?.push({ type: 'realtime', unixTs: arrivalData.estimated_arrival_unix * 1000 });
 			}
@@ -60,13 +69,8 @@ export function VehiclesDetailPathList() {
 		return result;
 	}, [patternRealtimeData, linesDetailContext.data.active_pattern?.id]);
 
-	const sortedStops = useMemo(() => {
-		return linesDetailContext.data.active_pattern?.path.sort((a, b) => a.stop_sequence - b.stop_sequence);
-	}, [linesDetailContext.data.active_pattern?.path]);
-
 	//
 	// D. Handle actions
-	const scrollViewRef = useRef<ScrollView>(null);
 
 	const selectedIndex = sortedStops?.findIndex(
 		waypoint => linesDetailContext.data.active_waypoint?.stop_id === waypoint.stop_id && linesDetailContext.data.active_waypoint?.stop_sequence === waypoint.stop_sequence);
@@ -86,20 +90,121 @@ export function VehiclesDetailPathList() {
 
 	return (
 		<View style={LinesDetailPathListStyles.container}>
-			{sortedStops.map((waypoint, index) => {
-				const currentVehicleStopSequence = linesDetailContext.data.active_waypoint?.stop_sequence;
+			{!showAllPassed && showCollapseButton && (
+				<>
+					{topPassedStops.map((waypoint, idx) => {
+						const thisStopSequence = waypoint.stop_sequence;
+						const hasBeenPassed = currentVehicleStopSequence !== undefined && thisStopSequence < currentVehicleStopSequence;
+						const isNextStop = currentVehicleStopSequence !== undefined && thisStopSequence === currentVehicleStopSequence;
+						const isFirstStop = idx === 0;
+						return (
+							<PathWaypoint
+								key={`top-${waypoint.stop_id}-${waypoint.stop_sequence}`}
+								arrivals={preparedRealtimeData?.get(`${waypoint.stop_id}-${waypoint.stop_sequence}`) || []}
+								hasBeenPassed={hasBeenPassed}
+								id={`waypoint-${waypoint.stop_id}-${waypoint.stop_sequence}`}
+								isFirstStop={isFirstStop}
+								isLastStop={false}
+								isNextStop={isNextStop}
+								isVehiclePage={true}
+								selectionEnabled={false}
+								trackProgress={true}
+								waypointData={waypoint}
+							/>
+						);
+					})}
+					<View style={{ alignItems: 'center', marginVertical: 8 }}>
+						<TouchableOpacity onPress={() => setShowAllPassed(true)} style={{ padding: 8 }}>
+							<Text style={{ color: '#007AFF' }}>Mostrar mais passadas</Text>
+						</TouchableOpacity>
+					</View>
+					{bottomPassedStops.map((waypoint, idx) => {
+						if (waypoint === topPassedStops[topPassedStops.length - (bottomPassedStops.length - idx)]) return null;
+						const thisStopSequence = waypoint.stop_sequence;
+						const hasBeenPassed = currentVehicleStopSequence !== undefined && thisStopSequence < currentVehicleStopSequence;
+						const isNextStop = currentVehicleStopSequence !== undefined && thisStopSequence === currentVehicleStopSequence;
+						const isFirstStop = idx === 0 && topPassedStops.length === 0;
+						return (
+							<PathWaypoint
+								key={`bottom-${waypoint.stop_id}-${waypoint.stop_sequence}`}
+								arrivals={preparedRealtimeData?.get(`${waypoint.stop_id}-${waypoint.stop_sequence}`) || []}
+								hasBeenPassed={hasBeenPassed}
+								id={`waypoint-${waypoint.stop_id}-${waypoint.stop_sequence}`}
+								isFirstStop={isFirstStop}
+								isLastStop={false}
+								isNextStop={isNextStop}
+								isVehiclePage={true}
+								selectionEnabled={false}
+								trackProgress={true}
+								waypointData={waypoint}
+							/>
+						);
+					})}
+				</>
+			)}
+			{showAllPassed && showCollapseButton && (
+				<>
+					{passedStops.map((waypoint, idx) => {
+						const thisStopSequence = waypoint.stop_sequence;
+						const hasBeenPassed = currentVehicleStopSequence !== undefined && thisStopSequence < currentVehicleStopSequence;
+						const isNextStop = currentVehicleStopSequence !== undefined && thisStopSequence === currentVehicleStopSequence;
+						const isFirstStop = idx === 0;
+						return (
+							<PathWaypoint
+								key={`all-${waypoint.stop_id}-${waypoint.stop_sequence}`}
+								arrivals={preparedRealtimeData?.get(`${waypoint.stop_id}-${waypoint.stop_sequence}`) || []}
+								hasBeenPassed={hasBeenPassed}
+								id={`waypoint-${waypoint.stop_id}-${waypoint.stop_sequence}`}
+								isFirstStop={isFirstStop}
+								isLastStop={false}
+								isNextStop={isNextStop}
+								isVehiclePage={true}
+								selectionEnabled={false}
+								trackProgress={true}
+								waypointData={waypoint}
+							/>
+						);
+					})}
+					<View style={{ alignItems: 'center', marginVertical: 8 }}>
+						<TouchableOpacity onPress={() => setShowAllPassed(false)} style={{ padding: 8 }}>
+							<Text style={{ color: '#8e9399ff' }}>Mostrar menos</Text>
+						</TouchableOpacity>
+					</View>
+				</>
+			)}
+			{!showCollapseButton && passedStops.map((waypoint, idx) => {
 				const thisStopSequence = waypoint.stop_sequence;
 				const hasBeenPassed = currentVehicleStopSequence !== undefined && thisStopSequence < currentVehicleStopSequence;
 				const isNextStop = currentVehicleStopSequence !== undefined && thisStopSequence === currentVehicleStopSequence;
-
+				const isFirstStop = idx === 0;
+				return (
+					<PathWaypoint
+						key={`all-${waypoint.stop_id}-${waypoint.stop_sequence}`}
+						arrivals={preparedRealtimeData?.get(`${waypoint.stop_id}-${waypoint.stop_sequence}`) || []}
+						hasBeenPassed={hasBeenPassed}
+						id={`waypoint-${waypoint.stop_id}-${waypoint.stop_sequence}`}
+						isFirstStop={isFirstStop}
+						isLastStop={false}
+						isNextStop={isNextStop}
+						isVehiclePage={true}
+						selectionEnabled={false}
+						trackProgress={true}
+						waypointData={waypoint}
+					/>
+				);
+			})}
+			{futureStops.map((waypoint, index) => {
+				const isFirstStop = index === 0 && passedStops.length === 0;
+				const isLastStop = index === futureStops.length - 1;
+				const isNextStop = currentVehicleStopSequence !== undefined && waypoint.stop_sequence === currentVehicleStopSequence;
 				return (
 					<PathWaypoint
 						key={`${waypoint.stop_id}-${waypoint.stop_sequence}`}
 						arrivals={preparedRealtimeData?.get(`${waypoint.stop_id}-${waypoint.stop_sequence}`) || []}
-						hasBeenPassed={hasBeenPassed}
+						hasBeenPassed={false}
 						id={`waypoint-${waypoint.stop_id}-${waypoint.stop_sequence}`}
-						isFirstStop={index === 0}
-						isLastStop={index === sortedStops.length - 1}
+						isFirstStop={isFirstStop}
+						isLastStop={isLastStop}
 						isNextStop={isNextStop}
 						isVehiclePage={true}
 						selectionEnabled={false}
