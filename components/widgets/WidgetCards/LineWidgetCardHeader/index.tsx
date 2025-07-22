@@ -26,10 +26,17 @@ export function LineWidgetCardHeader({ lineId, title }: LineWidgetCardHeaderProp
 		: undefined;
 
 	if (isLoading) {
-		return (<View style={headerStyles.container}> <Text style={headerStyles.headerTitle}>Loading...</Text></View>);
+		return (
+			<View style={headerStyles.container}>
+				<Text style={headerStyles.headerTitle}>Loading...</Text>
+			</View>
+		);
 	}
 
 	return (
-		<View style={headerStyles.container}> <LineBadge color={lineData?.color} lineId={lineId} size="lg" /> <Text style={headerStyles.headerTitle}>{title}</Text></View>
+		<View style={headerStyles.container}>
+			<LineBadge color={lineData?.color} lineId={lineId} size="lg" />
+			<Text style={headerStyles.headerTitle}>{title}</Text>
+		</View>
 	);
 }

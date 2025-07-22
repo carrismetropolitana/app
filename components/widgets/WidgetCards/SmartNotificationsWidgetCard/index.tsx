@@ -7,7 +7,7 @@ import { useStopsContext } from '@/contexts/Stops.context';
 import { AccountWidget } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
 import { Pattern, Stop } from '@carrismetropolitana/api-types/network';
-import { ListItem } from '@rn-vui/themed';
+import { ListItem, Text } from '@rn-vui/themed';
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
@@ -78,14 +78,17 @@ export function SmartNotificationWidgetCard({ data, expanded = true, onToggle }:
 
 	//
 	// B. Render Components
-
 	return (
 		<ListItem.Accordion
 			containerStyle={!expanded ? cardStyles.cardClosed : cardStyles.cardOpen}
 			content={(<SmartNotificationsWidgetCardHeader municipality={stopMunicipality || ''} startHour={smartNotificationHour} title={stopName || ''} />)}
-			icon={(<View style={{ alignItems: 'center', marginTop: -20 }}> <AccordionToggle expanded={expanded} size={24} isNotification /></View>)}
 			isExpanded={expanded}
 			onPress={onToggle}
+			icon={(
+				<View style={{ alignItems: 'center', marginTop: -20 }}>
+					<AccordionToggle expanded={expanded} size={24} isNotification />
+				</View>
+			)}
 		>
 			<View style={cardStyles.cardBody}>
 				{data && <SmartNotificationsWidgetCardToolbar data={data} />}

@@ -162,6 +162,12 @@
 			"message": "There has been a problem with the connection to the server. Please check your internet connection."
 		}
 	},
+	"homepage": {
+		"SuggestionCard": {
+			"SuggestionCardDescription": "Interact with your profile (Button Below) to add your favorite widgets here.",
+			"SuggestionCardTitle": "Personalize your experience"
+		}
+	},
 	"layout": {
 		"BackButton": "Back",
 		"NoDataLabel": {

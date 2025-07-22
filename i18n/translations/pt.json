@@ -162,6 +162,12 @@
 			"message": "Ocorreu um problema com a conexão ao servidor. Verifique a sua conexão com a internet."
 		}
 	},
+	"homepage": {
+		"SuggestionCard": {
+			"SuggestionCardDescription": "Interaja com o seu perfil (Botão Abaixo) para adicionar os seus widgets favoritos aqui.",
+			"SuggestionCardTitle": "Personalize a sua experiência"
+		}
+	},
 	"layout": {
 		"BackButton": "Voltar",
 		"NoDataLabel": {

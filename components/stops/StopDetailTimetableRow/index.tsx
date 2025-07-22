@@ -1,15 +1,11 @@
 /* * */
 
 import { LineDisplay } from '@/components/lines/LineDisplay';
-import { useDebugContext } from '@/contexts/Debug.context';
 import { useLocationsContext } from '@/contexts/Locations.context';
-import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { Arrival, ArrivalStatus } from '@/types/stops.types';
 import { Text } from '@rn-vui/themed';
-import { Link } from 'expo-router';
 import { useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 
 import StopDetailNextArrivals from '../StopDetailNextArrivals';
@@ -33,9 +29,6 @@ export function StopsDetailContentTimetableRow({ arrivalData, status }: Props) {
 	// const t = useTranslation('stops.StopsDetailContentTimetableRow');
 	const stopsDetailContext = useStopsDetailContext();
 	const locationsContext = useLocationsContext();
-
-	const operationalDateContext = useOperationalDayContext();
-	const selectedDate = operationalDateContext.data.selected_day;
 
 	//
 	// B. Transform data
@@ -91,18 +84,16 @@ export function StopsDetailContentTimetableRow({ arrivalData, status }: Props) {
 
 				{isSelected && (
 					<View className={styles.details}>
-						{/* <Link className={styles.openLinePage} href={`/lines/${arrivalData.line_id}?&day=${selectedDate ? selectedDate : ''}&active_pattern_id=${thisPattern?.id}`} onPress={e => e.stopPropagation()} target="_blank">{t('open_line_page')}</Link> */}
 						{thisPattern.locality_ids.length > 0 && (
 							<View className={styles.localitiesListWrapper}>
-								{/* <Text className={styles.localitiesLabel}>{t('localities.label')}</Text> */}
-								<Text>
-									{thisPattern.locality_ids.map((localityId, index) => (
-										<View key={index}>
-											{index > 0 && <View className={styles.localitySeparator}> • </View>}
-											<View className={styles.localityName}>{locationsContext.actions.getLocalityById(localityId)?.name}</View>
+								{thisPattern.locality_ids.map((localityId, index) => (
+									<View key={index}>
+										{index > 0 && <View className={styles.localitySeparator}><Text> • </Text></View>}
+										<View className={styles.localityName}>
+											<Text>{locationsContext.actions.getLocalityById(localityId)?.name}</Text>
 										</View>
-									))}
-								</Text>
+									</View>
+								))}
 							</View>
 						)}
 					</View>

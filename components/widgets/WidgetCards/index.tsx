@@ -2,8 +2,8 @@
 
 import type { AccountWidget } from '@/types/account.types';
 
-import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { Surface } from '@/components/common/layout/Surface';
+import { SuggestionCard } from '@/components/common/SuggestionCard';
 import { LineWidgetCard } from '@/components/widgets/WidgetCards/LinesWidgetCard';
 import { SmartNotificationWidgetCard } from '@/components/widgets/WidgetCards/SmartNotificationsWidgetCard';
 import { StopWidgetCard } from '@/components/widgets/WidgetCards/StopWidgetCard';
@@ -49,13 +49,7 @@ export function WidgetCards() {
 				widgetKey = `${widget.data.id}-${widget.data.type}-${idx}-${widget.settings.display_order}-${widget.settings.display_order}`;
 			}
 			if (widgetKey === key) {
-				return {
-					...widget,
-					settings: {
-						...widget.settings,
-						is_open: !widget.settings?.is_open,
-					},
-				};
+				return { ...widget, settings: { ...widget.settings, is_open: !widget.settings?.is_open } };
 			}
 			return widget;
 		});
@@ -73,9 +67,7 @@ export function WidgetCards() {
 
 	if (!sortedWidgets.length) {
 		return (
-			<Surface>
-				<NoDataLabel text="Sem Widgets" fill />
-			</Surface>
+			<SuggestionCard />
 		);
 	}
 
@@ -86,30 +78,19 @@ export function WidgetCards() {
 				if (widget.data.type === 'lines') {
 					key = `${widget.data.pattern_id}-${widget.data.type}-${idx}-${widget.settings.display_order}`;
 					return (
-						<LinesDetailContextProvider>
+						<LinesDetailContextProvider key={key}>
 							<StopsDetailContextProvider>
-								<LineWidgetCard
-									key={key}
-									data={widget}
-									expanded={!!widget.settings?.is_open}
-									onToggle={() => handleToggle(key)}
-								/>
+								<LineWidgetCard data={widget} expanded={!!widget.settings?.is_open} onToggle={() => handleToggle(key)} />
 							</StopsDetailContextProvider>
 						</LinesDetailContextProvider>
-
 					);
 				}
 				if (widget.data.type === 'stops') {
 					key = `${widget.data.stop_id}-${Array.isArray(widget.data.pattern_ids) ? widget.data.pattern_ids[0] : ''}-${widget.data.type}-${idx}-${widget.settings.display_order}`;
 					return (
-						<LinesDetailContextProvider>
+						<LinesDetailContextProvider key={key}>
 							<StopsDetailContextProvider>
-								<StopWidgetCard
-									key={key}
-									data={widget}
-									expanded={!!widget.settings?.is_open}
-									onToggle={() => handleToggle(key)}
-								/>
+								<StopWidgetCard data={widget} expanded={!!widget.settings?.is_open} onToggle={() => handleToggle(key)} />
 							</StopsDetailContextProvider>
 						</LinesDetailContextProvider>
 					);
@@ -117,14 +98,9 @@ export function WidgetCards() {
 				if (widget.data.type === 'smart_notifications') {
 					key = `${widget.data.id}-${widget.data.type}-${idx}-${widget.settings.display_order}-${widget.settings.display_order}`;
 					return (
-						<LinesDetailContextProvider>
+						<LinesDetailContextProvider key={key}>
 							<StopsDetailContextProvider>
-								<SmartNotificationWidgetCard
-									key={key}
-									data={widget}
-									expanded={!!widget.settings?.is_open}
-									onToggle={() => handleToggle(key)}
-								/>
+								<SmartNotificationWidgetCard data={widget} expanded={!!widget.settings?.is_open} onToggle={() => handleToggle(key)} />
 							</StopsDetailContextProvider>
 						</LinesDetailContextProvider>
 					);

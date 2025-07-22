@@ -8,7 +8,6 @@ import { NextArrivalStop } from '@/types/timetables.types';
 import { ListItem, Text } from '@rn-vui/themed';
 import { IconClock } from '@tabler/icons-react-native';
 import { Link } from 'expo-router';
-import { LineString } from 'geojson';
 import { DateTime } from 'luxon';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -19,7 +18,7 @@ import { styles } from './styles';
 /* * */
 
 interface Props {
-	description?: LineString
+	description?: string
 	href?: string
 	title?: string
 }
@@ -177,7 +176,9 @@ export default function StopDetailNextArrivals({ description, href, title }: Pro
 				)}
 
 			</>
-			{description && <Text style={stopDetailNextArrivals.upcomingCirculationsDescription}>{t('description')}</Text>}
+			{description && (
+				<Text style={stopDetailNextArrivals.upcomingCirculationsDescription}>{description}</Text>
+			)}
 		</View>
 	);
 

@@ -50,6 +50,7 @@ export const UserDetails = ({ widgetList }: Props) => {
 					<ProfileImage height={200} type="local" width={200} />
 				)}
 				<Text style={userDetailsStyles.userFullNameText}>{profile?.profile?.first_name} {profile?.profile?.last_name}</Text>
+				<Text style={[userDetailsStyles.userActivityText, { color: accentColor || '' }]}>{profile?.profile?.activity?.toUpperCase()}</Text>
 				<Button buttonStyle={userDetailsStyles.button} containerStyle={userDetailsStyles.buttonContainer} onPress={() => router.push('/profileEdit')} title="Editar Perfil" titleStyle={userDetailsStyles.buttonTitle} />
 			</View>
 			<View style={userDetailsStyles.favoritesListSection}>

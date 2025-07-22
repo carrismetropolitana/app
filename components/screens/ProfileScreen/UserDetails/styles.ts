@@ -36,6 +36,10 @@ const styles = () => {
 			backgroundColor: headerBackgroundColor,
 			paddingTop: 20,
 		},
+		userActivityText: {
+			fontSize: 18,
+			fontWeight: '700',
+		},
 		userFullNameText: {
 			color: fontColor,
 			fontSize: 26,
