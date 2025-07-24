@@ -105,14 +105,15 @@ export default function TabLayout() {
 										: theming.colorSystemBackgroundDark100,
 									borderTopColor: borderColor,
 									height: 74 + insets.bottom,
-									paddingBottom: 0,
+									paddingBottom: 30,
 									paddingTop: 20,
-									position: 'absolute',
+
 								},
 								default: {
 									height: 74 + insets.bottom,
 									paddingBottom: 30,
 									paddingTop: 20,
+									position: 'absolute',
 								},
 								ios: {
 									backgroundColor: 'transparent',

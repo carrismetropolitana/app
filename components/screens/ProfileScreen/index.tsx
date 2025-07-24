@@ -81,7 +81,7 @@ export default function ProfileScreen() {
 				activationDistance={20}
 				data={widgetList}
 				keyExtractor={item => widgetKey(item)}
-				ListFooterComponent={() => <AddWidgetList />}
+				ListFooterComponent={<AddWidgetList />}
 				ListHeaderComponent={useMemo(() => <UserDetails widgetList={widgetList} />, [widgetList])}
 				nestedScrollEnabled={false}
 				renderItem={({ drag, getIndex, isActive, item }) => (<RenderFavoriteItem drag={drag} index={getIndex() ?? 0} isActive={isActive} item={item} />)}

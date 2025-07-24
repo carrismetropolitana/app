@@ -29,32 +29,37 @@ export default function HomeScreen() {
 	return (
 		<View style={{ backgroundColor, flex: 1 }}>
 			<Header />
-			<ScrollView contentContainerStyle={{ paddingBottom: 100 + insets.bottom }} showsVerticalScrollIndicator={false} style={{ paddingTop: insets.top + 95 }}>
+			<ScrollView
+				showsVerticalScrollIndicator={false}
+				style={{ paddingTop: insets.top + 95 }}
+				contentContainerStyle={{
+					paddingBottom: 124 + insets.bottom,
+					paddingHorizontal: 20,
+				}}
+			>
 				<FavoritesBar />
-				<View style={{ paddingHorizontal: 20 }}>
-					<WidgetCards />
-					<Button
-						onPress={() => router.push('/profile')}
-						title="Personalizar"
-						buttonStyle={{
-							alignSelf: 'center',
-							backgroundColor: buttonBackgroundColor,
-							borderRadius: 999,
-							flexDirection: 'row',
-							marginBottom: 20,
-							width: '30%',
-						}}
-						containerStyle={{
-							backgroundColor: backgroundColor,
-							paddingTop: 10,
-						}}
-						titleStyle={{
-							color: titleColor,
-							fontSize: theming.fontSizeMuted,
-							fontWeight: theming.fontWeightSemibold as '600',
-						}}
-					/>
-				</View>
+				<WidgetCards />
+				<Button
+					onPress={() => router.push('/profile')}
+					title="Personalizar"
+					buttonStyle={{
+						alignSelf: 'center',
+						backgroundColor: buttonBackgroundColor,
+						borderRadius: 999,
+						flexDirection: 'row',
+						marginBottom: 20,
+						width: '30%',
+					}}
+					containerStyle={{
+						backgroundColor: backgroundColor,
+						paddingTop: 10,
+					}}
+					titleStyle={{
+						color: titleColor,
+						fontSize: theming.fontSizeMuted,
+						fontWeight: theming.fontWeightSemibold as '600',
+					}}
+				/>
 
 			</ScrollView>
 		</View>
