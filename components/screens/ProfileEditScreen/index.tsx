@@ -90,7 +90,7 @@ export default function ProfileEditScreen() {
 					[field]: value,
 				},
 			};
-			await profileContext.actions.updateLocalProfile(updatedProfile);
+			await profileContext.actions.updateProfile(updatedProfile);
 		}
 	};
 

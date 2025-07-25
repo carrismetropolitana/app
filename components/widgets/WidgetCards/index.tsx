@@ -1,7 +1,5 @@
 /* * */
 
-import type { AccountWidget } from '@/types/account.types';
-
 import { Surface } from '@/components/common/layout/Surface';
 import { SuggestionCard } from '@/components/common/SuggestionCard';
 import { LineWidgetCard } from '@/components/widgets/WidgetCards/LinesWidgetCard';
@@ -10,32 +8,23 @@ import { StopWidgetCard } from '@/components/widgets/WidgetCards/StopWidgetCard'
 import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 /* * */
 
 export function WidgetCards() {
 	//
-
 	//
+
 	// A. Setup variables
 
 	const profileContext = useProfileContext();
 	const widgets = profileContext.data.profile?.widgets ?? [];
-	const [sortedWidgets, setSortedWidgets] = useState<AccountWidget[]>([]);
 
-	//
-	// B. Transform data
+	// B. Sort widgets directly in render
+	const sortedWidgets = widgets.slice().sort((a, b) => (a.settings?.display_order ?? 0) - (b.settings?.display_order ?? 0));
 
-	useEffect(() => {
-		if (widgets.length === 0) return;
-		const ordered = widgets.slice().sort((widget, index) => (widget.settings?.display_order ?? 0) - (index.settings?.display_order ?? 0));
-		setSortedWidgets(ordered);
-	}, [widgets]);
-
-	//
 	// C. Handle actions
-
 	const handleToggle = (key: string) => {
 		const updatedWidgets = widgets.map((widget, idx) => {
 			let widgetKey = '';
@@ -53,7 +42,7 @@ export function WidgetCards() {
 			}
 			return widget;
 		});
-		profileContext.actions.updateLocalProfile({
+		profileContext.actions.updateProfile({
 			...profileContext.data.profile,
 			_id: profileContext.data.profile?._id ?? '',
 			devices: profileContext.data.profile?.devices ?? [],
@@ -62,13 +51,9 @@ export function WidgetCards() {
 		});
 	};
 
-	//
 	// D. Render components
-
 	if (!sortedWidgets.length) {
-		return (
-			<SuggestionCard />
-		);
+		return <SuggestionCard />;
 	}
 
 	return (

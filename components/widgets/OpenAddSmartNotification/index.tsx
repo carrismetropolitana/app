@@ -51,7 +51,7 @@ export const OpenAddSmartNotification = ({ disabled, heading = '', patternId, su
 				disabled={disabled}
 				disabledStyle={openAddSmartNotificationStyles.disabled}
 				onPress={() =>
-					patternId ? router.push(`/addSmartNotification?patternId=${patternId}`) : router.push(`/addSmartNotification?lineId=${linesDetailContext.data.line?.id}`)}
+					patternId ? router.replace(`/addSmartNotification?patternId=${patternId}`) : router.replace(`/addSmartNotification?lineId=${linesDetailContext.data.line?.id}`)}
 			>
 				<IconNotification color="#E64B23" size={24} />
 				<ListItem.Content>

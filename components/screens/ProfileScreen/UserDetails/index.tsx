@@ -36,7 +36,8 @@ export const UserDetails = ({ widgetList }: Props) => {
 	useEffect(() => {
 		setProfile(profileContext.data.profile || null);
 		setAccentColor(profileContext.data?.accent_color || null);
-	}, [profileContext]);
+		console.log('=====>', profileContext.data.accent_color);
+	}, [profileContext.data.profile, profileContext.data.accent_color]);
 
 	//
 	// C. Render Components
@@ -51,7 +52,7 @@ export const UserDetails = ({ widgetList }: Props) => {
 				)}
 				<Text style={userDetailsStyles.userFullNameText}>{profile?.profile?.first_name} {profile?.profile?.last_name}</Text>
 				<Text style={[userDetailsStyles.userActivityText, { color: accentColor || '' }]}>{profile?.profile?.activity?.toUpperCase()}</Text>
-				<Button buttonStyle={userDetailsStyles.button} containerStyle={userDetailsStyles.buttonContainer} onPress={() => router.push('/profileEdit')} title="Editar Perfil" titleStyle={userDetailsStyles.buttonTitle} />
+				<Button buttonStyle={userDetailsStyles.button} containerStyle={userDetailsStyles.buttonContainer} onPress={() => router.replace('/profileEdit')} title="Editar Perfil" titleStyle={userDetailsStyles.buttonTitle} />
 			</View>
 			<View style={userDetailsStyles.favoritesListSection}>
 				<Section heading="Personalizar widgets" />

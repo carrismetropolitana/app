@@ -55,7 +55,7 @@ interface ProfileContextState {
 		setPreviousPersona: () => void
 		setSelectedLine: (line: string) => void
 		toggleFavoriteItem: (type: 'lines' | 'stops', id: string) => Promise<void>
-		updateLocalProfile: (profile: Account) => Promise<void>
+		updateProfile: (profile: Account) => Promise<void>
 		updateWidget: (id: string) => Promise<void>
 	}
 	counters: {
@@ -97,8 +97,6 @@ export function useProfileContext() {
 
 export const ProfileContextProvider = ({ children }: { children: ReactNode }) => {
 	//
-
-	//
 	// A. Setup variables
 
 	const consentContext = useConsentContext();
@@ -119,126 +117,30 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const [dataInterestsState, setDataInterestsState] = useState<string[]>([]);
 	const [flagIsLoadingState, setFlagIsLoadingState] = useState<ProfileContextState['flags']['is_loading']>(true);
 
+	// Debounced cloud sync
+	let cloudSyncTimeout: NodeJS.Timeout | null = null;
+	const scheduleCloudSync = (profile: Account) => {
+		if (cloudSyncTimeout) clearTimeout(cloudSyncTimeout);
+		cloudSyncTimeout = setTimeout(() => {
+			updateProfileOnCloud(profile);
+		}, 3000);
+	};
+
+	// Centralized profile update function
+	const updateProfile = async (profile: Account) => {
+		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(profile));
+		setDataProfileState(profile);
+		scheduleCloudSync(profile);
+		await fetchData(); // Always reload local profile data after any profile update
+	};
+
 	//
 	// C. Fetch Data
 
-	// Fetch initial data and set up interval for periodic updates (profile sync - only if functional consent is enabled)
-	useEffect(() => {
-		setFlagIsLoadingState(true);
-		if (!consentContext.data.enabled_functional) {
-			setFlagIsLoadingState(false);
-			return;
-		}
-		fetchData();
-		subscribeToAllWidgetTopics();
-		setFlagIsLoadingState(false);
-		const intervalId = setInterval(() => {
-			fetchData();
-		}, 10000);
-
-		return () => clearInterval(intervalId);
-	}, [consentContext.data.enabled_functional]);
-	// Sync profiles when the profile data changes
-	useEffect(() => {
-		if (consentContext.data.enabled_functional && dataApiTokenState && dataProfileState) {
-			syncProfiles(dataProfileState);
-		}
-	}, [dataProfileState, consentContext.data.enabled_functional, dataPersonaImageState, dataApiTokenState]);
-	// Load data on initial render
-	useEffect(() => {
-		if (!consentContext.data.enabled_functional) return;
-
-		if (dataWidgetLinesState) {
-			localStorage.setItem(LOCAL_STORAGE_KEYS.widget_lines, JSON.stringify(dataWidgetLinesState) || '');
-		}
-		if (dataWidgetStopsState) {
-			localStorage.setItem(LOCAL_STORAGE_KEYS.widget_stops, JSON.stringify(dataWidgetStopsState) || '');
-		}
-		if (dataWidgetSmartNotificationsState) {
-			localStorage.setItem(LOCAL_STORAGE_KEYS.widget_smart_notifications, JSON.stringify(dataWidgetSmartNotificationsState) || '');
-		}
-		if (dataFavoriteLinesState) {
-			localStorage.setItem(LOCAL_STORAGE_KEYS.favorite_lines, JSON.stringify(dataFavoriteLinesState) || '');
-		}
-		if (dataFavoriteStopsState) {
-			localStorage.setItem(LOCAL_STORAGE_KEYS.favorite_stops, JSON.stringify(dataFavoriteStopsState) || '');
-		}
-		if (dataApiTokenState) {
-			localStorage.setItem(LOCAL_STORAGE_KEYS.token, dataApiTokenState || '');
-		}
-		if (dataProfileState) {
-			localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(dataProfileState) || '');
-		}
-		if (dataPersonaImageState) {
-			localStorage.setItem(LOCAL_STORAGE_KEYS.persona_image, dataPersonaImageState || '');
-		}
-		if (dataAccentColorState) {
-			localStorage.setItem(LOCAL_STORAGE_KEYS.accent_color, dataAccentColorState || '');
-		}
-		if (dataInterestsState) {
-			localStorage.setItem(LOCAL_STORAGE_KEYS.interests, JSON.stringify(dataInterestsState) || '');
-		}
-	}, [
-		dataWidgetLinesState,
-		dataInterestsState,
-		dataWidgetStopsState,
-		dataApiTokenState,
-		dataProfileState,
-		dataAccentColorState,
-		dataPersonaImageState,
-		dataWidgetSmartNotificationsState,
-		consentContext.data.enabled_functional,
-	]);
-	// Merge local and cloud profiles
-	const mergeProfiles = (local: Account, cloud: Account): Account => {
-		return {
-			_id: cloud._id || local._id,
-			created_at: cloud.created_at || local.created_at,
-			devices: local.devices || cloud.devices || [],
-			favorites: {
-				lines: local.favorites?.lines || cloud.favorites?.lines || [],
-				stops: local.favorites?.stops || cloud.favorites?.stops || [],
-			},
-			profile: {
-				activity: cloud.profile?.activity || local.profile?.activity,
-				date_of_birth: cloud.profile?.date_of_birth || local.profile?.date_of_birth,
-				email: cloud.profile?.email || local.profile?.email,
-				first_name: cloud.profile?.first_name || local.profile?.first_name,
-				gender: cloud.profile?.gender || local.profile?.gender,
-				last_name: cloud.profile?.last_name || local.profile?.last_name,
-				phone: cloud.profile?.phone || local.profile?.phone,
-				profile_image: local.profile?.profile_image || cloud.profile?.profile_image,
-				utilization_type: cloud.profile?.utilization_type || local.profile?.utilization_type,
-			},
-			role: cloud.role,
-			updated_at: cloud.updated_at,
-			widgets: local.widgets && local.widgets.length > 0 ? local.widgets : cloud.widgets,
-		};
-	};
-	// Synchronize profiles between local and cloud
-	const syncProfiles = async (localProfile: Account) => {
-		try {
-			const cloudProfile = await getProfileFromCloud();
-			if (!cloudProfile) return;
-
-			const mergedProfile = mergeProfiles(localProfile, cloudProfile);
-			if (JSON.stringify(localProfile) !== JSON.stringify(mergedProfile)) {
-				setDataProfileState(mergedProfile);
-				await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(mergedProfile));
-				updateProfileOnCloud(mergedProfile);
-			}
-		}
-		catch (error) {
-			alert('Failed to synchronize profiles. Please try again later.');
-			console.error('Error synchronizing profiles:', error);
-		}
-	};
-
-	// Fetch profile data from local storage and set state
+	// Load all persisted profile data from AsyncStorage and set state
 	const fetchData = async () => {
 		try {
 			setFlagIsLoadingState(true);
-			// Load existing data from local storage
 			const [storedProfile, storedPersona, storedToken, storedHistory, storedAccentColor, storedInterests] = await Promise.all([
 				localStorage.getItem(LOCAL_STORAGE_KEYS.profile),
 				localStorage.getItem(LOCAL_STORAGE_KEYS.persona_image),
@@ -251,6 +153,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			setAPIToken(prev => prev === storedToken ? prev : storedToken);
 			setDataAccentColorState(prev => prev === storedAccentColor ? prev : storedAccentColor);
 			setDataPersonaImageState(prev => prev === storedPersona ? prev : storedPersona);
+
 			// Set user interests
 			const parsedInterests = storedInterests ? JSON.parse(storedInterests) : [];
 			setDataInterestsState((prev) => {
@@ -259,6 +162,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				}
 				return parsedInterests;
 			});
+
 			// Set persona history
 			setPersonaHistory((prev) => {
 				const parsed = storedHistory ? JSON.parse(storedHistory) : [];
@@ -267,16 +171,15 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				}
 				return parsed;
 			});
+
 			// Set profile data only if changed
-			const localProfile = storedProfile ? JSON.parse(storedProfile) : '';
+			const localProfile = storedProfile ? JSON.parse(storedProfile) : null;
 			setDataProfileState((prev) => {
 				if (JSON.stringify(prev) === JSON.stringify(localProfile)) {
 					return prev;
 				}
 				return localProfile;
 			});
-			// Only call setNewEmptyProfile if prev and localProfile are both falsy
-			if (!localProfile) await setNewEmptyProfile();
 		}
 		catch (error) {
 			console.error('Error loading profile data:', error);
@@ -286,7 +189,45 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		}
 	};
 
-	// Fetch Persona Image
+	useEffect(() => {
+		const syncOnOpen = async () => {
+			setFlagIsLoadingState(true);
+			if (!consentContext.data.enabled_functional) {
+				setFlagIsLoadingState(false);
+				return;
+			}
+			await fetchData(); // Load all local profile data first
+			const localProfileStr = await localStorage.getItem(LOCAL_STORAGE_KEYS.profile);
+			const localProfile = localProfileStr ? JSON.parse(localProfileStr) : null;
+			const cloudProfile = await getProfileFromCloud();
+
+			if (localProfile && cloudProfile) {
+				if (JSON.stringify(localProfile) !== JSON.stringify(cloudProfile)) {
+					// Local is master, update cloud
+					await updateProfileOnCloud(localProfile);
+				}
+			}
+			else if (cloudProfile && !localProfile) {
+				await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(cloudProfile));
+				setDataProfileState(cloudProfile);
+			}
+			else if (localProfile && !cloudProfile) {
+				await updateProfileOnCloud(localProfile);
+			}
+			else {
+				await setNewEmptyProfile();
+			}
+			setFlagIsLoadingState(false);
+		};
+		syncOnOpen();
+	}, [consentContext.data.enabled_functional]);
+
+	useEffect(() => {
+		if (consentContext.data.enabled_functional && dataProfileState?.widgets) {
+			subscribeToAllWidgetTopics();
+		}
+	}, [consentContext.data.enabled_functional, dataProfileState?.widgets]);
+
 	const fetchPersona = async () => {
 		if (!consentContext.data.enabled_functional) {
 			alert('Functional consent is required to fetch a persona image.');
@@ -374,37 +315,14 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const getProfileFromCloud = async () => {
 		if (!consentContext.data.enabled_functional && !dataApiTokenState) return;
 		const response = await fetch(`${Routes.API_ACCOUNTS}`, { headers: { 'Content-Type': 'application/json', 'Cookie': `session_token=${dataApiTokenState}` } });
-		if (!response.ok) {
+		if (!response.ok && response.status !== 401) {
 			alert('Failed to fetch profile from cloud. Please try again later.');
 			console.error('Failed to fetch profile from cloud:', response);
-			return null;
 		}
 		const profileData = await response.json();
 		return profileData;
 	};
-	// Update local profile
-	const updateLocalProfile = async (profile: Account) => {
-		if (!consentContext.data.enabled_functional) return;
-		const { _id, created_at, role, updated_at, ...cleanedProfile } = profile;
 
-		const localProfile = await localStorage.getItem(LOCAL_STORAGE_KEYS.profile);
-		if (localProfile) {
-			const parsedProfile = JSON.parse(localProfile);
-			const updatedProfile = {
-				...parsedProfile,
-				...cleanedProfile,
-				updated_at: new Date().toISOString(),
-			};
-			try {
-				await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile));
-			}
-			catch (error) {
-				console.error('Error updating local profile:', error);
-			}
-			setDataProfileState(updatedProfile);
-			updateProfileOnCloud(updatedProfile);
-		}
-	};
 	// Update profile on cloud
 	const updateProfileOnCloud = async (profile: Account) => {
 		if (!consentContext.data.enabled_functional || !dataApiTokenState) return;
@@ -453,26 +371,14 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			const updatedFavorites = Array.from(favoriteSet);
 			setState(updatedFavorites);
 
-			setDataProfileState((prev) => {
-				if (!prev) return prev;
-				return {
-					...prev,
-					favorites: {
-						...(prev.favorites || { lines: [], stops: [] }),
-						[type]: Array.from(new Set([...(prev.favorites?.[type] || []), ...updatedFavorites])),
-					},
-				};
-			});
-
 			const updatedProfile: Account = {
 				...(dataProfileState as Account),
 				favorites: {
 					...(dataProfileState?.favorites || { lines: [], stops: [] }),
-					[type]: Array.from(new Set([...(dataProfileState?.favorites?.[type] || []), ...updatedFavorites])),
+					[type]: updatedFavorites,
 				},
 			};
-			await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
-			await updateProfileOnCloud(updatedProfile);
+			await updateProfile(updatedProfile);
 		}
 		catch (error) {
 			console.error('Error toggling favorite item:', error);
@@ -484,6 +390,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		try {
 			if (!consentContext.data.enabled_functional && !dataApiTokenState) return;
 			const allWidgets = (dataProfileState?.widgets || []) as AccountWidget[];
+			const updatedProfile: Account = { ...(dataProfileState as Account || {}) };
 			if (params.type === 'lines') {
 				if (!params.pattern_ids || params.pattern_ids.length === 0) {
 					return;
@@ -506,23 +413,9 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 					}
 				});
 				const mergedWidgets = [...otherWidgets, ...updatedLineWidgets];
-				const updatedProfile: Account = {
-					...(dataProfileState as Account || {}),
-					widgets: mergedWidgets,
-				};
-				try {
-					await localStorage.setItem(
-						LOCAL_STORAGE_KEYS.profile,
-						JSON.stringify(updatedProfile) || '',
-					);
-					await updateProfileOnCloud(updatedProfile);
-					setDataWidgetLinesState(updatedLineWidgets);
-					setDataProfileState(updatedProfile);
-				}
-				catch (error) {
-					console.error('Error updating line widgets:', error);
-					alert('An error occurred while updating line widgets. Please try again.');
-				}
+				updatedProfile.widgets = mergedWidgets;
+				setDataWidgetLinesState(updatedLineWidgets);
+				await updateProfile(updatedProfile);
 			}
 			else if (params.type === 'stops') {
 				if (!params.pattern_ids || params.pattern_ids.length === 0) {
@@ -544,24 +437,15 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 					});
 				}
 				const mergedWidgets = [...otherWidgets, ...updatedStopWidgets];
-				const updatedProfile: Account = { ...(dataProfileState as Account || {}), widgets: mergedWidgets };
-				try {
-					await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
-					await updateProfileOnCloud(updatedProfile);
-					setDataWidgetStopsState(updatedStopWidgets);
-					setDataProfileState(updatedProfile);
-				}
-				catch (error) {
-					console.error('Error updating stop widgets:', error);
-					alert('An error occurred while updating stop widgets. Please try again.');
-				}
+				updatedProfile.widgets = mergedWidgets;
+				setDataWidgetStopsState(updatedStopWidgets);
+				await updateProfile(updatedProfile);
 			}
 			else if (params.type === 'smart_notifications') {
 				const id = uuid.v4();
 				const smartNotificationWidgets = allWidgets.filter(
 					w => w.data && w.data.type === 'smart_notifications',
 				);
-
 				const otherWidgets = allWidgets.filter(
 					w => !w.data || w.data.type !== 'smart_notifications',
 				);
@@ -571,7 +455,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 					'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
 				] as const;
 				const validWeekDays = (Array.isArray(params.week_days) && params.week_days.length > 0 ? params.week_days : defaultWeekDays) as any;
-				console.log('stopid, pattern', params.stop_id, params.pattern_id);
 				const newWidgetSmartNotification: AccountWidget = {
 					data: {
 						distance: params.radius || 0,
@@ -586,7 +469,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 					},
 					settings: { display_order: otherWidgets.length + smartNotificationWidgets.length + 1, is_open: true },
 				};
-				console.log('newWidgetSmartNotification', newWidgetSmartNotification);
 				updatedSmartWidgets.push(newWidgetSmartNotification);
 				if (dataApiTokenState) {
 					try {
@@ -596,10 +478,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 							return;
 						}
 						await messagingLib().subscribeToTopic(id);
-						await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(postResponse) || '');
-						await updateProfileOnCloud(postResponse);
-						setDataProfileState(postResponse);
 						setDataWidgetSmartNotificationsState(updatedSmartWidgets);
+						await updateProfile(postResponse);
 					}
 					catch (error) {
 						console.error('Error subscribing to topic or updating profile:', error);
@@ -622,7 +502,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const postSmartNotificationToCloud = async (notification: AccountWidget) => {
 		if (!consentContext.data.enabled_functional || !dataApiTokenState) return;
 		try {
-			console.log('dataapi token state', dataApiTokenState);
 			const response = await fetch(`${Routes.API_ACCOUNTS}/smart-notifications`, {
 				body: JSON.stringify(notification),
 				headers: {
@@ -659,18 +538,20 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		const removedWidget = currentProfile.widgets?.find(
 			widget => widget.settings?.display_order === displayOrder,
 		);
+
+		console.log('removedWidget', removedWidget);
 		if (removedWidget && removedWidget.data && removedWidget.data.type) {
 			if (removedWidget.data.type === 'smart_notifications') {
 				notificationContext.actions.unsubscribeFromTopic(removedWidget.data.id);
 			}
 		}
 
-		console.log('newList', newList);
-
 		const orderedWidgets = newList.map((widget, idx) => ({
 			...widget,
 			settings: { ...widget.settings, display_order: idx },
 		}));
+
+		console.log('orderedWidgets', orderedWidgets);
 
 		setDataWidgetLinesState(orderedWidgets.filter(w => w.data?.type === 'lines'));
 		setDataWidgetStopsState(orderedWidgets.filter(w => w.data?.type === 'stops'));
@@ -681,8 +562,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			widgets: orderedWidgets,
 		};
 
-		setDataProfileState(updatedProfile);
-		await updateProfileOnCloud(updatedProfile);
+		await updateProfile(updatedProfile);
 	};
 
 	// Create an empty profile with default values
@@ -726,15 +606,17 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		setAPIToken(apiResponse.session_token);
 		localStorage.setItem(LOCAL_STORAGE_KEYS.token, apiResponse.session_token);
 	};
+
 	// Initial Check for profile existence
 	const checkProfile = async (profile: Account | null) => {
-		console.log('Checking if profile exists ⚙️');
+		console.log('Checking if profile exists.');
 		if (!profile) {
-			console.log('No profile found, creating new account 🤖');
+			console.log('No profile found, creating new one...');
 			await setNewEmptyProfile();
 		}
-		else { console.log('Profile exists.'); }
+		else { console.log('Existing profile found.'); }
 	};
+
 	// Update Widget by ID
 	const updateWidget = async (id: string) => {
 		if (!consentContext.data.enabled_functional) return;
@@ -777,9 +659,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			widgets: updatedWidgets,
 		};
 
-		setDataProfileState(updatedProfile);
-		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
-		await updateProfileOnCloud(updatedProfile);
+		await updateProfile(updatedProfile);
 	};
 
 	// Set user selected line
@@ -813,7 +693,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			setPreviousPersona,
 			setSelectedLine,
 			toggleFavoriteItem,
-			updateLocalProfile,
+			updateProfile,
 			updateWidget,
 		},
 		counters: {
