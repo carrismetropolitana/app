@@ -50,6 +50,8 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 	//
 	// B. Fetch Data
 
+	console.log('widgetId', widgetId);
+
 	useEffect(() => {
 		if (lineId) {
 			linesDetailContext.actions.setLineId(lineId);
@@ -111,8 +113,17 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 
 	useEffect(() => {
 		if (widgetId && profileContext.data.widget_lines) {
-			const widget = profileContext.data.widget_lines.find(w => w.data && w.data.type === 'lines' && (w.data.pattern_id === widgetId || (w.data.type === 'lines' ? String(w.settings?.display_order) === widgetId : false)));
+			const widget = profileContext.data.widget_lines.find(
+				w => w.data && w.data.type === 'lines' && String(w.settings?.display_order) === String(widgetId),
+			);
+			console.log('widget', widget);
 			if (widget && widget.data.type === 'lines') {
+				console.log('setting id', widget.data.pattern_id.split('_')[0].toString());
+				linesDetailContext.actions.setLineId(widget?.data.pattern_id.split('_')[0].toString() || '');
+			}
+
+			if (widget && widget.data.type === 'lines') {
+				console.log('setting patterns', widget.data.pattern_id);
 				setSelectedPatterns([widget.data.pattern_id]);
 			}
 		}
