@@ -3,7 +3,7 @@
 		"android": {
 			"adaptiveIcon": {
 				"backgroundColor": "#ffffff",
-				"foregroundImage": "./assets/images/adaptive-icon.png"
+				"foregroundImage": "./assets/images/adaptive-icon_Android.png"
 			},
 			"googleServicesFile": "./android/google-services.json",
 			"package": "pt.devcarrismetropolitana.mobile"
@@ -47,35 +47,6 @@
 				{
 					"enableBackgroundRemoteNotifications": true
 				}
-			],
-			[
-				"expo-alternate-app-icons",
-				[
-					{
-						"android": {
-							"backgroundColor": "#FFFFFF",
-							"foregroundImage": "./assets/images/adaptive-icon.png"
-						},
-						"ios": {
-							"dark": "./assets/images/adaptive-icon.png",
-							"light": "./assets/images/adaptive-icon.png",
-							"tinted": "./assets/images/adaptive-icon.png"
-						},
-						"name": "default"
-					},
-					{
-						"android": {
-							"backgroundColor": "#000000",
-							"foregroundImage": "./assets/images/adaptive-icon.png"
-						},
-						"ios": {
-							"dark": "./assets/images/adaptive-icon.png",
-							"light": "./assets/images/adaptive-icon.png",
-							"tinted": "./assets/images/adaptive-icon.png"
-						},
-						"name": "dark"
-					}
-				]
 			],
 			"expo-router",
 			[
