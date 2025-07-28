@@ -3,7 +3,7 @@
 		"android": {
 			"adaptiveIcon": {
 				"backgroundColor": "#ffffff",
-				"foregroundImage": "./assets/images/adaptive-icon_Android.png"
+				"foregroundImage": "./assets/images/Logos/CM_Logo _Symbol_LightMode.png"
 			},
 			"googleServicesFile": "./android/google-services.json",
 			"package": "pt.devcarrismetropolitana.mobile"
@@ -19,7 +19,7 @@
 				"origin": false
 			}
 		},
-		"icon": "./assets/images/icon.png",
+		"icon": "./assets/images/Logos/CM_Logo _Symbol_LightMode.png",
 		"ios": {
 			"appleTeamId": "QGATT2W97P",
 			"bundleIdentifier": "pt.devcarrismetropolitana.app",
@@ -55,9 +55,9 @@
 					"backgroundColor": "#ffffff",
 					"dark": {
 						"backgroundColor": "#1e1e28",
-						"image": "./assets/images/adaptive-icon.png"
+						"image": "./assets/images/Logos/CM_Logo_DarkMode.png"
 					},
-					"image": "./assets/images/adaptive-icon.png",
+					"image": "./assets/images/Logos/CM_Logo_LightMode.png",
 					"imageWidth": 200,
 					"resizeMode": "contain"
 				}
@@ -89,7 +89,7 @@
 			"url": "https://u.expo.dev/43d60702-1266-4217-8cb8-54e1f9a722fe"
 		},
 		"userInterfaceStyle": "automatic",
-		"version": "2025.07.21",
+		"version": "2025.07.28",
 		"web": {
 			"bundler": "metro",
 			"favicon": "./assets/images/adaptive-icon.png",
