@@ -8,6 +8,7 @@ import { useWebsiteNews } from '@/services/website/queries/useNews';
 import { listItem } from '@/types/moreList.types';
 import { openWebView } from '@/utils/openWebView';
 import { Avatar, ButtonGroup, ListItem, Text } from '@rn-vui/themed';
+import Constants from 'expo-constants';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, View } from 'react-native';
@@ -47,8 +48,9 @@ export default function MoreScreen() {
 	const moreStyles = styles();
 
 	const { t } = useTranslation('translation', { keyPrefix: 'more' });
+	const appVersion = Constants.expoConfig?.version || 0.00;
 
-	const [selectedIndex, setSelectedIndex] = useState(0);
+	const [selectedIndex, setSelectedIndex] = useState(1);
 
 	// B. Handle Actions
 
@@ -120,13 +122,13 @@ export default function MoreScreen() {
 						<ListSection data={Tarifslistdata()} heading={t('TarifsList.heading')} renderItem={renderListItem} />
 						<ListSection data={AboutCMlistdata()} heading={t('AboutCMList.heading')} renderItem={renderListItem} />
 						<ButtonGroup
-							buttons={['English', 'Português', 'Toggle Debug']}
+							buttons={[t('languages.en'), t('languages.pt'), t('toggle_debug')]}
 							buttonStyle={{ padding: 10 }}
 							onPress={handlePress}
 							selectedButtonStyle={{ backgroundColor: '#e2e2e2' }}
 							selectedIndex={selectedIndex}
 						/>
-						<Text style={moreStyles.version}>Versão 2025.05.30</Text>
+						<Text style={moreStyles.version}>{appVersion}</Text>
 					</>
 				)}
 			/>
