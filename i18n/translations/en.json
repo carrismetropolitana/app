@@ -113,6 +113,77 @@
 		"warningText": "Please test this functionality before utilizing it with full trust. It may be needed to adjust the necessary times to garantee that you'll reach the the desired stop.",
 		"warningTitle": "Warning"
 	},
+	"addfavoriteline": {
+		"changeLineLabel": "Change selected line",
+		"firstSectionSubtitle": "Choose a line to display on the main page",
+		"firstSectionTitle": "1. Select a line ",
+		"headerTitle": "Favorite Line",
+		"secondSectionSubtitle": "You can only choose the destinations that interest you from this stop. Customize your unique information panel.",
+		"secondSectionTitle": "2. Select destinations ",
+		"selectLineLabel": "Select a line to see its destination",
+		"subheading": "Add your home or work stop as a favorite. This way, whenever you need it, just open the app to see the next arrivals.",
+		"thirdSectionSubtitle": "You can choose to receive a notification whenever there is an alert for the stop and for the destinations you selected.",
+		"thirdSectionTitle": "3. Notifications ",
+		"title": "Favorite Line"
+	},
+	"addfavoritestop": {
+		"changeStopLabel": "Change selected stop",
+		"firstSectionSubtitle": "Choose a stop to display on the main page",
+		"firstSectionTitle": "1. Select a stop ",
+		"headerTitle": "Favorite Stop",
+		"secondSectionSubtitle": "You can only choose the destinations that interest you from this stop. Customize your unique information panel.",
+		"secondSectionTitle": "2. Select destination ",
+		"selectStopLabel": "Select a stop to see its destination",
+		"subheading": "Add your home or work stop as a favorite. This way, whenever you need it, just open the app to see the next arrivals."
+	},
+	"addsmartnotifications": {
+		"DaysSelector": {
+			"friday": "Fri",
+			"monday": "Mon",
+			"saturday": "Sat",
+			"sunday": "Sun",
+			"thursday": "Thu",
+			"tuesday": "Tue",
+			"wednesday": "Wed",
+			"weekDaysTitle": "At the days of the week"
+		},
+		"IntervalInputs": {
+			"endingTime": "To",
+			"startingTime": "From"
+		},
+		"StopSelector": {
+			"showLess": "Show less",
+			"showMore": "Show more",
+			"stopSelectorTitle": "from the stop",
+			"title": "Select a line to see it's stops"
+		},
+		"Toolbar": {
+			"friday": "F",
+			"monday": "M",
+			"saturday": "S",
+			"sunday": "S",
+			"thursday": "T",
+			"tuesday": "T",
+			"wednesday": "W"
+		},
+		"changeLineLabel": "Change Selected Line",
+		"chooseLineTitle": "Notifiy me when a bus from the line",
+		"friday": "Fri",
+		"heading": "Smart Notifications",
+		"monday": "Mon",
+		"noDestination": "No destination",
+		"periodSelectorTitle": "in the interval",
+		"radiusAt": "is at",
+		"radiusMeters": "meters",
+		"radiusTime": "minutes",
+		"saturday": "Sat",
+		"subheading": "Do you use the same line everyday? Would you like to know exactly when to leave the house, or when to finish drinking your coffe, to go to the stop and catch your bus?",
+		"sunday": "Sun",
+		"thursday": "Thu",
+		"tuesday": "Tue",
+		"valuePlaceholder": "Value",
+		"wednesday": "Wed"
+	},
 	"alerts": {
 		"AlertActivePeriod": {
 			"end": "End: <parsedDate>{{parsedDate}}</parsedDate>",
@@ -160,13 +231,14 @@
 			"option_label": "Início do percurso: {locality}",
 			"placeholder": "Selecionar Percurso / Destino..."
 		},
+		"closeButton": "Close",
 		"enable_notifications": "Enable Notifications",
 
 		"offlineBanner": {
 			"message": "There has been a problem with the connection to the server. Please check your internet connection."
 		},
-		"personalizeButton": "Customize"
-
+		"personalizeButton": "Customize",
+		"saveButton": "Save"
 	},
 	"homepage": {
 		"SuggestionCard": {
@@ -356,54 +428,6 @@
 		"utilizationTypesSectionTitle": "Utilization Types",
 		"working": "Working"
 	},
-	"smartnotifications": {
-		"DaysSelector": {
-			"friday": "Fri",
-			"monday": "Mon",
-			"saturday": "Sat",
-			"sunday": "Sun",
-			"thursday": "Thu",
-			"tuesday": "Tue",
-			"wednesday": "Wed",
-			"weekDaysTitle": "At the days of the week"
-		},
-		"IntervalInputs": {
-			"endingTime": "To",
-			"startingTime": "From"
-		},
-		"StopSelector": {
-			"showLess": "Show less",
-			"showMore": "Show more",
-			"stopSelectorTitle": "from the stop",
-			"title": "Select a line to see it's stops"
-		},
-		"Toolbar": {
-			"friday": "F",
-			"monday": "M",
-			"saturday": "S",
-			"sunday": "S",
-			"thursday": "T",
-			"tuesday": "T",
-			"wednesday": "W"
-		},
-		"changeLineLabel": "Change Selected Line",
-		"chooseLineTitle": "Notifiy me when a bus from the line",
-		"friday": "Fri",
-		"heading": "Smart Notifications",
-		"monday": "Mon",
-		"noDestination": "No destination",
-		"periodSelectorTitle": "in the interval",
-		"radiusAt": "is at",
-		"radiusMeters": "meters",
-		"radiusTime": "minutes",
-		"saturday": "Sat",
-		"subheading": "Do you use the same line everyday? Would you like to know exactly when to leave the house, or when to finish drinking your coffe, to go to the stop and catch your bus?",
-		"sunday": "Sun",
-		"thursday": "Thu",
-		"tuesday": "Tue",
-		"valuePlaceholder": "Value",
-		"wednesday": "Wed"
-	},
 	"stops": {
 		"StopDetails": {
 			"NextArrivals": {
@@ -428,5 +452,8 @@
 	},
 	"vehicles": {
 		"vehicleHeaderTitle": "Vehicle"
+	},
+	"videoexplainer": {
+		"title": "Watch Explainer Video"
 	}
 }

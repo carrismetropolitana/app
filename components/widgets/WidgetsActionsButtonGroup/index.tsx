@@ -3,6 +3,8 @@
 import { useProfileContext } from '@/contexts/Profile.context';
 import { AccountWidget } from '@/types/account.types';
 import { Button } from '@rn-vui/themed';
+import { use } from 'i18next';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import styles from './styles';
@@ -25,6 +27,8 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, length, onClear, type }
 
 	const profileContext = useProfileContext();
 	const headerExplainerStyles = styles();
+
+	const { t } = useTranslation('translation', { keyPrefix: 'common' });
 
 	//
 	// B. Handle Actions
@@ -72,8 +76,8 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, length, onClear, type }
 
 	return (
 		<View>
-			<Button buttonStyle={headerExplainerStyles.saveButton} disabled={length === 0} onPress={() => handleSave()} title="Guardar" titleStyle={headerExplainerStyles.saveButtonText} />
-			<Button buttonStyle={headerExplainerStyles.saveButton} onPress={() => handleCancel()} title="Fechar" titleStyle={headerExplainerStyles.saveButtonText} />
+			<Button buttonStyle={headerExplainerStyles.saveButton} disabled={length === 0} onPress={() => handleSave()} title={t('saveButton')} titleStyle={headerExplainerStyles.saveButtonText} />
+			<Button buttonStyle={headerExplainerStyles.saveButton} onPress={() => handleCancel()} title={t('closeButton')} titleStyle={headerExplainerStyles.saveButtonText} />
 		</View>
 	);
 

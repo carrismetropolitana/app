@@ -113,6 +113,78 @@
 		"warningText": "Por favor teste esta funcionalidade antes de utilizar com confiança. Poderá ser necessário ajustar os tempos para garantir que chega ao local.",
 		"warningTitle": "Atenção"
 	},
+	"addfavoriteline": {
+		"changeLineLabel": "Alterar Linha Selecionada",
+		"firstSectionSubtitle": "Escolha uma linha para visualizar na página principal",
+		"firstSectionTitle": "1. Selecionar Linha ",
+		"headerTitle": "Paragem Favorita",
+		"secondSectionSubtitle": "Pode escolher apenas os destinos que lhe interessam a partir desta paragem. Personalize o seu painel de informação único.",
+		"secondSectionTitle": "2. Escolher destinos ",
+		"selectLineLabel": "Selecione uma linha para ver o seu destino",
+		"subheading": "Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas.",
+		"thirdSectionSubtitle": "Pode escolher receber uma notificação sempre que existir um alerta para a paragem e para os destinos que selecionou.",
+		"thirdSectionTitle": "3. Notificações ",
+		"title": "Paragem Favorita"
+	},
+	"addfavoritestop": {
+		"changeStopLabel": "Alterar Paragem Selecionada",
+		"firstSectionSubtitle": "Escolha uma paragem para visualizar na página principal",
+		"firstSectionTitle": "1. Selecionar Paragem ",
+		"headerTitle": "Paragem Favorita",
+		"secondSectionSubtitle": "Pode escolher apenas os destinos que lhe interessam a partir desta paragem. Personalize o seu painel de informação único.",
+		"secondSectionTitle": "2. Selecionar destino ",
+		"selectStopLabel": "Selecione uma paragem para ver o seu destino",
+		"subheading": "Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas."
+	},
+	"addsmartnotifications": {
+		"DaysSelector": {
+			"friday": "Sex",
+			"monday": "Seg",
+			"saturday": "Sáb",
+			"sunday": "Dom",
+			"thursday": "Qui",
+			"tuesday": "Ter",
+			"wednesday": "Qua",
+			"weekDaysTitle": "Dias da Semana"
+		},
+		"IntervalInputs": {
+			"endingTime": "Hora de fim",
+			"startingTime": "Hora de Início"
+		},
+		"StopSelector": {
+			"showLess": "Mostrar menos",
+			"showMore": "Mostrar mais",
+			"stopSelectorTitle": "da paragem",
+			"title": "Selecione uma linha para ver as suas paragens"
+		},
+		"Toolbar": {
+			"friday": "S",
+			"monday": "S",
+			"saturday": "S",
+			"sunday": "D",
+			"thursday": "Q",
+			"tuesday": "T",
+			"wednesday": "Q"
+		},
+		"changeLineLabel": "Alterar Linha Selecionada",
+		"chooseLineTitle": "Notificar-me quando um autocarro da linha",
+		"friday": "Sex",
+		"heading": "Notificações Inteligentes",
+		"monday": "Seg",
+		"noDestination": "Sem destino",
+		"noLineSelected": "Nenhuma linha selecionada",
+		"periodSelectorTitle": "no período",
+		"radiusAt": "estiver a",
+		"radiusMeters": "metros",
+		"radiusTime": "minutos",
+		"saturday": "Sáb",
+		"subheading": "Utiliza todos os dias a mesma linha? Gostava de saber exatamente quando sair de casa, ou quando acabar de tomar o café, para ir para a paragem?",
+		"sunday": "Dom",
+		"thursday": "Qui",
+		"tuesday": "Ter",
+		"valuePlaceholder": "Valor",
+		"wednesday": "Qua"
+	},
 	"alerts": {
 		"AlertActivePeriod": {
 			"end": "Fim: <parsedDate>{{parsedDate}}</parsedDate>",
@@ -160,12 +232,14 @@
 			"option_label": "Início do percurso: {locality}",
 			"placeholder": "Selecionar Percurso / Destino..."
 		},
+		"closeButton": "Fechar",
 		"enable_notifications": "Ativar Notificações",
 
 		"offlineBanner": {
 			"message": "Ocorreu um problema com a conexão ao servidor. Verifique a sua conexão com a internet."
 		},
-		"personalizeButton": "Personalizar"
+		"personalizeButton": "Personalizar",
+		"saveButton": "Guardar"
 	},
 	"homepage": {
 		"SuggestionCard": {
@@ -354,56 +428,6 @@
 		"university": "Universitário",
 		"utilizationTypesSectionTitle": "Tipos de Utilização",
 		"working": "Trabalhador"
-
-	},
-	"smartnotifications": {
-		"DaysSelector": {
-			"friday": "Sex",
-			"monday": "Seg",
-			"saturday": "Sáb",
-			"sunday": "Dom",
-			"thursday": "Qui",
-			"tuesday": "Ter",
-			"wednesday": "Qua",
-			"weekDaysTitle": "Dias da Semana"
-		},
-		"IntervalInputs": {
-			"endingTime": "Hora de fim",
-			"startingTime": "Hora de Início"
-		},
-		"StopSelector": {
-			"showLess": "Mostrar menos",
-			"showMore": "Mostrar mais",
-			"stopSelectorTitle": "da paragem",
-			"title": "Selecione uma linha para ver as suas paragens"
-		},
-		"Toolbar": {
-			"friday": "S",
-			"monday": "S",
-			"saturday": "S",
-			"sunday": "D",
-			"thursday": "Q",
-			"tuesday": "T",
-			"wednesday": "Q"
-		},
-		"changeLineLabel": "Alterar Linha Selecionada",
-		"chooseLineTitle": "Notificar-me quando um autocarro da linha",
-		"friday": "Sex",
-		"heading": "Notificações Inteligentes",
-		"monday": "Seg",
-		"noDestination": "Sem destino",
-		"noLineSelected": "Nenhuma linha selecionada",
-		"periodSelectorTitle": "no período",
-		"radiusAt": "estiver a",
-		"radiusMeters": "metros",
-		"radiusTime": "minutos",
-		"saturday": "Sáb",
-		"subheading": "Utiliza todos os dias a mesma linha? Gostava de saber exatamente quando sair de casa, ou quando acabar de tomar o café, para ir para a paragem?",
-		"sunday": "Dom",
-		"thursday": "Qui",
-		"tuesday": "Ter",
-		"valuePlaceholder": "Valor",
-		"wednesday": "Qua"
 	},
 	"stops": {
 		"StopDetails": {
@@ -429,5 +453,8 @@
 	},
 	"vehicles": {
 		"vehicleHeaderTitle": "Veículo"
+	},
+	"videoexplainer": {
+		"title": "Ver Vídeo Explicativo"
 	}
 }

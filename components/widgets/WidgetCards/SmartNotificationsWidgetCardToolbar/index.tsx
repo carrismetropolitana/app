@@ -26,7 +26,7 @@ export function SmartNotificationsWidgetCardToolbar({ data }: SmartNotifications
 	// A. Setup variables
 
 	const headerStyles = styles();
-	const { t } = useTranslation('translation', { keyPrefix: 'smartnotifications.Toolbar' });
+	const { t } = useTranslation('translation', { keyPrefix: 'addsmartnotifications.Toolbar' });
 	const weekDays: ('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 	const smartNotificationsData = data?.data.type === 'smart_notifications' ? data.data : undefined;
 	const smartNotificationStartHour = DateTime.fromSeconds(smartNotificationsData?.start_time || 0).toFormat('HH:mm');

@@ -22,7 +22,7 @@ interface StopSelectorProps {
 /* * */
 
 export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVersionId, setSelectedStopId }: StopSelectorProps) => {
-	const { t } = useTranslation('translation', { keyPrefix: 'smartnotifications.StopSelector' });
+	const { t } = useTranslation('translation', { keyPrefix: 'addsmartnotifications.StopSelector' });
 	const stopSelectorStyles = styles();
 	const linesDetailContext = useLinesDetailContext();
 	const stopsContext = useStopsContext();

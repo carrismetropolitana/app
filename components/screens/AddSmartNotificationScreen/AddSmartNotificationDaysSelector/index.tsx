@@ -22,7 +22,7 @@ export const AddSmartNotificationDaysSelector = ({ selectedIndex, setSelectedInd
 	//
 	// A. Setup Variables
 
-	const { t } = useTranslation('translation', { keyPrefix: 'smartnotifications.DaysSelector' });
+	const { t } = useTranslation('translation', { keyPrefix: 'addsmartnotifications.DaysSelector' });
 	const daysSelectortyles = styles();
 
 	//

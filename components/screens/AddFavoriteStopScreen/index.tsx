@@ -16,6 +16,7 @@ import { ListItem, Text } from '@rn-vui/themed';
 import { IconArrowRight, IconBusStop, IconCircle, IconCircleCheckFilled, IconSearch, IconX } from '@tabler/icons-react-native';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -46,6 +47,7 @@ export default function AddFavoriteStopScreen() {
 	const navigation = useNavigation();
 
 	const backgroundColor = isLight ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200;
+	const { t } = useTranslation('translation', { keyPrefix: 'addfavoritestop' });
 
 	//
 	// B. Handle Actions
@@ -131,12 +133,12 @@ export default function AddFavoriteStopScreen() {
 
 	return (
 		<ScrollView style={addFavoriteStopStyles.container}>
-			<HeaderExplainer heading="Paragem Favorita" subheading="Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas." />
+			<HeaderExplainer heading={t('headerTitle')} subheading={t('subheading')} />
 
 			<View style={addFavoriteStopStyles.sectionContainer}>
 				<Section
-					heading="1. Selecionar Paragem "
-					subheading="Escolha uma paragem para visualizar na página principal"
+					heading={t('firstSectionTitle')}
+					subheading={t('firstSectionSubtitle')}
 				/>
 			</View>
 			<View>
@@ -155,7 +157,7 @@ export default function AddFavoriteStopScreen() {
 					<IconSearch color="#9696A0" size={24} />
 					<ListItem.Content>
 						<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-							<Text>Alterar Paragem Selecionada</Text>
+							<Text>{t('changeStopLabel')}</Text>
 						</ListItem.Title>
 					</ListItem.Content>
 					<ListItem.Chevron />
@@ -165,8 +167,8 @@ export default function AddFavoriteStopScreen() {
 			<View style={{ marginBottom: 10, marginTop: 10 }}>
 				<View style={addFavoriteStopStyles.sectionContainer}>
 					<Section
-						heading="2. Escolher destinos "
-						subheading="Pode escolher apenas os destinos que lhe interessam a partir desta paragem. Personalize o seu painel de informação único."
+						heading={t('secondSectionTitle')}
+						subheading={t('secondSectionSubtitle')}
 					/>
 				</View>
 				<View>
@@ -213,7 +215,7 @@ export default function AddFavoriteStopScreen() {
 					{!selectedStop && selectedStopPatterns.length === 0 && (
 						<ListItem>
 							<ListItem.Content>
-								<ListItem.Title style={addFavoriteStopStyles.listTitle}> <Text>Selecione uma paragem para ver os destinos.</Text> </ListItem.Title>
+								<ListItem.Title style={addFavoriteStopStyles.listTitle}> <Text>{t('selectStopLabel')}</Text> </ListItem.Title>
 							</ListItem.Content>
 						</ListItem>
 					)}

@@ -29,7 +29,7 @@ export const AddSmartNotificationsIntervalInputs = ({ endingHour, setEndingHour,
 	// A. Setup Variables
 	const localeContext = useLocaleContext();
 	const locale = localeContext.locale;
-	const { t } = useTranslation('translation', { keyPrefix: 'smartnotifications.IntervalInputs' });
+	const { t } = useTranslation('translation', { keyPrefix: 'addsmartnotifications.IntervalInputs' });
 	const intervalInputsStyles = styles();
 
 	//
@@ -97,6 +97,7 @@ export const AddSmartNotificationsIntervalInputs = ({ endingHour, setEndingHour,
 				) : (
 					<RNDateTimePicker
 						display="compact"
+						locale={locale}
 						mode="time"
 						style={intervalInputsStyles.input}
 						value={endingHour ?? new Date()}

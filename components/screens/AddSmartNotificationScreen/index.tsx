@@ -43,7 +43,7 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 	// A. Setup Variables
 
 	const weekDays: ('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-	const { t } = useTranslation('translation', { keyPrefix: 'smartnotifications' });
+	const { t } = useTranslation('translation', { keyPrefix: 'addsmartnotifications' });
 	const [lineChooserVisibility, setLineChooserVisibility] = useState(false);
 	const [patternNames, setPatternNames] = useState<Record<string, string>>({});
 	const [patternVersionIds, setPatternVersionIds] = useState<Record<string, string>>({});

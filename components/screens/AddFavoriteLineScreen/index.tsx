@@ -16,6 +16,7 @@ import { ListItem, Text } from '@rn-vui/themed';
 import { IconArrowLoopRight, IconArrowRight, IconCircle, IconCircleCheckFilled, IconSearch, IconX } from '@tabler/icons-react-native';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -47,10 +48,10 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 	const addFavoriteLineStyles = styles();
 	const navigation = useNavigation();
 
+	const { t } = useTranslation('translation', { keyPrefix: 'addfavoriteline' });
+
 	//
 	// B. Fetch Data
-
-	console.log('widgetId', widgetId);
 
 	useEffect(() => {
 		if (lineId) {
@@ -139,13 +140,13 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 
 		<ScrollView showsVerticalScrollIndicator={false} style={addFavoriteLineStyles.container}>
 			<HeaderExplainer
-				heading="Linha Favorita"
-				subheading="Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas."
+				heading={t('title')}
+				subheading={t('subheading')}
 			/>
 			<View style={addFavoriteLineStyles.sectionContainer}>
 				<Section
-					heading="1. Selecionar Linha "
-					subheading="Escolha uma linha para visualizar na página principal"
+					heading={t('firstSectionTitle')}
+					subheading={t('firstSectionSubtitle')}
 				/>
 			</View>
 			<View>
@@ -164,7 +165,7 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 					<IconSearch color="#9696A0" size={24} />
 					<ListItem.Content>
 						<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-							<Text>Alterar Linha Selecionada</Text>
+							<Text>{t('changeLineLabel')}</Text>
 						</ListItem.Title>
 					</ListItem.Content>
 					<ListItem.Chevron />
@@ -174,8 +175,8 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 			<View style={{ marginBottom: 20, marginTop: 20 }}>
 				<View style={addFavoriteLineStyles.sectionContainer}>
 					<Section
-						heading="2. Escolher destinos "
-						subheading="Pode escolher apenas os destinos que lhe interessam a partir desta paragem. Personalize o seu painel de informação único."
+						heading={t('secondSectionTitle')}
+						subheading={t('secondSectionSubtitle')}
 					/>
 				</View>
 				<View>
@@ -221,7 +222,7 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 						<ListItem>
 							<ListItem.Content>
 								<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-									<Text>Selecione uma linha para ver os destinos.</Text>
+									<Text>{t('selectLineLabel')}</Text>
 								</ListItem.Title>
 							</ListItem.Content>
 						</ListItem>
@@ -231,9 +232,9 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 			</View>
 			<OpenAddSmartNotification
 				disabled={selectedPatterns.length === 0}
-				heading="3. Notificações"
+				heading={t('thirdSectionTitle')}
 				patternId={selectedPatterns[0]}
-				subheading="Pode escolher receber uma notificação sempre que existir um alerta para a paragem e para os destinos que selecionou."
+				subheading={t('thirdSectionSubtitle')}
 				// toggle={handleToggle}
 				// toggled={isToggled}
 				// untoggle={handleUntoggle}

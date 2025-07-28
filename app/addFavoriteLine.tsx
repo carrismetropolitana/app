@@ -7,6 +7,7 @@ import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 /* * */
 
@@ -20,10 +21,11 @@ export default function AddFavoriteLine() {
 	const navigation = useNavigation();
 	const themeContext = useThemeContext();
 	const lineID = typeof params.lineId === 'string' ? params.lineId : Array.isArray(params.lineId) ? params.lineId[0] : undefined;
+	const { t } = useTranslation('translation', { keyPrefix: 'addfavoriteline' });
 
 	useEffect(() => {
 		navigation.setOptions({
-			headerBackTitle: 'Linha Favorita',
+			headerBackTitle: t('headerTitle'),
 			headerStyle: {
 				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
 			},
