@@ -255,11 +255,11 @@ export default function ProfileEditScreen() {
 								withFilter
 							/>
 							<Input
-								containerStyle={profileEditModalStyles.inputContainer}
+								containerStyle={profileEditModalStyles.phoneInputContainer}
 								errorMessage={!phoneValid && phone ? t('invalidNumber') : undefined}
 								keyboardType="phone-pad"
 								onBlur={() => phoneValid && handleProfileFieldBlur('phone', phone)}
-								onChangeText={value => setPhone(value.startsWith(country && country.callingCode[0] ? `+${country.callingCode[0]}` : '') ? value : (country && country.callingCode[0] ? `+${country.callingCode[0]}` : '') + value.replace(/[^0-9]/g, ''))}
+								onChangeText={value => setPhone(value.startsWith(country && country.callingCode[0] ? `+${country.callingCode[0]} ` : '') ? value : (country && country.callingCode[0] ? `+${country.callingCode[0]}` : '') + value.replace(/[^0-9]/g, ''))}
 								placeholder={country ? `+${country.callingCode[0]} 123456789` : 'Número de Telemóvel'}
 								value={phone}
 							/>

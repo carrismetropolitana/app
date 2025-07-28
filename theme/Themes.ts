@@ -90,7 +90,6 @@ const darkThemeDefinition = {
 				borderRadius: 5,
 				borderWidth: 1,
 				height: 50,
-				paddingLeft: 50,
 				paddingTop: 5,
 			},
 			inputContainerStyle: {

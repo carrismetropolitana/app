@@ -77,6 +77,10 @@ const styles = () => {
 			fontWeight: theming.fontWeightBold as '700',
 			paddingBottom: 10,
 		},
+		phoneInputContainer: {
+			backgroundColor: headerBackgroundColor,
+			width: '90%',
+		},
 
 		/* * */
 
