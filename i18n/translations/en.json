@@ -164,7 +164,8 @@
 
 		"offlineBanner": {
 			"message": "There has been a problem with the connection to the server. Please check your internet connection."
-		}
+		},
+		"personalizeButton": "Customize"
 
 	},
 	"homepage": {
@@ -260,6 +261,10 @@
 		"LinesListViewFavorites": {
 			"no_favorites": "No favorite lines yet"
 		},
+		"LinesScreen": {
+			"allLines": "All Lines",
+			"linesAroundMe": "Lines Around Me"
+		},
 		"PathStopNextArrivals": {
 			"title": "Next circulations"
 		},
@@ -314,6 +319,42 @@
 
 		},
 		"toggle_debug": "Toggle Debug Mode"
+	},
+	"profile": {
+		"addNewWidgetSectionTitle": "Add New Widget",
+		"addWidgetLineListItemTitle": "Favorite Line",
+		"addWidgetSmartNotificationListItemTitle": "Smart Notifications",
+		"addWidgetStopListItemTitle": "Favorite Stop",
+		"favoriteLineListItemSubtitle": "Favorite Line",
+		"favoriteStopListItemSubtitle": "Favorite Stop",
+		"headerTitle": "Edit Profile",
+		"smartNotificationListItemSubtitle": "Smart Notification"
+	},
+	"profileEdit": {
+		"activityProfileSectionTitle": "Activity Profile",
+		"carris metropolitana": "Carris Metropolitana",
+		"contactSectionTitle": "Contacts",
+		"dateOfBirthInputLabel": "Date of Birth",
+		"emailInputLabel": "Email",
+		"events and news": "Events and News",
+		"firstNameInputLabel": "Name",
+		"frequent": "Frequent",
+		"headerTitle": "Edit Profile",
+		"invalidEmail": "Invalid email.",
+		"invalidNumber": "Invalid number for the selected country.",
+		"lastNameInputLabel": "Surname",
+		"network changes": "Network Changes",
+		"occasional": "Occasional",
+		"other": "Other",
+		"passengerProfileSectionTitle": "Passenger Profile",
+		"personalInfoSectionTitle": "Personal Information",
+		"phoneInputLabel": "Phone Number",
+		"retired": "Retired",
+		"student": "Student",
+		"topicsOfInterestSectionTitle": "Topics of Interest",
+		"university": "University",
+		"utilizationTypesSectionTitle": "Utilization Types",
+		"working": "Working"
 	},
 	"smartnotifications": {
 		"DaysSelector": {
@@ -377,6 +418,15 @@
 			"heading": "Next Circulations",
 			"second_heading": "Lines that pass in this stop",
 			"third_heading": "Caracterization"
-		}
+		},
+		"noDataFound": "No data found for this stop"
+	},
+	"userdetails": {
+		"editProfileButtonTitle": "Edit Profile",
+		"noWidgetsLabel": "No widgets",
+		"personalizeWidgetsSectionTitle": "Personalize Widgets"
+	},
+	"vehicles": {
+		"vehicleHeaderTitle": "Vehicle"
 	}
 }

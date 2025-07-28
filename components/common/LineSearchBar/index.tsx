@@ -16,7 +16,7 @@ export default function LineSearchBar() {
 	//
 	// A. Setup variables
 
-	const { t } = useTranslation('translation', { keyPrefix: 'common.LineSeachBar' });
+	const { t } = useTranslation('translation', { keyPrefix: 'common.LineSearchBar' });
 	const linesListContext = useLinesListContext();
 	const allLines = linesListContext.data.filtered;
 	const [lineSearch, setLineSearch] = useState<string>('');

@@ -13,6 +13,7 @@ import { IconArrowNarrowLeft, IconArrowsShuffle, IconCircle, IconCircleFilled, I
 import { useNavigation } from 'expo-router';
 import { DateTime } from 'luxon';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 import CountryPicker, { Country, CountryCode } from 'react-native-country-picker-modal';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -21,25 +22,6 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import styles from './styles';
 
 /* * */
-
-const ActivityLabels = {
-	[ActivitySchema.enum.other]: 'Outro',
-	[ActivitySchema.enum.retired]: 'Reformado',
-	[ActivitySchema.enum.student]: 'Estudante',
-	[ActivitySchema.enum.university]: 'Universitário',
-	[ActivitySchema.enum.working]: 'Trabalhador',
-};
-
-const UtilizationTypeLabels = {
-	[UtilizationTypeSchema.enum.frequent]: 'Frequente',
-	[UtilizationTypeSchema.enum.occasional]: 'Ocasional',
-};
-
-const InterestsLabels = {
-	[InterestsSchema.enum['carris metropolitana']]: 'Carris Metropolitana',
-	[InterestsSchema.enum['events and news']]: 'Eventos e Notícias',
-	[InterestsSchema.enum['network changes']]: 'Alterações de Rede',
-};
 
 export default function ProfileEditScreen() {
 	//
@@ -73,6 +55,7 @@ export default function ProfileEditScreen() {
 	const [accentColor, setAccentColor] = useState<null | string>(profileContext.data.accent_color || null);
 	const [showPicker, setShowPicker] = useState(false);
 	const navigation = useNavigation();
+	const { t } = useTranslation('translation', { keyPrefix: 'profileEdit' });
 
 	const localeContext = useLocaleContext();
 	//
@@ -114,7 +97,7 @@ export default function ProfileEditScreen() {
 
 	useEffect(() => {
 		navigation.setOptions({
-			headerBackTitle: 'Editar Perfil',
+			headerBackTitle: t('headerTitle'),
 			headerStyle: {
 				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
 			},
@@ -199,23 +182,27 @@ export default function ProfileEditScreen() {
 				</View>
 			</View>
 			<View style={profileEditModalStyles.sectionWrapper}>
-				<Section heading="Informações pessoais" />
+				<Section heading={t('personalInfoSectionTitle')} />
 				<ListItem>
 					<ListItem.Content>
-						<ListItem.Title style={profileEditModalStyles.inputLabel}><Text>Nome</Text></ListItem.Title>
+						<ListItem.Title style={profileEditModalStyles.inputLabel}>
+							<Text>{t('firstNameInputLabel')}</Text>
+						</ListItem.Title>
 						<Input containerStyle={profileEditModalStyles.inputContainer} onBlur={() => handleProfileFieldBlur('first_name', username)} onChangeText={setUsername} value={username} />
 					</ListItem.Content>
 				</ListItem>
 				<ListItem>
 					<ListItem.Content>
-						<ListItem.Title style={profileEditModalStyles.inputLabel}><Text>Apelido</Text></ListItem.Title>
+						<ListItem.Title style={profileEditModalStyles.inputLabel}>
+							<Text>{t('lastNameInputLabel')}</Text>
+						</ListItem.Title>
 						<Input containerStyle={profileEditModalStyles.inputContainer} onBlur={() => handleProfileFieldBlur('last_name', surname)} onChangeText={setSurname} value={surname} />
 					</ListItem.Content>
 				</ListItem>
 				<ListItem>
 					<ListItem.Content>
 						<ListItem.Title style={profileEditModalStyles.inputLabel}>
-							<Text>Data de Nascimento</Text>
+							<Text>{t('dateOfBirthInputLabel')}</Text>
 						</ListItem.Title>
 						<DateTimePickerModal
 							date={birthDate ? new Date(Number(birthDate)) : new Date()}
@@ -238,13 +225,13 @@ export default function ProfileEditScreen() {
 				</ListItem>
 			</View>
 			<View style={profileEditModalStyles.sectionWrapper}>
-				<Section heading="Dados de contacto" />
+				<Section heading={t('contactSectionTitle')} />
 				<ListItem>
 					<ListItem.Content>
-						<ListItem.Title style={profileEditModalStyles.inputLabel}><Text>Email</Text></ListItem.Title>
+						<ListItem.Title style={profileEditModalStyles.inputLabel}><Text>{t('emailInputLabel')}</Text></ListItem.Title>
 						<Input
 							containerStyle={profileEditModalStyles.inputContainer}
-							errorMessage={!emailValid && email ? 'Por favor, insira um email válido.' : undefined}
+							errorMessage={!emailValid && email ? t('invalidEmail') : undefined}
 							onChangeText={setEmail}
 							value={email}
 						/>
@@ -252,7 +239,7 @@ export default function ProfileEditScreen() {
 				</ListItem>
 				<ListItem>
 					<ListItem.Content>
-						<ListItem.Title style={profileEditModalStyles.inputLabel}><Text>Número de Telemóvel</Text></ListItem.Title>
+						<ListItem.Title style={profileEditModalStyles.inputLabel}><Text>{t('phoneInputLabel')}</Text></ListItem.Title>
 						<View style={{ alignItems: 'center', flexDirection: 'row' }}>
 							<CountryPicker
 								countryCode={countryCode}
@@ -269,7 +256,7 @@ export default function ProfileEditScreen() {
 							/>
 							<Input
 								containerStyle={profileEditModalStyles.inputContainer}
-								errorMessage={!phoneValid && phone ? 'Número inválido para o país selecionado.' : undefined}
+								errorMessage={!phoneValid && phone ? t('invalidNumber') : undefined}
 								keyboardType="phone-pad"
 								onBlur={() => phoneValid && handleProfileFieldBlur('phone', phone)}
 								onChangeText={value => setPhone(value.startsWith(country && country.callingCode[0] ? `+${country.callingCode[0]}` : '') ? value : (country && country.callingCode[0] ? `+${country.callingCode[0]}` : '') + value.replace(/[^0-9]/g, ''))}
@@ -281,7 +268,7 @@ export default function ProfileEditScreen() {
 				</ListItem>
 			</View>
 			<View style={profileEditModalStyles.sectionWrapper}>
-				<Section heading="Perfil de Passageiro" />
+				<Section heading={t('activityProfileSectionTitle')} />
 				{activityTypes.options.map((item, index) => (
 					<ListItem key={index}>
 						<ListItem.Content>
@@ -291,7 +278,7 @@ export default function ProfileEditScreen() {
 								checkedIcon="dot-circle-o"
 								containerStyle={profileEditModalStyles.checkbox}
 								textStyle={profileEditModalStyles.checkBoxText}
-								title={ActivityLabels[item]}
+								title={t(item)}
 								uncheckedIcon="circle-o"
 								onPress={() => {
 									setActivityProfile(item);
@@ -303,7 +290,7 @@ export default function ProfileEditScreen() {
 				))}
 			</View>
 			<View style={profileEditModalStyles.sectionWrapper}>
-				<Section heading="Tipo de utilização" />
+				<Section heading={t('utilizationTypesSectionTitle')} />
 				{utilizationTypes.options.map((item, index) => (
 					<ListItem key={index}>
 						<ListItem.Content>
@@ -313,7 +300,7 @@ export default function ProfileEditScreen() {
 								checkedIcon="dot-circle-o"
 								containerStyle={profileEditModalStyles.checkbox}
 								textStyle={profileEditModalStyles.checkBoxText}
-								title={UtilizationTypeLabels[item]}
+								title={t(item)}
 								uncheckedIcon="circle-o"
 								onPress={() => {
 									setUsageType(item);
@@ -325,7 +312,7 @@ export default function ProfileEditScreen() {
 				))}
 			</View>
 			<View style={profileEditModalStyles.sectionWrapper}>
-				<Section heading="Temas de interesse" />
+				<Section heading={t('topicsOfInterestSectionTitle')} />
 				{interestsTypes.options.map((item, index) => (
 					<ListItem key={index}>
 						<ListItem.Content>
@@ -334,7 +321,7 @@ export default function ProfileEditScreen() {
 								checkedIcon={<IconSquareCheckFilled color="#FFFFFF" fill={accentColor || '#3D85C6'} size={28} />}
 								containerStyle={profileEditModalStyles.checkbox}
 								textStyle={profileEditModalStyles.checkBoxText}
-								title={InterestsLabels[item]}
+								title={t(item)}
 								uncheckedIcon={<IconSquare color={accentColor || '#3D85C6'} fill="#FFFFFF" size={28} />}
 								onPress={() => {
 									let newTopics;

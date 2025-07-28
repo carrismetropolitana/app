@@ -15,8 +15,9 @@ import { theming } from '@/theme/Variables';
 import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { PointAnnotation } from '@maplibre/maplibre-react-native';
 import { ListItem, Text } from '@rn-vui/themed';
-import { Link, router } from 'expo-router';
+import { router } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle } from 'react-native-svg';
@@ -48,6 +49,7 @@ export default function StopsScreen() {
 	});
 	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 	const stops = stopsContext.actions.getAllStopsGeoJsonFC();
+	const { t } = useTranslation('translation', { keyPrefix: 'stops' });
 
 	//
 	// B. Fetch Data
@@ -159,7 +161,7 @@ export default function StopsScreen() {
 							<StopDetailNextArrivals href={`/stop/${selectedStop}`} />
 						</>
 					)}
-					{!stopData && <NoDataLabel text="Nenhum dado encontrado" />}
+					{!stopData && <NoDataLabel text={t('noDataFound')} />}
 				</BottomSheetScrollView>
 			</BottomSheetModal>
 		</SafeAreaView>

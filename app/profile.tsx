@@ -7,6 +7,7 @@ import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 /* * */
 
@@ -18,10 +19,11 @@ export default function Profile() {
 
 	const navigation = useNavigation();
 	const themeContext = useThemeContext();
+	const { t } = useTranslation('translation', { keyPrefix: 'profile' });
 
 	useEffect(() => {
 		navigation.setOptions({
-			headerBackTitle: 'Editar Perfil',
+			headerBackTitle: t('headerTitle'),
 			headerStyle: {
 				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
 			},

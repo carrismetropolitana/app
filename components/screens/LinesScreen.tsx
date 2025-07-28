@@ -7,6 +7,7 @@ import { useLocationsContext } from '@/contexts/Locations.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { router } from 'expo-router';
 import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { SectionList, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -17,15 +18,16 @@ export default function LinesScreen() {
 	const { data: { linesAroundLocation: nearbyLines } } = useLinesListContext();
 	const { data: { locationPermission } } = useLocationsContext();
 	const { theme } = useThemeContext();
+	const { t } = useTranslation('translation', { keyPrefix: 'lines.LinesScreen' });
 
 	const sections = [
 		{
 			data: locationPermission === 'granted' ? nearbyLines : [],
-			title: 'A minha volta',
+			title: t('linesAroundMe'),
 		},
 		{
 			data: allLines,
-			title: 'Todas as linhas',
+			title: t('allLines'),
 		},
 	];
 

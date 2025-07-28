@@ -8,6 +8,7 @@ import { ListItem } from '@rn-vui/themed';
 import { IconGripVertical } from '@tabler/icons-react-native';
 import { router } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Text, TouchableHighlight, View } from 'react-native';
 
 import styles from './styles';
@@ -38,6 +39,8 @@ export default function FavoriteItemComponent({ data, drag, isActive }: Favorite
 	const isSmart = data.data.type === 'smart_notifications';
 
 	const favoriteItemStyles = styles();
+
+	const { t } = useTranslation('translation', { keyPrefix: 'profile' });
 
 	//
 	// B. Fetch Data
@@ -95,8 +98,9 @@ export default function FavoriteItemComponent({ data, drag, isActive }: Favorite
 		linkHref = `/addSmartNotification/?smartNotificationId=${smartNotificationData.id}`;
 	}
 
-	const mainLabel = isLine ? (headsign === null ? '' : headsign || 'Linha Favorita') : (stopName || (isStop ? 'Paragem Favorita' : 'Notificação Inteligente'));
-	const subLabel = isLine ? 'Linha Favorita' : (isStop ? 'Paragem Favorita' : 'Notificação Inteligente');
+	const mainLabel = isLine ? (headsign === null ? '' : headsign || t('favoriteLineListItemTitle')) : (stopName || (isStop ? t('favoriteStopListItemTitle') : t('smartNotificationListItemTitle')));
+
+	const subLabel = isLine ? t('favoriteLineListItemSubtitle') : (isStop ? t('favoriteStopListItemSubtitle') : t('smartNotificationListItemSubtitle'));
 
 	//
 	// D. Render Components

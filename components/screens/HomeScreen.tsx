@@ -5,6 +5,7 @@ import { theming } from '@/theme/Variables';
 import { Button } from '@rn-vui/themed';
 import { router } from 'expo-router';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -22,6 +23,7 @@ export default function HomeScreen() {
 	const backgroundColor = themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background;
 	const buttonBackgroundColor = themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.primary : themeContext.theme.darkColors?.primary;
 	const titleColor = themeContext.theme.mode === 'light' ? theming.colorSystemText900 : theming.colorSystemText300;
+	const { t } = useTranslation('translation', { keyPrefix: 'common' });
 
 	//
 	// B. Render Components
@@ -41,7 +43,7 @@ export default function HomeScreen() {
 				<WidgetCards />
 				<Button
 					onPress={() => router.push('/profile')}
-					title="Personalizar"
+					title={t('personalizeButton')}
 					buttonStyle={{
 						alignSelf: 'center',
 						backgroundColor: buttonBackgroundColor,

@@ -9,6 +9,7 @@ import dimAvatarBackground from '@/utils/dimAvatarBackground';
 import { Button, Text } from '@rn-vui/themed';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import styles from './styles';
@@ -29,6 +30,7 @@ export const UserDetails = ({ widgetList }: Props) => {
 	const userDetailsStyles = styles();
 	const [profile, setProfile] = useState<Account | null>(null);
 	const [accentColor, setAccentColor] = useState<null | string>(null);
+	const { t } = useTranslation('translation', { keyPrefix: 'userdetails' });
 
 	//
 	// B. Handle Actions
@@ -51,11 +53,11 @@ export const UserDetails = ({ widgetList }: Props) => {
 				)}
 				<Text style={userDetailsStyles.userFullNameText}>{profile?.profile?.first_name} {profile?.profile?.last_name}</Text>
 				<Text style={[userDetailsStyles.userActivityText, { color: accentColor || '' }]}>{profile?.profile?.activity?.toUpperCase()}</Text>
-				<Button buttonStyle={userDetailsStyles.button} containerStyle={userDetailsStyles.buttonContainer} onPress={() => router.replace('/profileEdit')} title="Editar Perfil" titleStyle={userDetailsStyles.buttonTitle} />
+				<Button buttonStyle={userDetailsStyles.button} containerStyle={userDetailsStyles.buttonContainer} onPress={() => router.replace('/profileEdit')} title={t('editProfileButtonTitle')} titleStyle={userDetailsStyles.buttonTitle} />
 			</View>
 			<View style={userDetailsStyles.favoritesListSection}>
-				<Section heading="Personalizar widgets" />
-				{!widgetList.length && <NoDataLabel text="Sem widgets" fill />}
+				<Section heading={t('personalizeWidgetsSectionTitle')} />
+				{!widgetList.length && <NoDataLabel text={t('noWidgetsLabel')} fill />}
 			</View>
 		</>
 	);

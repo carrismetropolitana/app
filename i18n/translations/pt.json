@@ -164,8 +164,8 @@
 
 		"offlineBanner": {
 			"message": "Ocorreu um problema com a conexão ao servidor. Verifique a sua conexão com a internet."
-		}
-
+		},
+		"personalizeButton": "Personalizar"
 	},
 	"homepage": {
 		"SuggestionCard": {
@@ -260,6 +260,10 @@
 		"LinesListViewFavorites": {
 			"no_favorites": "Ainda não tem linhas favoritas"
 		},
+		"LinesScreen": {
+			"allLines": "Todas as Linhas",
+			"linesAroundMe": "A minha volta"
+		},
 		"PathStopNextArrivals": {
 			"title": "Próximas circulações"
 		},
@@ -314,6 +318,43 @@
 
 		},
 		"toggle_debug": "Ativar Modo de Debug"
+	},
+	"profile": {
+		"addNewWidgetSectionTitle": "Adicionar Novo Widget",
+		"addWidgetLineListItemTitle": "Linha Favorita",
+		"addWidgetSmartNotificationListItemTitle": "Notificações Inteligentes",
+		"addWidgetStopListItemTitle": "Paragem Favorita",
+		"favoriteLineListItemSubtitle": "Linha Favorita",
+		"favoriteStopListItemSubtitle": "Paragem Favorita",
+		"headerTitle": "Editar Perfil",
+		"smartNotificationListItemSubtitle": "Notificação Inteligente"
+	},
+	"profileEdit": {
+		"activityProfileSectionTitle": "Tipo de Atividade",
+		"carris metropolitana": "Carris Metropolitana",
+		"contactSectionTitle": "Dados de Contacto",
+		"dateOfBirthInputLabel": "Data de Nascimento",
+		"emailInputLabel": "Email",
+		"events and news": "Eventos e Notícias",
+		"firstNameInputLabel": "Nome",
+		"frequent": "Frequente",
+		"headerTitle": "Editar Perfil",
+		"invalidEmail": "Email inválido.",
+		"invalidNumber": "Número inválido para o país selecionado.",
+		"lastNameInputLabel": "Apelido",
+		"network changes": "Alterações de Rede",
+		"occasional": "Ocasional",
+		"other": "Outro",
+		"passengerProfileSectionTitle": "Perfil de Passageiro",
+		"personalInfoSectionTitle": "Informações Pessoais",
+		"phoneInputLabel": "Número de Telemóvel",
+		"retired": "Reformado",
+		"student": "Estudante",
+		"topicsOfInterestSectionTitle": "Temas de Interesse",
+		"university": "Universitário",
+		"utilizationTypesSectionTitle": "Tipos de Utilização",
+		"working": "Trabalhador"
+
 	},
 	"smartnotifications": {
 		"DaysSelector": {
@@ -378,6 +419,15 @@
 			"heading": "Próximas passagens",
 			"second_heading": "Linhas que passam nesta paragem",
 			"third_heading": "Caracterização"
-		}
+		},
+		"noDataFound": "Nenhum dado encontrado para esta paragem"
+	},
+	"userdetails": {
+		"editProfileButtonTitle": "Editar Perfil",
+		"noWidgetsLabel": "Sem widgets",
+		"personalizeWidgetsSectionTitle": "Personalizar Widgets"
+	},
+	"vehicles": {
+		"vehicleHeaderTitle": "Veículo"
 	}
 }

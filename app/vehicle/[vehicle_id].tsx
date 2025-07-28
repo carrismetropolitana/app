@@ -20,14 +20,14 @@ export default function Page() {
 	const { vehicle_id } = useLocalSearchParams<{ vehicle_id: string }>();
 	const themeContext = useThemeContext();
 	const navigation = useNavigation();
-	const { t } = useTranslation('translation', { keyPrefix: 'layout' });
+	const { t } = useTranslation('translation', { keyPrefix: 'vehicles' });
 
 	//
 	// B. Fetch Data
 
 	useEffect(() => {
 		navigation.setOptions({
-			headerBackTitle: 'Veículo',
+			headerBackTitle: `${t('vehicleHeaderTitle')} ${vehicle_id}`,
 			headerStyle: {
 				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
 			},
