@@ -15,9 +15,9 @@ import { theming } from '@/theme/Variables';
 import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { PointAnnotation } from '@maplibre/maplibre-react-native';
 import { ListItem, Text } from '@rn-vui/themed';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle } from 'react-native-svg';
 
@@ -113,7 +113,7 @@ export default function StopsScreen() {
 				toolbar
 			>
 				{stops && (
-					<MapViewStyleStops flaggedStopId={flaggedStopId || undefined} onStopPress={handleStopPress}stopsData={stops} />
+					<MapViewStyleStops flaggedStopId={flaggedStopId || undefined} onStopPress={handleStopPress} stopsData={stops} />
 				)}
 				{locationsContext.data.currentCords && (
 					<PointAnnotation
@@ -135,7 +135,7 @@ export default function StopsScreen() {
 						<>
 							<ListItem>
 								<ListItem.Content>
-									<Link href={`/stop/?stop_id=${stopData.id}}`} style={{ width: '100%' }}>
+									<TouchableOpacity onPress={() => router.push(`/stop/${stopData.id}`)} style={{ width: '100%' }}>
 										<View style={{ alignItems: 'center', flexDirection: 'row', gap: 10 }}>
 											<Svg fill="none" height={21} viewBox="0 0 20 21" width={20}>
 												<Circle cx={10} cy={10.5} fill="#FFDD00" r={9} stroke="black" strokeWidth={2} />
@@ -151,7 +151,7 @@ export default function StopsScreen() {
 												</ListItem.Subtitle>
 											</View>
 										</View>
-									</Link>
+									</TouchableOpacity>
 								</ListItem.Content>
 								<View style={{ width: 24 }} />
 								<ListItem.Chevron />
