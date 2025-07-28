@@ -138,6 +138,9 @@
 		}
 	},
 	"common": {
+		"LineSearchBar": {
+			"placeholder": "Pesquisar por nome, número..."
+		},
 		"NextArrivals": {
 			"arriving": "A chegar",
 			"hours": "h",
@@ -158,9 +161,11 @@
 			"placeholder": "Selecionar Percurso / Destino..."
 		},
 		"enable_notifications": "Ativar Notificações",
+
 		"offlineBanner": {
 			"message": "Ocorreu um problema com a conexão ao servidor. Verifique a sua conexão com a internet."
 		}
+
 	},
 	"homepage": {
 		"SuggestionCard": {
@@ -178,7 +183,9 @@
 			"Lines": "Linhas",
 			"More": "Mais",
 			"Stops": "Paragens"
-		}
+		},
+		"linePageHeaderTitle": "Linha",
+		"searchByNamePlaceholder": "Pesquiar por nome"
 	},
 	"lines": {
 		"AlertsCarousel": {
@@ -300,9 +307,15 @@
 			"ocasional_tickets": "Bilhetes Ocasionais",
 			"subheading": "Descubra quanto custa viajar na CMetropolitana regularmente ou de vez em quando.",
 			"where_to_buy": "Onde Comprar"
-		}
+		},
+		"languages": {
+			"en": "Inglês",
+			"pt": "Português"
+
+		},
+		"toggle_debug": "Ativar Modo de Debug"
 	},
-	"smartNotifications": {
+	"smartnotifications": {
 		"DaysSelector": {
 			"friday": "Sex",
 			"monday": "Seg",
@@ -318,7 +331,10 @@
 			"startingTime": "Hora de Início"
 		},
 		"StopSelector": {
-			"stopSelectorTitle": "da paragem"
+			"showLess": "Mostrar menos",
+			"showMore": "Mostrar mais",
+			"stopSelectorTitle": "da paragem",
+			"title": "Selecione uma linha para ver as suas paragens"
 		},
 		"Toolbar": {
 			"friday": "S",
@@ -329,10 +345,12 @@
 			"tuesday": "T",
 			"wednesday": "Q"
 		},
+		"changeLineLabel": "Alterar Linha Selecionada",
 		"chooseLineTitle": "Notificar-me quando um autocarro da linha",
 		"friday": "Sex",
 		"heading": "Notificações Inteligentes",
 		"monday": "Seg",
+		"noDestination": "Sem destino",
 		"noLineSelected": "Nenhuma linha selecionada",
 		"periodSelectorTitle": "no período",
 		"radiusAt": "estiver a",
@@ -343,6 +361,7 @@
 		"sunday": "Dom",
 		"thursday": "Qui",
 		"tuesday": "Ter",
+		"valuePlaceholder": "Valor",
 		"wednesday": "Qua"
 	},
 	"stops": {

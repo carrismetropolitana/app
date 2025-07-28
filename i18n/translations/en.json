@@ -138,6 +138,9 @@
 		}
 	},
 	"common": {
+		"LineSearchBar": {
+			"placeholder": "Search by name, number..."
+		},
 		"NextArrivals": {
 			"arriving": "Incoming",
 			"hours": "h",
@@ -158,9 +161,11 @@
 			"placeholder": "Selecionar Percurso / Destino..."
 		},
 		"enable_notifications": "Enable Notifications",
+
 		"offlineBanner": {
 			"message": "There has been a problem with the connection to the server. Please check your internet connection."
 		}
+
 	},
 	"homepage": {
 		"SuggestionCard": {
@@ -178,7 +183,9 @@
 			"Lines": "Lines",
 			"More": "More",
 			"Stops": "Stops"
-		}
+		},
+		"linePageHeaderTitle": "Line",
+		"searchByNamePlaceholder": "Search by name"
 	},
 	"lines": {
 		"AlertsCarousel": {
@@ -270,38 +277,6 @@
 		"collapse_filters": "Hide Filters",
 		"expand_filters": "Expand Filters"
 	},
-	"lost-and-found": {
-		"OperatorSection": {
-			"email": {
-				"label": "Send Email"
-			},
-			"form": {
-				"label": "Fill Form"
-			}
-		},
-		"Page": {
-			"heading": "Lost and Found",
-			"operator_sections": {
-				"41": {
-					"description": "Send an email to passenger@viacaoalvorada.pt with information about the line used, timetable and description of the object. If possible, include the vehicle number or license plate.",
-					"title": "Area 1 | Viação Alvorada"
-				},
-				"42": {
-					"description": "Fill out the Online Form available on the operator's app with information about the line used, time and description of the object. If possible, include the vehicle number or license plate.",
-					"title": "Area 2 | Rodoviária de Lisboa"
-				},
-				"43": {
-					"description": "Fill out the Online Form available on the operator's app with information about the line used, time and description of the object. If possible, include the vehicle number or license plate.",
-					"title": "Area 3 | TST"
-				},
-				"44": {
-					"description": "Fill out the Online Form available on the operator's app or send an email to passageiros@alsa.com with information about the line used, time and description of the object. If possible, include the vehicle number or license plate.",
-					"title": "Area 4 | Alsa Todi"
-				}
-			},
-			"subheading": "Carris Metropolitana's transport service is provided by 4 transport operators, each operating in their own area of the Lisbon Metropolitan Area, as shown in the image below. Therefore, the best way to recover your object is to directly contact the operator of the area you used."
-		}
-	},
 	"more": {
 		"AboutCMList": {
 			"about_carrismetropolitana": "About CMetropolitana",
@@ -332,9 +307,15 @@
 			"ocasional_tickets": "Ocasional Tickets",
 			"subheading": "Discover how much it costs to travel with CMetropolitana regularly or occasionally.",
 			"where_to_buy": "Where to buy"
-		}
+		},
+		"languages": {
+			"en": "English",
+			"pt": "Portuguese"
+
+		},
+		"toggle_debug": "Toggle Debug Mode"
 	},
-	"smartNotifications": {
+	"smartnotifications": {
 		"DaysSelector": {
 			"friday": "Fri",
 			"monday": "Mon",
@@ -350,7 +331,10 @@
 			"startingTime": "From"
 		},
 		"StopSelector": {
-			"stopSelectorTitle": "from the stop"
+			"showLess": "Show less",
+			"showMore": "Show more",
+			"stopSelectorTitle": "from the stop",
+			"title": "Select a line to see it's stops"
 		},
 		"Toolbar": {
 			"friday": "F",
@@ -361,10 +345,12 @@
 			"tuesday": "T",
 			"wednesday": "W"
 		},
+		"changeLineLabel": "Change Selected Line",
 		"chooseLineTitle": "Notifiy me when a bus from the line",
 		"friday": "Fri",
 		"heading": "Smart Notifications",
 		"monday": "Mon",
+		"noDestination": "No destination",
 		"periodSelectorTitle": "in the interval",
 		"radiusAt": "is at",
 		"radiusMeters": "meters",
@@ -374,6 +360,7 @@
 		"sunday": "Sun",
 		"thursday": "Thu",
 		"tuesday": "Tue",
+		"valuePlaceholder": "Value",
 		"wednesday": "Wed"
 	},
 	"stops": {

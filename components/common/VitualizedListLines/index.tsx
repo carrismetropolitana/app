@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { MemoizedLineItem } from '@/components/common/LineItem';
 import React, { useCallback } from 'react';

@@ -3,6 +3,7 @@
 import { useLinesListContext } from '@/contexts/LinesList.context';
 import { Input } from '@rn-vui/themed';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import Counter from '../Counter';
@@ -10,6 +11,12 @@ import Counter from '../Counter';
 /* * */
 
 export default function LineSearchBar() {
+	//
+
+	//
+	// A. Setup variables
+
+	const { t } = useTranslation('translation', { keyPrefix: 'common.LineSeachBar' });
 	const linesListContext = useLinesListContext();
 	const allLines = linesListContext.data.filtered;
 	const [lineSearch, setLineSearch] = useState<string>('');
@@ -21,11 +28,14 @@ export default function LineSearchBar() {
 		);
 	}, [allLines, lineSearch]);
 
+	//
+	// B. Render components
+
 	return (
 		<View style={{ padding: 20 }}>
 			<Input
 				clearButtonMode="while-editing"
-				placeholder="Pesquisar por número ou nome"
+				placeholder={t('placeholder')}
 				value={lineSearch}
 				onChangeText={(text) => {
 					setLineSearch(text);
@@ -37,4 +47,6 @@ export default function LineSearchBar() {
 			<Counter quantity={filteredLines.length} text="Encontradas" type="linhas" />
 		</View>
 	);
+
+	//
 }

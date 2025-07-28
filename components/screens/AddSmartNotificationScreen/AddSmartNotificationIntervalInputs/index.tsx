@@ -29,7 +29,7 @@ export const AddSmartNotificationsIntervalInputs = ({ endingHour, setEndingHour,
 	// A. Setup Variables
 	const localeContext = useLocaleContext();
 	const locale = localeContext.locale;
-	const { t } = useTranslation('translation', { keyPrefix: 'smartNotifications.IntervalInputs' });
+	const { t } = useTranslation('translation', { keyPrefix: 'smartnotifications.IntervalInputs' });
 	const intervalInputsStyles = styles();
 
 	//

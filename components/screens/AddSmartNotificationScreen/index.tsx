@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* * */
 
 import LinesListChooserModal from '@/app/(modal)/LinesListChooserModal';
@@ -42,7 +43,7 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 	// A. Setup Variables
 
 	const weekDays: ('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-	const { t } = useTranslation('translation', { keyPrefix: 'smartNotifications' });
+	const { t } = useTranslation('translation', { keyPrefix: 'smartnotifications' });
 	const [lineChooserVisibility, setLineChooserVisibility] = useState(false);
 	const [patternNames, setPatternNames] = useState<Record<string, string>>({});
 	const [patternVersionIds, setPatternVersionIds] = useState<Record<string, string>>({});
@@ -240,7 +241,7 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 						<IconSearch color="#9696A0" size={24} />
 						<ListItem.Content>
 							<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-								<Text>Alterar Linha Selecionada</Text>
+								<Text>{t('changeLineLabel')}</Text>
 							</ListItem.Title>
 						</ListItem.Content>
 						<ListItem.Chevron />
@@ -261,7 +262,7 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 										<IconArrowRight size={10} />
 										<ListItem.Content>
 											<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-												<Text>{patternNames[item] || 'Sem destino'}</Text>
+												<Text>{patternNames[item] || t('noDestination')}</Text>
 											</ListItem.Title>
 										</ListItem.Content>
 										{isSelected && <IconCircleCheckFilled color="#FFFFFF" fill="#3CB43C" size={24} />}
@@ -275,7 +276,7 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 				<VerticalContentSeparator middle />
 				<Text style={addFavoriteLineStyles.text}>{t('radiusAt')}</Text>
 				<View style={addFavoriteLineStyles.selectNotificationContol}>
-					<Input containerStyle={addFavoriteLineStyles.input} keyboardType="number-pad" onChangeText={text => setRadius(Number(text))} placeholder="Valor" value={radius.toString()} />
+					<Input containerStyle={addFavoriteLineStyles.input} keyboardType="number-pad" onChangeText={text => setRadius(Number(text))} placeholder={t('valuePlaceholder')} value={radius.toString()} />
 					<SelectNotificationControl />
 				</View>
 				<VerticalContentSeparator middle />

@@ -9,6 +9,7 @@ import { Stop } from '@carrismetropolitana/api-types/network';
 import { Input, Overlay, Text } from '@rn-vui/themed';
 import { IconCirclePlus } from '@tabler/icons-react-native';
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -35,6 +36,7 @@ export default function StopsListChooserModal({ isVisible, onBackdropPress, sele
 	const [allStops] = useState<Stop[]>(stopsContext.data.stops);
 	const [stopsSearch, setStopSearch] = useState('');
 	const [selectedStop, setSelectedStop] = useState('');
+	const { t } = useTranslation('translation', { keyPrefix: 'layout' });
 
 	//
 	// B.Fetch Data
@@ -72,11 +74,11 @@ export default function StopsListChooserModal({ isVisible, onBackdropPress, sele
 					<View style={styles.header}>
 						<TouchableOpacity onPress={onBackdropPress} style={styles.backButton}>
 							<Text style={styles.arrow}>←</Text>
-							<Text style={styles.backText}>Voltar</Text>
+							<Text style={styles.backText}>{t('BackButton')}</Text>
 						</TouchableOpacity>
 					</View>
 					<View>
-						<Input clearButtonMode="while-editing" onChangeText={text => setStopSearch(text)} placeholder="Pesquisar por nome" value={stopsSearch} />
+						<Input clearButtonMode="while-editing" onChangeText={text => setStopSearch(text)} placeholder={t('searchByNamePlaceholder')} value={stopsSearch} />
 						<Counter quantity={filteredStops.length} text="Encontradas" type="paragens" />
 					</View>
 					<VirtualizedListingStops

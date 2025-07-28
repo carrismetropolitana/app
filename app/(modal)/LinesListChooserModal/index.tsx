@@ -11,6 +11,7 @@ import { Line } from '@carrismetropolitana/api-types/network';
 import { Overlay, Text } from '@rn-vui/themed';
 import { IconCirclePlus } from '@tabler/icons-react-native';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -39,6 +40,7 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 	const allMunicipalities = linesContext.data.municipalities;
 	const [linesMunicipalities, setLineMunicipalities] = useState<string[]>();
 	const [selectedLine, setSelectedLine] = useState('');
+	const { t } = useTranslation('translation', { keyPrefix: 'layout' });
 
 	//
 	// B.Fetch Data
@@ -82,7 +84,7 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 					<View style={styles.header}>
 						<TouchableOpacity onPress={onBackdropPress} style={styles.backButton}>
 							<Text style={styles.arrow}>←</Text>
-							<Text style={styles.backText}>Voltar</Text>
+							<Text style={styles.backText}>{t('BackButton')}</Text>
 						</TouchableOpacity>
 					</View>
 					<LineSearchBar />
@@ -93,13 +95,9 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 						size="lg"
 						icon={(
 							<IconCirclePlus
+								color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100}
 								fill="#3CB43C"
 								size={24}
-								color={
-									themeContext.theme.mode === 'light'
-										? theming.colorSystemBackgroundLight100
-										: theming.colorSystemBackgroundDark100
-								}
 							/>
 						)}
 					/>

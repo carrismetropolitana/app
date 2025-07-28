@@ -22,7 +22,7 @@ interface StopSelectorProps {
 /* * */
 
 export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVersionId, setSelectedStopId }: StopSelectorProps) => {
-	const { t } = useTranslation('translation', { keyPrefix: 'smartNotifications.StopSelector' });
+	const { t } = useTranslation('translation', { keyPrefix: 'smartnotifications.StopSelector' });
 	const stopSelectorStyles = styles();
 	const linesDetailContext = useLinesDetailContext();
 	const stopsContext = useStopsContext();
@@ -69,7 +69,7 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 								<ListItem onPress={() => setShowMiddle(true)}>
 									<ListItem.Content>
 										<ListItem.Title style={stopSelectorStyles.showMore}>
-											<Text>Mostrar + {total}</Text>
+											<Text>{t('showMore')} + {total}</Text>
 										</ListItem.Title>
 									</ListItem.Content>
 								</ListItem>
@@ -146,7 +146,7 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 								<ListItem onPress={() => setShowMiddle(false)}>
 									<ListItem.Content>
 										<ListItem.Title style={stopSelectorStyles.showLess}>
-											<Text>Mostrar menos</Text>
+											<Text>{t('showLess')}</Text>
 										</ListItem.Title>
 									</ListItem.Content>
 								</ListItem>
@@ -158,7 +158,7 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 						<ListItem>
 							<ListItem.Content>
 								<ListItem.Title style={[{ marginLeft: 30 }, stopSelectorStyles.listTitle]}>
-									<Text style={[{ textAlign: 'center' }, stopSelectorStyles.muted]}>Selecione uma linha e destino para ver as paragens</Text>
+									<Text style={[{ textAlign: 'center' }, stopSelectorStyles.muted]}>{t('title')}</Text>
 								</ListItem.Title>
 							</ListItem.Content>
 						</ListItem>

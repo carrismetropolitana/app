@@ -26,7 +26,7 @@ export function SelectNotificationControl({ selectedSelector }: Props) {
 	const { t } = useTranslation('translation', { keyPrefix: 'common.SelectNotificationControl' });
 
 	const [selectedIndex, setSelectedIndex] = useState(0);
-	const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
+	const [selectedValue, setSelectedValue] = useState<string | undefined>();
 	const selectStyles = styles();
 
 	const buttons = [

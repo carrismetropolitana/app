@@ -43,7 +43,7 @@ const styles = () => {
 		},
 		scrollContent: {
 			flexGrow: 1,
-			paddingBottom: 60, // if you still want that bottom space
+			paddingBottom: 60,
 		},
 		selectNotificationContol: {
 			alignItems: 'center',
