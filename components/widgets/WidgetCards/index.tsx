@@ -53,7 +53,7 @@ export function WidgetCards() {
 			}
 			return widget;
 		});
-		profileContext.actions.updateProfile({
+		profileContext.actions.updateLocalProfile({
 			...profileContext.data.profile,
 			_id: profileContext.data.profile?._id ?? '',
 			devices: profileContext.data.profile?.devices ?? [],

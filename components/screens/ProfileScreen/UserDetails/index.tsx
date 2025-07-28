@@ -36,7 +36,6 @@ export const UserDetails = ({ widgetList }: Props) => {
 	useEffect(() => {
 		setProfile(profileContext.data.profile || null);
 		setAccentColor(profileContext.data?.accent_color || null);
-		console.log('=====>', profileContext.data.accent_color);
 	}, [profileContext.data.profile, profileContext.data.accent_color]);
 
 	//

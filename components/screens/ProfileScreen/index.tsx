@@ -100,7 +100,7 @@ export default function ProfileScreen() {
 							...widget,
 							settings: { ...widget.settings, display_order: idx },
 						}));
-						profileContext.actions.updateProfile({ ...profile, widgets: orderedWidgets });
+						profileContext.actions.updateLocalProfile({ ...profile, widgets: orderedWidgets });
 					}, 1000);
 				}}
 			/>
