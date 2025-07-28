@@ -117,14 +117,14 @@
 		"changeLineLabel": "Alterar Linha Selecionada",
 		"firstSectionSubtitle": "Escolha uma linha para visualizar na página principal",
 		"firstSectionTitle": "1. Selecionar Linha ",
-		"headerTitle": "Paragem Favorita",
-		"secondSectionSubtitle": "Pode escolher apenas os destinos que lhe interessam a partir desta paragem. Personalize o seu painel de informação único.",
+		"headerTitle": "Linha Favorita",
+		"secondSectionSubtitle": "Pode escolher apenas os destinos que lhe interessam a partir desta linha. Personalize o seu painel de informação único.",
 		"secondSectionTitle": "2. Escolher destinos ",
 		"selectLineLabel": "Selecione uma linha para ver o seu destino",
-		"subheading": "Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas.",
-		"thirdSectionSubtitle": "Pode escolher receber uma notificação sempre que existir um alerta para a paragem e para os destinos que selecionou.",
+		"subheading": "Adicione a linha da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas.",
+		"thirdSectionSubtitle": "Pode escolher receber uma notificação sempre que existir um alerta para a linha e para os destinos que selecionou.",
 		"thirdSectionTitle": "3. Notificações ",
-		"title": "Paragem Favorita"
+		"title": "Linha Favorita"
 	},
 	"addfavoritestop": {
 		"changeStopLabel": "Alterar Paragem Selecionada",

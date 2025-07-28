@@ -30,6 +30,8 @@ export const StopArrivalRow = ({ formatted, status, tripData }: StopArrivalRowPr
 	//
 	// A. Setup variables
 	const stopDetailNextArrivals = styles();
+
+	console.table	('StopArrivalRow', { formatted, status, tripData });
 	//
 	// B. Render Components
 	return (
