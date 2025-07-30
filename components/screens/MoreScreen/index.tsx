@@ -95,7 +95,7 @@ export default function MoreScreen() {
 					<Text style={moreStyles.listTitle}>{item.title}</Text>
 				</ListItem.Title>
 			</ListItem.Content>
-			<ListItem.Chevron />
+			<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
 		</ListItem>
 	);
 

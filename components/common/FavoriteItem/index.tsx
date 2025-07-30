@@ -124,7 +124,7 @@ export default function FavoriteItemComponent({ data, drag, isActive }: Favorite
 							</ListItem.Subtitle>
 						)}
 					</ListItem.Content>
-					<ListItem.Chevron />
+					<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
 				</View>
 			</TouchableHighlight>
 		</View>

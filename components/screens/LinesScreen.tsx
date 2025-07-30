@@ -52,7 +52,7 @@ export default function LinesScreen() {
 				getItemLayout={getItemLayout}
 				initialNumToRender={5}
 				keyExtractor={keyExtractor}
-				ListEmptyComponent={<NoDataLabel fill withMinHeight />}
+				ListEmptyComponent={<NoDataLabel />}
 				maxToRenderPerBatch={5}
 				renderItem={renderItem}
 				renderSectionHeader={renderSectionHeader}

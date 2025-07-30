@@ -118,7 +118,7 @@ export default function StopDetailNextArrivalsByPatternID({ description, href, p
 		return (
 			<View style={stopDetailNextArrivals.sectionWrapper}>
 				<Text style={stopDetailNextArrivals.sectionHeading}>{t('heading')}</Text>
-				<NoDataLabel text={t('end_of_day')} fill />
+				<NoDataLabel text={t('end_of_day')} />
 				<Text style={stopDetailNextArrivals.upcomingCirculationsDescription}>{t('description')}</Text>
 			</View>
 		);
@@ -148,6 +148,7 @@ export default function StopDetailNextArrivalsByPatternID({ description, href, p
 							</Text>
 						)}
 					</ListItem.Content>
+					<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
 				</ListItem>
 			)}
 

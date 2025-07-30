@@ -32,14 +32,14 @@ export default function StopDetailCharacterization() {
 						<ListItem.Title><Text>THIS IS JUST A DEMO</Text></ListItem.Title>
 						<ListItem.Subtitle><Text>a functionalilty demo</Text></ListItem.Subtitle>
 					</ListItem.Content>
-					<ListItem.Chevron />
+					<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
 				</ListItem>
 				<ListItem>
 					<ListItem.Content>
 						<ListItem.Title><Text>THIS IS JUST A DEMO</Text></ListItem.Title>
 						<ListItem.Subtitle><Text>a functionalilty demo</Text></ListItem.Subtitle>
 					</ListItem.Content>
-					<ListItem.Chevron />
+					<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
 				</ListItem>
 			</View>
 		</View>

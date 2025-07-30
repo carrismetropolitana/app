@@ -156,9 +156,12 @@ export default function StopsScreen() {
 									</TouchableOpacity>
 								</ListItem.Content>
 								<View style={{ width: 24 }} />
-								<ListItem.Chevron />
+								<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
 							</ListItem>
-							<StopDetailNextArrivals href={`/stop/${selectedStop}`} />
+							<View style={stopMapDetailStyles.nextArrivalsContainer}>
+								<Text style={stopMapDetailStyles.nextArrivalsLabel}>{t('StopDetails.nextArrivalsLabel')}</Text>
+								<StopDetailNextArrivals href={`/stop/${selectedStop}`} />
+							</View>
 						</>
 					)}
 					{!stopData && <NoDataLabel text={t('noDataFound')} />}

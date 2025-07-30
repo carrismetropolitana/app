@@ -88,13 +88,12 @@ export const styles = () => {
 		/* SEE MORE */
 
 		see_more: {
-			alignContent: 'center',
-			alignItems: 'center',
 			color: fontColor,
-			fontSize: theming.fontSizeText,
-			fontWeight: theming.fontWeightText as '500',
+			fontSize: theming.fontSizeNav,
+			fontWeight: theming.fontWeightSemibold as '600',
+			paddingLeft: 5,
 			paddingVertical: 10,
-			textAlign: 'center',
+			textAlign: 'left',
 			width: '100%',
 		},
 

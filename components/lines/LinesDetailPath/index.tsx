@@ -27,7 +27,7 @@ export function LinesDetailPath() {
 	if (!linesDetailContext.data.active_pattern || !operationalDayContext.data.selected_day_jsdate) {
 		return (
 			<Surface>
-				<NoDataLabel text="Sem dados" withMinHeight />
+				<NoDataLabel text="Sem dados" />
 			</Surface>
 		);
 	}

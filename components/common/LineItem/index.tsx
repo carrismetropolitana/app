@@ -18,7 +18,7 @@ export function LineItem({ icon, lineData, municipality, onPress, size }: LineIt
 			<ListItem.Content>
 				<LineDisplay lineData={lineData} municipality={municipality} size={size} />
 			</ListItem.Content>
-			{icon ?? <ListItem.Chevron />}
+			{icon ?? <ListItem.Chevron iconStyle={{ fontSize: 24 }} />}
 		</ListItem>
 	);
 }

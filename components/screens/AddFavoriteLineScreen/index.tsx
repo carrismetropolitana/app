@@ -168,7 +168,7 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 							<Text>{t('changeLineLabel')}</Text>
 						</ListItem.Title>
 					</ListItem.Content>
-					<ListItem.Chevron />
+					<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
 				</ListItem>
 			</View>
 

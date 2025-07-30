@@ -244,7 +244,7 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 								<Text>{t('changeLineLabel')}</Text>
 							</ListItem.Title>
 						</ListItem.Content>
-						<ListItem.Chevron />
+						<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
 					</ListItem>
 				</View>
 				<View>

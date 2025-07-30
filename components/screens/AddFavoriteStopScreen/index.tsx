@@ -160,7 +160,7 @@ export default function AddFavoriteStopScreen() {
 							<Text>{t('changeStopLabel')}</Text>
 						</ListItem.Title>
 					</ListItem.Content>
-					<ListItem.Chevron />
+					<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
 				</ListItem>
 			</View>
 

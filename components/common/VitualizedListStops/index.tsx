@@ -44,7 +44,7 @@ export function VirtualizedListingStops({ data, icon, itemClick, items, size }: 
 					</Link>
 				)}
 
-			{icon ? icon : <ListItem.Chevron />}
+			{icon ? icon : <ListItem.Chevron iconStyle={{ fontSize: 24 }} />}
 		</ListItem>
 
 	);

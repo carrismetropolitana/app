@@ -56,7 +56,7 @@ export default function Counter({ quantity, type }: Props) {
 			{quantity > 1 && type === 'vehicles' && (
 				<View style={counterStyles.vehiclesCounter}>
 					<LiveIcon />
-					<Text style={counterStyles.text}>{quantity} {t('vehicleCounterOther')}</Text>
+					<Text style={counterStyles.textRealtime}>{quantity} {t('vehicleCounterOther')}</Text>
 				</View>
 			)}
 		</>

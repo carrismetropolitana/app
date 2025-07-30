@@ -442,12 +442,13 @@
 				"arriving": "Agora",
 				"hours": "h",
 				"minutes": "min",
-				"see_less": "Ver menos",
-				"see_more": "Ver mais"
+				"see_less": "Ver menos passagens",
+				"see_more": "Ver mais passagens"
 			},
 			"description": "Os tempos de passagem são estimados e podem estar sujeitos a alterações devido a trânsito, obras ou outros imprevistos. Verifique a posição do veículo no mapa para obter sempre a informação mais fiável.",
 			"end_of_day": "Fim do dia",
 			"heading": "Próximas passagens",
+			"nextArrivalsLabel": "Próximas Passagens",
 			"second_heading": "Linhas que passam nesta paragem",
 			"third_heading": "Caracterização"
 		},

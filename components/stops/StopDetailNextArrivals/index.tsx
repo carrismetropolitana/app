@@ -1,6 +1,7 @@
 /* * */
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
+import { LiveIcon } from '@/components/common/LiveIcon';
 import { LineBadge } from '@/components/lines/LineBadge';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { theming } from '@/theme/Variables';
@@ -81,8 +82,8 @@ export default function StopDetailNextArrivals({ description, href, title }: Pro
 	if (!arrivalsToShow.length) {
 		return (
 			<View style={stopDetailNextArrivals.sectionWrapper}>
-				<Text style={stopDetailNextArrivals.sectionHeading}>{t('heading')}</Text>
-				<NoDataLabel text={t('end_of_day')} fill />
+				{/* <Text style={stopDetailNextArrivals.sectionHeading}>{t('heading')}</Text> */}
+				<NoDataLabel text={t('end_of_day')} />
 				<Text style={stopDetailNextArrivals.upcomingCirculationsDescription}>{t('description')}</Text>
 			</View>
 		);
@@ -102,9 +103,10 @@ export default function StopDetailNextArrivals({ description, href, title }: Pro
 								<View style={{ flex: 1 }} />
 								{formatted && status === 'realtime' ? (
 									<View style={stopDetailNextArrivals.rippleContainer}>
-										<View style={stopDetailNextArrivals.ripple}>
+										{/* <View style={stopDetailNextArrivals.ripple}>
 											<View style={stopDetailNextArrivals.dot} />
-										</View>
+										</View> */}
+										<LiveIcon />
 										<Text style={stopDetailNextArrivals.arrival}>{formatted.label}</Text>
 									</View>
 								) : formatted && status === 'scheduled' ? (
@@ -116,7 +118,7 @@ export default function StopDetailNextArrivals({ description, href, title }: Pro
 							</View>
 						</ListItem.Title>
 					</ListItem.Content>
-					<ListItem.Chevron />
+					<ListItem.Chevron iconStyle={{ fontSize: 23 }} />
 				</ListItem>
 			</View>
 		);
@@ -147,7 +149,7 @@ export default function StopDetailNextArrivals({ description, href, title }: Pro
 				{showAll && (
 					<ListItem>
 						<ListItem.Content>
-							<NoDataLabel text={t('end_of_day')} fill />
+							<NoDataLabel text={t('end_of_day')} />
 						</ListItem.Content>
 					</ListItem>
 				)}
@@ -172,6 +174,7 @@ export default function StopDetailNextArrivals({ description, href, title }: Pro
 								</Text>
 							)}
 						</ListItem.Content>
+						<ListItem.Chevron iconStyle={{ fontSize: 24 }}/>
 					</ListItem>
 				)}
 

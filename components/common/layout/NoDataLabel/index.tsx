@@ -1,5 +1,6 @@
 /* * */
 
+import { Surface } from '@/components/common/layout/Surface';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
@@ -14,7 +15,7 @@ interface NoDataLabelProps {
 }
 
 /* * */
-export function NoDataLabel({ fill, text, withMinHeight }: NoDataLabelProps) {
+export function NoDataLabel({ text }: NoDataLabelProps) {
 	//
 
 	//
@@ -23,19 +24,16 @@ export function NoDataLabel({ fill, text, withMinHeight }: NoDataLabelProps) {
 	const { t } = useTranslation('translation', { keyPrefix: 'layout.NoDataLabel' });
 	const noDataLabelStyles = styles();
 
-	const containerStyle = [
-		noDataLabelStyles.container,
-		fill && noDataLabelStyles.fill,
-		withMinHeight && noDataLabelStyles.withMinHeight,
-	];
-
 	//
 	// B. Render Components
 
 	return (
-		<View style={containerStyle}>
-			<Text style={noDataLabelStyles.text}>{text || t('default')}</Text>
-		</View>
+		<Surface>
+			<View style={noDataLabelStyles.wrapper}>
+				<Text style={noDataLabelStyles.headerEmoji}>✨</Text>
+				<Text style={noDataLabelStyles.text}>{text || t('default')}</Text>
+			</View>
+		</Surface>
 	);
 
 	//

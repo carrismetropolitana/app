@@ -1,24 +1,12 @@
-import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { StyleSheet } from 'react-native';
 
 /* * */
 
 export const styles = () => {
-	//
-
-	//
-	// A. Setup variables
-
-	const { theme } = useThemeContext();
-	const isLight = theme.mode === 'light';
-	//
-	// B. Render Components
-
 	return StyleSheet.create({
 		/* * */
 		/* CONTAINER */
-
 		container: {
 			alignItems: 'center',
 			backgroundColor: theming.colorRealtime100,
@@ -28,15 +16,12 @@ export const styles = () => {
 			justifyContent: 'center',
 			width: 10,
 		},
-
 		/* * */
 		/* DOT */
-
 		dot: {
 			width: 10,
 			/* DOT SIZE */
 			backgroundColor: theming.colorSystemText200,
-
 			borderRadius: 999,
 			height: 10,
 			opacity: 1,
@@ -44,7 +29,6 @@ export const styles = () => {
 
 		/* * */
 		/* RIPPLE */
-
 		ripple: {
 			backgroundColor: theming.colorSystemBorder200,
 			position: 'absolute',
@@ -56,6 +40,4 @@ export const styles = () => {
 		},
 
 	});
-
-	//
 };

@@ -1,3 +1,4 @@
+import { LiveIcon } from '@/components/common/LiveIcon';
 import { LineBadge } from '@/components/lines/LineBadge';
 import { theming } from '@/theme/Variables';
 import { ListItem, Text } from '@rn-vui/themed';
@@ -47,9 +48,10 @@ export const StopArrivalRow = ({ formatted, status, tripData }: StopArrivalRowPr
 							<View style={{ flex: 1 }} />
 							{formatted && status === 'realtime' && (
 								<View style={stopDetailNextArrivals.rippleContainer}>
-									<View style={stopDetailNextArrivals.ripple}>
+									{/* <View style={stopDetailNextArrivals.ripple}>
 										<View style={stopDetailNextArrivals.dot} />
-									</View>
+									</View> */}
+									<LiveIcon />
 									<Text style={stopDetailNextArrivals.arrival}>{formatted.label}</Text>
 								</View>
 							)}
@@ -62,7 +64,7 @@ export const StopArrivalRow = ({ formatted, status, tripData }: StopArrivalRowPr
 						</View>
 					</ListItem.Title>
 				</ListItem.Content>
-				<ListItem.Chevron />
+				<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
 			</ListItem>
 		</View>
 	);
