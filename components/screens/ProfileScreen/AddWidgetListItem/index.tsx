@@ -28,7 +28,7 @@ export const AddWidgetListItem = ({ icon, label, route }: Props) => {
 	//
 	// B. Render Components
 	return (
-		<ListItem onPress={() => console.log('Pressed')}>
+		<ListItem onPress={() => router.replace(route)}>
 			{icon}
 			<ListItem.Content>
 				<ListItem.Title style={addWidgetListItemStyles.listTitle}>
