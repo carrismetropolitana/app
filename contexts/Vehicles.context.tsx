@@ -44,7 +44,7 @@ export function useVehiclesContext() {
 
 /* * */
 
-export const VehiclesContextProvider = ({ children }) => {
+export const VehiclesContextProvider = ({ children }: { children: React.ReactNode }) => {
 	//
 
 	//

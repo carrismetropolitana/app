@@ -4,7 +4,6 @@ import type { Exception } from '@/types/timetables.types';
 
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { IconArrowUpRight } from '@tabler/icons-react-native';
-import { useTranslation } from 'react-i18next';
 import { Pressable, Text } from 'react-native';
 
 import { styles } from './styles';
@@ -29,7 +28,6 @@ export function TimetableExceptionsLink({
 	//
 	// A. Setup variables
 
-	const { t } = useTranslation('common.TimetableExceptionsLink');
 	const linesDetailContext = useLinesDetailContext();
 
 	//

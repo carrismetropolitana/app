@@ -11,11 +11,10 @@ Copy the required environment files:
 
 For Android, no further actions required.
 
-For iOS: `cd ios && npx pod-install`
-
-`cd ..`
+For iOS: `npm run ios-setup`
 
 To run on a physical device or an emulator (it shows a list of devices including emulators for you to choose): 
-`npm run ios`
 
-`npm run android`
+IOS: `npm run ios`
+
+Android: `npm run android`

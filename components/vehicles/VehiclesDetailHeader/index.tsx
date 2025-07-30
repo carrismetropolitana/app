@@ -4,7 +4,6 @@ import { Surface } from '@/components/common/layout/Surface';
 import { LicensePlate } from '@/components/common/LicensePlate';
 import { LineBadge } from '@/components/lines/LineBadge';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
-import { useProfileContext } from '@/contexts/Profile.context';
 import { theming } from '@/theme/Variables';
 import { Vehicle } from '@carrismetropolitana/api-types/vehicles';
 import { Text } from '@rn-vui/themed';

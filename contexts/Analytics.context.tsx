@@ -29,7 +29,7 @@ export function useAnalyticsContext() {
 
 /* * */
 
-export const AnalyticsContextProvider = ({ children }) => {
+export const AnalyticsContextProvider = ({ children }: { children: React.ReactNode }) => {
 	//
 
 	//

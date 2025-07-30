@@ -10,7 +10,6 @@ export const styles = () => {
 	const { theme } = useThemeContext();
 	const borderColor = theme.mode === 'light' ? theming.colorSystemBorder100 : theming.colorSystemBorderDark200;
 	const backgroundColor = theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100;
-	const fontColor = theme.mode === 'light' ? theming.colorSystemText100 : theming.colorSystemText300;
 
 	return StyleSheet.create({
 		bodyContentContainer: {

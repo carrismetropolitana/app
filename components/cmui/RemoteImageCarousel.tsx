@@ -1,14 +1,7 @@
 /* * */
 
 import React, { memo, useCallback } from 'react';
-import {
-	Dimensions,
-	FlatList,
-	Image,
-	Pressable,
-	StyleSheet,
-	View,
-} from 'react-native';
+import { Dimensions, FlatList, Image, Pressable, StyleSheet, View } from 'react-native';
 
 /* * */
 

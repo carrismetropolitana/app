@@ -3,7 +3,7 @@
 import type { NavigationGroup } from '@/types/navigation.types';
 
 import { RoutesFooter, RoutesPricing, RoutesSchedule, RoutesSupport } from '@/utils/routes';
-import { IconAlertTriangle, IconArrowLoopRight, IconBellSchool, IconBuildingStore, IconBus, IconBusStop, IconChartBar, IconCreditCardPay, IconDirections, IconHelpHexagon, IconHomeSpark, IconMapQuestion, IconMessages, IconNews, IconPrompt, IconTicket, IconUmbrella, IconUserHeart } from '@tabler/icons-react';
+import { IconAlertTriangle, IconArrowLoopRight, IconBellSchool, IconBuildingStore, IconBus, IconBusStop, IconChartBar, IconCreditCardPay, IconDirections, IconHelpHexagon, IconHomeSpark, IconMapQuestion, IconMessages, IconNews, IconPrompt, IconTicket, IconUmbrella, IconUserHeart } from '@tabler/icons-react-native';
 
 /* * */
 

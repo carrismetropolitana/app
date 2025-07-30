@@ -1,20 +1,9 @@
-import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { StyleSheet } from 'react-native';
 
 /* * */
 
 export const styles = () => {
-	//
-
-	//
-	// A. Setup variables
-
-	const { theme } = useThemeContext();
-	const isLight = theme.mode === 'light';
-	//
-	// B. Render Components
-
 	return StyleSheet.create({
 		/* * */
 		/* CONTAINER */

@@ -2,10 +2,9 @@
 
 import { Section } from '@/components/common/layout/Section'; ;
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
-import { ListItem, Switch, Text } from '@rn-vui/themed';
-import { IconNotification, IconToggleLeft, IconToggleRight } from '@tabler/icons-react-native';
+import { ListItem, Text } from '@rn-vui/themed';
+import { IconNotification } from '@tabler/icons-react-native';
 import { router } from 'expo-router';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -16,12 +15,9 @@ import styles from './styles';
 interface Props {
 	disabled: boolean
 	heading: string
-	// isToggle?: boolean
+
 	patternId?: string
 	subheading: string
-	// toggle?: () => void
-	// toggled?: boolean
-	// untoggle?: () => void
 }
 
 export const OpenAddSmartNotification = ({ disabled, heading = '', patternId, subheading = '' }: Props) => {
@@ -32,8 +28,6 @@ export const OpenAddSmartNotification = ({ disabled, heading = '', patternId, su
 
 	const openAddSmartNotificationStyles = styles();
 	const linesDetailContext = useLinesDetailContext();
-	// const [open, setOpen] = useState(false);
-
 	const { t } = useTranslation('translation', { keyPrefix: 'common' });
 
 	//
@@ -59,8 +53,6 @@ export const OpenAddSmartNotification = ({ disabled, heading = '', patternId, su
 						<Text>{t('enable_notifications')}</Text>
 					</ListItem.Title>
 				</ListItem.Content>
-				{/* {!isToggle && <ListItem.Chevron />}
-				{isToggle && (<Switch onValueChange={toggled ? untoggle : toggle} value={toggled} />)} */}
 			</ListItem>
 
 		</View>

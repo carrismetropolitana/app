@@ -3,7 +3,6 @@
 import { useProfileContext } from '@/contexts/Profile.context';
 import { AccountWidget } from '@/types/account.types';
 import { Button } from '@rn-vui/themed';
-import { use } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 

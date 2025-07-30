@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* * */
 
 import type { SimplifiedAlert } from '@/types/alerts.types';
@@ -102,7 +103,7 @@ export const LinesDetailContextProvider = ({ children, lineIdParams }: LinesDeta
 
 	const [flagIsFavoriteState, setFlagIsFavoriteState] = useState<LinesDetailContextState['flags']['is_favorite']>(false);
 	const [flagIsInteractiveModeState, setFlagIsInteractiveModeState] = useState<LinesDetailContextState['flags']['is_interactive_mode']>(false);
-	const [lineId, setActiveLineId] = useState<any | undefined >('');
+	const [lineId, setActiveLineId] = useState<'' | any >('');
 
 	//
 	// B. Fetch data

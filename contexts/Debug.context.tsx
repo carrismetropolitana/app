@@ -29,7 +29,7 @@ export function useDebugContext() {
 
 /* * */
 
-export const DebugContextProvider = ({ children }) => {
+export const DebugContextProvider = ({ children }: { children: React.ReactNode }) => {
 	//
 
 	//

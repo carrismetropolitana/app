@@ -14,7 +14,6 @@ const styles = () => {
 		addFavoritesSection: {
 			backgroundColor: headerBackgroundColor,
 			marginBottom: 20,
-			paddingBottom: 70,
 			paddingTop: 20,
 		},
 	});

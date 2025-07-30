@@ -41,7 +41,7 @@ export function useLinesContext() {
 	return context;
 }
 
-export const LinesContextProvider = ({ children }) => {
+export const LinesContextProvider = ({ children }: { children: React.ReactNode }) => {
 	//
 
 	//

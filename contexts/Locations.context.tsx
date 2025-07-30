@@ -49,7 +49,7 @@ export function useLocationsContext() {
 
 /* * */
 
-export const LocationsContextProvider = ({ children }) => {
+export const LocationsContextProvider = ({ children }: { children: React.ReactNode }) => {
 	//
 
 	//

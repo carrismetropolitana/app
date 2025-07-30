@@ -2,7 +2,6 @@
 
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { Text } from '@rn-vui/themed';
-import { locale } from 'expo-localization';
 import { DateTime } from 'luxon';
 import { Trans, useTranslation } from 'react-i18next';
 

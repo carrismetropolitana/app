@@ -1,5 +1,3 @@
-'use client';
-
 /* * */
 
 import type { Stop } from '@carrismetropolitana/api-types/network';
@@ -39,7 +37,7 @@ export function useStopsContext() {
 
 /* * */
 
-export const StopsContextProvider = ({ children }) => {
+export const StopsContextProvider = ({ children }: { children: React.ReactNode }) => {
 	//
 
 	//

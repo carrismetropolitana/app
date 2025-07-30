@@ -9,7 +9,7 @@ import { VehiclesContextProvider } from '@/contexts/Vehicles.context';
 
 /* * */
 
-export function DataProviders({ children }) {
+export function DataProviders({ children }: { children: React.ReactNode }) {
 	return (
 		<OperationalDayContextProvider>
 			<LocationsContextProvider>

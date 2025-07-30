@@ -1,4 +1,3 @@
-// src/screens/LinesScreen.tsx
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { Section } from '@/components/common/layout/Section';
 import { MemoizedLineItem } from '@/components/common/LineItem';

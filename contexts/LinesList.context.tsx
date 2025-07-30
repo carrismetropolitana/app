@@ -59,7 +59,7 @@ export function useLinesListContext() {
 
 /* * */
 
-export const LinesListContextProvider = ({ children }) => {
+export const LinesListContextProvider = ({ children }: { children: React.ReactNode }) => {
 	//
 
 	//

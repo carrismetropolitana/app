@@ -1,7 +1,4 @@
 /* * */
-import 'intl';
-import 'intl/locale-data/jsonp/en';
-import 'intl/locale-data/jsonp/pt';
 import { useLocalSearchParams } from 'expo-router';
 import { DateTime } from 'luxon';
 import { createContext, useContext, useEffect, useState } from 'react';

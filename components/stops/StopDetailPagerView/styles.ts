@@ -12,9 +12,6 @@ export const styles = () => {
 	const backgroundColor = isLight
 		? theming.colorSystemBackgroundLight200
 		: theming.colorSystemBackgroundDark200;
-	const fontColor = isLight
-		? theming.colorPrimaryBlack
-		: theming.colorSystemText300;
 
 	return StyleSheet.create({
 		container: { backgroundColor: backgroundColor, flex: 1, height: 300, width: '100%' },

@@ -1,9 +1,9 @@
 /* * */
 
-import NetworkOffline from '@/components/common/NetworkOfflineBanner';
 import 'react-native-reanimated';
 import '@/i18n';
 import 'expo-dev-client';
+import NetworkOffline from '@/components/common/NetworkOfflineBanner';
 import { NotificationsProvider } from '@/contexts/Notifications.context';
 import { ThemeProvider } from '@/contexts/Theme.context';
 import { ConfigProviders } from '@/providers/config-providers';

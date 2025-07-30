@@ -1,16 +1,13 @@
 /* * */
 
-import { AnalyticsContextProvider } from '@/contexts/Analytics.context';
 import { ConsentContextProvider } from '@/contexts/Consent.context';
 
 /* * */
 
-export function PrivacyProviders({ children }) {
+export function PrivacyProviders({ children }: { children: React.ReactNode }) {
 	return (
 		<ConsentContextProvider>
-			{/* <AnalyticsContextProvider> */}
-				{children}
-			{/* </AnalyticsContextProvider> */}
+			{children}
 		</ConsentContextProvider>
 	);
 }
