@@ -233,12 +233,20 @@
 		},
 		"closeButton": "Close",
 		"enable_notifications": "Enable Notifications",
-
+		"lineCounterOne": "line found",
+		"lineCounterOther": "lines found",
+		"lineCounterZero": "No lines found",
 		"offlineBanner": {
 			"message": "There has been a problem with the connection to the server. Please check your internet connection."
 		},
 		"personalizeButton": "Customize",
-		"saveButton": "Save"
+		"saveButton": "Save",
+		"stopCounterOne": "stop found",
+		"stopCounterOther": "stops found",
+		"stopCounterZero": "No stops found",
+		"vehicleCounterOne": "vehicle found",
+		"vehicleCounterOther": "vehicles found",
+		"vehicleCounterZero": "No vehicles found"
 	},
 	"homepage": {
 		"SuggestionCard": {

@@ -28,10 +28,12 @@ interface StopArrivalRowProps {
 
 export const StopArrivalRow = ({ formatted, status, tripData }: StopArrivalRowProps) => {
 	//
+
+	//
 	// A. Setup variables
+
 	const stopDetailNextArrivals = styles();
 
-	console.table	('StopArrivalRow', { formatted, status, tripData });
 	//
 	// B. Render Components
 	return (
@@ -64,6 +66,6 @@ export const StopArrivalRow = ({ formatted, status, tripData }: StopArrivalRowPr
 			</ListItem>
 		</View>
 	);
-};
 
-//
+	//
+};

@@ -3,11 +3,13 @@
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 /* * */
 
 export const styles = () => {
 	const { theme } = useThemeContext();
+	const insets = useSafeAreaInsets();
 	const borderColor = theme.mode === 'light' ? theming.colorSystemBorder100 : theming.colorSystemBorderDark200;
 
 	return StyleSheet.create({
@@ -16,8 +18,7 @@ export const styles = () => {
 			borderBottomColor: borderColor,
 			borderBottomWidth: 1,
 			height: 65,
-			left: 0,
-			marginBottom: 25,
+			marginTop: 100 + insets.top,
 			width: '100%',
 		},
 
@@ -25,8 +26,8 @@ export const styles = () => {
 		/* ITEM */
 
 		item: {
-			paddingLeft: 35,
-			paddingTop: 10,
+			paddingLeft: 20,
+			paddingTop: 6,
 		},
 	});
 };

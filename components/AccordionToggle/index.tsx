@@ -1,5 +1,7 @@
 /* * */
 
+import { useThemeContext } from '@/contexts/Theme.context';
+import { theming } from '@/theme/Variables';
 import { IconBell, IconCaretLeft } from '@tabler/icons-react-native';
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing, StyleProp, View, ViewStyle } from 'react-native';
@@ -23,9 +25,14 @@ export const AccordionToggle = ({ expanded, isNotification, size = 24, style }: 
 	//
 	// A. Setup Variables
 
+	const themeContext = useThemeContext();
 	const pulseAnim = useRef(new Animated.Value(1)).current;
 	const rotateAnim = useRef(new Animated.Value(0)).current;
 	const accordionToggleStyles = styles();
+	const chevronColor = themeContext.theme.mode === 'light' ? theming.colorSystemText400 : theming.colorSystemText300;
+
+	//
+	// B. Fetch Data
 
 	useEffect(() => {
 		Animated.loop(
@@ -59,7 +66,7 @@ export const AccordionToggle = ({ expanded, isNotification, size = 24, style }: 
 	});
 
 	//
-	// B. Render Components
+	// C. Render Components
 
 	return (
 		<>
@@ -75,7 +82,7 @@ export const AccordionToggle = ({ expanded, isNotification, size = 24, style }: 
 			)}
 			{!isNotification && (
 				<Animated.View style={[{ transform: [{ rotate: rotate }] }]}>
-					<IconCaretLeft color="#5F5F5F" fill="#5F5F5F" size={size} />
+					<IconCaretLeft color={chevronColor} fill={chevronColor} size={size} />
 				</Animated.View>
 			)}
 		</>

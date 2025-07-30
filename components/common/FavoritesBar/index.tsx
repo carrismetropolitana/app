@@ -5,6 +5,7 @@ import type { Line } from '@carrismetropolitana/api-types/network';
 import { LineBadge } from '@/components/lines/LineBadge';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useProfileContext } from '@/contexts/Profile.context';
+import { Text } from '@rn-vui/themed';
 import { Link } from 'expo-router';
 import React from 'react';
 import { View } from 'react-native';
@@ -28,9 +29,7 @@ export default function FavoritesBar() {
 	// B, Transform data
 
 	const favoriteLineIds: string[] = profileContext.data.profile?.favorites?.lines.flatMap(id => id.split('_')) || [];
-	const favoritesLines: Line[] = favoriteLineIds
-		.map(id => linesContext.data.lines.find((line: Line) => line.id === id))
-		.filter((line): line is Line => !!line);
+	const favoritesLines: Line[] = favoriteLineIds.map(id => linesContext.data.lines.find((line: Line) => line.id === id)).filter((line): line is Line => !!line);
 
 	//
 	// C. Render components

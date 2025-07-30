@@ -71,7 +71,9 @@ export function LineDisplayTts({ patternId }: Props) {
 
 	return sound && (
 		<TouchableOpacity onPress={handleToogleAudio}>
-			<View> {isPlaying ? <IconPlayerPause color={ttsStyles.icon.color} /> : <IconVolume color={ttsStyles.icon.color} />} </View>
+			<View>
+				{isPlaying ? <IconPlayerPause color={ttsStyles.icon.color} /> : <IconVolume color={ttsStyles.icon.color} />}
+			</View>
 		</TouchableOpacity>
 	);
 

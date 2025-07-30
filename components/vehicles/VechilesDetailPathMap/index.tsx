@@ -1,6 +1,6 @@
 /* * */
 
-import VehicleCounter from '@/components/common/VehicleCounter';
+import Counter from '@/components/common/Counter';
 import { MapView } from '@/components/map/MapView';
 import { MapViewStyleActiveStops } from '@/components/map/MapViewStyleActiveStops';
 import { MapViewStylePath } from '@/components/map/MapViewStylePath';
@@ -122,7 +122,7 @@ export function VehiclesDetailPathMap({ hasToolbar }: Props) {
 						console.log('Vehicle pressed, ID:', id);
 					}}
 				/>
-				<VehicleCounter count={activeVehiclesFC?.features.length || 0} />
+				<Counter quantity={activeVehiclesFC?.features.length || 0} type="vehicles" />
 			</MapView>
 		</View>
 	);

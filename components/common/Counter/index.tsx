@@ -1,36 +1,65 @@
 /* * */
 
-import { useThemeContext } from '@/contexts/Theme.context';
-import { theming } from '@/theme/Variables';
+import { LiveIcon } from '@/components/common/LiveIcon';
+import { NoVehicleIcon } from '@/components/common/NoVehicleIcon';
 import { Text } from '@rn-vui/themed';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
+
+import { styles } from './styles';
 
 /* * */
 
 interface Props {
 	quantity: number
-	text: string
-	type: string
+	type: 'lines' | 'stops' | 'vehicles'
 }
 
 /* * */
-export default function Counter({ quantity, text, type }: Props) {
+export default function Counter({ quantity, type }: Props) {
 	//
 
 	//
-	// A. Setup Styles
-	const themeContext = useThemeContext();
+	// A. Setup Variables
 
-	const fullString = `${text} ${quantity} ${type}`;
-	const fontColor = themeContext.theme.mode === 'light' ? theming.colorSystemText300 : theming.colorSystemText400;
+	const { t } = useTranslation('translation', { keyPrefix: 'common' });
+	const counterStyles = styles();
 
 	//
 	// B. Setup Variables
 
 	return (
-		<View>
-			<Text style={{ color: fontColor, fontSize: 12 }}>{fullString}</Text>
-		</View>
+		<>
+			{/* Lines Counter */}
+			{quantity === 0 && type === 'lines' && <Text style={counterStyles.text}> {t('lineCounterZero')}</Text>}
+			{quantity === 1 && type === 'lines' && <Text style={counterStyles.text}>{quantity} {t('lineCounterOne')}</Text>}
+			{quantity > 1 && type === 'lines' && <Text style={counterStyles.text}>{quantity} {t('lineCounterOther')}</Text>}
+
+			{/* Stops Counter */}
+			{quantity === 0 && type === 'stops' && <Text style={counterStyles.text}>{t('stopCounterZero')}</Text>}
+			{quantity === 1 && type === 'stops' && <Text style={counterStyles.text}>{quantity} {t('stopCounterOne')}</Text>}
+			{quantity > 1 && type === 'stops' && <Text style={counterStyles.text}>{quantity} {t('stopCounterOther')}</Text>}
+
+			{/* Vehicles Counter */}
+			{quantity === 0 && type === 'vehicles' && (
+				<View style={counterStyles.zeroCount}>
+					<NoVehicleIcon />
+					<Text style={counterStyles.textMuted}>{t('vehicleCounterZero')}</Text>
+				</View>
+			)}
+			{quantity === 1 && type === 'vehicles' && (
+				<View style={counterStyles.vehiclesCounter}>
+					<LiveIcon />
+					<Text style={counterStyles.textRealtime}>{quantity} {t('vehicleCounterOne')}</Text>
+				</View>
+			)}
+			{quantity > 1 && type === 'vehicles' && (
+				<View style={counterStyles.vehiclesCounter}>
+					<LiveIcon />
+					<Text style={counterStyles.text}>{quantity} {t('vehicleCounterOther')}</Text>
+				</View>
+			)}
+		</>
 	);
 
 	//

@@ -234,12 +234,20 @@
 		},
 		"closeButton": "Fechar",
 		"enable_notifications": "Ativar Notificações",
-
+		"lineCounterOne": "linha encontrada",
+		"lineCounterOther": "linhas encontradas",
+		"lineCounterZero": "Nenhuma linha encontrada",
 		"offlineBanner": {
 			"message": "Ocorreu um problema com a conexão ao servidor. Verifique a sua conexão com a internet."
 		},
 		"personalizeButton": "Personalizar",
-		"saveButton": "Guardar"
+		"saveButton": "Guardar",
+		"stopCounterOne": "paragem encontrada",
+		"stopCounterOther": "paragens encontradas",
+		"stopCounterZero": "Nenhuma paragem encontrada",
+		"vehicleCounterOne": "veículo encontrado",
+		"vehicleCounterOther": "veículos encontrados",
+		"vehicleCounterZero": "Nenhum veículo encontrado"
 	},
 	"homepage": {
 		"SuggestionCard": {

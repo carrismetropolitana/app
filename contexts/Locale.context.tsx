@@ -1,4 +1,7 @@
 // LocaleContext.tsx
+import 'intl';
+import 'intl/locale-data/jsonp/en';
+import 'intl/locale-data/jsonp/pt';
 import i18n from '@/i18n';
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 

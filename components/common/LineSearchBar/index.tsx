@@ -44,7 +44,7 @@ export default function LineSearchBar() {
 					}
 				}}
 			/>
-			<Counter quantity={filteredLines.length} text="Encontradas" type="linhas" />
+			<Counter quantity={filteredLines.length} type="lines" />
 		</View>
 	);
 

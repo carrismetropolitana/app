@@ -1,5 +1,7 @@
 /* * */
-
+import 'intl';
+import 'intl/locale-data/jsonp/en';
+import 'intl/locale-data/jsonp/pt';
 import { useLocalSearchParams } from 'expo-router';
 import { DateTime } from 'luxon';
 import { createContext, useContext, useEffect, useState } from 'react';
@@ -41,7 +43,7 @@ export function useOperationalDayContext() {
 
 /* * */
 
-export const OperationalDayContextProvider = ({ children }) => {
+export const OperationalDayContextProvider = ({ children }: { children: React.ReactNode }) => {
 	//
 
 	//

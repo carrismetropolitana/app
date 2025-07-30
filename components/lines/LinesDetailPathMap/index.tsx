@@ -1,6 +1,6 @@
 /* * */
 
-import VehicleCounter from '@/components/common/VehicleCounter';
+import Counter from '@/components/common/Counter';
 import { MapView } from '@/components/map/MapView';
 import { MapViewStyleActiveStops } from '@/components/map/MapViewStyleActiveStops';
 import { MapViewStylePath } from '@/components/map/MapViewStylePath';
@@ -11,7 +11,7 @@ import { useVehiclesContext } from '@/contexts/Vehicles.context';
 import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
 import { getCenterAndZoom } from '@/utils/map.utils';
 import { router } from 'expo-router';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
 /* * */
@@ -115,7 +115,7 @@ export function LinesDetailPathMap({ hasToolbar = false }: Props) {
 					vehiclesData={activeVehiclesFC ?? getBaseGeoJsonFeatureCollection()}
 				/>
 			</MapView>
-			<VehicleCounter count={activeVehiclesFC?.features.length || 0} />
+			<Counter quantity={activeVehiclesFC?.features.length || 0} type="vehicles" />
 		</View>
 	);
 }

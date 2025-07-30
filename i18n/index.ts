@@ -16,9 +16,6 @@ const matchedLocale = locales[0].languageCode?.startsWith('pt') ? 'pt' : 'en';
 
 i18n.use(ICU).use(initReactI18next).init({
 	fallbackLng: 'pt',
-	interpolation: {
-		escapeValue: false,
-	},
 	lng: matchedLocale,
 	resources,
 });

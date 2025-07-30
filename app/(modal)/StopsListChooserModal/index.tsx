@@ -79,7 +79,7 @@ export default function StopsListChooserModal({ isVisible, onBackdropPress, sele
 					</View>
 					<View>
 						<Input clearButtonMode="while-editing" onChangeText={text => setStopSearch(text)} placeholder={t('searchByNamePlaceholder')} value={stopsSearch} />
-						<Counter quantity={filteredStops.length} text="Encontradas" type="paragens" />
+						<Counter quantity={filteredStops.length} type="stops" />
 					</View>
 					<VirtualizedListingStops
 						data={filteredStops}
