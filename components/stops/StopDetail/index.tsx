@@ -3,6 +3,7 @@
 import StopDetailLineGoTrough from '@/components/stops/StopDetailLineGoTrough';
 import StopDetailNextArrivals from '@/components/stops/StopDetailNextArrivals';
 import { StopDetailHeader } from '@/components/stops/StopDetailsHeader';
+import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { styles } from './styles';
@@ -23,7 +24,9 @@ export function StopDetail() {
 	return (
 		<ScrollView style={stopDetailStyles.wrapper}>
 			<StopDetailHeader />
-			<StopDetailNextArrivals />
+			<View style={{ marginTop: 16 }}>
+				<StopDetailNextArrivals title="Próximas Passagens" />
+			</View>
 			<StopDetailLineGoTrough />
 			{/* <StopDetailCharacterization /> */}
 		</ScrollView>

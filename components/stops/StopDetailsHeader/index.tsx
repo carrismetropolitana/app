@@ -11,7 +11,6 @@ import { StopDisplayTts } from '@/components/stops/StopDisplayTts';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { theming } from '@/theme/Variables';
-// import { IconHomePlus } from '@tabler/icons-react-native';
 import { View } from 'react-native';
 
 import { styles } from './styles';
@@ -23,12 +22,10 @@ export function StopDetailHeader() {
 
 	//
 	// A. Setup variables
+
 	const profileContext = useProfileContext();
 	const stopsDetailContext = useStopsDetailContext();
 	const stopDetailsHeader = styles();
-	// const isInWidgets = profileContext.data.widget_stops?.some(
-	// 	w => w.data && w.data.type === 'stops' && w.data.stop_id === stopsDetailContext.data.stop?.id,
-	// );
 
 	//
 	// B. Handle actions
@@ -42,18 +39,6 @@ export function StopDetailHeader() {
 			console.error({ message: 'Error: ' + error });
 		}
 	};
-
-	// const handleCreateWidgetStop = () => {
-	// 	if (!stopsDetailContext.data.stop) return;
-	// 	try {
-	// 		const patternGroup = stopsDetailContext.data.active_pattern_group;
-	// 		const patternIds = patternGroup ? [patternGroup.id] : [];
-	// 		profileContext.actions.createWidget({ pattern_ids: patternIds, stopId: stopsDetailContext.data.stop.id, type: 'stops' });
-	// 	}
-	// 	catch (error) {
-	// 		console.error({ message: 'Error: ' + error });
-	// 	}
-	// };
 
 	//
 	// C. Render components
@@ -72,12 +57,6 @@ export function StopDetailHeader() {
 						</View>
 						<View style={stopDetailsHeader.actionsWrapper}>
 							<FavoriteToggle color={theming.colorBrand} isActive={stopsDetailContext.flags.is_favorite} onToggle={handleToggleFavorite} />
-							{/* <IconHomePlus
-								color={isInWidgets ? theming.colorBrand : '#9696A0'}
-								disabled={!stopsDetailContext.data.stop}
-								onPress={handleCreateWidgetStop}
-								size={24}
-							/> */}
 							<StopDisplayTts stopId={stopsDetailContext.data.stop.id} />
 						</View>
 					</View>
