@@ -17,13 +17,14 @@ import { styles } from './styles';
 
 interface Props {
 	description?: boolean
+	descriptionEnabled?: boolean
 	href?: string
 	patternIds?: string[]
 	title?: boolean
 }
 
 /* * */
-export default function StopDetailNextArrivalsByPatternID({ description, href, patternIds, title }: Props) {
+export default function StopDetailNextArrivalsByPatternID({ description, descriptionEnabled, href, patternIds, title }: Props) {
 	//
 
 	//
@@ -150,7 +151,7 @@ export default function StopDetailNextArrivalsByPatternID({ description, href, p
 				</ListItem>
 			)}
 
-			<Text style={stopDetailNextArrivals.upcomingCirculationsDescription}>{description ? description : t('description') }</Text>
+			{descriptionEnabled && <Text style={stopDetailNextArrivals.upcomingCirculationsDescription}>{description ? description : t('description') }</Text>}
 		</View>
 	);
 

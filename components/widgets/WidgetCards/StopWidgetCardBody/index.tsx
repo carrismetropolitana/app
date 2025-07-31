@@ -42,7 +42,7 @@ export function StopWidgetCardBody({ patternIds, stopId }: Props) {
 	return (
 		<View>
 			{ stopId && (
-				<StopDetailNextArrivalsByPatternID key={stopId} href={`/stop/${stopId}`} patternIds={patternIds} />
+				<StopDetailNextArrivalsByPatternID key={stopId} descriptionEnabled={false} href={`/stop/${stopId}`} patternIds={patternIds} />
 			)}
 		</View>
 	);

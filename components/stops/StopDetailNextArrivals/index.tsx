@@ -21,12 +21,13 @@ import { styles } from './styles';
 
 interface Props {
 	description?: string
+	descriptionEnabled?: boolean
 	href?: string
 	title?: string
 }
 
 /* * */
-export default function StopDetailNextArrivals({ description, href, title }: Props) {
+export default function StopDetailNextArrivals({ description, descriptionEnabled, href, title }: Props) {
 	//
 
 	//
@@ -174,7 +175,7 @@ export default function StopDetailNextArrivals({ description, href, title }: Pro
 				)}
 
 			</>
-			<Text style={stopDetailNextArrivals.upcomingCirculationsDescription}>{description ? description : t('description') }</Text>
+			{descriptionEnabled && <Text style={stopDetailNextArrivals.upcomingCirculationsDescription}>{description ? description : t('description') }</Text>}
 		</View>
 	);
 
