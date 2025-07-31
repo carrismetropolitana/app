@@ -70,7 +70,6 @@ export default function AddFavoriteStopScreen() {
 	useEffect(() => {
 		if (widgetId) {
 			const stopsWidgets = profileContext.data.profile?.widgets?.filter(w => w.data.type === 'stops') || [];
-			console.log(stopsWidgets, 'stops');
 			const widget = stopsWidgets.find(w => w.settings?.display_order === Number(widgetId));
 			if (widget && widget.data.type === 'stops') {
 				const stopData = stopsContext.actions.getStopById(widget.data.stop_id);
@@ -221,7 +220,7 @@ export default function AddFavoriteStopScreen() {
 					)}
 				</View>
 			</View>
-			<WidgetActionsButtonGroup dataToSubmit={{ data: { pattern_ids: selectedStopPatterns, stop_id: selectedStopId, type: 'stops' }, settings: { is_open: true } }} length={selectedStopPatterns.length} onClear={clearSelection}type="stops" />
+			<WidgetActionsButtonGroup dataToSubmit={{ data: { pattern_ids: selectedStopPatterns, stop_id: selectedStopId, type: 'stops' }, settings: { is_open: true } }} isUpdate={widgetId} length={selectedStopPatterns.length} onClear={clearSelection}type="stops" />
 			<StopsListChooserModal isVisible={stopChooserVisibility} onBackdropPress={() => setStopChooserVisibility(!stopChooserVisibility)} selectedStopData={stopData => handleSelectedStop(stopData)} />
 		</ScrollView>
 	);

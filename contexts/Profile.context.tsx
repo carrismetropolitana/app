@@ -56,7 +56,7 @@ interface ProfileContextState {
 		setSelectedLine: (line: string) => void
 		toggleFavoriteItem: (type: 'lines' | 'stops', id: string) => Promise<void>
 		updateLocalProfile: (profile: Account) => Promise<void>
-		updateWidget: (id: string) => Promise<void>
+		updateWidget: (id: string, newWidgetData: AccountWidget) => Promise<void>
 	}
 	counters: {
 		favorite_lines: number
@@ -372,8 +372,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	};
 	// Fetch profile from cloud
 	const getProfileFromCloud = async () => {
-		if (!consentContext.data.enabled_functional && !dataApiTokenState) return;
-		const response = await fetch(`${Routes.API_ACCOUNTS}`, { headers: { 'Content-Type': 'application/json', 'Cookie': `session_token=${dataApiTokenState}` } });
+		if (!consentContext.data.enabled_functional && !dataProfileState?.devices[0].device_id) return;
+		const response = await fetch(`${Routes.API_ACCOUNTS}`, { headers: { 'Authorization': `Bearer ${dataProfileState?.devices[0].device_id}`, 'Content-Type': 'application/json' } });
 		if (!response.ok) {
 			alert('Failed to fetch profile from cloud. Please try again later.');
 			console.error('Failed to fetch profile from cloud:', response);
@@ -407,14 +407,14 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	};
 	// Update profile on cloud
 	const updateProfileOnCloud = async (profile: Account) => {
-		if (!consentContext.data.enabled_functional || !dataApiTokenState) return;
+		if (!consentContext.data.enabled_functional || !dataProfileState?.devices[0].device_id) return;
 		const { _id, created_at, role, updated_at, ...cleanedProfile } = profile;
 		try {
 			await fetch(`${Routes.API_ACCOUNTS}`, {
 				body: JSON.stringify(cleanedProfile),
 				headers: {
+					'Authorization': `Bearer ${dataProfileState?.devices[0].device_id}`,
 					'Content-Type': 'application/json',
-					'Cookie': `session_token=${dataApiTokenState}`,
 				},
 				method: 'PUT',
 			});
@@ -561,17 +561,13 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				const smartNotificationWidgets = allWidgets.filter(
 					w => w.data && w.data.type === 'smart_notifications',
 				);
-
 				const otherWidgets = allWidgets.filter(
 					w => !w.data || w.data.type !== 'smart_notifications',
 				);
 				const updatedSmartWidgets = [...smartNotificationWidgets];
 				const user_id = dataProfileState?.devices[0].device_id || '';
-				const defaultWeekDays = [
-					'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
-				] as const;
+				const defaultWeekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const;
 				const validWeekDays = (Array.isArray(params.week_days) && params.week_days.length > 0 ? params.week_days : defaultWeekDays) as any;
-				console.log('stopid, pattern', params.stop_id, params.pattern_id);
 				const newWidgetSmartNotification: AccountWidget = {
 					data: {
 						distance: params.radius || 0,
@@ -586,30 +582,25 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 					},
 					settings: { display_order: otherWidgets.length + smartNotificationWidgets.length + 1, is_open: true },
 				};
-				console.log('newWidgetSmartNotification', newWidgetSmartNotification);
 				updatedSmartWidgets.push(newWidgetSmartNotification);
-				if (dataApiTokenState) {
-					try {
-						const postResponse = await postSmartNotificationToCloud(newWidgetSmartNotification);
-						if (!postResponse || !postResponse.widgets) {
-							alert('Failed to create smart notification. Please try again.');
-							return;
-						}
-						await messagingLib().subscribeToTopic(id);
-						await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(postResponse) || '');
-						await updateProfileOnCloud(postResponse);
-						setDataProfileState(postResponse);
-						setDataWidgetSmartNotificationsState(updatedSmartWidgets);
-					}
-					catch (error) {
-						console.error('Error subscribing to topic or updating profile:', error);
-						alert('An error occurred while subscribing to smart notification.');
-						return;
-					}
+				const mergedWidgets = [...otherWidgets, ...updatedSmartWidgets];
+				const updatedProfile: Account = {
+					...(dataProfileState as Account || {}),
+					widgets: mergedWidgets,
+				};
+				try {
+					await localStorage.setItem(
+						LOCAL_STORAGE_KEYS.profile,
+						JSON.stringify(updatedProfile) || '',
+					);
+					await updateProfileOnCloud(updatedProfile);
+					setDataWidgetSmartNotificationsState(updatedSmartWidgets);
+					setDataProfileState(updatedProfile);
+					await messagingLib().subscribeToTopic(id);
 				}
-				else {
-					alert('No API token available. Please try again.');
-					return;
+				catch (error) {
+					console.error('Error updating smart notification widgets:', error);
+					alert('An error occurred while updating smart notification widgets. Please try again.');
 				}
 			}
 		}
@@ -617,36 +608,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			console.error('Error toggling widget:', error);
 			alert('An error occurred while updating widgets. Please try again.');
 		}
-	};
-	// Post smart notification to cloud with error and response handling
-	const postSmartNotificationToCloud = async (notification: AccountWidget) => {
-		if (!consentContext.data.enabled_functional || !dataApiTokenState) return;
-		try {
-			console.log('dataapi token state', dataApiTokenState);
-			const response = await fetch(`${Routes.API_ACCOUNTS}/smart-notifications`, {
-				body: JSON.stringify(notification),
-				headers: {
-					'Content-Type': 'application/json',
-					'Cookie': `session_token=${dataApiTokenState}`,
-				},
-				method: 'POST',
-			});
-			if (!response.ok) {
-				const errorText = await response.text();
-				console.error('Failed to post smart notification to cloud:', response.status, errorText);
-				alert('Failed to post smart notification to the cloud. Please try again.');
-				return;
-			}
-			const data = await response.json();
-			if (data && typeof data === 'object' && data.widgets) {
-				return data;
-			}
-		}
-		catch (error) {
-			console.error('Error posting smart notification to cloud:', error);
-			alert('An error occurred while posting smart notification to the cloud.');
-		}
-		return;
 	};
 	// Delete any widget by display order
 	const deleteWidgetByDisplayOrder = async (displayOrder: number) => {
@@ -664,8 +625,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				notificationContext.actions.unsubscribeFromTopic(removedWidget.data.id);
 			}
 		}
-
-		console.log('newList', newList);
 
 		const orderedWidgets = newList.map((widget, idx) => ({
 			...widget,
@@ -717,7 +676,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 		const apiResponse = await fetch(`${Routes.API_ACCOUNTS}`, {
 			body: JSON.stringify(newProfileStructure),
-			headers: { 'Content-Type': 'application/json' },
+			headers: { 'Authorization': `Bearer ${dataProfileState?.devices[0].device_id}`, 'Content-Type': 'application/json' },
 			method: 'POST',
 		}).then(res => res.json());
 
@@ -736,36 +695,53 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		else { console.log('Profile exists.'); }
 	};
 	// Update Widget by ID
-	const updateWidget = async (id: string) => {
+	const updateWidget = async (id: string, newWidgetData: AccountWidget) => {
 		if (!consentContext.data.enabled_functional) return;
 		const currentProfile = dataProfileState;
 		if (!currentProfile) return;
 
+		console.log(' ====>>>> handling widget update', id, newWidgetData);
+
 		const updatedWidgets = (currentProfile.widgets || []).map((existingWidget) => {
+			// Update smart_notifications by id
 			if (existingWidget.data?.type === 'smart_notifications' && existingWidget.data.id === id) {
 				return {
 					...existingWidget,
+					data: {
+						...existingWidget.data,
+						...newWidgetData.data,
+					},
 					settings: {
 						...existingWidget.settings,
-						is_open: !existingWidget.settings?.is_open,
+						...newWidgetData.settings,
 					},
 				};
 			}
+			// Update lines by pattern_id
 			if (existingWidget.data?.type === 'lines' && existingWidget.data.pattern_id === id) {
 				return {
 					...existingWidget,
+					data: {
+						...existingWidget.data,
+						...newWidgetData.data,
+					},
 					settings: {
 						...existingWidget.settings,
-						is_open: !existingWidget.settings?.is_open,
+						...newWidgetData.settings,
 					},
 				};
 			}
+			// Update stops by stop_id
 			if (existingWidget.data?.type === 'stops' && existingWidget.data.stop_id === id) {
 				return {
 					...existingWidget,
+					data: {
+						...existingWidget.data,
+						...newWidgetData.data,
+					},
 					settings: {
 						...existingWidget.settings,
-						is_open: !existingWidget.settings?.is_open,
+						...newWidgetData.settings,
 					},
 				};
 			}

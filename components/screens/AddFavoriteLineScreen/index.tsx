@@ -242,6 +242,7 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 			/>
 			<WidgetActionsButtonGroup
 				dataToSubmit={{ data: { pattern_id: selectedPatterns[0], type: 'lines' }, settings: { is_open: true } }}
+				isUpdate={widgetId}
 				length={selectedPatterns.length}
 				onClear={clearScreen}
 				type="lines"

@@ -12,13 +12,14 @@ import styles from './styles';
 
 interface Props {
 	dataToSubmit?: AccountWidget
+	isUpdate?: string
 	length?: number
 	onClear?: () => void
 	type?: 'lines' | 'smart-notifications' | 'stops'
 
 }
 
-export const WidgetActionsButtonGroup = ({ dataToSubmit, length, onClear, type }: Props) => {
+export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onClear, type }: Props) => {
 	//
 
 	//
@@ -34,37 +35,46 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, length, onClear, type }
 
 	const handleSave = async () => {
 		if (dataToSubmit) {
-			switch (type) {
-				case 'lines':
-					if ('pattern_id' in dataToSubmit.data) {
-						await profileContext.actions.createWidget({ pattern_ids: [dataToSubmit.data.pattern_id], type: 'lines' });
-					}
-					break;
-				case 'smart-notifications':
-					if ('pattern_id' in dataToSubmit.data && 'week_days' in dataToSubmit.data) {
-						await profileContext.actions.createWidget({
-							end_time: dataToSubmit.data.end_time || 0,
-							pattern_id: dataToSubmit.data.pattern_id,
-							radius: dataToSubmit.data.distance || 0,
-							start_time: dataToSubmit.data.start_time || 0,
-							stop_id: dataToSubmit.data.stop_id || '',
-							type: 'smart_notifications',
-							week_days: dataToSubmit.data.week_days || [],
-						});
-					}
-					break;
-				case 'stops':
-					if ('data' in dataToSubmit && 'pattern_ids' in dataToSubmit.data && 'stop_id' in dataToSubmit.data) {
-						await profileContext.actions.createWidget({ pattern_ids: dataToSubmit.data.pattern_ids, stopId: dataToSubmit.data.stop_id, type: 'stops' });
-					}
-					break;
-				default:
-					alert('Unknown widget type: ' + type);
-					break;
+			if (isUpdate) {
+				console.log('is update 🧩', isUpdate);
+				console.log('new data 🧩', JSON.stringify(dataToSubmit));
+
+				await profileContext.actions.updateWidget(isUpdate, dataToSubmit);
+			}
+			else {
+				switch (type) {
+					case 'lines':
+						if ('pattern_id' in dataToSubmit.data) {
+							await profileContext.actions.createWidget({ pattern_ids: [dataToSubmit.data.pattern_id], type: 'lines' });
+						}
+						break;
+					case 'smart-notifications':
+						if ('pattern_id' in dataToSubmit.data && 'week_days' in dataToSubmit.data) {
+							await profileContext.actions.createWidget({
+								end_time: dataToSubmit.data.end_time || 0,
+								pattern_id: dataToSubmit.data.pattern_id,
+								radius: dataToSubmit.data.distance || 0,
+								start_time: dataToSubmit.data.start_time || 0,
+								stop_id: dataToSubmit.data.stop_id || '',
+								type: 'smart_notifications',
+								week_days: dataToSubmit.data.week_days || [],
+							});
+						}
+						break;
+					case 'stops':
+						if ('data' in dataToSubmit && 'pattern_ids' in dataToSubmit.data && 'stop_id' in dataToSubmit.data) {
+							await profileContext.actions.createWidget({ pattern_ids: dataToSubmit.data.pattern_ids, stopId: dataToSubmit.data.stop_id, type: 'stops' });
+						}
+						break;
+					default:
+						alert('Unknown widget type: ' + type);
+						break;
+				}
 			}
 		}
 		if (onClear) onClear();
 	};
+
 	const handleCancel = () => {
 		alert('No changes made ');
 		if (onClear) onClear();

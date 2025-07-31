@@ -291,6 +291,7 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 			<TestingNeedWarning />
 
 			<WidgetActionsButtonGroup
+				isUpdate={Id}
 				length={selectedStopId ? 1 : 0}
 				onClear={() => exitScreen()}
 				type="smart-notifications"
