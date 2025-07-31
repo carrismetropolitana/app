@@ -36,7 +36,6 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onCle
 	const handleSave = async () => {
 		if (dataToSubmit) {
 			if (isUpdate) {
-				console.log('new data 🧩', JSON.stringify(dataToSubmit));
 				await profileContext.actions.updateWidget(isUpdate, dataToSubmit);
 			}
 			else {

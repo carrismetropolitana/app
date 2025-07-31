@@ -64,7 +64,6 @@ export default function AddFavoriteStopScreen() {
 
 	useEffect(() => {
 		if (widgetId) {
-			console.log(widgetId);
 			const stopsWidgets = profileContext.data.profile?.widgets?.filter(w => w.data.type === 'stops') || [];
 			const widget = stopsWidgets.find(w => w.settings?.display_order === Number(widgetId));
 			if (widget && widget.data.type === 'stops') {
@@ -123,7 +122,6 @@ export default function AddFavoriteStopScreen() {
 	}, [selectedStop]);
 
 	useEffect(() => {
-		console.log('changing data', selectedStopId, selectedStopPatterns);
 		setDataToSubmit({ data: { pattern_ids: selectedStopPatterns, stop_id: selectedStopId, type: 'stops' }, settings: { is_open: true } });
 	}, [selectedStopId, selectedStopPatterns]);
 	//
