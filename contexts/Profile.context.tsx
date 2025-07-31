@@ -718,7 +718,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				};
 			}
 			// Update lines by pattern_id
-			if (existingWidget.data?.type === 'lines' && existingWidget.data.pattern_id === id) {
+			if (existingWidget.data?.type === 'lines' && existingWidget.settings.display_order?.toString() === id) {
 				return {
 					...existingWidget,
 					data: {
@@ -732,7 +732,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				};
 			}
 			// Update stops by stop_id
-			if (existingWidget.data?.type === 'stops' && existingWidget.data.stop_id === id) {
+			if (existingWidget.data?.type === 'stops' && existingWidget.settings.display_order?.toString() === id) {
 				return {
 					...existingWidget,
 					data: {

@@ -10,6 +10,7 @@ import { useProfileContext } from '@/contexts/Profile.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
+import { AccountWidget } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
 import { Pattern, Stop } from '@carrismetropolitana/api-types/network';
 import { ListItem, Text } from '@rn-vui/themed';
@@ -35,9 +36,9 @@ export default function AddFavoriteStopScreen() {
 	const [selectedStop, setSelectedStop] = useState<Stop | undefined>(undefined);
 	const [selectedStopId, setSelectedStopId] = useState<string>('');
 	const [patternNames, setPatternNames] = useState<Record<string, string>>({});
+	const [dataToSubmit, setDataToSubmit] = useState<AccountWidget | undefined>(undefined);
 	const { widgetId } = useLocalSearchParams<{ widgetId?: string }>();
 
-	const isLight = useThemeContext().theme.mode === 'light';
 	const themeContext = useThemeContext();
 	const profileContext = useProfileContext();
 	const linesContext = useLinesContext();
@@ -45,21 +46,15 @@ export default function AddFavoriteStopScreen() {
 
 	const addFavoriteStopStyles = styles();
 	const navigation = useNavigation();
-
-	const backgroundColor = isLight ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200;
 	const { t } = useTranslation('translation', { keyPrefix: 'addfavoritestop' });
 
 	//
 	// B. Handle Actions
 
-	useEffect(() => {
-		navigation.setOptions({
-			headerStyle: { backgroundColor: backgroundColor },
-			headerTitle: 'Paragem Favorita',
-		});
-	}, [navigation]);
-
 	const handleSelectedStop = (stopData: Stop) => {
+		setSelectedStopPatterns([]);
+		setSelectedStopId('');
+		setSelectedStop(undefined);
 		setSelectedStopId(stopData.id);
 		setSelectedStop(stopData);
 		const favoriteStopWidget = profileContext.data.widget_stops?.find(widget => widget.data && widget.data.type === 'stops' && widget.data.stop_id === stopData.id);
@@ -69,6 +64,7 @@ export default function AddFavoriteStopScreen() {
 
 	useEffect(() => {
 		if (widgetId) {
+			console.log(widgetId);
 			const stopsWidgets = profileContext.data.profile?.widgets?.filter(w => w.data.type === 'stops') || [];
 			const widget = stopsWidgets.find(w => w.settings?.display_order === Number(widgetId));
 			if (widget && widget.data.type === 'stops') {
@@ -84,6 +80,14 @@ export default function AddFavoriteStopScreen() {
 		setSelectedStopPatterns([]);
 		setSelectedStopId('');
 		setPatternNames({});
+	};
+
+	const exitScreen = () => {
+		setSelectedStop(undefined);
+		setSelectedStopPatterns([]);
+		setSelectedStopId('');
+		setPatternNames({});
+		navigation.goBack();
 	};
 
 	//
@@ -118,6 +122,10 @@ export default function AddFavoriteStopScreen() {
 		fetchPatterns();
 	}, [selectedStop]);
 
+	useEffect(() => {
+		console.log('changing data', selectedStopId, selectedStopPatterns);
+		setDataToSubmit({ data: { pattern_ids: selectedStopPatterns, stop_id: selectedStopId, type: 'stops' }, settings: { is_open: true } });
+	}, [selectedStopId, selectedStopPatterns]);
 	//
 	// D. Render Components
 
@@ -220,7 +228,7 @@ export default function AddFavoriteStopScreen() {
 					)}
 				</View>
 			</View>
-			<WidgetActionsButtonGroup dataToSubmit={{ data: { pattern_ids: selectedStopPatterns, stop_id: selectedStopId, type: 'stops' }, settings: { is_open: true } }} isUpdate={widgetId} length={selectedStopPatterns.length} onClear={clearSelection}type="stops" />
+			<WidgetActionsButtonGroup dataToSubmit={dataToSubmit} isUpdate={widgetId} length={selectedStopPatterns.length} onClear={exitScreen} type="stops" />
 			<StopsListChooserModal isVisible={stopChooserVisibility} onBackdropPress={() => setStopChooserVisibility(!stopChooserVisibility)} selectedStopData={stopData => handleSelectedStop(stopData)} />
 		</ScrollView>
 	);

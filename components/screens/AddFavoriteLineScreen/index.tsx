@@ -10,6 +10,7 @@ import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
+import { AccountWidget } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
 import { Pattern } from '@carrismetropolitana/api-types/network';
 import { ListItem, Text } from '@rn-vui/themed';
@@ -38,6 +39,7 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 	const [lineChooserVisibility, setLineChooserVisibility] = useState(false);
 	const [patternNames, setPatternNames] = useState<Record<string, string>>({});
 	const [selectedPatterns, setSelectedPatterns] = useState<string[]>([]);
+	const [dataToSubmit, setDataToSubmit] = useState<AccountWidget | undefined>(undefined);
 	// const [isToggled, setIsToggled] = useState(false);
 
 	const { widgetId } = useLocalSearchParams<{ widgetId?: string }>();
@@ -95,6 +97,13 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 		fetchPatterns();
 	}, [linesDetailContext.data.line?.pattern_ids]);
 
+	useEffect(() => {
+		setDataToSubmit({
+			data: { pattern_id: selectedPatterns[0], type: 'lines' as const },
+			settings: { is_open: true },
+		});
+	}, [selectedPatterns]);
+
 	//
 	// C. Handle actions
 
@@ -105,6 +114,7 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 	};
 
 	function togglePattern(patternId: string) {
+		setSelectedPatterns([]);
 		setSelectedPatterns(prev =>
 			prev.includes(patternId)
 				? prev.filter(id => id !== patternId)
@@ -113,25 +123,20 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 	}
 
 	useEffect(() => {
-		if (widgetId && profileContext.data.widget_lines) {
-			const widget = profileContext.data.widget_lines.find(
+		if (widgetId) {
+			const widget = profileContext.data.profile?.widgets?.find(
 				w => w.data && w.data.type === 'lines' && String(w.settings?.display_order) === String(widgetId),
 			);
-			console.log('widget', widget);
+
 			if (widget && widget.data.type === 'lines') {
-				console.log('setting id', widget.data.pattern_id.split('_')[0].toString());
-				linesDetailContext.actions.setLineId(widget?.data.pattern_id.split('_')[0].toString() || '');
+				linesDetailContext.actions.setLineId(widget?.data.pattern_id.split('_')[0] || '');
 			}
 
 			if (widget && widget.data.type === 'lines') {
-				console.log('setting patterns', widget.data.pattern_id);
 				setSelectedPatterns([widget.data.pattern_id]);
 			}
 		}
-	}, [widgetId, profileContext.data.widget_lines]);
-
-	// const handleToggle = () => setIsToggled(true);
-	// const handleUntoggle = () => setIsToggled(false);
+	}, [widgetId, profileContext.data.profile?.widgets]);
 
 	//
 	// D. Render Components
@@ -235,13 +240,9 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 				heading={t('thirdSectionTitle')}
 				patternId={selectedPatterns[0]}
 				subheading={t('thirdSectionSubtitle')}
-				// toggle={handleToggle}
-				// toggled={isToggled}
-				// untoggle={handleUntoggle}
-				// isToggle
 			/>
 			<WidgetActionsButtonGroup
-				dataToSubmit={{ data: { pattern_id: selectedPatterns[0], type: 'lines' }, settings: { is_open: true } }}
+				dataToSubmit={dataToSubmit}
 				isUpdate={widgetId}
 				length={selectedPatterns.length}
 				onClear={clearScreen}

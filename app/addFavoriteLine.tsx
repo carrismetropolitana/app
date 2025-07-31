@@ -23,6 +23,7 @@ export default function AddFavoriteLine() {
 	const lineID = typeof params.lineId === 'string' ? params.lineId : Array.isArray(params.lineId) ? params.lineId[0] : undefined;
 	const { t } = useTranslation('translation', { keyPrefix: 'addfavoriteline' });
 
+
 	useEffect(() => {
 		navigation.setOptions({
 			headerBackTitle: t('headerTitle'),
