@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* * */
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
@@ -82,7 +83,6 @@ export default function StopDetailNextArrivals({ description, href, title }: Pro
 	if (!arrivalsToShow.length) {
 		return (
 			<View style={stopDetailNextArrivals.sectionWrapper}>
-				{/* <Text style={stopDetailNextArrivals.sectionHeading}>{t('heading')}</Text> */}
 				<NoDataLabel text={t('end_of_day')} />
 				<Text style={stopDetailNextArrivals.upcomingCirculationsDescription}>{t('description')}</Text>
 			</View>
@@ -103,9 +103,6 @@ export default function StopDetailNextArrivals({ description, href, title }: Pro
 								<View style={{ flex: 1 }} />
 								{formatted && status === 'realtime' ? (
 									<View style={stopDetailNextArrivals.rippleContainer}>
-										{/* <View style={stopDetailNextArrivals.ripple}>
-											<View style={stopDetailNextArrivals.dot} />
-										</View> */}
 										<LiveIcon />
 										<Text style={stopDetailNextArrivals.arrival}>{formatted.label}</Text>
 									</View>
@@ -168,20 +165,16 @@ export default function StopDetailNextArrivals({ description, href, title }: Pro
 							)}
 							{!href && (
 								<Text style={stopDetailNextArrivals.see_more}>
-									{!showAll
-										? t('NextArrivals.see_more')
-										: t('NextArrivals.see_less')}
+									{!showAll ? t('NextArrivals.see_more') : t('NextArrivals.see_less')}
 								</Text>
 							)}
 						</ListItem.Content>
-						<ListItem.Chevron iconStyle={{ fontSize: 24 }}/>
+						<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
 					</ListItem>
 				)}
 
 			</>
-			{description && (
-				<Text style={stopDetailNextArrivals.upcomingCirculationsDescription}>{description}</Text>
-			)}
+			<Text style={stopDetailNextArrivals.upcomingCirculationsDescription}>{description ? description : t('description') }</Text>
 		</View>
 	);
 

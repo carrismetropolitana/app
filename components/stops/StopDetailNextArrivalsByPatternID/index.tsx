@@ -142,9 +142,7 @@ export default function StopDetailNextArrivalsByPatternID({ description, href, p
 						)}
 						{!href && (
 							<Text style={stopDetailNextArrivals.see_more}>
-								{!showAll
-									? t('NextArrivals.see_more')
-									: t('NextArrivals.see_less')}
+								{!showAll ? t('NextArrivals.see_more') : t('NextArrivals.see_less')}
 							</Text>
 						)}
 					</ListItem.Content>
@@ -152,7 +150,7 @@ export default function StopDetailNextArrivalsByPatternID({ description, href, p
 				</ListItem>
 			)}
 
-			{description && <Text style={stopDetailNextArrivals.upcomingCirculationsDescription}>{t('description')}</Text>}
+			<Text style={stopDetailNextArrivals.upcomingCirculationsDescription}>{description ? description : t('description') }</Text>
 		</View>
 	);
 
