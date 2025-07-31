@@ -178,7 +178,7 @@ export function MapView({ camera, children, fitBoundsCoords, mapStyle, onPress, 
 				{children}
 			</RNMapView>
 
-			<TouchableOpacity activeOpacity={0.7} onPress={() => setModalVisible(true)} style={styles.customInfoButton}>
+			<TouchableOpacity onPress={() => setModalVisible(true)} style={styles.customInfoButton}>
 				<Text style={styles.infoIcon}> <IconInfoCircle color={theming.colorSystemText300} size={24} /> </Text>
 			</TouchableOpacity>
 
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
 		shadowRadius: 2,
 		width: 32,
 	},
-	infoIcon: { color: '#333', fontSize: 18 },
+	infoIcon: { color: '#333', top: 1.5 },
 	map: { flex: 1 },
 	modalBody: { fontSize: 14, marginBottom: 12, textAlign: 'center' },
 	modalButton: {
