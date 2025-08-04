@@ -1,25 +1,29 @@
 /* * */
 
-import type { Stop } from '@carrismetropolitana/api-types/network';
+import type { Pattern, Stop } from '@carrismetropolitana/api-types/network';
+import type { Feature, FeatureCollection, GeoJsonProperties, LineString, Point } from 'geojson';
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import StopSearchBar from '@/components/common/StopSearchBar';
 import { MapStyle, MapView } from '@/components/map/MapView';
+import { MapViewStylePath } from '@/components/map/MapViewStylePath';
 import { MapViewStyleStops } from '@/components/map/MapViewStyleStops';
 import StopDetailNextArrivals from '@/components/stops/StopDetailNextArrivals';
 import { useLocationsContext } from '@/contexts/Locations.context';
 import { useMapOptionsContext } from '@/contexts/MapOptions.context';
+import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { useStopsListContext } from '@/contexts/StopsList.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
+import { Routes } from '@/utils/routes';
 import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { PointAnnotation } from '@maplibre/maplibre-react-native';
 import { ListItem, Text } from '@rn-vui/themed';
 import { router } from 'expo-router';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -40,6 +44,7 @@ export default function StopsScreen() {
 	const stopDetailContext = useStopsDetailContext();
 	const locationsContext = useLocationsContext();
 	const mapOptionsContext = useMapOptionsContext();
+	const operationalDayContext = useOperationalDayContext();
 	const themeContext = useThemeContext();
 	const insets = useSafeAreaInsets();
 	const stopMapDetailStyles = styles();
@@ -47,12 +52,36 @@ export default function StopsScreen() {
 	const [selectedStop, setSelectedStop] = useState<string>('');
 	const [flaggedStopId, setFlaggedStopId] = useState<null | string>(null);
 	const [stopData, setStopData] = useState<Stop | undefined>(undefined);
+	const [lineShapes, setLineShapes] = useState<FeatureCollection<LineString> | undefined>(undefined);
+	const [isStopSelected, setIsStopSelected] = useState(false);
 	const [cameraState, setCameraState] = useState<{ center: [number, number], zoom: number }>(() => {
 		const camera = locationsContext.data.currentCords;
 		return camera ? { center: [camera.longitude, camera.latitude], zoom: 16 } : { center: [0, 0], zoom: 16 };
 	});
 	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-	const stops = stopsListContext.data.filtered_fc || getBaseGeoJsonFeatureCollection();
+	const stops = useMemo(() => {
+		if (isStopSelected && stopData) {
+			const selectedStopFeature: Feature<Point> = {
+				geometry: {
+					coordinates: [stopData.lon, stopData.lat],
+					type: 'Point',
+				},
+				properties: {
+					id: stopData.id,
+					long_name: stopData.long_name,
+					short_name: stopData.short_name,
+					tts_name: stopData.tts_name,
+				},
+				type: 'Feature',
+			};
+			const featureCollection: FeatureCollection<Point> = {
+				features: [selectedStopFeature],
+				type: 'FeatureCollection',
+			};
+			return featureCollection;
+		}
+		return stopsListContext.data.filtered_fc || getBaseGeoJsonFeatureCollection();
+	}, [isStopSelected, stopData, stopsListContext.data.filtered_fc]);
 	const { t } = useTranslation('translation', { keyPrefix: 'stops' });
 
 	//
@@ -66,13 +95,77 @@ export default function StopsScreen() {
 	}, [locationsContext.data.currentCords, initialCameraSet]);
 
 	useEffect(() => {
-		if (!selectedStop) return;
+		if (!selectedStop) {
+			setLineShapes(undefined);
+			setStopData(undefined);
+			return;
+		}
+
 		const stopData = stopsContext.actions.getStopById(selectedStop);
 		if (stopData) {
 			setStopData(stopData);
 			bottomSheetModalRef.current?.present();
+
+			const fetchShapes = async () => {
+				if (!stopData.pattern_ids) return;
+				const selected_date = operationalDayContext.data.selected_day;
+				if (!selected_date) return;
+
+				const uniquePatternIds = [...new Set(stopData.pattern_ids)];
+
+				const promises = uniquePatternIds.map(async (patternId): Promise<Feature<LineString, GeoJsonProperties> | null> => {
+					try {
+						const patternGroups: Pattern[] = await fetch(`${Routes.API}/patterns/${patternId}`).then(res => res.json());
+
+						let validPattern: Pattern | undefined;
+						for (const patternGroup of patternGroups) {
+							const closestDate = patternGroup.valid_on.reduce((acc, curr) => {
+								if (selected_date <= curr && (acc === '' || curr < acc)) return curr;
+								return acc;
+							}, '');
+							if (closestDate !== '') {
+								validPattern = patternGroup;
+								break;
+							}
+						}
+
+						if (!validPattern) {
+							if (patternGroups.length > 0) validPattern = patternGroups[0];
+							else return null;
+						}
+
+						const shape = await fetch(`${Routes.API}/shapes/${validPattern.shape_id}`).then(res => res.json());
+
+						if (shape && shape.geojson) {
+							return {
+								...shape.geojson,
+								properties: {
+									...shape.geojson.properties,
+									color: validPattern.color,
+									text_color: validPattern.text_color,
+								},
+							};
+						}
+						return null;
+					}
+					catch (e) {
+						console.error(e);
+						return null;
+					}
+				});
+
+				const shapeFeatures = (await Promise.all(promises)).filter((feature): feature is Feature<LineString> => feature !== null);
+
+				const allShapesFc: FeatureCollection<LineString> = {
+					features: shapeFeatures,
+					type: 'FeatureCollection',
+				};
+				setLineShapes(allShapesFc);
+			};
+
+			fetchShapes();
 		}
-	}, [selectedStop]);
+	}, [selectedStop, operationalDayContext.data.selected_day]);
 
 	//
 	// C. Handle Actions
@@ -90,6 +183,7 @@ export default function StopsScreen() {
 		setSelectedStop(stopId);
 		setFlaggedStopId(stopId);
 		stopDetailContext.actions.setActiveStopId(stopId);
+		setIsStopSelected(true);
 		handleCenterStop(stop);
 		bottomSheetModalRef.current?.present();
 	};
@@ -102,6 +196,8 @@ export default function StopsScreen() {
 		setStopData(undefined);
 		stopDetailContext.actions.resetActiveStopId();
 		stopDetailContext.actions.setActiveStopId('');
+		setLineShapes(undefined);
+		setIsStopSelected(false);
 		handleCenterUser();
 	};
 
@@ -119,20 +215,18 @@ export default function StopsScreen() {
 				scrollZoom
 				toolbar
 			>
+				<MapViewStylePath shapeData={lineShapes} waypointsData={getBaseGeoJsonFeatureCollection()} />
 				{stops && (
 					<MapViewStyleStops flaggedStopId={flaggedStopId || undefined} onStopPress={handleStopPress} stopsData={stops} />
 				)}
 				{locationsContext.data.currentCords && (
-					<PointAnnotation
-						coordinate={[locationsContext.data.currentCords.longitude, locationsContext.data.currentCords.latitude]}
-						id="userLocation"
-					>
+					<PointAnnotation coordinate={[locationsContext.data.currentCords.longitude, locationsContext.data.currentCords.latitude]} id="userLocation">
 						<View style={{ backgroundColor: '#007AFF', borderColor: 'white', borderRadius: 12, borderWidth: 1, height: 12, width: 12 }} />
 					</PointAnnotation>
 				)}
 			</MapView>
 			<View style={{ left: 0, paddingTop: insets.top + 10, position: 'absolute', right: 0, top: 0, zIndex: 1000 }}>
-				<StopSearchBar counter={false} />
+				<StopSearchBar counter={false} disabled={isStopSelected} />
 			</View>
 			<BottomSheetModal
 				ref={bottomSheetModalRef}

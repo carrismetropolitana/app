@@ -17,11 +17,12 @@ import Counter from '../Counter';
 
 interface Props {
 	counter?: boolean
+	disabled?: boolean
 }
 
 /* * */
 
-export default function StopSearchBar({ counter = true }: Props) {
+export default function StopSearchBar({ counter = true, disabled = false }: Props) {
 	//
 
 	//
@@ -46,6 +47,7 @@ export default function StopSearchBar({ counter = true }: Props) {
 			<Input
 				clearButtonMode="always"
 				containerStyle={{ borderRadius: 30 }}
+				disabled={disabled}
 				inputContainerStyle={{ bottom: 7, height: 50, left: 15 }}
 				leftIcon={<IconSearch color={fontColor} size={22} />}
 				placeholder={t('placeholder')}
