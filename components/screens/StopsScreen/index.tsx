@@ -226,7 +226,7 @@ export default function StopsScreen() {
 				)}
 			</MapView>
 			<View style={{ left: 0, paddingTop: insets.top + 10, position: 'absolute', right: 0, top: 0, zIndex: 1000 }}>
-				<StopSearchBar counter={false} disabled={isStopSelected} />
+				<StopSearchBar counter={false} disabled={isStopSelected} onPress={handleStopDeselect} />
 			</View>
 			<BottomSheetModal
 				ref={bottomSheetModalRef}

@@ -18,11 +18,12 @@ import Counter from '../Counter';
 interface Props {
 	counter?: boolean
 	disabled?: boolean
+	onPress?: () => void
 }
 
 /* * */
 
-export default function StopSearchBar({ counter = true, disabled = false }: Props) {
+export default function StopSearchBar({ counter = true, disabled = false, onPress }: Props) {
 	//
 
 	//
@@ -49,6 +50,7 @@ export default function StopSearchBar({ counter = true, disabled = false }: Prop
 				disabled={disabled}
 				inputContainerStyle={{ bottom: 7, height: 50, left: 15 }}
 				leftIcon={<IconSearch color={fontColor} size={22} />}
+				onPress={onPress}
 				placeholder={t('placeholder')}
 				placeholderTextColor={fontColor}
 				style={{ color: fontColor, fontSize: 18, fontWeight: theming.fontWeightSemibold as '600' }}
