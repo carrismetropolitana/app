@@ -110,7 +110,6 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7.25.2",
-		"@biomejs/biome": "1.9.4",
 		"@carrismetropolitana/api-types": "20250307.2229.14",
 		"@carrismetropolitana/eslint": "^20250418.42.41",
 		"@react-native-community/cli": "latest",
