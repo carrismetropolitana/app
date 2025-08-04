@@ -90,6 +90,17 @@ export default function ProfileEditScreen() {
 		}
 	};
 
+	const handlePhoneChange = (value: string) => {
+		const callingCode = country?.callingCode?.[0] ? `+${country.callingCode[0]}` : '';
+		if (value.startsWith(callingCode)) {
+			const numberPart = value.substring(callingCode.length).replace(/[^0-9]/g, '');
+			setPhone(callingCode + numberPart);
+		}
+		else {
+			setPhone(callingCode);
+		}
+	};
+
 	const verifyEmail = (email: string) => {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		return emailRegex.test(email);
@@ -204,22 +215,25 @@ export default function ProfileEditScreen() {
 						<ListItem.Title style={profileEditModalStyles.inputLabel}>
 							<Text>{t('dateOfBirthInputLabel')}</Text>
 						</ListItem.Title>
+						<Pressable onPress={() => setShowPicker(true)} style={{ width: '100%' }}>
+							<Input
+								containerStyle={profileEditModalStyles.inputContainer}
+								editable={false}
+								placeholder="Selecionar data"
+								pointerEvents="none"
+								value={birthDate ? DateTime.fromJSDate(new Date(Number(birthDate))).setLocale(localeContext.locale).toLocaleString(DateTime.DATE_MED).replace(/\bde\b/g, '') : ''}
+							/>
+						</Pressable>
 						<DateTimePickerModal
 							date={birthDate ? new Date(Number(birthDate)) : new Date()}
 							isVisible={showPicker}
 							locale={localeContext.locale}
 							mode="date"
 							onCancel={() => setShowPicker(false)}
-							onChange={date => handleBirthChange(date)}
-							onConfirm={() => setShowPicker(false)}
-							pickerStyleIOS={{ alignItems: 'center' }}
-						/>
-						<Input
-							containerStyle={profileEditModalStyles.inputContainer}
-							editable={false}
-							onPressIn={() => setShowPicker(true)}
-							placeholder="Selecionar data"
-							value={birthDate ? DateTime.fromJSDate(new Date(Number(birthDate))).setLocale(localeContext.locale).toLocaleString(DateTime.DATE_MED).replace(/\bde\b/g, '') : ''}
+							onConfirm={(date) => {
+								setShowPicker(false);
+								handleBirthChange(date);
+							}}
 						/>
 					</ListItem.Content>
 				</ListItem>
@@ -259,7 +273,7 @@ export default function ProfileEditScreen() {
 								errorMessage={!phoneValid && phone ? t('invalidNumber') : undefined}
 								keyboardType="phone-pad"
 								onBlur={() => phoneValid && handleProfileFieldBlur('phone', phone)}
-								onChangeText={value => setPhone(value.startsWith(country && country.callingCode[0] ? `+${country.callingCode[0]} ` : '') ? value : (country && country.callingCode[0] ? `+${country.callingCode[0]}` : '') + value.replace(/[^0-9]/g, ''))}
+								onChangeText={handlePhoneChange}
 								placeholder={country ? `+${country.callingCode[0]} 123456789` : 'Número de Telemóvel'}
 								value={phone}
 							/>
