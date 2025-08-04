@@ -13,7 +13,7 @@ import {
 } from '@react-native-firebase/messaging';
 import * as Notifications from 'expo-notifications';
 import React, { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
-import { PermissionsAndroid, Platform } from 'react-native';
+import { Platform } from 'react-native';
 
 interface NotificationsContextState {
 	actions: {
@@ -55,25 +55,19 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 	});
 
 	const askForPermissions = async (): Promise<null | string> => {
-		if (Platform.OS === 'ios') {
+		//
+		if (Platform.OS === 'android') {
 			const { status } = await Notifications.requestPermissionsAsync();
 			if (status !== 'granted') {
-				console.warn('🔒 iOS notification permission not granted');
+				console.warn('🔒 Android notification permission not granted');
 				return null;
 			}
 		}
 
-		if (Platform.OS === 'android' && Platform.Version >= 33) {
-			const granted = await PermissionsAndroid.request(
-				PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
-				{
-					buttonPositive: 'Permitir',
-					message: 'A Carris Metropolitana precisa de permissão para enviar notificações.',
-					title: 'Permissão de Notificações',
-				},
-			);
-			if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
-				console.warn('❌ Android notification permission not granted');
+		if (Platform.OS === 'ios') {
+			const { status } = await Notifications.requestPermissionsAsync();
+			if (status !== 'granted') {
+				console.warn('🔒 iOS notification permission not granted');
 				return null;
 			}
 		}
