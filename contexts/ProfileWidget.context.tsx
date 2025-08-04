@@ -7,7 +7,7 @@ import { Routes } from '@/utils/routes';
 import { Line } from '@carrismetropolitana/api-types/network';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import messagingLib from '@react-native-firebase/messaging';
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { ReactNode } from 'react';
 import { Platform } from 'react-native';
 import uuid from 'react-native-uuid';
@@ -21,12 +21,19 @@ const LOCAL_STORAGE_KEYS = {
 	accent_color: 'profile|accent_color',
 	cloud_profile: 'cloud_profile',
 	device_id: 'profile|device_id',
+	favorite_lines: 'profile|favorite_lines',
+	favorite_stops: 'profile|favorite_stops',
+	first_name: 'profile|first_name',
 	interests: 'profile|interests',
+	last_name: 'profile|last_name',
 	persona_history: 'profile|persona_history',
 	persona_image: 'profile|persona_image',
 	profile: 'profile',
-	profile_exists: 'profile|exists',
 	token: 'token',
+	user_type: 'profile|user_type',
+	widget_lines: 'profile|widget_lines',
+	widget_smart_notifications: 'profile|widget_smart_notifications',
+	widget_stops: 'profile|widget_stops',
 };
 
 /* * */
@@ -60,15 +67,15 @@ interface ProfileContextState {
 	data: {
 		accent_color: string
 		cloud_profile: Account | null
-		favorite_lines: string[]
-		favorite_stops: string[]
-		interests: string[]
+		favorite_lines: null | string[]
+		favorite_stops: null | string[]
+		interests: null | string[]
 		persona_image: null | string
 		profile: Account | null
 		selected_line: Line | string
-		widget_lines: AccountWidget[]
-		widget_smart_notifications: AccountWidget[]
-		widget_stops: AccountWidget[]
+		widget_lines: AccountWidget[] | null
+		widget_smart_notifications: AccountWidget[] | null
+		widget_stops: AccountWidget[] | null
 	}
 	flags: {
 		is_enabled: boolean
@@ -97,73 +104,91 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const consentContext = useConsentContext();
 	const notificationContext = useNotifications();
 	const localStorage = AsyncStorage;
-
+	const [dataWidgetLinesState, setDataWidgetLinesState] = useState<AccountWidget[] | null>(null);
+	const [dataWidgetStopsState, setDataWidgetStopsState] = useState<AccountWidget[] | null>(null);
+	const [dataWidgetSmartNotificationsState, setDataWidgetSmartNotificationsState] = useState<AccountWidget[] | null>(null);
 	const [personaHistory, setPersonaHistory] = useState<string[]>([]);
 	const [dataProfileState, setDataProfileState] = useState<Account | null>(null);
 	const [dataCloudProfileState] = useState<Account | null>(null);
 	const [dataApiTokenState, setAPIToken] = useState<null | string>(null);
 	const [dataPersonaImageState, setDataPersonaImageState] = useState<null | string>(null);
 	const [dataSelectedLineState, setSelectedLineState] = useState<Line | string>('');
+	const [dataFavoriteLinesState, setDataFavoriteLinesState] = useState<ProfileContextState['data']['favorite_lines']>(null);
+	const [dataFavoriteStopsState, setDataFavoriteStopsState] = useState<ProfileContextState['data']['favorite_stops']>(null);
 	const [dataAccentColorState, setDataAccentColorState] = useState<null | string>(null);
 	const [dataInterestsState, setDataInterestsState] = useState<string[]>([]);
 	const [flagIsLoadingState, setFlagIsLoadingState] = useState<ProfileContextState['flags']['is_loading']>(true);
 
-	const dataFavoriteLinesState = useMemo(() => dataProfileState?.favorites?.lines || [], [dataProfileState]);
-	const dataFavoriteStopsState = useMemo(() => dataProfileState?.favorites?.stops || [], [dataProfileState]);
-	const dataWidgetLinesState = useMemo(() => dataProfileState?.widgets?.filter(w => w.data?.type === 'lines') || [], [dataProfileState]);
-	const dataWidgetStopsState = useMemo(() => dataProfileState?.widgets?.filter(w => w.data?.type === 'stops') || [], [dataProfileState]);
-	const dataWidgetSmartNotificationsState = useMemo(() => dataProfileState?.widgets?.filter(w => w.data?.type === 'smart_notifications') || [], [dataProfileState]);
-
 	//
 	// C. Fetch Data
 
+	// Fetch initial data and set up interval for periodic updates (profile sync - only if functional consent is enabled)
 	useEffect(() => {
+		setFlagIsLoadingState(true);
 		if (!consentContext.data.enabled_functional) {
 			setFlagIsLoadingState(false);
 			return;
 		}
-
-		const initialize = async () => {
-			setFlagIsLoadingState(true);
-			await fetchData();
-			await subscribeToAllWidgetTopics();
-			setFlagIsLoadingState(false);
-		};
-
-		initialize();
-
-		const intervalId = setInterval(fetchData, 10000);
+		fetchData();
+		subscribeToAllWidgetTopics();
+		setFlagIsLoadingState(false);
+		const intervalId = setInterval(() => {
+			fetchData();
+		}, 10000);
 
 		return () => clearInterval(intervalId);
 	}, [consentContext.data.enabled_functional]);
-
+	// Sync profiles when the profile data changes
 	useEffect(() => {
-		if (dataProfileState) {
+		if (consentContext.data.enabled_functional && dataApiTokenState && dataProfileState) {
 			syncProfiles(dataProfileState);
 		}
-	}, [dataProfileState]);
-
-	// Sync profiles when the profile data changes
+	}, [dataProfileState, consentContext.data.enabled_functional, dataPersonaImageState, dataApiTokenState]);
+	// Load data on initial render
 	useEffect(() => {
 		if (!consentContext.data.enabled_functional) return;
 
-		if (dataProfileState) {
-			localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(dataProfileState));
+		if (dataWidgetLinesState) {
+			localStorage.setItem(LOCAL_STORAGE_KEYS.widget_lines, JSON.stringify(dataWidgetLinesState) || '');
+		}
+		if (dataWidgetStopsState) {
+			localStorage.setItem(LOCAL_STORAGE_KEYS.widget_stops, JSON.stringify(dataWidgetStopsState) || '');
+		}
+		if (dataWidgetSmartNotificationsState) {
+			localStorage.setItem(LOCAL_STORAGE_KEYS.widget_smart_notifications, JSON.stringify(dataWidgetSmartNotificationsState) || '');
+		}
+		if (dataFavoriteLinesState) {
+			localStorage.setItem(LOCAL_STORAGE_KEYS.favorite_lines, JSON.stringify(dataFavoriteLinesState) || '');
+		}
+		if (dataFavoriteStopsState) {
+			localStorage.setItem(LOCAL_STORAGE_KEYS.favorite_stops, JSON.stringify(dataFavoriteStopsState) || '');
 		}
 		if (dataApiTokenState) {
-			localStorage.setItem(LOCAL_STORAGE_KEYS.token, dataApiTokenState);
+			localStorage.setItem(LOCAL_STORAGE_KEYS.token, dataApiTokenState || '');
+		}
+		if (dataProfileState) {
+			localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(dataProfileState) || '');
 		}
 		if (dataPersonaImageState) {
-			localStorage.setItem(LOCAL_STORAGE_KEYS.persona_image, dataPersonaImageState);
+			localStorage.setItem(LOCAL_STORAGE_KEYS.persona_image, dataPersonaImageState || '');
 		}
 		if (dataAccentColorState) {
-			localStorage.setItem(LOCAL_STORAGE_KEYS.accent_color, dataAccentColorState);
+			localStorage.setItem(LOCAL_STORAGE_KEYS.accent_color, dataAccentColorState || '');
 		}
 		if (dataInterestsState) {
-			localStorage.setItem(LOCAL_STORAGE_KEYS.interests, JSON.stringify(dataInterestsState));
+			localStorage.setItem(LOCAL_STORAGE_KEYS.interests, JSON.stringify(dataInterestsState) || '');
 		}
-	}, [dataProfileState, dataApiTokenState, dataPersonaImageState, dataAccentColorState, dataInterestsState, consentContext.data.enabled_functional]);
-
+	}, [
+		dataWidgetLinesState,
+		dataInterestsState,
+		dataWidgetStopsState,
+		dataApiTokenState,
+		dataProfileState,
+		dataAccentColorState,
+		dataPersonaImageState,
+		dataWidgetSmartNotificationsState,
+		consentContext.data.enabled_functional,
+	]);
 	// Merge local and cloud profiles
 	const mergeProfiles = (local: Account, cloud: Account): Account => {
 		return {
@@ -199,6 +224,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			const mergedProfile = mergeProfiles(localProfile, cloudProfile);
 			if (JSON.stringify(localProfile) !== JSON.stringify(mergedProfile)) {
 				setDataProfileState(mergedProfile);
+				await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(mergedProfile));
 				updateProfileOnCloud(mergedProfile);
 			}
 		}
@@ -208,9 +234,11 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		}
 	};
 
+	// Fetch profile data from local storage and set state
 	const fetchData = async () => {
 		try {
 			setFlagIsLoadingState(true);
+			// Load existing data from local storage
 			const [storedProfile, storedPersona, storedToken, storedHistory, storedAccentColor, storedInterests] = await Promise.all([
 				localStorage.getItem(LOCAL_STORAGE_KEYS.profile),
 				localStorage.getItem(LOCAL_STORAGE_KEYS.persona_image),
@@ -220,15 +248,34 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				localStorage.getItem(LOCAL_STORAGE_KEYS.interests),
 			]);
 
-			if (storedToken) setAPIToken(storedToken);
-			if (storedAccentColor) setDataAccentColorState(storedAccentColor);
-			if (storedPersona) setDataPersonaImageState(storedPersona);
-			if (storedInterests) setDataInterestsState(JSON.parse(storedInterests));
-			if (storedHistory) setPersonaHistory(JSON.parse(storedHistory));
-
-			const localProfile = storedProfile ? JSON.parse(storedProfile) : null;
-			setDataProfileState(localProfile);
-
+			setAPIToken(prev => prev === storedToken ? prev : storedToken);
+			setDataAccentColorState(prev => prev === storedAccentColor ? prev : storedAccentColor);
+			setDataPersonaImageState(prev => prev === storedPersona ? prev : storedPersona);
+			// Set user interests
+			const parsedInterests = storedInterests ? JSON.parse(storedInterests) : [];
+			setDataInterestsState((prev) => {
+				if (JSON.stringify(prev) === JSON.stringify(parsedInterests)) {
+					return prev;
+				}
+				return parsedInterests;
+			});
+			// Set persona history
+			setPersonaHistory((prev) => {
+				const parsed = storedHistory ? JSON.parse(storedHistory) : [];
+				if (prev.length === parsed.length && prev.every((v, i) => v === parsed[i])) {
+					return prev;
+				}
+				return parsed;
+			});
+			// Set profile data only if changed
+			const localProfile = storedProfile ? JSON.parse(storedProfile) : '';
+			setDataProfileState((prev) => {
+				if (JSON.stringify(prev) === JSON.stringify(localProfile)) {
+					return prev;
+				}
+				return localProfile;
+			});
+			// Only call setNewEmptyProfile if prev and localProfile are both falsy
 			if (!localProfile) await setNewEmptyProfile();
 		}
 		catch (error) {
@@ -348,6 +395,12 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				...cleanedProfile,
 				updated_at: new Date().toISOString(),
 			};
+			try {
+				await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile));
+			}
+			catch (error) {
+				console.error('Error updating local profile:', error);
+			}
 			setDataProfileState(updatedProfile);
 			updateProfileOnCloud(updatedProfile);
 		}
@@ -386,31 +439,39 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	};
 	// Toggle favorite item (line or stop) and update profile with error handling
 	const toggleFavoriteItem = async (type: 'lines' | 'stops', id: string) => {
-		if (!consentContext.data.enabled_functional || !dataProfileState) return;
-
 		try {
-			const currentFavorites = dataProfileState.favorites?.[type] || [];
-			const favoriteSet = new Set(currentFavorites);
-
+			if (!consentContext.data.enabled_functional) return;
+			const state = type === 'lines' ? dataFavoriteLinesState : dataFavoriteStopsState;
+			const setState = type === 'lines' ? setDataFavoriteLinesState : setDataFavoriteStopsState;
+			const favoriteSet = new Set(state || []);
 			if (favoriteSet.has(id)) {
 				favoriteSet.delete(id);
 			}
 			else {
 				favoriteSet.add(id);
 			}
-
 			const updatedFavorites = Array.from(favoriteSet);
+			setState(updatedFavorites);
+
+			setDataProfileState((prev) => {
+				if (!prev) return prev;
+				return {
+					...prev,
+					favorites: {
+						...(prev.favorites || { lines: [], stops: [] }),
+						[type]: Array.from(new Set([...(prev.favorites?.[type] || []), ...updatedFavorites])),
+					},
+				};
+			});
 
 			const updatedProfile: Account = {
-				...dataProfileState,
+				...(dataProfileState as Account),
 				favorites: {
-					...dataProfileState.favorites,
-					lines: type === 'lines' ? updatedFavorites : dataProfileState.favorites?.lines || [],
-					stops: type === 'stops' ? updatedFavorites : dataProfileState.favorites?.stops || [],
+					...(dataProfileState?.favorites || { lines: [], stops: [] }),
+					[type]: Array.from(new Set([...(dataProfileState?.favorites?.[type] || []), ...updatedFavorites])),
 				},
 			};
-
-			setDataProfileState(updatedProfile);
+			await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
 			await updateProfileOnCloud(updatedProfile);
 		}
 		catch (error) {
@@ -450,7 +511,12 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 					widgets: mergedWidgets,
 				};
 				try {
+					await localStorage.setItem(
+						LOCAL_STORAGE_KEYS.profile,
+						JSON.stringify(updatedProfile) || '',
+					);
 					await updateProfileOnCloud(updatedProfile);
+					setDataWidgetLinesState(updatedLineWidgets);
 					setDataProfileState(updatedProfile);
 				}
 				catch (error) {
@@ -480,7 +546,9 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				const mergedWidgets = [...otherWidgets, ...updatedStopWidgets];
 				const updatedProfile: Account = { ...(dataProfileState as Account || {}), widgets: mergedWidgets };
 				try {
+					await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
 					await updateProfileOnCloud(updatedProfile);
+					setDataWidgetStopsState(updatedStopWidgets);
 					setDataProfileState(updatedProfile);
 				}
 				catch (error) {
@@ -521,7 +589,12 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 					widgets: mergedWidgets,
 				};
 				try {
+					await localStorage.setItem(
+						LOCAL_STORAGE_KEYS.profile,
+						JSON.stringify(updatedProfile) || '',
+					);
 					await updateProfileOnCloud(updatedProfile);
+					setDataWidgetSmartNotificationsState(updatedSmartWidgets);
 					setDataProfileState(updatedProfile);
 					await messagingLib().subscribeToTopic(id);
 				}
@@ -538,27 +611,32 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	};
 	// Delete any widget by display order
 	const deleteWidgetByDisplayOrder = async (displayOrder: number) => {
-		if (!consentContext.data.enabled_functional || !dataProfileState) return;
-
-		const removedWidget = dataProfileState.widgets?.find(
-			widget => widget.settings?.display_order === displayOrder,
-		);
-
-		if (removedWidget?.data?.type === 'smart_notifications') {
-			notificationContext.actions.unsubscribeFromTopic(removedWidget.data.id);
-		}
-
-		const newList = (dataProfileState.widgets || []).filter(
+		if (!consentContext.data.enabled_functional) return;
+		const currentProfile = dataProfileState;
+		if (!currentProfile) return;
+		const newList = (currentProfile.widgets || []).filter(
 			widget => widget.settings?.display_order !== displayOrder,
 		);
+		const removedWidget = currentProfile.widgets?.find(
+			widget => widget.settings?.display_order === displayOrder,
+		);
+		if (removedWidget && removedWidget.data && removedWidget.data.type) {
+			if (removedWidget.data.type === 'smart_notifications') {
+				notificationContext.actions.unsubscribeFromTopic(removedWidget.data.id);
+			}
+		}
 
 		const orderedWidgets = newList.map((widget, idx) => ({
 			...widget,
 			settings: { ...widget.settings, display_order: idx },
 		}));
 
+		setDataWidgetLinesState(orderedWidgets.filter(w => w.data?.type === 'lines'));
+		setDataWidgetStopsState(orderedWidgets.filter(w => w.data?.type === 'stops'));
+		setDataWidgetSmartNotificationsState(orderedWidgets.filter(w => w.data?.type === 'smart_notifications'));
+
 		const updatedProfile: Account = {
-			...dataProfileState,
+			...currentProfile,
 			widgets: orderedWidgets,
 		};
 
@@ -610,19 +688,20 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	// Initial Check for profile existence
 	const checkProfile = async (profile: Account | null) => {
 		console.log('Checking if profile exists ⚙️');
-		if (!profile && !localStorage.getItem(LOCAL_STORAGE_KEYS.profile_exists)) {
+		if (!profile) {
 			console.log('No profile found, creating new account 🤖');
 			await setNewEmptyProfile();
-			await localStorage.setItem(LOCAL_STORAGE_KEYS.profile_exists, 'true');
 		}
 		else { console.log('Profile exists.'); }
 	};
-
 	// Update Widget by ID
 	const updateWidget = async (id: string, newWidgetData: AccountWidget) => {
 		if (!consentContext.data.enabled_functional) return;
 		const currentProfile = dataProfileState;
 		if (!currentProfile) return;
+
+		console.log(' ====>>>> handling widget update', id, newWidgetData);
+
 		const updatedWidgets = (currentProfile.widgets || []).map((existingWidget) => {
 			// Update smart_notifications by id
 			if (existingWidget.data?.type === 'smart_notifications' && existingWidget.data.id === id) {
@@ -675,6 +754,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		};
 
 		setDataProfileState(updatedProfile);
+		await localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(updatedProfile) || '');
 		await updateProfileOnCloud(updatedProfile);
 	};
 
@@ -697,7 +777,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	//
 	// E. Define context value
 
-	const contextValue: ProfileContextState = useMemo(() => ({
+	const contextValue: ProfileContextState = {
 		actions: {
 			checkProfile,
 			createWidget,
@@ -713,10 +793,10 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			updateWidget,
 		},
 		counters: {
-			favorite_lines: dataFavoriteLinesState.length,
-			favorite_stops: dataFavoriteStopsState.length,
-			widget_lines: dataWidgetLinesState.length,
-			widget_stops: dataWidgetStopsState.length,
+			favorite_lines: dataFavoriteLinesState ? dataFavoriteLinesState.length : 0,
+			favorite_stops: dataFavoriteStopsState ? dataFavoriteStopsState.length : 0,
+			widget_lines: dataWidgetLinesState ? dataWidgetLinesState.length : 0,
+			widget_stops: dataWidgetStopsState ? dataWidgetStopsState.length : 0,
 		},
 		data: {
 			accent_color: dataAccentColorState || 'rgba(253,183,26,0.4)',
@@ -735,16 +815,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			is_enabled: consentContext.data.enabled_functional,
 			is_loading: flagIsLoadingState,
 		},
-	}), [
-		dataProfileState,
-		dataAccentColorState,
-		dataCloudProfileState,
-		dataInterestsState,
-		dataPersonaImageState,
-		dataSelectedLineState,
-		consentContext.data.enabled_functional,
-		flagIsLoadingState,
-	]);
+	};
 
 	return (
 		<ProfileContext.Provider value={contextValue}>
