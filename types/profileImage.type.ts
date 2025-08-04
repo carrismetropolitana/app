@@ -1,4 +1,8 @@
 export interface ProfileImage {
-	id: string
-	url: string
+	data: {
+		id: string
+		url: string
+	}
+	error: null | string
+	statusCode: number
 }

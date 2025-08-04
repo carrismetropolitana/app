@@ -264,14 +264,16 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				return;
 			}
 
-			if (image && image.url && personaHistory.includes(image.url)) {
+			if (image && image.data.url && personaHistory.includes(image.data.url)) {
 				console.log('Image already exists in history, refetching...');
 				await fetchPersona();
 				return;
 			}
+			console.log(image?.data.id);
+			if (image) {
+				console.log('Persona image fetched successfully:', image);
+				setDataPersonaImageState(image.data.url);
 
-			if (image && image.url) {
-				setDataPersonaImageState(image.url);
 				setDataProfileState((prevState) => {
 					if (!prevState) {
 						return null;
@@ -280,14 +282,14 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 						...prevState,
 						profile: {
 							...prevState.profile,
-							profile_image: image.url,
+							profile_image: image.data.url,
 						},
 					};
 				});
-				registerPersonaFetch(image.url);
+				registerPersonaFetch(image.data.url);
 			}
 			else {
-				alert('Failed to fetch a valid persona image.');
+				alert('Failed to save persona to profile.');
 			}
 		}
 		catch (error) {
