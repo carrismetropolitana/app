@@ -3,6 +3,7 @@
 import type { Stop } from '@carrismetropolitana/api-types/network';
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
+import StopSearchBar from '@/components/common/StopSearchBar';
 import { MapStyle, MapView } from '@/components/map/MapView';
 import { MapViewStyleStops } from '@/components/map/MapViewStyleStops';
 import StopDetailNextArrivals from '@/components/stops/StopDetailNextArrivals';
@@ -10,8 +11,10 @@ import { useLocationsContext } from '@/contexts/Locations.context';
 import { useMapOptionsContext } from '@/contexts/MapOptions.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
+import { useStopsListContext } from '@/contexts/StopsList.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
+import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
 import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { PointAnnotation } from '@maplibre/maplibre-react-native';
 import { ListItem, Text } from '@rn-vui/themed';
@@ -33,6 +36,7 @@ export default function StopsScreen() {
 	// A. Setup Variables
 
 	const stopsContext = useStopsContext();
+	const stopsListContext = useStopsListContext();
 	const stopDetailContext = useStopsDetailContext();
 	const locationsContext = useLocationsContext();
 	const mapOptionsContext = useMapOptionsContext();
@@ -48,7 +52,7 @@ export default function StopsScreen() {
 		return camera ? { center: [camera.longitude, camera.latitude], zoom: 16 } : { center: [0, 0], zoom: 16 };
 	});
 	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-	const stops = stopsContext.actions.getAllStopsGeoJsonFC();
+	const stops = stopsListContext.data.filtered_fc || getBaseGeoJsonFeatureCollection();
 	const { t } = useTranslation('translation', { keyPrefix: 'stops' });
 
 	//
@@ -106,6 +110,7 @@ export default function StopsScreen() {
 
 	return (
 		<SafeAreaView style={stopMapDetailStyles.container}>
+
 			<MapView
 				camera={{ centerCoordinate: cameraState.center, zoomLevel: cameraState.zoom }}
 				mapStyle={(mapOptionsContext.data.style as MapStyle) ?? 'map'}
@@ -126,7 +131,9 @@ export default function StopsScreen() {
 					</PointAnnotation>
 				)}
 			</MapView>
-
+			<View style={{ left: 0, paddingTop: insets.top + 10, position: 'absolute', right: 0, top: 0, zIndex: 1000 }}>
+				<StopSearchBar counter={false} />
+			</View>
 			<BottomSheetModal
 				ref={bottomSheetModalRef}
 				backgroundStyle={{ backgroundColor: themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200 }}

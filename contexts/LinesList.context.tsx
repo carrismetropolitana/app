@@ -19,7 +19,7 @@ interface LinesListContextState {
 	actions: {
 		getLinesAroundLocation: () => Promise<Line[]>
 		updateFilterByAttribute: (value: string) => void
-		updateFilterByCurrentView: (value: string) => void
+		updateFilterByCurrentView: (value: 'all' | 'favorites') => void
 		updateFilterByFacility: (value: string) => void
 		updateFilterByMunicipalityOrLocality: (value: string) => void
 		updateFilterBySearch: (value: string) => void

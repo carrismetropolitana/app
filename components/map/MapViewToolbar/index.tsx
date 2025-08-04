@@ -3,7 +3,7 @@ import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Button } from '@rn-vui/themed';
-import { IconExternalLink, IconMap, IconSatellite, IconTarget } from '@tabler/icons-react-native';
+import { IconCurrentLocation, IconLocationFilled, IconMap, IconSatellite } from '@tabler/icons-react-native';
 import * as Location from 'expo-location';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -30,26 +30,17 @@ export function MapViewToolbar({ onCenterMap }: Props) {
 		button: {
 			backgroundColor: backgroundColor,
 			borderColor: '#9696a0',
-			borderRadius: 5,
+			borderRadius: 999,
 			borderWidth: 1,
+			height: 45,
 		},
 		container: {
-			backgroundColor: backgroundColor,
-			borderRadius: 10,
-			bottom: 30,
-			elevation: 5,
-			flexDirection: 'row',
-			gap: 10,
-			height: 65,
-			justifyContent: 'flex-start',
-			left: 20,
-			padding: 10,
+			flexDirection: 'column',
+			gap: 25,
+			padding: 20,
 			position: 'absolute',
-			shadowColor: '#000',
-			shadowOffset: { height: 2, width: 0 },
-			shadowOpacity: 0.6,
-			shadowRadius: 4,
-			top: 30,
+			right: 0,
+			top: '65%',
 			zIndex: 100,
 		},
 	});
@@ -107,22 +98,22 @@ export function MapViewToolbar({ onCenterMap }: Props) {
 	return (
 		<View style={styles.container}>
 			<Button
+				accessibilityLabel={t('open_in_google_maps')}
+				buttonStyle={styles.button}
+				icon={<IconLocationFilled color="#006EFF" fill="#006EFF" size={24} />}
+				onPress={handleOpenExternalLocation}
+			/>
+			<Button
 				accessibilityLabel={t('center_on_user')}
 				buttonStyle={styles.button}
-				icon={<IconTarget color="#9696a0" size={24} />}
+				icon={<IconCurrentLocation color="#006EFF" size={24} />}
 				onPress={handleCenterOnUser}
 			/>
 			<Button
 				accessibilityLabel={t('toggle_map_type')}
 				buttonStyle={styles.button}
-				icon={mapOptionsContext?.data?.style === 'map' ? <IconMap color="#9696a0" size={24} /> : <IconSatellite color="#9696a0" size={24} />}
+				icon={mapOptionsContext?.data?.style === 'map' ? <IconMap color="#006EFF" size={24} /> : <IconSatellite color="#006EFF" size={24} />}
 				onPress={handleToggleMapType}
-			/>
-			<Button
-				accessibilityLabel={t('open_in_google_maps')}
-				buttonStyle={styles.button}
-				icon={<IconExternalLink color="#9696a0" size={24} />}
-				onPress={handleOpenExternalLocation}
 			/>
 		</View>
 	);

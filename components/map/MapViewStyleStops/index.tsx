@@ -8,7 +8,7 @@ export const MapViewStyleStopsPrimaryLayerId = 'default-layer-stops-all';
 export const MapViewStyleStopsInteractiveLayerId = 'default-layer-stops-all-muted';
 
 interface Props {
-	flaggedStopId?: string // NEW
+	flaggedStopId?: string
 	onStopPress?: (stopId: string) => void
 	presentBeforeId?: string
 	stopsData?: GeoJSON.FeatureCollection

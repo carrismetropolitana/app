@@ -231,6 +231,9 @@
 			"option_label": "Início do percurso: {locality}",
 			"placeholder": "Selecionar Percurso / Destino..."
 		},
+		"StopSearchBar": {
+			"placeholder": "Search..."
+		},
 		"closeButton": "Close",
 		"enable_notifications": "Enable Notifications",
 		"lineCounterOne": "line found",
