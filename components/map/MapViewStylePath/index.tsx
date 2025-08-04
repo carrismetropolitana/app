@@ -69,7 +69,6 @@ export function MapViewStylePath({ shapeData = { features: [], type: 'FeatureCol
 				<LineLayer id="path-shape-shadow-layer" style={shapeShadowStyle} />
 				<LineLayer id="path-shape-line-layer" style={shapeLineStyle} />
 				<SymbolLayer id="path-shape-direction-layer" style={shapeDirectionStyle} />
-
 			</ShapeSource>
 			<ShapeSource id="path-waypoints-source" shape={waypointsData}>
 				<CircleLayer id={INTERACTIVE_LAYER_ID} style={waypointStyle} />
