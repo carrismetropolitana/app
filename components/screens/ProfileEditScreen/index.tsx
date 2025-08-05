@@ -10,12 +10,12 @@ import { ActivitySchema, InterestsSchema, UtilizationTypeSchema } from '@/types/
 import dimAvatarBackground from '@/utils/dimAvatarBackground';
 import { ButtonGroup, CheckBox, Input, ListItem, Text } from '@rn-vui/themed';
 import { IconArrowNarrowLeft, IconArrowsShuffle, IconCircle, IconCircleFilled, IconSquare, IconSquareCheckFilled } from '@tabler/icons-react-native';
+import CountryPicker, { Country, CountryCode } from '@vricosti/react-native-country-picker-modal';
 import { useNavigation } from 'expo-router';
 import { DateTime } from 'luxon';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
-import CountryPicker, { Country, CountryCode } from 'react-native-country-picker-modal';
 import { ScrollView } from 'react-native-gesture-handler';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 

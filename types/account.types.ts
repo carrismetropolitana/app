@@ -84,6 +84,7 @@ export const WidgetSmartNotificationsSchema = z.object({
 	pattern_id: z.string(),
 	start_time: z.number().gte(0).lt(86400),
 	stop_id: z.string(),
+	stop_name: z.string().nullish(),
 	type: WidgetTypeSchema.pipe(z.literal('smart_notifications')),
 	user_id: z.string(),
 	week_days: z.array(z.enum(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'])).nonempty(),
@@ -159,6 +160,7 @@ export type AccountWidgetType = z.infer<typeof WidgetTypeSchema>;
 export type AccountFavorites = z.infer<typeof FavoritesSchema>;
 export type AccountWidget = z.infer<typeof WidgetSchema>;
 export type AccountDevice = Omit<z.infer<typeof DeviceSchema>, 'type'> & { type: AccountDeviceType };
+export type SmartNotification = z.infer<typeof WidgetSmartNotificationsSchema>;
 
 export type AccountProfile = Omit<z.infer<typeof ProfileSchema>,
   | 'activity'
@@ -192,6 +194,7 @@ export type Account = Omit<
 	email?: null | string | undefined
 	email_verified?: null | undefined | UnixTimestamp
 	favorites?: AccountFavorites
+	interests?: AccountInterests
 	profile?: AccountProfile
 	updated_at?: UnixTimestamp
 	widgets?: AccountWidget[]

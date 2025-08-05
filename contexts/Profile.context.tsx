@@ -2,11 +2,12 @@
 /* * */
 
 import { Account, AccountWidget, CreateAccountDto } from '@/types/account.types';
-import { ProfileImage } from '@/types/profileImage.type';
+import type { ProfileImage } from '@/types/profileImage.type';
 import { Routes } from '@/utils/routes';
 import { Line } from '@carrismetropolitana/api-types/network';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import messagingLib from '@react-native-firebase/messaging';
+import { fetchData } from '@/utils/fetchData';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { ReactNode } from 'react';
 import { Platform } from 'react-native';
@@ -125,14 +126,14 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 		const initialize = async () => {
 			setFlagIsLoadingState(true);
-			await fetchData();
+			await setData();
 			await subscribeToAllWidgetTopics();
 			setFlagIsLoadingState(false);
 		};
 
 		initialize();
 
-		const intervalId = setInterval(fetchData, 10000);
+		const intervalId = setInterval(setData, 10000);
 
 		return () => clearInterval(intervalId);
 	}, [consentContext.data.enabled_functional]);
@@ -208,7 +209,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		}
 	};
 
-	const fetchData = async () => {
+	const setData = async () => {
 		try {
 			setFlagIsLoadingState(true);
 			const [storedProfile, storedPersona, storedToken, storedHistory, storedAccentColor, storedInterests] = await Promise.all([
@@ -246,34 +247,24 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			return;
 		}
 		try {
-			let image: null | ProfileImage = null;
-			const response = await fetch(`${Routes.API_ACCOUNTS}/persona/`);
-
-			if (!response.ok) {
-				console.error('Error fetching persona:', response.status, response.statusText);
+			let image: ProfileImage | null = null;
+			const response = await fetchData<ProfileImage>(`${Routes.API_ACCOUNTS}/persona/`, 'GET');
+			
+			if (!response.isOk) {
+				console.error('Error fetching persona:', response.error, response.statusCode);
 				alert('We are experiencing some issues. Please try again later.');
 				return;
 			}
 
-			try {
-				image = await response.json();
-			}
-			catch (parseError) {
-				console.error('Error parsing persona response:', parseError);
-				alert('Received invalid data from server.');
-				return;
-			}
-
-			if (image && image.data.url && personaHistory.includes(image.data.url)) {
+			image = response.data;
+			if (image && personaHistory.includes(image.url)) {
 				console.log('Image already exists in history, refetching...');
 				await fetchPersona();
 				return;
 			}
-			console.log(image?.data.id);
-			if (image) {
-				console.log('Persona image fetched successfully:', image);
-				setDataPersonaImageState(image.data.url);
 
+			if (image) {
+				setDataPersonaImageState(image.url);
 				setDataProfileState((prevState) => {
 					if (!prevState) {
 						return null;
@@ -282,11 +273,11 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 						...prevState,
 						profile: {
 							...prevState.profile,
-							profile_image: image.data.url,
+							profile_image: image.url,
 						},
 					};
 				});
-				registerPersonaFetch(image.data.url);
+				registerPersonaFetch(image.url);
 			}
 			else {
 				alert('Failed to save persona to profile.');
@@ -358,14 +349,15 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const updateProfileOnCloud = async (profile: Account) => {
 		if (!consentContext.data.enabled_functional || !dataProfileState?.devices[0].device_id) return;
 		const { _id, created_at, role, updated_at, ...cleanedProfile } = profile;
+
 		try {
 			await fetch(`${Routes.API_ACCOUNTS}`, {
-				body: JSON.stringify(cleanedProfile),
+				body: JSON.stringify(profile),
 				headers: {
 					'Authorization': `Bearer ${dataProfileState?.devices[0].device_id}`,
 					'Content-Type': 'application/json',
 				},
-				method: 'PUT',
+				method: 'POST',
 			});
 		}
 		catch (error) {
