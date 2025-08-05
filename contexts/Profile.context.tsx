@@ -195,9 +195,9 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const syncProfiles = async (localProfile: Account) => {
 		try {
 			const cloudProfile = await getProfileFromCloud();
-			if (!cloudProfile) return;
+			if (!cloudProfile || !localProfile) return;
 
-			const mergedProfile = mergeProfiles(localProfile, cloudProfile);
+			const mergedProfile: Account = mergeProfiles(localProfile as Account, cloudProfile as Account);
 			if (JSON.stringify(localProfile) !== JSON.stringify(mergedProfile)) {
 				setDataProfileState(mergedProfile);
 				updateProfileOnCloud(mergedProfile);
@@ -319,14 +319,14 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	// Fetch profile from cloud
 	const getProfileFromCloud = async () => {
 		if (!consentContext.data.enabled_functional && !dataProfileState?.devices[0].device_id) return;
-		const response = await fetch(`${Routes.API_ACCOUNTS}`, { headers: { 'Authorization': `Bearer ${dataProfileState?.devices[0].device_id}`, 'Content-Type': 'application/json' } });
-		if (!response.ok) {
+		const response = await fetchData(`${Routes.API_ACCOUNTS}`, 'GET', { 'Authorization': `Bearer ${dataProfileState?.devices[0].device_id}`, 'Content-Type': 'application/json' });
+
+		if (!response.isOk) {
 			alert('Failed to fetch profile from cloud. Please try again later.');
 			console.error('Failed to fetch profile from cloud:', response);
 			return null;
 		}
-		const profileData = await response.json();
-		return profileData;
+		return response.data;
 	};
 	// Update local profile
 	const updateLocalProfile = async (profile: Account) => {
@@ -351,14 +351,15 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		const { _id, created_at, role, updated_at, ...cleanedProfile } = profile;
 
 		try {
-			await fetch(`${Routes.API_ACCOUNTS}`, {
-				body: JSON.stringify(profile),
-				headers: {
+			await fetchData(
+				`${Routes.API_ACCOUNTS}`,
+				'POST',
+				profile,
+				{
 					'Authorization': `Bearer ${dataProfileState?.devices[0].device_id}`,
 					'Content-Type': 'application/json',
-				},
-				method: 'POST',
-			});
+				}
+			);
 		}
 		catch (error) {
 			alert('Failed to update profile on cloud. Please try again later.');
@@ -581,8 +582,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				gender: undefined,
 				interests: undefined,
 				last_name: null,
-				phone: null,
-				profile_image: null,
+					phone: null,
+					profile_image: null,
 				utilization_type: undefined,
 				work_setting: undefined,
 			},
@@ -590,16 +591,12 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			widgets: [],
 		};
 
-		const apiResponse = await fetch(`${Routes.API_ACCOUNTS}`, {
-			body: JSON.stringify(newProfileStructure),
-			headers: { 'Authorization': `Bearer ${dataProfileState?.devices[0].device_id}`, 'Content-Type': 'application/json' },
-			method: 'POST',
-		}).then(res => res.json());
+		const apiResponse = await fetchData<Account>(`${Routes.API_ACCOUNTS}`, 'POST', newProfileStructure, { 'Authorization': `Bearer ${dataProfileState?.devices[0].device_id}`, 'Content-Type': 'application/json' })
 
-		newProfileStructure.devices[0].device_id = apiResponse.device_id;
+		newProfileStructure.devices[0].device_id = apiResponse.data?.devices[0].device_id || '';
 		setDataProfileState(newProfileStructure);
-		setAPIToken(apiResponse.session_token);
-		localStorage.setItem(LOCAL_STORAGE_KEYS.token, apiResponse.session_token);
+		setAPIToken(apiResponse.data?.devices[0].device_id || '');
+		localStorage.setItem(LOCAL_STORAGE_KEYS.token, apiResponse.data?.devices[0].device_id || '');
 	};
 	// Initial Check for profile existence
 	const checkProfile = async (profile: Account | null) => {
