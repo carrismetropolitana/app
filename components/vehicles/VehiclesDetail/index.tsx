@@ -29,8 +29,8 @@ export function VehiclesDetail({ id }: VehiclesDetailProps) {
 	const vehiclesContext = useVehiclesContext();
 	const lineDetailContext = useLinesDetailContext();
 
-	const [lineId, setLineID] = useState<null | string>(null);
-	const [vehicleData, setVehicleData] = useState<null | Vehicle>(null);
+	const [lineId, setLineID] = useState<null | string>();
+	const [vehicleData, setVehicleData] = useState<null | Vehicle>();
 
 	useEffect(() => {
 		if (!id || vehiclesContext.flags.is_loading) return;
@@ -52,7 +52,7 @@ export function VehiclesDetail({ id }: VehiclesDetailProps) {
 		if (vehicleData.pattern_id && vehicleData.pattern_id !== lineDetailContext.data.active_pattern?.id) {
 			lineDetailContext.actions.setActivePattern(vehicleData.pattern_id);
 		}
-	}, [vehicleData, lineDetailContext.actions, lineDetailContext.data.lineId, lineDetailContext.data.active_pattern?.id]);
+	}, [vehicleData]);
 
 	useEffect(() => {
 		if (!vehicleData || !vehicleData.stop_id || !lineDetailContext.data.active_pattern || vehicleData.pattern_id !== lineDetailContext.data.active_pattern.id) {
@@ -73,8 +73,12 @@ export function VehiclesDetail({ id }: VehiclesDetailProps) {
 	return (
 		<ScrollView>
 			<View style={{ backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background }}>
-				<VehiclesDetailHeader data={vehicleData} />
-				<VehiclesDetailPath />
+				{vehicleData && (
+					<>
+						<VehiclesDetailHeader data={vehicleData} />
+						<VehiclesDetailPath />
+					</>
+				)}
 			</View>
 		</ScrollView>
 

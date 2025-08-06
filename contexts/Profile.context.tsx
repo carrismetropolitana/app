@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* * */
 
-import { Account, AccountWidget, CreateAccountDto } from '@/types/account.types';
 import type { ProfileImage } from '@/types/profileImage.type';
+
+import { Account, AccountWidget, CreateAccountDto } from '@/types/account.types';
+import { fetchData } from '@/utils/fetchData';
 import { Routes } from '@/utils/routes';
 import { Line } from '@carrismetropolitana/api-types/network';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import messagingLib from '@react-native-firebase/messaging';
-import { fetchData } from '@/utils/fetchData';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { ReactNode } from 'react';
 import { Platform } from 'react-native';
@@ -167,30 +168,36 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	// Merge local and cloud profiles
 	const mergeProfiles = (local: Account, cloud: Account): Account => {
+		const localUpdated = new Date(local.updated_at || 0).getTime();
+		const cloudUpdated = new Date(cloud.updated_at || 0).getTime();
+		const master = localUpdated >= cloudUpdated ? local : cloud;
+		const secondary = master === local ? cloud : local;
+
 		return {
-			_id: cloud._id || local._id,
-			created_at: cloud.created_at || local.created_at,
-			devices: local.devices || cloud.devices || [],
+			_id: master._id || secondary._id,
+			created_at: master.created_at || secondary.created_at,
+			devices: master.devices && master.devices.length > 0 ? master.devices : secondary.devices || [],
 			favorites: {
-				lines: local.favorites?.lines || cloud.favorites?.lines || [],
-				stops: local.favorites?.stops || cloud.favorites?.stops || [],
+				lines: master.favorites?.lines || secondary.favorites?.lines || [],
+				stops: master.favorites?.stops || secondary.favorites?.stops || [],
 			},
 			profile: {
-				activity: cloud.profile?.activity || local.profile?.activity,
-				date_of_birth: cloud.profile?.date_of_birth || local.profile?.date_of_birth,
-				email: cloud.profile?.email || local.profile?.email,
-				first_name: cloud.profile?.first_name || local.profile?.first_name,
-				gender: cloud.profile?.gender || local.profile?.gender,
-				last_name: cloud.profile?.last_name || local.profile?.last_name,
-				phone: cloud.profile?.phone || local.profile?.phone,
-				profile_image: local.profile?.profile_image || cloud.profile?.profile_image,
-				utilization_type: cloud.profile?.utilization_type || local.profile?.utilization_type,
+				activity: master.profile?.activity || secondary.profile?.activity,
+				date_of_birth: master.profile?.date_of_birth || secondary.profile?.date_of_birth,
+				email: master.profile?.email || secondary.profile?.email,
+				first_name: master.profile?.first_name || secondary.profile?.first_name,
+				gender: master.profile?.gender || secondary.profile?.gender,
+				last_name: master.profile?.last_name || secondary.profile?.last_name,
+				phone: master.profile?.phone || secondary.profile?.phone,
+				profile_image: master.profile?.profile_image || secondary.profile?.profile_image,
+				utilization_type: master.profile?.utilization_type || secondary.profile?.utilization_type,
 			},
-			role: cloud.role,
-			updated_at: cloud.updated_at,
-			widgets: local.widgets && local.widgets.length > 0 ? local.widgets : cloud.widgets,
+			role: master.role || secondary.role,
+			updated_at: master.updated_at || secondary.updated_at,
+			widgets: master.widgets && master.widgets.length > 0 ? master.widgets : secondary.widgets,
 		};
 	};
+
 	// Synchronize profiles between local and cloud
 	const syncProfiles = async (localProfile: Account) => {
 		try {
@@ -247,9 +254,9 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			return;
 		}
 		try {
-			let image: ProfileImage | null = null;
-			const response = await fetchData<ProfileImage>(`${Routes.API_ACCOUNTS}/persona/`, 'GET');
-			
+			let image: null | ProfileImage = null;
+			const response = await fetchData<ProfileImage>(`${Routes.API_ACCOUNTS}/persona/`, 'GET', undefined, undefined);
+
 			if (!response.isOk) {
 				console.error('Error fetching persona:', response.error, response.statusCode);
 				alert('We are experiencing some issues. Please try again later.');
@@ -319,7 +326,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	// Fetch profile from cloud
 	const getProfileFromCloud = async () => {
 		if (!consentContext.data.enabled_functional && !dataProfileState?.devices[0].device_id) return;
-		const response = await fetchData(`${Routes.API_ACCOUNTS}`, 'GET', { 'Authorization': `Bearer ${dataProfileState?.devices[0].device_id}`, 'Content-Type': 'application/json' });
+		const response = await fetchData(`${Routes.API_ACCOUNTS}`, 'GET', undefined, { Authorization: `Bearer ${dataProfileState?.devices[0].device_id}` });
 
 		if (!response.isOk) {
 			alert('Failed to fetch profile from cloud. Please try again later.');
@@ -358,7 +365,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				{
 					'Authorization': `Bearer ${dataProfileState?.devices[0].device_id}`,
 					'Content-Type': 'application/json',
-				}
+				},
 			);
 		}
 		catch (error) {
@@ -582,8 +589,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				gender: undefined,
 				interests: undefined,
 				last_name: null,
-					phone: null,
-					profile_image: null,
+				phone: null,
+				profile_image: null,
 				utilization_type: undefined,
 				work_setting: undefined,
 			},
@@ -591,7 +598,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			widgets: [],
 		};
 
-		const apiResponse = await fetchData<Account>(`${Routes.API_ACCOUNTS}`, 'POST', newProfileStructure, { 'Authorization': `Bearer ${dataProfileState?.devices[0].device_id}`, 'Content-Type': 'application/json' })
+		const apiResponse = await fetchData<Account>(`${Routes.API_ACCOUNTS}`, 'POST', newProfileStructure, { Authorization: `Bearer ${dataProfileState?.devices[0].device_id}` });
 
 		newProfileStructure.devices[0].device_id = apiResponse.data?.devices[0].device_id || '';
 		setDataProfileState(newProfileStructure);

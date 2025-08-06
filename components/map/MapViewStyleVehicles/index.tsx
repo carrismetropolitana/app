@@ -10,9 +10,9 @@ export const MapViewStyleVehiclesInteractiveLayerId = 'default-layer-vehicles-re
 /* * */
 
 interface Props {
-	onVehiclePress: (id: string) => void
+	onVehiclePress?: (id: string) => void
 	presentBeforeId?: string
-	vehiclesData?: GeoJSON.FeatureCollection
+	vehiclesData?: GeoJSON.FeatureCollection<GeoJSON.Geometry>
 }
 
 /* * */
@@ -27,7 +27,7 @@ export function MapViewStyleVehicles({ onVehiclePress, vehiclesData }: Props) {
 				shape={vehiclesData}
 				onPress={(e) => {
 					const id = e.features?.[0]?.properties?.id || 0;
-					onVehiclePress(id);
+					onVehiclePress?.(id);
 				}}
 			>
 				<SymbolLayer

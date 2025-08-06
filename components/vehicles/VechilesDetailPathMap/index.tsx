@@ -122,8 +122,8 @@ export function VehiclesDetailPathMap({ hasToolbar }: Props) {
 						console.log('Vehicle pressed, ID:', id);
 					}}
 				/>
-				<Counter quantity={activeVehiclesFC?.features.length || 0} type="vehicles" />
 			</MapView>
+			<Counter quantity={activeVehiclesFC?.features.length || 0} type="vehicles" />
 		</View>
 	);
 }
