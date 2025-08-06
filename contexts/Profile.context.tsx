@@ -706,15 +706,14 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		if (!consentContext.data.enabled_functional) return;
 		let existingRecentLines = dataRecentLinesState;
 		if (!existingRecentLines || existingRecentLines.length === 0) {
-			const stored = await AsyncStorage.getItem('profile|recent_lines');
+			const stored = await AsyncStorage.getItem(LOCAL_STORAGE_KEYS.recent_lines);
 			existingRecentLines = stored ? JSON.parse(stored) : [];
 		}
 		const filtered = existingRecentLines.filter(l => l.id !== line.id);
 		const updatedRecentLines = [line, ...filtered].slice(0, 6);
 		setDataRecentLinesState(updatedRecentLines);
-		AsyncStorage.setItem('profile|recent_lines', JSON.stringify(updatedRecentLines));
+		AsyncStorage.setItem(LOCAL_STORAGE_KEYS.recent_lines, JSON.stringify(updatedRecentLines));
 	};
-
 	//
 	// E. Define context value
 
