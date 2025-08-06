@@ -26,8 +26,9 @@ export default function LinesScreen() {
 	// A. Setup variables
 
 	const profileContext = useProfileContext();
-	const { data: { filtered: allLines } } = useLinesListContext();
-	const { data: { linesAroundLocation: nearbyLines } } = useLinesListContext();
+	const linesListContext = useLinesListContext();
+	const { data: { filtered: allLines } } = linesListContext;
+	const { data: { linesAroundLocation: nearbyLines } } = linesListContext;
 	const { data: { locationPermission } } = useLocationsContext();
 	const recentLines = profileContext.data.recent_lines;
 	const { theme } = useThemeContext();
@@ -35,11 +36,11 @@ export default function LinesScreen() {
 
 	const sections = [
 		{
-			data: locationPermission === 'granted' ? nearbyLines : [],
+			data: locationPermission === 'granted' && linesListContext.filters.by_search ? nearbyLines : [],
 			title: t('linesAroundMe'),
 		},
 		{
-			data: recentLines,
+			data: linesListContext.filters.by_search ? [] : recentLines,
 			title: t('recentLines'),
 		},
 		{

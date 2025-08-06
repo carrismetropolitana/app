@@ -1,12 +1,13 @@
 /* * */
 
 import { useLinesListContext } from '@/contexts/LinesList.context';
+import { useThemeContext } from '@/contexts/Theme.context';
+import { theming } from '@/theme/Variables';
 import { Input } from '@rn-vui/themed';
-import { useMemo, useState } from 'react';
+import { IconSearch } from '@tabler/icons-react-native';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-
-import Counter from '../Counter';
 
 /* * */
 
@@ -16,17 +17,11 @@ export default function LineSearchBar() {
 	//
 	// A. Setup variables
 
+	const themeContext = useThemeContext();
 	const { t } = useTranslation('translation', { keyPrefix: 'common.LineSearchBar' });
 	const linesListContext = useLinesListContext();
-	const allLines = linesListContext.data.filtered;
 	const [lineSearch, setLineSearch] = useState<string>('');
-
-	const filteredLines = useMemo(() => {
-		return allLines.filter(line =>
-			line.long_name.toLowerCase().includes(lineSearch.toLowerCase())
-			|| String(line.id).includes(lineSearch),
-		);
-	}, [allLines, lineSearch]);
+	const fontColor = themeContext.theme.mode === 'light' ? theming.colorSystemText400 : theming.colorSystemText200;
 
 	//
 	// B. Render components
@@ -34,8 +29,13 @@ export default function LineSearchBar() {
 	return (
 		<View style={{ padding: 20 }}>
 			<Input
-				clearButtonMode="while-editing"
+				clearButtonMode="always"
+				containerStyle={{ borderRadius: 30 }}
+				inputContainerStyle={{ bottom: 7, height: 50, left: 15 }}
+				leftIcon={<IconSearch color={fontColor} size={22} />}
 				placeholder={t('placeholder')}
+				placeholderTextColor={fontColor}
+				style={{ color: fontColor, fontSize: 18, fontWeight: theming.fontWeightSemibold as '600' }}
 				value={lineSearch}
 				onChangeText={(text) => {
 					setLineSearch(text);
@@ -44,7 +44,6 @@ export default function LineSearchBar() {
 					}
 				}}
 			/>
-			<Counter quantity={filteredLines.length} type="lines" />
 		</View>
 	);
 
