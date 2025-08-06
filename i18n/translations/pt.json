@@ -347,7 +347,8 @@
 		},
 		"LinesScreen": {
 			"allLines": "Todas as Linhas",
-			"linesAroundMe": "A minha volta"
+			"linesAroundMe": "A minha volta",
+			"recentLines": "Linhas Recentes"
 		},
 		"PathStopNextArrivals": {
 			"title": "Próximas circulações"

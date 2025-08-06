@@ -1,8 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 const name = {
-	height: '100%',
-	width: '100%',
+	width: '90%',
 } as const;
 
 export const lineNameStyles = StyleSheet.create({
@@ -21,7 +20,7 @@ export const lineNameStyles = StyleSheet.create({
 		textAlign: 'right',
 	},
 	container: {
-		paddingEnd: 20,
+		paddingEnd: 30,
 	},
 	name: {
 		fontSize: 16,

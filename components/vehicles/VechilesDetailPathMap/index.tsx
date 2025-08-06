@@ -1,11 +1,12 @@
 /* * */
 
 import Counter from '@/components/common/Counter';
-import { MapView } from '@/components/map/MapView';
+import { MapStyle, MapView } from '@/components/map/MapView';
 import { MapViewStyleActiveStops } from '@/components/map/MapViewStyleActiveStops';
 import { MapViewStylePath } from '@/components/map/MapViewStylePath';
 import { MapViewStyleVehicles } from '@/components/map/MapViewStyleVehicles';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useMapOptionsContext } from '@/contexts/MapOptions.context';
 import { transformStopDataIntoGeoJsonFeature, useStopsContext } from '@/contexts/Stops.context';
 import { useVehiclesContext } from '@/contexts/Vehicles.context';
 import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
@@ -21,7 +22,7 @@ interface Props {
 }
 
 /* * */
-export function VehiclesDetailPathMap({ hasToolbar }: Props) {
+export function VehiclesDetailPathMap({ hasToolbar = false }: Props) {
 	//
 
 	//
@@ -30,6 +31,7 @@ export function VehiclesDetailPathMap({ hasToolbar }: Props) {
 	const vehiclesContext = useVehiclesContext();
 	const linesDetailContext = useLinesDetailContext();
 	const stopsContext = useStopsContext();
+	const mapOptionsContext = useMapOptionsContext();
 
 	//
 	// B. Fetch data
@@ -104,7 +106,7 @@ export function VehiclesDetailPathMap({ hasToolbar }: Props) {
 
 	return (
 		<View style={{ height: 360, width: '100%' }}>
-			<MapView mapStyle="map" toolbar={hasToolbar}>
+			<MapView mapStyle={mapOptionsContext.data.style as MapStyle} toolbar={hasToolbar}>
 				<Camera
 					animationDuration={1000}
 					animationMode="flyTo"

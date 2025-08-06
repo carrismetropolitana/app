@@ -28,6 +28,7 @@ const LOCAL_STORAGE_KEYS = {
 	persona_image: 'profile|persona_image',
 	profile: 'profile',
 	profile_exists: 'profile|exists',
+	recent_lines: 'profile|recent_lines',
 	token: 'token',
 };
 
@@ -40,6 +41,7 @@ type WidgetCreateParams =
 
 interface ProfileContextState {
 	actions: {
+		addRecentLines: (line: Line) => void
 		checkProfile: (profile: Account) => Promise<void>
 		createWidget: (params: WidgetCreateParams) => Promise<void>
 		deleteWidgetByDisplayOrder: (display_order: number) => Promise<void>
@@ -56,6 +58,7 @@ interface ProfileContextState {
 	counters: {
 		favorite_lines: number
 		favorite_stops: number
+		recent_lines: number
 		widget_lines: number
 		widget_stops: number
 	}
@@ -67,6 +70,7 @@ interface ProfileContextState {
 		interests: string[]
 		persona_image: null | string
 		profile: Account | null
+		recent_lines: Line[]
 		selected_line: Line | string
 		widget_lines: AccountWidget[]
 		widget_smart_notifications: AccountWidget[]
@@ -108,6 +112,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const [dataSelectedLineState, setSelectedLineState] = useState<Line | string>('');
 	const [dataAccentColorState, setDataAccentColorState] = useState<null | string>(null);
 	const [dataInterestsState, setDataInterestsState] = useState<string[]>([]);
+	const [dataRecentLinesState, setDataRecentLinesState] = useState<Line[]>([]);
 	const [flagIsLoadingState, setFlagIsLoadingState] = useState<ProfileContextState['flags']['is_loading']>(true);
 
 	const dataFavoriteLinesState = useMemo(() => dataProfileState?.favorites?.lines || [], [dataProfileState]);
@@ -164,7 +169,10 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		if (dataInterestsState) {
 			localStorage.setItem(LOCAL_STORAGE_KEYS.interests, JSON.stringify(dataInterestsState));
 		}
-	}, [dataProfileState, dataApiTokenState, dataPersonaImageState, dataAccentColorState, dataInterestsState, consentContext.data.enabled_functional]);
+		if (dataRecentLinesState) {
+			localStorage.setItem(LOCAL_STORAGE_KEYS.recent_lines, JSON.stringify(dataRecentLinesState));
+		}
+	}, [dataProfileState, dataApiTokenState, dataPersonaImageState, dataAccentColorState, dataInterestsState, consentContext.data.enabled_functional, dataRecentLinesState]);
 
 	// Merge local and cloud profiles
 	const mergeProfiles = (local: Account, cloud: Account): Account => {
@@ -219,13 +227,14 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const setData = async () => {
 		try {
 			setFlagIsLoadingState(true);
-			const [storedProfile, storedPersona, storedToken, storedHistory, storedAccentColor, storedInterests] = await Promise.all([
+			const [storedProfile, storedPersona, storedToken, storedHistory, storedAccentColor, storedInterests, storedRecentLines] = await Promise.all([
 				localStorage.getItem(LOCAL_STORAGE_KEYS.profile),
 				localStorage.getItem(LOCAL_STORAGE_KEYS.persona_image),
 				localStorage.getItem(LOCAL_STORAGE_KEYS.token),
 				localStorage.getItem(LOCAL_STORAGE_KEYS.persona_history),
 				localStorage.getItem(LOCAL_STORAGE_KEYS.accent_color),
 				localStorage.getItem(LOCAL_STORAGE_KEYS.interests),
+				localStorage.getItem(LOCAL_STORAGE_KEYS.recent_lines),
 			]);
 
 			if (storedToken) setAPIToken(storedToken);
@@ -233,6 +242,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			if (storedPersona) setDataPersonaImageState(storedPersona);
 			if (storedInterests) setDataInterestsState(JSON.parse(storedInterests));
 			if (storedHistory) setPersonaHistory(JSON.parse(storedHistory));
+			if (storedRecentLines) setDataRecentLinesState(JSON.parse(storedRecentLines));
 
 			const localProfile = storedProfile ? JSON.parse(storedProfile) : null;
 			setDataProfileState(localProfile);
@@ -691,12 +701,26 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		if (!consentContext.data.enabled_functional) return;
 		setDataInterestsState(topics);
 	};
+	// Set Recent Lines
+	const addRecentLines = async (line: Line) => {
+		if (!consentContext.data.enabled_functional) return;
+		let existingRecentLines = dataRecentLinesState;
+		if (!existingRecentLines || existingRecentLines.length === 0) {
+			const stored = await AsyncStorage.getItem('profile|recent_lines');
+			existingRecentLines = stored ? JSON.parse(stored) : [];
+		}
+		const filtered = existingRecentLines.filter(l => l.id !== line.id);
+		const updatedRecentLines = [line, ...filtered].slice(0, 6);
+		setDataRecentLinesState(updatedRecentLines);
+		AsyncStorage.setItem('profile|recent_lines', JSON.stringify(updatedRecentLines));
+	};
 
 	//
 	// E. Define context value
 
 	const contextValue: ProfileContextState = useMemo(() => ({
 		actions: {
+			addRecentLines,
 			checkProfile,
 			createWidget,
 			deleteWidgetByDisplayOrder,
@@ -713,6 +737,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		counters: {
 			favorite_lines: dataFavoriteLinesState.length,
 			favorite_stops: dataFavoriteStopsState.length,
+			recent_lines: dataRecentLinesState.length,
 			widget_lines: dataWidgetLinesState.length,
 			widget_stops: dataWidgetStopsState.length,
 		},
@@ -724,6 +749,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			interests: dataInterestsState,
 			persona_image: dataPersonaImageState,
 			profile: dataProfileState,
+			recent_lines: dataRecentLinesState,
 			selected_line: dataSelectedLineState,
 			widget_lines: dataWidgetLinesState,
 			widget_smart_notifications: dataWidgetSmartNotificationsState,
@@ -742,6 +768,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		dataSelectedLineState,
 		consentContext.data.enabled_functional,
 		flagIsLoadingState,
+		dataRecentLinesState,
 	]);
 
 	return (

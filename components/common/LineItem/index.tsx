@@ -14,7 +14,7 @@ interface LineItemProps {
 
 export function LineItem({ icon, lineData, municipality, onPress, size }: LineItemProps) {
 	return (
-		<ListItem onPress={onPress} bottomDivider topDivider>
+		<ListItem containerStyle={{ height: 'auto' }} onPress={onPress} bottomDivider topDivider>
 			<ListItem.Content>
 				<LineDisplay lineData={lineData} municipality={municipality} size={size} />
 			</ListItem.Content>

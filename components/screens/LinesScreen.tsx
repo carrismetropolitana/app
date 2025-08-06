@@ -1,10 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+/* * */
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { Section } from '@/components/common/layout/Section';
 import { MemoizedLineItem } from '@/components/common/LineItem';
 import { useLinesListContext } from '@/contexts/LinesList.context';
 import { useLocationsContext } from '@/contexts/Locations.context';
+import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
+import { Line } from '@carrismetropolitana/api-types/network';
 import { router } from 'expo-router';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,10 +17,19 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import LineSearchBar from '../common/LineSearchBar';
 
+/* * */
+
 export default function LinesScreen() {
+	//
+
+	//
+	// A. Setup variables
+
+	const profileContext = useProfileContext();
 	const { data: { filtered: allLines } } = useLinesListContext();
 	const { data: { linesAroundLocation: nearbyLines } } = useLinesListContext();
 	const { data: { locationPermission } } = useLocationsContext();
+	const recentLines = profileContext.data.recent_lines;
 	const { theme } = useThemeContext();
 	const { t } = useTranslation('translation', { keyPrefix: 'lines.LinesScreen' });
 
@@ -26,18 +39,14 @@ export default function LinesScreen() {
 			title: t('linesAroundMe'),
 		},
 		{
+			data: recentLines,
+			title: t('recentLines'),
+		},
+		{
 			data: allLines,
 			title: t('allLines'),
 		},
 	];
-
-	const renderSectionHeader = useCallback(({ section: { data, title } }) => data.length > 0 ? <Section heading={title} /> : null, []);
-
-	const renderItem = useCallback(({ item }) => <MemoizedLineItem lineData={item} onPress={() => router.push(`/line/${item.id}`)} size="lg" />, []);
-
-	const keyExtractor = useCallback((item: any) => item.id, []);
-
-	const getItemLayout = useCallback((_: any, index: number) => ({ index, length: 100, offset: 100 * index }), []);
 
 	const styles = StyleSheet.create({
 		container: {
@@ -45,6 +54,28 @@ export default function LinesScreen() {
 			flex: 1,
 		},
 	});
+
+	//
+	// B. Handle Actions
+
+	const handlePress = (item: Line) => {
+		profileContext.actions.addRecentLines(item);
+		router.push(`/line/${item.id}`);
+	};
+
+	//
+	// C. Transform Data
+
+	const keyExtractor = useCallback((item: any) => item.id, []);
+
+	const getItemLayout = useCallback((_: any, index: number) => ({ index, length: 100, offset: 100 * index }), []);
+
+	//
+	// D. Render components
+
+	const renderSectionHeader = useCallback(({ section: { data, title } }) => data.length > 0 ? <Section heading={title} /> : null, []);
+
+	const renderItem = useCallback(({ item }) => <MemoizedLineItem lineData={item} onPress={() => handlePress(item)} size="lg" />, []);
 
 	return (
 		<SafeAreaView style={styles.container}>
