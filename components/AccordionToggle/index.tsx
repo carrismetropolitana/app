@@ -73,7 +73,7 @@ export const AccordionToggle = ({ expanded, isNotification, size = 24, style }: 
 			{isNotification && (
 				<Animated.View style={[accordionToggleStyles.gradientCircle, { backgroundColor: '#daf0ef', position: 'absolute', transform: [{ scale: pulseAnim }], zIndex: 0 }]}>
 					<View style={[accordionToggleStyles.gradientCircle, { backgroundColor: 'transparent', position: 'absolute', zIndex: 1 }]}>
-						<Animated.View style={[accordionToggleStyles.innerCircle, { alignSelf: 'center', position: 'absolute', zIndex: 2 }]}>
+						<Animated.View style={[accordionToggleStyles.innerCircle, { alignSelf: 'center', position: 'absolute', transform: [{ rotate }], zIndex: 2 }]}>
 							<IconBell color="#fff" size={32} />
 							<View style={accordionToggleStyles.notificationDot} />
 						</Animated.View>

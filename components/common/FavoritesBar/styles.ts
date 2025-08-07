@@ -18,7 +18,7 @@ export const styles = () => {
 			borderBottomColor: borderColor,
 			borderBottomWidth: 1,
 			height: 65,
-			marginTop: 100 + insets.top,
+			marginTop: 95 + insets.top,
 			width: '100%',
 		},
 
@@ -27,7 +27,7 @@ export const styles = () => {
 
 		item: {
 			paddingLeft: 20,
-			paddingTop: 6,
+			paddingTop: 10,
 		},
 	});
 };
