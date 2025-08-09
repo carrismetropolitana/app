@@ -31,7 +31,7 @@ export default function LineSearchBar() {
 			<Input
 				clearButtonMode="always"
 				containerStyle={{ borderRadius: 30 }}
-				inputContainerStyle={{ bottom: 7, height: 50, left: 15 }}
+				inputContainerStyle={{ bottom: 7, height: 50 }}
 				leftIcon={<IconSearch color={fontColor} size={22} />}
 				placeholder={t('placeholder')}
 				placeholderTextColor={fontColor}
