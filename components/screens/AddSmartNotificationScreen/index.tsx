@@ -84,8 +84,6 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 			if (data.distance !== undefined) setRadius(data.distance);
 			if (data.pattern_id) {
 				const lineIdFromPattern = data.pattern_id.split('_')[0];
-				console.log('pattern_id', data.pattern_id);
-				console.log('lineIdFromPattern', lineIdFromPattern);
 				linesDetailContext.actions.setLineId(lineIdFromPattern);
 				linesDetailContext.actions.setActivePattern(data.pattern_id);
 			}

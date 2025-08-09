@@ -86,9 +86,7 @@ export function LinesDetailHeader() {
 					<View style={lineDetailsHeaderStyles.operationalDaySection}>
 						<SelectOperationalDay />
 					</View>
-					<View style={lineDetailsHeaderStyles.patternGroupSection}>
-						<SelectActivePatternGroup />
-					</View>
+					<SelectActivePatternGroup />
 				</View>
 			</Surface>
 			{debugContext.flags.is_debug_mode && (

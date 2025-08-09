@@ -129,7 +129,6 @@ export const MapOptionsContextProvider = ({ children }: { children: React.ReactN
 	};
 
 	const centerMapOnStop = (coordinates: [number, number]) => {
-		console.log('Centering map on stop:', coordinates);
 		if (!dataMapState || !coordinates.length) return;
 
 		const featureCollection: FeatureCollection<Point> = {

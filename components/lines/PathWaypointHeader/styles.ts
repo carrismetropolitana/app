@@ -65,7 +65,7 @@ export const styles = () => {
 		/* SUB-HEADER WRAPPER */
 
 		subHeaderWrapper: {
-			alignItems: 'baseline',
+			alignItems: 'center',
 			flexDirection: 'row',
 		},
 
@@ -113,7 +113,7 @@ export const styles = () => {
 			color: theming.colorRealtime100,
 		},
 		isFirstStop: {
-			paddingTop: theming.sizeSpacing20,
+			// paddingTop: theming.sizeSpacing20,
 		},
 		isLastStop: {
 			paddingBottom: theming.sizeSpacing20,

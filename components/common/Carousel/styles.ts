@@ -36,6 +36,7 @@ export const styles = () => {
 		},
 		imageContainer: {
 			elevation: 6,
+			height: 'auto',
 			padding: 0,
 			shadowColor: '#000',
 			shadowOffset: { height: 0, width: 0 },

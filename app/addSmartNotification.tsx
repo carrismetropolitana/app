@@ -24,8 +24,6 @@ export default function AddSmartNotification() {
 	const patternId = typeof params.patternId === 'string' ? params.patternId : Array.isArray(params.patternId) ? params.patternId[0] : undefined;
 	const id = smartNotificationID ? smartNotificationID : lineID;
 
-	console.log(id);
-
 	useEffect(() => {
 		navigation.setOptions({
 			headerBackTitle: 'Voltar',

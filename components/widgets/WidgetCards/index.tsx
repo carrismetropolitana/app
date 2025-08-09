@@ -37,7 +37,6 @@ export function WidgetCards() {
 	// C. Handle actions
 
 	const handleToggle = (key: string) => {
-		console.log(key);
 		const updatedWidgets = widgets.map((widget, idx) => {
 			let widgetKey = '';
 			if (widget.data.type === 'lines') {

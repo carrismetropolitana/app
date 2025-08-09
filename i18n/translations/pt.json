@@ -235,6 +235,10 @@
 		"StopSearchBar": {
 			"placeholder": "Pesquisar..."
 		},
+		"TimetableSchedules": {
+			"hours": "Hora",
+			"minutes": "Min."
+		},
 		"closeButton": "Fechar",
 		"enable_notifications": "Ativar Notificações",
 		"lineCounterOne": "linha encontrada",
@@ -357,6 +361,9 @@
 			"next_date": "Próximos horários disponíveis a partir de {value, date, dayShort} {value, date, monthLong} {value, date, yearLong}",
 			"no_data": "Horários indisponíveis para esta data.",
 			"title": "Horários planeados nesta paragem:"
+		},
+		"PathWaypointTimetable": {
+			"title": "Horários planeados nesta paragem: "
 		},
 		"SelectActivePatternGroup": {
 			"placeholder": "Selecionar percurso/destino..."

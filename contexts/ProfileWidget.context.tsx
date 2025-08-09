@@ -699,9 +699,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		if (!consentContext.data.enabled_functional) return;
 		const currentProfile = dataProfileState;
 		if (!currentProfile) return;
-
-		console.log(' ====>>>> handling widget update', id, newWidgetData);
-
 		const updatedWidgets = (currentProfile.widgets || []).map((existingWidget) => {
 			// Update smart_notifications by id
 			if (existingWidget.data?.type === 'smart_notifications' && existingWidget.data.id === id) {

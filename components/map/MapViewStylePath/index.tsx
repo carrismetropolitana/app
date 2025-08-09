@@ -64,7 +64,8 @@ const shapeShadowStyle: LineLayerStyle = {
 export function MapViewStylePath({ shapeData = { features: [], type: 'FeatureCollection' }, waypointsData = { features: [], type: 'FeatureCollection' } }: MapViewStylePathProps) {
 	return (
 		<>
-			<ShapeSource id="path-shape-source" shape={(shapeData).type === 'Feature' ? { features: [shapeData], type: 'FeatureCollection' } : shapeData}>
+			{/* (shapeData).type === 'Feature' ? { features: [shapeData], type: 'FeatureCollection' } : */}
+			<ShapeSource id="path-shape-source" shape={shapeData}>
 				<LineLayer id="path-shape-padding-layer" style={shapePaddingStyle} />
 				<LineLayer id="path-shape-shadow-layer" style={shapeShadowStyle} />
 				<LineLayer id="path-shape-line-layer" style={shapeLineStyle} />

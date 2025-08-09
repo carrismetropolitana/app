@@ -169,11 +169,6 @@ export default function StopsScreen() {
 
 	//
 	// C. Handle Actions
-
-	const handleCenterUser = () => {
-		const loc = locationsContext.data.currentCords;
-		if (loc) setCameraState({ center: [loc.longitude, loc.latitude], zoom: 18 });
-	};
 	const handleCenterStop = (stop: Stop) => {
 		setCameraState({ center: [stop.lon, stop.lat], zoom: 18 });
 	};
@@ -198,7 +193,6 @@ export default function StopsScreen() {
 		stopDetailContext.actions.setActiveStopId('');
 		setLineShapes(undefined);
 		setIsStopSelected(false);
-		handleCenterUser();
 	};
 
 	//
@@ -206,7 +200,6 @@ export default function StopsScreen() {
 
 	return (
 		<SafeAreaView style={stopMapDetailStyles.container}>
-
 			<MapView
 				camera={{ centerCoordinate: cameraState.center, zoomLevel: cameraState.zoom }}
 				mapStyle={(mapOptionsContext.data.style as MapStyle) ?? 'map'}
@@ -237,8 +230,8 @@ export default function StopsScreen() {
 					{stopData && (
 						<>
 							<ListItem>
-								<ListItem.Content>
-									<TouchableOpacity onPress={() => router.push(`/stop/${stopData.id}`)} style={{ width: '100%' }}>
+								<TouchableOpacity onPress={() => router.push(`/stop/${stopData.id}`)} style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
+									<ListItem.Content>
 										<View style={{ alignItems: 'center', flexDirection: 'row', gap: 10 }}>
 											<Svg fill="none" height={21} viewBox="0 0 20 21" width={20}>
 												<Circle cx={10} cy={10.5} fill="#FFDD00" r={9} stroke="black" strokeWidth={2} />
@@ -254,10 +247,11 @@ export default function StopsScreen() {
 												</ListItem.Subtitle>
 											</View>
 										</View>
-									</TouchableOpacity>
-								</ListItem.Content>
-								<View style={{ width: 24 }} />
-								<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
+
+									</ListItem.Content>
+									<View style={{ width: 24 }} />
+									<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
+								</TouchableOpacity>
 							</ListItem>
 							<View style={stopMapDetailStyles.nextArrivalsContainer}>
 								<Text style={stopMapDetailStyles.nextArrivalsLabel}>{t('StopDetails.nextArrivalsLabel')}</Text>

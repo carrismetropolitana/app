@@ -58,7 +58,7 @@ export function TimetableExceptionsLink({
 				isOthersSelected && styles.containerIsOthersSelected,
 			]}
 			>
-				<Text style={styles.exceptionId}>{exceptionData.exception_id}</Text>
+				<Text style={styles.exceptionId}>{exceptionData.exception_id}) </Text>
 				<Text style={styles.patternHeadsign}>{exceptionData.pattern_headsign}</Text>
 				<Text style={styles.routeLongName}>{exceptionData.route_long_name}</Text>
 				<IconArrowUpRight style={styles.icon} />

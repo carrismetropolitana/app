@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
 		aspectRatio: 1,
 		borderRadius: 999,
 		margin: 6,
-		width: 10,
+		width: 5,
 	},
 	markerDisabled: {
 		aspectRatio: 1,

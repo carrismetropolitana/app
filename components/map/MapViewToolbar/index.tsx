@@ -29,14 +29,12 @@ export function MapViewToolbar({ onCenterMap }: Props) {
 	const styles = StyleSheet.create({
 		button: {
 			backgroundColor: backgroundColor,
-			borderColor: '#9696a0',
 			borderRadius: 999,
-			borderWidth: 1,
 			height: 45,
 		},
 		container: {
 			flexDirection: 'column',
-			gap: 25,
+			gap: 15,
 			padding: 20,
 			position: 'absolute',
 			right: 0,
@@ -64,11 +62,9 @@ export function MapViewToolbar({ onCenterMap }: Props) {
 			const location = await Location.getCurrentPositionAsync();
 			const { latitude, longitude } = location.coords;
 			if (stopLat && stopLon) {
-				console.log('Using stop coordinates:', stopLat, stopLon);
 				url = `https://www.google.com/maps?q=${stopLat},${stopLon}&z=10`;
 			}
 			else {
-				console.log('Using current location coordinates:', latitude, longitude);
 				url = `https://www.google.com/maps?q=${latitude},${longitude}&z=10`;
 			}
 			Linking.openURL(url);
@@ -98,12 +94,6 @@ export function MapViewToolbar({ onCenterMap }: Props) {
 	return (
 		<View style={styles.container}>
 			<Button
-				accessibilityLabel={t('open_in_google_maps')}
-				buttonStyle={styles.button}
-				icon={<IconLocationFilled color="#006EFF" fill="#006EFF" size={24} />}
-				onPress={handleOpenExternalLocation}
-			/>
-			<Button
 				accessibilityLabel={t('center_on_user')}
 				buttonStyle={styles.button}
 				icon={<IconCurrentLocation color="#006EFF" size={24} />}
@@ -114,6 +104,12 @@ export function MapViewToolbar({ onCenterMap }: Props) {
 				buttonStyle={styles.button}
 				icon={mapOptionsContext?.data?.style === 'map' ? <IconMap color="#006EFF" size={24} /> : <IconSatellite color="#006EFF" size={24} />}
 				onPress={handleToggleMapType}
+			/>
+			<Button
+				accessibilityLabel={t('open_in_google_maps')}
+				buttonStyle={styles.button}
+				icon={<IconLocationFilled color="#006EFF" fill="#006EFF" size={24} />}
+				onPress={handleOpenExternalLocation}
 			/>
 		</View>
 	);

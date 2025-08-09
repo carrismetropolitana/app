@@ -118,12 +118,7 @@ export function VehiclesDetailPathMap({ hasToolbar = false }: Props) {
 					waypointsData={activePathFC ?? getBaseGeoJsonFeatureCollection()}
 				/>
 				<MapViewStyleActiveStops stopsData={activeStopFC ?? getBaseGeoJsonFeatureCollection()} />
-				<MapViewStyleVehicles
-					vehiclesData={activeVehiclesFC ?? getBaseGeoJsonFeatureCollection()}
-					onVehiclePress={(id) => {
-						console.log('Vehicle pressed, ID:', id);
-					}}
-				/>
+				<MapViewStyleVehicles vehiclesData={activeVehiclesFC ?? getBaseGeoJsonFeatureCollection()} />
 			</MapView>
 			<Counter quantity={activeVehiclesFC?.features.length || 0} type="vehicles" />
 		</View>

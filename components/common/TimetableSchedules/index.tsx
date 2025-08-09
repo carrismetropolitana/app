@@ -32,7 +32,7 @@ export default function TimetableSchedules({ selectedExceptionIds, setSelectedEx
 	//
 	// A. Setup variables
 
-	const { t } = useTranslation('common.TimetableSchedules');
+	const { t } = useTranslation('translation', { keyPrefix: 'common.TimetableSchedules' });
 	const linesDetailContext = useLinesDetailContext();
 	const timeteableShcedulesStyles = styles();
 

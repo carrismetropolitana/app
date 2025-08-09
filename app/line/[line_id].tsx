@@ -4,6 +4,7 @@ import { LinesDetail } from '@/components/lines/LinesDetail';
 import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
 import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
+import { theming } from '@/theme/Variables';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -16,9 +17,11 @@ export default function Page() {
 	//
 	// A. Setup variables
 
+	const isLight = useThemeContext().theme.mode === 'light';
 	const { line_id } = useLocalSearchParams<{ line_id: string }>();
 	const themeContext = useThemeContext();
 	const navigation = useNavigation();
+	const backgroundColor = isLight ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100;
 	const { t } = useTranslation('translation', { keyPrefix: 'layout' });
 
 	//
@@ -27,9 +30,7 @@ export default function Page() {
 	useEffect(() => {
 		navigation.setOptions({
 			headerBackTitle: `${t('linePageHeaderTitle')} ${line_id}`,
-			headerStyle: {
-				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
-			},
+			headerStyle: { backgroundColor: backgroundColor },
 			headerTitle: '',
 		});
 	}, [navigation, themeContext.theme.mode]);

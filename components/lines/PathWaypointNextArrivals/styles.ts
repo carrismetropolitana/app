@@ -15,6 +15,9 @@ export const styles = () => {
 	const fontColor = isLight
 		? theming.colorSystemText100
 		: theming.colorSystemText300;
+	const backgroundColor = isLight
+		? theming.colorSystemBackgroundLight200
+		: theming.colorSystemBackgroundDark200;
 
 	/* * */
 	/* CONTAINER */

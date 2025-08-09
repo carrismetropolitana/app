@@ -48,6 +48,9 @@ const styles = () => {
 		selectNotificationContol: {
 			alignItems: 'center',
 			backgroundColor: selectorBackgroundColor,
+			borderColor: theming.colorSystemBorder100,
+			borderRadius: 8,
+			borderWidth: 1,
 			flexDirection: 'row',
 			gap: 10,
 			justifyContent: 'center',

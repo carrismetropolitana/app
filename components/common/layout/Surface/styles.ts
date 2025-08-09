@@ -35,7 +35,7 @@ export const styles = () => {
 			borderRadius: 0,
 			borderRightWidth: 0,
 			borderWidth: 1,
-			marginTop: 20,
+			padding: 15,
 		},
 		containerBrand: {
 			...container,

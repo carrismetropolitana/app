@@ -18,6 +18,7 @@ export type MapStyle = 'map' | 'satellite';
 interface Props {
 	camera?: {
 		centerCoordinate: [number, number]
+		maxZoom?: number
 		zoomLevel: number
 	}
 	children: React.ReactNode
@@ -38,7 +39,7 @@ function getBoundsZoomLevel(
 	mapHeight: number,
 ) {
 	const WORLD_DIM = { height: 256, width: 256 };
-	const ZOOM_MAX = 20;
+	const ZOOM_MAX = mapDefaultConfig.maxZoom;
 	const latRad = (lat: number) => {
 		const sin = Math.sin((lat * Math.PI) / 180);
 		const radX2 = Math.log((1 + sin) / (1 - sin)) / 2;

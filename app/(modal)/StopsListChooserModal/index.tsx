@@ -1,12 +1,13 @@
 /* * */
 
-import Counter from '@/components/common/Counter';
+import StopSearchBar from '@/components/common/StopSearchBar';
 import { VirtualizedListingStops } from '@/components/common/VitualizedListStops';
 import { useStopsContext } from '@/contexts/Stops.context';
+import { StopsListContextProvider } from '@/contexts/StopsList.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Stop } from '@carrismetropolitana/api-types/network';
-import { Input, Overlay, Text } from '@rn-vui/themed';
+import { Overlay, Text } from '@rn-vui/themed';
 import { IconCirclePlus } from '@tabler/icons-react-native';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -68,28 +69,26 @@ export default function StopsListChooserModal({ isVisible, onBackdropPress, sele
 	// D. Render Components
 
 	return (
-		<Overlay animationType="slide" isVisible={isVisible} onBackdropPress={onBackdropPress}>
-			<SafeAreaView style={{ flex: 1 }}>
-				<View style={styles.container}>
-					<View style={styles.header}>
-						<TouchableOpacity onPress={onBackdropPress} style={styles.backButton}>
-							<Text style={styles.arrow}>←</Text>
-							<Text style={styles.backText}>{t('BackButton')}</Text>
-						</TouchableOpacity>
+		<StopsListContextProvider>
+			<Overlay animationType="slide" isVisible={isVisible} onBackdropPress={onBackdropPress}>
+				<SafeAreaView style={{ flex: 1 }}>
+					<View style={styles.container}>
+						<View style={styles.header}>
+							<TouchableOpacity onPress={onBackdropPress} style={styles.backButton}>
+								<Text style={styles.arrow}>←</Text>
+								<Text style={styles.backText}>{t('BackButton')}</Text>
+							</TouchableOpacity>
+						</View>
+						<StopSearchBar />
+						<VirtualizedListingStops
+							data={filteredStops}
+							icon={(<IconCirclePlus color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100} fill="#3CB43C" size={24} />)}
+							itemClick={handleStopClick}
+						/>
 					</View>
-					<View>
-						<Input clearButtonMode="while-editing" onChangeText={text => setStopSearch(text)} placeholder={t('searchByNamePlaceholder')} value={stopsSearch} />
-						<Counter quantity={filteredStops.length} type="stops" />
-					</View>
-					<VirtualizedListingStops
-						data={filteredStops}
-						icon={(<IconCirclePlus color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100} fill="#3CB43C" size={24} />)}
-						itemClick={handleStopClick}
-						size="lg"
-					/>
-				</View>
-			</SafeAreaView>
-		</Overlay>
+				</SafeAreaView>
+			</Overlay>
+		</StopsListContextProvider>
 	);
 
 	//

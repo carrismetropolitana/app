@@ -16,9 +16,10 @@ export const styles = () => {
 	return StyleSheet.create({
 		fab: {
 			bottom: 120,
+			height: 50,
 			left: 20,
 			padding: 10,
-			position: 'absolute',
+			position: 'relative',
 			width: '90%',
 			zIndex: 100,
 		},

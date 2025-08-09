@@ -48,7 +48,7 @@ export default function StopSearchBar({ counter = true, disabled = false, onPres
 				clearButtonMode="always"
 				containerStyle={{ borderRadius: 30 }}
 				disabled={disabled}
-				inputContainerStyle={{ bottom: 7, height: 50, left: 15 }}
+				inputContainerStyle={{ bottom: 7, height: 50 }}
 				leftIcon={<IconSearch color={fontColor} size={22} />}
 				onPress={onPress}
 				placeholder={t('placeholder')}

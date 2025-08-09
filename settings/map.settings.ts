@@ -11,10 +11,10 @@ export const mapDefaultValues = Object.freeze({
 	longitude: -9.0,
 	pitch: 0,
 	speed: 4000,
-	zoom: 14,
+	zoom: 12,
 	zoom_margin: 1,
-	zoom_max: 16,
-	zoom_min: 12,
+	zoom_max: 12,
+	zoom_min: 10,
 });
 
 /* * */

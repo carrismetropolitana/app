@@ -28,13 +28,11 @@ export const styles = () => {
 		column: {
 			alignItems: 'stretch',
 			flexDirection: 'column',
-			minWidth: 50,
 		},
 		container: {
 			flexDirection: 'row',
 			flexWrap: 'wrap',
 			rowGap: theming.sizeSpacing15,
-
 		},
 		dynamicHourPillBase: {
 			backgroundColor: backgroundColor,

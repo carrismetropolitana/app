@@ -166,15 +166,18 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 						<IconX color="#9696A0" onPress={linesDetailContext.actions.resetLineId} size={24} />
 					</ListItem>
 				)}
-				<ListItem onPress={() => setLineChooserVisibility(true)}>
-					<IconSearch color="#9696A0" size={24} />
-					<ListItem.Content>
-						<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-							<Text>{t('changeLineLabel')}</Text>
-						</ListItem.Title>
-					</ListItem.Content>
-					<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
-				</ListItem>
+
+				{!linesDetailContext.data.line && (
+					<ListItem onPress={() => setLineChooserVisibility(true)}>
+						<IconSearch color="#9696A0" size={24} />
+						<ListItem.Content>
+							<ListItem.Title style={addFavoriteLineStyles.listTitle}>
+								<Text>{t('changeLineLabel')}</Text>
+							</ListItem.Title>
+						</ListItem.Content>
+						<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
+					</ListItem>
+				)}
 			</View>
 
 			<View style={{ marginBottom: 20, marginTop: 20 }}>

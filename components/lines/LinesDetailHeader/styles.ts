@@ -33,7 +33,7 @@ export const styles = () => {
 			backgroundColor: theme.mode === 'light'
 				? theming.colorSystemBackgroundLight100
 				: theming.colorSystemBackgroundDark100,
-			height: 125,
+			height: 'auto',
 		},
 		headingSectionRow: {
 			gap: 15,

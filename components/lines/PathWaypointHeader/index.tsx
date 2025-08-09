@@ -83,10 +83,7 @@ export function PathWaypointHeader({ isFirstStop, isLastStop, isSelected, waypoi
 			<View style={pathWaypointHeaderStyles.subHeaderWrapper}>
 				<Text style={pathWaypointHeaderStyles.stopLocation}>{localityData?.display || municipalityData?.name}</Text>
 				<Text onPress={handleClickStopId} style={stopIdStyles}>
-					#{stopData.id}
-					{stopIdClipboard
-						? <IconCheck style={pathWaypointHeaderStyles.stopIdCopyIcon} />
-						: <IconCopy style={pathWaypointHeaderStyles.stopIdCopyIcon} />}
+					#{stopData.id} {stopIdClipboard ? <IconCheck style={pathWaypointHeaderStyles.stopIdCopyIcon} /> : <IconCopy style={pathWaypointHeaderStyles.stopIdCopyIcon} />}
 				</Text>
 			</View>
 			{isSelected && stopData.facilities.length > 0 && (

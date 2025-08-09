@@ -9,6 +9,7 @@ import { StyleSheet } from 'react-native';
 export const styles = () => {
 	const themeContext = useThemeContext();
 	const fontColor = themeContext.theme.mode === 'light' ? theming.colorSystemText300 : theming.colorSystemText400;
+	const backgroundColor = themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark100;
 
 	return StyleSheet.create({
 		/* CONTAINER */
@@ -19,7 +20,7 @@ export const styles = () => {
 		/* * */
 		/* TEXT VARIANTS */
 		textMuted: {
-			color: theming.colorSystemText200,
+			color: theming.colorSystemText300,
 		},
 		textRealtime: {
 			color: theming.colorRealtime100,
@@ -28,7 +29,7 @@ export const styles = () => {
 		/* VEHICLE COUNTER WITH COUNT */
 		vehiclesCounter: {
 			alignItems: 'center',
-			backgroundColor: '#FFFFFF',
+			backgroundColor: backgroundColor,
 			borderRadius: 999,
 			bottom: 0,
 			color: theming.colorRealtime100,
@@ -50,10 +51,10 @@ export const styles = () => {
 		zeroCount: {
 			alignItems: 'center',
 			alignSelf: 'flex-start',
-			backgroundColor: '#FFFFFF',
+			backgroundColor: backgroundColor,
 			borderRadius: 999,
 			bottom: 0,
-			color: theming.colorRealtime100,
+			color: theming.colorSystemText400,
 			flexDirection: 'row',
 			fontSize: 10,
 			fontWeight: '600',

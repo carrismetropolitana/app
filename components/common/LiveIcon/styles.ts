@@ -1,34 +1,39 @@
+import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { StyleSheet } from 'react-native';
 
 /* * */
 
 export const styles = () => {
+	const { theme } = useThemeContext();
+	const isLight = theme.mode === 'light';
+	const backgroundColor = isLight
+		? theming.colorSystemBackgroundLight200
+		: theming.colorSystemBackgroundDark200;
 	return StyleSheet.create({
 		/* * */
 		/* CONTAINER */
 
 		container: {
 			alignItems: 'center',
-			backgroundColor: theming.colorRealtime100,
+			backgroundColor: backgroundColor,
+
 			borderRadius: 999,
 			color: theming.colorRealtime100,
-			height: 10,
 			justifyContent: 'center',
-			width: 10,
+
 		},
 
 		/* * */
 		/* DOT */
 
 		dot: {
-			width: 10,
 			/* DOT SIZE */
 			backgroundColor: theming.colorRealtime100,
-
 			borderRadius: 999,
-			height: 10,
+			height: 5,
 			opacity: 1,
+			width: 5,
 		},
 
 		/* * */

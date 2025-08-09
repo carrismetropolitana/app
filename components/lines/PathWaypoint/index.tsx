@@ -60,7 +60,6 @@ export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isInfoSelec
 	// C. Handle actions
 
 	const handleToggleStop = () => {
-		console.log('Toggle stop:', waypointData.stop_id, waypointData.stop_sequence);
 		linesDetailContext.actions.setActiveWaypoint(waypointData.stop_id, waypointData.stop_sequence);
 	};
 
@@ -74,7 +73,6 @@ export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isInfoSelec
 		}
 
 		if (!onInfoSelect && selectionEnabled) {
-			console.log('Toggle stop normal:', waypointData.stop_id, waypointData.stop_sequence);
 			handleToggleStop();
 		}
 	};

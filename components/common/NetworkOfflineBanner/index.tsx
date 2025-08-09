@@ -57,5 +57,6 @@ export default function NetworkOfflineBanner() {
 			visible={visible}
 			disabled
 		/>
+
 	);
 }

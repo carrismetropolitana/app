@@ -14,7 +14,7 @@ import { styles } from './styles';
 /* * */
 
 export function PathWaypointTimetable() {
-	const { t } = useTranslation('lines.PathWaypointTimetable');
+	const { t } = useTranslation('translation', { keyPrefix: 'lines.PathWaypointTimetable' });
 	const linesDetailContext = useLinesDetailContext();
 	const operationalDayContext = useOperationalDayContext();
 	const timeTableStyles = styles();

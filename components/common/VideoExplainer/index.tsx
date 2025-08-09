@@ -34,7 +34,7 @@ export const VideoExplainer = ({ referer, source }: Props) => {
 					<ListItem.Content>
 						<ListItem.Title style={videoExplainerStyles.listTitle}><Text>{t('title')}</Text></ListItem.Title>
 					</ListItem.Content>
-					<ListItem.Chevron iconStyle={{ fontSize: 24 }}/>
+					<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
 				</ListItem>
 			</TouchableOpacity>
 		</View>

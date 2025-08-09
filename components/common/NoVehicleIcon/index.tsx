@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { View, ViewStyle } from 'react-native';
-import Animated, { Easing, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
+import Animated, { Easing, interpolate, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 
 import { styles } from './styles';
 
@@ -21,16 +21,16 @@ export function NoVehicleIcon({ style }: Props) {
 	// A. Setup Variables
 
 	const noVehicleIconStyles = styles();
-	const scale = useSharedValue(1);
-	const opacity = useSharedValue(0.3);
-	const animatedRippleStyle = useAnimatedStyle(() => ({ opacity: opacity.value, transform: [{ scale: scale.value }] }));
+	const scale = useSharedValue(0);
+	const animatedRippleStyle = useAnimatedStyle(() => ({
+		opacity: interpolate(scale.value, [0, 1.3], [0.3, 0]),
+		transform: [{ scale: scale.value }],
+	}));
 
 	//
 	// B. Transform Data
-
 	useEffect(() => {
-		scale.value = withRepeat(withTiming(1.3, { duration: 1600, easing: Easing.out(Easing.ease) }), -1, false);
-		opacity.value = withRepeat(withTiming(0, { duration: 1600, easing: Easing.out(Easing.ease) }), -1, false);
+		scale.value = withRepeat(withTiming(1.3, { duration: 1500, easing: Easing.out(Easing.ease) }), -1, false);
 	}, []);
 
 	//
