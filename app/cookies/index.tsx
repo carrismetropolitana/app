@@ -29,7 +29,7 @@ export default function Component() {
 	const consentContext = useConsentContext();
 	const themeContext = useThemeContext();
 
-	const backgroundColor = isLight ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200;
+	const backgroundColor = isLight ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark200;
 	const fontColor = isLight ? theming.colorSystemText100 : theming.colorSystemText300;
 
 	const [dialogVisible, setDialogVisible] = useState(false);

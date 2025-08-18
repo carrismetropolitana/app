@@ -44,7 +44,7 @@ export default function HomeScreen() {
 	// C. Render Components
 
 	return (
-		<View style={{ backgroundColor, flex: 1 }}>
+		<View style={{ backgroundColor: backgroundColor, flex: 1 }}>
 			<Header />
 			<ScrollView
 				showsVerticalScrollIndicator={false}

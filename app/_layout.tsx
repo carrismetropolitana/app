@@ -3,7 +3,6 @@
 import 'react-native-reanimated';
 import '@/i18n';
 import 'expo-dev-client';
-import NetworkOffline from '@/components/common/NetworkOfflineBanner';
 import { NotificationsProvider } from '@/contexts/Notifications.context';
 import { ThemeProvider } from '@/contexts/Theme.context';
 import { ConfigProviders } from '@/providers/config-providers';
@@ -46,8 +45,7 @@ export default function RootLayout() {
 										<QueryClientProvider client={queryClient}>
 											<ThemeProvider>
 												<SafeAreaProvider>
-													<NetworkOffline />
-													<StatusBar backgroundColor="transparent" style="auto" translucent />
+													<StatusBar backgroundColor="transparent" style="auto" translucent={false} />
 													<Stack>
 														<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 													</Stack>
