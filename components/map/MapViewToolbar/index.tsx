@@ -12,10 +12,11 @@ import { useTranslation } from 'react-i18next';
 import { Alert, Linking, StyleSheet, View } from 'react-native';
 
 interface Props {
+	cameraCenter?: [number, number]
 	onCenterMap?: () => void
 }
 
-export function MapViewToolbar({ onCenterMap }: Props) {
+export function MapViewToolbar({ cameraCenter, onCenterMap }: Props) {
 	const { mapInstance } = useContext(MapContext);
 	//
 
@@ -68,9 +69,11 @@ export function MapViewToolbar({ onCenterMap }: Props) {
 				url = `https://www.google.com/maps?q=${stopLat},${stopLon}&z=10`;
 			}
 			else {
-				if (mapInstance.current && mapInstance.current.getCenter) {
+				if (cameraCenter && cameraCenter.length === 2) {
+					url = `https://www.google.com/maps?q=${cameraCenter[1]},${cameraCenter[0]}&z=16`;
+				}
+				else if (mapInstance.current && mapInstance.current.getCenter) {
 					const center = await mapInstance.current.getCenter();
-					console.log('by center', center);
 					url = `https://www.google.com/maps?q=${center[1]},${center[0]}&z=16`;
 				}
 				else {

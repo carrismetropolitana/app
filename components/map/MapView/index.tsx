@@ -76,6 +76,7 @@ export function MapView({ camera, children, fitBoundsCoords, mapStyle, onPress, 
 		],
 		zoomLevel: mapDefaultConfig.initialViewState.zoom,
 	});
+	const [liveCameraCenter, setLiveCameraCenter] = useState<[number, number]>(internalCam.centerCoordinate);
 	const styleUrl = mapStyle
 		? mapDefaultConfig.styles[mapStyle]
 		: mapDefaultConfig.styles[mapOptionsContext.data.style === 'satellite' ? 'satellite' : 'map'];
@@ -131,19 +132,26 @@ export function MapView({ camera, children, fitBoundsCoords, mapStyle, onPress, 
 		[onRegionWillChange],
 	);
 
+	const handleRegionDidChange = useCallback((e: any) => {
+		if (e?.geometry?.coordinates) {
+			setLiveCameraCenter(e.geometry.coordinates);
+		}
+		onRegionDidChange?.(e);
+	}, [onRegionDidChange]);
+
 	//
 	// C. Render Components
 
 	return (
 		<View style={styles.container}>
-			{toolbar && (<MapViewToolbar onCenterMap={handleCenterOnUser} />)}
+			{toolbar && (<MapViewToolbar cameraCenter={liveCameraCenter} onCenterMap={handleCenterOnUser} />)}
 			<RNMapView
 				ref={mapRef}
 				attributionEnabled={false}
 				mapStyle={styleUrl}
 				onDidFinishLoadingMap={handleMapReady}
 				onPress={onPress}
-				onRegionDidChange={onRegionDidChange}
+				onRegionDidChange={handleRegionDidChange}
 				onRegionIsChanging={onRegionIsChanging}
 				onRegionWillChange={handleRegionWillChange}
 				rotateEnabled={false}
