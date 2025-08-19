@@ -1,3 +1,4 @@
+import { MapContext } from '@/contexts/Map.context';
 import { useMapOptionsContext } from '@/contexts/MapOptions.context';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
@@ -6,6 +7,7 @@ import { Button } from '@rn-vui/themed';
 import { IconCurrentLocation, IconLocationFilled, IconMap, IconSatellite } from '@tabler/icons-react-native';
 import * as Location from 'expo-location';
 import React, { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, Linking, StyleSheet, View } from 'react-native';
 
@@ -14,6 +16,7 @@ interface Props {
 }
 
 export function MapViewToolbar({ onCenterMap }: Props) {
+	const { mapInstance } = useContext(MapContext);
 	//
 
 	//
@@ -65,7 +68,14 @@ export function MapViewToolbar({ onCenterMap }: Props) {
 				url = `https://www.google.com/maps?q=${stopLat},${stopLon}&z=10`;
 			}
 			else {
-				url = `https://www.google.com/maps?q=${latitude},${longitude}&z=10`;
+				if (mapInstance.current && mapInstance.current.getCenter) {
+					const center = await mapInstance.current.getCenter();
+					console.log('by center', center);
+					url = `https://www.google.com/maps?q=${center[1]},${center[0]}&z=16`;
+				}
+				else {
+					url = `https://www.google.com/maps?q=${latitude},${longitude}&z=10`;
+				}
 			}
 			Linking.openURL(url);
 		}

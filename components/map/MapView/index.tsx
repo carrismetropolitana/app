@@ -78,11 +78,7 @@ export function MapView({ camera, children, fitBoundsCoords, mapStyle, onPress, 
 	});
 	const styleUrl = mapStyle
 		? mapDefaultConfig.styles[mapStyle]
-		: mapDefaultConfig.styles[
-			mapOptionsContext.data.style === 'satellite'
-				? 'satellite'
-				: 'map'
-		];
+		: mapDefaultConfig.styles[mapOptionsContext.data.style === 'satellite' ? 'satellite' : 'map'];
 
 	//
 	// B. Handle Actions
@@ -174,6 +170,7 @@ export function MapView({ camera, children, fitBoundsCoords, mapStyle, onPress, 
 						animationMode="linearTo"
 						centerCoordinate={internalCam.centerCoordinate}
 						followUserLocation={false}
+						maxZoomLevel={mapDefaultConfig.maxZoom}
 						zoomLevel={Math.min(internalCam.zoomLevel, mapDefaultConfig.maxZoom)}
 					/>
 				)}

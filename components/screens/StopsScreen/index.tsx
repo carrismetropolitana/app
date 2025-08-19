@@ -154,13 +154,13 @@ export default function StopsScreen() {
 					}
 				});
 
-				const shapeFeatures = (await Promise.all(promises)).filter((feature): feature is Feature<LineString> => feature !== null);
+				// const shapeFeatures = (await Promise.all(promises)).filter((feature): feature is Feature<LineString> => feature !== null);
 
-				const allShapesFc: FeatureCollection<LineString> = {
-					features: shapeFeatures,
-					type: 'FeatureCollection',
-				};
-				setLineShapes(allShapesFc);
+				// const allShapesFc: FeatureCollection<LineString> = {
+				// 	features: shapeFeatures,
+				// 	type: 'FeatureCollection',
+				// };
+				// setLineShapes(allShapesFc);
 			};
 
 			fetchShapes();
@@ -170,7 +170,7 @@ export default function StopsScreen() {
 	//
 	// C. Handle Actions
 	const handleCenterStop = (stop: Stop) => {
-		setCameraState({ center: [stop.lon, stop.lat], zoom: 18 });
+		setCameraState({ center: [stop.lon, stop.lat - 0.0003], zoom: 18 });
 	};
 	const handleStopPress = (stopId: string) => {
 		const stop = stopsContext.actions.getStopById(stopId);

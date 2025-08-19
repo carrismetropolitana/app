@@ -70,7 +70,7 @@ export function FavoriteToggle({ color, isActive, onToggle }: Props) {
 	return (
 		<TouchableOpacity onPress={onToggle}>
 			<View style={favoriteToggleStyles.container}>
-				<IconHeart color={theming.colorSystemText300} />
+				<IconHeart color={theming.colorSystemText300}/>
 			</View>
 		</TouchableOpacity>
 	);
