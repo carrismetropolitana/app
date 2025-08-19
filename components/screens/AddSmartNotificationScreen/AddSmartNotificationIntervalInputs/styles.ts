@@ -9,7 +9,7 @@ const styles = () => {
 	const themeContext = useThemeContext();
 
 	const fontColor = themeContext.theme.mode === 'light' ? theming.colorSystemText200 : theming.colorSystemText300;
-	const borderColor = themeContext.theme.mode === 'light' ? theming.colorSystemBorder200 : theming.colorSystemBorderDark200;
+	const borderColor = themeContext.theme.mode === 'light' ? theming.colorSystemBorder100 : theming.colorSystemBorderDark200;
 	const selectorBackgroundColor = themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100;
 
 	return StyleSheet.create({
@@ -37,6 +37,20 @@ const styles = () => {
 			borderLeftWidth: 0,
 			borderRightWidth: 0,
 			borderTopWidth: 1,
+			flexDirection: 'row',
+			height: 80,
+			justifyContent: 'space-between',
+			paddingHorizontal: 20,
+			width: '100%',
+		},
+		timeSelectorsNoTop: {
+			alignItems: 'center',
+			backgroundColor: selectorBackgroundColor,
+			borderBottomWidth: 1,
+			borderColor: borderColor,
+			borderLeftWidth: 0,
+			borderRightWidth: 0,
+			borderTopWidth: 0,
 			flexDirection: 'row',
 			height: 80,
 			justifyContent: 'space-between',

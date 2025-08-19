@@ -1,10 +1,12 @@
 /* * */
 
 import { AlertsCarousel } from '@/components/common/AlertsCarousel';
-import { Section } from '@/components/common/layout/Section';
-import { Surface } from '@/components/common/layout/Surface';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { Text } from '@rn-vui/themed';
 import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
+
+import { styles } from './styles';
 
 /* * */
 
@@ -15,6 +17,7 @@ export function LinesDetailAlerts() {
 	// A. Setup variables
 
 	const { t } = useTranslation('translation', { keyPrefix: 'lines.LinesDetailAlerts' });
+	const lineDetailsAlertStyles = styles();
 	const linesDetailContext = useLinesDetailContext();
 
 	//
@@ -25,11 +28,10 @@ export function LinesDetailAlerts() {
 	}
 
 	return (
-		<Surface variant="alerts">
-			<Section heading={t('heading')}>
-				<AlertsCarousel alerts={linesDetailContext.data.active_alerts} />
-			</Section>
-		</Surface>
+		<View style={lineDetailsAlertStyles.alertWrapper}>
+			<Text style={lineDetailsAlertStyles.titleText}>{t('heading')}</Text>
+			<AlertsCarousel alerts={linesDetailContext.data.active_alerts} />
+		</View>
 	);
 
 	//

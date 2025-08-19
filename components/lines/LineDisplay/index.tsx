@@ -32,7 +32,7 @@ export function LineDisplay({ color, lineData, longName, municipality, shortName
 	if (lineData) {
 		return (
 			<View style={lineDisplayStyles.container}>
-				<LineBadge color={lineData.color} lineId={lineData.id} shortName={lineData.short_name} size={size} textColor={lineData.text_color} />
+				<LineBadge color={lineData.color} lineId={lineData.id} shortName={lineData.short_name} size={size} textColor={lineData.text_color} withAlertIcon />
 				<LineName align="left" longName={lineData.long_name} />
 			</View>
 		);
@@ -41,7 +41,7 @@ export function LineDisplay({ color, lineData, longName, municipality, shortName
 	if (longName && shortName && color && textColor) {
 		return (
 			<View style={lineDisplayStyles.container}>
-				<LineBadge color={color} shortName={shortName} size={size} textColor={textColor} />
+				<LineBadge color={color} shortName={shortName} size={size} textColor={textColor} withAlertIcon />
 				<LineName align="left" longName={longName} municipality={municipality} />
 			</View>
 		);

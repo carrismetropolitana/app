@@ -243,7 +243,12 @@ export default function StopsScreen() {
 												<ListItem.Subtitle>
 													<Text style={stopMapDetailStyles.metaData}>{stopData.id}</Text>
 													<Text style={stopMapDetailStyles.metaData}> • </Text>
-													<Text style={stopMapDetailStyles.metaData}>{stopData.municipality_id}</Text>
+													<Text style={stopMapDetailStyles.metaData}>
+														{(() => {
+															const municipality = locationsContext.actions.getMunicipalityById(stopData.municipality_id);
+															return municipality ? municipality.name : stopData.municipality_id;
+														})()}
+													</Text>
 												</ListItem.Subtitle>
 											</View>
 										</View>

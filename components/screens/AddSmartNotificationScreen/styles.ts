@@ -15,7 +15,6 @@ const styles = () => {
 	return StyleSheet.create({
 		container: {
 			backgroundColor: backgroundColor,
-			paddingBottom: 60,
 		},
 		input: {
 			alignSelf: 'center',

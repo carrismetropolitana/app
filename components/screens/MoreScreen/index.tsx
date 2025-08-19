@@ -7,7 +7,7 @@ import { useLocaleContext } from '@/contexts/Locale.context';
 import { useWebsiteNews } from '@/services/website/queries/useNews';
 import { listItem } from '@/types/moreList.types';
 import { openWebView } from '@/utils/openWebView';
-import { Avatar, ButtonGroup, ListItem, Text } from '@rn-vui/themed';
+import { Avatar, Button, ButtonGroup, ListItem, Text } from '@rn-vui/themed';
 import Constants from 'expo-constants';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -50,25 +50,22 @@ export default function MoreScreen() {
 	const { t } = useTranslation('translation', { keyPrefix: 'more' });
 	const appVersion = Constants.expoConfig?.version || 0.00;
 
-	const [selectedIndex, setSelectedIndex] = useState(1);
+	const [selectedLangIndex, setSelectedLangIndex] = useState(localeContext.locale === 'en' ? 0 : 1);
 
 	// B. Handle Actions
 
-	const handlePress = (index: number) => {
-		setSelectedIndex(index);
-		switch (index) {
-			case 0:
-				localeContext.actions.changeToEnglish();
-				break;
-			case 1:
-				localeContext.actions.changeToPortuguese();
-				break;
-			case 2:
-				debugContext.actions.toggleDebugMode();
-				break;
-			default:
-				break;
+	const handleLangPress = (index: number) => {
+		setSelectedLangIndex(index);
+		if (index === 0) {
+			localeContext.actions.changeToEnglish();
 		}
+		else if (index === 1) {
+			localeContext.actions.changeToPortuguese();
+		}
+	};
+
+	const handleDebugPress = () => {
+		debugContext.actions.toggleDebugMode();
 	};
 
 	//
@@ -122,12 +119,21 @@ export default function MoreScreen() {
 						<ListSection data={Tarifslistdata()} heading={t('TarifsList.heading')} renderItem={renderListItem} />
 						<ListSection data={AboutCMlistdata()} heading={t('AboutCMList.heading')} renderItem={renderListItem} />
 						<ButtonGroup
-							buttons={[t('languages.en'), t('languages.pt'), t('toggle_debug')]}
+							buttons={[t('languages.en'), t('languages.pt')]}
 							buttonStyle={{ padding: 10 }}
-							onPress={handlePress}
+							onPress={handleLangPress}
 							selectedButtonStyle={{ backgroundColor: '#e2e2e2' }}
-							selectedIndex={selectedIndex}
+							selectedIndex={selectedLangIndex}
 						/>
+						<View style={{ alignItems: 'center', marginTop: 12 }}>
+							<Button
+								onPress={handleDebugPress}
+								style={{ backgroundColor: debugContext.flags.is_debug_mode ? '#27ae60' : '#e2e2e2' }}
+							>
+								{`${t('toggle_debug')}`}
+							</Button>
+						</View>
+
 						<Text style={moreStyles.version}>{appVersion}</Text>
 					</>
 				)}

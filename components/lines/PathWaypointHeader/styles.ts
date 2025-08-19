@@ -16,8 +16,8 @@ export const styles = () => {
 		? theming.colorSystemBackgroundLight200
 		: theming.colorSystemBackgroundDark200;
 	const fontColor = isLight
-		? theming.colorSystemText200
-		: theming.colorSystemText300;
+		? theming.colorSystemText300
+		: theming.colorSystemText400;
 	const headerfontColor = isLight
 		? theming.colorSystemText100
 		: theming.colorSystemText400;
@@ -67,6 +67,7 @@ export const styles = () => {
 		subHeaderWrapper: {
 			alignItems: 'center',
 			flexDirection: 'row',
+			marginBottom: 10,
 		},
 
 		/* * */
@@ -74,8 +75,9 @@ export const styles = () => {
 
 		stopLocation: {
 			color: fontColor,
-			fontSize: 14,
+			fontSize: 16,
 			fontWeight: theming.fontWeightSemibold as '600',
+			paddingTop: 11,
 		},
 
 		/* * */
@@ -83,7 +85,7 @@ export const styles = () => {
 
 		stopId: {
 			color: fontColor,
-			fontSize: 12,
+			fontSize: 14,
 			fontWeight: theming.fontWeightBold as '600',
 			marginLeft: theming.sizeSpacing10,
 		},

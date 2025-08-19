@@ -9,7 +9,7 @@ const styles = () => {
 	const themeContext = useThemeContext();
 
 	const fontColor = themeContext.theme.mode === 'light' ? theming.colorSystemText200 : theming.colorSystemText300;
-	const borderColor = themeContext.theme.mode === 'light' ? theming.colorSystemBorder200 : theming.colorSystemBorderDark200;
+	const borderColor = themeContext.theme.mode === 'light' ? theming.colorSystemBorder100 : theming.colorSystemBorderDark200;
 	const backgroundColor = themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200;
 	const selectorBackgroundColor = themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100;
 

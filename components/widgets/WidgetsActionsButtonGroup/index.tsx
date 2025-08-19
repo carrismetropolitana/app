@@ -6,7 +6,7 @@ import { Button } from '@rn-vui/themed';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
-import styles from './styles';
+import { styles } from './styles';
 
 /* * */
 
@@ -26,7 +26,7 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onCle
 	// A. Setup Variables
 
 	const profileContext = useProfileContext();
-	const headerExplainerStyles = styles();
+	const widgetActionButtonsStyles = styles();
 
 	const { t } = useTranslation('translation', { keyPrefix: 'common' });
 
@@ -81,9 +81,9 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onCle
 	// C. Render Components
 
 	return (
-		<View>
-			<Button buttonStyle={headerExplainerStyles.saveButton} disabled={length === 0} onPress={() => handleSave()} title={t('saveButton')} titleStyle={headerExplainerStyles.saveButtonText} />
-			<Button buttonStyle={headerExplainerStyles.saveButton} onPress={() => handleCancel()} title={t('closeButton')} titleStyle={headerExplainerStyles.saveButtonText} />
+		<View style={widgetActionButtonsStyles.container}>
+			<Button buttonStyle={widgetActionButtonsStyles.saveButton} disabled={length === 0} onPress={() => handleSave()} title={t('saveButton')} titleStyle={widgetActionButtonsStyles.saveButtonText} />
+			<Button buttonStyle={widgetActionButtonsStyles.saveButton} onPress={() => handleCancel()} title={t('closeButton')} titleStyle={widgetActionButtonsStyles.saveButtonText} />
 		</View>
 	);
 

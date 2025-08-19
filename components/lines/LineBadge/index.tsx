@@ -25,7 +25,7 @@ interface Props {
 
 /* * */
 
-export function LineBadge({ color, lineData, lineId, onPress, shortName, size = 'md', textColor, withAlertIcon = false }: Props) {
+export function LineBadge({ color, lineData, lineId, onPress, shortName, size = 'md', textColor, withAlertIcon }: Props) {
 	//
 
 	//
@@ -53,7 +53,7 @@ export function LineBadge({ color, lineData, lineId, onPress, shortName, size = 
 			<Text style={[badgeStyles, { backgroundColor: color ? color : fetchedLineData?.color || lineData?.color, color: textColor || lineData?.text_color || fetchedLineData?.text_color }]}>
 				{shortName || lineData?.short_name || fetchedLineData?.short_name || '• • •'}
 			</Text>
-			{(withAlertIcon || hasAlerts) && (
+			{hasAlerts && withAlertIcon && (
 				<View style={[lineBadgeStyles.alertIcon, { backgroundColor: '#FFFFFF', borderColor: color ? color : fetchedLineData?.color || lineData?.color, borderRadius: 999, borderWidth: 2 }]}>
 					<IconInfoTriangleFilled color={color ? color : fetchedLineData?.color || lineData?.color} fill="#FFFFFF" size={14} />
 				</View>

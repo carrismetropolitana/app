@@ -152,9 +152,11 @@
 			"startingTime": "Hora de Início"
 		},
 		"StopSelector": {
+			"functionalityNotAvailable": "Esta funcionalidade não está disponível na primeira paragem do percurso, pois não é possível prever a chegada à primeira paragem.",
 			"showLess": "Mostrar menos",
 			"showMore": "Mostrar mais",
 			"stopSelectorTitle": "da paragem",
+			"stops": "paragens",
 			"title": "Selecione uma linha para ver as suas paragens"
 		},
 		"Toolbar": {

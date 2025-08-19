@@ -92,7 +92,7 @@ export function MapView({ camera, children, fitBoundsCoords, mapStyle, onPress, 
 			setUserInteracted(false);
 			setInternalCam({
 				centerCoordinate: camera.centerCoordinate,
-				zoomLevel: camera.zoomLevel,
+				zoomLevel: Math.min(camera.zoomLevel, mapDefaultConfig.maxZoom),
 			});
 		}
 	}, [
@@ -174,7 +174,7 @@ export function MapView({ camera, children, fitBoundsCoords, mapStyle, onPress, 
 						animationMode="linearTo"
 						centerCoordinate={internalCam.centerCoordinate}
 						followUserLocation={false}
-						zoomLevel={internalCam.zoomLevel}
+						zoomLevel={Math.min(internalCam.zoomLevel, mapDefaultConfig.maxZoom)}
 					/>
 				)}
 				{children}

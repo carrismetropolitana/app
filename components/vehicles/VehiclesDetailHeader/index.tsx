@@ -41,7 +41,7 @@ export function VehiclesDetailHeader({ data }: VehiclesDetailHeaderProps) {
 				<View style={lineDetailsHeaderStyles.headingSectionRow}>
 
 					<View style={lineDetailsHeaderStyles.headingFirstSection}>
-						<LineBadge lineData={linesDetailContext.data.line} size="lg" />
+						<LineBadge lineData={linesDetailContext.data.line} size="lg" withAlertIcon />
 						<Text style={lineDetailsHeaderStyles.lineDestination}> {linesDetailContext.data.active_pattern?.headsign} </Text>
 						<Text style={lineDetailsHeaderStyles.lineName}>{linesDetailContext.data.line.long_name}</Text>
 					</View>

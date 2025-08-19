@@ -152,9 +152,11 @@
 			"startingTime": "From"
 		},
 		"StopSelector": {
+			"functionalityNotAvailable": "This functionality is not available at the first stop of the route because it is not possible to predict the arrival at the first stop.",
 			"showLess": "Show less",
 			"showMore": "Show more",
 			"stopSelectorTitle": "from the stop",
+			"stops": "stops",
 			"title": "Select a line to see it's stops"
 		},
 		"Toolbar": {

@@ -214,11 +214,7 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 	// D. Render Components
 
 	return (
-		<ScrollView
-			contentContainerStyle={addFavoriteLineStyles.scrollContent}
-			showsVerticalScrollIndicator={false}
-			style={addFavoriteLineStyles.overlay}
-		>
+		<ScrollView contentContainerStyle={addFavoriteLineStyles.scrollContent} showsVerticalScrollIndicator={false} style={addFavoriteLineStyles.overlay}>
 			<View style={addFavoriteLineStyles.container}>
 				<HeaderExplainer heading={t('heading')} subheading={t('subheading')} />
 				<VerticalContentSeparator starting />
@@ -226,7 +222,7 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 				<View>
 					{linesDetailContext.data.line && (
 						<ListItem>
-							<IconArrowLoopRight color="#C61D23" size={24} />
+							<LineBadge lineId={linesDetailContext.data.lineId} size="lg" withAlertIcon={false} />
 							<ListItem.Content>
 								<ListItem.Title style={addFavoriteLineStyles.listTitle}>
 									<Text>{linesDetailContext.data.line.long_name}</Text>
@@ -235,15 +231,17 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 							<IconX color="#9696A0" onPress={linesDetailContext.actions.resetLineId} size={24} />
 						</ListItem>
 					)}
-					<ListItem onPress={() => setLineChooserVisibility(true)}>
-						<IconSearch color="#9696A0" size={24} />
-						<ListItem.Content>
-							<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-								<Text>{t('changeLineLabel')}</Text>
-							</ListItem.Title>
-						</ListItem.Content>
-						<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
-					</ListItem>
+					{!linesDetailContext.data.line && (
+						<ListItem onPress={() => setLineChooserVisibility(true)}>
+							<IconSearch color="#9696A0" size={24} />
+							<ListItem.Content>
+								<ListItem.Title style={addFavoriteLineStyles.listTitle}>
+									<Text>{t('changeLineLabel')}</Text>
+								</ListItem.Title>
+							</ListItem.Content>
+							<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
+						</ListItem>
+					)}
 				</View>
 				<View>
 					{linesDetailContext.data.line?.pattern_ids ? (
@@ -256,15 +254,15 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 								const isSelected = selectedVersionId === versionId;
 								return (
 									<ListItem key={item} onPress={() => handlePatternSelect(item)} style={{ backgroundColor: isSelected ? '#e6f7ff' : undefined }}>
-										<LineBadge color={linesDetailContext.data.line?.color} lineId={linesDetailContext.data.lineId} size="lg" />
-										<IconArrowRight size={10} />
+										<LineBadge color={linesDetailContext.data.line?.color} lineId={linesDetailContext.data.lineId} size="lg" withAlertIcon />
 										<ListItem.Content>
 											<ListItem.Title style={addFavoriteLineStyles.listTitle}>
 												<Text>{patternNames[item] || t('noDestination')}</Text>
 											</ListItem.Title>
 										</ListItem.Content>
-										{isSelected && <IconCircleCheckFilled color="#FFFFFF" fill="#3CB43C" size={24} />}
-										{!isSelected && <IconCircle color="#9696A0" size={24} />}
+										{isSelected
+											? <IconCircleCheckFilled color="#FFFFFF" fill="#3CB43C" size={24} />
+											: <IconCircle color="#9696A0" size={24} />}
 									</ListItem>
 								);
 							})}
@@ -287,7 +285,6 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 				</View>
 			</View>
 			<TestingNeedWarning />
-
 			<WidgetActionsButtonGroup
 				isUpdate={Id}
 				length={selectedStopId ? 1 : 0}

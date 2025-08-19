@@ -99,7 +99,7 @@ export default function StopDetailNextArrivals({ description, descriptionEnabled
 					<ListItem.Content>
 						<ListItem.Title>
 							<View style={stopDetailNextArrivals.arrivalContainer}>
-								<LineBadge lineId={tripData.line_id} size="lg" />
+								<LineBadge lineId={tripData.line_id} size="lg" withAlertIcon />
 								<Text style={stopDetailNextArrivals.headsign}>{tripData.headsign}</Text>
 								<View style={{ flex: 1 }} />
 								{formatted && status === 'realtime' ? (

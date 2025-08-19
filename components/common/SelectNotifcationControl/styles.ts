@@ -28,12 +28,12 @@ export const styles = () => {
 			backgroundColor: theme.mode === 'light'
 				? theming.colorSystemBackgroundLight100
 				: theming.colorSystemBackgroundDark100,
-			borderRadius: 3,
-			boxShadow: '0 0 5 0 rgba(0, 0, 0, 0.1)',
-			marginBottom: 5,
-			marginLeft: 5,
-			marginRight: 5,
-			marginTop: 5,
+			// borderRadius: 3,
+			// boxShadow: '0 0 5 0 rgba(0, 0, 0, 0.1)',
+			// marginBottom: 5,
+			// marginLeft: 5,
+			// marginRight: 5,
+			// marginTop: 5,
 
 		},
 		container: {

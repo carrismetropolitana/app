@@ -73,7 +73,7 @@ export const AddSmartNotificationsIntervalInputs = ({ endingHour, setEndingHour,
 					/>
 				)}
 			</View>
-			<View style={intervalInputsStyles.timeSelectors}>
+			<View style={intervalInputsStyles.timeSelectorsNoTop}>
 				<Text style={intervalInputsStyles.text}>{t('endingTime')}</Text>
 				{Platform.OS === 'android' ? (
 					<>

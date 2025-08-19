@@ -33,7 +33,7 @@ export function LinesDetailPath() {
 	}
 
 	return (
-		<View style={{ marginTop: 20 }}>
+		<View>
 			<LinesDetailPathMap />
 			<LinesDetailPathList />
 		</View>

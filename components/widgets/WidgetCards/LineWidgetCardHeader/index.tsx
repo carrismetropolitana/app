@@ -35,7 +35,7 @@ export function LineWidgetCardHeader({ lineId, title }: LineWidgetCardHeaderProp
 
 	return (
 		<View style={headerStyles.container}>
-			<LineBadge color={lineData?.color} lineId={lineId} size="lg" />
+			<LineBadge color={lineData?.color} lineId={lineId} size="lg" withAlertIcon />
 			<Text style={headerStyles.headerTitle}>{title}</Text>
 		</View>
 	);

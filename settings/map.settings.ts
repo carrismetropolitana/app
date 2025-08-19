@@ -13,7 +13,7 @@ export const mapDefaultValues = Object.freeze({
 	speed: 4000,
 	zoom: 12,
 	zoom_margin: 1,
-	zoom_max: 12,
+	zoom_max: 14,
 	zoom_min: 10,
 });
 

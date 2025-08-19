@@ -202,6 +202,7 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 											color={linesDetailContext.data.line?.color}
 											lineId={linesDetailContext.data.lineId}
 											size="lg"
+											withAlertIcon
 										/>
 										<IconArrowRight size={10} />
 										<ListItem.Content>

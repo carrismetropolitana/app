@@ -194,7 +194,7 @@ export default function AddFavoriteStopScreen() {
 									const isSelected = selectedStopPatterns.includes(patternId);
 									return (
 										<ListItem key={patternId} onPress={() => togglePattern(patternId, selectedStopPatterns, setSelectedStopPatterns)}>
-											<LineBadge color={lineColor} lineId={lineId} size="lg" />
+											<LineBadge color={lineColor} lineId={lineId} size="lg" withAlertIcon />
 											<IconArrowRight size={10} />
 											<ListItem.Content>
 												<ListItem.Title style={addFavoriteStopStyles.listTitle}> {patternNames[patternId] || 'Sem destino'}</ListItem.Title>

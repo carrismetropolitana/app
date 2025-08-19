@@ -12,11 +12,10 @@ const styles = () => {
 
 	return StyleSheet.create({
 		warningContainer: {
-			marginBottom: 10,
+			padding: 20,
 		},
 		warningText: {
 			color: fontColor,
-			marginBottom: 20,
 			textAlign: 'center',
 		},
 		warningTitle: {
