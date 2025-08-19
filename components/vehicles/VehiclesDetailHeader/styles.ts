@@ -14,12 +14,9 @@ export const styles = () => {
 
 	const { theme } = useThemeContext();
 	const isLight = theme.mode === 'light';
-	const backgroundColor = isLight
-		? theming.colorSystemBackgroundLight200
-		: theming.colorSystemBackgroundDark200;
-	const fontColor = isLight
-		? theming.colorSystemText100
-		: theming.colorSystemText300;
+	const backgroundColor = isLight ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200;
+	const fontColor = isLight ? theming.colorSystemText100 : theming.colorSystemText300;
+	const secondaryFontColor = isLight ? theming.colorSystemText300 : theming.colorSystemText200;
 	//
 	// B. Render Components
 
@@ -36,9 +33,13 @@ export const styles = () => {
 			display: 'flex',
 			flexDirection: 'row',
 			flexWrap: 'wrap',
-			gap: 20,
+			gap: 10,
 			justifyContent: 'center',
 			padding: 20,
+		},
+		busInfoText: {
+			color: secondaryFontColor,
+			fontWeight: theming.fontWeightBold as '600',
 		},
 		headingFirstSection: {
 			alignItems: 'center',
@@ -71,7 +72,7 @@ export const styles = () => {
 		},
 		lineName: {
 			color: fontColor,
-			fontSize: theming.fontSizeSubtitle,
+			fontSize: theming.fontSizeTitle,
 			fontWeight: theming.fontWeightHeading as '700',
 		},
 		mapSection: {

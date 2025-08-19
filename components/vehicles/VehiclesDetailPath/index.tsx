@@ -34,7 +34,7 @@ export function VehiclesDetailPath() {
 	}
 
 	return (
-		<View style={{ marginTop: 20 }}>
+		<View>
 			<VehiclesDetailPathMap hasToolbar={false} />
 			<VehiclesDetailPathList />
 		</View>

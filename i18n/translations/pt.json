@@ -473,6 +473,9 @@
 		"personalizeWidgetsSectionTitle": "Personalizar Widgets"
 	},
 	"vehicles": {
+		"VehiclesDetailHeader": {
+			"direction": "sentido"
+		},
 		"vehicleHeaderTitle": "Veículo"
 	},
 	"videoexplainer": {

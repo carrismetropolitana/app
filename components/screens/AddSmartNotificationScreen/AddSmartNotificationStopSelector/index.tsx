@@ -89,7 +89,7 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 													})()}
 												</ListItem.Subtitle>
 											</ListItem.Content>
-											{isSelected && <IconCircleCheckFilled color="#3CB43C" fill="#FFFFFF" size={24} />}
+											{isSelected && <IconCircleCheckFilled color="#FFFFFF" fill="#3CB43C" size={24} />}
 										</ListItem>
 									</View>
 								);
@@ -147,7 +147,7 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 															})()}
 														</ListItem.Subtitle>
 													</ListItem.Content>
-													{isSelected && <IconCircleCheckFilled color="#3CB43C" fill="#FFFFFF" size={24} />}
+													{isSelected && <IconCircleCheckFilled color="#FFFFFF" fill="#3CB43C" size={24} />}
 												</ListItem>
 											</View>
 										);
@@ -196,7 +196,7 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 													})()}
 												</ListItem.Subtitle>
 											</ListItem.Content>
-											{isSelected && <IconCircleCheckFilled color="#3CB43C" fill="#FFFFFF" size={24} />}
+											{isSelected && <IconCircleCheckFilled color="#FFFFFF" fill="#3CB43C" size={24} />}
 										</ListItem>
 									</View>
 								);
@@ -219,7 +219,7 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 												{stop ? <Text>{stop.long_name}</Text> : <Text>{waypoint.stop_id}</Text>}
 											</ListItem.Title>
 										</ListItem.Content>
-										{isSelected && <IconCircleCheckFilled color="#3CB43C" fill="#FFFFFF" size={24} />}
+										{isSelected && <IconCircleCheckFilled color="#FFFFFF" fill="#3CB43C" size={24} />}
 									</ListItem>
 								);
 							})}

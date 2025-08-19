@@ -14,7 +14,7 @@ interface Props {
 
 /* * */
 
-export function LicensePlate({ country = 'pt', value }: Props) {
+export function LicensePlate({ country = 'p', value }: Props) {
 	//
 
 	//
@@ -25,7 +25,7 @@ export function LicensePlate({ country = 'pt', value }: Props) {
 	//
 	// B. Transform data
 
-	const formattedPlate = value.split('-').join('').match(/.{1,2}/g)?.join(' ');
+	const formattedPlate = value.split('-').join('').match(/.{1,2}/g)?.join('-');
 
 	//
 	// B. Render components

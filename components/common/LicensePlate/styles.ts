@@ -9,7 +9,7 @@ export const styles = () => {
 		/* CONTAINER */
 		container: {
 			alignItems: 'center',
-			backgroundColor: 'rgb(15 70 210)',
+			backgroundColor: '#006EFF',
 			borderRadius: 4,
 			flexDirection: 'row',
 			gap: 2,

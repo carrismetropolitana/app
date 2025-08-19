@@ -39,13 +39,13 @@ export const AddSmartNotificationDaysSelector = ({ selectedIndex, setSelectedInd
 				selectedIndexes={selectedIndex}
 				selectedTextStyle={{ color: theming.colorPrimaryWhite }}
 				buttons={[
-					<Text>{t('monday')}</Text>,
-					<Text>{t('tuesday')}</Text>,
-					<Text>{t('wednesday')}</Text>,
-					<Text>{t('thursday')}</Text>,
-					<Text>{t('friday')}</Text>,
-					<Text>{t('saturday')}</Text>,
-					<Text>{t('sunday')}</Text>,
+					t('monday'),
+					t('tuesday'),
+					t('wednesday'),
+					t('thursday'),
+					t('friday'),
+					t('saturday'),
+					t('sunday'),
 				]}
 				selectMultiple
 			/>
