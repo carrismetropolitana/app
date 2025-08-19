@@ -17,12 +17,12 @@ export default function AddFavoriteLine() {
 	//
 	// A. Setup variables
 
+	console.log('aqui');
 	const params = useLocalSearchParams();
 	const navigation = useNavigation();
 	const themeContext = useThemeContext();
 	const lineID = typeof params.lineId === 'string' ? params.lineId : Array.isArray(params.lineId) ? params.lineId[0] : undefined;
 	const { t } = useTranslation('translation', { keyPrefix: 'addfavoriteline' });
-
 
 	useEffect(() => {
 		navigation.setOptions({
