@@ -17,9 +17,9 @@ export const IconsFacilities = Object.freeze({
 /* * */
 
 export const IconsMap = Object.freeze({
-	bus_delay: require('@/assets/icons/map/bus_delay.png'),
-	bus_error: require('@/assets/icons/map/bus_error.png'),
-	bus_regular: require('@/assets/icons/map/bus_regular.png'),
+	bus_delay: require('@/assets/icons/map/bus_delay_.png'),
+	bus_error: require('@/assets/icons/map/bus_error_.png'),
+	bus_regular: require('@/assets/icons/map/bus_regular_.png'),
 	pin: require('@/assets/icons/map/pin.png'),
 	shape_direction: require('@/assets/icons/map/shape_direction.png'),
 	stop_selected: require('@/assets/icons/map/stop_selected.png'),

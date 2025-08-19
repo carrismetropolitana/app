@@ -55,9 +55,9 @@ export function MapViewStyleVehicles({ onVehiclePress, vehiclesData }: Props) {
 							['linear'],
 							['zoom'],
 							10,
-							0.15,
+							0.07,
 							20,
-							0.35,
+							0.15,
 						],
 						symbolPlacement: 'point',
 					}}
@@ -78,9 +78,9 @@ export function MapViewStyleVehicles({ onVehiclePress, vehiclesData }: Props) {
 							['linear'],
 							['zoom'],
 							10,
-							0.15,
+							0.07,
 							20,
-							0.35,
+							0.15,
 						],
 						symbolPlacement: 'point',
 					}}
