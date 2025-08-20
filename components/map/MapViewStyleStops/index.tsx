@@ -25,9 +25,9 @@ const primaryPaint = {
 		['linear'],
 		['zoom'],
 		9,
-		['case', ['boolean', ['feature-state', 'active'], false], 8, 3], // increased from 5/1 to 8/3
+		['case', ['boolean', ['feature-state', 'active'], false], 8, 3],
 		26,
-		['case', ['boolean', ['feature-state', 'active'], false], 32, 26], // increased from 25/20 to 32/26
+		['case', ['boolean', ['feature-state', 'active'], false], 32, 26],
 	] as const,
 	circleStrokeColor: ['match', ['get', 'current_status'], 'inactive', '#969696', 'voided', '#cc5533', '#000000'] as const,
 	circleStrokeWidth: [

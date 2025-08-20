@@ -13,15 +13,9 @@ const styles = () => {
 
 	const { theme } = useThemeContext();
 	const isLight = theme.mode === 'light';
-	const backgroundColor = isLight
-		? theming.colorSystemBackgroundLight100
-		: theming.colorSystemBackgroundDark100;
-	const headerBackgroundColor = isLight
-		? theming.colorSystemBackgroundLight200
-		: theming.colorSystemBackgroundDark200;
-	const fontColor = isLight
-		? theming.colorSystemText100
-		: theming.colorSystemText300;
+	const backgroundColor = isLight ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100;
+	const headerBackgroundColor = isLight ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200;
+	const fontColor = isLight ? theming.colorSystemText100 : theming.colorSystemText300;
 
 	//
 	// B. Render Components

@@ -36,7 +36,14 @@ export default function ProfileEditScreen() {
 	const activityTypes = ActivitySchema;
 	const utilizationTypes = UtilizationTypeSchema;
 	const interestsTypes = InterestsSchema;
-	const accentColors = ['rgba(61,133,198,1)', 'rgba(198,29,35,1)', 'rgba(253,183,26,1)', 'rgba(187,62,150,1)', 'rgba(12,128,126,1)', 'rgba(255,105,0,1)'];
+	const accentColors = [
+		{ code: 'rgba(61,133,198,1)', name: 'Azul' },
+		{ code: 'rgba(198,29,35,1)', name: 'Vermelho' },
+		{ code: 'rgba(253,183,26,1)', name: 'Amarelo' },
+		{ code: 'rgba(187,62,150,1)', name: 'Roxo' },
+		{ code: 'rgba(12,128,126,1)', name: 'Verde Esmeralda' },
+		{ code: 'rgba(255,105,0,1)', name: 'Laranja' },
+	];
 	const backgroundColor = themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100;
 	const [phoneValid, setPhoneValid] = useState(true);
 	const [countryCode, setCountryCode] = useState<CountryCode>('PT');
@@ -159,14 +166,14 @@ export default function ProfileEditScreen() {
 	const buttons = [
 		{
 			element: () => (
-				<Pressable onPress={goBackInHistory}>
+				<Pressable accessibilityHint="Volta para a imagem anterior da persona" accessibilityLabel="Botão para voltar atrás uma persona" accessibilityRole="button" onPress={goBackInHistory}>
 					<IconArrowNarrowLeft color={accentColor ? accentColor : ''} size={24} />
 				</Pressable>
 			),
 		},
 		{
 			element: () => (
-				<Pressable onPress={handleRefreshPersona}>
+				<Pressable accessibilityHint="Atualiza a persona com outra imagem mais recente" accessibilityLabel="Botão para atualizar a persona" accessibilityRole="button" onPress={handleRefreshPersona}>
 					<IconArrowsShuffle color={accentColor ? accentColor : ''} size={24} />
 				</Pressable>
 			),
@@ -182,12 +189,13 @@ export default function ProfileEditScreen() {
 					{accentColors.map((item, index) => (
 						<CheckBox
 							key={index}
-							checked={accentColor === item}
-							checkedIcon={<IconCircle color={item} fill="#FFFFFF" size={32} />}
+							accessibilityLabel={`Botão para mudar a cor de destaque da aplicação para a cor ${item.name}, ${accentColor === item.code ? 'selecionado' : 'deselecionado'}`}
+							accessibilityState={{ checked: accentColor === item.code }}
+							checked={accentColor === item.code}
+							checkedIcon={<IconCircle color={item.code} fill="#FFFFFF" size={32} />}
 							containerStyle={{ backgroundColor: backgroundColor, padding: 0 }}
-							onPress={() => setAccentColor(item)}
-							title=""
-							uncheckedIcon={<IconCircleFilled color="#FFFFFF" fill={item} size={32} />}
+							onPress={() => setAccentColor(item.code)}
+							uncheckedIcon={<IconCircleFilled color="#FFFFFF" fill={item.code} size={32} />}
 						/>
 					))}
 				</View>

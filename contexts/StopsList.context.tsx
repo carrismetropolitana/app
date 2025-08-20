@@ -175,7 +175,6 @@ export const StopsListContextProvider = ({ children }: { children: React.ReactNo
 
 	const updateFilterByCurrentView = (value: StopsListContextState['filters']['by_current_view']) => {
 		setFilterByCurrentViewState(value);
-		// analyticsContext.actions.capture(ampli => ampli.changeStopsViewType({ view_type: value }));
 	};
 
 	const updateFilterByFacility = (value: StopsListContextState['filters']['by_facility']) => {
@@ -188,7 +187,6 @@ export const StopsListContextProvider = ({ children }: { children: React.ReactNo
 
 	const updateFilterBySearch = (value: StopsListContextState['filters']['by_search']) => {
 		setFilterBySearchState(value);
-		// analyticsContext.actions.captureWithDelay(ampli => ampli.searchStop({ search_value: value }));
 	};
 
 	//

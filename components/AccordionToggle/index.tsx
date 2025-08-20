@@ -4,7 +4,7 @@ import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { IconBell, IconCaretLeft } from '@tabler/icons-react-native';
 import React, { useEffect, useRef } from 'react';
-import { Animated, Easing, StyleProp, View, ViewStyle } from 'react-native';
+import { Animated, Easing, View } from 'react-native';
 
 import { styles } from './styles';
 
@@ -14,12 +14,11 @@ interface AccordionToggleProps {
 	expanded: boolean
 	isNotification?: boolean
 	size?: number
-	style?: StyleProp<ViewStyle>
 }
 
 /* * */
 
-export const AccordionToggle = ({ expanded, isNotification, size = 24, style }: AccordionToggleProps) => {
+export const AccordionToggle = ({ expanded, isNotification, size = 24 }: AccordionToggleProps) => {
 	//
 
 	//

@@ -30,7 +30,7 @@ const Carousel = memo(({ slides }: { slides: SimplifiedAlert[] }) => {
 	const { width } = Dimensions.get('window');
 
 	//
-	// C. Render components() => openWebView({ locale: localeContext.locale, url: 'https://carrismetropolitana.pt/about' })
+	// C. Render Components
 
 	return (
 		<FlatList

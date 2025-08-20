@@ -25,21 +25,6 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 		return () => subscription.remove();
 	}, []);
 
-	// useEffect(() => {
-	// 	const applyIcon = async (scheme: ColorSchemeName) => {
-	// 		if (!(await supportsAlternateIcons)) return;
-	// 		const iconName = scheme === 'dark' ? 'dark' : 'default';
-	// 		await setAlternateAppIcon(iconName);
-	// 	};
-
-	// 	applyIcon(Appearance.getColorScheme());
-
-	// 	const sub = Appearance.addChangeListener(({ colorScheme }) => {
-	// 		applyIcon(colorScheme);
-	// 	});
-	// 	return () => sub.remove();
-	// }, []);
-
 	const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme]);
 
 	return (

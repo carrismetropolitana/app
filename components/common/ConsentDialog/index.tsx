@@ -41,34 +41,26 @@ export function ConsentPopup() {
 	// B. Handle actions
 
 	useEffect(() => {
-		// Return if consentContext is not ready
 		if (!consentContext.data.init_status) return;
-		// Return if pathname is not available
 		if (!pathname) return;
-		// Check if pathname is the cookies policy page
 		const regexPatternToMatchCookiesPage = /^(\/[a-z]{2})?\/cookies\/?$/;
 		const isCookiesPage = regexPatternToMatchCookiesPage.test(pathname);
-		// Set the modal state based on the context and pathname
 		setIsPopupOpen(consentContext.data.ask_for_consent && !isCookiesPage);
 	}, [consentContext.data.init_status, consentContext.data.ask_for_consent, pathname]);
 
 	const handleAccept = () => {
-		// Set the Analytics decision based on the set option
 		if (optionAnalyticsDecision) {
 			consentContext.actions.enable(['analytics']);
-			// analyticsContext.actions.capture((ampli, props) => ampli.analyticsConsentAccepted(props));
 		}
 		else {
 			consentContext.actions.disable(['analytics']);
 		}
-		// Set the Functional decision based on the set option
 		if (optionFunctionalDecision) {
 			consentContext.actions.enable(['functional']);
 		}
 		else {
 			consentContext.actions.disable(['functional']);
 		}
-		// Dismiss and reset the popup
 		setIsPopupOpen(false);
 		setShowOptions(false);
 		setOptionAnalyticsDecision(true);

@@ -13,7 +13,7 @@ import { AddSmartNotificationsStopSelector } from '@/components/screens/AddSmart
 import { WidgetActionsButtonGroup } from '@/components/widgets/WidgetsActionsButtonGroup';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useProfileContext } from '@/contexts/Profile.context';
-import { getSecondsSinceMidnight } from '@/utils/getSeconsSinceMidnight';
+import { getSecondsSinceMidnight } from '@/utils/getSecondsSinceMidnight';
 import { Routes } from '@/utils/routes';
 import { Pattern } from '@carrismetropolitana/api-types/network';
 import { Input, ListItem, Text } from '@rn-vui/themed';

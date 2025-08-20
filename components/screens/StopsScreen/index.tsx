@@ -111,48 +111,48 @@ export default function StopsScreen() {
 				const selected_date = operationalDayContext.data.selected_day;
 				if (!selected_date) return;
 
-				const uniquePatternIds = [...new Set(stopData.pattern_ids)];
+				// const uniquePatternIds = [...new Set(stopData.pattern_ids)];
 
-				const promises = uniquePatternIds.map(async (patternId): Promise<Feature<LineString, GeoJsonProperties> | null> => {
-					try {
-						const patternGroups: Pattern[] = await fetch(`${Routes.API}/patterns/${patternId}`).then(res => res.json());
+				// const promises = uniquePatternIds.map(async (patternId): Promise<Feature<LineString, GeoJsonProperties> | null> => {
+				// 	try {
+				// 		const patternGroups: Pattern[] = await fetch(`${Routes.API}/patterns/${patternId}`).then(res => res.json());
 
-						let validPattern: Pattern | undefined;
-						for (const patternGroup of patternGroups) {
-							const closestDate = patternGroup.valid_on.reduce((acc, curr) => {
-								if (selected_date <= curr && (acc === '' || curr < acc)) return curr;
-								return acc;
-							}, '');
-							if (closestDate !== '') {
-								validPattern = patternGroup;
-								break;
-							}
-						}
+				// 		let validPattern: Pattern | undefined;
+				// 		for (const patternGroup of patternGroups) {
+				// 			const closestDate = patternGroup.valid_on.reduce((acc, curr) => {
+				// 				if (selected_date <= curr && (acc === '' || curr < acc)) return curr;
+				// 				return acc;
+				// 			}, '');
+				// 			if (closestDate !== '') {
+				// 				validPattern = patternGroup;
+				// 				break;
+				// 			}
+				// 		}
 
-						if (!validPattern) {
-							if (patternGroups.length > 0) validPattern = patternGroups[0];
-							else return null;
-						}
+				// 		if (!validPattern) {
+				// 			if (patternGroups.length > 0) validPattern = patternGroups[0];
+				// 			else return null;
+				// 		}
 
-						const shape = await fetch(`${Routes.API}/shapes/${validPattern.shape_id}`).then(res => res.json());
+				// 		const shape = await fetch(`${Routes.API}/shapes/${validPattern.shape_id}`).then(res => res.json());
 
-						if (shape && shape.geojson) {
-							return {
-								...shape.geojson,
-								properties: {
-									...shape.geojson.properties,
-									color: validPattern.color,
-									text_color: validPattern.text_color,
-								},
-							};
-						}
-						return null;
-					}
-					catch (e) {
-						console.error(e);
-						return null;
-					}
-				});
+				// 		if (shape && shape.geojson) {
+				// 			return {
+				// 				...shape.geojson,
+				// 				properties: {
+				// 					...shape.geojson.properties,
+				// 					color: validPattern.color,
+				// 					text_color: validPattern.text_color,
+				// 				},
+				// 			};
+				// 		}
+				// 		return null;
+				// 	}
+				// 	catch (e) {
+				// 		console.error(e);
+				// 		return null;
+				// 	}
+				// });
 
 				// const shapeFeatures = (await Promise.all(promises)).filter((feature): feature is Feature<LineString> => feature !== null);
 

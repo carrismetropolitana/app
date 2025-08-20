@@ -1,6 +1,5 @@
 /* * */
 
-// import { SelectPatternExplainer } from '@/components/lines/SelectPatternExplainer';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
@@ -124,7 +123,6 @@ export function SelectPattern() {
 
 	return (
 		<View style={styles.container}>
-			{/* <SelectPatternExplainer /> */}
 			<Dropdown
 				activeColor={theming.colorBrand}
 				closeModalWhenSelectedItem={false}

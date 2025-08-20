@@ -24,7 +24,6 @@ interface Props {
 	isLastStop?: boolean
 	isNextStop?: boolean
 	isSelected?: boolean
-	isVehiclePage?: boolean
 	onInfoSelect?: () => void
 	selectionEnabled?: boolean
 	trackProgress?: boolean
@@ -33,7 +32,7 @@ interface Props {
 
 /* * */
 
-export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isInfoSelected, isLastStop, isNextStop, isSelected, isVehiclePage, onInfoSelect, selectionEnabled, trackProgress, waypointData }: Props) {
+export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isInfoSelected, isLastStop, isNextStop, isSelected, onInfoSelect, selectionEnabled, trackProgress, waypointData }: Props) {
 	//
 
 	//

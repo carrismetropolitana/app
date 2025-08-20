@@ -13,7 +13,6 @@ export interface MapViewStyleActiveStopsProps {
 	stopsData?: GeoJSON.FeatureCollection<GeoJSON.Point, GeoJSON.GeoJsonProperties>
 }
 
-// SymbolLayer style for the stop pole icon
 const poleStyle: SymbolLayerStyle = {
 	iconAllowOverlap: true,
 	iconAnchor: 'bottom',
@@ -25,7 +24,6 @@ const poleStyle: SymbolLayerStyle = {
 	symbolPlacement: 'point',
 };
 
-// CircleLayer style for the highlight circle
 const circleStyle: CircleLayerStyle = {
 	circleColor: ['match', ['get', 'current_status'], 'inactive', '#e6e6e6', '#ffdd01'] as any,
 	circlePitchAlignment: 'map',

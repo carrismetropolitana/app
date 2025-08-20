@@ -1,12 +1,4 @@
-import {
-	CircleLayer,
-	CircleLayerStyle,
-	LineLayer,
-	LineLayerStyle,
-	ShapeSource,
-	SymbolLayer,
-	SymbolLayerStyle,
-} from '@maplibre/maplibre-react-native';
+import { CircleLayer, CircleLayerStyle, LineLayer, LineLayerStyle, ShapeSource, SymbolLayer, SymbolLayerStyle } from '@maplibre/maplibre-react-native';
 import React from 'react';
 
 export interface MapViewStylePathProps {
