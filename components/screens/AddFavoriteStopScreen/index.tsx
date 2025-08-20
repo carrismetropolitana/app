@@ -18,7 +18,7 @@ import { IconArrowRight, IconBusStop, IconCircle, IconCircleCheckFilled, IconSea
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Dimensions, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import styles from './styles';
@@ -31,6 +31,7 @@ export default function AddFavoriteStopScreen() {
 	//
 	// A. Setup Variables
 
+	const screenHeight = Dimensions.get('window').height;
 	const [stopChooserVisibility, setStopChooserVisibility] = useState(false);
 	const [selectedStopPatterns, setSelectedStopPatterns] = useState<string[]>([]);
 	const [selectedStop, setSelectedStop] = useState<Stop | undefined>(undefined);
@@ -137,98 +138,100 @@ export default function AddFavoriteStopScreen() {
 	}
 
 	return (
-		<ScrollView style={addFavoriteStopStyles.container}>
-			<HeaderExplainer heading={t('headerTitle')} subheading={t('subheading')} />
+		<View style={{ height: screenHeight - 100 }}>
+			<ScrollView style={addFavoriteStopStyles.container}>
+				<HeaderExplainer heading={t('headerTitle')} subheading={t('subheading')} />
 
-			<View style={addFavoriteStopStyles.sectionContainer}>
-				<Section
-					heading={t('firstSectionTitle')}
-					subheading={t('firstSectionSubtitle')}
-				/>
-			</View>
-			<View>
-				{selectedStop && (
-					<ListItem>
-						<IconBusStop color="#FF6900" size={24} />
-						<ListItem.Content>
-							<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-								<Text>{selectedStop.long_name}</Text>
-							</ListItem.Title>
-						</ListItem.Content>
-						<IconX color="#9696A0" onPress={clearSelection} size={24} />
-					</ListItem>
-				)}
-				<ListItem onPress={() => setStopChooserVisibility(true)}>
-					<IconSearch color="#9696A0" size={24} />
-					<ListItem.Content>
-						<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-							<Text>{t('changeStopLabel')}</Text>
-						</ListItem.Title>
-					</ListItem.Content>
-					<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
-				</ListItem>
-			</View>
-
-			<View style={{ marginBottom: 10, marginTop: 10 }}>
 				<View style={addFavoriteStopStyles.sectionContainer}>
 					<Section
-						heading={t('secondSectionTitle')}
-						subheading={t('secondSectionSubtitle')}
+						heading={t('firstSectionTitle')}
+						subheading={t('firstSectionSubtitle')}
 					/>
 				</View>
 				<View>
-					{selectedStop && Object.entries(
-						selectedStop.pattern_ids.reduce((acc: Record<string, string[]>, patternId: string) => {
-							const lineId = patternId.split('_')[0];
-							if (!acc[lineId]) acc[lineId] = [];
-							acc[lineId].push(patternId);
-							return acc;
-						}, {}),
-					).map(([lineId, patternIds]) => {
-						const line = linesContext.data.lines.find(line => line.id === lineId);
-						const lineColor = line?.color;
-						return (
-							<View key={lineId} style={{ marginBottom: 16 }}>
-								<Text style={[addFavoriteStopStyles.listTitle, addFavoriteStopStyles.lineIdentifier]}>Linha {lineId}{line?.long_name ? ` - ${line.long_name}` : ''}</Text>
-								{patternIds.map((patternId) => {
-									const isSelected = selectedStopPatterns.includes(patternId);
-									return (
-										<ListItem key={patternId} onPress={() => togglePattern(patternId, selectedStopPatterns, setSelectedStopPatterns)}>
-											<LineBadge color={lineColor} lineId={lineId} size="lg" withAlertIcon />
-											<IconArrowRight size={10} />
-											<ListItem.Content>
-												<ListItem.Title style={addFavoriteStopStyles.listTitle}> {patternNames[patternId] || 'Sem destino'}</ListItem.Title>
-											</ListItem.Content>
-											{isSelected && (
-												<IconCircleCheckFilled
-													fill="#3CB43C"
-													size={24}
-													color={
-														themeContext.theme.mode === 'light'
-															? theming.colorSystemBackgroundLight100
-															: theming.colorSystemBackgroundDark100
-													}
-												/>
-											)}
-											{!isSelected && (<IconCircle color="grey" size={24} />)}
-										</ListItem>
-									);
-								})}
-							</View>
-						);
-					})}
-					{!selectedStop && selectedStopPatterns.length === 0 && (
+					{selectedStop && (
 						<ListItem>
+							<IconBusStop color="#FF6900" size={24} />
 							<ListItem.Content>
-								<ListItem.Title style={addFavoriteStopStyles.listTitle}> <Text>{t('selectStopLabel')}</Text> </ListItem.Title>
+								<ListItem.Title style={addFavoriteStopStyles.listTitle}>
+									<Text>{selectedStop.long_name}</Text>
+								</ListItem.Title>
 							</ListItem.Content>
+							<IconX color="#9696A0" onPress={clearSelection} size={24} />
 						</ListItem>
 					)}
+					<ListItem onPress={() => setStopChooserVisibility(true)}>
+						<IconSearch color="#9696A0" size={24} />
+						<ListItem.Content>
+							<ListItem.Title style={addFavoriteStopStyles.listTitle}>
+								<Text>{t('changeStopLabel')}</Text>
+							</ListItem.Title>
+						</ListItem.Content>
+						<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
+					</ListItem>
 				</View>
-			</View>
-			<WidgetActionsButtonGroup dataToSubmit={dataToSubmit} isUpdate={widgetId} length={selectedStopPatterns.length} onClear={exitScreen} type="stops" />
-			<StopsListChooserModal isVisible={stopChooserVisibility} onBackdropPress={() => setStopChooserVisibility(!stopChooserVisibility)} selectedStopData={stopData => handleSelectedStop(stopData)} />
-		</ScrollView>
+
+				<View style={{ marginBottom: 10, marginTop: 10 }}>
+					<View style={addFavoriteStopStyles.sectionContainer}>
+						<Section
+							heading={t('secondSectionTitle')}
+							subheading={t('secondSectionSubtitle')}
+						/>
+					</View>
+					<View>
+						{selectedStop && Object.entries(
+							selectedStop.pattern_ids.reduce((acc: Record<string, string[]>, patternId: string) => {
+								const lineId = patternId.split('_')[0];
+								if (!acc[lineId]) acc[lineId] = [];
+								acc[lineId].push(patternId);
+								return acc;
+							}, {}),
+						).map(([lineId, patternIds]) => {
+							const line = linesContext.data.lines.find(line => line.id === lineId);
+							const lineColor = line?.color;
+							return (
+								<View key={lineId} style={{ marginBottom: 16 }}>
+									<Text style={[addFavoriteStopStyles.listTitle, addFavoriteStopStyles.lineIdentifier]}>Linha {lineId}{line?.long_name ? ` - ${line.long_name}` : ''}</Text>
+									{patternIds.map((patternId) => {
+										const isSelected = selectedStopPatterns.includes(patternId);
+										return (
+											<ListItem key={patternId} onPress={() => togglePattern(patternId, selectedStopPatterns, setSelectedStopPatterns)}>
+												<LineBadge color={lineColor} lineId={lineId} size="lg" withAlertIcon />
+												<IconArrowRight size={10} />
+												<ListItem.Content>
+													<ListItem.Title style={addFavoriteStopStyles.listTitle}> {patternNames[patternId] || 'Sem destino'}</ListItem.Title>
+												</ListItem.Content>
+												{isSelected && (
+													<IconCircleCheckFilled
+														fill="#3CB43C"
+														size={24}
+														color={
+															themeContext.theme.mode === 'light'
+																? theming.colorSystemBackgroundLight100
+																: theming.colorSystemBackgroundDark100
+														}
+													/>
+												)}
+												{!isSelected && (<IconCircle color="grey" size={24} />)}
+											</ListItem>
+										);
+									})}
+								</View>
+							);
+						})}
+						{!selectedStop && selectedStopPatterns.length === 0 && (
+							<ListItem>
+								<ListItem.Content>
+									<ListItem.Title style={addFavoriteStopStyles.listTitle}> <Text>{t('selectStopLabel')}</Text> </ListItem.Title>
+								</ListItem.Content>
+							</ListItem>
+						)}
+					</View>
+				</View>
+				<WidgetActionsButtonGroup dataToSubmit={dataToSubmit} isUpdate={widgetId} length={selectedStopPatterns.length} onClear={exitScreen} type="stops" />
+				<StopsListChooserModal isVisible={stopChooserVisibility} onBackdropPress={() => setStopChooserVisibility(!stopChooserVisibility)} selectedStopData={stopData => handleSelectedStop(stopData)} />
+			</ScrollView>
+		</View>
 	);
 
 	//

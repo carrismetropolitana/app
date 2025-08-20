@@ -17,7 +17,6 @@ export default function AddFavoriteLine() {
 	//
 	// A. Setup variables
 
-	console.log('aqui');
 	const params = useLocalSearchParams();
 	const navigation = useNavigation();
 	const themeContext = useThemeContext();

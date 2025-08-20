@@ -17,12 +17,12 @@ import { getSecondsSinceMidnight } from '@/utils/getSeconsSinceMidnight';
 import { Routes } from '@/utils/routes';
 import { Pattern } from '@carrismetropolitana/api-types/network';
 import { Input, ListItem, Text } from '@rn-vui/themed';
-import { IconArrowLoopRight, IconArrowRight, IconCircle, IconCircleCheckFilled, IconSearch, IconX } from '@tabler/icons-react-native';
+import { IconCircle, IconCircleCheckFilled, IconSearch, IconX } from '@tabler/icons-react-native';
 import { useNavigation } from 'expo-router';
 import { DateTime } from 'luxon';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Dimensions, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import styles from './styles';
@@ -42,6 +42,7 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 	//
 	// A. Setup Variables
 
+	const screenHeight = Dimensions.get('window').height;
 	const weekDays: ('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 	const { t } = useTranslation('translation', { keyPrefix: 'addsmartnotifications' });
 	const [lineChooserVisibility, setLineChooserVisibility] = useState(false);
@@ -214,101 +215,103 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 	// D. Render Components
 
 	return (
-		<ScrollView contentContainerStyle={addFavoriteLineStyles.scrollContent} showsVerticalScrollIndicator={false} style={addFavoriteLineStyles.overlay}>
-			<View style={addFavoriteLineStyles.container}>
-				<HeaderExplainer heading={t('heading')} subheading={t('subheading')} />
-				<VerticalContentSeparator starting />
-				<Text style={addFavoriteLineStyles.text}> {t('chooseLineTitle')}</Text>
-				<View>
-					{linesDetailContext.data.line && (
-						<ListItem>
-							<LineBadge lineId={linesDetailContext.data.lineId} size="lg" withAlertIcon={false} />
-							<ListItem.Content>
-								<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-									<Text>{linesDetailContext.data.line.long_name}</Text>
-								</ListItem.Title>
-							</ListItem.Content>
-							<IconX color="#9696A0" onPress={linesDetailContext.actions.resetLineId} size={24} />
-						</ListItem>
-					)}
-					{!linesDetailContext.data.line && (
-						<ListItem onPress={() => setLineChooserVisibility(true)}>
-							<IconSearch color="#9696A0" size={24} />
-							<ListItem.Content>
-								<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-									<Text>{t('changeLineLabel')}</Text>
-								</ListItem.Title>
-							</ListItem.Content>
-							<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
-						</ListItem>
-					)}
+		<View style={{ height: screenHeight - 100 }}>
+			<ScrollView contentContainerStyle={addFavoriteLineStyles.scrollContent} showsVerticalScrollIndicator={false} style={addFavoriteLineStyles.overlay}>
+				<View style={addFavoriteLineStyles.container}>
+					<HeaderExplainer heading={t('heading')} subheading={t('subheading')} />
+					<VerticalContentSeparator starting />
+					<Text style={addFavoriteLineStyles.text}> {t('chooseLineTitle')}</Text>
+					<View>
+						{linesDetailContext.data.line && (
+							<ListItem>
+								<LineBadge lineId={linesDetailContext.data.lineId} size="lg" withAlertIcon={false} />
+								<ListItem.Content>
+									<ListItem.Title style={addFavoriteLineStyles.listTitle}>
+										<Text>{linesDetailContext.data.line.long_name}</Text>
+									</ListItem.Title>
+								</ListItem.Content>
+								<IconX color="#9696A0" onPress={linesDetailContext.actions.resetLineId} size={24} />
+							</ListItem>
+						)}
+						{!linesDetailContext.data.line && (
+							<ListItem onPress={() => setLineChooserVisibility(true)}>
+								<IconSearch color="#9696A0" size={24} />
+								<ListItem.Content>
+									<ListItem.Title style={addFavoriteLineStyles.listTitle}>
+										<Text>{t('changeLineLabel')}</Text>
+									</ListItem.Title>
+								</ListItem.Content>
+								<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
+							</ListItem>
+						)}
+					</View>
+					<View>
+						{linesDetailContext.data.line?.pattern_ids ? (
+							<View>
+								<Text style={[addFavoriteLineStyles.lineDescriptionTitle, addFavoriteLineStyles.listTitle]}>
+									Linha {linesDetailContext.data.line.id} - {linesDetailContext.data.line.long_name}
+								</Text>
+								{linesDetailContext.data.line.pattern_ids.map((item) => {
+									const versionId = patternVersionIds[item];
+									const isSelected = selectedVersionId === versionId;
+									return (
+										<ListItem key={item} onPress={() => handlePatternSelect(item)} style={{ backgroundColor: isSelected ? '#e6f7ff' : undefined }}>
+											<LineBadge color={linesDetailContext.data.line?.color} lineId={linesDetailContext.data.lineId} size="lg" withAlertIcon />
+											<ListItem.Content>
+												<ListItem.Title style={addFavoriteLineStyles.listTitle}>
+													<Text>{patternNames[item] || t('noDestination')}</Text>
+												</ListItem.Title>
+											</ListItem.Content>
+											{isSelected
+												? <IconCircleCheckFilled color="#FFFFFF" fill="#3CB43C" size={24} />
+												: <IconCircle color="#9696A0" size={24} />}
+										</ListItem>
+									);
+								})}
+							</View>
+						) : null}
+					</View>
+					<VerticalContentSeparator middle />
+					<Text style={addFavoriteLineStyles.text}>{t('radiusAt')}</Text>
+					<View style={addFavoriteLineStyles.selectNotificationContol}>
+						<Input containerStyle={addFavoriteLineStyles.input} keyboardType="number-pad" onChangeText={text => setRadius(Number(text))} placeholder={t('valuePlaceholder')} value={radius.toString()} />
+						<SelectNotificationControl />
+					</View>
+					<VerticalContentSeparator middle />
+					<AddSmartNotificationsStopSelector selectedStopId={selectedStopId || undefined} selectedVersionId={selectedVersionId || undefined} setSelectedStopId={setSelectedStopId} />
+					<VerticalContentSeparator ending />
+					<Text style={addFavoriteLineStyles.text}>{t('periodSelectorTitle')}</Text>
+					<View style={addFavoriteLineStyles.lastSectionWrapper}>
+						<AddSmartNotificationsIntervalInputs endingHour={endingHour || DateTime.now().toJSDate()} setEndingHour={setEndingHour} setStartingHour={setStartingHour} startingHour={startingHour || DateTime.now().toJSDate()} />
+						<AddSmartNotificationDaysSelector selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
+					</View>
 				</View>
-				<View>
-					{linesDetailContext.data.line?.pattern_ids ? (
-						<View>
-							<Text style={[addFavoriteLineStyles.lineDescriptionTitle, addFavoriteLineStyles.listTitle]}>
-								Linha {linesDetailContext.data.line.id} - {linesDetailContext.data.line.long_name}
-							</Text>
-							{linesDetailContext.data.line.pattern_ids.map((item) => {
-								const versionId = patternVersionIds[item];
-								const isSelected = selectedVersionId === versionId;
-								return (
-									<ListItem key={item} onPress={() => handlePatternSelect(item)} style={{ backgroundColor: isSelected ? '#e6f7ff' : undefined }}>
-										<LineBadge color={linesDetailContext.data.line?.color} lineId={linesDetailContext.data.lineId} size="lg" withAlertIcon />
-										<ListItem.Content>
-											<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-												<Text>{patternNames[item] || t('noDestination')}</Text>
-											</ListItem.Title>
-										</ListItem.Content>
-										{isSelected
-											? <IconCircleCheckFilled color="#FFFFFF" fill="#3CB43C" size={24} />
-											: <IconCircle color="#9696A0" size={24} />}
-									</ListItem>
-								);
-							})}
-						</View>
-					) : null}
-				</View>
-				<VerticalContentSeparator middle />
-				<Text style={addFavoriteLineStyles.text}>{t('radiusAt')}</Text>
-				<View style={addFavoriteLineStyles.selectNotificationContol}>
-					<Input containerStyle={addFavoriteLineStyles.input} keyboardType="number-pad" onChangeText={text => setRadius(Number(text))} placeholder={t('valuePlaceholder')} value={radius.toString()} />
-					<SelectNotificationControl />
-				</View>
-				<VerticalContentSeparator middle />
-				<AddSmartNotificationsStopSelector selectedStopId={selectedStopId || undefined} selectedVersionId={selectedVersionId || undefined} setSelectedStopId={setSelectedStopId} />
-				<VerticalContentSeparator ending />
-				<Text style={addFavoriteLineStyles.text}>{t('periodSelectorTitle')}</Text>
-				<View style={addFavoriteLineStyles.lastSectionWrapper}>
-					<AddSmartNotificationsIntervalInputs endingHour={endingHour || DateTime.now().toJSDate()} setEndingHour={setEndingHour} setStartingHour={setStartingHour} startingHour={startingHour || DateTime.now().toJSDate()} />
-					<AddSmartNotificationDaysSelector selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
-				</View>
-			</View>
-			<TestingNeedWarning />
-			<WidgetActionsButtonGroup
-				isUpdate={Id}
-				length={selectedStopId ? 1 : 0}
-				onClear={() => exitScreen()}
-				type="smart-notifications"
-				dataToSubmit={{
-					data: {
-						distance: radius,
-						end_time: endingSeconds,
-						id: Id ?? '',
-						pattern_id: selectedPatternId ?? '',
-						start_time: startingSeconds,
-						stop_id: selectedStopId ?? '',
-						type: 'smart_notifications',
-						user_id: profileContext.data.profile?.devices[0].device_id ?? '',
-						week_days: selectedDays.length > 0 ? selectedDays as [
+				<TestingNeedWarning />
+				<WidgetActionsButtonGroup
+					isUpdate={Id}
+					length={selectedStopId ? 1 : 0}
+					onClear={() => exitScreen()}
+					type="smart-notifications"
+					dataToSubmit={{
+						data: {
+							distance: radius,
+							end_time: endingSeconds,
+							id: Id ?? '',
+							pattern_id: selectedPatternId ?? '',
+							start_time: startingSeconds,
+							stop_id: selectedStopId ?? '',
+							type: 'smart_notifications',
+							user_id: profileContext.data.profile?.devices[0].device_id ?? '',
+							week_days: selectedDays.length > 0 ? selectedDays as [
 							'friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday',
 							...('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[],
-						] : ['monday'],
-					}, settings: { is_open: true },
-				}}
-			/>
-			<LinesListChooserModal isVisible={lineChooserVisibility} onBackdropPress={() => setLineChooserVisibility(!lineChooserVisibility)} />
-		</ScrollView>
+							] : ['monday'],
+						}, settings: { is_open: true },
+					}}
+				/>
+				<LinesListChooserModal isVisible={lineChooserVisibility} onBackdropPress={() => setLineChooserVisibility(!lineChooserVisibility)} />
+			</ScrollView>
+		</View>
 	);
 
 	//
