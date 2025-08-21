@@ -7,7 +7,7 @@ import { Button } from '@rn-vui/themed';
 import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { AccessibilityInfo, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -57,7 +57,9 @@ export default function HomeScreen() {
 				<View style={{ padding: 20, paddingTop: 30 }}>
 					<WidgetCards />
 					<Button
-						onPress={() => router.push('/profile')}
+						accessibilityHint="Este botão leva-o para a página de personalização de perfil"
+						accessibilityLabel="Botão para redirecionar para a página de personalização de perfil"
+						accessibilityRole="button"
 						title={t('personalizeButton')}
 						buttonStyle={{
 							alignSelf: 'center',
