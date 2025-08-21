@@ -4,8 +4,10 @@ import type { Line } from '@carrismetropolitana/api-types/network';
 
 import { useAlertsContext } from '@/contexts/Alerts.context';
 import { useLinesContext } from '@/contexts/Lines.context';
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { Text } from '@rn-vui/themed';
 import { IconInfoTriangleFilled } from '@tabler/icons-react-native';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { lineBadgeStyles } from './styles';
@@ -33,6 +35,7 @@ export function LineBadge({ color, lineData, lineId, onPress, shortName, size = 
 
 	const linesContext = useLinesContext();
 	const alertsContext = useAlertsContext();
+	const localeContext = useLocaleContext();
 
 	const badgeStyles = [
 		size === 'lg' && lineBadgeStyles.sizeLg,
@@ -40,6 +43,7 @@ export function LineBadge({ color, lineData, lineId, onPress, shortName, size = 
 		onPress && lineBadgeStyles.clickable,
 	];
 
+	const { t } = useTranslation('translation', { keyPrefix: 'linebadge' });
 	//
 	// B. Transform data
 
@@ -51,8 +55,9 @@ export function LineBadge({ color, lineData, lineId, onPress, shortName, size = 
 	return (
 		<View>
 			<Text
-				accessibilityHint={`Botão com o numero da linha ${shortName || lineData?.short_name || fetchedLineData?.short_name}`}
-				accessibilityLabel={`Linha ${shortName || lineData?.short_name || fetchedLineData?.short_name}`}
+				accessibilityHint={`${t('lineAccessibilityHint')} ${shortName || lineData?.short_name || fetchedLineData?.short_name}`}
+				accessibilityLabel={`${t('lineAccessibilityLabel')} ${shortName || lineData?.short_name || fetchedLineData?.short_name}`}
+				accessibilityLanguage={localeContext.locale}
 				accessibilityRole="button"
 				style={[badgeStyles, { backgroundColor: color ? color : fetchedLineData?.color || lineData?.color, color: textColor || lineData?.text_color || fetchedLineData?.text_color }]}
 			>
@@ -60,9 +65,9 @@ export function LineBadge({ color, lineData, lineId, onPress, shortName, size = 
 			</Text>
 			{hasAlerts && withAlertIcon && (
 				<View
-					accessibilityHint={`Botão com o numero da linha ${shortName || lineData?.short_name || fetchedLineData?.short_name} que contém alertas`}
-					accessibilityLabel={`Linha ${shortName || lineData?.short_name || fetchedLineData?.short_name} contém alertas`}
-					accessibilityRole="link"
+					accessibilityHint={`${t('lineAccessibilityHint')} ${shortName || lineData?.short_name || fetchedLineData?.short_name} ${t('linesAccessibilityWithAlerts')}`}
+					accessibilityLabel={`${t('lineAccessibilityLabel')} ${shortName || lineData?.short_name || fetchedLineData?.short_name} ${t('linesAccessibilityWithAlerts')}`}
+					accessibilityRole="button"
 					style={[lineBadgeStyles.alertIcon, { backgroundColor: '#FFFFFF', borderColor: color ? color : fetchedLineData?.color || lineData?.color, borderRadius: 999, borderWidth: 2 }]}
 				>
 					<IconInfoTriangleFilled color={color ? color : fetchedLineData?.color || lineData?.color} fill="#FFFFFF" size={14} />

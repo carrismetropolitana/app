@@ -113,6 +113,10 @@
 		"warningText": "Por favor teste esta funcionalidade antes de utilizar com confiança. Poderá ser necessário ajustar os tempos para garantir que chega ao local.",
 		"warningTitle": "Atenção"
 	},
+	"accordionToggle": {
+		"accessibilityHint": "Este botão expande ou colapsa o widget selecionado",
+		"accessibilityLabel": "Botão para expandir ou colapsar o widget"
+	},
 	"addfavoriteline": {
 		"changeLineLabel": "Alterar Linha Selecionada",
 		"firstSectionSubtitle": "Escolha uma linha para visualizar na página principal",
@@ -243,9 +247,17 @@
 		},
 		"closeButton": "Fechar",
 		"enable_notifications": "Ativar Notificações",
+		"goToProfileButtonAccessibilityHint": "Este botão leva-o para a página de personalização de perfil",
+		"goToProfileButtonAccessibilityLabel": "Botão para redirecionar para a página de personalização de perfil",
 		"lineCounterOne": "linha encontrada",
+		"lineCounterOneHint": "Linha encontrada pela pesquisa efetuada",
+		"lineCounterOneLabel": "Linha encontradas",
 		"lineCounterOther": "linhas encontradas",
+		"lineCounterOtherHint": "Linhas encontradas pela pesquisa pela pesquisa efetuada",
+		"lineCounterOtherLabel": "Linhas encontradas ",
 		"lineCounterZero": "Nenhuma linha encontrada",
+		"lineCounterZeroLabel": "Nenhuma linha encontrada pela pesquisa efetuada",
+		"lineCounterZeroeHint": "Nenhuma linha encontrada",
 		"offlineBanner": {
 			"message": "Ocorreu um problema com a conexão ao servidor. Verifique a sua conexão com a internet."
 		},
@@ -277,6 +289,15 @@
 		},
 		"linePageHeaderTitle": "Linha",
 		"searchByNamePlaceholder": "Pesquiar por nome"
+	},
+	"lineWidgetCard": {
+		"lineAcessibilityHint": "Widget na página inicial da app para a linha {lineId} com destino a {title}",
+		"lineAcessibilityLabel": "Widget da linha {lineId} com destino a {title}"
+	},
+	"linebadge": {
+		"lineAccessibilityHint": "Botão para consultar os detalhes da linha com o numero",
+		"lineAccessibilityLabel": "Linha",
+		"linesAccessibilityWithAlerts": "Contém Alertas"
 	},
 	"lines": {
 		"AlertsCarousel": {
@@ -448,6 +469,10 @@
 		"university": "Universitário",
 		"utilizationTypesSectionTitle": "Tipos de Utilização",
 		"working": "Trabalhador"
+	},
+	"profileImage": {
+		"accessibilityHint": "Persona do seu perfil é {profileImageDescription}",
+		"accessibilityLabel": "Esta imagem representa a persona do seu perfil"
 	},
 	"stops": {
 		"StopDetails": {

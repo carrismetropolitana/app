@@ -1,13 +1,13 @@
 import FavoritesBar from '@/components/common/FavoritesBar';
 import { Header } from '@/components/common/layout/Header';
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Button } from '@rn-vui/themed';
-import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AccessibilityInfo, View } from 'react-native';
+import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -19,6 +19,7 @@ export default function HomeScreen() {
 	//
 	// A. Setup Variables
 
+	const localeContext = useLocaleContext();
 	const themeContext = useThemeContext();
 	const profileContext = useProfileContext();
 	const insets = useSafeAreaInsets();
@@ -57,8 +58,9 @@ export default function HomeScreen() {
 				<View style={{ padding: 20, paddingTop: 30 }}>
 					<WidgetCards />
 					<Button
-						accessibilityHint="Este botão leva-o para a página de personalização de perfil"
-						accessibilityLabel="Botão para redirecionar para a página de personalização de perfil"
+						accessibilityHint={t('goToProfileButtonAccessibilityHint')}
+						accessibilityLabel={t('goToProfileButtonAccessibilityLabel')}
+						accessibilityLanguage={localeContext.locale}
 						accessibilityRole="button"
 						title={t('personalizeButton')}
 						buttonStyle={{

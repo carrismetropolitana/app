@@ -1,9 +1,11 @@
 /* * */
 
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { IconBell, IconCaretLeft } from '@tabler/icons-react-native';
 import React, { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Animated, Easing, View } from 'react-native';
 
 import { styles } from './styles';
@@ -25,10 +27,12 @@ export const AccordionToggle = ({ expanded, isNotification, size = 24 }: Accordi
 	// A. Setup Variables
 
 	const themeContext = useThemeContext();
+	const localeContext = useLocaleContext();
 	const pulseAnim = useRef(new Animated.Value(1)).current;
 	const rotateAnim = useRef(new Animated.Value(0)).current;
 	const accordionToggleStyles = styles();
 	const chevronColor = themeContext.theme.mode === 'light' ? theming.colorSystemText400 : theming.colorSystemText300;
+	const { t } = useTranslation('translation', { keyPrefix: 'accordionToggle' });
 
 	//
 	// B. Fetch Data
@@ -71,7 +75,7 @@ export const AccordionToggle = ({ expanded, isNotification, size = 24 }: Accordi
 		<>
 			{isNotification && (
 				<Animated.View style={[accordionToggleStyles.gradientCircle, { backgroundColor: '#daf0ef', position: 'absolute', transform: [{ scale: pulseAnim }], zIndex: 0 }]}>
-					<View style={[accordionToggleStyles.gradientCircle, { backgroundColor: 'transparent', position: 'absolute', zIndex: 1 }]}>
+					<View accessibilityHint={t('accordionToggle.accessibilityHint')} accessibilityLabel={t('accordionToggle.accessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="button" style={[accordionToggleStyles.gradientCircle, { backgroundColor: 'transparent', position: 'absolute', zIndex: 1 }]}>
 						<Animated.View style={[accordionToggleStyles.innerCircle, { alignSelf: 'center', position: 'absolute', transform: [{ rotate }], zIndex: 2 }]}>
 							<IconBell color="#fff" size={32} />
 							<View style={accordionToggleStyles.notificationDot} />
@@ -80,7 +84,7 @@ export const AccordionToggle = ({ expanded, isNotification, size = 24 }: Accordi
 				</Animated.View>
 			)}
 			{!isNotification && (
-				<Animated.View style={[{ transform: [{ rotate: rotate }] }]}>
+				<Animated.View accessibilityHint={t('accordionToggle.accessibilityHint')} accessibilityLabel={t('accordionToggle.accessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="button" style={[{ transform: [{ rotate: rotate }] }]}>
 					<IconCaretLeft color={chevronColor} fill={chevronColor} size={size} />
 				</Animated.View>
 			)}

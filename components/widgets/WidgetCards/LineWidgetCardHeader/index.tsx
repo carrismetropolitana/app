@@ -2,7 +2,9 @@
 
 import { LineBadge } from '@/components/lines/LineBadge';
 import { useLinesContext } from '@/contexts/Lines.context';
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { Text } from '@rn-vui/themed';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { styles } from './styles';
@@ -24,6 +26,8 @@ export function LineWidgetCardHeader({ lineId, title }: LineWidgetCardHeaderProp
 	const lineData = linesContext.actions.getLineDataById
 		? linesContext.actions.getLineDataById(lineId)
 		: undefined;
+	const localeContext = useLocaleContext();
+	const { t } = useTranslation('translation', { keyPrefix: 'lineWidgetCard' });
 
 	if (isLoading) {
 		return (
@@ -36,7 +40,7 @@ export function LineWidgetCardHeader({ lineId, title }: LineWidgetCardHeaderProp
 	return (
 		<View style={headerStyles.container}>
 			<LineBadge color={lineData?.color} lineId={lineId} size="lg" withAlertIcon />
-			<Text style={headerStyles.headerTitle}>{title}</Text>
+			<Text accessibilityHint={`${t('lineAcessibilityHint', { lineId, title })}`} accessibilityLabel={t('lineAcessibilityLabel', { lineId, title })} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={headerStyles.headerTitle}>{title}</Text>
 		</View>
 	);
 }

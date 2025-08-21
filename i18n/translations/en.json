@@ -113,6 +113,10 @@
 		"warningText": "Please test this functionality before utilizing it with full trust. It may be needed to adjust the necessary times to garantee that you'll reach the the desired stop.",
 		"warningTitle": "Warning"
 	},
+	"accordionToggle": {
+		"accessibilityHint": "This button expands or collapses the selected widget",
+		"accessibilityLabel": "Button to expand or collapse the widget"
+	},
 	"addfavoriteline": {
 		"changeLineLabel": "Change selected line",
 		"firstSectionSubtitle": "Choose a line to display on the main page",
@@ -242,9 +246,17 @@
 		},
 		"closeButton": "Close",
 		"enable_notifications": "Enable Notifications",
+		"goToProfileButtonAccessibilityHint": "This button takes you to the profile customization page",
+		"goToProfileButtonAccessibilityLabel": "Button to redirect to the profile customization page",
 		"lineCounterOne": "line found",
+		"lineCounterOneHint": "Line found for the search",
+		"lineCounterOneLabel": "Line found",
 		"lineCounterOther": "lines found",
+		"lineCounterOtherHint": "Lines found for the search",
+		"lineCounterOtherLabel": "Lines found",
 		"lineCounterZero": "No lines found",
+		"lineCounterZeroLabel": "No lines found for the search",
+		"lineCounterZeroeHint": "No line found",
 		"offlineBanner": {
 			"message": "There has been a problem with the connection to the server. Please check your internet connection."
 		},
@@ -276,6 +288,15 @@
 		},
 		"linePageHeaderTitle": "Line",
 		"searchByNamePlaceholder": "Search by name"
+	},
+	"lineWidgetCard": {
+		"lineAcessibilityHint": "Widget in the home page of the app for the line {lineId} headed to {title}",
+		"lineAcessibilityLabel": "Widget of the line {{lineId}} headed to {title}"
+	},
+	"linebadge": {
+		"lineAccessibilityHint": "Button to the to go the details of the line",
+		"lineAccessibilityLabel": "Line",
+		"linesAccessibilityWithAlerts": "Has Alerts"
 	},
 	"lines": {
 		"AlertsCarousel": {
@@ -448,6 +469,10 @@
 		"university": "University",
 		"utilizationTypesSectionTitle": "Utilization Types",
 		"working": "Working"
+	},
+	"profileImage": {
+		"accessibilityHint": "Persona for your profile is {profileImageDescription}",
+		"accessibilityLabel": "This image represents the persona of your profile"
 	},
 	"stops": {
 		"StopDetails": {

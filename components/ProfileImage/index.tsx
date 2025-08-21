@@ -1,10 +1,13 @@
 /* * */
 
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
 import { Avatar } from '@rn-vui/themed';
+import { use } from 'i18next';
 import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Image, TouchableOpacity, View } from 'react-native';
 
 import { styles } from './styles';
@@ -31,6 +34,8 @@ export function ProfileImage({ backgroundColor = theming.colorBrand, borderWidth
 	// eslint-disable-next-line @typescript-eslint/no-require-imports
 	const defaultImage = require('assets/images/no-persona-image.png');
 	const profileContext = useProfileContext();
+	const localeContext = useLocaleContext();
+	const { t } = useTranslation('translation', { keyPrefix: 'profileImage' });
 	const profileImageStyles = styles();
 	const profileImage = useMemo(() => {
 		return profileContext.data.profile?.profile?.profile_image ? `${Routes.API_ACCOUNTS}/persona/${profileContext.data.profile?.profile?.profile_image}` : defaultImage;
@@ -49,7 +54,7 @@ export function ProfileImage({ backgroundColor = theming.colorBrand, borderWidth
 
 	if (type === 'url' && typeof profileImage === 'string' && profileContext.data.profile?.profile?.profile_image?.trim().charAt(0) === 'b') {
 		return (
-			<TouchableOpacity accessibilityHint={`Persona do seu perfil é ${profileImageDescription}`} accessibilityLabel="Esta imagem representa a persona do seu perfil" accessibilityRole="image">
+			<TouchableOpacity accessibilityHint={t('accessibilityHint', { profileImageDescription })} accessibilityLabel={t('accessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="image">
 				<Avatar containerStyle={[profileImageStyles.avatarContainer, { backgroundColor: backgroundColor, borderColor: color, borderWidth: borderWidth }]} size={size} source={{ uri: profileImage || '' }} rounded />
 			</TouchableOpacity>
 		);

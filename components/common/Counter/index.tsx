@@ -31,32 +31,32 @@ export default function Counter({ quantity, type }: Props) {
 	return (
 		<>
 			{/* Lines Counter */}
-			{quantity === 0 && type === 'lines' && <Text style={counterStyles.text}> {t('lineCounterZero')}</Text>}
-			{quantity === 1 && type === 'lines' && <Text style={counterStyles.text}>{quantity} {t('lineCounterOne')}</Text>}
-			{quantity > 1 && type === 'lines' && <Text style={counterStyles.text}>{quantity} {t('lineCounterOther')}</Text>}
+			{quantity === 0 && type === 'lines' && <Text accessibilityHint="" accessibilityLabel="" accessibilityLanguage="" accessibilityRole="text" style={counterStyles.text}> {t('lineCounterZero')}</Text>}
+			{quantity === 1 && type === 'lines' && <Text accessibilityHint="" accessibilityLabel="" accessibilityLanguage="" accessibilityRole="text" style={counterStyles.text}>{quantity} {t('lineCounterOne')}</Text>}
+			{quantity > 1 && type === 'lines' && <Text accessibilityHint="" accessibilityLabel="" accessibilityLanguage="" accessibilityRole="text" style={counterStyles.text}>{quantity} {t('lineCounterOther')}</Text>}
 
 			{/* Stops Counter */}
-			{quantity === 0 && type === 'stops' && <Text style={counterStyles.text}>{t('stopCounterZero')}</Text>}
-			{quantity === 1 && type === 'stops' && <Text style={counterStyles.text}>{quantity} {t('stopCounterOne')}</Text>}
-			{quantity > 1 && type === 'stops' && <Text style={counterStyles.text}>{quantity} {t('stopCounterOther')}</Text>}
+			{quantity === 0 && type === 'stops' && <Text accessibilityHint="" accessibilityLabel="" accessibilityLanguage="" accessibilityRole="text" style={counterStyles.text}>{t('stopCounterZero')}</Text>}
+			{quantity === 1 && type === 'stops' && <Text accessibilityHint="" accessibilityLabel="" accessibilityLanguage="" accessibilityRole="text" style={counterStyles.text}>{quantity} {t('stopCounterOne')}</Text>}
+			{quantity > 1 && type === 'stops' && <Text accessibilityHint="" accessibilityLabel="" accessibilityLanguage="" accessibilityRole="text" style={counterStyles.text}>{quantity} {t('stopCounterOther')}</Text>}
 
 			{/* Vehicles Counter */}
 			{quantity === 0 && type === 'vehicles' && (
 				<View style={counterStyles.zeroCount}>
 					<NoVehicleIcon />
-					<Text style={counterStyles.textMuted}>{t('vehicleCounterZero')}</Text>
+					<Text accessibilityHint="" accessibilityLabel="" accessibilityLanguage="" accessibilityRole="text" style={counterStyles.textMuted}>{t('vehicleCounterZero')}</Text>
 				</View>
 			)}
 			{quantity === 1 && type === 'vehicles' && (
 				<View style={counterStyles.vehiclesCounter}>
 					<LiveIcon />
-					<Text style={counterStyles.textRealtime}>{quantity} {t('vehicleCounterOne')}</Text>
+					<Text accessibilityHint="" accessibilityLabel="" accessibilityLanguage="" accessibilityRole="text" style={counterStyles.textRealtime}>{quantity} {t('vehicleCounterOne')}</Text>
 				</View>
 			)}
 			{quantity > 1 && type === 'vehicles' && (
 				<View style={counterStyles.vehiclesCounter}>
 					<LiveIcon />
-					<Text style={counterStyles.textRealtime}>{quantity} {t('vehicleCounterOther')}</Text>
+					<Text accessibilityHint="" accessibilityLabel="" accessibilityLanguage="" accessibilityRole="text" style={counterStyles.textRealtime}>{quantity} {t('vehicleCounterOther')}</Text>
 				</View>
 			)}
 		</>
