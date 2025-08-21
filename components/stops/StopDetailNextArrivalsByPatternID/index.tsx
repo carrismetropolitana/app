@@ -2,6 +2,7 @@
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { StopArrivalRow } from '@/components/stops/StopArrivalRow';
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { NextArrivalStop } from '@/types/timetables.types';
 import { ListItem, Text } from '@rn-vui/themed';
@@ -35,6 +36,7 @@ export default function StopDetailNextArrivalsByPatternID({ description, descrip
 
 	const stopDetailNextArrivals = styles();
 	const stopsDetailContext = useStopsDetailContext();
+	const localeContext = useLocaleContext();
 
 	const timetable = stopsDetailContext.data.timetable_realtime_future ?? [];
 
@@ -117,7 +119,7 @@ export default function StopDetailNextArrivalsByPatternID({ description, descrip
 
 	if (!arrivalsToShow.length) {
 		return (
-			<View style={stopDetailNextArrivals.sectionWrapper}>
+			<View accessibilityHint={t('no_data_accessibility_hint')} accessibilityLabel={t('no_data_accessibility_label')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={stopDetailNextArrivals.sectionWrapper}>
 				<Text style={stopDetailNextArrivals.sectionHeading}>{t('heading')}</Text>
 				<NoDataLabel text={t('end_of_day')} />
 				<Text style={stopDetailNextArrivals.upcomingCirculationsDescription}>{t('description')}</Text>
@@ -127,10 +129,10 @@ export default function StopDetailNextArrivalsByPatternID({ description, descrip
 
 	return (
 		<View style={stopDetailNextArrivals.sectionWrapper}>
-			{title && <Text style={stopDetailNextArrivals.sectionHeading}>{t('heading')}</Text>}
+			{title && <Text accessibilityHint={t('title_accessibility_hint')} accessibilityLabel={t('title_accessibility_label')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={stopDetailNextArrivals.sectionHeading}>{t('heading')}</Text>}
 			{memoizedArrivals}
 			{(patternIds && patternIds.length > 0 && timetable.filter(arrival => arrival.pattern_id && patternIds.includes(arrival.pattern_id)).length > 3) && (
-				<ListItem onPress={() => setShowAll(!showAll)} bottomDivider>
+				<ListItem accessibilityHint={t('show_hide_all_nextArrivals_accessibility_hint')} accessibilityLabel={t('show_hide_all_nextArrivals_accessibility_label')} accessibilityLanguage={localeContext.locale} accessibilityRole="button" accessibilityState={{ expanded: showAll }} onPress={() => setShowAll(!showAll)} bottomDivider>
 					<ListItem.Content>
 						{href && (
 							<Link href={href} style={stopDetailNextArrivals.see_more}>
@@ -151,7 +153,7 @@ export default function StopDetailNextArrivalsByPatternID({ description, descrip
 				</ListItem>
 			)}
 
-			{descriptionEnabled && <Text style={stopDetailNextArrivals.upcomingCirculationsDescription}>{description ? description : t('description') }</Text>}
+			{descriptionEnabled && <Text accessibilityHint={t('description_accessibility_hint')} accessibilityLabel={t('description_accessibility_label')} accessibilityLanguage={localeContext.locale} style={stopDetailNextArrivals.upcomingCirculationsDescription}>{description ? description : t('description') }</Text>}
 		</View>
 	);
 

@@ -251,7 +251,7 @@
 		"goToProfileButtonAccessibilityLabel": "Botão para redirecionar para a página de personalização de perfil",
 		"lineCounterOne": "linha encontrada",
 		"lineCounterOneHint": "Linha encontrada pela pesquisa efetuada",
-		"lineCounterOneLabel": "Linha encontradas",
+		"lineCounterOneLabel": "Paragemencontradas",
 		"lineCounterOther": "linhas encontradas",
 		"lineCounterOtherHint": "Linhas encontradas pela pesquisa pela pesquisa efetuada",
 		"lineCounterOtherLabel": "Linhas encontradas ",
@@ -264,11 +264,23 @@
 		"personalizeButton": "Personalizar",
 		"saveButton": "Guardar",
 		"stopCounterOne": "paragem encontrada",
+		"stopCounterOneHint": "Paragem encontrada pela pesquisa efetuada",
+		"stopCounterOneLabel": "Paragem encontrada",
 		"stopCounterOther": "paragens encontradas",
+		"stopCounterOtherHint": "Paragens encontradas pela pesquisa efetuada",
+		"stopCounterOtherLabel": "Paragens encontrada",
 		"stopCounterZero": "Nenhuma paragem encontrada",
+		"stopCounterZeroLabel": "Nenhuma paragem encontrada",
+		"stopCounterZerorHint": "Nenhuma paragem encontrada pela pesquisa efetuada",
 		"vehicleCounterOne": "veículo encontrado",
+		"vehicleCounterOneLabel": "veículo encontrado",
+		"vehicleCounterOnerHint": "veículo encontrado pela pesquisa efetuada",
 		"vehicleCounterOther": "veículos encontrados",
-		"vehicleCounterZero": "Nenhum veículo encontrado"
+		"vehicleCounterOtherHint": "Nenhum veículo encontrado pela pesquisa efetuada",
+		"vehicleCounterOtherLabel": "Nenhum veículo encontrado",
+		"vehicleCounterZero": "Nenhum veículo encontrado",
+		"vehicleCounterZeroHint": "Nenhum veículo encontrado pela pesquisa efetuada",
+		"vehicleCounterZeroLabel": "Nenhum veículo encontrado"
 	},
 	"homepage": {
 		"SuggestionCard": {
@@ -474,6 +486,20 @@
 		"accessibilityHint": "Persona do seu perfil é {profileImageDescription}",
 		"accessibilityLabel": "Esta imagem representa a persona do seu perfil"
 	},
+	"stopWidgetCard": {
+		"stopWidgetCardAccessibilityHint": "Este widget é relativo a uma paragem",
+		"stopWidgetCardAccessibilityLabel": "Widget de paragem",
+		"stopWidgetCardBody": {
+			"accessibilityHint": "Este elemento representa uma widget na pagina inicial da App",
+			"accessibilityLabel": "Detalhes do widget de paragem"
+		},
+		"stopWidgetCardHeader": {
+			"subtitleAccessibilityHint": "Esta paragem passa pelos seguintes municípios {municipality}",
+			"subtitleAccessibilityLabel": "Municípios {municipality}",
+			"titleAccessibilityHint": "Este elemento representa o nome da Paragem do widget",
+			"titleAccessibilityLabel": "Paragem {title}"
+		}
+	},
 	"stops": {
 		"StopDetails": {
 			"NextArrivals": {
@@ -484,11 +510,21 @@
 				"see_more": "Ver mais passagens"
 			},
 			"description": "Os tempos de passagem são estimados e podem estar sujeitos a alterações devido a trânsito, obras ou outros imprevistos. Verifique a posição do veículo no mapa para obter sempre a informação mais fiável.",
+			"description_accessibility_hint": "Esta descrição fornece um aviso sobre os horários das próximas passagens",
+			"description_accessibility_label": "Aviso sobre os horarios das proximas passagens",
 			"end_of_day": "Fim do dia",
 			"heading": "Próximas passagens",
+			"hint": "Nenhuma viagem para esta paragem hoje",
 			"nextArrivalsLabel": "Próximas Passagens",
+			"next_arrivals_accessibility_label": "Lista de passagens para esta paragem",
+			"no_data_accessibility_hint": "Não existem horarios e viagens agendados para esta paragem",
+			"no_data_accessibility_label": "Nenhuma viagem para esta paragem hoje",
 			"second_heading": "Linhas que passam nesta paragem",
-			"third_heading": "Caracterização"
+			"show_hide_all_nextArrivals_accessibility_hint": "Clique neste botão para mostrar ou esconder mais passagens",
+			"show_hide_all_nextArrivals_accessibility_label": "Clique para esconder ou mostrar passagens extra",
+			"third_heading": "Caracterização",
+			"title_accessibility_hint": "Este elemento representa as próximas passagens para esta paragem",
+			"title_accessibility_label": "Próximas passagens para esta paragem"
 		},
 		"noDataFound": "Nenhum dado encontrado para esta paragem"
 	},

@@ -1,8 +1,10 @@
 /* * */
 
 import StopDetailNextArrivalsByPatternID from '@/components/stops/StopDetailNextArrivalsByPatternID';
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
 /* * */
@@ -21,6 +23,9 @@ export function StopWidgetCardBody({ patternIds, stopId }: Props) {
 	// A. Setup Variables
 
 	const stopDetailContext = useStopsDetailContext();
+	const localeContext = useLocaleContext();
+
+	const { t } = useTranslation('translation', { keyPrefix: 'stopWidgetCard.stopWidgetCardBody' });
 
 	//
 	// B. Fetch Data
@@ -40,7 +45,7 @@ export function StopWidgetCardBody({ patternIds, stopId }: Props) {
 	}
 
 	return (
-		<View>
+		<View accessibilityHint={t('accessibilityHint')} accessibilityLabel={t('accessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="list">
 			{ stopId && (
 				<StopDetailNextArrivalsByPatternID key={stopId} descriptionEnabled={false} href={`/stop/${stopId}`} patternIds={patternIds} />
 			)}

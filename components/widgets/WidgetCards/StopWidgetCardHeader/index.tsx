@@ -1,6 +1,9 @@
 /* * */
 
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { Text } from '@rn-vui/themed';
+import { use } from 'i18next';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { styles } from './styles';
@@ -18,14 +21,18 @@ export function StopWidgetCardHeader({ municipality, title }: StopWidgetCardHead
 
 	//
 	// A. Setup variables
+
 	const headerStyles = styles();
+	const localeContext = useLocaleContext();
+	const { t } = useTranslation('translation', { keyPrefix: 'stopWidgetCard.stopWidgetCardHeader' });
+
 	//
 	// B. Render Components
 
 	return (
 		<View style={headerStyles.container}>
-			<Text style={headerStyles.headerTitle}>{title}</Text>
-			<Text style={headerStyles.headerSubtitle}>{municipality}</Text>
+			<Text accessibilityHint={t('titleAccessibilityHint')} accessibilityLabel={t('titleAccessibilityLabel', { title })} accessibilityLanguage={localeContext.locale} style={headerStyles.headerTitle}>{title}</Text>
+			<Text accessibilityHint={t('subtitleAccessibilityHint', { municipality })}accessibilityLabel={t('subtitleAccessibilityLabel', { municipality })} accessibilityLanguage={localeContext.locale} style={headerStyles.headerSubtitle}>{municipality}</Text>
 		</View>
 	);
 

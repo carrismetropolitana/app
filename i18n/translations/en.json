@@ -263,11 +263,23 @@
 		"personalizeButton": "Customize",
 		"saveButton": "Save",
 		"stopCounterOne": "stop found",
+		"stopCounterOneHint": "Stop found for the search",
+		"stopCounterOneLabel": "Stop found",
 		"stopCounterOther": "stops found",
+		"stopCounterOtherHint": "Stops found for the search",
+		"stopCounterOtherLabel": "Stops found",
 		"stopCounterZero": "No stops found",
+		"stopCounterZeroHint": "No stop found",
+		"stopCounterZeroLabel": "No stops found for the search",
 		"vehicleCounterOne": "vehicle found",
+		"vehicleCounterOneHint": "vehicle found for the search",
+		"vehicleCounterOneLabel": "vehicle found",
 		"vehicleCounterOther": "vehicles found",
-		"vehicleCounterZero": "No vehicles found"
+		"vehicleCounterOtherHint": "vehicles found for the search",
+		"vehicleCounterOtherLabel": "vehicles found",
+		"vehicleCounterZero": "No vehicles found",
+		"vehicleCounterZeroHint": "No vehicle found for the search",
+		"vehicleCounterZeroLabel": "No vehicle found"
 	},
 	"homepage": {
 		"SuggestionCard": {
@@ -473,6 +485,16 @@
 	"profileImage": {
 		"accessibilityHint": "Persona for your profile is {profileImageDescription}",
 		"accessibilityLabel": "This image represents the persona of your profile"
+	},
+	"stopWidgetCard": {
+		"stopWidgetCardAccessibilityHint": "this widget is relative to a stop",
+		"stopWidgetCardAccessibilityLabel": "Stop widget",
+		"stopWidgetCardHeader": {
+			"subtitleAccessibilityHint": "This stop passes through the following municipalities {municipality}",
+			"subtitleAccessibilityLabel": "Municipalities {municipality}",
+			"titleAccessibilityHint": "This element represents the name of the Stop in the widget",
+			"titleAccessibilityLabel": "Stop {title}"
+		}
 	},
 	"stops": {
 		"StopDetails": {

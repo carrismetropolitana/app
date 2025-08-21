@@ -2,10 +2,12 @@
 
 import { AccordionToggle } from '@/components/AccordionToggle';
 import { useLinesContext } from '@/contexts/Lines.context';
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { AccountWidget } from '@/types/account.types';
 import { ListItem } from '@rn-vui/themed';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { StopWidgetCardBody } from '../StopWidgetCardBody';
@@ -32,6 +34,9 @@ export function StopWidgetCard({ data, expanded, onToggle }: StopWidgetCardProps
 
 	const linesContext = useLinesContext();
 	const stopsContext = useStopsContext();
+	const localeContext = useLocaleContext();
+
+	const { t } = useTranslation('translation', { keyPrefix: 'stopWidgetCard' });
 	const cardStyles = styles();
 
 	//
@@ -73,6 +78,11 @@ export function StopWidgetCard({ data, expanded, onToggle }: StopWidgetCardProps
 
 	return (
 		<ListItem.Accordion
+			accessibilityHint={t('stopWidgetCardAccessibilityHint')}
+			accessibilityLabel={t('stopWidgetCardAccessibilityLabel')}
+			accessibilityLanguage={localeContext.locale}
+			accessibilityRole="togglebutton"
+			accessibilityState={{ expanded }}
 			containerStyle={!expanded ? cardStyles.cardClosed : cardStyles.cardOpen}
 			content={<StopWidgetCardHeader municipality={stopMunicipality || ''} title={stopName || ''} />}
 			icon={<AccordionToggle expanded={expanded} size={24} />}
