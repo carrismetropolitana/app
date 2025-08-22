@@ -13,11 +13,11 @@ import useSWR from 'swr';
 
 interface LocationsContextState {
 	actions: {
+		checkPermission: () => Promise<void>
 		getDistrictById: (districtId: string) => District | undefined
 		getLocalityById: (localityId: string) => Locality | undefined
 		getMunicipalityById: (municipalityId: string) => Municipality | undefined
 		getParishById: (parishId: string) => Parish | undefined
-
 	}
 	data: {
 		currentCords: {
@@ -62,9 +62,9 @@ export const LocationsContextProvider = ({ children }: { children: React.ReactNo
 	const [locationPermission, setLocationPermission] = useState<string>('');
 	const [currentCoordinates, setCurrentCoordinates] = useState<{ latitude: number, longitude: number }>();
 
-	useEffect(() => {
-		checkPermission();
-	}, []);
+	// useEffect(() => {
+	// 	checkPermission();
+	// }, []);
 
 	//
 	// B. Transform data
@@ -135,6 +135,7 @@ export const LocationsContextProvider = ({ children }: { children: React.ReactNo
 
 	const contextValue: LocationsContextState = {
 		actions: {
+			checkPermission,
 			getDistrictById,
 			getLocalityById,
 			getMunicipalityById,

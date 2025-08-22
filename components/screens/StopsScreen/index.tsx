@@ -39,7 +39,7 @@ export default function StopsScreen() {
 	//
 	// A. Setup Variables
 
-	const notificationsContext = useNotifications();
+	const locationContext = useLocationsContext();
 	const stopsContext = useStopsContext();
 	const stopsListContext = useStopsListContext();
 	const stopDetailContext = useStopsDetailContext();
@@ -87,8 +87,9 @@ export default function StopsScreen() {
 
 	//
 	// B. Fetch Data
+
 	useEffect(() => {
-		notificationsContext.actions.askForPermissions();
+		locationContext.actions.checkPermission();
 	}, []);
 
 	useEffect(() => {

@@ -433,7 +433,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	// Unified widget toggle function
 	const createWidget = async (params: WidgetCreateParams) => {
 		try {
-			if (!dataApiTokenState) return;
+			console.log('here', dataApiTokenState);
+
 			const allWidgets = (dataProfileState?.widgets || []) as AccountWidget[];
 			if (params.type === 'lines') {
 				if (!params.pattern_ids || params.pattern_ids.length === 0) {
@@ -471,6 +472,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				}
 			}
 			else if (params.type === 'stops') {
+				console.log('Creating stop widget with params:', params);
 				if (!params.pattern_ids || params.pattern_ids.length === 0) {
 					return;
 				}

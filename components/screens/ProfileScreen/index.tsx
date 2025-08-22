@@ -3,6 +3,7 @@
 import { AddWidgetList } from '@/components/screens/ProfileScreen/AddWidgetList';
 import { RenderFavoriteItem } from '@/components/screens/ProfileScreen/RenderFavoriteItem';
 import { UserDetails } from '@/components/screens/ProfileScreen/UserDetails';
+import { useNotifications } from '@/contexts/Notifications.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { AccountWidget } from '@/types/account.types';
@@ -28,6 +29,7 @@ export default function ProfileScreen() {
 
 	const navigation = useNavigation();
 	const themeContext = useThemeContext();
+	const notificationsContext = useNotifications();
 	const profileStyles = styles();
 	const profileContext = useProfileContext();
 	const { profile } = profileContext.data;
@@ -53,6 +55,10 @@ export default function ProfileScreen() {
 			},
 		});
 	}, [navigation, themeContext.theme.mode]);
+
+	useEffect(() => {
+		notificationsContext.actions.askForPermissions();
+	}, []);
 
 	useEffect(() => {
 		const currentKeys = widgetList.map(widgetKey);
