@@ -87,7 +87,7 @@ export default function StopDetailNextArrivalsByPatternID({ description, descrip
 		return (
 			<View key={tripData.trip_id} style={{ width: '100%' }}>
 				{status === 'realtime' && (
-					<Link href={`/vehicle/${tripData.vehicle_id}`} style={{ width: '100%' }}>
+					<Link accessibilityHint={t('next_arrivals_realtime_hint')} accessibilityLabel={t('next_arrivals_realtime_label')} accessibilityLanguage={localeContext.locale} accessibilityRole="link" href={`/vehicle/${tripData.vehicle_id}`} style={{ width: '100%' }}>
 						<StopArrivalRow
 							formatted={formatted}
 							status={status}
@@ -99,7 +99,7 @@ export default function StopDetailNextArrivalsByPatternID({ description, descrip
 					</Link>
 				)}
 				{status === 'scheduled' && (
-					<Link href={`/line/${tripData.line_id}`} style={{ width: '100%' }}>
+					<Link accessibilityHint={t('next_arrivals_scheduled_hint')} accessibilityLabel={t('next_arrivals_scheduled_label')} accessibilityLanguage={localeContext.locale} accessibilityRole="link" href={`/line/${tripData.line_id}`} style={{ width: '100%' }}>
 						<StopArrivalRow
 							formatted={formatted}
 							status={status}

@@ -258,6 +258,12 @@
 		"lineCounterZero": "Nenhuma linha encontrada",
 		"lineCounterZeroLabel": "Nenhuma linha encontrada pela pesquisa efetuada",
 		"lineCounterZeroeHint": "Nenhuma linha encontrada",
+		"next_arrival_row_realtime_hint": "Indica o destino da próxima passagem",
+		"next_arrival_row_realtime_label": "Próxima passagem para {headsign} em tempo real",
+		"next_arrival_row_realtime_time_hint": "Indica o tempo que falta para o autocarro",
+		"next_arrival_row_realtime_time_label": "{time} minutos restantes",
+		"next_arrival_row_scheduled_time_hint": "Indica o horario da próxima passagem",
+		"next_arrival_row_scheduled_time_label": "Passagem agendada para as {time}",
 		"offlineBanner": {
 			"message": "Ocorreu um problema com a conexão ao servidor. Verifique a sua conexão com a internet."
 		},
@@ -270,9 +276,11 @@
 		"stopCounterOtherHint": "Paragens encontradas pela pesquisa efetuada",
 		"stopCounterOtherLabel": "Paragens encontrada",
 		"stopCounterZero": "Nenhuma paragem encontrada",
+		"stopCounterZeroHint": "Nenhuma paragem encontrada",
 		"stopCounterZeroLabel": "Nenhuma paragem encontrada",
 		"stopCounterZerorHint": "Nenhuma paragem encontrada pela pesquisa efetuada",
 		"vehicleCounterOne": "veículo encontrado",
+		"vehicleCounterOneHint": "veiculo encontrado para a pesquisa efetuada",
 		"vehicleCounterOneLabel": "veículo encontrado",
 		"vehicleCounterOnerHint": "veículo encontrado pela pesquisa efetuada",
 		"vehicleCounterOther": "veículos encontrados",
@@ -423,7 +431,7 @@
 		"AlertList": {
 			"heading": "Alertas",
 			"service_alerts": "Alertas de Serviço",
-			"subheading": "Check the alerts that may affect your journey."
+			"subheading": "Verifique os alertas que possam afetar a sua viagem."
 		},
 		"SupportList": {
 			"contacts": "Contactos",
@@ -440,11 +448,25 @@
 			"subheading": "Descubra quanto custa viajar na CMetropolitana regularmente ou de vez em quando.",
 			"where_to_buy": "Onde Comprar"
 		},
+		"about_cm_list_hint": "Esta secção contem links para páginas com informação sobre a carris metropolitana",
+		"about_cm_list_label": "Link úteis sobre a Carris Metropolitana",
+		"alert_list_hint": "Esta secção é referente a alertas",
+		"alert_list_label": "Link úteis sobre alertas",
 		"languages": {
 			"en": "Inglês",
+			"language_buttons_hint": "Clique numa das 2 linguas (português e inglês) disponiveis para alterar a lingua da app",
+			"language_buttons_label": "Botões de mudança de idioma, selecionado {language}",
 			"pt": "Português"
 		},
-		"toggle_debug": "Ativar Modo de Debug"
+		"support_list_hint": "Esta secção é referente a apoio ao cliente",
+		"support_list_label": "Link úteis sobre apoio ao cliente",
+		"tarifs_list_hint": "Esta secção é referente a tarifas",
+		"tarifs_list_label": "Link úteis sobre tarifas",
+		"toggle_debug": "Ativar Modo de Debug",
+		"toggle_debug_hint": "Clique para ativar ou desativar o modo de debug.",
+		"toggle_debug_label": "Botão para ativar/desativar o modo de Debug",
+		"version_hint": "Versão da aplicação",
+		"version_label": "Versão da app {version}"
 	},
 	"profile": {
 		"addNewWidgetSectionTitle": "Adicionar Novo Widget",
@@ -517,6 +539,10 @@
 			"hint": "Nenhuma viagem para esta paragem hoje",
 			"nextArrivalsLabel": "Próximas Passagens",
 			"next_arrivals_accessibility_label": "Lista de passagens para esta paragem",
+			"next_arrivals_realtime_hint": "Esta passagem está em tempo real",
+			"next_arrivals_realtime_label": "Este item da lista de próximas passagens está em tempo real",
+			"next_arrivals_scheduled_hint": "Esta passagem está em tempo real",
+			"next_arrivals_scheduled_label": "Lista de passagens para esta paragem",
 			"no_data_accessibility_hint": "Não existem horarios e viagens agendados para esta paragem",
 			"no_data_accessibility_label": "Nenhuma viagem para esta paragem hoje",
 			"second_heading": "Linhas que passam nesta paragem",

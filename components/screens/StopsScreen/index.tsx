@@ -1,7 +1,7 @@
 /* * */
 
-import type { Pattern, Stop } from '@carrismetropolitana/api-types/network';
-import type { Feature, FeatureCollection, GeoJsonProperties, LineString, Point } from 'geojson';
+import type { Stop } from '@carrismetropolitana/api-types/network';
+import type { Feature, FeatureCollection, LineString, Point } from 'geojson';
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import StopSearchBar from '@/components/common/StopSearchBar';
@@ -18,7 +18,6 @@ import { useStopsListContext } from '@/contexts/StopsList.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
-import { Routes } from '@/utils/routes';
 import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { PointAnnotation } from '@maplibre/maplibre-react-native';
 import { ListItem, Text } from '@rn-vui/themed';

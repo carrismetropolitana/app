@@ -49,6 +49,14 @@
 		"**/components/**/*.css": "${dirname} (${extname})",
 		"**/components/**/*.js": "${dirname} (${extname})",
 		"**/components/**/*.tsx": "${dirname} (${extname})"
-	}
+	},
+	"i18n-ally.localesPaths": [
+		"i18n",
+		"ios/Pods/RCT-Folly/folly/lang",
+		"ios/Pods/boost/boost/predef/language",
+		"ios/Pods/Headers/Private/RCT-Folly/folly/lang",
+		"ios/Pods/Headers/Public/RCT-Folly/folly/lang"
+	],
+	"i18next.i18nPaths": "/Users/brunocastelo/Developer/carrismetropolitana/app/i18n,/Users/brunocastelo/Developer/carrismetropolitana/app/i18n/translations,/Users/brunocastelo/Developer/carrismetropolitana/app/ios/Pods/RCT-Folly/folly/lang,/Users/brunocastelo/Developer/carrismetropolitana/app/ios/Pods/Headers/Private/RCT-Folly/folly/lang,/Users/brunocastelo/Developer/carrismetropolitana/app/ios/Pods/Headers/Public/RCT-Folly/folly/lang"
 
 }

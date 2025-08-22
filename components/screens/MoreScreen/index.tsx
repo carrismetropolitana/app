@@ -114,19 +114,40 @@ export default function MoreScreen() {
 								}}
 							/>
 						</View>
-						<ListSection data={AlertListData()} heading={t('AlertList.heading')} renderItem={renderListItem} />
-						<ListSection data={Supportlistdata()} heading={t('SupportList.heading')} renderItem={renderListItem} />
-						<ListSection data={Tarifslistdata()} heading={t('TarifsList.heading')} renderItem={renderListItem} />
-						<ListSection data={AboutCMlistdata()} heading={t('AboutCMList.heading')} renderItem={renderListItem} />
-						<ButtonGroup
-							buttons={[t('languages.en'), t('languages.pt')]}
-							buttonStyle={{ padding: 10 }}
-							onPress={handleLangPress}
-							selectedButtonStyle={{ backgroundColor: '#e2e2e2' }}
-							selectedIndex={selectedLangIndex}
-						/>
+						<View accessibilityHint={t('alert_list_hint')} accessibilityLabel={t('alert_list_label')} accessibilityLanguage={localeContext.locale} accessibilityRole="text">
+							<ListSection data={AlertListData()} heading={t('AlertList.heading')} renderItem={renderListItem} />
+						</View>
+						<View accessibilityHint={t('support_list_hint')} accessibilityLabel={t('support_list_label')} accessibilityLanguage={localeContext.locale} accessibilityRole="text">
+							<ListSection data={Supportlistdata()} heading={t('SupportList.heading')} renderItem={renderListItem} />
+						</View>
+						<View accessibilityHint={t('tarifs_list_hint')} accessibilityLabel={t('tarifs_list_label')} accessibilityLanguage={localeContext.locale} accessibilityRole="text">
+							<ListSection data={Tarifslistdata()} heading={t('TarifsList.heading')} renderItem={renderListItem} />
+						</View>
+						<View accessibilityHint={t('about_cm_list_hint')} accessibilityLabel={t('about_cm_list_label')} accessibilityLanguage={localeContext.locale} accessibilityRole="text">
+							<ListSection data={AboutCMlistdata()} heading={t('AboutCMList.heading')} renderItem={renderListItem} />
+						</View>
+						<View
+							accessibilityHint={t('language_buttons_hint')}
+							accessibilityLabel={t('language_buttons_label', { language: t(selectedLangIndex === 0 ? 'languages.en' : 'languages.pt') })}
+							accessibilityLanguage={localeContext.locale}
+							accessibilityRole="button"
+							accessibilityState={{ selected: selectedLangIndex === 0 }}
+						>
+							<ButtonGroup
+								buttons={[t('languages.en'), t('languages.pt')]}
+								buttonStyle={{ padding: 10 }}
+								onPress={handleLangPress}
+								selectedButtonStyle={{ backgroundColor: '#e2e2e2' }}
+								selectedIndex={selectedLangIndex}
+							/>
+						</View>
 						<View style={{ alignItems: 'center', marginTop: 12 }}>
 							<Button
+								accessibilityHint={t('toggle_debug_hint')}
+								accessibilityLabel={t('toggle_debug_label', { version: appVersion })}
+								accessibilityLanguage={localeContext.locale}
+								accessibilityRole="button"
+								accessibilityState={{ checked: debugContext.flags.is_debug_mode }}
 								onPress={handleDebugPress}
 								style={{ backgroundColor: debugContext.flags.is_debug_mode ? '#27ae60' : '#e2e2e2' }}
 							>
@@ -134,7 +155,14 @@ export default function MoreScreen() {
 							</Button>
 						</View>
 
-						<Text style={moreStyles.version}>{appVersion}</Text>
+						<Text
+							accessibilityHint={t('version_hint')}
+							accessibilityLabel={t('version_label')}
+							accessibilityLanguage={localeContext.locale}
+							accessibilityRole="text"
+							style={moreStyles.version}
+						>{appVersion}
+						</Text>
 					</>
 				)}
 			/>

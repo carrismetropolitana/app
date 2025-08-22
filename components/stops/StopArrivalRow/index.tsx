@@ -1,9 +1,12 @@
 import { LiveIcon } from '@/components/common/LiveIcon';
 import { LineBadge } from '@/components/lines/LineBadge';
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { theming } from '@/theme/Variables';
 import { ListItem, Text } from '@rn-vui/themed';
 import { IconClock } from '@tabler/icons-react-native';
+import { use } from 'i18next';
 import { DateTime } from 'luxon';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { styles } from './styles';
@@ -35,6 +38,9 @@ export const StopArrivalRow = ({ formatted, status, tripData }: StopArrivalRowPr
 
 	const stopDetailNextArrivals = styles();
 
+	const localeContext = useLocaleContext();
+	const { t } = useTranslation('translations', { keyPrefix: 'common' });
+
 	//
 	// B. Render Components
 	return (
@@ -44,21 +50,18 @@ export const StopArrivalRow = ({ formatted, status, tripData }: StopArrivalRowPr
 					<ListItem.Title>
 						<View style={stopDetailNextArrivals.arrivalContainer}>
 							<LineBadge lineId={tripData.line_id} size="lg" withAlertIcon />
-							<Text style={stopDetailNextArrivals.headsign}>{tripData.headsign}</Text>
+							<Text accessibilityHint={t('next_arrival_row_realtime_hint')} accessibilityLabel={t('next_arrival_row_realtime_label', { headsign: tripData.headsign })} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={stopDetailNextArrivals.headsign}>{tripData.headsign}</Text>
 							<View style={{ flex: 1 }} />
 							{formatted && status === 'realtime' && (
 								<View style={stopDetailNextArrivals.rippleContainer}>
-									{/* <View style={stopDetailNextArrivals.ripple}>
-										<View style={stopDetailNextArrivals.dot} />
-									</View> */}
 									<LiveIcon />
-									<Text style={stopDetailNextArrivals.arrival}>{formatted.label}</Text>
+									<Text accessibilityHint={t('next_arrival_row_realtime_time_hint')} accessibilityLabel={t('next_arrival_row_realtime_time_label', { headsign: formatted })} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={stopDetailNextArrivals.arrival}>{formatted.label}</Text>
 								</View>
 							)}
 							{formatted && status === 'scheduled' && (
 								<View style={stopDetailNextArrivals.rippleContainer}>
 									<IconClock color={theming.colorSystemText300} size={24} />
-									<Text style={stopDetailNextArrivals.arrivalScheduled}>{DateTime.fromSeconds(formatted.estimated_arrival_unix).toFormat('HH:mm')}</Text>
+									<Text accessibilityHint={t('next_arrival_row_scheduled_time_hint')} accessibilityLabel={t('next_arrival_row_scheduled_time_label', { headsign: DateTime.fromSeconds(formatted.estimated_arrival_unix).toFormat('HH:mm') })} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={stopDetailNextArrivals.arrivalScheduled}>{DateTime.fromSeconds(formatted.estimated_arrival_unix).toFormat('HH:mm')}</Text>
 								</View>
 							)}
 						</View>

@@ -71,14 +71,14 @@
 				"enabled": "Cookies Policy accepted",
 				"options": {
 					"analytics": {
-						"disable": "Dados Analíticos Aceites. Recusar?",
-						"enable": "Aceitar Dados Analíticos",
-						"label": "Dados Analíticos"
+						"disable": "Analytics accepted. Refuse?",
+						"enable": "Accept analytics data",
+						"label": "Analytics Data"
 					},
 					"functional": {
-						"disable": "Dados Funcionais Aceites. Recusar?",
-						"enable": "Aceitar Dados Funcionais",
-						"label": "Dados Funcionais"
+						"disable": "Functional data accepted. Refuse?",
+						"enable": "Accept functional data",
+						"label": "Functional data"
 					}
 				},
 				"paragraphs": {
@@ -178,6 +178,7 @@
 		"heading": "Smart Notifications",
 		"monday": "Mon",
 		"noDestination": "No destination",
+		"noLineSelected": "No line selected",
 		"periodSelectorTitle": "in the interval",
 		"radiusAt": "is at",
 		"radiusMeters": "meters",
@@ -200,16 +201,16 @@
 		"ConsentPopup": {
 			"actions": {
 				"accept": "OK",
-				"hide_options": "Esconder Opções",
-				"refuse": "Não, obrigado",
-				"save": "Guardar",
-				"show_options": "Mostrar Opções"
+				"hide_options": "Hide Options",
+				"refuse": "No, thanks",
+				"save": "Save",
+				"show_options": "Show Options"
 			},
 			"options": {
-				"analytics": "Guardar dados analíticos",
-				"functional": "Guardar dados funcionais"
+				"analytics": "Save analytics data",
+				"functional": "Save functional data"
 			},
-			"policy_page": "Consultar Política de Cookies",
+			"policy_page": "Check cookies policy",
 			"text": "In order to improve the performance, content and security of this website, TML intends to use cookies or similar technologies.",
 			"title": "We respect your privacy"
 		}
@@ -232,10 +233,10 @@
 			"tomorrow": "Tomorrow"
 		},
 		"SelectPattern": {
-			"invalid_option": "Percurso inválido: {pattern_id}",
-			"label": "Percurso / Destino",
-			"option_label": "Início do percurso: {locality}",
-			"placeholder": "Selecionar Percurso / Destino..."
+			"invalid_option": "Invalid route: {pattern_id}",
+			"label": "Route / Destination",
+			"option_label": "Beggining of the route: {locality}",
+			"placeholder": "Select Route / Destiny..."
 		},
 		"StopSearchBar": {
 			"placeholder": "Search..."
@@ -257,6 +258,12 @@
 		"lineCounterZero": "No lines found",
 		"lineCounterZeroLabel": "No lines found for the search",
 		"lineCounterZeroeHint": "No line found",
+		"next_arrival_row_realtime_hint": "Indicates the destiny for the next stop",
+		"next_arrival_row_realtime_label": "Next stop to {headsign} in real time",
+		"next_arrival_row_realtime_time_hint": "Indicates the time left for the bus to arrive",
+		"next_arrival_row_realtime_time_label": "{time} minutes remaining",
+		"next_arrival_row_scheduled_time_hint": "Indicates the schedule of the next arrival",
+		"next_arrival_row_scheduled_time_label": "Scheduled arrival to {time}",
 		"offlineBanner": {
 			"message": "There has been a problem with the connection to the server. Please check your internet connection."
 		},
@@ -271,9 +278,11 @@
 		"stopCounterZero": "No stops found",
 		"stopCounterZeroHint": "No stop found",
 		"stopCounterZeroLabel": "No stops found for the search",
+		"stopCounterZerorHint": "No stop found for the current search",
 		"vehicleCounterOne": "vehicle found",
 		"vehicleCounterOneHint": "vehicle found for the search",
 		"vehicleCounterOneLabel": "vehicle found",
+		"vehicleCounterOnerHint": "vehicle found for the current search",
 		"vehicleCounterOther": "vehicles found",
 		"vehicleCounterOtherHint": "vehicles found for the search",
 		"vehicleCounterOtherLabel": "vehicles found",
@@ -326,37 +335,37 @@
 			"chart": {
 				"series": {
 					"average": {
-						"label": "Média = {value, number}"
+						"label": "Average = {value, number}"
 					},
 					"qty": {
-						"label": "Passageiros transportados / dia"
+						"label": "Transported passengers / day"
 					}
 				}
 			},
-			"description": "Valor apurado com base no total de validações e vendas a bordo em todas as viagens desta linha nos últimos 15 dias.",
-			"footnote": "O valor de passageiros transportados é atualizado de 5 em 5 minutos, sendo que pode demorar até 30 minutos para refletir a realidade.",
-			"title": "passageiros transportados nesta linha nos últimos 15 dias"
+			"description": "Value determined by the total of validations and sales on board in all trips for this line in the last 15 days.",
+			"footnote": "The value of transported passengers is updated every 5 minutes, aldo it can take up to 30 minutes to reflect reality",
+			"title": "Passengers transported on this line in the last 15 days"
 		},
 		"LinesDetailMetricsService": {
 			"big_number": "{value, number, percentage}",
 			"chart": {
 				"series": {
 					"fail_trip_count": {
-						"label": "Viagens não executadas"
+						"label": "Trips not executed"
 					},
 					"pass_trip_count": {
-						"label": "Viagens executadas"
+						"label": "Trips executed"
 					},
 					"pass_trip_percentage": {
-						"label": "Taxa de execução %"
+						"label": "Execution rate %"
 					},
 					"total_trip_count": {
-						"label": "Viagens planeadas"
+						"label": "Planned trips"
 					}
 				}
 			},
-			"description": "Taxa de execução calculada com base no total de viagens executadas face ao total de viagens planeadas para os últimos 15 dias. Para esta análise são considerados dados de posição dos veículos em tempo real e dados das validações e vendas a bordo.",
-			"footnote": "A fórmula utilizada para calcular a taxa de execução aqui apresentada reflete apenas parte do conjunto de indicadores definidos contratualmente para a avaliação do desempenho e qualidade do serviço prestado pelos Operadores.",
+			"description": "Execution rate calculated based on the total number of trips completed compared to the total number of trips planned for the last 15 days. This analysis considers real-time vehicle position data and onboard validation and sales data.",
+			"footnote": "The formula used to calculate the execution rate presented here reflects only part of the set of indicators contractually defined to assess the performance and quality of the service provided by the Operators.",
 			"title": "das {total_trip_count, number} viagens planeadas para os últimos 15 dias, {pass_trip_count, number} foram corretamente realizadas"
 		},
 		"LinesDetailPath": {
@@ -378,7 +387,7 @@
 			"heading": "Search Lines"
 		},
 		"LinesListViewAll": {
-			"no_data": "Nenhuma linha encontrada para esta pesquisa"
+			"no_data": "No line found for this search"
 		},
 		"LinesListViewFavorites": {
 			"no_favorites": "No favorite lines yet"
@@ -439,12 +448,25 @@
 			"subheading": "Discover how much it costs to travel with CMetropolitana regularly or occasionally.",
 			"where_to_buy": "Where to buy"
 		},
+		"about_cm_list_hint": "This section contains links to pages with information about carris metropolitana",
+		"about_cm_list_label": "Usefull links about Carris Metropolitana",
+		"alert_list_hint": "This section refers to alerts",
+		"alert_list_label": "Usefull links about alerts",
 		"languages": {
 			"en": "English",
+			"language_buttons_hint": "Click one of the 2 available languages (portugese and english) to change the app's display language",
+			"language_buttons_label": "Buttons to change app display language, selected {language}",
 			"pt": "Portuguese"
-
 		},
-		"toggle_debug": "Toggle Debug Mode"
+		"support_list_hint": "This section referes to support",
+		"support_list_label": "Usefull links about support",
+		"tarifs_list_hint": "This section refers to tarifs",
+		"tarifs_list_label": "Usefull links about tarifs",
+		"toggle_debug": "Toggle Debug Mode",
+		"toggle_debug_hint": "Click this button to toggle debug mode ",
+		"toggle_debug_label": "Button to toggle debug mode",
+		"version_hint": "App Version",
+		"version_label": "App version {version}"
 	},
 	"profile": {
 		"addNewWidgetSectionTitle": "Add New Widget",
@@ -489,6 +511,10 @@
 	"stopWidgetCard": {
 		"stopWidgetCardAccessibilityHint": "this widget is relative to a stop",
 		"stopWidgetCardAccessibilityLabel": "Stop widget",
+		"stopWidgetCardBody": {
+			"accessibilityHint": "This component represent a widget in the homepage of the app",
+			"accessibilityLabel": "Details of the stop widget"
+		},
 		"stopWidgetCardHeader": {
 			"subtitleAccessibilityHint": "This stop passes through the following municipalities {municipality}",
 			"subtitleAccessibilityLabel": "Municipalities {municipality}",
@@ -506,11 +532,25 @@
 				"see_more": "See more arrivals"
 			},
 			"description": "The passage times are estimated and may be subject to changes due to traffic, roadworks or other unforeseen events. Check the vehicle's position on the map to always obtain the most reliable information.",
+			"description_accessibility_hint": "This description provides a warning about the next arrivals schedules",
+			"description_accessibility_label": "Warning about the next arrival schedules",
 			"end_of_day": "End of day",
 			"heading": "Next Circulations",
+			"hint": "No trip for this stop today ",
 			"nextArrivalsLabel": "Next Arrivals",
+			"next_arrivals_accessibility_label": "List of arrivals for this stop",
+			"next_arrivals_realtime_hint": "This arrival is in real time",
+			"next_arrivals_realtime_label": "This list item of the next arrivals list is in real time",
+			"next_arrivals_scheduled_hint": "This stop is in real time ",
+			"next_arrivals_scheduled_label": "List of arrivals for this stop ",
+			"no_data_accessibility_hint": "There aren't any schedules and trips scheduled for this stop",
+			"no_data_accessibility_label": "No trips planned for this stop today",
 			"second_heading": "Lines that pass in this stop",
-			"third_heading": "Caracterization"
+			"show_hide_all_nextArrivals_accessibility_hint": "Click this button to show or hide more stops ",
+			"show_hide_all_nextArrivals_accessibility_label": "Click this to show or hide extra arrivals",
+			"third_heading": "Caracterization",
+			"title_accessibility_hint": "This component represents the next arrivals for this stop",
+			"title_accessibility_label": "Next arrivals for this stop"
 		},
 		"noDataFound": "No data found for this stop"
 	},
