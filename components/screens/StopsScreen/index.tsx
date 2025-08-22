@@ -11,6 +11,7 @@ import { MapViewStyleStops } from '@/components/map/MapViewStyleStops';
 import StopDetailNextArrivals from '@/components/stops/StopDetailNextArrivals';
 import { useLocationsContext } from '@/contexts/Locations.context';
 import { useMapOptionsContext } from '@/contexts/MapOptions.context';
+import { useNotifications } from '@/contexts/Notifications.context';
 import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
@@ -38,6 +39,7 @@ export default function StopsScreen() {
 	//
 	// A. Setup Variables
 
+	const notificationsContext = useNotifications();
 	const stopsContext = useStopsContext();
 	const stopsListContext = useStopsListContext();
 	const stopDetailContext = useStopsDetailContext();
@@ -85,6 +87,9 @@ export default function StopsScreen() {
 
 	//
 	// B. Fetch Data
+	useEffect(() => {
+		notificationsContext.actions.askForPermissions();
+	}, []);
 
 	useEffect(() => {
 		const c = locationsContext.data.currentCords;

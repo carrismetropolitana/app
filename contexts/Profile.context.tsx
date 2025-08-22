@@ -125,10 +125,10 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	// C. Fetch Data
 
 	useEffect(() => {
-		if (!consentContext.data.enabled_functional) {
-			setFlagIsLoadingState(false);
-			return;
-		}
+		// if (!consentContext.data.enabled_functional) {
+		// setFlagIsLoadingState(false);
+		// return;
+		// }
 
 		const initialize = async () => {
 			setFlagIsLoadingState(true);
@@ -142,7 +142,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		const intervalId = setInterval(setData, 10000);
 
 		return () => clearInterval(intervalId);
-	}, [consentContext.data.enabled_functional]);
+	}, []);
 
 	useEffect(() => {
 		if (dataProfileState) {
@@ -152,7 +152,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	// Sync profiles when the profile data changes
 	useEffect(() => {
-		if (!consentContext.data.enabled_functional) return;
+		// if (!consentContext.data.enabled_functional) return;
 
 		if (dataProfileState) {
 			localStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(dataProfileState));
@@ -172,7 +172,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		if (dataRecentLinesState) {
 			localStorage.setItem(LOCAL_STORAGE_KEYS.recent_lines, JSON.stringify(dataRecentLinesState));
 		}
-	}, [dataProfileState, dataApiTokenState, dataPersonaImageState, dataAccentColorState, dataInterestsState, consentContext.data.enabled_functional, dataRecentLinesState]);
+	}, [dataProfileState, dataApiTokenState, dataPersonaImageState, dataAccentColorState, dataInterestsState, dataRecentLinesState]);
 
 	// Merge local and cloud profiles
 	const mergeProfiles = (local: Account, cloud: Account): Account => {
@@ -259,10 +259,10 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	// Fetch Persona Image
 	const fetchPersona = async () => {
-		if (!consentContext.data.enabled_functional) {
-			alert('Functional consent is required to fetch a persona image.');
-			return;
-		}
+		// if (!consentContext.data.enabled_functional) {
+		// 	alert('Functional consent is required to fetch a persona image.');
+		// 	return;
+		// }
 		try {
 			let image: null | ProfileImage = null;
 			const response = await fetchData<ProfileImage>(`${Routes.API_ACCOUNTS}/persona/`, 'GET', undefined, undefined);
@@ -335,7 +335,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	};
 	// Fetch profile from cloud
 	const getProfileFromCloud = async () => {
-		if (!consentContext.data.enabled_functional && !dataProfileState?.devices[0].device_id) return;
+		if (!dataProfileState?.devices[0].device_id) return;
 		const response = await fetchData(`${Routes.API_ACCOUNTS}`, 'GET', undefined, { Authorization: `Bearer ${dataProfileState?.devices[0].device_id}` });
 
 		if (!response.isOk) {
@@ -347,7 +347,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	};
 	// Update local profile
 	const updateLocalProfile = async (profile: Account) => {
-		if (!consentContext.data.enabled_functional) return;
+		// if (!consentContext.data.enabled_functional) return;
 		const { _id, created_at, role, updated_at, ...cleanedProfile } = profile;
 
 		const localProfile = await localStorage.getItem(LOCAL_STORAGE_KEYS.profile);
@@ -364,7 +364,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	};
 	// Update profile on cloud
 	const updateProfileOnCloud = async (profile: Account) => {
-		if (!consentContext.data.enabled_functional || !dataProfileState?.devices[0].device_id) return;
+		if (!dataProfileState?.devices[0].device_id) return;
 		const { _id, created_at, role, updated_at, ...cleanedProfile } = profile;
 
 		try {
@@ -398,7 +398,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	};
 	// Toggle favorite item (line or stop) and update profile with error handling
 	const toggleFavoriteItem = async (type: 'lines' | 'stops', id: string) => {
-		if (!consentContext.data.enabled_functional || !dataProfileState) return;
+		if (!dataProfileState) return;
 
 		try {
 			const currentFavorites = dataProfileState.favorites?.[type] || [];
@@ -433,7 +433,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	// Unified widget toggle function
 	const createWidget = async (params: WidgetCreateParams) => {
 		try {
-			if (!consentContext.data.enabled_functional && !dataApiTokenState) return;
+			if (!dataApiTokenState) return;
 			const allWidgets = (dataProfileState?.widgets || []) as AccountWidget[];
 			if (params.type === 'lines') {
 				if (!params.pattern_ids || params.pattern_ids.length === 0) {
@@ -550,7 +550,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	};
 	// Delete any widget by display order
 	const deleteWidgetByDisplayOrder = async (displayOrder: number) => {
-		if (!consentContext.data.enabled_functional || !dataProfileState) return;
+		if (!dataProfileState) return;
 
 		const removedWidget = dataProfileState.widgets?.find(
 			widget => widget.settings?.display_order === displayOrder,
@@ -580,7 +580,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	// Create an empty profile with default values
 	const setNewEmptyProfile = async () => {
-		if (!consentContext.data.enabled_functional) return;
+		// if (!consentContext.data.enabled_functional) return;
 		const newProfileStructure: Account = {
 			_id: '',
 			devices: [
@@ -628,7 +628,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	// Update Widget by ID
 	const updateWidget = async (id: string, newWidgetData: AccountWidget) => {
-		if (!consentContext.data.enabled_functional) return;
+		// if (!consentContext.data.enabled_functional) return;
 		const currentProfile = dataProfileState;
 		if (!currentProfile) return;
 		const updatedWidgets = (currentProfile.widgets || []).map((existingWidget) => {
@@ -688,22 +688,22 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	// Set user selected line
 	const setSelectedLine = (line: string) => {
-		if (!consentContext.data.enabled_functional) return;
+		// if (!consentContext.data.enabled_functional) return;
 		setSelectedLineState(line);
 	};
 	// Set user accent color
 	const setAccentColor = (color: string) => {
-		if (!consentContext.data.enabled_functional) return;
+		// if (!consentContext.data.enabled_functional) return;
 		setDataAccentColorState(color);
 	};
 	// Set user interests
 	const setInterests = (topics: string[]) => {
-		if (!consentContext.data.enabled_functional) return;
+		// if (!consentContext.data.enabled_functional) return;
 		setDataInterestsState(topics);
 	};
 	// Set Recent Lines
 	const addRecentLines = async (line: Line) => {
-		if (!consentContext.data.enabled_functional) return;
+		// if (!consentContext.data.enabled_functional) return;
 		let existingRecentLines = dataRecentLinesState;
 		if (!existingRecentLines || existingRecentLines.length === 0) {
 			const stored = await AsyncStorage.getItem(LOCAL_STORAGE_KEYS.recent_lines);

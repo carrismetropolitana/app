@@ -89,7 +89,14 @@ export default function MoreScreen() {
 			<Avatar size={32} titleStyle={moreStyles.icon}>{item.icon}</Avatar>
 			<ListItem.Content>
 				<ListItem.Title>
-					<Text style={moreStyles.listTitle}>{item.title}</Text>
+					<Text
+						accessibilityHint={t('usefullLinksHint', { title: item.title })}
+						accessibilityLabel={t('usefullLinksLabel', { title: item.title })}
+						accessibilityLanguage={localeContext.locale}
+						accessibilityRole="link"
+						style={moreStyles.listTitle}
+					>{item.title}
+					</Text>
 				</ListItem.Title>
 			</ListItem.Content>
 			<ListItem.Chevron iconStyle={{ fontSize: 24 }} />

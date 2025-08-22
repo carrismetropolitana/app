@@ -1,6 +1,6 @@
 /* * */
 
-import { ConsentPopup } from '@/components/common/ConsentDialog';
+// import { ConsentPopup } from '@/components/common/ConsentDialog';
 import { HapticTab } from '@/components/HapticTab';
 import OfflineScreen from '@/components/OfflineScreen';
 import TabBarBackground from '@/components/ui/TabBarBackground';
@@ -69,10 +69,6 @@ export default function TabLayout() {
 		}
 	}, [loaded, stopContext.flags.is_loading, linesContext.flags.is_loading, profileContext.flags.is_loading]);
 
-	useEffect(() => {
-		notificationsContext.actions.askForPermissions();
-	}, []);
-
 	//
 	// C. Render components
 
@@ -82,7 +78,7 @@ export default function TabLayout() {
 				<OfflineScreen />
 			) : (
 				<>
-					<ConsentPopup />
+					{/* <ConsentPopup /> */}
 					<Tabs
 						screenOptions={({ route }) => ({
 							headerShown: false,

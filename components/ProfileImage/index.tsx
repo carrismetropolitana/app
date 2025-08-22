@@ -54,9 +54,9 @@ export function ProfileImage({ backgroundColor = theming.colorBrand, borderWidth
 
 	if (type === 'url' && typeof profileImage === 'string' && profileContext.data.profile?.profile?.profile_image?.trim().charAt(0) === 'b') {
 		return (
-			<TouchableOpacity accessibilityHint={t('accessibilityHint', { profileImageDescription })} accessibilityLabel={t('accessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="image">
+			<View accessibilityHint={t('accessibilityHint', { profileImageDescription })} accessibilityLabel={t('accessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="image">
 				<Avatar containerStyle={[profileImageStyles.avatarContainer, { backgroundColor: backgroundColor, borderColor: color, borderWidth: borderWidth }]} size={size} source={{ uri: profileImage || '' }} rounded />
-			</TouchableOpacity>
+			</View>
 		);
 	}
 	return (

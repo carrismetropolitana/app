@@ -107,7 +107,7 @@ export default function FavoriteItemComponent({ data, drag, isActive }: Favorite
 
 	return (
 		<View style={favoriteItemStyles.wrapper}>
-			<TouchableHighlight disabled={isActive} onLongPress={drag} onPress={() => router.replace(linkHref)} style={favoriteItemStyles.container} underlayColor="rgba(0,0,0,0.05)">
+			<TouchableHighlight disabled={isActive} onLongPress={drag} onPress={() => router.push(linkHref)} style={favoriteItemStyles.container} underlayColor="rgba(0,0,0,0.05)">
 				<View style={favoriteItemStyles.inner}>
 					<View style={favoriteItemStyles.grip}>
 						<IconGripVertical color="#9696A0" size={24} />

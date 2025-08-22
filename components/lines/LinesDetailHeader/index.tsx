@@ -67,7 +67,7 @@ export function LinesDetailHeader() {
 								<IconHomePlus
 									color={isInWidgets ? linesDetailContext.data.line.color : '#9696A0'}
 									// disabled={!activePattern}
-									onPress={() => router.replace(`/addFavoriteLine/?lineId=${linesDetailContext.data.line?.id}`)}
+									onPress={() => router.push(`/addFavoriteLine/?lineId=${linesDetailContext.data.line?.id}`)}
 									size={24}
 								/>
 

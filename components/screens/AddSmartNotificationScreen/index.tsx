@@ -245,6 +245,8 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 							</ListItem>
 						)}
 					</View>
+					<VerticalContentSeparator middle />
+					<Text style={addFavoriteLineStyles.text}>com o percurso / destino</Text>
 					<View>
 						{linesDetailContext.data.line?.pattern_ids ? (
 							<View>
@@ -279,13 +281,14 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 					</View>
 					<VerticalContentSeparator middle />
 					<AddSmartNotificationsStopSelector selectedStopId={selectedStopId || undefined} selectedVersionId={selectedVersionId || undefined} setSelectedStopId={setSelectedStopId} />
-					<VerticalContentSeparator ending />
+					<VerticalContentSeparator middle />
 					<Text style={addFavoriteLineStyles.text}>{t('periodSelectorTitle')}</Text>
 					<View style={addFavoriteLineStyles.lastSectionWrapper}>
 						<AddSmartNotificationsIntervalInputs endingHour={endingHour || DateTime.now().toJSDate()} setEndingHour={setEndingHour} setStartingHour={setStartingHour} startingHour={startingHour || DateTime.now().toJSDate()} />
 						<AddSmartNotificationDaysSelector selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
 					</View>
 				</View>
+				<VerticalContentSeparator ending />
 				<TestingNeedWarning />
 				<WidgetActionsButtonGroup
 					isUpdate={Id}

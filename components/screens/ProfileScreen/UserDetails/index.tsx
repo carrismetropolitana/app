@@ -53,7 +53,7 @@ export const UserDetails = ({ widgetList }: Props) => {
 				)}
 				<Text style={userDetailsStyles.userFullNameText}>{profile?.profile?.first_name} {profile?.profile?.last_name}</Text>
 				<Text style={[userDetailsStyles.userActivityText, { color: accentColor || '' }]}>{profile?.profile?.activity?.toUpperCase()}</Text>
-				<Button buttonStyle={userDetailsStyles.button} containerStyle={userDetailsStyles.buttonContainer} onPress={() => router.replace('/profileEdit')} title={t('editProfileButtonTitle')} titleStyle={userDetailsStyles.buttonTitle} />
+				<Button buttonStyle={userDetailsStyles.button} containerStyle={userDetailsStyles.buttonContainer} onPress={() => router.push('/profileEdit')} title={t('editProfileButtonTitle')} titleStyle={userDetailsStyles.buttonTitle} />
 			</View>
 			<View style={userDetailsStyles.favoritesListSection}>
 				<Section heading={t('personalizeWidgetsSectionTitle')} />

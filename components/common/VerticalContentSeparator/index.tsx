@@ -26,8 +26,9 @@ export const VerticalContentSeparator = ({ ending, middle, starting }: VerticalC
 				</Svg>
 			)}
 			{ending && (
-				<Svg fill="none" height="30" style={verticalSeparatorStyles.svg} viewBox="0 0 2 30" width="100%">
-					<Rect fill="#BEBEC8" height="30" width="2" />
+				<Svg fill="none" height="36" style={verticalSeparatorStyles.svg} viewBox="0 0 12 36" width="100%">
+					<Rect fill="#BEBEC8" height="30" width="2" x="5" y="6" />
+					<Circle cx="6" cy="30" fill="#BEBEC8" r="6" />
 				</Svg>
 			)}
 		</>

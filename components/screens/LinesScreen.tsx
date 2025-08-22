@@ -9,10 +9,10 @@ import { useLocationsContext } from '@/contexts/Locations.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { Line } from '@carrismetropolitana/api-types/network';
-import { router } from 'expo-router';
-import React, { useCallback } from 'react';
+import { router, useFocusEffect } from 'expo-router';
+import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SectionList, StyleSheet } from 'react-native';
+import { AccessibilityInfo, SectionList, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import LineSearchBar from '../common/LineSearchBar';
@@ -63,6 +63,9 @@ export default function LinesScreen() {
 		profileContext.actions.addRecentLines(item);
 		router.push(`/line/${item.id}`);
 	};
+	useEffect(() => {
+		AccessibilityInfo.announceForAccessibility('LINHAS');
+	}, []);
 
 	//
 	// C. Transform Data

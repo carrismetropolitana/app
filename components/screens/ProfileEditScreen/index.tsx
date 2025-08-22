@@ -31,6 +31,8 @@ export default function ProfileEditScreen() {
 
 	const profileContext = useProfileContext();
 	const themeContext = useThemeContext();
+	const localeContext = useLocaleContext();
+
 	const profileEditModalStyles = styles();
 
 	const activityTypes = ActivitySchema;
@@ -63,8 +65,6 @@ export default function ProfileEditScreen() {
 	const [showPicker, setShowPicker] = useState(false);
 	const navigation = useNavigation();
 	const { t } = useTranslation('translation', { keyPrefix: 'profileEdit' });
-
-	const localeContext = useLocaleContext();
 	//
 	// B. Handle actions
 
@@ -166,14 +166,14 @@ export default function ProfileEditScreen() {
 	const buttons = [
 		{
 			element: () => (
-				<Pressable accessibilityHint="Volta para a imagem anterior da persona" accessibilityLabel="Botão para voltar atrás uma persona" accessibilityRole="button" onPress={goBackInHistory}>
+				<Pressable accessibilityHint={t('goBackInHistoryHint')} accessibilityLabel={t('goBackInHistoryLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="button" onPress={goBackInHistory}>
 					<IconArrowNarrowLeft color={accentColor ? accentColor : ''} size={24} />
 				</Pressable>
 			),
 		},
 		{
 			element: () => (
-				<Pressable accessibilityHint="Atualiza a persona com outra imagem mais recente" accessibilityLabel="Botão para atualizar a persona" accessibilityRole="button" onPress={handleRefreshPersona}>
+				<Pressable accessibilityHint={t('refreshPersonaHint')} accessibilityLabel={t('refreshPersonaLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="button" onPress={handleRefreshPersona}>
 					<IconArrowsShuffle color={accentColor ? accentColor : ''} size={24} />
 				</Pressable>
 			),
@@ -189,7 +189,10 @@ export default function ProfileEditScreen() {
 					{accentColors.map((item, index) => (
 						<CheckBox
 							key={index}
-							accessibilityLabel={`Botão para mudar a cor de destaque da aplicação para a cor ${item.name}, ${accentColor === item.code ? 'selecionado' : 'deselecionado'}`}
+							accessibilityHint={t('changeAccentColorHint')}
+							accessibilityLabel={t('changeAccentColorLabel', { color: item.name, state: accentColor === item.code ? 'selecionado' : 'deselecionado' })}
+							accessibilityLanguage={localeContext.locale}
+							accessibilityRole="checkbox"
 							accessibilityState={{ checked: accentColor === item.code }}
 							checked={accentColor === item.code}
 							checkedIcon={<IconCircle color={item.code} fill="#FFFFFF" size={32} />}
@@ -201,11 +204,22 @@ export default function ProfileEditScreen() {
 				</View>
 			</View>
 			<View style={profileEditModalStyles.sectionWrapper}>
-				<Section heading={t('personalInfoSectionTitle')} />
+				<Section
+					accessibilityHint={t('sectionPersonalInfoHint')}
+					accessibilityLabel={t('sectionPersonalInfoLabel')}
+					accessibilityLanguage={localeContext.locale}
+					heading={t('personalInfoSectionTitle')}
+				/>
 				<ListItem>
 					<ListItem.Content>
 						<ListItem.Title style={profileEditModalStyles.inputLabel}>
-							<Text>{t('firstNameInputLabel')}</Text>
+							<Text
+								accessibilityHint={t('nameInputHint')}
+								accessibilityLabel={t('nameInputLabel')}
+								accessibilityLanguage={localeContext.locale}
+								accessibilityRole="text"
+							>{t('firstNameInputLabel')}
+							</Text>
 						</ListItem.Title>
 						<Input containerStyle={profileEditModalStyles.inputContainer} onBlur={() => handleProfileFieldBlur('first_name', username)} onChangeText={setUsername} value={username} />
 					</ListItem.Content>
@@ -213,7 +227,13 @@ export default function ProfileEditScreen() {
 				<ListItem>
 					<ListItem.Content>
 						<ListItem.Title style={profileEditModalStyles.inputLabel}>
-							<Text>{t('lastNameInputLabel')}</Text>
+							<Text
+								accessibilityHint={t('surnameInputHint')}
+								accessibilityLabel={t('surnameInputLabel')}
+								accessibilityLanguage={localeContext.locale}
+								accessibilityRole="text"
+							>{t('lastNameInputLabel')}
+							</Text>
 						</ListItem.Title>
 						<Input containerStyle={profileEditModalStyles.inputContainer} onBlur={() => handleProfileFieldBlur('last_name', surname)} onChangeText={setSurname} value={surname} />
 					</ListItem.Content>
@@ -225,6 +245,10 @@ export default function ProfileEditScreen() {
 						</ListItem.Title>
 						<Pressable onPress={() => setShowPicker(true)} style={{ width: '100%' }}>
 							<Input
+								accessibilityHint={t('birthdateInputHint')}
+								accessibilityLabel={t('birthdateInputLabel')}
+								accessibilityLanguage={localeContext.locale}
+								accessibilityRole="text"
 								containerStyle={profileEditModalStyles.inputContainer}
 								editable={false}
 								placeholder="Selecionar data"
@@ -233,6 +257,10 @@ export default function ProfileEditScreen() {
 							/>
 						</Pressable>
 						<DateTimePickerModal
+							accessibilityHint={t('birthdateInputContentHint')}
+							accessibilityLabel={t('birthdateInputContentLabel')}
+							accessibilityLanguage={localeContext.locale}
+							accessibilityRole="adjustable"
 							date={birthDate ? new Date(Number(birthDate)) : new Date()}
 							isVisible={showPicker}
 							locale={localeContext.locale}
@@ -247,11 +275,20 @@ export default function ProfileEditScreen() {
 				</ListItem>
 			</View>
 			<View style={profileEditModalStyles.sectionWrapper}>
-				<Section heading={t('contactSectionTitle')} />
+				<Section
+					accessibilityHint={t('sectionContactsInfoHint')}
+					accessibilityLabel={t('sectionContactsInfoLabel')}
+					accessibilityLanguage={localeContext.locale}
+					heading={t('contactSectionTitle')}
+				/>
 				<ListItem>
 					<ListItem.Content>
 						<ListItem.Title style={profileEditModalStyles.inputLabel}><Text>{t('emailInputLabel')}</Text></ListItem.Title>
 						<Input
+							accessibilityHint={t('emailInputHint')}
+							accessibilityLabel={t('emailInputContentLabel')}
+							accessibilityLanguage={localeContext.locale}
+							accessibilityRole="text"
 							containerStyle={profileEditModalStyles.inputContainer}
 							errorMessage={!emailValid && email ? t('invalidEmail') : undefined}
 							onChangeText={setEmail}
@@ -262,7 +299,13 @@ export default function ProfileEditScreen() {
 				<ListItem>
 					<ListItem.Content>
 						<ListItem.Title style={profileEditModalStyles.inputLabel}><Text>{t('phoneInputLabel')}</Text></ListItem.Title>
-						<View style={{ alignItems: 'center', flexDirection: 'row' }}>
+						<View
+							accessibilityHint={t('phoneInputHint')}
+							accessibilityLabel={t('phoneInputContentLabel')}
+							accessibilityLanguage={localeContext.locale}
+							accessibilityRole="text"
+							style={{ alignItems: 'center', flexDirection: 'row' }}
+						>
 							<CountryPicker
 								countryCode={countryCode}
 								withCallingCode={withCallingCode}
@@ -290,12 +333,22 @@ export default function ProfileEditScreen() {
 				</ListItem>
 			</View>
 			<View style={profileEditModalStyles.sectionWrapper}>
-				<Section heading={t('activityProfileSectionTitle')} />
+				<Section
+					accessibilityHint={t('sectionActivityInfoHint')}
+					accessibilityLabel={t('sectionActivityInfoLabel')}
+					accessibilityLanguage={localeContext.locale}
+					heading={t('activityProfileSectionTitle')}
+				/>
 				{activityTypes.options.map((item, index) => (
 					<ListItem key={index}>
 						<ListItem.Content>
 							<CheckBox
 								key={index}
+								accessibilityHint={t('activityInfoHint')}
+								accessibilityLabel={t('activityInfoLabel')}
+								accessibilityLanguage={localeContext.locale}
+								accessibilityRole="checkbox"
+								accessibilityState={{ checked: activityProfile === item }}
 								checked={activityProfile === item}
 								checkedIcon="dot-circle-o"
 								containerStyle={profileEditModalStyles.checkbox}
@@ -312,12 +365,22 @@ export default function ProfileEditScreen() {
 				))}
 			</View>
 			<View style={profileEditModalStyles.sectionWrapper}>
-				<Section heading={t('utilizationTypesSectionTitle')} />
+				<Section
+					accessibilityHint={t('sectionUtilizationTypeHint')}
+					accessibilityLabel={t('sectionUtilizationTypeLabel')}
+					accessibilityLanguage={localeContext.locale}
+					heading={t('utilizationTypesSectionTitle')}
+				/>
 				{utilizationTypes.options.map((item, index) => (
 					<ListItem key={index}>
 						<ListItem.Content>
 							<CheckBox
 								key={index}
+								accessibilityHint={t('utilizationTypeInfoHint')}
+								accessibilityLabel={t('utilizationTypeInfoLabel')}
+								accessibilityLanguage={localeContext.locale}
+								accessibilityRole="checkbox"
+								accessibilityState={{ checked: usageType === item }}
 								checked={usageType === item}
 								checkedIcon="dot-circle-o"
 								containerStyle={profileEditModalStyles.checkbox}
@@ -334,11 +397,21 @@ export default function ProfileEditScreen() {
 				))}
 			</View>
 			<View style={profileEditModalStyles.sectionWrapper}>
-				<Section heading={t('topicsOfInterestSectionTitle')} />
+				<Section
+					accessibilityHint={t('sectionTopicsOfInterestHint')}
+					accessibilityLabel={t('sectionTopicsOfInterestLabel')}
+					accessibilityLanguage={localeContext.locale}
+					heading={t('topicsOfInterestSectionTitle')}
+				/>
 				{interestsTypes.options.map((item, index) => (
 					<ListItem key={index}>
 						<ListItem.Content>
 							<CheckBox
+								accessibilityHint={t('topicsOfInterestInfoHint')}
+								accessibilityLabel={t('topicsOfInterestLabel')}
+								accessibilityLanguage={localeContext.locale}
+								accessibilityRole="checkbox"
+								accessibilityState={{ checked: interestTopics.includes(item) }}
 								checked={interestTopics.includes(item)}
 								checkedIcon={<IconSquareCheckFilled color="#FFFFFF" fill={accentColor || '#3D85C6'} size={28} />}
 								containerStyle={profileEditModalStyles.checkbox}
