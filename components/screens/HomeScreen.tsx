@@ -5,6 +5,7 @@ import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Button } from '@rn-vui/themed';
+import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -62,6 +63,7 @@ export default function HomeScreen() {
 						accessibilityLabel={t('goToProfileButtonAccessibilityLabel')}
 						accessibilityLanguage={localeContext.locale}
 						accessibilityRole="button"
+						onPress={() => router.push('/profile')}
 						title={t('personalizeButton')}
 						buttonStyle={{
 							alignSelf: 'center',

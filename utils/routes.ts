@@ -164,7 +164,7 @@ export const RoutesAccount = Object.freeze({
 	...RoutesProfile,
 });
 
-const staging = true;
+const staging = false;
 
 export const Routes = Object.freeze({
 	...RoutesSupport,
@@ -173,7 +173,7 @@ export const Routes = Object.freeze({
 	...RoutesLostAndFound,
 	...RoutesFooter,
 	API: 'https://api.carrismetropolitana.pt/v2',
-	API_ACCOUNTS: staging ? 'https://staging.accounts.carrismetropolitana.pt/accounts' : 'http://192.168.1.95:4321/accounts',
+	API_ACCOUNTS: staging ? 'https://staging.accounts.carrismetropolitana.pt/accounts' : 'http://10.128.1.240:4321/accounts',
 	CARRIS_METROPOLITANA: 'https://www.carrismetropolitana.pt',
 	METRICS: {
 		intl: {

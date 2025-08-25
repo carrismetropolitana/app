@@ -5,7 +5,6 @@ import { HapticTab } from '@/components/HapticTab';
 import OfflineScreen from '@/components/OfflineScreen';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { useLinesContext } from '@/contexts/Lines.context';
-import { useNotifications } from '@/contexts/Notifications.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useThemeContext } from '@/contexts/Theme.context';
@@ -27,7 +26,6 @@ export default function TabLayout() {
 	//
 	// A. Setup Variables
 
-	const notificationsContext = useNotifications();
 	const themeContext = useThemeContext();
 	const insets = useSafeAreaInsets();
 	const netInfo = useNetInfo();

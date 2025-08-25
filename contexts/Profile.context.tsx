@@ -4,6 +4,7 @@
 import type { ProfileImage } from '@/types/profileImage.type';
 
 import { Account, AccountWidget, CreateAccountDto } from '@/types/account.types';
+import { Dates } from '@/utils/dates/dates';
 import { fetchData } from '@/utils/fetchData';
 import { Routes } from '@/utils/routes';
 import { Line } from '@carrismetropolitana/api-types/network';
@@ -131,6 +132,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		// }
 
 		const initialize = async () => {
+			// setNewEmptyProfile();
 			setFlagIsLoadingState(true);
 			await setData();
 			await subscribeToAllWidgetTopics();
@@ -348,7 +350,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	// Update local profile
 	const updateLocalProfile = async (profile: Account) => {
 		// if (!consentContext.data.enabled_functional) return;
-		const { _id, created_at, role, updated_at, ...cleanedProfile } = profile;
+		const { _id, created_at, role, ...cleanedProfile } = profile;
+		const updated_at = Dates.now('utc').unix_timestamp;
 
 		const localProfile = await localStorage.getItem(LOCAL_STORAGE_KEYS.profile);
 		if (localProfile) {
@@ -356,7 +359,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			const updatedProfile = {
 				...parsedProfile,
 				...cleanedProfile,
-				updated_at: new Date().toISOString(),
+				updated_at: updated_at,
 			};
 			setDataProfileState(updatedProfile);
 			updateProfileOnCloud(updatedProfile);
@@ -365,7 +368,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	// Update profile on cloud
 	const updateProfileOnCloud = async (profile: Account) => {
 		if (!dataProfileState?.devices[0].device_id) return;
-		const { _id, created_at, role, updated_at, ...cleanedProfile } = profile;
+		// const { _id, created_at, role, updated_at, ...cleanedProfile } = profile;
 
 		try {
 			await fetchData(
@@ -433,8 +436,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	// Unified widget toggle function
 	const createWidget = async (params: WidgetCreateParams) => {
 		try {
-			console.log('here', dataApiTokenState);
-
 			const allWidgets = (dataProfileState?.widgets || []) as AccountWidget[];
 			if (params.type === 'lines') {
 				if (!params.pattern_ids || params.pattern_ids.length === 0) {
@@ -582,12 +583,12 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	// Create an empty profile with default values
 	const setNewEmptyProfile = async () => {
-		// if (!consentContext.data.enabled_functional) return;
+		const newDeviceId = uuid.v4();
 		const newProfileStructure: Account = {
 			_id: '',
 			devices: [
 				{
-					device_id: '',
+					device_id: newDeviceId,
 					name: '',
 					type: Platform.OS === 'ios' ? 'ios' : 'android',
 				},
@@ -610,12 +611,14 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			widgets: [],
 		};
 
-		const apiResponse = await fetchData<Account>(`${Routes.API_ACCOUNTS}`, 'POST', newProfileStructure, { Authorization: `Bearer ${dataProfileState?.devices[0].device_id}` });
-
-		newProfileStructure.devices[0].device_id = apiResponse.data?.devices[0].device_id || '';
 		setDataProfileState(newProfileStructure);
-		setAPIToken(apiResponse.data?.devices[0].device_id || '');
-		localStorage.setItem(LOCAL_STORAGE_KEYS.token, apiResponse.data?.devices[0].device_id || '');
+		setAPIToken(newDeviceId);
+		localStorage.setItem(LOCAL_STORAGE_KEYS.token, newDeviceId);
+		console.log('id', newDeviceId);
+
+		console.log(JSON.stringify(newProfileStructure));
+		const apiResponse = await fetchData<Account>(`${Routes.API_ACCOUNTS}`, 'POST', (newProfileStructure), { Authorization: `Bearer ${newDeviceId}` });
+		console.log('apiResponse', apiResponse);
 	};
 	// Initial Check for profile existence
 	const checkProfile = async (profile: Account | null) => {
