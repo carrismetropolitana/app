@@ -10,6 +10,7 @@ import { SelectActivePatternGroup } from '@/components/lines/SelectActivePattern
 import { useDebugContext } from '@/contexts/Debug.context';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useProfileContext } from '@/contexts/Profile.context';
+import { useWidgetContext } from '@/contexts/Widget.context';
 import { Text } from '@rn-vui/themed';
 import { IconHomePlus } from '@tabler/icons-react-native';
 import { router } from 'expo-router';
@@ -27,11 +28,12 @@ export function LinesDetailHeader() {
 	// A. Setup variables
 
 	const profileContext = useProfileContext();
+	const widgetContext = useWidgetContext();
 	const linesDetailContext = useLinesDetailContext();
 	const debugContext = useDebugContext();
 	const lineDetailsHeaderStyles = styles();
 	const activePattern = linesDetailContext.data.active_pattern;
-	const isInWidgets = profileContext.data.widget_lines?.some(
+	const isInWidgets = widgetContext.data.widget_lines?.some(
 		w => w.data && w.data.type === 'lines' && w.data.pattern_id === activePattern?.id,
 	);
 

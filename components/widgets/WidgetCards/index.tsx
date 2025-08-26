@@ -28,10 +28,13 @@ export function WidgetCards() {
 	// B. Transform data
 
 	useEffect(() => {
-		if (widgets.length === 0) return;
-		const ordered = widgets.slice().sort((widget, index) => (widget.settings?.display_order ?? 0) - (index.settings?.display_order ?? 0));
+		if (widgets.length === 0) {
+			setSortedWidgets([]);
+			return;
+		}
+		const ordered = widgets.slice().sort((a, b) => (a.settings?.display_order ?? 0) - (b.settings?.display_order ?? 0));
 		setSortedWidgets(ordered);
-	}, [widgets]);
+	}, [widgets, widgets.map(w => w.settings?.display_order).join(',')]);
 
 	//
 	// C. Handle actions
@@ -54,10 +57,6 @@ export function WidgetCards() {
 			return widget;
 		});
 		profileContext.actions.updateLocalProfile({
-			...profileContext.data.profile,
-			_id: profileContext.data.profile?._id ?? '',
-			devices: profileContext.data.profile?.devices ?? [],
-			role: profileContext.data.profile?.role ?? 'user',
 			widgets: updatedWidgets,
 		});
 	};

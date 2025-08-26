@@ -1,5 +1,3 @@
-'use client';
-
 /* * */
 
 import { useProfileContext } from '@/contexts/Profile.context';

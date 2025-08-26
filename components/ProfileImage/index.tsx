@@ -5,10 +5,9 @@ import { useProfileContext } from '@/contexts/Profile.context';
 import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
 import { Avatar } from '@rn-vui/themed';
-import { use } from 'i18next';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, TouchableOpacity, View } from 'react-native';
+import { Image, View } from 'react-native';
 
 import { styles } from './styles';
 
@@ -49,13 +48,18 @@ export function ProfileImage({ backgroundColor = theming.colorBrand, borderWidth
 		return '';
 	}, [profileContext.data.profile?.profile?.profile_image]);
 
+	// Force re-render when color props change
+	const avatarKey = useMemo(() => {
+		return `${color}-${backgroundColor}-${profileContext.data.profile?.profile?.profile_image}`;
+	}, [color, backgroundColor, profileContext.data.profile?.profile?.profile_image]);
+
 	//
 	// B. Render Components
 
 	if (type === 'url' && typeof profileImage === 'string' && profileContext.data.profile?.profile?.profile_image?.trim().charAt(0) === 'b') {
 		return (
 			<View accessibilityHint={t('accessibilityHint', { profileImageDescription })} accessibilityLabel={t('accessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="image">
-				<Avatar containerStyle={[profileImageStyles.avatarContainer, { backgroundColor: backgroundColor, borderColor: color, borderWidth: borderWidth }]} size={size} source={{ uri: profileImage || '' }} rounded />
+				<Avatar key={avatarKey} containerStyle={[profileImageStyles.avatarContainer, { backgroundColor: backgroundColor, borderColor: color, borderWidth: borderWidth }]} size={size} source={{ uri: profileImage || '' }} rounded />
 			</View>
 		);
 	}

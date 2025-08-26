@@ -1,7 +1,7 @@
 /* * */
 
-import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
+import { useWidgetContext } from '@/contexts/Widget.context';
 import { IconTrash } from '@tabler/icons-react-native';
 import { TouchableOpacity } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
@@ -25,7 +25,7 @@ export const SwipeUnderlay = ({ direction, index, open, percentOpen }: Props) =>
 	// A. Setup Variables
 
 	const themeContext = useThemeContext();
-	const profileContext = useProfileContext();
+	const widgetContext = useWidgetContext();
 	const animatedStyle = useAnimatedStyle(() => ({ opacity: percentOpen.value }));
 
 	//
@@ -38,7 +38,7 @@ export const SwipeUnderlay = ({ direction, index, open, percentOpen }: Props) =>
 				onPress={() => {
 					open();
 					if (direction === OpenDirection.LEFT) {
-						profileContext.actions.deleteWidgetByDisplayOrder(index);
+						widgetContext.actions.deleteWidgetByDisplayOrder(index);
 					}
 				}}
 			>

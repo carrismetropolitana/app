@@ -100,7 +100,6 @@ export const MapOptionsContextProvider = ({ children }: { children: React.ReactN
 	};
 
 	const centerMap = (coordinates: [number, number]) => {
-		console.log('Centering map to coordinates:', coordinates);
 		if (!dataMapState || !coordinates.length) return;
 
 		const featureCollection: FeatureCollection<Point> = {

@@ -5,6 +5,7 @@ import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
 import ProfileContextProvider from '@/contexts/Profile.context';
 import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
+import WidgetContextProvider from '@/contexts/Widget.context';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';

@@ -9,7 +9,7 @@ import { useLocationsContext } from '@/contexts/Locations.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { Line } from '@carrismetropolitana/api-types/network';
-import { router, useFocusEffect } from 'expo-router';
+import { router } from 'expo-router';
 import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AccessibilityInfo, SectionList, StyleSheet } from 'react-native';

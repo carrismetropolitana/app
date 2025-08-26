@@ -44,6 +44,7 @@ export default function ProfileScreen() {
 	}, [profile?.widgets]);
 
 	const [widgetList, setWidgetList] = useState(() => initialWidgets);
+	const [isDragging, setIsDragging] = useState(false);
 
 	//
 	// B. Transform Data
@@ -61,13 +62,10 @@ export default function ProfileScreen() {
 	}, []);
 
 	useEffect(() => {
-		const currentKeys = widgetList.map(widgetKey);
-		const newKeys = initialWidgets.map(widgetKey);
-		const isSame = currentKeys.length === newKeys.length && currentKeys.every((k, i) => k === newKeys[i]);
-		if (!isSame) {
+		if (!isDragging) {
 			setWidgetList(initialWidgets);
 		}
-	}, [initialWidgets]);
+	}, [initialWidgets, isDragging]);
 
 	const widgetKey = (widget: AccountWidget) => {
 		if (widget.data.type === 'lines')
@@ -90,24 +88,29 @@ export default function ProfileScreen() {
 				ListFooterComponent={<AddWidgetList />}
 				ListHeaderComponent={<UserDetails widgetList={widgetList} />}
 				nestedScrollEnabled={false}
+				onDragBegin={() => setIsDragging(true)}
 				renderItem={({ drag, getIndex, isActive, item }) => (<RenderFavoriteItem drag={drag} index={getIndex() ?? 0} isActive={isActive} item={item} />)}
 				showsVerticalScrollIndicator={false}
 				simultaneousHandlers={flatListGestureRef}
 				onDragEnd={({ data }) => {
+					setIsDragging(false);
 					setWidgetList(data);
 					data.forEach((widget) => {
 						const ref = itemRefs.current.get(widgetKey(widget));
 						if (ref) return itemRefs.current.set(widgetKey(widget), ref);
 					});
 					if (saveTimer.current) clearTimeout(saveTimer.current);
-					saveTimer.current = setTimeout(() => {
-						if (!profile) return;
+
+					// Update profile immediately when drag ends
+					if (profile) {
 						const orderedWidgets = data.map((widget, idx) => ({
 							...widget,
 							settings: { ...widget.settings, display_order: idx },
 						}));
-						profileContext.actions.updateLocalProfile({ ...profile, widgets: orderedWidgets });
-					}, 1000);
+						profileContext.actions.updateLocalProfile({
+							widgets: orderedWidgets,
+						});
+					}
 				}}
 			/>
 

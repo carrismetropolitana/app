@@ -164,7 +164,7 @@ export const RoutesAccount = Object.freeze({
 	...RoutesProfile,
 });
 
-const staging = true;
+const staging = false;
 
 export const Routes = Object.freeze({
 	...RoutesSupport,

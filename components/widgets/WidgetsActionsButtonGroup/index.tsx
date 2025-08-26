@@ -1,6 +1,6 @@
 /* * */
 
-import { useProfileContext } from '@/contexts/Profile.context';
+import { useWidgetContext } from '@/contexts/Widget.context';
 import { AccountWidget } from '@/types/account.types';
 import { Button } from '@rn-vui/themed';
 import { useTranslation } from 'react-i18next';
@@ -25,7 +25,7 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onCle
 	//
 	// A. Setup Variables
 
-	const profileContext = useProfileContext();
+	const widgetContext = useWidgetContext();
 	const widgetActionButtonsStyles = styles();
 
 	const { t } = useTranslation('translation', { keyPrefix: 'common' });
@@ -36,18 +36,18 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onCle
 	const handleSave = async () => {
 		if (dataToSubmit) {
 			if (isUpdate) {
-				await profileContext.actions.updateWidget(isUpdate, dataToSubmit);
+				await widgetContext.actions.updateWidget(isUpdate, dataToSubmit);
 			}
 			else {
 				switch (type) {
 					case 'lines':
 						if ('pattern_id' in dataToSubmit.data) {
-							await profileContext.actions.createWidget({ pattern_ids: [dataToSubmit.data.pattern_id], type: 'lines' });
+							await widgetContext.actions.createWidget({ pattern_ids: [dataToSubmit.data.pattern_id], type: 'lines' });
 						}
 						break;
 					case 'smart-notifications':
 						if ('pattern_id' in dataToSubmit.data && 'week_days' in dataToSubmit.data) {
-							await profileContext.actions.createWidget({
+							await widgetContext.actions.createWidget({
 								end_time: dataToSubmit.data.end_time || 0,
 								pattern_id: dataToSubmit.data.pattern_id,
 								radius: dataToSubmit.data.distance || 0,
@@ -60,7 +60,7 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onCle
 						break;
 					case 'stops':
 						if ('data' in dataToSubmit && 'pattern_ids' in dataToSubmit.data && 'stop_id' in dataToSubmit.data) {
-							await profileContext.actions.createWidget({ pattern_ids: dataToSubmit.data.pattern_ids, stopId: dataToSubmit.data.stop_id, type: 'stops' });
+							await widgetContext.actions.createWidget({ pattern_ids: dataToSubmit.data.pattern_ids, stopId: dataToSubmit.data.stop_id, type: 'stops' });
 						}
 						break;
 					default:

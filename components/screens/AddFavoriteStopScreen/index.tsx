@@ -9,6 +9,7 @@ import { useLinesContext } from '@/contexts/Lines.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useThemeContext } from '@/contexts/Theme.context';
+import { useWidgetContext } from '@/contexts/Widget.context';
 import { theming } from '@/theme/Variables';
 import { AccountWidget } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
@@ -42,6 +43,7 @@ export default function AddFavoriteStopScreen() {
 
 	const themeContext = useThemeContext();
 	const profileContext = useProfileContext();
+	const widgetContext = useWidgetContext();
 	const linesContext = useLinesContext();
 	const stopsContext = useStopsContext();
 
@@ -58,7 +60,7 @@ export default function AddFavoriteStopScreen() {
 		setSelectedStop(undefined);
 		setSelectedStopId(stopData.id);
 		setSelectedStop(stopData);
-		const favoriteStopWidget = profileContext.data.widget_stops?.find(widget => widget.data && widget.data.type === 'stops' && widget.data.stop_id === stopData.id);
+		const favoriteStopWidget = widgetContext.data.widget_stops?.find(widget => widget.data && widget.data.type === 'stops' && widget.data.stop_id === stopData.id);
 		const favoritedPatterns = favoriteStopWidget?.data.type === 'stops' ? favoriteStopWidget.data.pattern_ids : [];
 		setSelectedStopPatterns(favoritedPatterns);
 	};
@@ -73,7 +75,7 @@ export default function AddFavoriteStopScreen() {
 				setSelectedStopPatterns(widget.data.pattern_ids);
 			}
 		}
-	}, [widgetId, profileContext.data.widget_stops]);
+	}, [widgetId, widgetContext.data.widget_stops]);
 
 	const clearSelection = () => {
 		setSelectedStop(undefined);

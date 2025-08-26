@@ -4,11 +4,10 @@ import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { Section } from '@/components/common/layout/Section';
 import { ProfileImage } from '@/components/ProfileImage';
 import { useProfileContext } from '@/contexts/Profile.context';
-import { Account, AccountWidget } from '@/types/account.types';
+import { AccountWidget } from '@/types/account.types';
 import dimAvatarBackground from '@/utils/dimAvatarBackground';
 import { Button, Text } from '@rn-vui/themed';
 import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -28,26 +27,24 @@ export const UserDetails = ({ widgetList }: Props) => {
 
 	const profileContext = useProfileContext();
 	const userDetailsStyles = styles();
-	const [profile, setProfile] = useState<Account | null>(null);
-	const [accentColor, setAccentColor] = useState<null | string>(null);
+	const { accent_color: accentColor, profile } = profileContext.data;
 	const { t } = useTranslation('translation', { keyPrefix: 'userdetails' });
 
 	//
-	// B. Handle Actions
-
-	useEffect(() => {
-		setProfile(profileContext.data.profile || null);
-		setAccentColor(profileContext.data?.accent_color || null);
-	}, [profileContext.data.profile, profileContext.data.accent_color]);
-
-	//
-	// C. Render Components
+	// B. Render Components
 
 	return (
 		<>
 			<View style={userDetailsStyles.userSection}>
 				{profile?.profile?.profile_image ? (
-					<ProfileImage backgroundColor={accentColor ? dimAvatarBackground(accentColor) : 'rgba(253,183,26,0.4)'} borderWidth={10} color={accentColor || ''} size={200} type="url" />
+					<ProfileImage
+						key={accentColor}
+						backgroundColor={accentColor ? dimAvatarBackground(accentColor) : 'rgba(253,183,26,0.4)'}
+						borderWidth={10}
+						color={accentColor || ''}
+						size={200}
+						type="url"
+					/>
 				) : (
 					<ProfileImage height={200} type="local" width={200} />
 				)}

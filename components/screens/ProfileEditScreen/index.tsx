@@ -73,14 +73,12 @@ export default function ProfileEditScreen() {
 
 	const handleProfileFieldBlur = async (field: string, value: number | string) => {
 		if (profileContext.data.profile) {
-			const updatedProfile = {
-				...profileContext.data.profile,
+			await profileContext.actions.updateLocalProfile({
 				profile: {
 					...profileContext.data.profile.profile,
 					[field]: value,
 				},
-			};
-			await profileContext.actions.updateLocalProfile(updatedProfile);
+			});
 		}
 	};
 

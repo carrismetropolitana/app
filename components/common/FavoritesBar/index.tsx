@@ -5,7 +5,6 @@ import type { Line } from '@carrismetropolitana/api-types/network';
 import { LineBadge } from '@/components/lines/LineBadge';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useProfileContext } from '@/contexts/Profile.context';
-import { Text } from '@rn-vui/themed';
 import { Link } from 'expo-router';
 import React from 'react';
 import { View } from 'react-native';

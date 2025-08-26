@@ -1,10 +1,10 @@
 /* * */
 
 import { Loader } from '@/components/common/Loader';
-import { useConsentContext } from '@/contexts/Consent.context';
+// import { useConsentContext } from '@/contexts/Consent.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { theming } from '@/theme/Variables';
-import { IconHeart, IconHeartFilled, IconHeartX } from '@tabler/icons-react-native';
+import { IconHeart, IconHeartFilled } from '@tabler/icons-react-native';
 import { TouchableOpacity, View } from 'react-native';
 
 import { favoriteToggleStyles } from './styles';
@@ -27,14 +27,14 @@ export function FavoriteToggle({ color, isActive, onToggle }: Props) {
 	// A. Setup variables
 
 	const profileContext = useProfileContext();
-	const consentContext = useConsentContext();
+	// const consentContext = useConsentContext();
 
 	//
 	// B. Handle actions
 
-	const handleRequestConsent = () => {
-		consentContext.actions.ask();
-	};
+	// const handleRequestConsent = () => {
+	// 	consentContext.actions.ask();
+	// };
 
 	//
 	// C. Render components
@@ -47,15 +47,15 @@ export function FavoriteToggle({ color, isActive, onToggle }: Props) {
 		);
 	}
 
-	if (!profileContext.flags.is_enabled) {
-		return (
-			<TouchableOpacity onPress={handleRequestConsent} style={favoriteToggleStyles.container}>
-				<View style={[favoriteToggleStyles.container, favoriteToggleStyles.disabled]}>
-					<IconHeartX />
-				</View>
-			</TouchableOpacity>
-		);
-	}
+	// if (!profileContext.flags.is_enabled) {
+	// 	return (
+	// 		<TouchableOpacity onPress={handleRequestConsent} style={favoriteToggleStyles.container}>
+	// 			<View style={[favoriteToggleStyles.container, favoriteToggleStyles.disabled]}>
+	// 				<IconHeartX />
+	// 			</View>
+	// 		</TouchableOpacity>
+	// 	);
+	// }
 
 	if (isActive) {
 		return (
@@ -70,7 +70,7 @@ export function FavoriteToggle({ color, isActive, onToggle }: Props) {
 	return (
 		<TouchableOpacity onPress={onToggle}>
 			<View style={favoriteToggleStyles.container}>
-				<IconHeart color={theming.colorSystemText300}/>
+				<IconHeart color={theming.colorSystemText300} />
 			</View>
 		</TouchableOpacity>
 	);
