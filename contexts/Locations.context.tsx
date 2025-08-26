@@ -5,7 +5,7 @@ import type { District, Locality, Municipality, Parish } from '@carrismetropolit
 import { Routes } from '@/utils/routes';
 import { ApiResponse } from '@carrismetropolitana/api-types/common';
 import * as Location from 'expo-location';
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useContext, useMemo, useState } from 'react';
 import { Platform } from 'react-native';
 import useSWR from 'swr';
 
@@ -142,7 +142,7 @@ export const LocationsContextProvider = ({ children }: { children: React.ReactNo
 			getParishById,
 		},
 		data: {
-			currentCords: currentCoordinates || { latitude: 0, longitude: 0 },
+			currentCords: currentCoordinates || { latitude: 38.741785295386286, longitude: -9.157626267342351 },
 			districts: allDistrictsData || [],
 			localitites: allLocalitiesData || [],
 			locationPermission: locationPermission,

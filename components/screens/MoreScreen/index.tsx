@@ -158,7 +158,7 @@ export default function MoreScreen() {
 								onPress={handleDebugPress}
 								style={{ backgroundColor: debugContext.flags.is_debug_mode ? '#27ae60' : '#e2e2e2' }}
 							>
-								{`${t('toggle_debug')}`}
+								{debugContext.flags.is_debug_mode ? `${t('untoggle_debug')}` : `${t('toggle_debug')}`}
 							</Button>
 						</View>
 

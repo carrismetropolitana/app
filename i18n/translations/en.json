@@ -465,6 +465,7 @@
 		"toggle_debug": "Toggle Debug Mode",
 		"toggle_debug_hint": "Click this button to toggle debug mode ",
 		"toggle_debug_label": "Button to toggle debug mode",
+		"untoggle_debug": "Deactivate Debug Mode",
 		"usefullLinksHint": "This link redirects to info related to {title}",
 		"usefullLinksLabel": "Link to {title}",
 		"version_hint": "App Version",
