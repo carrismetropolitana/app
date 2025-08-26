@@ -215,4 +215,9 @@ export type CreateAccountDto = Omit<
 	widgets?: AccountWidget[]
 };
 
+export type WidgetCreate =
+  | { end_time: number, pattern_id: string, radius: number, start_time: number, stop_id: string, type: 'smart_notifications', week_days: ('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[] }
+  | { pattern_ids: string[], stopId: string, type: 'stops' }
+  | { pattern_ids: string[], type: 'lines' };
+
 export type UpdateAccountDto = Partial<Omit<CreateAccountDto, 'created_by'>>;

@@ -6,7 +6,8 @@
 				"foregroundImage": "./assets/images/Logos/CM_Logo _Symbol_LightMode.png"
 			},
 			"googleServicesFile": "./android/google-services.json",
-			"package": "pt.devcarrismetropolitana.mobile"
+			"package": "pt.devcarrismetropolitana.mobile",
+			"versionCode": 2
 		},
 		"experiments": {
 			"typedRoutes": true
@@ -89,7 +90,7 @@
 			"url": "https://u.expo.dev/43d60702-1266-4217-8cb8-54e1f9a722fe"
 		},
 		"userInterfaceStyle": "automatic",
-		"version": "2025.08.22",
+		"version": "2025.08.26",
 		"web": {
 			"bundler": "metro",
 			"favicon": "./assets/images/adaptive-icon.png",
