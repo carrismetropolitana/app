@@ -15,7 +15,7 @@ import { useNavigation } from 'expo-router';
 import { DateTime } from 'luxon';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, View } from 'react-native';
+import { Dimensions, Pressable, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
@@ -62,6 +62,7 @@ export default function ProfileEditScreen() {
 	const [usageType, setUsageType] = useState(profileContext.data.profile?.profile?.utilization_type || '');
 	const [interestTopics, setInterestTopics] = useState<string[]>(profileContext.data.interests || []);
 	const [accentColor, setAccentColor] = useState<null | string>(profileContext.data.accent_color || null);
+	const screenHeight = Dimensions.get('window').height;
 	const [showPicker, setShowPicker] = useState(false);
 	const navigation = useNavigation();
 	const { t } = useTranslation('translation', { keyPrefix: 'profileEdit' });
@@ -179,260 +180,262 @@ export default function ProfileEditScreen() {
 	];
 
 	return (
-		<ScrollView contentContainerStyle={{ flexGrow: 1 }} style={profileEditModalStyles.container}>
-			<View style={profileEditModalStyles.userSection}>
-				<ProfileImage backgroundColor={accentColor ? dimAvatarBackground(accentColor) : 'rgba(253,183,26,0.4))'} borderWidth={10} color={accentColor || ''} size={200} type="url" />
-				<ButtonGroup buttons={buttons} containerStyle={{ backgroundColor: backgroundColor, borderRadius: 30, marginTop: -20, width: '25%' }} />
-				<View style={{ alignItems: 'center', flexDirection: 'row', gap: 0, justifyContent: 'center', marginVertical: 20 }}>
-					{accentColors.map((item, index) => (
-						<CheckBox
-							key={index}
-							accessibilityHint={t('changeAccentColorHint')}
-							accessibilityLabel={t('changeAccentColorLabel', { color: item.name, state: accentColor === item.code ? 'selecionado' : 'deselecionado' })}
-							accessibilityLanguage={localeContext.locale}
-							accessibilityRole="checkbox"
-							accessibilityState={{ checked: accentColor === item.code }}
-							checked={accentColor === item.code}
-							checkedIcon={<IconCircle color={item.code} fill="#FFFFFF" size={32} />}
-							containerStyle={{ backgroundColor: backgroundColor, padding: 0 }}
-							onPress={() => setAccentColor(item.code)}
-							uncheckedIcon={<IconCircleFilled color="#FFFFFF" fill={item.code} size={32} />}
-						/>
-					))}
+		<View style={{ height: screenHeight - 100 }}>
+			<ScrollView contentContainerStyle={{ flexGrow: 1 }} style={profileEditModalStyles.container}>
+				<View style={profileEditModalStyles.userSection}>
+					<ProfileImage backgroundColor={accentColor ? dimAvatarBackground(accentColor) : 'rgba(253,183,26,0.4))'} borderWidth={10} color={accentColor || ''} size={200} type="url" />
+					<ButtonGroup buttons={buttons} containerStyle={{ backgroundColor: backgroundColor, borderRadius: 30, marginTop: -20, width: '25%' }} />
+					<View style={{ alignItems: 'center', flexDirection: 'row', gap: 0, justifyContent: 'center', marginVertical: 20 }}>
+						{accentColors.map((item, index) => (
+							<CheckBox
+								key={index}
+								accessibilityHint={t('changeAccentColorHint')}
+								accessibilityLabel={t('changeAccentColorLabel', { color: item.name, state: accentColor === item.code ? 'selecionado' : 'deselecionado' })}
+								accessibilityLanguage={localeContext.locale}
+								accessibilityRole="checkbox"
+								accessibilityState={{ checked: accentColor === item.code }}
+								checked={accentColor === item.code}
+								checkedIcon={<IconCircle color={item.code} fill="#FFFFFF" size={32} />}
+								containerStyle={{ backgroundColor: backgroundColor, padding: 0 }}
+								onPress={() => setAccentColor(item.code)}
+								uncheckedIcon={<IconCircleFilled color="#FFFFFF" fill={item.code} size={32} />}
+							/>
+						))}
+					</View>
 				</View>
-			</View>
-			<View style={profileEditModalStyles.sectionWrapper}>
-				<Section
-					accessibilityHint={t('sectionPersonalInfoHint')}
-					accessibilityLabel={t('sectionPersonalInfoLabel')}
-					accessibilityLanguage={localeContext.locale}
-					heading={t('personalInfoSectionTitle')}
-				/>
-				<ListItem>
-					<ListItem.Content>
-						<ListItem.Title style={profileEditModalStyles.inputLabel}>
-							<Text
-								accessibilityHint={t('nameInputHint')}
-								accessibilityLabel={t('nameInputLabel')}
+				<View style={profileEditModalStyles.sectionWrapper}>
+					<Section
+						accessibilityHint={t('sectionPersonalInfoHint')}
+						accessibilityLabel={t('sectionPersonalInfoLabel')}
+						accessibilityLanguage={localeContext.locale}
+						heading={t('personalInfoSectionTitle')}
+					/>
+					<ListItem>
+						<ListItem.Content>
+							<ListItem.Title style={profileEditModalStyles.inputLabel}>
+								<Text
+									accessibilityHint={t('nameInputHint')}
+									accessibilityLabel={t('nameInputLabel')}
+									accessibilityLanguage={localeContext.locale}
+									accessibilityRole="text"
+								>{t('firstNameInputLabel')}
+								</Text>
+							</ListItem.Title>
+							<Input containerStyle={profileEditModalStyles.inputContainer} onBlur={() => handleProfileFieldBlur('first_name', username)} onChangeText={setUsername} value={username} />
+						</ListItem.Content>
+					</ListItem>
+					<ListItem>
+						<ListItem.Content>
+							<ListItem.Title style={profileEditModalStyles.inputLabel}>
+								<Text
+									accessibilityHint={t('surnameInputHint')}
+									accessibilityLabel={t('surnameInputLabel')}
+									accessibilityLanguage={localeContext.locale}
+									accessibilityRole="text"
+								>{t('lastNameInputLabel')}
+								</Text>
+							</ListItem.Title>
+							<Input containerStyle={profileEditModalStyles.inputContainer} onBlur={() => handleProfileFieldBlur('last_name', surname)} onChangeText={setSurname} value={surname} />
+						</ListItem.Content>
+					</ListItem>
+					<ListItem>
+						<ListItem.Content>
+							<ListItem.Title style={profileEditModalStyles.inputLabel}>
+								<Text>{t('dateOfBirthInputLabel')}</Text>
+							</ListItem.Title>
+							<Pressable onPress={() => setShowPicker(true)} style={{ width: '100%' }}>
+								<Input
+									accessibilityHint={t('birthdateInputHint')}
+									accessibilityLabel={t('birthdateInputLabel')}
+									accessibilityLanguage={localeContext.locale}
+									accessibilityRole="text"
+									containerStyle={profileEditModalStyles.inputContainer}
+									editable={false}
+									placeholder="Selecionar data"
+									pointerEvents="none"
+									value={birthDate ? DateTime.fromJSDate(new Date(Number(birthDate))).setLocale(localeContext.locale).toLocaleString(DateTime.DATE_MED).replace(/\bde\b/g, '') : ''}
+								/>
+							</Pressable>
+							<DateTimePickerModal
+								accessibilityHint={t('birthdateInputContentHint')}
+								accessibilityLabel={t('birthdateInputContentLabel')}
 								accessibilityLanguage={localeContext.locale}
-								accessibilityRole="text"
-							>{t('firstNameInputLabel')}
-							</Text>
-						</ListItem.Title>
-						<Input containerStyle={profileEditModalStyles.inputContainer} onBlur={() => handleProfileFieldBlur('first_name', username)} onChangeText={setUsername} value={username} />
-					</ListItem.Content>
-				</ListItem>
-				<ListItem>
-					<ListItem.Content>
-						<ListItem.Title style={profileEditModalStyles.inputLabel}>
-							<Text
-								accessibilityHint={t('surnameInputHint')}
-								accessibilityLabel={t('surnameInputLabel')}
-								accessibilityLanguage={localeContext.locale}
-								accessibilityRole="text"
-							>{t('lastNameInputLabel')}
-							</Text>
-						</ListItem.Title>
-						<Input containerStyle={profileEditModalStyles.inputContainer} onBlur={() => handleProfileFieldBlur('last_name', surname)} onChangeText={setSurname} value={surname} />
-					</ListItem.Content>
-				</ListItem>
-				<ListItem>
-					<ListItem.Content>
-						<ListItem.Title style={profileEditModalStyles.inputLabel}>
-							<Text>{t('dateOfBirthInputLabel')}</Text>
-						</ListItem.Title>
-						<Pressable onPress={() => setShowPicker(true)} style={{ width: '100%' }}>
+								accessibilityRole="adjustable"
+								date={birthDate ? new Date(Number(birthDate)) : new Date()}
+								isVisible={showPicker}
+								locale={localeContext.locale}
+								mode="date"
+								onCancel={() => setShowPicker(false)}
+								onConfirm={(date) => {
+									setShowPicker(false);
+									handleBirthChange(date);
+								}}
+							/>
+						</ListItem.Content>
+					</ListItem>
+				</View>
+				<View style={profileEditModalStyles.sectionWrapper}>
+					<Section
+						accessibilityHint={t('sectionContactsInfoHint')}
+						accessibilityLabel={t('sectionContactsInfoLabel')}
+						accessibilityLanguage={localeContext.locale}
+						heading={t('contactSectionTitle')}
+					/>
+					<ListItem>
+						<ListItem.Content>
+							<ListItem.Title style={profileEditModalStyles.inputLabel}><Text>{t('emailInputLabel')}</Text></ListItem.Title>
 							<Input
-								accessibilityHint={t('birthdateInputHint')}
-								accessibilityLabel={t('birthdateInputLabel')}
+								accessibilityHint={t('emailInputHint')}
+								accessibilityLabel={t('emailInputContentLabel')}
 								accessibilityLanguage={localeContext.locale}
 								accessibilityRole="text"
 								containerStyle={profileEditModalStyles.inputContainer}
-								editable={false}
-								placeholder="Selecionar data"
-								pointerEvents="none"
-								value={birthDate ? DateTime.fromJSDate(new Date(Number(birthDate))).setLocale(localeContext.locale).toLocaleString(DateTime.DATE_MED).replace(/\bde\b/g, '') : ''}
-							/>
-						</Pressable>
-						<DateTimePickerModal
-							accessibilityHint={t('birthdateInputContentHint')}
-							accessibilityLabel={t('birthdateInputContentLabel')}
-							accessibilityLanguage={localeContext.locale}
-							accessibilityRole="adjustable"
-							date={birthDate ? new Date(Number(birthDate)) : new Date()}
-							isVisible={showPicker}
-							locale={localeContext.locale}
-							mode="date"
-							onCancel={() => setShowPicker(false)}
-							onConfirm={(date) => {
-								setShowPicker(false);
-								handleBirthChange(date);
-							}}
-						/>
-					</ListItem.Content>
-				</ListItem>
-			</View>
-			<View style={profileEditModalStyles.sectionWrapper}>
-				<Section
-					accessibilityHint={t('sectionContactsInfoHint')}
-					accessibilityLabel={t('sectionContactsInfoLabel')}
-					accessibilityLanguage={localeContext.locale}
-					heading={t('contactSectionTitle')}
-				/>
-				<ListItem>
-					<ListItem.Content>
-						<ListItem.Title style={profileEditModalStyles.inputLabel}><Text>{t('emailInputLabel')}</Text></ListItem.Title>
-						<Input
-							accessibilityHint={t('emailInputHint')}
-							accessibilityLabel={t('emailInputContentLabel')}
-							accessibilityLanguage={localeContext.locale}
-							accessibilityRole="text"
-							containerStyle={profileEditModalStyles.inputContainer}
-							errorMessage={!emailValid && email ? t('invalidEmail') : undefined}
-							onChangeText={setEmail}
-							value={email}
-						/>
-					</ListItem.Content>
-				</ListItem>
-				<ListItem>
-					<ListItem.Content>
-						<ListItem.Title style={profileEditModalStyles.inputLabel}><Text>{t('phoneInputLabel')}</Text></ListItem.Title>
-						<View
-							accessibilityHint={t('phoneInputHint')}
-							accessibilityLabel={t('phoneInputContentLabel')}
-							accessibilityLanguage={localeContext.locale}
-							accessibilityRole="text"
-							style={{ alignItems: 'center', flexDirection: 'row' }}
-						>
-							<CountryPicker
-								countryCode={countryCode}
-								withCallingCode={withCallingCode}
-								withFlag={withFlag}
-								onSelect={(country) => {
-									setCountryCode(country.cca2);
-									setCountry(country);
-									if (country.callingCode[0]) {
-										setPhone(`+${country.callingCode[0]}`);
-									}
-								}}
-								withFilter
-							/>
-							<Input
-								containerStyle={profileEditModalStyles.phoneInputContainer}
-								errorMessage={!phoneValid && phone ? t('invalidNumber') : undefined}
-								keyboardType="phone-pad"
-								onBlur={() => phoneValid && handleProfileFieldBlur('phone', phone)}
-								onChangeText={handlePhoneChange}
-								placeholder={country ? `+${country.callingCode[0]} 123456789` : 'Número de Telemóvel'}
-								value={phone}
-							/>
-						</View>
-					</ListItem.Content>
-				</ListItem>
-			</View>
-			<View style={profileEditModalStyles.sectionWrapper}>
-				<Section
-					accessibilityHint={t('sectionActivityInfoHint')}
-					accessibilityLabel={t('sectionActivityInfoLabel')}
-					accessibilityLanguage={localeContext.locale}
-					heading={t('activityProfileSectionTitle')}
-				/>
-				{activityTypes.options.map((item, index) => (
-					<ListItem key={index}>
-						<ListItem.Content>
-							<CheckBox
-								key={index}
-								accessibilityHint={t('activityInfoHint')}
-								accessibilityLabel={t('activityInfoLabel')}
-								accessibilityLanguage={localeContext.locale}
-								accessibilityRole="checkbox"
-								accessibilityState={{ checked: activityProfile === item }}
-								checked={activityProfile === item}
-								checkedIcon="dot-circle-o"
-								containerStyle={profileEditModalStyles.checkbox}
-								textStyle={profileEditModalStyles.checkBoxText}
-								title={t(item)}
-								uncheckedIcon="circle-o"
-								onPress={() => {
-									setActivityProfile(item);
-									handleProfileFieldBlur('activity', item);
-								}}
+								errorMessage={!emailValid && email ? t('invalidEmail') : undefined}
+								onChangeText={setEmail}
+								value={email}
 							/>
 						</ListItem.Content>
 					</ListItem>
-				))}
-			</View>
-			<View style={profileEditModalStyles.sectionWrapper}>
-				<Section
-					accessibilityHint={t('sectionUtilizationTypeHint')}
-					accessibilityLabel={t('sectionUtilizationTypeLabel')}
-					accessibilityLanguage={localeContext.locale}
-					heading={t('utilizationTypesSectionTitle')}
-				/>
-				{utilizationTypes.options.map((item, index) => (
-					<ListItem key={index}>
+					<ListItem>
 						<ListItem.Content>
-							<CheckBox
-								key={index}
-								accessibilityHint={t('utilizationTypeInfoHint')}
-								accessibilityLabel={t('utilizationTypeInfoLabel')}
+							<ListItem.Title style={profileEditModalStyles.inputLabel}><Text>{t('phoneInputLabel')}</Text></ListItem.Title>
+							<View
+								accessibilityHint={t('phoneInputHint')}
+								accessibilityLabel={t('phoneInputContentLabel')}
 								accessibilityLanguage={localeContext.locale}
-								accessibilityRole="checkbox"
-								accessibilityState={{ checked: usageType === item }}
-								checked={usageType === item}
-								checkedIcon="dot-circle-o"
-								containerStyle={profileEditModalStyles.checkbox}
-								textStyle={profileEditModalStyles.checkBoxText}
-								title={t(item)}
-								uncheckedIcon="circle-o"
-								onPress={() => {
-									setUsageType(item);
-									handleProfileFieldBlur('utilization_type', item);
-								}}
-							/>
+								accessibilityRole="text"
+								style={{ alignItems: 'center', flexDirection: 'row' }}
+							>
+								<CountryPicker
+									countryCode={countryCode}
+									withCallingCode={withCallingCode}
+									withFlag={withFlag}
+									onSelect={(country) => {
+										setCountryCode(country.cca2);
+										setCountry(country);
+										if (country.callingCode[0]) {
+											setPhone(`+${country.callingCode[0]}`);
+										}
+									}}
+									withFilter
+								/>
+								<Input
+									containerStyle={profileEditModalStyles.phoneInputContainer}
+									errorMessage={!phoneValid && phone ? t('invalidNumber') : undefined}
+									keyboardType="phone-pad"
+									onBlur={() => phoneValid && handleProfileFieldBlur('phone', phone)}
+									onChangeText={handlePhoneChange}
+									placeholder={country ? `+${country.callingCode[0]} 123456789` : 'Número de Telemóvel'}
+									value={phone}
+								/>
+							</View>
 						</ListItem.Content>
 					</ListItem>
-				))}
-			</View>
-			<View style={profileEditModalStyles.sectionWrapper}>
-				<Section
-					accessibilityHint={t('sectionTopicsOfInterestHint')}
-					accessibilityLabel={t('sectionTopicsOfInterestLabel')}
-					accessibilityLanguage={localeContext.locale}
-					heading={t('topicsOfInterestSectionTitle')}
-				/>
-				{interestsTypes.options.map((item, index) => (
-					<ListItem key={index}>
-						<ListItem.Content>
-							<CheckBox
-								accessibilityHint={t('topicsOfInterestInfoHint')}
-								accessibilityLabel={t('topicsOfInterestLabel')}
-								accessibilityLanguage={localeContext.locale}
-								accessibilityRole="checkbox"
-								accessibilityState={{ checked: interestTopics.includes(item) }}
-								checked={interestTopics.includes(item)}
-								checkedIcon={<IconSquareCheckFilled color="#FFFFFF" fill={accentColor || '#3D85C6'} size={28} />}
-								containerStyle={profileEditModalStyles.checkbox}
-								textStyle={profileEditModalStyles.checkBoxText}
-								title={t(item)}
-								uncheckedIcon={<IconSquare color={accentColor || '#3D85C6'} fill="#FFFFFF" size={28} />}
-								onPress={() => {
-									let newTopics;
-									if (interestTopics.includes(item)) {
-										newTopics = interestTopics.filter(i => i !== item);
-									}
-									else {
-										newTopics = [...interestTopics, item];
-									}
-									setInterestTopics(newTopics);
-									profileContext.actions.setInterests(newTopics);
-								}}
-							/>
-						</ListItem.Content>
-					</ListItem>
-				))}
-			</View>
-		</ScrollView>
+				</View>
+				<View style={profileEditModalStyles.sectionWrapper}>
+					<Section
+						accessibilityHint={t('sectionActivityInfoHint')}
+						accessibilityLabel={t('sectionActivityInfoLabel')}
+						accessibilityLanguage={localeContext.locale}
+						heading={t('activityProfileSectionTitle')}
+					/>
+					{activityTypes.options.map((item, index) => (
+						<ListItem key={index}>
+							<ListItem.Content>
+								<CheckBox
+									key={index}
+									accessibilityHint={t('activityInfoHint')}
+									accessibilityLabel={t('activityInfoLabel')}
+									accessibilityLanguage={localeContext.locale}
+									accessibilityRole="checkbox"
+									accessibilityState={{ checked: activityProfile === item }}
+									checked={activityProfile === item}
+									checkedIcon="dot-circle-o"
+									containerStyle={profileEditModalStyles.checkbox}
+									textStyle={profileEditModalStyles.checkBoxText}
+									title={t(item)}
+									uncheckedIcon="circle-o"
+									onPress={() => {
+										setActivityProfile(item);
+										handleProfileFieldBlur('activity', item);
+									}}
+								/>
+							</ListItem.Content>
+						</ListItem>
+					))}
+				</View>
+				<View style={profileEditModalStyles.sectionWrapper}>
+					<Section
+						accessibilityHint={t('sectionUtilizationTypeHint')}
+						accessibilityLabel={t('sectionUtilizationTypeLabel')}
+						accessibilityLanguage={localeContext.locale}
+						heading={t('utilizationTypesSectionTitle')}
+					/>
+					{utilizationTypes.options.map((item, index) => (
+						<ListItem key={index}>
+							<ListItem.Content>
+								<CheckBox
+									key={index}
+									accessibilityHint={t('utilizationTypeInfoHint')}
+									accessibilityLabel={t('utilizationTypeInfoLabel')}
+									accessibilityLanguage={localeContext.locale}
+									accessibilityRole="checkbox"
+									accessibilityState={{ checked: usageType === item }}
+									checked={usageType === item}
+									checkedIcon="dot-circle-o"
+									containerStyle={profileEditModalStyles.checkbox}
+									textStyle={profileEditModalStyles.checkBoxText}
+									title={t(item)}
+									uncheckedIcon="circle-o"
+									onPress={() => {
+										setUsageType(item);
+										handleProfileFieldBlur('utilization_type', item);
+									}}
+								/>
+							</ListItem.Content>
+						</ListItem>
+					))}
+				</View>
+				<View style={profileEditModalStyles.sectionWrapper}>
+					<Section
+						accessibilityHint={t('sectionTopicsOfInterestHint')}
+						accessibilityLabel={t('sectionTopicsOfInterestLabel')}
+						accessibilityLanguage={localeContext.locale}
+						heading={t('topicsOfInterestSectionTitle')}
+					/>
+					{interestsTypes.options.map((item, index) => (
+						<ListItem key={index}>
+							<ListItem.Content>
+								<CheckBox
+									accessibilityHint={t('topicsOfInterestInfoHint')}
+									accessibilityLabel={t('topicsOfInterestLabel')}
+									accessibilityLanguage={localeContext.locale}
+									accessibilityRole="checkbox"
+									accessibilityState={{ checked: interestTopics.includes(item) }}
+									checked={interestTopics.includes(item)}
+									checkedIcon={<IconSquareCheckFilled color="#FFFFFF" fill={accentColor || '#3D85C6'} size={28} />}
+									containerStyle={profileEditModalStyles.checkbox}
+									textStyle={profileEditModalStyles.checkBoxText}
+									title={t(item)}
+									uncheckedIcon={<IconSquare color={accentColor || '#3D85C6'} fill="#FFFFFF" size={28} />}
+									onPress={() => {
+										let newTopics;
+										if (interestTopics.includes(item)) {
+											newTopics = interestTopics.filter(i => i !== item);
+										}
+										else {
+											newTopics = [...interestTopics, item];
+										}
+										setInterestTopics(newTopics);
+										profileContext.actions.setInterests(newTopics);
+									}}
+								/>
+							</ListItem.Content>
+						</ListItem>
+					))}
+				</View>
+			</ScrollView>
+		</View>
 	);
 
 	//
