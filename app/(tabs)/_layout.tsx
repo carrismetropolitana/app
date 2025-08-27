@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /* * */
 
-// import { ConsentPopup } from '@/components/common/ConsentDialog';
 import { HapticTab } from '@/components/HapticTab';
 import OfflineScreen from '@/components/OfflineScreen';
 import TabBarBackground from '@/components/ui/TabBarBackground';
@@ -52,9 +52,7 @@ export default function TabLayout() {
 	const profileContext = useProfileContext();
 
 	const [loaded] = useFonts({
-		// eslint-disable-next-line
 		Inter: require('@/assets/fonts/Inter-VariableFont_opsz,wght.ttf'),
-		// eslint-disable-next-line
 		SpaceMono: require('@/assets/fonts/SpaceMono-Regular.ttf'),
 	});
 
@@ -76,7 +74,6 @@ export default function TabLayout() {
 				<OfflineScreen />
 			) : (
 				<>
-					{/* <ConsentPopup /> */}
 					<Tabs
 						screenOptions={({ route }) => ({
 							headerShown: false,
@@ -122,6 +119,10 @@ export default function TabLayout() {
 						<Tabs.Screen name="lines" />
 						<Tabs.Screen name="stops" />
 						<Tabs.Screen name="more" />
+						{/* <Tabs.Screen
+							name="profile"
+							options={{ href: null }} // não aparece como tab, mas mantém tab bar
+						/> */}
 					</Tabs>
 				</>
 			)}

@@ -41,7 +41,7 @@ const Carousel = memo(({ slides }: { slides: SimplifiedAlert[] }) => {
 			snapToInterval={width}
 			style={alertCarouselStyles.list}
 			renderItem={({ index, item }) => (
-				<Pressable accessibilityLabel={`Alert ${index + 1}`} accessibilityRole="button">
+				<Pressable accessibilityHint={`Este alerta é sobre ${item.title}`} accessibilityLabel={`Alerta ${item.title}`} accessibilityRole="button">
 					<View style={alertCarouselStyles.imageContainer}>
 						<TouchableOpacity onPress={() => openWebView({ locale: localeContext.locale, url: `https://carrismetropolitana.pt/alerts/${item.alert_id}` })} style={alertCarouselStyles.container}>
 							<AlertActivePeriodStart date={item.start_date} size="sm" />

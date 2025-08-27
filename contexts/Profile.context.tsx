@@ -189,9 +189,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		AsyncStorage.setItem(LOCAL_STORAGE_KEYS.token, newDeviceId);
 
 		try {
-			await fetchData<Account>(`${Routes.API_ACCOUNTS}`, 'POST', newProfile, {
-				Authorization: `Bearer ${newDeviceId}`,
-			});
+			await fetchData<Account>(`${Routes.API_ACCOUNTS}`, 'POST', newProfile, { Authorization: `Bearer ${newDeviceId}` });
 		}
 		catch (error) {
 			console.error('Error creating profile on cloud:', error);
