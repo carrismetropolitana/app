@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /* * */
 
 import zumeDark from '@/assets/header/zume/zume-dark.json';
@@ -24,6 +25,7 @@ export function Header() {
 	const insets = useSafeAreaInsets();
 	const { theme } = useThemeContext();
 	const profileContext = useProfileContext();
+	const themeContext = useThemeContext();
 
 	const animation = theme.mode === 'light' ? zumeLight : zumeDark;
 	const headerBackground = theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100;
@@ -61,8 +63,10 @@ export function Header() {
 			)}
 
 			{Platform.OS === 'android' && (
-				// eslint-disable-next-line @typescript-eslint/no-require-imports
-				<Image source={require('@/assets/images/logo.png')} style={{ height: 100, left: 20, resizeMode: 'contain', width: 100 }} />
+
+				themeContext.theme.mode === 'light'
+					? <Image source={require('@/assets//images/Logos/CM_Logo_LightMode.png')} style={{ height: 125, left: 0, resizeMode: 'contain', width: 125 }} />
+					: <Image source={require('@/assets/images/Logos/CM_Logo_DarkMode.png')} style={{ height: 125, left: 0, resizeMode: 'contain', width: 125 }} />
 			)}
 
 			<Link href="/profile">

@@ -1,6 +1,7 @@
 /* * */
 
 import { Section } from '@/components/common/layout/Section';
+import TabBarOnly from '@/components/common/layout/TabOnly';
 import { ProfileImage } from '@/components/ProfileImage';
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { useProfileContext } from '@/contexts/Profile.context';
@@ -32,7 +33,6 @@ export default function ProfileEditScreen() {
 	const profileContext = useProfileContext();
 	const themeContext = useThemeContext();
 	const localeContext = useLocaleContext();
-
 	const profileEditModalStyles = styles();
 
 	const activityTypes = ActivitySchema;
@@ -48,7 +48,7 @@ export default function ProfileEditScreen() {
 	];
 	const backgroundColor = themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100;
 	const [phoneValid, setPhoneValid] = useState(true);
-	const [countryCode, setCountryCode] = useState<CountryCode>('PT');
+	const [countryCode, setCountryCode] = useState<CountryCode | undefined>('PT');
 	const [country, setCountry] = useState<Country | null>(null);
 	const [withFlag, setWithFlag] = useState(true);
 	const [withCallingCode, setWithCallingCode] = useState(true);
@@ -181,7 +181,7 @@ export default function ProfileEditScreen() {
 
 	return (
 		<View style={{ height: screenHeight - 100 }}>
-			<ScrollView contentContainerStyle={{ flexGrow: 1 }} style={profileEditModalStyles.container}>
+			<ScrollView style={profileEditModalStyles.container}>
 				<View style={profileEditModalStyles.userSection}>
 					<ProfileImage backgroundColor={accentColor ? dimAvatarBackground(accentColor) : 'rgba(253,183,26,0.4))'} borderWidth={10} color={accentColor || ''} size={200} type="url" />
 					<ButtonGroup buttons={buttons} containerStyle={{ backgroundColor: backgroundColor, borderRadius: 30, marginTop: -20, width: '25%' }} />
@@ -307,7 +307,7 @@ export default function ProfileEditScreen() {
 								style={{ alignItems: 'center', flexDirection: 'row' }}
 							>
 								<CountryPicker
-									countryCode={countryCode}
+									countryCode={countryCode ?? 'PT'}
 									withCallingCode={withCallingCode}
 									withFlag={withFlag}
 									onSelect={(country) => {
@@ -325,7 +325,7 @@ export default function ProfileEditScreen() {
 									keyboardType="phone-pad"
 									onBlur={() => phoneValid && handleProfileFieldBlur('phone', phone)}
 									onChangeText={handlePhoneChange}
-									placeholder={country ? `+${country.callingCode[0]} 123456789` : 'Número de Telemóvel'}
+									placeholder={country ? `+${country.callingCode[0]} 123456789` : 'Selecione o indicativo'}
 									value={phone}
 								/>
 							</View>
@@ -435,6 +435,7 @@ export default function ProfileEditScreen() {
 					))}
 				</View>
 			</ScrollView>
+			<TabBarOnly />
 		</View>
 	);
 

@@ -22,7 +22,7 @@ export function StopDetail() {
 	// B. Render components
 
 	return (
-		<ScrollView style={stopDetailStyles.wrapper}>
+		<ScrollView showsVerticalScrollIndicator={false} style={stopDetailStyles.wrapper}>
 			<StopDetailHeader />
 			<View style={{ marginTop: 16 }}>
 				<StopDetailNextArrivals title="Próximas Passagens" />

@@ -3,6 +3,7 @@
 import 'react-native-reanimated';
 import '@/i18n';
 import 'expo-dev-client';
+import ThemedStatusBar from '@/components/common/layout/ThemedStatusBar';
 import { NotificationsProvider } from '@/contexts/Notifications.context';
 import { ThemeProvider } from '@/contexts/Theme.context';
 import { ConfigProviders } from '@/providers/config-providers';
@@ -13,8 +14,6 @@ import { ProfileProviders } from '@/providers/profile-providers';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -23,15 +22,11 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 const queryClient = new QueryClient();
 
 /* * */
-
-SplashScreen.preventAutoHideAsync();
-
-/* * */
 export default function RootLayout() {
 	//
 
 	//
-	// A. Render components
+	// B. Render components
 
 	return (
 		<GestureHandlerRootView style={{ flex: 1 }}>
@@ -45,7 +40,7 @@ export default function RootLayout() {
 										<QueryClientProvider client={queryClient}>
 											<ThemeProvider>
 												<SafeAreaProvider>
-													<StatusBar backgroundColor="transparent" style="auto" translucent={false} />
+													<ThemedStatusBar />
 													<Stack>
 														<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 													</Stack>

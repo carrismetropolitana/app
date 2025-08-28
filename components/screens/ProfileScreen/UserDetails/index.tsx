@@ -8,6 +8,7 @@ import { AccountWidget } from '@/types/account.types';
 import dimAvatarBackground from '@/utils/dimAvatarBackground';
 import { Button, Text } from '@rn-vui/themed';
 import { router } from 'expo-router';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -27,29 +28,26 @@ export const UserDetails = ({ widgetList }: Props) => {
 
 	const profileContext = useProfileContext();
 	const userDetailsStyles = styles();
-	const { accent_color: accentColor, profile } = profileContext.data;
 	const { t } = useTranslation('translation', { keyPrefix: 'userdetails' });
-
 	//
 	// B. Render Components
 
 	return (
 		<>
 			<View style={userDetailsStyles.userSection}>
-				{profile?.profile?.profile_image ? (
+				{profileContext?.data.profile?.profile?.profile_image ? (
 					<ProfileImage
-						key={accentColor}
-						backgroundColor={accentColor ? dimAvatarBackground(accentColor) : 'rgba(253,183,26,0.4)'}
+						backgroundColor={profileContext.data.accent_color ? dimAvatarBackground(profileContext.data.accent_color) : 'rgba(253,183,26,0.4)'}
 						borderWidth={10}
-						color={accentColor || ''}
+						color={profileContext.data.accent_color}
 						size={200}
 						type="url"
 					/>
 				) : (
 					<ProfileImage height={200} type="local" width={200} />
 				)}
-				<Text style={userDetailsStyles.userFullNameText}>{profile?.profile?.first_name} {profile?.profile?.last_name}</Text>
-				<Text style={[userDetailsStyles.userActivityText, { color: accentColor || '' }]}>{profile?.profile?.activity?.toUpperCase()}</Text>
+				<Text style={userDetailsStyles.userFullNameText}>{profileContext?.data.profile?.profile?.first_name} {profileContext?.data.profile?.profile?.last_name}</Text>
+				<Text style={[userDetailsStyles.userActivityText, { color: profileContext.data.accent_color || '' }]}>{profileContext?.data.profile?.profile?.activity?.toUpperCase()}</Text>
 				<Button buttonStyle={userDetailsStyles.button} containerStyle={userDetailsStyles.buttonContainer} onPress={() => router.push('/profileEdit')} title={t('editProfileButtonTitle')} titleStyle={userDetailsStyles.buttonTitle} />
 			</View>
 			<View style={userDetailsStyles.favoritesListSection}>

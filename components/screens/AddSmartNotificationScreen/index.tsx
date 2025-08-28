@@ -3,6 +3,7 @@
 
 import LinesListChooserModal from '@/app/(modal)/LinesListChooserModal';
 import { HeaderExplainer } from '@/components/common/HeaderExplainer';
+import TabBarOnly from '@/components/common/layout/TabOnly';
 import { SelectNotificationControl } from '@/components/common/SelectNotifcationControl';
 import { TestingNeedWarning } from '@/components/common/TestingNeedWarning';
 import { VerticalContentSeparator } from '@/components/common/VerticalContentSeparator';
@@ -314,6 +315,7 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 				/>
 				<LinesListChooserModal isVisible={lineChooserVisibility} onBackdropPress={() => setLineChooserVisibility(!lineChooserVisibility)} />
 			</ScrollView>
+			<TabBarOnly />
 		</View>
 	);
 

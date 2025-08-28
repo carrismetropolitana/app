@@ -1,4 +1,5 @@
 /* * */
+import TabBarOnly from '@/components/common/layout/TabOnly';
 import { StopDetail } from '@/components/stops/StopDetail';
 import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
@@ -26,6 +27,7 @@ export default function Page() {
 	useEffect(() => {
 		navigation.setOptions({
 			headerBackTitle: `${t('BackButton')}`,
+			headerShown: true,
 			headerStyle: {
 				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
 			},
@@ -39,6 +41,7 @@ export default function Page() {
 	return (
 		<StopsDetailContextProvider stopId={stop_id}>
 			<StopDetail />
+			<TabBarOnly />
 		</StopsDetailContextProvider>
 	);
 

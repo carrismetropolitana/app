@@ -11,7 +11,6 @@ import { MapViewStyleStops } from '@/components/map/MapViewStyleStops';
 import StopDetailNextArrivals from '@/components/stops/StopDetailNextArrivals';
 import { useLocationsContext } from '@/contexts/Locations.context';
 import { useMapOptionsContext } from '@/contexts/MapOptions.context';
-import { useNotifications } from '@/contexts/Notifications.context';
 import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';

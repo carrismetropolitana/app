@@ -1,11 +1,13 @@
 /* * */
 
+import TabBarOnly from '@/components/common/layout/TabOnly';
 import { LinesDetail } from '@/components/lines/LinesDetail';
 import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
 import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { Tabs } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -30,6 +32,7 @@ export default function Page() {
 	useEffect(() => {
 		navigation.setOptions({
 			headerBackTitle: `${t('linePageHeaderTitle')} ${line_id}`,
+			headerShown: true,
 			headerStyle: { backgroundColor: backgroundColor },
 			headerTitle: '',
 		});
@@ -42,6 +45,7 @@ export default function Page() {
 		<StopsDetailContextProvider>
 			<LinesDetailContextProvider lineIdParams={line_id}>
 				<LinesDetail />
+				<TabBarOnly />
 			</LinesDetailContextProvider>
 		</StopsDetailContextProvider>
 	);

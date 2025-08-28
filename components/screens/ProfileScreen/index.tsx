@@ -1,5 +1,6 @@
 /* * */
 
+import TabBarOnly from '@/components/common/layout/TabOnly';
 import { AddWidgetList } from '@/components/screens/ProfileScreen/AddWidgetList';
 import { RenderFavoriteItem } from '@/components/screens/ProfileScreen/RenderFavoriteItem';
 import { UserDetails } from '@/components/screens/ProfileScreen/UserDetails';
@@ -80,41 +81,41 @@ export default function ProfileScreen() {
 	//
 	// C. Render Components
 	return (
-		<View style={{ ...profileStyles.container, backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background }}>
-			<DraggableFlatList
-				activationDistance={20}
-				data={widgetList}
-				keyExtractor={item => widgetKey(item)}
-				ListFooterComponent={<AddWidgetList />}
-				ListHeaderComponent={<UserDetails widgetList={widgetList} />}
-				nestedScrollEnabled={false}
-				onDragBegin={() => setIsDragging(true)}
-				renderItem={({ drag, getIndex, isActive, item }) => (<RenderFavoriteItem drag={drag} index={getIndex() ?? 0} isActive={isActive} item={item} />)}
-				showsVerticalScrollIndicator={false}
-				simultaneousHandlers={flatListGestureRef}
-				onDragEnd={({ data }) => {
-					setIsDragging(false);
-					setWidgetList(data);
-					data.forEach((widget) => {
-						const ref = itemRefs.current.get(widgetKey(widget));
-						if (ref) return itemRefs.current.set(widgetKey(widget), ref);
-					});
-					if (saveTimer.current) clearTimeout(saveTimer.current);
-
-					// Update profile immediately when drag ends
-					if (profile) {
-						const orderedWidgets = data.map((widget, idx) => ({
-							...widget,
-							settings: { ...widget.settings, display_order: idx },
-						}));
-						profileContext.actions.updateLocalProfile({
-							widgets: orderedWidgets,
+		<>
+			<View style={{ ...profileStyles.container, backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background, flex: 1 }}>
+				<DraggableFlatList
+					activationDistance={20}
+					contentContainerStyle={{ paddingBottom: 104 }}
+					data={widgetList}
+					keyExtractor={item => widgetKey(item)}
+					ListFooterComponent={<AddWidgetList />}
+					ListHeaderComponent={<UserDetails widgetList={widgetList} />}
+					nestedScrollEnabled={false}
+					onDragBegin={() => setIsDragging(true)}
+					renderItem={({ drag, getIndex, isActive, item }) => (<RenderFavoriteItem drag={drag} index={getIndex() ?? 0} isActive={isActive} item={item} />)}
+					showsVerticalScrollIndicator={false}
+					simultaneousHandlers={flatListGestureRef}
+					onDragEnd={({ data }) => {
+						setIsDragging(false);
+						setWidgetList(data);
+						data.forEach((widget) => {
+							const ref = itemRefs.current.get(widgetKey(widget));
+							if (ref) return itemRefs.current.set(widgetKey(widget), ref);
 						});
-					}
-				}}
-			/>
-
-		</View>
+						if (saveTimer.current) clearTimeout(saveTimer.current);
+						if (profile) {
+							const orderedWidgets = data.map((widget, idx) => ({ ...widget, settings: { ...widget.settings, display_order: idx } }));
+							profileContext.actions.updateLocalProfile({
+								widgets: orderedWidgets,
+							});
+						}
+					}}
+				/>
+			</View>
+			<View style={{ bottom: 0, left: 0, position: 'absolute', right: 0 }}>
+				<TabBarOnly />
+			</View>
+		</>
 	);
 
 	//

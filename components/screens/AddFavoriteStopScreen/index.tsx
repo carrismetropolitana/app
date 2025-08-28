@@ -3,6 +3,7 @@
 import StopsListChooserModal from '@/app/(modal)/StopsListChooserModal';
 import { HeaderExplainer } from '@/components/common/HeaderExplainer';
 import { Section } from '@/components/common/layout/Section';
+import TabBarOnly from '@/components/common/layout/TabOnly';
 import { LineBadge } from '@/components/lines/LineBadge';
 import { WidgetActionsButtonGroup } from '@/components/widgets/WidgetsActionsButtonGroup';
 import { useLinesContext } from '@/contexts/Lines.context';
@@ -233,6 +234,7 @@ export default function AddFavoriteStopScreen() {
 				<WidgetActionsButtonGroup dataToSubmit={dataToSubmit} isUpdate={widgetId} length={selectedStopPatterns.length} onClear={exitScreen} type="stops" />
 				<StopsListChooserModal isVisible={stopChooserVisibility} onBackdropPress={() => setStopChooserVisibility(!stopChooserVisibility)} selectedStopData={stopData => handleSelectedStop(stopData)} />
 			</ScrollView>
+			<TabBarOnly />
 		</View>
 	);
 

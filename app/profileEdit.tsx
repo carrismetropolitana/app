@@ -23,6 +23,7 @@ export default function ProfileEdit() {
 	useEffect(() => {
 		navigation.setOptions({
 			headerBackTitle: t('headerTitle'),
+			headerShown: true,
 			headerStyle: {
 				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
 			},

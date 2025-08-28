@@ -3,6 +3,7 @@
 import LinesListChooserModal from '@/app/(modal)/LinesListChooserModal';
 import { HeaderExplainer } from '@/components/common/HeaderExplainer';
 import { Section } from '@/components/common/layout/Section';
+import TabBarOnly from '@/components/common/layout/TabOnly';
 import { LineBadge } from '@/components/lines/LineBadge';
 import { OpenAddSmartNotification } from '@/components/widgets/OpenAddSmartNotification';
 import { WidgetActionsButtonGroup } from '@/components/widgets/WidgetsActionsButtonGroup';
@@ -261,6 +262,7 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 					onBackdropPress={() => setLineChooserVisibility(!lineChooserVisibility)}
 				/>
 			</ScrollView>
+			<TabBarOnly />
 		</View>
 	);
 

@@ -8,6 +8,7 @@ import { useLinesContext } from '@/contexts/Lines.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useThemeContext } from '@/contexts/Theme.context';
+import { useWidgetContext } from '@/contexts/Widget.context';
 import { theming } from '@/theme/Variables';
 import { useNetInfo } from '@react-native-community/netinfo';
 import { IconArrowLoopRight, IconDots, IconMap, IconUserCircle } from '@tabler/icons-react-native';
@@ -19,6 +20,8 @@ import { Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 /* * */
+
+SplashScreen.preventAutoHideAsync();
 
 export default function TabLayout() {
 	//
@@ -50,6 +53,7 @@ export default function TabLayout() {
 	const stopContext = useStopsContext();
 	const linesContext = useLinesContext();
 	const profileContext = useProfileContext();
+	const widgetContext = useWidgetContext();
 
 	const [loaded] = useFonts({
 		Inter: require('@/assets/fonts/Inter-VariableFont_opsz,wght.ttf'),
@@ -60,10 +64,10 @@ export default function TabLayout() {
 	// B. Transform data
 
 	useEffect(() => {
-		if (loaded && !stopContext.flags.is_loading && !linesContext.flags.is_loading && !profileContext.flags.is_loading) {
+		if (loaded && !stopContext.flags.is_loading && !linesContext.flags.is_loading && !profileContext.flags.is_loading && !widgetContext.flags.is_loading) {
 			SplashScreen.hideAsync();
 		}
-	}, [loaded, stopContext.flags.is_loading, linesContext.flags.is_loading, profileContext.flags.is_loading]);
+	}, [loaded, stopContext.flags.is_loading, linesContext.flags.is_loading, profileContext.flags.is_loading, widgetContext.flags.is_loading]);
 
 	//
 	// C. Render components
@@ -119,10 +123,6 @@ export default function TabLayout() {
 						<Tabs.Screen name="lines" />
 						<Tabs.Screen name="stops" />
 						<Tabs.Screen name="more" />
-						{/* <Tabs.Screen
-							name="profile"
-							options={{ href: null }} // não aparece como tab, mas mantém tab bar
-						/> */}
 					</Tabs>
 				</>
 			)}

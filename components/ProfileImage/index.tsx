@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /* * */
 
 import { useLocaleContext } from '@/contexts/Locale.context';
@@ -30,7 +31,6 @@ export function ProfileImage({ backgroundColor = theming.colorBrand, borderWidth
 	//
 	// A. Setup variables
 
-	// eslint-disable-next-line @typescript-eslint/no-require-imports
 	const defaultImage = require('assets/images/no-persona-image.png');
 	const profileContext = useProfileContext();
 	const localeContext = useLocaleContext();
@@ -45,13 +45,7 @@ export function ProfileImage({ backgroundColor = theming.colorBrand, borderWidth
 			const noExt = raw.replace(/\.[^|]+$/, '');
 			return noExt.split('|').filter(Boolean).join(', ');
 		}
-		return '';
 	}, [profileContext.data.profile?.profile?.profile_image]);
-
-	// Force re-render when color props change
-	const avatarKey = useMemo(() => {
-		return `${color}-${backgroundColor}-${profileContext.data.profile?.profile?.profile_image}`;
-	}, [color, backgroundColor, profileContext.data.profile?.profile?.profile_image]);
 
 	//
 	// B. Render Components
@@ -59,7 +53,7 @@ export function ProfileImage({ backgroundColor = theming.colorBrand, borderWidth
 	if (type === 'url' && typeof profileImage === 'string' && profileContext.data.profile?.profile?.profile_image?.trim().charAt(0) === 'b') {
 		return (
 			<View accessibilityHint={t('accessibilityHint', { profileImageDescription })} accessibilityLabel={t('accessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="image">
-				<Avatar key={avatarKey} containerStyle={[profileImageStyles.avatarContainer, { backgroundColor: backgroundColor, borderColor: color, borderWidth: borderWidth }]} size={size} source={{ uri: profileImage || '' }} rounded />
+				<Avatar containerStyle={[profileImageStyles.avatarContainer, { backgroundColor: backgroundColor, borderColor: color, borderWidth: borderWidth }]} size={size} source={{ uri: profileImage || '' }} rounded />
 			</View>
 		);
 	}

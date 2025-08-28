@@ -84,9 +84,10 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	const [recentLines, setRecentLines] = useState<Line[]>([]);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const localProfileRef = useRef<Account | null>(null);
-	localProfileRef.current = localProfile;
 	const favoriteLines = localProfile?.favorites?.lines || [];
 	const favoriteStops = localProfile?.favorites?.stops || [];
+
+	localProfileRef.current = localProfile;
 
 	useEffect(() => {
 		const initialize = async () => {
@@ -141,15 +142,23 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	const loadLocalData = async () => {
 		try {
-			const [storedProfile, storedAccentColor, storedInterests, storedPersonaImage, storedPersonaHistory, storedRecentLines] = await Promise.all([AsyncStorage.getItem(LOCAL_STORAGE_KEYS.profile), AsyncStorage.getItem(LOCAL_STORAGE_KEYS.accent_color), AsyncStorage.getItem(LOCAL_STORAGE_KEYS.interests), AsyncStorage.getItem(LOCAL_STORAGE_KEYS.persona_image), AsyncStorage.getItem(LOCAL_STORAGE_KEYS.persona_history), AsyncStorage.getItem(LOCAL_STORAGE_KEYS.recent_lines)]);
+			const [storedProfile, storedAccentColor, storedInterests, storedPersonaImage, storedPersonaHistory, storedRecentLines] = await Promise.all([
+				AsyncStorage.getItem(LOCAL_STORAGE_KEYS.profile),
+				AsyncStorage.getItem(LOCAL_STORAGE_KEYS.accent_color),
+				AsyncStorage.getItem(LOCAL_STORAGE_KEYS.interests),
+				AsyncStorage.getItem(LOCAL_STORAGE_KEYS.persona_image),
+				AsyncStorage.getItem(LOCAL_STORAGE_KEYS.persona_history),
+				AsyncStorage.getItem(LOCAL_STORAGE_KEYS.recent_lines),
+			]);
+			setAccentColor(storedAccentColor || 'rgba(253,183,26,0.4)');
+			setInterests(storedInterests ? JSON.parse(storedInterests) : []);
+
 			if (storedProfile) {
 				setLocalProfile(JSON.parse(storedProfile));
 			}
 			else {
 				await createNewProfile();
 			}
-			if (storedAccentColor) setAccentColor(storedAccentColor);
-			if (storedInterests) setInterests(JSON.parse(storedInterests));
 			if (storedPersonaImage) setPersonaImage(storedPersonaImage);
 			if (storedPersonaHistory) setPersonaHistory(JSON.parse(storedPersonaHistory));
 			if (storedRecentLines) setRecentLines(JSON.parse(storedRecentLines));
@@ -249,9 +258,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		if (!localProfile) return;
 		const updatedProfile = { ...localProfile, ...updates, updated_at: Dates.now('utc').unix_timestamp };
 		setLocalProfile(updatedProfile);
-
-		// Immediately sync widget changes to cloud
-		if (updates) {
+		if (updates && !('accent_color' in updates) && !('interests' in updates)) {
 			await uploadProfileToCloud(updatedProfile);
 		}
 	};
@@ -270,6 +277,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				return;
 			}
 			if (image) {
+				console.log(image);
 				setPersonaImage(image.url);
 				updateLocalProfile({ profile: { ...localProfile?.profile, profile_image: image.url } });
 				registerPersonaFetch(image.url);

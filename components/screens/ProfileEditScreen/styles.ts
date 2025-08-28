@@ -25,7 +25,7 @@ const styles = () => {
 
 		container: {
 			backgroundColor: backgroundColor,
-			paddingBottom: 50,
+			paddingBottom: 250,
 		},
 
 		/* * */

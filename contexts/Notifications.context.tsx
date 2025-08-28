@@ -1,6 +1,5 @@
 import { getApp } from '@react-native-firebase/app';
-import { subscribeToTopic as firebaseSubscribeToTopic, unsubscribeFromTopic as firebaseUnsubscribeFromTopic, getInitialNotification, getMessaging, getToken,
-	isDeviceRegisteredForRemoteMessages, onMessage, onNotificationOpenedApp, registerDeviceForRemoteMessages, requestPermission } from '@react-native-firebase/messaging';
+import { subscribeToTopic as firebaseSubscribeToTopic, unsubscribeFromTopic as firebaseUnsubscribeFromTopic, getInitialNotification, getMessaging, getToken, isDeviceRegisteredForRemoteMessages, onMessage, onNotificationOpenedApp, registerDeviceForRemoteMessages, requestPermission } from '@react-native-firebase/messaging';
 import * as Notifications from 'expo-notifications';
 import React, { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';

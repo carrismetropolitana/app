@@ -1,13 +1,11 @@
 /* * */
 
-import type { Stop } from '@carrismetropolitana/api-types/network';
-
 import { useStopsListContext } from '@/contexts/StopsList.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Input } from '@rn-vui/themed';
 import { IconSearch } from '@tabler/icons-react-native';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -24,25 +22,15 @@ interface Props {
 /* * */
 
 export default function StopSearchBar({ counter = true, disabled = false, onPress }: Props) {
-	//
-
-	//
-	// A. Setup variables
-
 	const { t } = useTranslation('translation', { keyPrefix: 'common.StopSearchBar' });
 	const stopsListContext = useStopsListContext();
 	const themeContext = useThemeContext();
-	const allStops = stopsListContext.data.filtered;
 	const [stopSearch, setStopSearch] = useState<string>('');
 	const fontColor = themeContext.theme.mode === 'light' ? theming.colorSystemText400 : theming.colorSystemText200;
-	const filteredStops = useMemo(() => {
-		return allStops.filter((stop: Stop) => stop.long_name.toLowerCase().includes(stopSearch.toLowerCase()) || String(stop.id).includes(stopSearch));
-	}, [allStops, stopSearch]);
-
-	//
-	// B. Render components
+	const filteredStops = stopsListContext.data.filtered;
 
 	return (
+
 		<View style={{ padding: 20 }}>
 			<Input
 				clearButtonMode="always"
@@ -57,14 +45,10 @@ export default function StopSearchBar({ counter = true, disabled = false, onPres
 				value={stopSearch}
 				onChangeText={(text) => {
 					setStopSearch(text);
-					if (stopsListContext && stopsListContext.actions && typeof stopsListContext.actions.updateFilterBySearch === 'function') {
-						stopsListContext.actions.updateFilterBySearch(text);
-					}
+					stopsListContext.actions.updateFilterBySearch(text);
 				}}
 			/>
 			{counter && <Counter quantity={filteredStops.length} type="stops" />}
 		</View>
 	);
-
-	//
 }

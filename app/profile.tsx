@@ -2,10 +2,8 @@
 
 import ProfileScreen from '@/components/screens/ProfileScreen';
 import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
-import ProfileContextProvider from '@/contexts/Profile.context';
 import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
-import WidgetContextProvider from '@/contexts/Widget.context';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -25,6 +23,7 @@ export default function Profile() {
 	useEffect(() => {
 		navigation.setOptions({
 			headerBackTitle: t('headerTitle'),
+			headerShown: true,
 			headerStyle: {
 				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
 			},
@@ -36,13 +35,11 @@ export default function Profile() {
 	// B. Render components
 
 	return (
-		<ProfileContextProvider>
-			<LinesDetailContextProvider>
-				<StopsDetailContextProvider>
-					<ProfileScreen />
-				</StopsDetailContextProvider>
-			</LinesDetailContextProvider>
-		</ProfileContextProvider>
+		<LinesDetailContextProvider>
+			<StopsDetailContextProvider>
+				<ProfileScreen />
+			</StopsDetailContextProvider>
+		</LinesDetailContextProvider>
 	);
 
 	//

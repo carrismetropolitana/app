@@ -21,7 +21,7 @@ export function LinesDetail() {
 	// B. Render component
 
 	return (
-		<ScrollView>
+		<ScrollView showsVerticalScrollIndicator={false}>
 			<View style={{ backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background }}>
 				<LinesDetailHeader />
 				<LinesDetailAlerts />
