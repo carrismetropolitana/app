@@ -8,6 +8,7 @@ import { LineBadge } from '@/components/lines/LineBadge';
 import { OpenAddSmartNotification } from '@/components/widgets/OpenAddSmartNotification';
 import { WidgetActionsButtonGroup } from '@/components/widgets/WidgetsActionsButtonGroup';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
@@ -48,6 +49,7 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 
 	const linesDetailContext = useLinesDetailContext();
 	const themeContext = useThemeContext();
+	const localeContext = useLocaleContext();
 	const profileContext = useProfileContext();
 	const addFavoriteLineStyles = styles();
 	const navigation = useNavigation();
@@ -145,19 +147,10 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 
 	return (
 		<View style={{ height: screenHeight - 100 }}>
-			<ScrollView
-				showsVerticalScrollIndicator={false}
-				style={addFavoriteLineStyles.container}
-			>
-				<HeaderExplainer
-					heading={t('title')}
-					subheading={t('subheading')}
-				/>
+			<ScrollView showsVerticalScrollIndicator={false} style={addFavoriteLineStyles.container}>
+				<HeaderExplainer heading={t('title')} subheading={t('subheading')} />
 				<View style={addFavoriteLineStyles.sectionContainer}>
-					<Section
-						heading={t('firstSectionTitle')}
-						subheading={t('firstSectionSubtitle')}
-					/>
+					<Section heading={t('firstSectionTitle')} subheading={t('firstSectionSubtitle')} />
 				</View>
 				<View>
 					{linesDetailContext.data.line && (
@@ -165,10 +158,10 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 							<IconArrowLoopRight color="#C61D23" size={24} />
 							<ListItem.Content>
 								<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-									<Text>{linesDetailContext.data.line.long_name}</Text>
+									<Text accessibilityHint={t('linesLongnameAccessibilityHint')} accessibilityLabel={t('linesLongnameAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text">{linesDetailContext.data.line.long_name}</Text>
 								</ListItem.Title>
 							</ListItem.Content>
-							<IconX color="#9696A0" onPress={linesDetailContext.actions.resetLineId} size={24} />
+							<IconX accessibilityHint={t('deselectLineHint')} accessibilityLabel={t('deselectLineLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="button" color="#9696A0" onPress={linesDetailContext.actions.resetLineId} size={24} />
 						</ListItem>
 					)}
 
@@ -177,7 +170,7 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 							<IconSearch color="#9696A0" size={24} />
 							<ListItem.Content>
 								<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-									<Text>{t('changeLineLabel')}</Text>
+									<Text accessibilityHint={t('changeLineAccessibilityHint')} accessibilityLabel={t('changeLineAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="button">{t('LineAccessibility')}</Text>
 								</ListItem.Title>
 							</ListItem.Content>
 							<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
@@ -186,7 +179,7 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 				</View>
 
 				<View style={{ marginBottom: 20, marginTop: 20 }}>
-					<View style={addFavoriteLineStyles.sectionContainer}>
+					<View accessibilityHint={t('selectPatternAccessibilityHint')} accessibilityLabel={t('selectPatternAccessibilityLabel')} accessibilityRole="button" style={addFavoriteLineStyles.sectionContainer}>
 						<Section
 							heading={t('secondSectionTitle')}
 							subheading={t('secondSectionSubtitle')}
@@ -217,6 +210,10 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 											</ListItem.Content>
 											{isSelected ? (
 												<IconCircleCheckFilled
+													accessibilityHint={t('iconCheckedPatternAccessibilityHint')}
+													accessibilityLabel={t('iconCheckedPatternAccessibilityLabel')}
+													accessibilityRole="checkbox"
+													accessibilityState={{ checked: isSelected }}
 													fill="#3CB43C"
 													size={24}
 													color={
@@ -226,7 +223,14 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 													}
 												/>
 											) : (
-												<IconCircle color="grey" size={24} />
+												<IconCircle
+													accessibilityHint={t('iconUncheckedPatternAccessibilityHint')}
+													accessibilityLabel={t('iconUncheckedPatternAccessibilityLabel')}
+													accessibilityRole="checkbox"
+													accessibilityState={{ checked: false }}
+													color="grey"
+													size={24}
+												/>
 											)}
 										</ListItem>
 									);
@@ -236,7 +240,12 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 							<ListItem>
 								<ListItem.Content>
 									<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-										<Text>{t('selectLineLabel')}</Text>
+										<Text
+											accessibilityHint={t('selectLineAccessibilityHint')}
+											accessibilityLabel={t('selectLineAccessibilityLabel')}
+											accessibilityRole="text"
+										>{t('selectLineLabel')}
+										</Text>
 									</ListItem.Title>
 								</ListItem.Content>
 							</ListItem>

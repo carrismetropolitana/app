@@ -35,11 +35,13 @@ export const OpenAddSmartNotification = ({ disabled, heading = '', patternId, su
 
 	return (
 		<View style={{ marginBottom: 30, marginTop: 10 }}>
-			<View style={openAddSmartNotificationStyles.sectionContainer}>
-				<Section
-					heading={heading}
-					subheading={subheading}
-				/>
+			<View
+				accessibilityHint={t('openAddSmartNotificationAccessibilityHint')}
+				accessibilityLabel={t('openAddSmartNotificationAccessibilityLabel')}
+				accessibilityRole="text"
+				style={openAddSmartNotificationStyles.sectionContainer}
+			>
+				<Section heading={heading} subheading={subheading} />
 			</View>
 			<ListItem
 				disabled={disabled}

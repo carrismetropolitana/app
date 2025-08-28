@@ -4,6 +4,7 @@ import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { StopDisplay } from '@/components/stops/StopDisplay';
 import { ListItem } from '@rn-vui/themed';
 import { Link } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { VirtualizedList } from 'react-native';
 
 /* * */
@@ -22,6 +23,7 @@ export function VirtualizedListingStops({ data, icon, itemClick, items, size }: 
 	// A. Fetch data
 
 	const getItem = (data: [], index: number) => data[index];
+	const { t } = useTranslation('translation', { keyPrefix: 'virtualizedListingLines' });
 
 	//
 	// B. Render components
@@ -51,6 +53,9 @@ export function VirtualizedListingStops({ data, icon, itemClick, items, size }: 
 
 	return (
 		<VirtualizedList
+			accessibilityHint={t('virtualizedListAccessibilityHint')}
+			accessibilityLabel={t('virtualizedListAccessibilityLabel')}
+			accessibilityRole="text"
 			data={data}
 			getItem={getItem}
 			getItemCount={data => data?.length || 0}

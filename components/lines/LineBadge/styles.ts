@@ -34,7 +34,7 @@ export const lineBadgeStyles = StyleSheet.create({
 	sizeLg: {
 		...container,
 		fontSize: 20,
-		maxHeight: 30,
+		maxHeight: 50,
 		maxWidth: 70,
 		minHeight: 30,
 		minWidth: 70,

@@ -71,7 +71,7 @@ export default function HomeScreen() {
 							borderRadius: 999,
 							flexDirection: 'row',
 							marginBottom: 20,
-							width: '30%',
+							minWidth: '30%',
 						}}
 						containerStyle={{
 							backgroundColor: backgroundColor,

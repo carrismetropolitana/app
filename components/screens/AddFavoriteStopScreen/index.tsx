@@ -7,6 +7,7 @@ import TabBarOnly from '@/components/common/layout/TabOnly';
 import { LineBadge } from '@/components/lines/LineBadge';
 import { WidgetActionsButtonGroup } from '@/components/widgets/WidgetsActionsButtonGroup';
 import { useLinesContext } from '@/contexts/Lines.context';
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useThemeContext } from '@/contexts/Theme.context';
@@ -47,6 +48,7 @@ export default function AddFavoriteStopScreen() {
 	const widgetContext = useWidgetContext();
 	const linesContext = useLinesContext();
 	const stopsContext = useStopsContext();
+	const localeContext = useLocaleContext();
 
 	const addFavoriteStopStyles = styles();
 	const navigation = useNavigation();
@@ -157,7 +159,7 @@ export default function AddFavoriteStopScreen() {
 							<IconBusStop color="#FF6900" size={24} />
 							<ListItem.Content>
 								<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-									<Text>{selectedStop.long_name}</Text>
+									<Text accessibilityHint={t('addFavoriteStopAccessibilityHint')} accessibilityLabel={t('addFavoriteStopAccessibilityLabel', { line: selectedStop.long_name })} accessibilityLanguage={localeContext.locale} accessibilityRole="button">{selectedStop.long_name}</Text>
 								</ListItem.Title>
 							</ListItem.Content>
 							<IconX color="#9696A0" onPress={clearSelection} size={24} />
@@ -167,7 +169,7 @@ export default function AddFavoriteStopScreen() {
 						<IconSearch color="#9696A0" size={24} />
 						<ListItem.Content>
 							<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-								<Text>{t('changeStopLabel')}</Text>
+								<Text accessibilityHint={t('changeStopAccessibilityHint')} accessibilityLabel={t('changeStopAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="button">{t('changeStopLabel')}</Text>
 							</ListItem.Title>
 						</ListItem.Content>
 						<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
@@ -181,7 +183,7 @@ export default function AddFavoriteStopScreen() {
 							subheading={t('secondSectionSubtitle')}
 						/>
 					</View>
-					<View>
+					<View accessibilityHint={t('selectPatternAccessibilityHint')} accessibilityLabel={t('selectPatternAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text">
 						{selectedStop && Object.entries(
 							selectedStop.pattern_ids.reduce((acc: Record<string, string[]>, patternId: string) => {
 								const lineId = patternId.split('_')[0];
@@ -206,6 +208,10 @@ export default function AddFavoriteStopScreen() {
 												</ListItem.Content>
 												{isSelected && (
 													<IconCircleCheckFilled
+														accessibilityHint={t('iconCheckedPatternAccessibilityHint')}
+														accessibilityLabel={t('iconCheckedPatternAccessibilityLabel')}
+														accessibilityRole="checkbox"
+														accessibilityState={{ checked: isSelected }}
 														fill="#3CB43C"
 														size={24}
 														color={
@@ -215,7 +221,16 @@ export default function AddFavoriteStopScreen() {
 														}
 													/>
 												)}
-												{!isSelected && (<IconCircle color="grey" size={24} />)}
+												{!isSelected && (
+													<IconCircle
+														accessibilityHint={t('iconUncheckedPatternAccessibilityHint')}
+														accessibilityLabel={t('iconUncheckedPatternAccessibilityLabel')}
+														accessibilityRole="checkbox"
+														accessibilityState={{ checked: false }}
+														color="grey"
+														size={24}
+													/>
+												)}
 											</ListItem>
 										);
 									})}
@@ -225,7 +240,14 @@ export default function AddFavoriteStopScreen() {
 						{!selectedStop && selectedStopPatterns.length === 0 && (
 							<ListItem>
 								<ListItem.Content>
-									<ListItem.Title style={addFavoriteStopStyles.listTitle}> <Text>{t('selectStopLabel')}</Text> </ListItem.Title>
+									<ListItem.Title style={addFavoriteStopStyles.listTitle}>
+										<Text
+											accessibilityHint={t('selectStopAccessibilityHint')}
+											accessibilityLabel={t('selectStopAccessibilityLabel')}
+											accessibilityRole="text"
+										>{t('selectStopLabel')}
+										</Text>
+									</ListItem.Title>
 								</ListItem.Content>
 							</ListItem>
 						)}

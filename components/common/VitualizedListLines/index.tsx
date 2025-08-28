@@ -2,6 +2,7 @@
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { MemoizedLineItem } from '@/components/common/LineItem';
 import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, VirtualizedList } from 'react-native';
 
 interface Props {
@@ -16,6 +17,7 @@ interface Props {
 export function VirtualizedListingLines({ data, icon, itemClick, items = 10, municipality, size = 'lg' }: Props) {
 	const getItem = useCallback((d: any[], i: number) => d[i], []);
 	const getItemCount = useCallback((d: any[]) => d.length, []);
+	const { t } = useTranslation('translation', { keyPrefix: 'virtualizedListingLines' });
 
 	const renderItem = useCallback(({ item }) => (
 		<MemoizedLineItem
@@ -37,6 +39,9 @@ export function VirtualizedListingLines({ data, icon, itemClick, items = 10, mun
 
 	return (
 		<VirtualizedList
+			accessibilityHint={t('virtualizedListAccessibilityHint')}
+			accessibilityLabel={t('virtualizedListAccessibilityLabel')}
+			accessibilityRole="text"
 			data={data}
 			getItem={getItem}
 			getItemCount={getItemCount}

@@ -150,8 +150,6 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				AsyncStorage.getItem(LOCAL_STORAGE_KEYS.persona_history),
 				AsyncStorage.getItem(LOCAL_STORAGE_KEYS.recent_lines),
 			]);
-			setAccentColor(storedAccentColor || 'rgba(253,183,26,0.4)');
-			setInterests(storedInterests ? JSON.parse(storedInterests) : []);
 
 			if (storedProfile) {
 				setLocalProfile(JSON.parse(storedProfile));
@@ -159,6 +157,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			else {
 				await createNewProfile();
 			}
+			if (storedAccentColor) setAccentColor(storedAccentColor);
+			if (storedInterests) setInterests(JSON.parse(storedInterests));
 			if (storedPersonaImage) setPersonaImage(storedPersonaImage);
 			if (storedPersonaHistory) setPersonaHistory(JSON.parse(storedPersonaHistory));
 			if (storedRecentLines) setRecentLines(JSON.parse(storedRecentLines));

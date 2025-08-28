@@ -13,6 +13,11 @@ interface LineItemProps {
 }
 
 export function LineItem({ icon, lineData, municipality, onPress, size }: LineItemProps) {
+	//
+
+	//
+	// B. Render Components
+
 	return (
 		<ListItem containerStyle={{ height: 'auto' }} onPress={onPress} bottomDivider topDivider>
 			<ListItem.Content>
@@ -21,6 +26,8 @@ export function LineItem({ icon, lineData, municipality, onPress, size }: LineIt
 			{icon ?? <ListItem.Chevron iconStyle={{ fontSize: 24 }} />}
 		</ListItem>
 	);
+
+	//
 }
 
 export const MemoizedLineItem = React.memo(LineItem);

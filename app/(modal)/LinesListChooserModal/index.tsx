@@ -80,7 +80,12 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 	return (
 		<Overlay animationType="slide" isVisible={isVisible} onBackdropPress={onBackdropPress}>
 			<SafeAreaView style={{ flex: 1 }}>
-				<View style={styles.container}>
+				<View
+					accessibilityHint={t('linelistChooserAccessibilityHint')}
+					accessibilityLabel={t('linelistChooserAccessibilityLabel')}
+					accessibilityRole="text"
+					style={styles.container}
+				>
 					<View style={styles.header}>
 						<TouchableOpacity onPress={onBackdropPress} style={styles.backButton}>
 							<Text style={styles.arrow}>←</Text>

@@ -82,8 +82,25 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onCle
 
 	return (
 		<View style={widgetActionButtonsStyles.container}>
-			<Button buttonStyle={widgetActionButtonsStyles.saveButton} disabled={length === 0} onPress={() => handleSave()} title={t('saveButton')} titleStyle={widgetActionButtonsStyles.saveButtonText} />
-			<Button buttonStyle={widgetActionButtonsStyles.saveButton} onPress={() => handleCancel()} title={t('closeButton')} titleStyle={widgetActionButtonsStyles.saveButtonText} />
+			<Button
+				accessibilityHint={t('saveButtonAccessibilityHint')}
+				accessibilityLabel={t('saveButtonAccessibilityLabel')}
+				accessibilityRole="button"
+				buttonStyle={widgetActionButtonsStyles.saveButton}
+				disabled={length === 0}
+				onPress={() => handleSave()}
+				title={t('saveButton')}
+				titleStyle={widgetActionButtonsStyles.saveButtonText}
+			/>
+			<Button
+				accessibilityHint={t('cancelButtonAccessibilityHint')}
+				accessibilityLabel={t('cancelButtonAccessibilityLabel')}
+				accessibilityRole="button"
+				buttonStyle={widgetActionButtonsStyles.saveButton}
+				onPress={() => handleCancel()}
+				title={t('closeButton')}
+				titleStyle={widgetActionButtonsStyles.saveButtonText}
+			/>
 		</View>
 	);
 

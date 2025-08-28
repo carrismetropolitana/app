@@ -118,25 +118,48 @@
 		"accessibilityLabel": "Botão para expandir ou colapsar o widget"
 	},
 	"addfavoriteline": {
+		"changeLineAccessibilityHint": "Este elemento é um botão para selecionar uma linha",
+		"changeLineAccessibilityLabel": "Selecione uma linha ",
 		"changeLineLabel": "Alterar Linha Selecionada",
+		"deselectLineHint": "Precione este botão para desselecionar a Linha {line}",
+		"deselectLineLabel": "Desselecionar Linha {line}",
 		"firstSectionSubtitle": "Escolha uma linha para visualizar na página principal",
 		"firstSectionTitle": "1. Selecionar Linha ",
 		"headerTitle": "Linha Favorita",
+		"iconCheckedPatternAccessibilityHint": "Indica que este destino de linha foi selecionado",
+		"iconCheckedPatternAccessibilityLabel": "Destino selecionado",
+		"iconUncheckedPatternAccessibilityHint": "Indica que este destino de linha não está selecionado",
+		"iconUncheckedPatternAccessibilityLabel": "Destino não selecionado",
+		"linesLongnameAccessibilityHint": "Linha {line}",
+		"linesLongnameAccessibilityLabel": "Linha {line}",
 		"secondSectionSubtitle": "Pode escolher apenas os destinos que lhe interessam a partir desta linha. Personalize o seu painel de informação único.",
 		"secondSectionTitle": "2. Escolher destinos ",
+		"selectLineAccessibilityHint": "Clique neste input para selescionar linha",
+		"selectLineAccessibilityLabel": "Selecione uma linha",
 		"selectLineLabel": "Selecione uma linha para ver o seu destino",
+		"selectPatternAccessibilityHint": "Este bloco serve para selecionar um destino relacionado com a linha selecionada",
+		"selectPatternAccessibilityLabel": "Selecionar destino",
 		"subheading": "Adicione a linha da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas.",
 		"thirdSectionSubtitle": "Pode escolher receber uma notificação sempre que existir um alerta para a linha e para os destinos que selecionou.",
 		"thirdSectionTitle": "3. Notificações ",
 		"title": "Linha Favorita"
+
 	},
 	"addfavoritestop": {
+		"addFavoriteStopAccessibilityHint": "Este elemento é um texto que indica a paragem selecionada",
+		"addFavoriteStopAccessibilityLabel": "Linha selecionada {line}",
+		"changeStopAccessibilityHint": "Este elemento é um botão para selecionar uma paragem",
+		"changeStopAccessibilityLabel": "Selecione uma paragem",
 		"changeStopLabel": "Alterar Paragem Selecionada",
 		"firstSectionSubtitle": "Escolha uma paragem para visualizar na página principal",
 		"firstSectionTitle": "1. Selecionar Paragem ",
 		"headerTitle": "Paragem Favorita",
 		"secondSectionSubtitle": "Pode escolher apenas os destinos que lhe interessam a partir desta paragem. Personalize o seu painel de informação único.",
 		"secondSectionTitle": "2. Selecionar destino ",
+		"selectPatternAccessibilityHint": "Este bloco serve para selecionar um destino relacionado com a paragem selecionada",
+		"selectPatternAccessibilityLabel": "Selecionar destino",
+		"selectStopAccessibilityHint": "Este elemento é um botão para selecionar uma paragem",
+		"selectStopAccessibilityLabel": "Selecione uma paragem",
 		"selectStopLabel": "Selecione uma paragem para ver o seu destino",
 		"subheading": "Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas."
 	},
@@ -245,10 +268,18 @@
 			"hours": "Hora",
 			"minutes": "Min."
 		},
+		"cancelButtonAccessibilityHint": "Este botão cancela todas as alterações efetuadas",
+		"cancelButtonAccessibilityLabel": "Botão para cancelar alterações",
 		"closeButton": "Fechar",
 		"enable_notifications": "Ativar Notificações",
 		"goToProfileButtonAccessibilityHint": "Este botão leva-o para a página de personalização de perfil",
 		"goToProfileButtonAccessibilityLabel": "Botão para redirecionar para a página de personalização de perfil",
+		"headerExplainer": {
+			"headingAccessibilityHint": "Este elemento é um cabeçalho explicativo sobre {heading}",
+			"headingAccessibilityLabel": "Titulo da página {heading}",
+			"subheadingAccessibilityHint": "Este elemento é uma descrição sobre {heading}",
+			"subheadingAccessibilityLabel": "Descrição {heading}"
+		},
 		"lineCounterOne": "linha encontrada",
 		"lineCounterOneHint": "Linha encontrada pela pesquisa efetuada",
 		"lineCounterOneLabel": "Paragemencontradas",
@@ -267,8 +298,12 @@
 		"offlineBanner": {
 			"message": "Ocorreu um problema com a conexão ao servidor. Verifique a sua conexão com a internet."
 		},
+		"openAddSmartNotificationAccessibilityHint": "Se pretender receber notificações sobre os dados selecionados, clique neste botão para ser redirerionado para a página de notificações inteligentes com dados pré-preenchidos",
+		"openAddSmartNotificationAccessibilityLabel": "Abrir notificações inteligentes pré preenchidas",
 		"personalizeButton": "Personalizar",
 		"saveButton": "Guardar",
+		"saveButtonAccessibilityHint": "Este botão guarda as alterações efetuadas",
+		"saveButtonAccessibilityLabel": "Botão para guardar alterações",
 		"stopCounterOne": "paragem encontrada",
 		"stopCounterOneHint": "Paragem encontrada pela pesquisa efetuada",
 		"stopCounterOneLabel": "Paragem encontrada",
@@ -308,6 +343,8 @@
 			"Stops": "Paragens"
 		},
 		"linePageHeaderTitle": "Linha",
+		"linelistChooserAccessibilityHint": "Este elemento é onde pode para escolher uma linha",
+		"linelistChooserAccessibilityLabel": "Escolha uma linha",
 		"searchByNamePlaceholder": "Pesquiar por nome"
 	},
 	"lineWidgetCard": {
@@ -603,5 +640,15 @@
 	},
 	"videoexplainer": {
 		"title": "Ver Vídeo Explicativo"
+	},
+	"virtualizedListingLines": {
+		"virtualizedListAccessibilityHint": "Este elemento é uma lista de linhas",
+		"virtualizedListAccessibilityLabel": "Lista de linhas"
+
+	},
+	"virtualizedListingStops": {
+		"virtualizedListAccessibilityHint": "Este elemento é uma lista de paragens",
+		"virtualizedListAccessibilityLabel": "Lista de Paragens"
+
 	}
 }
