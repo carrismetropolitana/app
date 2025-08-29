@@ -1,607 +1,651 @@
 {
-	"CookiesPage": {
-		"sections": {
-			"intro": {
-				"paragraphs": {
-					"1": "TML uses cookies and other similar technologies to understand how the app is used, in order to improve its content, security and performance. The goal is to provide a better browsing experience."
-				},
-				"title": "Cookies Policy"
-			},
-			"question_1": {
-				"paragraphs": {
-					"1": "Cookies are small text files with relevant information that the access device (computer, cell phone, smartphone, tablet, etc.…) loads, through the internet browser (browser), when a app is visited by the user.",
-					"2": "The use of cookies helps apps recognize the user's device on the next visit and is often essential for its functioning.",
-					"3": "The cookies used by TML do not collect personal information that allows a particular user to be identified, but only store anonymous, generic and aggregated information."
-				},
-				"title": "What are cookies and what are they for?"
-			},
-			"question_2": {
-				"paragraphs": {
-					"1": "Taking into account the purposes for which they are used, cookies can be classified as follows:",
-					"2": "- Strictly necessary cookies (also known as essential, technical or basic): they are necessary for the user to be able to access specific areas of the app, allowing navigation and use of its applications, such as access to secure areas of the app, through login. Without these cookies, services that require them cannot be provided;",
-					"3": "- Functionality cookies (also known as preference cookies): allow the app to remember the user's preferences regarding their navigation on the app, thus not needing to reconfigure and personalize it each time they visit;",
-					"4": "- Performance cookies (also known as analytical or statistical): they are essentially used to analyze how the user uses the app, allowing you to highlight articles or services that may be of interest to you, monitor the performance of the app, letting you know which most popular pages, which method of linking between pages is most effective, or to determine why some pages are receiving error messages;",
-					"5": "- Advertising cookies (also known as marketing or tracking cookies): allow the user to be provided with advertising information based on their preferences and interests, as well as helping to measure the effectiveness of the advertisements shown (e.g. how many times they are seen)."
-				},
-				"title": "What types of Cookies are there?"
-			},
-			"question_3": {
-				"paragraphs": {
-					"1": "Regarding their validity, cookies can also be classified as follows:",
-					"2": "- Permanent cookies: these are cookies that are stored on access devices, at the browser level, and are used whenever the user visits the app again. In general, they are used to direct navigation according to the user's interests, allowing the provision of a more personalized service;",
-					"3": "- Session cookies: these are temporary cookies, which are generated and are available until the user ends the session. The next time the user accesses their internet browser, cookies will no longer be stored."
-				},
-				"title": "How valid are Cookies?"
-			},
-			"question_4": {
-				"paragraphs": {
-					"1": "Depending on their origin, cookies may also have the following typology:",
-					"2": "- Own (or first-party) cookies: these are those sent to the user's device from a app/domain managed by the publisher itself and from where the service requested by the user is provided (the app owner);",
-					"3": "- Third-party (or third-party) cookies: these are those that are sent to the user's device from a domain that is not managed by the app editor, but by other entities who use the information obtained through these cookies. Given their origin and nature, the use of this type of cookies is the exclusive responsibility of the entities that use them."
-				},
-				"title": "What are the possible origins of Cookies?"
-			},
-			"question_5": {
-				"table": {
-					"header": {
-						"col_1": "Type",
-						"col_2": "Domain/Origin",
-						"col_3": "Purpose",
-						"col_4": "Validity"
-					},
-					"rows": {
-						"1": {
-							"col_1": "NEXT_LOCALE",
-							"col_2": "carrismetropolitana.pt",
-							"col_3": "Identify the user's preferred language",
-							"col_4": "1 year"
-						},
-						"2": {
-							"col_1": "anonymous_analytics_enabled",
-							"col_2": "carrismetropolitana.pt",
-							"col_3": "Obtain statistical information about app usage",
-							"col_4": "1 year"
-						}
-					}
-				},
-				"title": "What Cookies or similar technologies are used on this app?"
-			},
-			"question_6": {
-				"accept": "Accept Cookies Policy",
-				"enabled": "Cookies Policy accepted",
-				"options": {
-					"analytics": {
-						"disable": "Analytics accepted. Refuse?",
-						"enable": "Accept analytics data",
-						"label": "Analytics Data"
-					},
-					"functional": {
-						"disable": "Functional data accepted. Refuse?",
-						"enable": "Accept functional data",
-						"label": "Functional data"
-					}
-				},
-				"paragraphs": {
-					"1": "As they are essential for the proper functioning of the app, the use of strictly necessary or essential cookies does not require prior consent from the user. The rest (functionality, performance or advertising cookies) will only be used if the user expressly authorizes their use."
-				},
-				"refuse": "Opt Out and Clear Data",
-				"refuse_modal": {
-					"cancel": "Cancel",
-					"confirm": "Yes, delete everything",
-					"description": "Ao retirar o consentimento serão apagados todos os dados guardados neste site, incluindo as suas paragens e linhas favoritas.",
-					"title": "Withdraw consent"
-				},
-				"title": "User Consent:"
-			},
-			"question_7": {
-				"paragraphs": {
-					"1": "Users can also prevent or condition the use of cookies through their browser settings. If you limit this option, however, your use of some features or the performance of some sites may be affected.",
-					"2": "Find out how at:"
-				},
-				"title": "How to control the use of Cookies?"
-			},
-			"question_8": {
-				"paragraphs": {
-					"1": "TML reserves, at any time, the right to change and/or update the information contained in this Policy, as well as the right to provide, upon request, additional, more detailed information on specific situations in which data is collected and processed. personal."
-				},
-				"title": "Right of reservation"
-			}
-		},
-		"title": "Cookies Policy"
-	},
-	"TestingNeedWarning": {
-		"warningText": "Please test this functionality before utilizing it with full trust. It may be needed to adjust the necessary times to garantee that you'll reach the the desired stop.",
-		"warningTitle": "Warning"
-	},
-	"accordionToggle": {
-		"accessibilityHint": "This button expands or collapses the selected widget",
-		"accessibilityLabel": "Button to expand or collapse the widget"
-	},
-	"addfavoriteline": {
-		"changeLineLabel": "Change selected line",
-		"firstSectionSubtitle": "Choose a line to display on the main page",
-		"firstSectionTitle": "1. Select a line ",
-		"headerTitle": "Favorite Line",
-		"secondSectionSubtitle": "You can only choose the destinations that interest you from this stop. Customize your unique information panel.",
-		"secondSectionTitle": "2. Select destinations ",
-		"selectLineLabel": "Select a line to see its destination",
-		"subheading": "Add your home or work stop as a favorite. This way, whenever you need it, just open the app to see the next arrivals.",
-		"thirdSectionSubtitle": "You can choose to receive a notification whenever there is an alert for the stop and for the destinations you selected.",
-		"thirdSectionTitle": "3. Notifications ",
-		"title": "Favorite Line"
-	},
-	"addfavoritestop": {
-		"changeStopLabel": "Change selected stop",
-		"firstSectionSubtitle": "Choose a stop to display on the main page",
-		"firstSectionTitle": "1. Select a stop ",
-		"headerTitle": "Favorite Stop",
-		"secondSectionSubtitle": "You can only choose the destinations that interest you from this stop. Customize your unique information panel.",
-		"secondSectionTitle": "2. Select destination ",
-		"selectStopLabel": "Select a stop to see its destination",
-		"subheading": "Add your home or work stop as a favorite. This way, whenever you need it, just open the app to see the next arrivals."
-	},
-	"addsmartnotifications": {
-		"DaysSelector": {
-			"friday": "Fri",
-			"monday": "Mon",
-			"saturday": "Sat",
-			"sunday": "Sun",
-			"thursday": "Thu",
-			"tuesday": "Tue",
-			"wednesday": "Wed",
-			"weekDaysTitle": "At the days of the week"
-		},
-		"IntervalInputs": {
-			"endingTime": "To",
-			"startingTime": "From"
-		},
-		"StopSelector": {
-			"functionalityNotAvailable": "This functionality is not available at the first stop of the route because it is not possible to predict the arrival at the first stop.",
-			"showLess": "Show less",
-			"showMore": "Show more",
-			"stopSelectorTitle": "from the stop",
-			"stops": "stops",
-			"title": "Select a line to see it's stops"
-		},
-		"Toolbar": {
-			"friday": "F",
-			"monday": "M",
-			"saturday": "S",
-			"sunday": "S",
-			"thursday": "T",
-			"tuesday": "T",
-			"wednesday": "W"
-		},
-		"changeLineLabel": "Change Selected Line",
-		"chooseLineTitle": "Notifiy me when a bus from the line",
-		"friday": "Fri",
-		"heading": "Smart Notifications",
-		"monday": "Mon",
-		"noDestination": "No destination",
-		"noLineSelected": "No line selected",
-		"periodSelectorTitle": "in the interval",
-		"radiusAt": "is at",
-		"radiusMeters": "meters",
-		"radiusTime": "minutes",
-		"saturday": "Sat",
-		"subheading": "Do you use the same line everyday? Would you like to know exactly when to leave the house, or when to finish drinking your coffe, to go to the stop and catch your bus?",
-		"sunday": "Sun",
-		"thursday": "Thu",
-		"tuesday": "Tue",
-		"valuePlaceholder": "Value",
-		"wednesday": "Wed"
-	},
-	"alerts": {
-		"AlertActivePeriod": {
-			"end": "End: <parsedDate>{{parsedDate}}</parsedDate>",
-			"start": "Start: <parsedDate>{{parsedDate}}</parsedDate>"
-		}
-	},
-	"analytics": {
-		"ConsentPopup": {
-			"actions": {
-				"accept": "OK",
-				"hide_options": "Hide Options",
-				"refuse": "No, thanks",
-				"save": "Save",
-				"show_options": "Show Options"
-			},
-			"options": {
-				"analytics": "Save analytics data",
-				"functional": "Save functional data"
-			},
-			"policy_page": "Check cookies policy",
-			"text": "In order to improve the performance, content and security of this website, TML intends to use cookies or similar technologies.",
-			"title": "We respect your privacy"
-		}
-	},
-	"common": {
-		"LineSearchBar": {
-			"placeholder": "Search by name, number..."
-		},
-		"NextArrivals": {
-			"arriving": "Incoming",
-			"hours": "h",
-			"minutes": "min"
-		},
-		"SelectNotificationControl": {
-			"hours": "Hours",
-			"meters": "Meters"
-		},
-		"SelectOperationalDay": {
-			"today": "Today",
-			"tomorrow": "Tomorrow"
-		},
-		"SelectPattern": {
-			"invalid_option": "Invalid route: {pattern_id}",
-			"label": "Route / Destination",
-			"option_label": "Beggining of the route: {locality}",
-			"placeholder": "Select Route / Destiny..."
-		},
-		"StopSearchBar": {
-			"placeholder": "Search..."
-		},
-		"TimetableSchedules": {
-			"hours": "Time",
-			"minutes": "Min."
-		},
-		"closeButton": "Close",
-		"enable_notifications": "Enable Notifications",
-		"goToProfileButtonAccessibilityHint": "This button takes you to the profile customization page",
-		"goToProfileButtonAccessibilityLabel": "Button to redirect to the profile customization page",
-		"lineCounterOne": "line found",
-		"lineCounterOneHint": "Line found for the search",
-		"lineCounterOneLabel": "Line found",
-		"lineCounterOther": "lines found",
-		"lineCounterOtherHint": "Lines found for the search",
-		"lineCounterOtherLabel": "Lines found",
-		"lineCounterZero": "No lines found",
-		"lineCounterZeroLabel": "No lines found for the search",
-		"lineCounterZeroeHint": "No line found",
-		"next_arrival_row_realtime_hint": "Indicates the destiny for the next stop",
-		"next_arrival_row_realtime_label": "Next stop to {headsign} in real time",
-		"next_arrival_row_realtime_time_hint": "Indicates the time left for the bus to arrive",
-		"next_arrival_row_realtime_time_label": "{time} minutes remaining",
-		"next_arrival_row_scheduled_time_hint": "Indicates the schedule of the next arrival",
-		"next_arrival_row_scheduled_time_label": "Scheduled arrival to {time}",
-		"offlineBanner": {
-			"message": "There has been a problem with the connection to the server. Please check your internet connection."
-		},
-		"personalizeButton": "Customize",
-		"saveButton": "Save",
-		"stopCounterOne": "stop found",
-		"stopCounterOneHint": "Stop found for the search",
-		"stopCounterOneLabel": "Stop found",
-		"stopCounterOther": "stops found",
-		"stopCounterOtherHint": "Stops found for the search",
-		"stopCounterOtherLabel": "Stops found",
-		"stopCounterZero": "No stops found",
-		"stopCounterZeroHint": "No stop found",
-		"stopCounterZeroLabel": "No stops found for the search",
-		"stopCounterZerorHint": "No stop found for the current search",
-		"vehicleCounterOne": "vehicle found",
-		"vehicleCounterOneHint": "vehicle found for the search",
-		"vehicleCounterOneLabel": "vehicle found",
-		"vehicleCounterOnerHint": "vehicle found for the current search",
-		"vehicleCounterOther": "vehicles found",
-		"vehicleCounterOtherHint": "vehicles found for the search",
-		"vehicleCounterOtherLabel": "vehicles found",
-		"vehicleCounterZero": "No vehicles found",
-		"vehicleCounterZeroHint": "No vehicle found for the search",
-		"vehicleCounterZeroLabel": "No vehicle found"
-	},
-	"homepage": {
-		"SuggestionCard": {
-			"SuggestionCardDescription": "Interact with your profile (Button Below) to add your favorite widgets here.",
-			"SuggestionCardTitle": "Personalize your experience"
-		}
-	},
-	"layout": {
-		"BackButton": "Back",
-		"NoDataLabel": {
-			"default": "No data available"
-		},
-		"TabStack": {
-			"Home": "Home",
-			"Lines": "Lines",
-			"More": "More",
-			"Stops": "Stops"
-		},
-		"linePageHeaderTitle": "Line",
-		"searchByNamePlaceholder": "Search by name"
-	},
-	"lineWidgetCard": {
-		"lineAcessibilityHint": "Widget in the home page of the app for the line {lineId} headed to {title}",
-		"lineAcessibilityLabel": "Widget of the line {{lineId}} headed to {title}"
-	},
-	"linebadge": {
-		"lineAccessibilityHint": "Button to the to go the details of the line",
-		"lineAccessibilityLabel": "Line",
-		"linesAccessibilityWithAlerts": "Has Alerts"
-	},
-	"lines": {
-		"AlertsCarousel": {
-			"heading": "Service Alerts"
-		},
-		"LinesDetail": {
-			"heading": "Search by Lines",
-			"toggle_favorite_error": "Error adding line to favorites. {error}"
-		},
-		"LinesDetailAlerts": {
-			"heading": "Active alerts for this line"
-		},
-		"LinesDetailMetricsDemand": {
-			"big_number": "{value, number}",
-			"chart": {
-				"series": {
-					"average": {
-						"label": "Average = {value, number}"
-					},
-					"qty": {
-						"label": "Transported passengers / day"
-					}
-				}
-			},
-			"description": "Value determined by the total of validations and sales on board in all trips for this line in the last 15 days.",
-			"footnote": "The value of transported passengers is updated every 5 minutes, aldo it can take up to 30 minutes to reflect reality",
-			"title": "Passengers transported on this line in the last 15 days"
-		},
-		"LinesDetailMetricsService": {
-			"big_number": "{value, number, percentage}",
-			"chart": {
-				"series": {
-					"fail_trip_count": {
-						"label": "Trips not executed"
-					},
-					"pass_trip_count": {
-						"label": "Trips executed"
-					},
-					"pass_trip_percentage": {
-						"label": "Execution rate %"
-					},
-					"total_trip_count": {
-						"label": "Planned trips"
-					}
-				}
-			},
-			"description": "Execution rate calculated based on the total number of trips completed compared to the total number of trips planned for the last 15 days. This analysis considers real-time vehicle position data and onboard validation and sales data.",
-			"footnote": "The formula used to calculate the execution rate presented here reflects only part of the set of indicators contractually defined to assess the performance and quality of the service provided by the Operators.",
-			"title": "das {total_trip_count, number} viagens planeadas para os últimos 15 dias, {pass_trip_count, number} foram corretamente realizadas"
-		},
-		"LinesDetailPath": {
-			"no_data": "Select a Path / Destination",
-			"summary": "Line <lineNumber>{line_number}</lineNumber> headed towards <destinationName>{destination_name}</destinationName> on <dayName>{day_name, date, long}</dayName>. <changeDay>Change day ›</changeDay>"
-		},
-		"LinesListToolbar": {
-			"by_current_view": {
-				"all": "All Lines",
-				"favorites": "Favorites ({count})"
-			},
-			"by_search": {
-				"placeholder": "Search by name, number..."
-			},
-			"found_items_counter": {
-				"all": "{count, plural, =0 {No lines found.} one {Found # line:} other {Found # lines:}}",
-				"favorites": "{count, plural, =0 {No favorite lines found.} one {Found # favorite line:} other {Found # favorite lines:}}"
-			},
-			"heading": "Search Lines"
-		},
-		"LinesListViewAll": {
-			"no_data": "No line found for this search"
-		},
-		"LinesListViewFavorites": {
-			"no_favorites": "No favorite lines yet"
-		},
-		"LinesScreen": {
-			"allLines": "All Lines",
-			"linesAroundMe": "Lines Around Me",
-			"recentLines": "Recent Lines"
-		},
-		"PathStopNextArrivals": {
-			"title": "Next circulations"
-		},
-		"PathStopTimetable": {
-			"next_date": "Next times available from {value, date, dayShort} {value, date, monthLong} {value, date, yearLong}",
-			"no_data": "Timetables unavailable for this date.",
-			"title": "Scheduled times at this stop:"
-		},
-		"PathWaypointTimetable": {
-			"title": "Scheduled arrivals at this stop: "
-		},
-		"SelectActivePatternGroup": {
-			"placeholder": "Select route/destination..."
-		},
-		"SelectActivePatternGroupExplainer": {
-			"toggle": "What is the path/destination of a line?"
-		},
-		"collapse_filters": "Hide Filters",
-		"expand_filters": "Expand Filters"
-	},
-	"more": {
-		"AboutCMList": {
-			"about_carrismetropolitana": "About CMetropolitana",
-			"heading": "Carris Metropolitana",
-			"legal_notices": "Legal Notices",
-			"open_data": "Open Data",
-			"our_operation_live": "Our Live Operation",
-			"privacy": "Privacy",
-			"recruitment": "Recruitment",
-			"subheading": "Learn more about Carris Metropolitana and explore different aspects of the bus operation across the 18 municipalities of the Lisbon metropolitan area."
-		},
-		"AlertList": {
-			"heading": "Alerts",
-			"service_alerts": "Service Alerts",
-			"subheading": "Check the alerts that may affect your journey."
-		},
-		"SupportList": {
-			"contacts": "Contacts",
-			"frequently_asked": "Frequently asked",
-			"heading": "Support",
-			"lost_found": "Lost and Found",
-			"stores": "Stores and Agents",
-			"subheading": "Clarify you doubts about Carris Metropolitana or ask us a question"
-		},
-		"TarifsList": {
-			"heading": "Tarifs",
-			"monthly_tickets": "Monthly Tickets",
-			"ocasional_tickets": "Ocasional Tickets",
-			"subheading": "Discover how much it costs to travel with CMetropolitana regularly or occasionally.",
-			"where_to_buy": "Where to buy"
-		},
-		"about_cm_list_hint": "This section contains links to pages with information about carris metropolitana",
-		"about_cm_list_label": "Usefull links about Carris Metropolitana",
-		"alert_list_hint": "This section refers to alerts",
-		"alert_list_label": "Usefull links about alerts",
-		"languages": {
-			"en": "English",
-			"language_buttons_hint": "Click one of the 2 available languages (portugese and english) to change the app's display language",
-			"language_buttons_label": "Buttons to change app display language, selected {language}",
-			"pt": "Portuguese"
-		},
-		"support_list_hint": "This section referes to support",
-		"support_list_label": "Usefull links about support",
-		"tarifs_list_hint": "This section refers to tarifs",
-		"tarifs_list_label": "Usefull links about tarifs",
-		"toggle_debug": "Toggle Debug Mode",
-		"toggle_debug_hint": "Click this button to toggle debug mode ",
-		"toggle_debug_label": "Button to toggle debug mode",
-		"untoggle_debug": "Deactivate Debug Mode",
-		"usefullLinksHint": "This link redirects to info related to {title}",
-		"usefullLinksLabel": "Link to {title}",
-		"version_hint": "App Version",
-		"version_label": "App version {version}"
-	},
-	"profile": {
-		"addNewWidgetSectionTitle": "Add New Widget",
-		"addWidgetLineListItemTitle": "Favorite Line",
-		"addWidgetSmartNotificationListItemTitle": "Smart Notifications",
-		"addWidgetStopListItemTitle": "Favorite Stop",
-		"favoriteLineListItemSubtitle": "Favorite Line",
-		"favoriteStopListItemSubtitle": "Favorite Stop",
-		"headerTitle": "Edit Profile",
-		"smartNotificationListItemSubtitle": "Smart Notification"
-	},
-	"profileEdit": {
-		"activityInfoHint": "This input purpose is for you to choose your type of activity",
-		"activityInfoLabel": "Provide your activity type",
-		"activityProfileSectionTitle": "Activity Profile",
-		"birthdateInputContentHint": "Move the inputs to indicate the correct date",
-		"birthdateInputContentLabel": "Choose the right date",
-		"birthdateInputHint": "This input's purpose is to input your birthdate",
-		"birthdateInputLabel": "Input your birthdate",
-		"carris metropolitana": "Carris Metropolitana",
-		"changeAccentColorHint": "Click this to change the app's details color",
-		"changeAccentColorLabel": "Button to change de display color of the app to {color}, {state}",
-		"contactSectionTitle": "Contacts",
-		"dateOfBirthInputLabel": "Date of Birth",
-		"emailInputContentLabel": "Type your email",
-		"emailInputHint": "This input purpose is for you to input your email",
-		"emailInputLabel": "Email",
-		"events and news": "Events and News",
-		"firstNameInputLabel": "Name",
-		"frequent": "Frequent",
-		"goBackInHistoryLabel": "Go back one persona",
-		"headerTitle": "Edit Profile",
-		"invalidEmail": "Invalid email.",
-		"invalidNumber": "Invalid number for the selected country.",
-		"lastNameInputLabel": "Surname",
-		"nameInputHint": "This input puspose is for you to input your name",
-		"nameInputLabel": "Type your name",
-		"network changes": "Network Changes",
-		"occasional": "Occasional",
-		"other": "Other",
-		"passengerProfileSectionTitle": "Passenger Profile",
-		"personalInfoSectionTitle": "Personal Information",
-		"phoneInputContentLabel": "Type your phone number",
-		"phoneInputHint": "This input purpose is for you to input yout phone number, provide your country code too",
-		"phoneInputLabel": "Phone Number",
-		"refreshPersonaHint": "Refreshes the current persona with a more recent one",
-		"refreshPersonaLabel": "Button to refresh the current persona",
-		"retired": "Retired",
-		"sectionActivityInfoHint": "This section contains inputs to indicate data about your activity type",
-		"sectionActivityInfoLabel": "Section of data about our Activity",
-		"sectionContactsInfoHint": "This section contains inputs for you to provide your contacts",
-		"sectionContactsInfoLabel": "Section of contacts",
-		"sectionPeronalInfoLabel": "Section of personal data",
-		"sectionPersonalInfoHint": "This section contains inputs for providing of personal data",
-		"sectionTopicsOfInterestHint": "This section contains inputs for the selection of themes of interest",
-		"sectionTopicsOfInterestLabel": "Section of usefull links about differente topics of interest",
-		"sectionUtilizationTypeHint": "This sectioin contains inputs for you to provide your way of usage",
-		"sectionUtilizationTypeLabel": "Section about yout utilization type",
-		"student": "Student",
-		"surnameInputHint": "This input purpose is to input your surname",
-		"surnameInputLabel": "Type your surname",
-		"topicsOfInterestInfoHint": "This section contains inputs for you to enter data about your themes of interest",
-		"topicsOfInterestInfoLabel": "Section ods data about different interests",
-		"topicsOfInterestSectionTitle": "Topics of Interest",
-		"university": "University",
-		"utilizationTypeInfoHint": "This section contains inputs for you to provide your info about utilization type",
-		"utilizationTypeInfoLabel": "Section of data about utilization type",
-		"utilizationTypesSectionTitle": "Utilization Types",
-		"working": "Working"
-	},
-	"profileImage": {
-		"accessibilityHint": "Persona for your profile is {profileImageDescription}",
-		"accessibilityLabel": "This image represents the persona of your profile"
-	},
-	"stopWidgetCard": {
-		"stopWidgetCardAccessibilityHint": "this widget is relative to a stop",
-		"stopWidgetCardAccessibilityLabel": "Stop widget",
-		"stopWidgetCardBody": {
-			"accessibilityHint": "This component represent a widget in the homepage of the app",
-			"accessibilityLabel": "Details of the stop widget"
-		},
-		"stopWidgetCardHeader": {
-			"subtitleAccessibilityHint": "This stop passes through the following municipalities {municipality}",
-			"subtitleAccessibilityLabel": "Municipalities {municipality}",
-			"titleAccessibilityHint": "This element represents the name of the Stop in the widget",
-			"titleAccessibilityLabel": "Stop {title}"
-		}
-	},
-	"stops": {
-		"StopDetails": {
-			"NextArrivals": {
-				"arriving": "Now",
-				"hours": "h",
-				"minutes": "min",
-				"see_less": "See less arrivals",
-				"see_more": "See more arrivals"
-			},
-			"description": "The passage times are estimated and may be subject to changes due to traffic, roadworks or other unforeseen events. Check the vehicle's position on the map to always obtain the most reliable information.",
-			"description_accessibility_hint": "This description provides a warning about the next arrivals schedules",
-			"description_accessibility_label": "Warning about the next arrival schedules",
-			"end_of_day": "End of day",
-			"heading": "Next Circulations",
-			"hint": "No trip for this stop today ",
-			"nextArrivalsLabel": "Next Arrivals",
-			"next_arrivals_accessibility_label": "List of arrivals for this stop",
-			"next_arrivals_realtime_hint": "This arrival is in real time",
-			"next_arrivals_realtime_label": "This list item of the next arrivals list is in real time",
-			"next_arrivals_scheduled_hint": "This stop is in real time ",
-			"next_arrivals_scheduled_label": "List of arrivals for this stop ",
-			"no_data_accessibility_hint": "There aren't any schedules and trips scheduled for this stop",
-			"no_data_accessibility_label": "No trips planned for this stop today",
-			"second_heading": "Lines that pass in this stop",
-			"show_hide_all_nextArrivals_accessibility_hint": "Click this button to show or hide more stops ",
-			"show_hide_all_nextArrivals_accessibility_label": "Click this to show or hide extra arrivals",
-			"third_heading": "Caracterization",
-			"title_accessibility_hint": "This component represents the next arrivals for this stop",
-			"title_accessibility_label": "Next arrivals for this stop"
-		},
-		"noDataFound": "No data found for this stop"
-	},
-	"userdetails": {
-		"editProfileButtonTitle": "Edit Profile",
-		"noWidgetsLabel": "No widgets",
-		"personalizeWidgetsSectionTitle": "Personalize Widgets"
-	},
-	"vehicles": {
-		"VehiclesDetailHeader": {
-			"direction": "way"
-		},
-		"vehicleHeaderTitle": "Vehicle"
-	},
-	"videoexplainer": {
-		"title": "Watch Explainer Video"
-	}
+  "CookiesPage": {
+    "sections": {
+      "intro": {
+        "paragraphs": {
+          "1": "TML uses cookies and other similar technologies to understand how the app is used, in order to improve its content, security and performance. The goal is to provide a better browsing experience."
+        },
+        "title": "Cookies Policy"
+      },
+      "question_1": {
+        "paragraphs": {
+          "1": "Cookies are small text files with relevant information that the access device (computer, cell phone, smartphone, tablet, etc.…) loads, through the internet browser (browser), when a app is visited by the user.",
+          "2": "The use of cookies helps apps recognize the user's device on the next visit and is often essential for its functioning.",
+          "3": "The cookies used by TML do not collect personal information that allows a particular user to be identified, but only store anonymous, generic and aggregated information."
+        },
+        "title": "What are cookies and what are they for?"
+      },
+      "question_2": {
+        "paragraphs": {
+          "1": "Taking into account the purposes for which they are used, cookies can be classified as follows:",
+          "2": "- Strictly necessary cookies (also known as essential, technical or basic): they are necessary for the user to be able to access specific areas of the app, allowing navigation and use of its applications, such as access to secure areas of the app, through login. Without these cookies, services that require them cannot be provided;",
+          "3": "- Functionality cookies (also known as preference cookies): allow the app to remember the user's preferences regarding their navigation on the app, thus not needing to reconfigure and personalize it each time they visit;",
+          "4": "- Performance cookies (also known as analytical or statistical): they are essentially used to analyze how the user uses the app, allowing you to highlight articles or services that may be of interest to you, monitor the performance of the app, letting you know which most popular pages, which method of linking between pages is most effective, or to determine why some pages are receiving error messages;",
+          "5": "- Advertising cookies (also known as marketing or tracking cookies): allow the user to be provided with advertising information based on their preferences and interests, as well as helping to measure the effectiveness of the advertisements shown (e.g. how many times they are seen)."
+        },
+        "title": "What types of Cookies are there?"
+      },
+      "question_3": {
+        "paragraphs": {
+          "1": "Regarding their validity, cookies can also be classified as follows:",
+          "2": "- Permanent cookies: these are cookies that are stored on access devices, at the browser level, and are used whenever the user visits the app again. In general, they are used to direct navigation according to the user's interests, allowing the provision of a more personalized service;",
+          "3": "- Session cookies: these are temporary cookies, which are generated and are available until the user ends the session. The next time the user accesses their internet browser, cookies will no longer be stored."
+        },
+        "title": "How valid are Cookies?"
+      },
+      "question_4": {
+        "paragraphs": {
+          "1": "Depending on their origin, cookies may also have the following typology:",
+          "2": "- Own (or first-party) cookies: these are those sent to the user's device from a app/domain managed by the publisher itself and from where the service requested by the user is provided (the app owner);",
+          "3": "- Third-party (or third-party) cookies: these are those that are sent to the user's device from a domain that is not managed by the app editor, but by other entities who use the information obtained through these cookies. Given their origin and nature, the use of this type of cookies is the exclusive responsibility of the entities that use them."
+        },
+        "title": "What are the possible origins of Cookies?"
+      },
+      "question_5": {
+        "table": {
+          "header": {
+            "col_1": "Type",
+            "col_2": "Domain/Origin",
+            "col_3": "Purpose",
+            "col_4": "Validity"
+          },
+          "rows": {
+            "1": {
+              "col_1": "NEXT_LOCALE",
+              "col_2": "carrismetropolitana.pt",
+              "col_3": "Identify the user's preferred language",
+              "col_4": "1 year"
+            },
+            "2": {
+              "col_1": "anonymous_analytics_enabled",
+              "col_2": "carrismetropolitana.pt",
+              "col_3": "Obtain statistical information about app usage",
+              "col_4": "1 year"
+            }
+          }
+        },
+        "title": "What Cookies or similar technologies are used on this app?"
+      },
+      "question_6": {
+        "accept": "Accept Cookies Policy",
+        "enabled": "Cookies Policy accepted",
+        "options": {
+          "analytics": {
+            "disable": "Analytics accepted. Refuse?",
+            "enable": "Accept analytics data",
+            "label": "Analytics Data"
+          },
+          "functional": {
+            "disable": "Functional data accepted. Refuse?",
+            "enable": "Accept functional data",
+            "label": "Functional data"
+          }
+        },
+        "paragraphs": {
+          "1": "As they are essential for the proper functioning of the app, the use of strictly necessary or essential cookies does not require prior consent from the user. The rest (functionality, performance or advertising cookies) will only be used if the user expressly authorizes their use."
+        },
+        "refuse": "Opt Out and Clear Data",
+        "refuse_modal": {
+          "cancel": "Cancel",
+          "confirm": "Yes, delete everything",
+          "description": "Ao retirar o consentimento serão apagados todos os dados guardados neste site, incluindo as suas paragens e linhas favoritas.",
+          "title": "Withdraw consent"
+        },
+        "title": "User Consent:"
+      },
+      "question_7": {
+        "paragraphs": {
+          "1": "Users can also prevent or condition the use of cookies through their browser settings. If you limit this option, however, your use of some features or the performance of some sites may be affected.",
+          "2": "Find out how at:"
+        },
+        "title": "How to control the use of Cookies?"
+      },
+      "question_8": {
+        "paragraphs": {
+          "1": "TML reserves, at any time, the right to change and/or update the information contained in this Policy, as well as the right to provide, upon request, additional, more detailed information on specific situations in which data is collected and processed. personal."
+        },
+        "title": "Right of reservation"
+      }
+    },
+    "title": "Cookies Policy"
+  },
+  "TestingNeedWarning": {
+    "warningText": "Please test this functionality before utilizing it with full trust. It may be needed to adjust the necessary times to garantee that you'll reach the the desired stop.",
+    "warningTitle": "Warning"
+  },
+  "accordionToggle": {
+    "accessibilityHint": "This button expands or collapses the selected widget",
+    "accessibilityLabel": "Button to expand or collapse the widget"
+  },
+  "addfavoriteline": {
+    "changeLineLabel": "Change selected line",
+    "firstSectionSubtitle": "Choose a line to display on the main page",
+    "firstSectionTitle": "1. Select a line ",
+    "headerTitle": "Favorite Line",
+    "secondSectionSubtitle": "You can only choose the destinations that interest you from this stop. Customize your unique information panel.",
+    "secondSectionTitle": "2. Select destinations ",
+    "selectLineLabel": "Select a line to see its destination",
+    "subheading": "Add your home or work stop as a favorite. This way, whenever you need it, just open the app to see the next arrivals.",
+    "thirdSectionSubtitle": "You can choose to receive a notification whenever there is an alert for the stop and for the destinations you selected.",
+    "thirdSectionTitle": "3. Notifications ",
+    "title": "Favorite Line",
+    "changeLineAccessibilityHint": "This element is a button to select a line",
+    "changeLineAccessibilityLabel": "Select a line",
+    "deselectLineHint": "Click this button to desselect a line {line}",
+    "deselectLineLabel": "Desselect line {line}",
+    "iconCheckedPatternAccessibilityHint": "Indicates which destination has been selected",
+    "iconCheckedPatternAccessibilityLabel": "Select Destination",
+    "iconUncheckedPatternAccessibilityHint": "Indicates that this destination for this line is not selected",
+    "iconUncheckedPatternAccessibilityLabel": "Destination not selected",
+    "linesLongnameAccessibilityHint": "Line {line}",
+    "linesLongnameAccessibilityLabel": "Line {line}",
+    "selectLineAccessibilityHint": "Click this input to select a line",
+    "selectLineAccessibilityLabel": "Select a line",
+    "selectPatternAccessibilityHint": "This block's purpose is for you to select a destination related to the selected line",
+    "selectPatternAccessibilityLabel": "Select a destiny"
+  },
+  "addfavoritestop": {
+    "changeStopLabel": "Change selected stop",
+    "firstSectionSubtitle": "Choose a stop to display on the main page",
+    "firstSectionTitle": "1. Select a stop ",
+    "headerTitle": "Favorite Stop",
+    "secondSectionSubtitle": "You can only choose the destinations that interest you from this stop. Customize your unique information panel.",
+    "secondSectionTitle": "2. Select destination ",
+    "selectStopLabel": "Select a stop to see its destination",
+    "subheading": "Add your home or work stop as a favorite. This way, whenever you need it, just open the app to see the next arrivals.",
+    "addFavoriteStopAccessibilityHint": "This element indicates the selected stop",
+    "addFavoriteStopAccessibilityLabel": "Selected line {line}",
+    "changeStopAccessibilityHint": "This element is a button to select a stop",
+    "changeStopAccessibilityLabel": "Select a stop",
+    "selectPatternAccessibilityHint": "This block's purpose is for you to select a destination related to the selected stop",
+    "selectPatternAccessibilityLabel": "Select destination",
+    "selectStopAccessibilityHint": "This element is a button to select a stop",
+    "selectStopAccessibilityLabel": "Select a stop"
+  },
+  "addsmartnotifications": {
+    "DaysSelector": {
+      "friday": "Fri",
+      "monday": "Mon",
+      "saturday": "Sat",
+      "sunday": "Sun",
+      "thursday": "Thu",
+      "tuesday": "Tue",
+      "wednesday": "Wed",
+      "weekDaysTitle": "At the days of the week"
+    },
+    "IntervalInputs": {
+      "endingTime": "To",
+      "startingTime": "From"
+    },
+    "StopSelector": {
+      "functionalityNotAvailable": "This functionality is not available at the first stop of the route because it is not possible to predict the arrival at the first stop.",
+      "showLess": "Show less",
+      "showMore": "Show more",
+      "stopSelectorTitle": "from the stop",
+      "stops": "stops",
+      "title": "Select a line to see it's stops"
+    },
+    "Toolbar": {
+      "friday": "F",
+      "monday": "M",
+      "saturday": "S",
+      "sunday": "S",
+      "thursday": "T",
+      "tuesday": "T",
+      "wednesday": "W"
+    },
+    "changeLineLabel": "Change Selected Line",
+    "chooseLineTitle": "Notifiy me when a bus from the line",
+    "friday": "Fri",
+    "heading": "Smart Notifications",
+    "monday": "Mon",
+    "noDestination": "No destination",
+    "noLineSelected": "No line selected",
+    "periodSelectorTitle": "in the interval",
+    "radiusAt": "is at",
+    "radiusMeters": "meters",
+    "radiusTime": "minutes",
+    "saturday": "Sat",
+    "subheading": "Do you use the same line everyday? Would you like to know exactly when to leave the house, or when to finish drinking your coffe, to go to the stop and catch your bus?",
+    "sunday": "Sun",
+    "thursday": "Thu",
+    "tuesday": "Tue",
+    "valuePlaceholder": "Value",
+    "wednesday": "Wed"
+  },
+  "alerts": {
+    "AlertActivePeriod": {
+      "end": "End: <parsedDate>{{parsedDate}}</parsedDate>",
+      "start": "Start: <parsedDate>{{parsedDate}}</parsedDate>"
+    }
+  },
+  "analytics": {
+    "ConsentPopup": {
+      "actions": {
+        "accept": "OK",
+        "hide_options": "Hide Options",
+        "refuse": "No, thanks",
+        "save": "Save",
+        "show_options": "Show Options"
+      },
+      "options": {
+        "analytics": "Save analytics data",
+        "functional": "Save functional data"
+      },
+      "policy_page": "Check cookies policy",
+      "text": "In order to improve the performance, content and security of this website, TML intends to use cookies or similar technologies.",
+      "title": "We respect your privacy"
+    }
+  },
+  "common": {
+    "LineSearchBar": {
+      "placeholder": "Search by name, number..."
+    },
+    "NextArrivals": {
+      "arriving": "Incoming",
+      "hours": "h",
+      "minutes": "min"
+    },
+    "SelectNotificationControl": {
+      "hours": "Hours",
+      "meters": "Meters"
+    },
+    "SelectOperationalDay": {
+      "today": "Today",
+      "tomorrow": "Tomorrow"
+    },
+    "SelectPattern": {
+      "invalid_option": "Invalid route: {pattern_id}",
+      "label": "Route / Destination",
+      "option_label": "Beggining of the route: {locality}",
+      "placeholder": "Select Route / Destiny..."
+    },
+    "StopSearchBar": {
+      "placeholder": "Search..."
+    },
+    "TimetableSchedules": {
+      "hours": "Time",
+      "minutes": "Min."
+    },
+    "closeButton": "Close",
+    "enable_notifications": "Enable Notifications",
+    "goToProfileButtonAccessibilityHint": "This button takes you to the profile customization page",
+    "goToProfileButtonAccessibilityLabel": "Button to redirect to the profile customization page",
+    "lineCounterOne": "line found",
+    "lineCounterOneHint": "Line found for the search",
+    "lineCounterOneLabel": "Line found",
+    "lineCounterOther": "lines found",
+    "lineCounterOtherHint": "Lines found for the search",
+    "lineCounterOtherLabel": "Lines found",
+    "lineCounterZero": "No lines found",
+    "lineCounterZeroLabel": "No lines found for the search",
+    "lineCounterZeroeHint": "No line found",
+    "next_arrival_row_realtime_hint": "Indicates the destiny for the next stop",
+    "next_arrival_row_realtime_label": "Next stop to {headsign} in real time",
+    "next_arrival_row_realtime_time_hint": "Indicates the time left for the bus to arrive",
+    "next_arrival_row_realtime_time_label": "{time} minutes remaining",
+    "next_arrival_row_scheduled_time_hint": "Indicates the schedule of the next arrival",
+    "next_arrival_row_scheduled_time_label": "Scheduled arrival to {time}",
+    "offlineBanner": {
+      "message": "There has been a problem with the connection to the server. Please check your internet connection."
+    },
+    "personalizeButton": "Customize",
+    "saveButton": "Save",
+    "stopCounterOne": "stop found",
+    "stopCounterOneHint": "Stop found for the search",
+    "stopCounterOneLabel": "Stop found",
+    "stopCounterOther": "stops found",
+    "stopCounterOtherHint": "Stops found for the search",
+    "stopCounterOtherLabel": "Stops found",
+    "stopCounterZero": "No stops found",
+    "stopCounterZeroHint": "No stop found",
+    "stopCounterZeroLabel": "No stops found for the search",
+    "stopCounterZerorHint": "No stop found for the current search",
+    "vehicleCounterOne": "vehicle found",
+    "vehicleCounterOneHint": "vehicle found for the search",
+    "vehicleCounterOneLabel": "vehicle found",
+    "vehicleCounterOnerHint": "vehicle found for the current search",
+    "vehicleCounterOther": "vehicles found",
+    "vehicleCounterOtherHint": "vehicles found for the search",
+    "vehicleCounterOtherLabel": "vehicles found",
+    "vehicleCounterZero": "No vehicles found",
+    "vehicleCounterZeroHint": "No vehicle found for the search",
+    "vehicleCounterZeroLabel": "No vehicle found",
+    "cancelButtonAccessibilityHint": "This button cancels all the changes made",
+    "cancelButtonAccessibilityLabel": "Button to cancel changes",
+    "openAddSmartNotificationAccessibilityHint": "If you pretend to receive notifications about the selected data click this button to be redirect to the page of smart notification with your pre filled data",
+    "openAddSmartNotificationAccessibilityLabel": "Open smart notification pre-filled",
+    "saveButtonAccessibilityHint": "This button saves the changes made",
+    "saveButtonAccessibilityLabel": "Button to save changes",
+    "headerExplainer": {
+      "headingAccessibilityHint": "This element is a explainer header about {heading}",
+      "headingAccessibilityLabel": "Page title {heading}",
+      "subheadingAccessibilityHint": "This element is a description about {heading}",
+      "subheadingAccessibilityLabel": "Description {heading}"
+    }
+  },
+  "homepage": {
+    "SuggestionCard": {
+      "SuggestionCardDescription": "Interact with your profile (Button Below) to add your favorite widgets here.",
+      "SuggestionCardTitle": "Personalize your experience"
+    }
+  },
+  "layout": {
+    "BackButton": "Back",
+    "NoDataLabel": {
+      "default": "No data available"
+    },
+    "TabStack": {
+      "Home": "Home",
+      "Lines": "Lines",
+      "More": "More",
+      "Stops": "Stops"
+    },
+    "linePageHeaderTitle": "Line",
+    "searchByNamePlaceholder": "Search by name",
+    "linelistChooserAccessibilityHint": "This element is where you can select a line",
+    "linelistChooserAccessibilityLabel": "Select a line"
+  },
+  "lineWidgetCard": {
+    "lineAcessibilityHint": "Widget in the home page of the app for the line {lineId} headed to {title}",
+    "lineAcessibilityLabel": "Widget of the line {{lineId}} headed to {title}"
+  },
+  "linebadge": {
+    "lineAccessibilityHint": "Button to the to go the details of the line",
+    "lineAccessibilityLabel": "Line",
+    "linesAccessibilityWithAlerts": "Has Alerts"
+  },
+  "lines": {
+    "AlertsCarousel": {
+      "heading": "Service Alerts"
+    },
+    "LinesDetail": {
+      "heading": "Search by Lines",
+      "toggle_favorite_error": "Error adding line to favorites. {error}"
+    },
+    "LinesDetailAlerts": {
+      "heading": "Active alerts for this line"
+    },
+    "LinesDetailMetricsDemand": {
+      "big_number": "{value, number}",
+      "chart": {
+        "series": {
+          "average": {
+            "label": "Average = {value, number}"
+          },
+          "qty": {
+            "label": "Transported passengers / day"
+          }
+        }
+      },
+      "description": "Value determined by the total of validations and sales on board in all trips for this line in the last 15 days.",
+      "footnote": "The value of transported passengers is updated every 5 minutes, aldo it can take up to 30 minutes to reflect reality",
+      "title": "Passengers transported on this line in the last 15 days"
+    },
+    "LinesDetailMetricsService": {
+      "big_number": "{value, number, percentage}",
+      "chart": {
+        "series": {
+          "fail_trip_count": {
+            "label": "Trips not executed"
+          },
+          "pass_trip_count": {
+            "label": "Trips executed"
+          },
+          "pass_trip_percentage": {
+            "label": "Execution rate %"
+          },
+          "total_trip_count": {
+            "label": "Planned trips"
+          }
+        }
+      },
+      "description": "Execution rate calculated based on the total number of trips completed compared to the total number of trips planned for the last 15 days. This analysis considers real-time vehicle position data and onboard validation and sales data.",
+      "footnote": "The formula used to calculate the execution rate presented here reflects only part of the set of indicators contractually defined to assess the performance and quality of the service provided by the Operators.",
+      "title": "das {total_trip_count, number} viagens planeadas para os últimos 15 dias, {pass_trip_count, number} foram corretamente realizadas"
+    },
+    "LinesDetailPath": {
+      "no_data": "Select a Path / Destination",
+      "summary": "Line <lineNumber>{line_number}</lineNumber> headed towards <destinationName>{destination_name}</destinationName> on <dayName>{day_name, date, long}</dayName>. <changeDay>Change day ›</changeDay>"
+    },
+    "LinesListToolbar": {
+      "by_current_view": {
+        "all": "All Lines",
+        "favorites": "Favorites ({count})"
+      },
+      "by_search": {
+        "placeholder": "Search by name, number..."
+      },
+      "found_items_counter": {
+        "all": "{count, plural, =0 {No lines found.} one {Found # line:} other {Found # lines:}}",
+        "favorites": "{count, plural, =0 {No favorite lines found.} one {Found # favorite line:} other {Found # favorite lines:}}"
+      },
+      "heading": "Search Lines"
+    },
+    "LinesListViewAll": {
+      "no_data": "No line found for this search"
+    },
+    "LinesListViewFavorites": {
+      "no_favorites": "No favorite lines yet"
+    },
+    "LinesScreen": {
+      "allLines": "All Lines",
+      "linesAroundMe": "Lines Around Me",
+      "recentLines": "Recent Lines"
+    },
+    "PathStopNextArrivals": {
+      "title": "Next circulations"
+    },
+    "PathStopTimetable": {
+      "next_date": "Next times available from {value, date, dayShort} {value, date, monthLong} {value, date, yearLong}",
+      "no_data": "Timetables unavailable for this date.",
+      "title": "Scheduled times at this stop:"
+    },
+    "PathWaypointTimetable": {
+      "title": "Scheduled arrivals at this stop: "
+    },
+    "SelectActivePatternGroup": {
+      "placeholder": "Select route/destination..."
+    },
+    "SelectActivePatternGroupExplainer": {
+      "toggle": "What is the path/destination of a line?"
+    },
+    "collapse_filters": "Hide Filters",
+    "expand_filters": "Expand Filters"
+  },
+  "more": {
+    "AboutCMList": {
+      "about_carrismetropolitana": "About CMetropolitana",
+      "heading": "Carris Metropolitana",
+      "legal_notices": "Legal Notices",
+      "open_data": "Open Data",
+      "our_operation_live": "Our Live Operation",
+      "privacy": "Privacy",
+      "recruitment": "Recruitment",
+      "subheading": "Learn more about Carris Metropolitana and explore different aspects of the bus operation across the 18 municipalities of the Lisbon metropolitan area."
+    },
+    "AlertList": {
+      "heading": "Alerts",
+      "service_alerts": "Service Alerts",
+      "subheading": "Check the alerts that may affect your journey."
+    },
+    "SupportList": {
+      "contacts": "Contacts",
+      "frequently_asked": "Frequently asked",
+      "heading": "Support",
+      "lost_found": "Lost and Found",
+      "stores": "Stores and Agents",
+      "subheading": "Clarify you doubts about Carris Metropolitana or ask us a question"
+    },
+    "TarifsList": {
+      "heading": "Tarifs",
+      "monthly_tickets": "Monthly Tickets",
+      "ocasional_tickets": "Ocasional Tickets",
+      "subheading": "Discover how much it costs to travel with CMetropolitana regularly or occasionally.",
+      "where_to_buy": "Where to buy"
+    },
+    "about_cm_list_hint": "This section contains links to pages with information about carris metropolitana",
+    "about_cm_list_label": "Usefull links about Carris Metropolitana",
+    "alert_list_hint": "This section refers to alerts",
+    "alert_list_label": "Usefull links about alerts",
+    "languages": {
+      "en": "English",
+      "language_buttons_hint": "Click one of the 2 available languages (portugese and english) to change the app's display language",
+      "language_buttons_label": "Buttons to change app display language, selected {language}",
+      "pt": "Portuguese"
+    },
+    "support_list_hint": "This section referes to support",
+    "support_list_label": "Usefull links about support",
+    "tarifs_list_hint": "This section refers to tarifs",
+    "tarifs_list_label": "Usefull links about tarifs",
+    "toggle_debug": "Toggle Debug Mode",
+    "toggle_debug_hint": "Click this button to toggle debug mode ",
+    "toggle_debug_label": "Button to toggle debug mode",
+    "untoggle_debug": "Deactivate Debug Mode",
+    "usefullLinksHint": "This link redirects to info related to {title}",
+    "usefullLinksLabel": "Link to {title}",
+    "version_hint": "App Version",
+    "version_label": "App version {version}"
+  },
+  "profile": {
+    "addNewWidgetSectionTitle": "Add New Widget",
+    "addWidgetLineListItemTitle": "Favorite Line",
+    "addWidgetSmartNotificationListItemTitle": "Smart Notifications",
+    "addWidgetStopListItemTitle": "Favorite Stop",
+    "favoriteLineListItemSubtitle": "Favorite Line",
+    "favoriteStopListItemSubtitle": "Favorite Stop",
+    "headerTitle": "Edit Profile",
+    "smartNotificationListItemSubtitle": "Smart Notification"
+  },
+  "profileEdit": {
+    "activityInfoHint": "This input purpose is for you to choose your type of activity",
+    "activityInfoLabel": "Provide your activity type",
+    "activityProfileSectionTitle": "Activity Profile",
+    "birthdateInputContentHint": "Move the inputs to indicate the correct date",
+    "birthdateInputContentLabel": "Choose the right date",
+    "birthdateInputHint": "This input's purpose is to input your birthdate",
+    "birthdateInputLabel": "Input your birthdate",
+    "carris metropolitana": "Carris Metropolitana",
+    "changeAccentColorHint": "Click this to change the app's details color",
+    "changeAccentColorLabel": "Button to change de display color of the app to {color}, {state}",
+    "contactSectionTitle": "Contacts",
+    "dateOfBirthInputLabel": "Date of Birth",
+    "emailInputContentLabel": "Type your email",
+    "emailInputHint": "This input purpose is for you to input your email",
+    "emailInputLabel": "Email",
+    "events and news": "Events and News",
+    "firstNameInputLabel": "Name",
+    "frequent": "Frequent",
+    "goBackInHistoryLabel": "Go back one persona",
+    "headerTitle": "Edit Profile",
+    "invalidEmail": "Invalid email.",
+    "invalidNumber": "Invalid number for the selected country.",
+    "lastNameInputLabel": "Surname",
+    "nameInputHint": "This input puspose is for you to input your name",
+    "nameInputLabel": "Type your name",
+    "network changes": "Network Changes",
+    "occasional": "Occasional",
+    "other": "Other",
+    "passengerProfileSectionTitle": "Passenger Profile",
+    "personalInfoSectionTitle": "Personal Information",
+    "phoneInputContentLabel": "Type your phone number",
+    "phoneInputHint": "This input purpose is for you to input yout phone number, provide your country code too",
+    "phoneInputLabel": "Phone Number",
+    "refreshPersonaHint": "Refreshes the current persona with a more recent one",
+    "refreshPersonaLabel": "Button to refresh the current persona",
+    "retired": "Retired",
+    "sectionActivityInfoHint": "This section contains inputs to indicate data about your activity type",
+    "sectionActivityInfoLabel": "Section of data about our Activity",
+    "sectionContactsInfoHint": "This section contains inputs for you to provide your contacts",
+    "sectionContactsInfoLabel": "Section of contacts",
+    "sectionPeronalInfoLabel": "Section of personal data",
+    "sectionPersonalInfoHint": "This section contains inputs for providing of personal data",
+    "sectionTopicsOfInterestHint": "This section contains inputs for the selection of themes of interest",
+    "sectionTopicsOfInterestLabel": "Section of usefull links about differente topics of interest",
+    "sectionUtilizationTypeHint": "This sectioin contains inputs for you to provide your way of usage",
+    "sectionUtilizationTypeLabel": "Section about yout utilization type",
+    "student": "Student",
+    "surnameInputHint": "This input purpose is to input your surname",
+    "surnameInputLabel": "Type your surname",
+    "topicsOfInterestInfoHint": "This section contains inputs for you to enter data about your themes of interest",
+    "topicsOfInterestInfoLabel": "Section ods data about different interests",
+    "topicsOfInterestSectionTitle": "Topics of Interest",
+    "university": "University",
+    "utilizationTypeInfoHint": "This section contains inputs for you to provide your info about utilization type",
+    "utilizationTypeInfoLabel": "Section of data about utilization type",
+    "utilizationTypesSectionTitle": "Utilization Types",
+    "working": "Working"
+  },
+  "profileImage": {
+    "accessibilityHint": "Persona for your profile is {profileImageDescription}",
+    "accessibilityLabel": "This image represents the persona of your profile"
+  },
+  "stopWidgetCard": {
+    "stopWidgetCardAccessibilityHint": "this widget is relative to a stop",
+    "stopWidgetCardAccessibilityLabel": "Stop widget",
+    "stopWidgetCardBody": {
+      "accessibilityHint": "This component represent a widget in the homepage of the app",
+      "accessibilityLabel": "Details of the stop widget"
+    },
+    "stopWidgetCardHeader": {
+      "subtitleAccessibilityHint": "This stop passes through the following municipalities {municipality}",
+      "subtitleAccessibilityLabel": "Municipalities {municipality}",
+      "titleAccessibilityHint": "This element represents the name of the Stop in the widget",
+      "titleAccessibilityLabel": "Stop {title}"
+    }
+  },
+  "stops": {
+    "StopDetails": {
+      "NextArrivals": {
+        "arriving": "Now",
+        "hours": "h",
+        "minutes": "min",
+        "see_less": "See less arrivals",
+        "see_more": "See more arrivals"
+      },
+      "description": "The passage times are estimated and may be subject to changes due to traffic, roadworks or other unforeseen events. Check the vehicle's position on the map to always obtain the most reliable information.",
+      "description_accessibility_hint": "This description provides a warning about the next arrivals schedules",
+      "description_accessibility_label": "Warning about the next arrival schedules",
+      "end_of_day": "End of day",
+      "heading": "Next Circulations",
+      "hint": "No trip for this stop today ",
+      "nextArrivalsLabel": "Next Arrivals",
+      "next_arrivals_accessibility_label": "List of arrivals for this stop",
+      "next_arrivals_realtime_hint": "This arrival is in real time",
+      "next_arrivals_realtime_label": "This list item of the next arrivals list is in real time",
+      "next_arrivals_scheduled_hint": "This stop is in real time ",
+      "next_arrivals_scheduled_label": "List of arrivals for this stop ",
+      "no_data_accessibility_hint": "There aren't any schedules and trips scheduled for this stop",
+      "no_data_accessibility_label": "No trips planned for this stop today",
+      "second_heading": "Lines that pass in this stop",
+      "show_hide_all_nextArrivals_accessibility_hint": "Click this button to show or hide more stops ",
+      "show_hide_all_nextArrivals_accessibility_label": "Click this to show or hide extra arrivals",
+      "third_heading": "Caracterization",
+      "title_accessibility_hint": "This component represents the next arrivals for this stop",
+      "title_accessibility_label": "Next arrivals for this stop"
+    },
+    "noDataFound": "No data found for this stop"
+  },
+  "userdetails": {
+    "editProfileButtonTitle": "Edit Profile",
+    "noWidgetsLabel": "No widgets",
+    "personalizeWidgetsSectionTitle": "Personalize Widgets"
+  },
+  "vehicles": {
+    "VehiclesDetailHeader": {
+      "direction": "way"
+    },
+    "vehicleHeaderTitle": "Vehicle"
+  },
+  "videoexplainer": {
+    "title": "Watch Explainer Video"
+  },
+  "virtualizedListingLines": {
+    "virtualizedListAccessibilityHint": "This element is a list of lines",
+    "virtualizedListAccessibilityLabel": "List of lines"
+  },
+  "virtualizedListingStops": {
+    "virtualizedListAccessibilityHint": "This element is a lsit of stops",
+    "virtualizedListAccessibilityLabel": "Stops list"
+  }
 }

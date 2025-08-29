@@ -121,7 +121,7 @@
 		"changeLineAccessibilityHint": "Este elemento é um botão para selecionar uma linha",
 		"changeLineAccessibilityLabel": "Selecione uma linha ",
 		"changeLineLabel": "Alterar Linha Selecionada",
-		"deselectLineHint": "Precione este botão para desselecionar a Linha {line}",
+		"deselectLineHint": "Pressione este botão para desselecionar a Linha {line}",
 		"deselectLineLabel": "Desselecionar Linha {line}",
 		"firstSectionSubtitle": "Escolha uma linha para visualizar na página principal",
 		"firstSectionTitle": "1. Selecionar Linha ",
@@ -134,7 +134,7 @@
 		"linesLongnameAccessibilityLabel": "Linha {line}",
 		"secondSectionSubtitle": "Pode escolher apenas os destinos que lhe interessam a partir desta linha. Personalize o seu painel de informação único.",
 		"secondSectionTitle": "2. Escolher destinos ",
-		"selectLineAccessibilityHint": "Clique neste input para selescionar linha",
+		"selectLineAccessibilityHint": "Clique neste input para selecionar linha",
 		"selectLineAccessibilityLabel": "Selecione uma linha",
 		"selectLineLabel": "Selecione uma linha para ver o seu destino",
 		"selectPatternAccessibilityHint": "Este bloco serve para selecionar um destino relacionado com a linha selecionada",
@@ -143,7 +143,6 @@
 		"thirdSectionSubtitle": "Pode escolher receber uma notificação sempre que existir um alerta para a linha e para os destinos que selecionou.",
 		"thirdSectionTitle": "3. Notificações ",
 		"title": "Linha Favorita"
-
 	},
 	"addfavoritestop": {
 		"addFavoriteStopAccessibilityHint": "Este elemento é um texto que indica a paragem selecionada",
@@ -298,7 +297,7 @@
 		"offlineBanner": {
 			"message": "Ocorreu um problema com a conexão ao servidor. Verifique a sua conexão com a internet."
 		},
-		"openAddSmartNotificationAccessibilityHint": "Se pretender receber notificações sobre os dados selecionados, clique neste botão para ser redirerionado para a página de notificações inteligentes com dados pré-preenchidos",
+		"openAddSmartNotificationAccessibilityHint": "Se pretender receber notificações sobre os dados selecionados, clique neste botão para ser redirecionado para a página de notificações inteligentes com dados pré-preenchidos",
 		"openAddSmartNotificationAccessibilityLabel": "Abrir notificações inteligentes pré preenchidas",
 		"personalizeButton": "Personalizar",
 		"saveButton": "Guardar",
@@ -644,11 +643,9 @@
 	"virtualizedListingLines": {
 		"virtualizedListAccessibilityHint": "Este elemento é uma lista de linhas",
 		"virtualizedListAccessibilityLabel": "Lista de linhas"
-
 	},
 	"virtualizedListingStops": {
 		"virtualizedListAccessibilityHint": "Este elemento é uma lista de paragens",
 		"virtualizedListAccessibilityLabel": "Lista de Paragens"
-
 	}
 }
