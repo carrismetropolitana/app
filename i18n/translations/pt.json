@@ -554,6 +554,14 @@
 		"version_hint": "Versão da aplicação",
 		"version_label": "Versão da app {version}"
 	},
+	"pathWaypoint": {
+		"headerFacilityAccessibilityHint": "Este elemento é um texto que indica as instalações disponiveis perto da paragem",
+		"headerFacilityAccessibilityLabel": "Instalações da paragem {facilities}",
+		"headerLinkAccessibilityHint": "Este elemento é um link para ver os detalhes da paragem",
+		"headerLinkAccessibilityLabel": "Link para detalhes da paragem {stopName}",
+		"headerLocalityAccessibilityHint": "Este elemento é um texto que indica a localidade da paragem",
+		"headerLocalityAccessibilityLabel": "Localidade da paragem {locality}"
+	},
 	"profile": {
 		"addNewWidgetSectionTitle": "Adicionar Novo Widget",
 		"addWidgetLineListItemTitle": "Linha Favorita",
@@ -703,7 +711,6 @@
 			"wheelchairAvailableAccessibilityLabel": "Veículo acessível para cadeiras de rodas",
 			"wheelchairNotAvailableAccessibilityHint": "Indica que este veículo não é acessível para cadeiras de rodas",
 			"wheelchairNotAvailableAccessibilityLabel": "Veículo não acessível para cadeiras de rodas"
-
 		},
 		"vehicleHeaderTitle": "Veículo"
 	},
@@ -718,4 +725,5 @@
 		"virtualizedListAccessibilityHint": "Este elemento é uma lista de paragens",
 		"virtualizedListAccessibilityLabel": "Lista de Paragens"
 	}
+
 }

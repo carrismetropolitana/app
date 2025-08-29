@@ -688,7 +688,21 @@
   },
   "vehicles": {
     "VehiclesDetailHeader": {
-      "direction": "way"
+      "direction": "way",
+      "occupancyEmptyAccessibilityHint": "Indicates that this vehicle is empty",
+      "occupancyEmptyAccessibilityLabel": "Vehicle Empty",
+      "occupancyFullAccessibilityHint": "Indicates that this vehicle is full",
+      "occupancyFullAccessibilityLabel": "Vehicle Full",
+      "occupancySeatsAvailableAccessibilityHint": "Indicates that this vehicle has seats available",
+      "occupancySeatsAvailableAccessibilityLabel": "Vehicle with available seats",
+      "occupancyStandingOnlyAccessibilityHint": "Indicates that this vehicle only has standing places",
+      "occupancyStandingOnlyAccessibilityLabel": "Vehicle with standing spots",
+      "occupancyUnknownAccessibilityHint": "Indicates that the status of occupation for this vehicle is unknown ",
+      "occupancyUnknownAccessibilityLabel": "Occupancy status for this vehicle is unknow ",
+      "wheelchairAvailableAccessibilityHint": "Indicates that this vehicle is wheelchair accessible",
+      "wheelchairAvailableAccessibilityLabel": "Vehicle is wheelchair accessible ",
+      "wheelchairNotAvailableAccessibilityHint": "Indicates that this vehicle is not wheelchair accessible",
+      "wheelchairNotAvailableAccessibilityLabel": "Vehicle is not wheelchair accessible"
     },
     "vehicleHeaderTitle": "Vehicle"
   },

@@ -1,6 +1,7 @@
 /* * */
 
 import { IconDisplay } from '@/components/common/IconDisplay';
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { useLocationsContext } from '@/contexts/Locations.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { theming } from '@/theme/Variables';
@@ -11,6 +12,7 @@ import { IconArrowUpRight } from '@tabler/icons-react-native';
 import * as Clipboard from 'expo-clipboard';
 import { Link } from 'expo-router';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { styles } from './styles';
@@ -32,8 +34,10 @@ export function PathWaypointHeader({ isFirstStop, isLastStop, isSelected, waypoi
 	//
 	// A. Setup variables
 
+	const { t } = useTranslation('translation', { keyPrefix: 'pathWaypoint' });
 	const stopsContext = useStopsContext();
 	const locationsContext = useLocationsContext();
+	const localeContext = useLocaleContext();
 	const [stopIdClipboard, setStopIdClipboard] = useState('');
 	const pathWaypointHeaderStyles = styles();
 	const iconColor = isSelected ? theming.colorSystemText300 : theming.colorSystemText400;
@@ -74,21 +78,21 @@ export function PathWaypointHeader({ isFirstStop, isLastStop, isSelected, waypoi
 
 	return (
 		<View style={containerStyles}>
-			<Text style={pathWaypointHeaderStyles.stopName}>
+			<Text accessibilityHint={t('headerLinkAccessibilityHint')} accessibilityLabel={t('headerLinkAccessibilityLabel', { stopName: stopData.long_name })} accessibilityLanguage={localeContext.locale} accessibilityRole="link" style={pathWaypointHeaderStyles.stopName}>
 				{stopData.long_name}
 				<Link href={`/stop/${waypointData.stop_id}`} style={pathWaypointHeaderStyles.stopNameUrl}>
 					<IconArrowUpRight color={iconColor} size={14} />
 				</Link>
 			</Text>
 			<View style={pathWaypointHeaderStyles.subHeaderWrapper}>
-				<Text style={pathWaypointHeaderStyles.stopLocation}>{localityData?.display || municipalityData?.name}</Text>
+				<Text accessibilityHint={t('headerLocalityAccessibilityHint')} accessibilityLabel={t('headerLocalityAccessibilityLabel', { locality: localityData?.display || municipalityData?.name })} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={pathWaypointHeaderStyles.stopLocation}>{localityData?.display || municipalityData?.name}</Text>
 				<Text onPress={handleClickStopId} style={stopIdStyles}>
 					#{stopData.id} {stopIdClipboard ? <IconCheck style={pathWaypointHeaderStyles.stopIdCopyIcon} /> : <IconCopy style={pathWaypointHeaderStyles.stopIdCopyIcon} />}
 				</Text>
 			</View>
 			{isSelected && stopData.facilities.length > 0 && (
 				<View style={pathWaypointHeaderStyles.facilitiesWrapper}>
-					{stopData.facilities.map(facility => (<View key={facility}><IconDisplay category="facilities" name={facility} /></View>))}
+					{stopData.facilities.map(facility => (<View key={facility} accessibilityHint={t('headerFacilityAccessibilityHint')} accessibilityLabel={t('headerFacilityAccessibilityLabel', { facility })} accessibilityLanguage={localeContext.locale} accessibilityRole="link"><IconDisplay category="facilities" name={facility} /></View>))}
 				</View>
 			)}
 		</View>
