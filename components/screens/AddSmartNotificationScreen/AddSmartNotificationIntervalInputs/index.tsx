@@ -50,6 +50,10 @@ export const AddSmartNotificationsIntervalInputs = ({ endingHour, setEndingHour,
 						</Pressable>
 						{showStartingPicker && (
 							<RNDateTimePicker
+								accessibilityHint={t('startingTimePickerAccessibilityHint')}
+								accessibilityLabel={t('startingTimePickerAccessibilityLabel')}
+								accessibilityLanguage={locale}
+								accessibilityRole="button"
 								display="default"
 								mode="time"
 								value={startingHour ?? new Date()}
@@ -62,6 +66,10 @@ export const AddSmartNotificationsIntervalInputs = ({ endingHour, setEndingHour,
 					</>
 				) : (
 					<RNDateTimePicker
+						accessibilityHint={t('startingTimePickerAccessibilityHint')}
+						accessibilityLabel={t('startingTimePickerAccessibilityLabel')}
+						accessibilityLanguage={locale}
+						accessibilityRole="button"
 						display="compact"
 						locale={locale}
 						mode="time"
@@ -84,6 +92,10 @@ export const AddSmartNotificationsIntervalInputs = ({ endingHour, setEndingHour,
 						</Pressable>
 						{showEndingPicker && (
 							<RNDateTimePicker
+								accessibilityHint={t('endingTimePickerAccessibilityHint')}
+								accessibilityLabel={t('endingTimePickerAccessibilityLabel')}
+								accessibilityLanguage={locale}
+								accessibilityRole="button"
 								display="default"
 								mode="time"
 								value={endingHour ?? new Date()}
@@ -96,6 +108,10 @@ export const AddSmartNotificationsIntervalInputs = ({ endingHour, setEndingHour,
 					</>
 				) : (
 					<RNDateTimePicker
+						accessibilityHint={t('endingTimePickerAccessibilityHint')}
+						accessibilityLabel={t('endingTimePickerAccessibilityLabel')}
+						accessibilityLanguage={locale}
+						accessibilityRole="button"
 						display="compact"
 						locale={locale}
 						mode="time"

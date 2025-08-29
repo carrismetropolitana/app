@@ -13,6 +13,7 @@ import { AddSmartNotificationsIntervalInputs } from '@/components/screens/AddSma
 import { AddSmartNotificationsStopSelector } from '@/components/screens/AddSmartNotificationScreen/AddSmartNotificationStopSelector';
 import { WidgetActionsButtonGroup } from '@/components/widgets/WidgetsActionsButtonGroup';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { getSecondsSinceMidnight } from '@/utils/getSecondsSinceMidnight';
 import { Routes } from '@/utils/routes';
@@ -63,6 +64,7 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 
 	const linesDetailContext = useLinesDetailContext();
 	const profileContext = useProfileContext();
+	const localeContext = useLocaleContext();
 	const addFavoriteLineStyles = styles();
 	const navigation = useNavigation();
 
@@ -221,14 +223,14 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 				<View style={addFavoriteLineStyles.container}>
 					<HeaderExplainer heading={t('heading')} subheading={t('subheading')} />
 					<VerticalContentSeparator starting />
-					<Text style={addFavoriteLineStyles.text}> {t('chooseLineTitle')}</Text>
+					<Text accessibilityHint={t('chooseLineTitleAccessibilityHint')} accessibilityLabel={t('chooseLineTitleAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={addFavoriteLineStyles.text}> {t('chooseLineTitle')}</Text>
 					<View>
 						{linesDetailContext.data.line && (
 							<ListItem>
 								<LineBadge lineId={linesDetailContext.data.lineId} size="lg" withAlertIcon={false} />
 								<ListItem.Content>
 									<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-										<Text>{linesDetailContext.data.line.long_name}</Text>
+										<Text accessibilityHint={t('chooseLineLongNameAccessibilityHint')} accessibilityLabel={t('chooseLineLongNameAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text">{linesDetailContext.data.line.long_name}</Text>
 									</ListItem.Title>
 								</ListItem.Content>
 								<IconX color="#9696A0" onPress={linesDetailContext.actions.resetLineId} size={24} />
@@ -239,7 +241,7 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 								<IconSearch color="#9696A0" size={24} />
 								<ListItem.Content>
 									<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-										<Text>{t('changeLineLabel')}</Text>
+										<Text accessibilityHint={t('chooseLineChangeLineAccessibilityHint')} accessibilityLabel={t('chooseLineChangeLineAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="button">{t('changeLineLabel')}</Text>
 									</ListItem.Title>
 								</ListItem.Content>
 								<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
@@ -262,12 +264,12 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 											<LineBadge color={linesDetailContext.data.line?.color} lineId={linesDetailContext.data.lineId} size="lg" withAlertIcon />
 											<ListItem.Content>
 												<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-													<Text>{patternNames[item] || t('noDestination')}</Text>
+													<Text accessibilityHint={t('chooseLinePatternNameAccessibilityHint', { pattern: patternNames[item] })} accessibilityLabel={t('chooseLinePatternNameAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text">{patternNames[item] || t('noDestination')}</Text>
 												</ListItem.Title>
 											</ListItem.Content>
 											{isSelected
-												? <IconCircleCheckFilled color="#FFFFFF" fill="#3CB43C" size={24} />
-												: <IconCircle color="#9696A0" size={24} />}
+												? <IconCircleCheckFilled accessibilityHint={t('chooseLineCheckedAccessibilityHint', { pattern: patternNames[item] })} accessibilityLabel={t('chooseLineCheckedAccessibilityLabel', { pattern: patternNames[item] })} accessibilityLanguage={localeContext.locale} accessibilityRole="checkbox" accessibilityState={{ checked: true }} color="#FFFFFF" fill="#3CB43C" size={24} />
+												: <IconCircle accessibilityHint={t('chooseLineUncheckedAccessibilityHint')} accessibilityLabel={t('chooseLineUncheckedAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="checkbox" accessibilityState={{ checked: false }} color="#9696A0" size={24} />}
 										</ListItem>
 									);
 								})}
@@ -275,15 +277,15 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 						) : null}
 					</View>
 					<VerticalContentSeparator middle />
-					<Text style={addFavoriteLineStyles.text}>{t('radiusAt')}</Text>
+					<Text accessibilityHint={t('chooseLineRadiusAccessibilityHint')} accessibilityLabel={t('chooseLineRadiusAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={addFavoriteLineStyles.text}>{t('radiusAt')}</Text>
 					<View style={addFavoriteLineStyles.selectNotificationContol}>
-						<Input containerStyle={addFavoriteLineStyles.input} keyboardType="number-pad" onChangeText={text => setRadius(Number(text))} placeholder={t('valuePlaceholder')} value={radius.toString()} />
+						<Input accessibilityHint={t('chooseLineRadiusValueAccessibilityHint')} accessibilityLabel={t('chooseLineRadiusValueAccessibilityLabel', { value: radius })} accessibilityLanguage={localeContext.locale} containerStyle={addFavoriteLineStyles.input} keyboardType="number-pad" onChangeText={text => setRadius(Number(text))} placeholder={t('valuePlaceholder')} value={radius.toString()} />
 						<SelectNotificationControl />
 					</View>
 					<VerticalContentSeparator middle />
 					<AddSmartNotificationsStopSelector selectedStopId={selectedStopId || undefined} selectedVersionId={selectedVersionId || undefined} setSelectedStopId={setSelectedStopId} />
 					<VerticalContentSeparator middle />
-					<Text style={addFavoriteLineStyles.text}>{t('periodSelectorTitle')}</Text>
+					<Text accessibilityHint={t('chooseLinePeriodAccessibilityHint')} accessibilityLabel={t('chooseLinePeriodAccessibilityLabel')} accessibilityLanguage={localeContext.locale} style={addFavoriteLineStyles.text}>{t('periodSelectorTitle')}</Text>
 					<View style={addFavoriteLineStyles.lastSectionWrapper}>
 						<AddSmartNotificationsIntervalInputs endingHour={endingHour || DateTime.now().toJSDate()} setEndingHour={setEndingHour} setStartingHour={setStartingHour} startingHour={startingHour || DateTime.now().toJSDate()} />
 						<AddSmartNotificationDaysSelector selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />

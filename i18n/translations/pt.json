@@ -110,8 +110,12 @@
 		"title": "Política de Cookies"
 	},
 	"TestingNeedWarning": {
+		"TestingNeedWarningTextAccessibilityHint": "Este elemento é um texto de aviso",
+		"TestingNeedWarningTextAccessibilityLabel": "Por favor teste esta funcionalidade antes de utilizar com confiança. Poderá ser necessário ajustar os tempos para garantir que chega ao local.",
 		"warningText": "Por favor teste esta funcionalidade antes de utilizar com confiança. Poderá ser necessário ajustar os tempos para garantir que chega ao local.",
-		"warningTitle": "Atenção"
+		"warningTitle": "Atenção",
+		"warningTitleAccessibilityHint": "Este elemento é um título de aviso",
+		"warningTitleAccessibilityLabel": "Atenção"
 	},
 	"accordionToggle": {
 		"accessibilityHint": "Este botão expande ou colapsa o widget selecionado",
@@ -164,6 +168,8 @@
 	},
 	"addsmartnotifications": {
 		"DaysSelector": {
+			"dayButtonAccessibilityHint": "Pressione este botão para selecionar ou desselecionar o dia {day}",
+			"dayButtonAccessibilityLabel": "Botão para selecionar o dia {day}",
 			"friday": "Sex",
 			"monday": "Seg",
 			"saturday": "Sáb",
@@ -175,13 +181,32 @@
 		},
 		"IntervalInputs": {
 			"endingTime": "Hora de fim",
-			"startingTime": "Hora de Início"
+			"endingTimePickerAccessibilityHint": "Este elemento é um seletor de hora de fim",
+			"endingTimePickerAccessibilityLabel": "Seletor de hora de fim",
+			"startingTime": "Hora de Início",
+			"startingTimePickerAccessibilityHint": "Este elemento é um seletor de hora de início",
+			"startingTimePickerAccessibilityLabel": "Seletor de hora de início"
 		},
 		"StopSelector": {
 			"functionalityNotAvailable": "Esta funcionalidade não está disponível na primeira paragem do percurso, pois não é possível prever a chegada à primeira paragem.",
 			"showLess": "Mostrar menos",
 			"showMore": "Mostrar mais",
+			"stopSelectorAccessibilityHint": "Este bloco serve para selecionar uma paragem ",
+			"stopSelectorStopIDAccessibilityHint": "Este elemento é um texto que indica o id da paragem",
+			"stopSelectorStopIDAccessibilityLabel": "ID da paragem {id}",
+			"stopSelectorStopLocalityAccessibilityHint": "Este elemento é um texto que indica a localidade da paragem",
+			"stopSelectorStopLocalityAccessibilityLabel": "Localidade da paragem é {locality}",
+			"stopSelectorStopNameAccessibilityHint": "Este elemento é um texto que indica o nome da paragem",
+			"stopSelectorStopNameAccessibilityLabel": "Nome da paragem {name}",
+			"stopSelectorStopSequenceAccessibilityHint": "Este id {number} representa o numero de ordem da paragem ",
+			"stopSelectorStopSequenceAccessibilityLabel": "Número de ordem da paragem {number}",
+			"stopSelectorStopShowLessAccessibilityHint": "Este botão colapsa a lista de paragens",
+			"stopSelectorStopShowLessAccessibilityLabel": "Colapsar a lista de paragens",
+			"stopSelectorStopShowMoreAccessibilityHint": "Este botão expande a lista de paragens",
+			"stopSelectorStopShowMoreAccessibilityLabel": "Expandir a lista de paragens",
 			"stopSelectorTitle": "da paragem",
+			"stopSelectorTitleAccessibilityHint": "Este elemento é um cabeçalho para selecionar uma paragem",
+			"stopSelectorTitleAccessibilityLabel": "Secção de selecção de paragem",
 			"stops": "paragens",
 			"title": "Selecione uma linha para ver as suas paragens"
 		},
@@ -195,7 +220,25 @@
 			"wednesday": "Q"
 		},
 		"changeLineLabel": "Alterar Linha Selecionada",
+		"chooseLineChangeLineAccessibilityHint": "Pressione este botão para alterar a linha selecionada",
+		"chooseLineChangeLineAccessibilityLabel": "Botão para alterar linha selecionada",
+		"chooseLineCheckedAccessibilityHint": "Indica que a linha {line} está selecionada",
+		"chooseLineCheckedAccessibilityLabel": "Linha {line}selecionada",
+		"chooseLineLongNameAccessibilityHint": "O Nome da Linha é {line}",
+		"chooseLineLongNameAccessibilityLabel": "Linha {line}",
+		"chooseLinePatternNameAccessibilityHint": "O Destino a que a linha se dirige é {pattern}",
+		"chooseLinePatternNameAccessibilityLabel": "Destino {pattern}",
+		"chooseLinePeriodAccessibilityHint": "Indica o período em que pretende receber a notificação",
+		"chooseLinePeriodAccessibilityLabel": "Período para o qual pretende receber a notificação",
+		"chooseLineRadiusAccessibilityHint": "Indica a distância em metros para a qual pretende receber a notificação",
+		"chooseLineRadiusAccessibilityLabel": "Distância para a qual pretende receber a notificação",
+		"chooseLineRadiusValueAccessibilityHint": "A distância em metros para a qual pretende receber a notificação",
+		"chooseLineRadiusValueAccessibilityLabel": "{value} metros",
 		"chooseLineTitle": "Notificar-me quando um autocarro da linha",
+		"chooseLineTitleAccessibilityHint": "Selecione uma linha para receber notificações inteligentes",
+		"chooseLineTitleAccessibilityLabel": "Selecione uma linha para receber notificações inteligentes",
+		"chooseLineUncheckedAccessibilityHint": "Indica que a linha {line} não está selecionada",
+		"chooseLineUncheckedAccessibilityLabel": "Linha {line} não selecionada",
 		"friday": "Sex",
 		"heading": "Notificações Inteligentes",
 		"monday": "Seg",
@@ -645,7 +688,22 @@
 	},
 	"vehicles": {
 		"VehiclesDetailHeader": {
-			"direction": "sentido"
+			"direction": "sentido",
+			"occupancyEmptyAccessibilityHint": "Indica que este veículo está vazio",
+			"occupancyEmptyAccessibilityLabel": "Veículo vazio",
+			"occupancyFullAccessibilityHint": "Indica que este veículo está cheio",
+			"occupancyFullAccessibilityLabel": "Veículo cheio",
+			"occupancySeatsAvailableAccessibilityHint": "Indica que este veículo tem lugares disponíveis",
+			"occupancySeatsAvailableAccessibilityLabel": "Veículo com lugares disponíveis",
+			"occupancyStandingOnlyAccessibilityHint": "Indica que este veículo só tem lugares em pé",
+			"occupancyStandingOnlyAccessibilityLabel": "Veículo com lugares em pé",
+			"occupancyUnknownAccessibilityHint": "Indica que o estado de ocupação deste veículo é desconhecido",
+			"occupancyUnknownAccessibilityLabel": "Estado de ocupação do veículo desconhecido",
+			"wheelchairAvailableAccessibilityHint": "Indica que este veículo é acessível para cadeiras de rodas",
+			"wheelchairAvailableAccessibilityLabel": "Veículo acessível para cadeiras de rodas",
+			"wheelchairNotAvailableAccessibilityHint": "Indica que este veículo não é acessível para cadeiras de rodas",
+			"wheelchairNotAvailableAccessibilityLabel": "Veículo não acessível para cadeiras de rodas"
+
 		},
 		"vehicleHeaderTitle": "Veículo"
 	},

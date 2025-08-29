@@ -1,6 +1,7 @@
 /* * */
 
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { useLocationsContext } from '@/contexts/Locations.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { Waypoint } from '@carrismetropolitana/api-types/network';
@@ -27,6 +28,7 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 	const stopSelectorStyles = styles();
 	const linesDetailContext = useLinesDetailContext();
 	const locationsContext = useLocationsContext();
+	const localeContext = useLocaleContext();
 	const stopsContext = useStopsContext();
 	const [showMiddle, setShowMiddle] = useState(false);
 	const topCount = 5;
@@ -34,7 +36,7 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 
 	return (
 		<>
-			<Text style={stopSelectorStyles.text}>{t('stopSelectorTitle')}</Text>
+			<Text accessibilityHint={t('stopSelectorTitleAccessibilityHint')} accessibilityLabel={t('stopSelectorTitleAccessibilityLabel')} accessibilityRole="header" style={stopSelectorStyles.text}>{t('stopSelectorTitle')}</Text>
 			<View key={linesDetailContext.data.active_pattern?.id || selectedVersionId}>
 				{selectedVersionId && linesDetailContext.data.active_pattern ? (() => {
 					const path = linesDetailContext.data.active_pattern.path;
@@ -68,11 +70,29 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 													width: 28,
 												}}
 											>
-												<Text style={{ color: '#fff', fontWeight: 'bold' }}>{waypoint.stop_sequence}</Text>
+												<Text accessibilityHint={t('stopSelectorStopSequenceAccessibilityHint', { number: waypoint.stop_sequence })} accessibilityLabel={t('stopSelectorStopSequenceAccessibilityHint', { number: waypoint.stop_sequence })} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={{ color: '#fff', fontWeight: 'bold' }}>{waypoint.stop_sequence}</Text>
 											</View>
 											<ListItem.Content>
 												<ListItem.Title style={stopSelectorStyles.listTitle}>
-													{stop ? <Text>{stop.long_name}</Text> : <Text>{waypoint.stop_id}</Text>}
+													{stop
+														? (
+															<Text
+																accessibilityHint={t('stopSelectorStopNameAccessibilityHint')}
+																accessibilityLabel={t('stopSelectorStopNameAccessibilityLabel', { name: stop.long_name })}
+																accessibilityLanguage={localeContext.locale}
+																accessibilityRole="text"
+															>{stop.long_name}
+															</Text>
+														)
+														: (
+															<Text
+																accessibilityHint={t('stopSelectorStopNameAccessibilityHint', { name: waypoint.stop_id })}
+																accessibilityLabel={t('stopSelectorStopNameAccessibilityLabel', { name: waypoint.stop_id })}
+																accessibilityLanguage={localeContext.locale}
+																accessibilityRole="text"
+															>{waypoint.stop_id}
+															</Text>
+														)}
 												</ListItem.Title>
 												<ListItem.Subtitle>
 													{(() => {
@@ -80,8 +100,22 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 															const locality = stop.locality_id ? locationsContext.actions.getLocalityById(stop.locality_id) : undefined;
 															return (
 																<View style={stopSelectorStyles.stopInfo}>
-																	<Text style={stopSelectorStyles.cleanMute}> {locality ? locality.name : stop.locality_id}</Text>
-																	<Text style={stopSelectorStyles.cleanMute}> {stop.id} </Text>
+																	<Text
+																		accessibilityHint={t('stopSelectorStopLocalityAccessibilityHint', { name: locality?.name })}
+																		accessibilityLabel={t('stopSelectorStopLocalityAccessibilityLabel', { name: locality?.name })}
+																		accessibilityLanguage={localeContext.locale}
+																		accessibilityRole="text"
+																		style={stopSelectorStyles.cleanMute}
+																	> {locality ? locality.name : stop.locality_id}
+																	</Text>
+																	<Text
+																		accessibilityHint={t('stopSelectorStopIDAccessibilityHint', { name: waypoint.stop_id })}
+																		accessibilityLabel={t('stopSelectorStopIDAccessibilityLabel', { name: waypoint.stop_id })}
+																		accessibilityLanguage={localeContext.locale}
+																		accessibilityRole="text"
+																		style={stopSelectorStyles.cleanMute}
+																	> {stop.id}
+																	</Text>
 																</View>
 															);
 														}
@@ -89,7 +123,18 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 													})()}
 												</ListItem.Subtitle>
 											</ListItem.Content>
-											{isSelected && <IconCircleCheckFilled color="#FFFFFF" fill="#3CB43C" size={24} />}
+											{isSelected && (
+												<IconCircleCheckFilled
+													accessibilityHint={t('stopSelectorStopCheckedAccessibilityHint')}
+													accessibilityLabel={t('stopSelectorStopCheckedAccessibilityLabel')}
+													accessibilityLanguage={localeContext.locale}
+													accessibilityRole="checkbox"
+													accessibilityState={{ checked: isSelected }}
+													color="#FFFFFF"
+													fill="#3CB43C"
+													size={24}
+												/>
+											)}
 										</ListItem>
 									</View>
 								);
@@ -98,7 +143,14 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 								<ListItem onPress={() => setShowMiddle(true)}>
 									<ListItem.Content>
 										<ListItem.Title style={stopSelectorStyles.showMore}>
-											<Text style={stopSelectorStyles.cleanMute}>{t('showMore')} + {total} {t('stops')}</Text>
+											<Text
+												accessibilityHint={t('stopSelectorStopShowMoreAccessibilityHint')}
+												accessibilityLabel={t('stopSelectorStopShowMoreAccessibilityLabel')}
+												accessibilityLanguage={localeContext.locale}
+												accessibilityRole="button"
+												style={stopSelectorStyles.cleanMute}
+											>{t('showMore')} + {total} {t('stops')}
+											</Text>
 										</ListItem.Title>
 									</ListItem.Content>
 								</ListItem>
@@ -126,11 +178,27 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 															width: 28,
 														}}
 													>
-														<Text style={{ color: '#fff', fontWeight: 'bold' }}>{waypoint.stop_sequence}</Text>
+														<Text accessibilityHint={t('stopSelectorStopSequenceAccessibilityHint', { number: waypoint.stop_sequence })} accessibilityLabel={t('stopSelectorStopSequenceAccessibilityHint', { number: waypoint.stop_sequence })} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={{ color: '#fff', fontWeight: 'bold' }}>{waypoint.stop_sequence}</Text>
 													</View>
 													<ListItem.Content>
 														<ListItem.Title style={stopSelectorStyles.listTitle}>
-															{stop ? <Text>{stop.long_name}</Text> : <Text>{waypoint.stop_id}</Text>}
+															{stop ? (
+																<Text
+																	accessibilityHint={t('stopSelectorStopNameAccessibilityHint')}
+																	accessibilityLabel={t('stopSelectorStopNameAccessibilityLabel', { name: stop.long_name })}
+																	accessibilityLanguage={localeContext.locale}
+																	accessibilityRole="text"
+																>{stop.long_name}
+																</Text>
+															) : (
+																<Text
+																	accessibilityHint={t('stopSelectorStopIDAccessibilityHint', { name: waypoint.stop_id })}
+																	accessibilityLabel={t('stopSelectorStopIDAccessibilityLabel', { name: waypoint.stop_id })}
+																	accessibilityLanguage={localeContext.locale}
+																	accessibilityRole="text"
+																>{waypoint.stop_id}
+																</Text>
+															)}
 														</ListItem.Title>
 														<ListItem.Subtitle>
 															{(() => {
@@ -138,8 +206,22 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 																	const locality = stop.locality_id ? locationsContext.actions.getLocalityById(stop.locality_id) : undefined;
 																	return (
 																		<View style={stopSelectorStyles.stopInfo}>
-																			<Text style={stopSelectorStyles.cleanMute}> {locality ? locality.name : stop.locality_id}</Text>
-																			<Text style={stopSelectorStyles.cleanMute}> {stop.id} </Text>
+																			<Text
+																				accessibilityHint={t('stopSelectorStopLocalityAccessibilityHint', { name: locality?.name })}
+																				accessibilityLabel={t('stopSelectorStopLocalityAccessibilityLabel', { name: locality?.name })}
+																				accessibilityLanguage={localeContext.locale}
+																				accessibilityRole="text"
+																				style={stopSelectorStyles.cleanMute}
+																			> {locality ? locality.name : stop.locality_id}
+																			</Text>
+																			<Text
+																				accessibilityHint={t('stopSelectorStopIDAccessibilityHint', { name: waypoint.stop_id })}
+																				accessibilityLabel={t('stopSelectorStopIDAccessibilityLabel', { name: waypoint.stop_id })}
+																				accessibilityLanguage={localeContext.locale}
+																				accessibilityRole="text"
+																				style={stopSelectorStyles.cleanMute}
+																			> {stop.id}
+																			</Text>
 																		</View>
 																	);
 																}
@@ -147,7 +229,18 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 															})()}
 														</ListItem.Subtitle>
 													</ListItem.Content>
-													{isSelected && <IconCircleCheckFilled color="#FFFFFF" fill="#3CB43C" size={24} />}
+													{isSelected && (
+														<IconCircleCheckFilled
+															accessibilityHint={t('stopSelectorStopCheckedAccessibilityHint')}
+															accessibilityLabel={t('stopSelectorStopCheckedAccessibilityLabel')}
+															accessibilityLanguage={localeContext.locale}
+															accessibilityRole="checkbox"
+															accessibilityState={{ checked: isSelected }}
+															color="#FFFFFF"
+															fill="#3CB43C"
+															size={24}
+														/>
+													)}
 												</ListItem>
 											</View>
 										);
@@ -179,7 +272,15 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 											</View>
 											<ListItem.Content>
 												<ListItem.Title style={stopSelectorStyles.listTitle}>
-													{stop ? <Text>{stop.long_name}</Text> : <Text>{waypoint.stop_id}</Text>}
+													{stop
+														? (
+															<Text accessibilityHint={t('stopSelectorStopSequenceAccessibilityHint', { number: waypoint.stop_sequence })} accessibilityLabel={t('stopSelectorStopSequenceAccessibilityHint', { number: waypoint.stop_sequence })} accessibilityLanguage={localeContext.locale} accessibilityRole="text">{stop.long_name}
+															</Text>
+														)
+														: (
+															<Text accessibilityHint={t('stopSelectorStopIDAccessibilityHint', { name: waypoint.stop_id })} accessibilityLabel={t('stopSelectorStopIDAccessibilityLabel', { name: waypoint.stop_id })} accessibilityLanguage={localeContext.locale} accessibilityRole="text">{waypoint.stop_id}
+															</Text>
+														)}
 												</ListItem.Title>
 												<ListItem.Subtitle>
 													{(() => {
@@ -187,8 +288,22 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 															const locality = stop.locality_id ? locationsContext.actions.getLocalityById(stop.locality_id) : undefined;
 															return (
 																<View style={stopSelectorStyles.stopInfo}>
-																	<Text style={stopSelectorStyles.cleanMute}> {locality ? locality.name : stop.locality_id}</Text>
-																	<Text style={stopSelectorStyles.cleanMute}> {stop.id} </Text>
+																	<Text
+																		accessibilityHint={t('stopSelectorStopLocalityAccessibilityHint', { name: locality?.name })}
+																		accessibilityLabel={t('stopSelectorStopLocalityAccessibilityLabel', { name: locality?.name })}
+																		accessibilityLanguage={localeContext.locale}
+																		accessibilityRole="text"
+																		style={stopSelectorStyles.cleanMute}
+																	> {locality ? locality.name : stop.locality_id}
+																	</Text>
+																	<Text
+																		accessibilityHint={t('stopSelectorStopIDAccessibilityHint', { name: waypoint.stop_id })}
+																		accessibilityLabel={t('stopSelectorStopIDAccessibilityLabel', { name: waypoint.stop_id })}
+																		accessibilityLanguage={localeContext.locale}
+																		accessibilityRole="text"
+																		style={stopSelectorStyles.cleanMute}
+																	> {stop.id}
+																	</Text>
 																</View>
 															);
 														}
@@ -196,7 +311,18 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 													})()}
 												</ListItem.Subtitle>
 											</ListItem.Content>
-											{isSelected && <IconCircleCheckFilled color="#FFFFFF" fill="#3CB43C" size={24} />}
+											{isSelected && (
+												<IconCircleCheckFilled
+													accessibilityHint={t('stopSelectorStopCheckedAccessibilityHint')}
+													accessibilityLabel={t('stopSelectorStopCheckedAccessibilityLabel')}
+													accessibilityLanguage={localeContext.locale}
+													accessibilityRole="checkbox"
+													accessibilityState={{ checked: isSelected }}
+													color="#FFFFFF"
+													fill="#3CB43C"
+													size={24}
+												/>
+											)}
 										</ListItem>
 									</View>
 								);
@@ -216,10 +342,23 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 										<IconArrowLoopRight color="#C61D23" size={24} />
 										<ListItem.Content>
 											<ListItem.Title style={stopSelectorStyles.listTitle}>
-												{stop ? <Text>{stop.long_name}</Text> : <Text>{waypoint.stop_id}</Text>}
+												{stop
+													? <Text accessibilityHint={t('stopSelectorStopSequenceAccessibilityHint', { number: waypoint.stop_sequence })} accessibilityLabel={t('stopSelectorStopSequenceAccessibilityHint', { number: waypoint.stop_sequence })} accessibilityLanguage={localeContext.locale} accessibilityRole="text">{stop.long_name}</Text>
+													: <Text accessibilityHint={t('stopSelectorStopIDAccessibilityHint', { name: waypoint.stop_id })} accessibilityLabel={t('stopSelectorStopIDAccessibilityLabel', { name: waypoint.stop_id })} accessibilityLanguage={localeContext.locale} accessibilityRole="text">{waypoint.stop_id}</Text>}
 											</ListItem.Title>
 										</ListItem.Content>
-										{isSelected && <IconCircleCheckFilled color="#FFFFFF" fill="#3CB43C" size={24} />}
+										{isSelected && (
+											<IconCircleCheckFilled
+												accessibilityHint={t('stopSelectorStopCheckedAccessibilityHint')}
+												accessibilityLabel={t('stopSelectorStopCheckedAccessibilityLabel')}
+												accessibilityLanguage={localeContext.locale}
+												accessibilityRole="checkbox"
+												accessibilityState={{ checked: isSelected }}
+												color="#FFFFFF"
+												fill="#3CB43C"
+												size={24}
+											/>
+										)}
 									</ListItem>
 								);
 							})}
@@ -227,7 +366,13 @@ export const AddSmartNotificationsStopSelector = ({ selectedStopId, selectedVers
 								<ListItem onPress={() => setShowMiddle(false)}>
 									<ListItem.Content>
 										<ListItem.Title style={stopSelectorStyles.showLess}>
-											<Text>{t('showLess')}</Text>
+											<Text
+												accessibilityHint={t('stopSelectorStopShowLessAccessibilityHint')}
+												accessibilityLabel={t('stopSelectorStopShowLessAccessibilityLabel')}
+												accessibilityLanguage={localeContext.locale}
+												accessibilityRole="button"
+											>{t('showLess')}
+											</Text>
 										</ListItem.Title>
 									</ListItem.Content>
 								</ListItem>

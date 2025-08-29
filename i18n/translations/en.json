@@ -111,7 +111,11 @@
   },
   "TestingNeedWarning": {
     "warningText": "Please test this functionality before utilizing it with full trust. It may be needed to adjust the necessary times to garantee that you'll reach the the desired stop.",
-    "warningTitle": "Warning"
+    "warningTitle": "Warning",
+    "TestingNeedWarningTextAccessibilityHint": "This is a warning ",
+    "TestingNeedWarningTextAccessibilityLabel": "Please test this functionality before using it with trust. It may be necessary to adjust the timming needed to garantee that it arrives to the place",
+    "warningTitleAccessibilityHint": "This is a warning title ",
+    "warningTitleAccessibilityLabel": "Attention"
   },
   "accordionToggle": {
     "accessibilityHint": "This button expands or collapses the selected widget",
@@ -171,11 +175,17 @@
       "thursday": "Thu",
       "tuesday": "Tue",
       "wednesday": "Wed",
-      "weekDaysTitle": "At the days of the week"
+      "weekDaysTitle": "At the days of the week",
+      "dayButtonAccessibilityHint": "Click this button to select or deselect the day {day}",
+      "dayButtonAccessibilityLabel": "Button to select the day {day}"
     },
     "IntervalInputs": {
       "endingTime": "To",
-      "startingTime": "From"
+      "startingTime": "From",
+      "endingTimePickerAccessibilityHint": "This element is the ending time selector ",
+      "endingTimePickerAccessibilityLabel": "Selector of end time",
+      "startingTimePickerAccessibilityHint": "This element is the selector of the starting hour ",
+      "startingTimePickerAccessibilityLabel": "Starting hour selector"
     },
     "StopSelector": {
       "functionalityNotAvailable": "This functionality is not available at the first stop of the route because it is not possible to predict the arrival at the first stop.",
@@ -183,7 +193,22 @@
       "showMore": "Show more",
       "stopSelectorTitle": "from the stop",
       "stops": "stops",
-      "title": "Select a line to see it's stops"
+      "title": "Select a line to see it's stops",
+      "stopSelectorStopIDAccessibilityHint": "This element is the text that indicates the stop id ",
+      "stopSelectorAccessibilityHint": "This section is to select a stop ",
+      "stopSelectorStopIDAccessibilityLabel": "Stop ID {id}",
+      "stopSelectorStopLocalityAccessibilityHint": "This element is a text that indicates the locality of the stop ",
+      "stopSelectorStopLocalityAccessibilityLabel": "Stop Locality is {locality}",
+      "stopSelectorStopNameAccessibilityHint": "This element is a text that indicates the name of the stop ",
+      "stopSelectorStopNameAccessibilityLabel": "Stop name is {name}",
+      "stopSelectorStopSequenceAccessibilityHint": "This id {number} represents the stop number of order",
+      "stopSelectorStopSequenceAccessibilityLabel": "Stop order number {number}",
+      "stopSelectorStopShowLessAccessibilityHint": "This button colapses the stop list ",
+      "stopSelectorStopShowLessAccessibilityLabel": "Colapse the stop listing",
+      "stopSelectorStopShowMoreAccessibilityHint": "This button expands the stop listing ",
+      "stopSelectorStopShowMoreAccessibilityLabel": "Expand the stop listing",
+      "stopSelectorTitleAccessibilityHint": "This element is a hedaer to select a stop",
+      "stopSelectorTitleAccessibilityLabel": "Section to select a stop"
     },
     "Toolbar": {
       "friday": "F",
@@ -211,7 +236,25 @@
     "thursday": "Thu",
     "tuesday": "Tue",
     "valuePlaceholder": "Value",
-    "wednesday": "Wed"
+    "wednesday": "Wed",
+    "chooseLineChangeLineAccessibilityHint": "Click this button to change the selected line",
+    "chooseLineChangeLineAccessibilityLabel": "Button to change selected line",
+    "chooseLineCheckedAccessibilityHint": "Indicates that the line {line} is selected",
+    "chooseLineCheckedAccessibilityLabel": "Line {line} is selected",
+    "chooseLineLongNameAccessibilityHint": "The name of the line is {line}",
+    "chooseLineLongNameAccessibilityLabel": "Line {line}",
+    "chooseLinePatternNameAccessibilityHint": "The Destiny that the line  is going to is {pattern}",
+    "chooseLinePatternNameAccessibilityLabel": "Destination {pattern}",
+    "chooseLinePeriodAccessibilityHint": "Indicates the period in which you pretend to receive notifications",
+    "chooseLinePeriodAccessibilityLabel": "Period to which you want to receive notifications",
+    "chooseLineRadiusAccessibilityHint": "Indicates the distance in meters to which you wish to receive notifications",
+    "chooseLineRadiusAccessibilityLabel": "Distance to which you whish to receive a notification",
+    "chooseLineRadiusValueAccessibilityHint": "The distance in meters to which you wish to receive a notification",
+    "chooseLineRadiusValueAccessibilityLabel": "{value} meters",
+    "chooseLineTitleAccessibilityHint": "Select a line to receive smart notifications",
+    "chooseLineTitleAccessibilityLabel": "Select a line  to receive smart notifications",
+    "chooseLineUncheckedAccessibilityHint": "Indicates that line {line} is not selected",
+    "chooseLineUncheckedAccessibilityLabel": "Line {line} not selected"
   },
   "alerts": {
     "AlertActivePeriod": {
@@ -261,7 +304,9 @@
       "placeholder": "Select Route / Destiny..."
     },
     "StopSearchBar": {
-      "placeholder": "Search..."
+      "placeholder": "Search...",
+      "stopSearchBarAcessibilityHint": "This element is a searchbar for stops ",
+      "stopSearchBarAcessibilityLabel": "Stops SearchBar"
     },
     "TimetableSchedules": {
       "hours": "Time",
@@ -333,7 +378,9 @@
   "layout": {
     "BackButton": "Back",
     "NoDataLabel": {
-      "default": "No data available"
+      "default": "No data available",
+      "noDataAccessibilityHint": "Indicates that there isn't any data available",
+      "noDataAccessibilityLabel": "No data available"
     },
     "TabStack": {
       "Home": "Home",
@@ -624,7 +671,15 @@
       "title_accessibility_hint": "This component represents the next arrivals for this stop",
       "title_accessibility_label": "Next arrivals for this stop"
     },
-    "noDataFound": "No data found for this stop"
+    "noDataFound": "No data found for this stop",
+    "StopDisplay": {
+      "stopDisplayLocalityAccessibilityHint": "This element represents the locality of a stop",
+      "stopDisplayLocalityAccessibilityLabel": "This stop is located in the locality of {localityName}",
+      "stopDisplayMunicipalityAccessibilityHint": "This element represents the stop's municipality",
+      "stopDisplayMunicipalityAccessibilityLabel": "The stop {stopName} is located in the municipality of {municipalityName}",
+      "stopDisplayNameAccessibilityHint": "This element represents the name of the stop",
+      "stopDisplayNameAccessibilityLabel": "Stop name  {stopName}"
+    }
   },
   "userdetails": {
     "editProfileButtonTitle": "Edit Profile",

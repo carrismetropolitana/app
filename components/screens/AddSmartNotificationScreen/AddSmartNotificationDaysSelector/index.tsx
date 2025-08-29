@@ -25,6 +25,16 @@ export const AddSmartNotificationDaysSelector = ({ selectedIndex, setSelectedInd
 	const { t } = useTranslation('translation', { keyPrefix: 'addsmartnotifications.DaysSelector' });
 	const daysSelectortyles = styles();
 
+	const days = [
+		{ key: 'monday', label: t('monday') },
+		{ key: 'tuesday', label: t('tuesday') },
+		{ key: 'wednesday', label: t('wednesday') },
+		{ key: 'thursday', label: t('thursday') },
+		{ key: 'friday', label: t('friday') },
+		{ key: 'saturday', label: t('saturday') },
+		{ key: 'sunday', label: t('sunday') },
+	];
+
 	//
 	// B. Render Components
 
@@ -37,16 +47,18 @@ export const AddSmartNotificationDaysSelector = ({ selectedIndex, setSelectedInd
 				onPress={setSelectedIndex}
 				selectedButtonStyle={{ backgroundColor: theming.colorPrimaryBlack }}
 				selectedIndexes={selectedIndex}
-				selectedTextStyle={{ color: theming.colorPrimaryWhite }}
-				buttons={[
-					t('monday'),
-					t('tuesday'),
-					t('wednesday'),
-					t('thursday'),
-					t('friday'),
-					t('saturday'),
-					t('sunday'),
-				]}
+				buttons={days.map((day, idx) => ({
+					element: () => (
+						<Text
+							accessibilityHint={t('dayButtonAccessibilityHint', { day: day.label })}
+							accessibilityLabel={t('dayButtonAccessibilityLabel', { day: day.label })}
+							accessibilityRole="button"
+							style={selectedIndex.includes(idx) ? { color: theming.colorPrimaryWhite } : [{ color: theming.colorPrimaryBlack }]}
+						>
+							{day.label}
+						</Text>
+					),
+				}))}
 				selectMultiple
 			/>
 		</View>

@@ -109,7 +109,6 @@ export function VehiclesDetailPathList() {
 								isFirstStop={isFirstStop}
 								isLastStop={false}
 								isNextStop={isNextStop}
-								isVehiclePage={true}
 								selectionEnabled={false}
 								trackProgress={true}
 								waypointData={waypoint}
@@ -136,7 +135,6 @@ export function VehiclesDetailPathList() {
 								isFirstStop={isFirstStop}
 								isLastStop={false}
 								isNextStop={isNextStop}
-								isVehiclePage={true}
 								selectionEnabled={false}
 								trackProgress={true}
 								waypointData={waypoint}
@@ -161,7 +159,6 @@ export function VehiclesDetailPathList() {
 								isFirstStop={isFirstStop}
 								isLastStop={false}
 								isNextStop={isNextStop}
-								isVehiclePage={true}
 								selectionEnabled={false}
 								trackProgress={true}
 								waypointData={waypoint}
@@ -189,7 +186,6 @@ export function VehiclesDetailPathList() {
 						isFirstStop={isFirstStop}
 						isLastStop={false}
 						isNextStop={isNextStop}
-						isVehiclePage={true}
 						selectionEnabled={false}
 						trackProgress={true}
 						waypointData={waypoint}
@@ -211,7 +207,6 @@ export function VehiclesDetailPathList() {
 						isInfoSelected={isInfoSelected}
 						isLastStop={isLastStop}
 						isNextStop={isNextStop}
-						isVehiclePage={true}
 						selectionEnabled={true}
 						trackProgress={true}
 						waypointData={waypoint}
