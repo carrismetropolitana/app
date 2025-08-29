@@ -1,7 +1,10 @@
 /* * */
 
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { useLocationsContext } from '@/contexts/Locations.context';
+import { useStopsContext } from '@/contexts/Stops.context';
 import { Text } from '@rn-vui/themed';
+import { useTranslation } from 'react-i18next';
 
 import { styles } from './styles';
 
@@ -9,22 +12,23 @@ import { styles } from './styles';
 
 interface Props {
 	localityId?: string
+	longName?: string
 	municipalityId?: string
 	size?: 'lg' | 'md'
 }
 
 /* * */
 
-export function StopDisplayLocation({ localityId, municipalityId, size = 'md' }: Props) {
+export function StopDisplayLocation({ localityId, longName, municipalityId, size = 'md' }: Props) {
 	//
 
 	//
 	// A. Setup variables
-	const StopDisplayLocationStyles = [
-		size === 'lg' ? styles.lg : styles.md,
-	];
 
+	const StopDisplayLocationStyles = [size === 'lg' ? styles.lg : styles.md];
 	const locationsContext = useLocationsContext();
+	const localeContext = useLocaleContext();
+	const { t } = useTranslation('translation', { keyPrefix: 'stop.StopDisplay' });
 
 	//
 	// B. Fetch data
@@ -37,7 +41,13 @@ export function StopDisplayLocation({ localityId, municipalityId, size = 'md' }:
 
 	if (localityData) {
 		return (
-			<Text style={[styles.default, StopDisplayLocationStyles]}>
+			<Text
+				accessibilityHint={t('stopDisplayLocalityAccessibilityHint')}
+				accessibilityLabel={t('stopDisplayLocalityAccessibilityLabel', { stopName: longName || localityData.display })}
+				accessibilityLanguage={localeContext.locale}
+				accessibilityRole="search"
+				style={[styles.default, StopDisplayLocationStyles]}
+			>
 				{localityData.display}
 			</Text>
 		);
@@ -45,7 +55,13 @@ export function StopDisplayLocation({ localityId, municipalityId, size = 'md' }:
 
 	if (municipalityData) {
 		return (
-			<Text style={[styles.default, StopDisplayLocationStyles]}>
+			<Text
+				accessibilityHint={t('stopDisplayMunicipalityAccessibilityHint')}
+				accessibilityLabel={t('stopDisplayMunicipalityAccessibilityLabel', { stopName: longName || municipalityData.name })}
+				accessibilityLanguage={localeContext.locale}
+				accessibilityRole="search"
+				style={[styles.default, StopDisplayLocationStyles]}
+			>
 				{municipalityData.name}
 			</Text>
 		);

@@ -1,5 +1,6 @@
 /* * */
 
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { useWidgetContext } from '@/contexts/Widget.context';
 import { AccountWidget } from '@/types/account.types';
 import { Button } from '@rn-vui/themed';
@@ -26,6 +27,7 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onCle
 	// A. Setup Variables
 
 	const widgetContext = useWidgetContext();
+	const localeContext = useLocaleContext();
 	const widgetActionButtonsStyles = styles();
 
 	const { t } = useTranslation('translation', { keyPrefix: 'common' });
@@ -85,6 +87,7 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onCle
 			<Button
 				accessibilityHint={t('saveButtonAccessibilityHint')}
 				accessibilityLabel={t('saveButtonAccessibilityLabel')}
+				accessibilityLanguage={localeContext.locale}
 				accessibilityRole="button"
 				buttonStyle={widgetActionButtonsStyles.saveButton}
 				disabled={length === 0}
@@ -95,6 +98,7 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onCle
 			<Button
 				accessibilityHint={t('cancelButtonAccessibilityHint')}
 				accessibilityLabel={t('cancelButtonAccessibilityLabel')}
+				accessibilityLanguage={localeContext.locale}
 				accessibilityRole="button"
 				buttonStyle={widgetActionButtonsStyles.saveButton}
 				onPress={() => handleCancel()}

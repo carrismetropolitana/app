@@ -5,6 +5,7 @@ import { VirtualizedListingLines } from '@/components/common/VitualizedListLines
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useLinesListContext } from '@/contexts/LinesList.context';
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Line } from '@carrismetropolitana/api-types/network';
@@ -35,6 +36,7 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 	const linesDetailContext = useLinesDetailContext();
 	const linesContext = useLinesContext();
 	const linesListContext = useLinesListContext();
+	const localeContext = useLocaleContext();
 	const themeContext = useThemeContext();
 	const allLines = linesListContext.data.filtered;
 	const allMunicipalities = linesContext.data.municipalities;
@@ -83,6 +85,7 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 				<View
 					accessibilityHint={t('linelistChooserAccessibilityHint')}
 					accessibilityLabel={t('linelistChooserAccessibilityLabel')}
+					accessibilityLanguage={localeContext.locale}
 					accessibilityRole="text"
 					style={styles.container}
 				>

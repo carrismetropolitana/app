@@ -1,6 +1,7 @@
 /* * */
 
 import { Surface } from '@/components/common/layout/Surface';
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { theming } from '@/theme/Variables';
 import { IconBusOff } from '@tabler/icons-react-native';
 import { useTranslation } from 'react-i18next';
@@ -25,6 +26,7 @@ export function NoDataLabel({ text }: NoDataLabelProps) {
 
 	const { t } = useTranslation('translation', { keyPrefix: 'layout.NoDataLabel' });
 	const noDataLabelStyles = styles();
+	const localeContext = useLocaleContext();
 
 	//
 	// B. Render Components
@@ -35,7 +37,7 @@ export function NoDataLabel({ text }: NoDataLabelProps) {
 				<View style={noDataLabelStyles.headerEmoji}>
 					<IconBusOff color={theming.colorBrand} size={30} />
 				</View>
-				<Text style={noDataLabelStyles.text}>{text || t('default')}</Text>
+				<Text accessibilityHint={t('noDataAccessibilityHint')} accessibilityLabel={t('noDataAccessibilityLabel')} accessibilityLanguage={localeContext.locale} style={noDataLabelStyles.text}>{text || t('default')}</Text>
 			</View>
 		</Surface>
 	);

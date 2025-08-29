@@ -34,7 +34,7 @@ export function StopDisplay({ size = 'md', skeletonWidth = 200, stopData }: Prop
 		? (
 			<View style={[stopDisplayStyle.container, size === 'lg' ? stopDisplayStyle.lg : stopDisplayStyle.md]}>
 				<StopDisplayName longName={stopData.long_name} />
-				<StopDisplayLocation localityId={stopData.locality_id} municipalityId={stopData.municipality_id} />
+				<StopDisplayLocation localityId={stopData.locality_id} longName={stopData.long_name} municipalityId={stopData.municipality_id} />
 			</View>
 		)
 		: (

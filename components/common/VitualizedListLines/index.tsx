@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { MemoizedLineItem } from '@/components/common/LineItem';
+import { useLocaleContext } from '@/contexts/Locale.context';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, VirtualizedList } from 'react-native';
@@ -15,9 +16,22 @@ interface Props {
 }
 
 export function VirtualizedListingLines({ data, icon, itemClick, items = 10, municipality, size = 'lg' }: Props) {
+	//
+
+	//
+	// A. Setup Variables
+
+	const localeContext = useLocaleContext();
 	const getItem = useCallback((d: any[], i: number) => d[i], []);
 	const getItemCount = useCallback((d: any[]) => d.length, []);
 	const { t } = useTranslation('translation', { keyPrefix: 'virtualizedListingLines' });
+	const styles = StyleSheet.create({
+		list: {
+			flex: 1,
+		},
+	});
+
+	// B. Render Components
 
 	const renderItem = useCallback(({ item }) => (
 		<MemoizedLineItem
@@ -41,6 +55,7 @@ export function VirtualizedListingLines({ data, icon, itemClick, items = 10, mun
 		<VirtualizedList
 			accessibilityHint={t('virtualizedListAccessibilityHint')}
 			accessibilityLabel={t('virtualizedListAccessibilityLabel')}
+			accessibilityLanguage={localeContext.locale}
 			accessibilityRole="text"
 			data={data}
 			getItem={getItem}
@@ -59,12 +74,8 @@ export function VirtualizedListingLines({ data, icon, itemClick, items = 10, mun
 			scrollEnabled
 		/>
 	);
-}
 
-const styles = StyleSheet.create({
-	list: {
-		flex: 1,
-	},
-});
+	//
+}
 
 export const MemoizedListingLines = React.memo(VirtualizedListingLines);

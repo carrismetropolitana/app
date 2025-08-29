@@ -2,6 +2,7 @@
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { StopDisplay } from '@/components/stops/StopDisplay';
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { ListItem } from '@rn-vui/themed';
 import { Link } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -23,6 +24,7 @@ export function VirtualizedListingStops({ data, icon, itemClick, items, size }: 
 	// A. Fetch data
 
 	const getItem = (data: [], index: number) => data[index];
+	const localeContext = useLocaleContext();
 	const { t } = useTranslation('translation', { keyPrefix: 'virtualizedListingLines' });
 
 	//
@@ -55,6 +57,7 @@ export function VirtualizedListingStops({ data, icon, itemClick, items, size }: 
 		<VirtualizedList
 			accessibilityHint={t('virtualizedListAccessibilityHint')}
 			accessibilityLabel={t('virtualizedListAccessibilityLabel')}
+			accessibilityLanguage={localeContext.locale}
 			accessibilityRole="text"
 			data={data}
 			getItem={getItem}

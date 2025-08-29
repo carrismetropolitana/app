@@ -210,6 +210,7 @@ export default function AddFavoriteStopScreen() {
 													<IconCircleCheckFilled
 														accessibilityHint={t('iconCheckedPatternAccessibilityHint')}
 														accessibilityLabel={t('iconCheckedPatternAccessibilityLabel')}
+														accessibilityLanguage={localeContext.locale}
 														accessibilityRole="checkbox"
 														accessibilityState={{ checked: isSelected }}
 														fill="#3CB43C"
@@ -225,6 +226,7 @@ export default function AddFavoriteStopScreen() {
 													<IconCircle
 														accessibilityHint={t('iconUncheckedPatternAccessibilityHint')}
 														accessibilityLabel={t('iconUncheckedPatternAccessibilityLabel')}
+														accessibilityLanguage={localeContext.locale}
 														accessibilityRole="checkbox"
 														accessibilityState={{ checked: false }}
 														color="grey"
@@ -244,6 +246,7 @@ export default function AddFavoriteStopScreen() {
 										<Text
 											accessibilityHint={t('selectStopAccessibilityHint')}
 											accessibilityLabel={t('selectStopAccessibilityLabel')}
+											accessibilityLanguage={localeContext.locale}
 											accessibilityRole="text"
 										>{t('selectStopLabel')}
 										</Text>

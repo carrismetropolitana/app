@@ -1,5 +1,6 @@
 /* * */
 
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { useStopsListContext } from '@/contexts/StopsList.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
@@ -25,6 +26,7 @@ export default function StopSearchBar({ counter = true, disabled = false, onPres
 	const { t } = useTranslation('translation', { keyPrefix: 'common.StopSearchBar' });
 	const stopsListContext = useStopsListContext();
 	const themeContext = useThemeContext();
+	const localeContext = useLocaleContext();
 	const [stopSearch, setStopSearch] = useState<string>('');
 	const fontColor = themeContext.theme.mode === 'light' ? theming.colorSystemText400 : theming.colorSystemText200;
 	const filteredStops = stopsListContext.data.filtered;
@@ -33,6 +35,10 @@ export default function StopSearchBar({ counter = true, disabled = false, onPres
 
 		<View style={{ padding: 20 }}>
 			<Input
+				accessibilityHint={t('stopSearchBarAcessibilityHint')}
+				accessibilityLabel={t('stopSearchBarAcessibilityLabel')}
+				accessibilityLanguage={localeContext.locale}
+				accessibilityRole="search"
 				clearButtonMode="always"
 				containerStyle={{ borderRadius: 30 }}
 				disabled={disabled}

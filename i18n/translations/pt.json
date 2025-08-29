@@ -261,7 +261,9 @@
 			"placeholder": "Selecionar Percurso / Destino..."
 		},
 		"StopSearchBar": {
-			"placeholder": "Pesquisar..."
+			"placeholder": "Pesquisar...",
+			"stopSearchBarAcessibilityHint": "Este elemento é uma barra de pesquisa de paragens",
+			"stopSearchBarAcessibilityLabel": "Barra de pesquisa de paragens"
 		},
 		"TimetableSchedules": {
 			"hours": "Hora",
@@ -333,7 +335,9 @@
 	"layout": {
 		"BackButton": "Voltar",
 		"NoDataLabel": {
-			"default": "Sem dados disponíveis"
+			"default": "Sem dados disponíveis",
+			"noDataAccessibilityHint": "Indica que não existem dados disponíveis",
+			"noDataAccessibilityLabel": "Sem dados disponíveis"
 		},
 		"TabStack": {
 			"Home": "ínicio",
@@ -623,6 +627,14 @@
 			"third_heading": "Caracterização",
 			"title_accessibility_hint": "Este elemento representa as próximas passagens para esta paragem",
 			"title_accessibility_label": "Próximas passagens para esta paragem"
+		},
+		"StopDisplay": {
+			"stopDisplayLocalityAccessibilityHint": "Este elemento representa a localidade da paragem",
+			"stopDisplayLocalityAccessibilityLabel": "Esta paragem está localizada na localidade {localityName}",
+			"stopDisplayMunicipalityAccessibilityHint": "Este elemento representa o município da paragem",
+			"stopDisplayMunicipalityAccessibilityLabel": "A paragem {stopName} está localizada no município {municipalityName}",
+			"stopDisplayNameAccessibilityHint": "Este elemento representa o nome da paragem",
+			"stopDisplayNameAccessibilityLabel": "Nome da paragem {stopName}"
 		},
 		"noDataFound": "Nenhum dado encontrado para esta paragem"
 	},
