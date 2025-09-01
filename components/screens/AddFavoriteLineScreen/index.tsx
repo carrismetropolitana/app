@@ -18,9 +18,9 @@ import { Pattern } from '@carrismetropolitana/api-types/network';
 import { ListItem, Text } from '@rn-vui/themed';
 import { IconArrowLoopRight, IconArrowRight, IconCircle, IconCircleCheckFilled, IconSearch, IconX } from '@tabler/icons-react-native';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Dimensions, View } from 'react-native';
+import { Dimensions, Platform, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import styles from './styles';
@@ -38,7 +38,7 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 	//
 	// A. Setup Variables
 
-	const screenHeight = Dimensions.get('window').height;
+	const screenHeight = Dimensions.get('screen').height;
 	const [lineChooserVisibility, setLineChooserVisibility] = useState(false);
 	const [patternNames, setPatternNames] = useState<Record<string, string>>({});
 	const [selectedPatterns, setSelectedPatterns] = useState<string[]>([]);
@@ -145,9 +145,15 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 	//
 	// D. Render Components
 
+	const WrapperComponent = Platform.OS === 'ios' ? View : React.Fragment;
+	const wrapperProps = Platform.OS === 'ios' ? { style: { height: screenHeight - 100 } } : {};
+
 	return (
-		<View style={{ height: screenHeight - 100 }}>
-			<ScrollView showsVerticalScrollIndicator={false} style={addFavoriteLineStyles.container}>
+		<WrapperComponent {...wrapperProps}>
+			<ScrollView
+				showsVerticalScrollIndicator={false}
+				style={addFavoriteLineStyles.container}
+			>
 				<HeaderExplainer heading={t('title')} subheading={t('subheading')} />
 				<View style={addFavoriteLineStyles.sectionContainer}>
 					<Section heading={t('firstSectionTitle')} subheading={t('firstSectionSubtitle')} />
@@ -272,7 +278,7 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 				/>
 			</ScrollView>
 			<TabBarOnly />
-		</View>
+		</WrapperComponent>
 	);
 
 	//
