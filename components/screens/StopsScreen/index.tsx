@@ -112,7 +112,7 @@ export default function StopsScreen() {
 
 			const fetchShapes = async () => {
 				if (!stopData.pattern_ids) return;
-				const selected_date = operationalDayContext.data.selected_day;
+				const selected_date = operationalDayContext.data.selected_date;
 				if (!selected_date) return;
 
 				// const uniquePatternIds = [...new Set(stopData.pattern_ids)];
@@ -169,7 +169,7 @@ export default function StopsScreen() {
 
 			fetchShapes();
 		}
-	}, [selectedStop, operationalDayContext.data.selected_day]);
+	}, [selectedStop, operationalDayContext.data.selected_date]);
 
 	//
 	// C. Handle Actions

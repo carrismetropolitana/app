@@ -41,7 +41,6 @@ export default function Page() {
 	return (
 		<StopsDetailContextProvider stopId={stop_id}>
 			<StopDetail />
-			<TabBarOnly />
 		</StopsDetailContextProvider>
 	);
 
