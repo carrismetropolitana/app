@@ -26,7 +26,7 @@ export default function HomeScreen() {
 	const insets = useSafeAreaInsets();
 	const [hasFavorites, setHasFavorites] = useState<boolean | undefined>(undefined);
 	const backgroundColor = themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background;
-	const buttonBackgroundColor = themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.primary : themeContext.theme.darkColors?.primary;
+	const buttonBackgroundColor = themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundDark100 : theming.colorSystemBackgroundDark100;
 	const titleColor = themeContext.theme.mode === 'light' ? theming.colorSystemText900 : theming.colorSystemText300;
 	const { t } = useTranslation('translation', { keyPrefix: 'common' });
 

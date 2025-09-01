@@ -170,7 +170,7 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 							<IconSearch color="#9696A0" size={24} />
 							<ListItem.Content>
 								<ListItem.Title style={addFavoriteLineStyles.listTitle}>
-									<Text accessibilityHint={t('changeLineAccessibilityHint')} accessibilityLabel={t('changeLineAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="button">{t('LineAccessibility')}</Text>
+									<Text accessibilityHint={t('changeLineAccessibilityHint')} accessibilityLabel={t('changeLineAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="button">{t('changeLineLabel')}</Text>
 								</ListItem.Title>
 							</ListItem.Content>
 							<ListItem.Chevron iconStyle={{ fontSize: 24 }} />

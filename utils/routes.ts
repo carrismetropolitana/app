@@ -4,7 +4,7 @@ const production = false;
 const getAccountsUrl = () => {
 	if (production) return 'https://accounts.carrismetropolitana.pt/accounts';
 	if (staging) return 'https://staging.accounts.carrismetropolitana.pt/accounts';
-	return 'http://10.128.1.240:5050/accounts';
+	return 'http://192.168.1.101:5050/accounts';
 };
 
 export const Routes = Object.freeze({
