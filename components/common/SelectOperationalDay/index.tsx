@@ -32,14 +32,41 @@ export function SelectOperationalDay() {
 	const selectStyles = styles();
 
 	const buttons = [
-		{ element: () => <Text style={selectedIndex === 0 ? selectStyles.textSelected : selectStyles.text}>{t('today')}</Text> },
-		{ element: () => <Text style={selectedIndex === 1 ? selectStyles.textSelected : selectStyles.text}>{t('tomorrow')}</Text> },
+		{ element: () => (
+			<Text
+				accessibilityHint={t('todayAccessibilityHint')}
+				accessibilityLabel={t('todayAccessibilityLabel')}
+				accessibilityLanguage={localeContext.locale}
+				accessibilityRole="button"
+				accessibilityState={{ selected: selectedIndex === 0 }}
+				style={selectedIndex === 0 ? selectStyles.textSelected : selectStyles.text}
+			>{t('today')}
+			</Text>
+		) },
+		{ element: () => (
+			<Text
+				accessibilityHint={t('tomorrowAccessibilityHint')}
+				accessibilityLabel={t('tomorrowAccessibilityLabel')}
+				accessibilityLanguage={localeContext.locale}
+				accessibilityRole="button"
+				accessibilityState={{ selected: selectedIndex === 1 }}
+				style={selectedIndex === 1 ? selectStyles.textSelected : selectStyles.text}
+			>{t('tomorrow')}
+			</Text>
+		) },
 		{ element: () => (
 			<View style={{ alignItems: 'center', flexDirection: 'row' }}>
 				<IconCalendar size={16} />
-				<Text style={selectedIndex === 2 ? selectStyles.textSelected : selectStyles.text}>
-					{operationalDayContext.data.selected_day_jsdate
-						? DateTime.fromJSDate(operationalDayContext.data.selected_day_jsdate).setLocale(localeContext.locale).toLocaleString(DateTime.DATE_MED).replaceAll('de', '').replaceAll('.', '').toLocaleUpperCase()
+				<Text
+					accessibilityHint={t('customDayAccessibilityHint')}
+					accessibilityLabel={t('customDayAccessibilityLabel')}
+					accessibilityLanguage={localeContext.locale}
+					accessibilityRole="button"
+					accessibilityState={{ selected: selectedIndex === 2 }}
+					style={selectedIndex === 2 ? selectStyles.textSelected : selectStyles.text}
+				>
+					{operationalDayContext.data.selected_date?.js_date
+						? DateTime.fromJSDate(operationalDayContext.data.selected_date.js_date).setLocale(localeContext.locale).toLocaleString(DateTime.DATE_MED).replaceAll('de', '').replaceAll('.', '').toLocaleUpperCase()
 						: DateTime.now().setLocale(localeContext.locale).toLocaleString(DateTime.DATE_MED)}
 				</Text>
 			</View>
@@ -52,10 +79,10 @@ export function SelectOperationalDay() {
 
 	useEffect(() => {
 		if (selectedIndex === 0) {
-			operationalDayContext.actions.updateSelectedDayToToday();
+			operationalDayContext.actions.updateSelectedDateToToday();
 		}
 		else if (selectedIndex === 1) {
-			operationalDayContext.actions.updateSelectedDayToTomorrow();
+			operationalDayContext.actions.updateSelectedDateToTomorrow();
 		}
 	}, [
 		selectedIndex,
@@ -72,7 +99,7 @@ export function SelectOperationalDay() {
 	const handleConfirm = (picked: Date) => {
 		setShowPicker(false);
 		setSelectedIndex(2);
-		operationalDayContext.actions.updateSelectedDayFromJsDate(picked);
+		operationalDayContext.actions.updateSelectedDateFromJsDate(picked);
 	};
 	const handleCancel = () => setShowPicker(false);
 
@@ -89,7 +116,12 @@ export function SelectOperationalDay() {
 				selectedIndex={selectedIndex}
 			/>
 			<DateTimePickerModal
-				date={operationalDayContext.data.selected_day_jsdate ?? undefined}
+				accessibilityHint={t('datePickerAccessibilityHint')}
+				accessibilityLabel={t('datePickerAccessibilityLabel', { date: operationalDayContext.data.selected_date })}
+				accessibilityLanguage={localeContext.locale}
+				accessibilityRole="button"
+				accessibilityState={{ expanded: showPicker }}
+				date={operationalDayContext.data.selected_date?.js_date ?? undefined}
 				isVisible={showPicker}
 				locale={localeContext.locale}
 				mode="date"

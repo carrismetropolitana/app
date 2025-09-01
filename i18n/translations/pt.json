@@ -294,10 +294,21 @@
 			"meters": "Metros"
 		},
 		"SelectOperationalDay": {
+			"customDayAccessibilityHint": "Este botão permite selecionar um dia a sua escolha ",
+			"customDayAccessibilityLabel": "Botão para selecionar um dia a sua escolha, atualmente selecionado {date}",
+			"datePickerAccessibilityHint": "Este elemento é um seletor de data",
+			"datePickerAccessibilityLabel": "Seletor de data",
 			"today": "Hoje",
-			"tomorrow": "Amanhã"
+			"todayAccessibilityHint": "Este botão seleciona o dia de hoje",
+			"todayAccessibilityLabel": "Botão para selecionar o dia de hoje",
+			"tomorrow": "Amanhã",
+			"tomorrowAccessibilityHint": "Este botão seleciona o dia de amanhã",
+			"tomorrowAccessibilityLabel": "Botão para selecionar o dia de amanhã"
+
 		},
 		"SelectPattern": {
+			"dropdownAccessibilityHint": "Este elemento é um menu dropdown para selecionar um percurso ou destino",
+			"dropdownAccessibilityLabel": "Destino {pattern} selecionado",
 			"invalid_option": "Percurso inválido: {pattern_id}",
 			"label": "Percurso / Destino",
 			"option_label": "Início do percurso: {locality}",
@@ -316,6 +327,12 @@
 		"cancelButtonAccessibilityLabel": "Botão para cancelar alterações",
 		"closeButton": "Fechar",
 		"enable_notifications": "Ativar Notificações",
+		"favoriteToggle": {
+			"filledAccessibilityHint": "Remover dos favoritos esta",
+			"filledAccessibilityLabel": "Remover dos favoritos esta",
+			"unfilledAccessibilityHint": "Adicionar aos favoritos esta",
+			"unfilledAccessibilityLabel": "Adicionar aos favoritos esta"
+		},
 		"goToProfileButtonAccessibilityHint": "Este botão leva-o para a página de personalização de perfil",
 		"goToProfileButtonAccessibilityLabel": "Botão para redirecionar para a página de personalização de perfil",
 		"headerExplainer": {
@@ -408,6 +425,18 @@
 		},
 		"LinesDetail": {
 			"heading": "Pesquisar Linhas",
+			"lineDetailsHeader": {
+				"add": "Adicionar",
+				"lineDetailsFavToggleAccessibilityHint": "Este botão permite criar um widget para a linha {line}",
+				"lineDetailsFavToggleAccessibilityLabel": "Criar um widget para a linha {line}",
+				"lineDetailsHeaderAccessibilityHint": "Este elemento representa o cabeçalho dos detalhes da linha",
+				"lineDetailsHeaderAccessibilityLabel": "Cabeçalho dos detalhes da linha",
+				"lineDetailsTitleAccessibilityHint": "Cabeçalho dos detalhes da linha {line} com destino a {destination}",
+				"lineDetailsTitleAccessibilityLabel": "Linha {line} com destino a {destination}",
+				"remove": "Remover",
+				"ttsAccessibilityHint": "Este botão lê em voz alta o nome da linha",
+				"ttsAccessibilityLabel": "Ler em voz alta o nome da linha"
+			},
 			"toggle_favorite_error": "Erro ao adicionar a linha aos favoritos. {error}"
 		},
 		"LinesDetailAlerts": {
@@ -481,6 +510,13 @@
 			"recentLines": "Linhas Recentes"
 		},
 		"PathStopNextArrivals": {
+			"arriving": "A chegar",
+			"nextArrivalsRealtimeAccessibilityHint": "Próxima passagem em tempo real",
+			"nextArrivalsRealtimeAccessibilityLabel": "Esta passagem passa em {time} minutos",
+			"nextArrivalsScheduledAccessibilityHint": "Esta passagem está agendada para as {hours} horas e {minutes} minutos",
+			"nextArrivalsScheduledAccessibilityLabel": "Próxima passagem para {headsign} às {hours} horas e {minutes} minutos",
+			"nextArrivalsTitleAccessibilityHint": "Este elemento é um texto que indica as próximas circulações",
+			"nextArrivalsTitleAccessibilityLabel": "Próximas circulações",
 			"title": "Próximas circulações"
 		},
 		"PathStopTimetable": {
@@ -489,6 +525,8 @@
 			"title": "Horários planeados nesta paragem:"
 		},
 		"PathWaypointTimetable": {
+			"noDataAccessibilityHint": "Indica que não existem horários disponíveis para esta paragem",
+			"noDataAccessibilityLabel": "Nenhum horário disponível para esta paragem",
 			"title": "Horários planeados nesta paragem: "
 		},
 		"SelectActivePatternGroup": {

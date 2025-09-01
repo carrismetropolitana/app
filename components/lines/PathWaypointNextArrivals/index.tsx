@@ -1,6 +1,7 @@
 /* * */
 
 import { LiveIcon } from '@/components/common/LiveIcon';
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { IconClockHour9 } from '@tabler/icons-react-native';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
@@ -17,12 +18,37 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 	// A. Setup variables
 
 	const { t } = useTranslation('translation', { keyPrefix: 'lines.PathStopNextArrivals' });
+	const localeContext = useLocaleContext();
 
 	const now = Date.now();
 	const pathWaypointNextArrivalsStyles = styles();
 
 	//
-	// D. Render components
+	// B. Transform data
+
+	/* * */
+
+	const formatDelta = (ms: number) => {
+		let toReturn = '';
+		const seconds = Math.floor(ms / 1000);
+		const minutes = Math.floor(seconds / 60);
+		const hours = Math.floor(minutes / 60);
+
+		if (minutes <= 0) {
+			return t('arriving');
+		}
+
+		if (hours > 0) {
+			toReturn += `${hours} hora${hours > 1 ? 's' : ''} `;
+		}
+		if (minutes > 0) {
+			toReturn += `${minutes % 60} min`;
+		}
+		return toReturn;
+	};
+
+	//
+	// C. Render components
 
 	if (realtimeArrivals.length === 0 && scheduledArrivals.length === 0) {
 		return null;
@@ -30,7 +56,15 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 
 	return (
 		<View style={pathWaypointNextArrivalsStyles.container}>
-			<Text style={pathWaypointNextArrivalsStyles.title}>{t('title')}</Text>
+			<Text
+				accessibilityHint={t('nextArrivalsTitleAccessibilityHint')}
+				accessibilityLabel={t('nextArrivalsTitleAccessibilityLabel')}
+				accessibilityLanguage={localeContext.locale}
+				accessibilityRole="header"
+				style={pathWaypointNextArrivalsStyles.title}
+			>
+				{t('title')}
+			</Text>
 			<View style={pathWaypointNextArrivalsStyles.arrivalsWrapper}>
 				{realtimeArrivals.length > 0 && (
 					<View style={pathWaypointNextArrivalsStyles.realtimeArrivalsWrapper}>
@@ -38,7 +72,15 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 						<View style={pathWaypointNextArrivalsStyles.realtimeArrivalsList}>
 							{realtimeArrivals.map(realtimeArrival => realtimeArrival != undefined && (
 								<View key={realtimeArrival.unixTs}>
-									<Text style={pathWaypointNextArrivalsStyles.realtimeArrival}>{formatDelta(realtimeArrival.unixTs - now)}</Text>
+									<Text
+										accessibilityHint={t('nextArrivalsRealtimeAccessibilityHint')}
+										accessibilityLabel={t('nextArrivalsRealtimeAccessibilityLabel', formatDelta(realtimeArrival.unixTs - now))}
+										accessibilityLanguage={localeContext.locale}
+										accessibilityRole="text"
+										style={pathWaypointNextArrivalsStyles.realtimeArrival}
+									>
+										{formatDelta(realtimeArrival.unixTs - now)}
+									</Text>
 								</View>
 							))}
 						</View>
@@ -51,7 +93,15 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 						<View style={pathWaypointNextArrivalsStyles.scheduledArrivalsList}>
 							{scheduledArrivals.slice(0, realtimeArrivals.length > 0 ? 3 : 4).map(scheduledArrival => scheduledArrival != undefined && (
 								<View key={scheduledArrival.unixTs}>
-									<Text style={pathWaypointNextArrivalsStyles.scheduledArrival}>{dayjs(scheduledArrival.unixTs).format('HH:mm')}</Text>
+									<Text
+										accessibilityHint={t('nextArrivalsRealtimeAccessibilityHint')}
+										accessibilityLabel={t('nextArrivalsRealtimeAccessibilityLabel', dayjs(scheduledArrival.unixTs).format('HH:mm'))}
+										accessibilityLanguage={localeContext.locale}
+										accessibilityRole="text"
+										style={pathWaypointNextArrivalsStyles.scheduledArrival}
+									>
+										{dayjs(scheduledArrival.unixTs).format('HH:mm')}
+									</Text>
 								</View>
 							))}
 						</View>
@@ -63,24 +113,4 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 	);
 
 	//
-}
-
-/* * */
-
-function formatDelta(ms: number) {
-	let toReturn = '';
-	const seconds = Math.floor(ms / 1000);
-	const minutes = Math.floor(seconds / 60);
-	const hours = Math.floor(minutes / 60);
-	if (minutes <= 0) {
-		return 'A chegar';
-	}
-
-	if (hours > 0) {
-		toReturn += `${hours} hora${hours > 1 ? 's' : ''} `;
-	}
-	if (minutes > 0) {
-		toReturn += `${minutes % 60} min`;
-	}
-	return toReturn;
 }

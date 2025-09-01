@@ -24,7 +24,7 @@ export function LinesDetailPath() {
 	//
 	// B. Render components
 
-	if (!linesDetailContext.data.active_pattern || !operationalDayContext.data.selected_day_jsdate) {
+	if (!linesDetailContext.data.active_pattern || !operationalDayContext.data.selected_date?.js_date) {
 		return (
 			<Surface>
 				<NoDataLabel text="Sem dados" />

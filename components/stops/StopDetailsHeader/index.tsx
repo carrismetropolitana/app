@@ -56,7 +56,7 @@ export function StopDetailHeader() {
 							<StopDisplayName longName={stopsDetailContext.data.stop.long_name} size="lg" />
 						</View>
 						<View style={stopDetailsHeader.actionsWrapper}>
-							<FavoriteToggle color={theming.colorBrand} isActive={stopsDetailContext.flags.is_favorite} onToggle={handleToggleFavorite} />
+							<FavoriteToggle color={theming.colorBrand} isActive={stopsDetailContext.flags.is_favorite} onToggle={handleToggleFavorite} type="stops" />
 							<StopDisplayTts stopId={stopsDetailContext.data.stop.id} />
 						</View>
 					</View>

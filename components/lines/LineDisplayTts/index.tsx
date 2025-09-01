@@ -1,9 +1,11 @@
 /* * */
 
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { audioTtsUrl } from '@/settings/urls.settings';
 import { IconPlayerPause, IconVolume } from '@tabler/icons-react-native';
 import { Audio, AVPlaybackStatus } from 'expo-av';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 
 import { styles } from './styles';
@@ -22,6 +24,8 @@ export function LineDisplayTts({ patternId }: Props) {
 	//
 	// A. Setup variables
 
+	const localeContext = useLocaleContext();
+	const { t } = useTranslation('lines.LinesDetail.lineDetailsHeader');
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [sound, setSound] = useState<Audio.Sound | null>(null);
 	const ttsStyles = styles();
@@ -70,7 +74,13 @@ export function LineDisplayTts({ patternId }: Props) {
 	// D. Render components
 
 	return sound && (
-		<TouchableOpacity onPress={handleToogleAudio}>
+		<TouchableOpacity
+			accessibilityHint={t('ttsAccessibilityHint')}
+			accessibilityLabel={t('ttsAccessibilityLabel')}
+			accessibilityLanguage={localeContext.locale}
+			accessibilityRole="button"
+			onPress={handleToogleAudio}
+		>
 			<View>
 				{isPlaying ? <IconPlayerPause color={ttsStyles.icon.color} /> : <IconVolume color={ttsStyles.icon.color} />}
 			</View>

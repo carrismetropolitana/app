@@ -1,12 +1,14 @@
 /* * */
 
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
 import { Pattern } from '@carrismetropolitana/api-types/network';
 import { IconArrowBarToRight, IconArrowRight } from '@tabler/icons-react-native';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 
@@ -16,6 +18,7 @@ export function SelectPattern() {
 	//
 	// A. Setup variables
 	const linesDetailContext = useLinesDetailContext();
+	const { t } = useTranslation('common.SelectPattern');
 	const { theme } = useThemeContext();
 	const [patternNames, setPatternNames] = useState<Record<string, string>>({});
 	const [patternVersionIds, setPatternVersionIds] = useState<Record<string, string>>({});
@@ -124,6 +127,7 @@ export function SelectPattern() {
 	return (
 		<View style={styles.container}>
 			<Dropdown
+				accessibilityLabel={t('dropdownAccessibilityLabel', { pattern: patternNames[selectedPatternId || ''] || '' })}
 				activeColor={theming.colorBrand}
 				closeModalWhenSelectedItem={false}
 				containerStyle={styles.inputContainer}

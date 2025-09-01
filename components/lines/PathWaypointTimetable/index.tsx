@@ -2,6 +2,7 @@
 
 import Timetable from '@/components/common/Timetable';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
 import createTimetable from '@/utils/createTimetable';
 import { DateTime } from 'luxon';
@@ -15,6 +16,7 @@ import { styles } from './styles';
 
 export function PathWaypointTimetable() {
 	const { t } = useTranslation('translation', { keyPrefix: 'lines.PathWaypointTimetable' });
+	const localeContext = useLocaleContext();
 	const linesDetailContext = useLinesDetailContext();
 	const operationalDayContext = useOperationalDayContext();
 	const timeTableStyles = styles();
@@ -57,10 +59,24 @@ export function PathWaypointTimetable() {
 		const nextDate = timetableData && DateTime.fromFormat(timetableData, 'yyyyMMdd').toJSDate();
 		return (
 			<View style={timeTableStyles.container}>
-				<Text style={timeTableStyles.noData}>{t('no_data')}</Text>
+				<Text
+					accessibilityHint={t('noDataAccessibilityHint')}
+					accessibilityLabel={t('noDataAccessibilityLabel')}
+					accessibilityLanguage={localeContext.locale}
+					accessibilityRole="text"
+					style={timeTableStyles.noData}
+				>{t('no_data')}
+				</Text>
 				{nextDate && (
 					<Pressable onPress={() => handleNextDateClick(nextDate)} style={({ pressed }) => [{ opacity: pressed ? 0.8 : 1 }]}>
-						<Text style={timeTableStyles.nextDate}>{t('next_date', { value: nextDate })}</Text>
+						<Text
+							accessibilityHint={t('noDataAccessibilityHint')}
+							accessibilityLabel={t('noDataAccessibilityLabel')}
+							accessibilityLanguage={localeContext.locale}
+							accessibilityRole="text"
+							style={timeTableStyles.nextDate}
+						>{t('next_date', { value: nextDate })}
+						</Text>
 					</Pressable>
 				)}
 			</View>

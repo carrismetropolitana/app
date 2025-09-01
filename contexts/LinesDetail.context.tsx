@@ -207,26 +207,33 @@ export const LinesDetailContextProvider = ({ children, lineIdParams }: LinesDeta
 	// C. Transform data
 
 	useEffect(() => {
-		if (!dataAllPatternsState || !operationalDayContext.data.selected_day) return;
+		if (!dataAllPatternsState || !operationalDayContext.data.selected_date) return;
 		const activePatterns: Pattern[] = [];
 		for (const pattern of dataAllPatternsState) {
+			let closestDateSoFar = '';
+			let patternGroupWithClosestDate: Pattern = {} as Pattern;
 			for (const patternGroup of pattern) {
-				const selected_date = operationalDayContext.data.selected_day;
-				if (!selected_date) return;
+				const selectedDate = operationalDayContext.data.selected_date.operational_date;
+				if (!selectedDate) return;
 				// Find the closest valid date
 				const closestDate = patternGroup.valid_on.reduce((acc, curr) => {
-					if (selected_date <= curr && (acc === '' || curr < acc)) return curr;
+					if (selectedDate <= curr && (acc === '' || curr < acc)) return curr;
 					return acc;
 				}, '');
-				// If the closest date is valid, add the pattern group to the list
-				if (closestDate != '' && !activePatterns.find(activePattern => activePattern.id === patternGroup.id)) {
-					activePatterns.push(patternGroup);
+				if (!closestDateSoFar) closestDateSoFar = closestDate;
+				if (closestDate && closestDate <= closestDateSoFar) {
+					patternGroupWithClosestDate = patternGroup;
+					closestDateSoFar = closestDate;
 				}
+			}
+			// If the closest date is valid, add the pattern group to the list
+			if (patternGroupWithClosestDate && !activePatterns.find(activePattern => activePattern.id === patternGroupWithClosestDate.id)) {
+				activePatterns.push(patternGroupWithClosestDate);
 			}
 		}
 		const sortedPatterns = activePatterns.sort((a, b) => a.id.localeCompare(b.id));
 		setDataValidPatternsState(sortedPatterns);
-	}, [dataAllPatternsState, operationalDayContext.data.selected_day]);
+	}, [dataAllPatternsState, operationalDayContext.data.selected_date]);
 
 	useEffect(() => {
 		if (!alertsContext.data.simplified) return;
