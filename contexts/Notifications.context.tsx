@@ -1,6 +1,7 @@
 import { getApp } from '@react-native-firebase/app';
 import { subscribeToTopic as firebaseSubscribeToTopic, unsubscribeFromTopic as firebaseUnsubscribeFromTopic, getInitialNotification, getMessaging, getToken, isDeviceRegisteredForRemoteMessages, onMessage, onNotificationOpenedApp, registerDeviceForRemoteMessages, requestPermission } from '@react-native-firebase/messaging';
 import * as Notifications from 'expo-notifications';
+import { useRouter } from 'expo-router';
 import React, { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';
 
@@ -26,6 +27,7 @@ export function useNotifications() {
 }
 
 export const NotificationsProvider = ({ children }: { children: ReactNode }) => {
+	const router = useRouter();
 	const [fcmToken, setFcmToken] = useState<null | string>(null);
 	const [notification, setNotification] = useState<null | string>(null);
 	const [response, setResponse] = useState<null | string>(null);
@@ -128,11 +130,19 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 					catch (err) {
 						console.error('❌ [onMessage] Failed to schedule local notification:', err);
 					}
+					const vehicleId = msg.data?.vehicle_id;
+					if (vehicleId) {
+						router.push(`/vehicle/${vehicleId}`);
+					}
 				});
 
 				// Firebase: background/killed taps
 				const unsubOpen = onNotificationOpenedApp(messaging, (msg) => {
 					setResponse(JSON.stringify(msg));
+					const vehicleId = msg.data?.vehicle_id;
+					if (vehicleId) {
+						router.push(`/vehicle/${vehicleId}`);
+					}
 				});
 
 				// Expo listener for receipt in foreground
@@ -140,7 +150,6 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 					setNotification(JSON.stringify(n));
 				});
 
-				// Cleanup on unmount
 				return () => {
 					isMounted = false;
 					unsubMsg();
