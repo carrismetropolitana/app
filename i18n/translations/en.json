@@ -295,13 +295,23 @@
     },
     "SelectOperationalDay": {
       "today": "Today",
-      "tomorrow": "Tomorrow"
+      "tomorrow": "Tomorrow",
+      "customDayAccessibilityHint": "This button allows you to select a date of your choice",
+      "customDayAccessibilityLabel": "Button to select a day of your choise, the date selected is {date}",
+      "datePickerAccessibilityHint": "This element is a date selector",
+      "datePickerAccessibilityLabel": "Date Selector",
+      "todayAccessibilityHint": "This buttons selects today's date",
+      "todayAccessibilityLabel": "Button to select today's date",
+      "tomorrowAccessibilityHint": "This button selects tomorrow's date",
+      "tomorrowAccessibilityLabel": "Button to select tomorrow's date"
     },
     "SelectPattern": {
       "invalid_option": "Invalid route: {pattern_id}",
       "label": "Route / Destination",
       "option_label": "Beggining of the route: {locality}",
-      "placeholder": "Select Route / Destiny..."
+      "placeholder": "Select Route / Destiny...",
+      "dropdownAccessibilityHint": "This element is a dropdown menu to select a destination",
+      "dropdownAccessibilityLabel": "Destination {pattern} selected"
     },
     "StopSearchBar": {
       "placeholder": "Search...",
@@ -367,6 +377,12 @@
       "headingAccessibilityLabel": "Page title {heading}",
       "subheadingAccessibilityHint": "This element is a description about {heading}",
       "subheadingAccessibilityLabel": "Description {heading}"
+    },
+    "favoriteToggle": {
+      "filledAccessibilityHint": "Remove from the favorites this",
+      "filledAccessibilityLabel": "Remove from the favorites this",
+      "unfilledAccessibilityHint": "Add to the favorites this",
+      "unfilledAccessibilityLabel": "Add to the favorites this "
     }
   },
   "homepage": {
@@ -408,7 +424,19 @@
     },
     "LinesDetail": {
       "heading": "Search by Lines",
-      "toggle_favorite_error": "Error adding line to favorites. {error}"
+      "toggle_favorite_error": "Error adding line to favorites. {error}",
+      "lineDetailsHeader": {
+        "add": "Add",
+        "lineDetailsFavToggleAccessibilityHint": "This button allows to create a widget for the line {line}",
+        "lineDetailsFavToggleAccessibilityLabel": "Create a widget for the line {line}",
+        "lineDetailsHeaderAccessibilityHint": "This element represents the header of the deatils of the line ",
+        "lineDetailsHeaderAccessibilityLabel": "Header for the details of the line",
+        "lineDetailsTitleAccessibilityHint": "Header of the details of the line {line} with destination to {destination}",
+        "lineDetailsTitleAccessibilityLabel": "Line {line} with destinatoin to {destination}",
+        "remove": "Remove",
+        "ttsAccessibilityHint": "This button reads outloud the name of the line",
+        "ttsAccessibilityLabel": "Read aloud"
+      }
     },
     "LinesDetailAlerts": {
       "heading": "Active alerts for this line"
@@ -481,7 +509,14 @@
       "recentLines": "Recent Lines"
     },
     "PathStopNextArrivals": {
-      "title": "Next circulations"
+      "title": "Next circulations",
+      "arriving": "Arriving",
+      "nextArrivalsRealtimeAccessibilityHint": "Next trip in real time",
+      "nextArrivalsRealtimeAccessibilityLabel": "This arrival is in {time} minutes",
+      "nextArrivalsScheduledAccessibilityHint": "This arrival is scheduled ot {hours} and {minutes}",
+      "nextArrivalsScheduledAccessibilityLabel": "Next trip to {headsign} at {hours} hours and {minutes} minutes",
+      "nextArrivalsTitleAccessibilityHint": "This element is a text that indicates the next circulations",
+      "nextArrivalsTitleAccessibilityLabel": "Next circulations"
     },
     "PathStopTimetable": {
       "next_date": "Next times available from {value, date, dayShort} {value, date, monthLong} {value, date, yearLong}",
@@ -489,7 +524,15 @@
       "title": "Scheduled times at this stop:"
     },
     "PathWaypointTimetable": {
-      "title": "Scheduled arrivals at this stop: "
+      "title": "Scheduled arrivals at this stop: ",
+      "nextDateAccessibilityHint": "This element is a text that indicates the next available trips ",
+      "nextDateAccessibilityLabel": "Next trips available from  {value, date, dayShort}",
+      "next_date": "Next trips available from {value, date, dayShort}",
+      "noDataAccessibilityHint": "Indicates that doesn't exist any available trips",
+      "noDataAccessibilityLabel": "No trips available",
+      "no_data": "Trip unavailable for this date ",
+      "timetableAccessibilityHint": "This element is a block with planned trips ",
+      "timetableAccessibilityLabel": "Planned trips"
     },
     "SelectActivePatternGroup": {
       "placeholder": "Select route/destination..."
@@ -716,5 +759,13 @@
   "virtualizedListingStops": {
     "virtualizedListAccessibilityHint": "This element is a lsit of stops",
     "virtualizedListAccessibilityLabel": "Stops list"
+  },
+  "pathWaypoint": {
+    "headerFacilityAccessibilityHint": "This elemtn is a text that indicates the facilities available close to the stop ",
+    "headerFacilityAccessibilityLabel": "Facilities of the stop {facilities}",
+    "headerLinkAccessibilityHint": "This element is a link to see the stop details",
+    "headerLinkAccessibilityLabel": "Link for the details of the stop {stopName}",
+    "headerLocalityAccessibilityHint": "This element is a text that indicates the locality of the stop",
+    "headerLocalityAccessibilityLabel": "Locality of the stop {locality}"
   }
 }
