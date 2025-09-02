@@ -202,20 +202,20 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 	}, [dataTimetableRealtimeState]);
 
 	useEffect(() => {
-		if (!operationalDayContext.data.selected_day || !dataValidPatternsState) return;
+		if (!operationalDayContext.data.selected_date || !dataValidPatternsState) return;
 		const validScheduledTrips: Arrival[] = [];
 		for (const patternGroup of dataValidPatternsState || []) {
 			const lastStopSequence = patternGroup.path
 				.sort((a, b) => a.stop_sequence - b.stop_sequence)
 				.slice(-1)[0]?.stop_sequence;
 			for (const trip of patternGroup.trips) {
-				if (!trip.valid_on.includes(operationalDayContext.data.selected_day)) continue;
+				if (!trip.valid_on.includes(operationalDayContext.data.selected_date.operational_date)) continue;
 				for (const stopTime of trip.schedule) {
 					if (stopTime.stop_id !== dataActiveStopIdState) continue;
 					if (stopTime.stop_sequence === lastStopSequence) continue;
 					const [arrivalHours, arrivalMinutes, arrivalSeconds] = stopTime.arrival_time.split(':').map(Number);
 					const arrivalUnixTimestamp = DateTime
-						.fromFormat(operationalDayContext.data.selected_day, 'yyyyMMdd')
+						.fromFormat(operationalDayContext.data.selected_date.operational_date, 'yyyyMMdd')
 						.set({ hour: 0, minute: 0, second: 0 })
 						.plus({ hours: arrivalHours, minute: arrivalMinutes, second: arrivalSeconds })
 						.toUnixInteger();
@@ -239,20 +239,20 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 		}
 		validScheduledTrips.sort((a, b) => (a.scheduled_arrival_unix - b.scheduled_arrival_unix));
 		setDataTimetableScheduleState(validScheduledTrips);
-	}, [operationalDayContext.data.selected_day, dataValidPatternsState, dataActiveStopIdState]);
+	}, [operationalDayContext.data.selected_date, dataValidPatternsState, dataActiveStopIdState]);
 
 	useEffect(() => {
-		if (!dataPatternsState || !operationalDayContext.data.selected_day) return;
+		if (!dataPatternsState || !operationalDayContext.data.selected_date) return;
 		const activePatterns: Pattern[] = [];
 		for (const pattern of dataPatternsState) {
 			for (const patternGroup of pattern) {
-				if (patternGroup.valid_on.includes(operationalDayContext.data.selected_day)) {
+				if (patternGroup.valid_on.includes(operationalDayContext.data.selected_date.operational_date)) {
 					activePatterns.push(patternGroup);
 				}
 			}
 		}
 		setDataValidPatternsState(activePatterns);
-	}, [dataPatternsState, operationalDayContext.data.selected_day]);
+	}, [dataPatternsState, operationalDayContext.data.selected_date]);
 
 	useEffect(() => {
 		if (!alertsContext.data.simplified) return;

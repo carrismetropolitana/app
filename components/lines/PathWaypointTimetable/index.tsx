@@ -28,7 +28,7 @@ export function PathWaypointTimetable() {
 		const mentionedRoutes = linesDetailContext.data.routes;
 		const selectedStopId = linesDetailContext.data.active_waypoint?.stop_id;
 		const selectedStopSequence = linesDetailContext.data.active_waypoint?.stop_sequence;
-		const selectedOperationalDay = operationalDayContext.data.selected_day;
+		const selectedOperationalDay = operationalDayContext.data.selected_date?.operational_date;
 		if (!activePatternGroup || !mentionedRoutes || !selectedStopId || selectedStopSequence === undefined || !selectedOperationalDay) {
 			return null;
 		}
@@ -48,11 +48,11 @@ export function PathWaypointTimetable() {
 		linesDetailContext.data.active_pattern,
 		linesDetailContext.data.valid_patterns,
 		linesDetailContext.data.active_waypoint,
-		operationalDayContext.data.selected_day,
+		operationalDayContext.data.selected_date,
 	]);
 
 	function handleNextDateClick(date: Date) {
-		operationalDayContext.actions.updateSelectedDayFromJsDate(date);
+		operationalDayContext.actions.updateSelectedDateFromJsDate(date);
 	}
 
 	if (!timetableData || typeof timetableData === 'string') {
@@ -70,8 +70,8 @@ export function PathWaypointTimetable() {
 				{nextDate && (
 					<Pressable onPress={() => handleNextDateClick(nextDate)} style={({ pressed }) => [{ opacity: pressed ? 0.8 : 1 }]}>
 						<Text
-							accessibilityHint={t('noDataAccessibilityHint')}
-							accessibilityLabel={t('noDataAccessibilityLabel')}
+							accessibilityHint={t('nextDateAccessibilityHint')}
+							accessibilityLabel={t('nextDateAccessibilityLabel', { value: nextDate })}
 							accessibilityLanguage={localeContext.locale}
 							accessibilityRole="text"
 							style={timeTableStyles.nextDate}
@@ -85,7 +85,14 @@ export function PathWaypointTimetable() {
 
 	return (
 		<View style={timeTableStyles.container}>
-			<Text style={timeTableStyles.title}>{t('title')}</Text>
+			<Text
+				accessibilityHint={t('timetableAccessibilityHint')}
+				accessibilityLabel={t('timetableAccessibilityLabel')}
+				accessibilityLanguage={localeContext.locale}
+				accessibilityRole="text"
+				style={timeTableStyles.title}
+			>{t('title')}
+			</Text>
 			<Timetable timetableData={timetableData} />
 		</View>
 	);

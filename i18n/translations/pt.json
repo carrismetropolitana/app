@@ -520,14 +520,20 @@
 			"title": "Próximas circulações"
 		},
 		"PathStopTimetable": {
-			"next_date": "Próximos horários disponíveis a partir de {value, date, dayShort} {value, date, monthLong} {value, date, yearLong}",
+			"next_date": "Próximos horários disponíveis a partir de {value}",
 			"no_data": "Horários indisponíveis para esta data.",
 			"title": "Horários planeados nesta paragem:"
 		},
 		"PathWaypointTimetable": {
-			"noDataAccessibilityHint": "Indica que não existem horários disponíveis para esta paragem",
-			"noDataAccessibilityLabel": "Nenhum horário disponível para esta paragem",
-			"title": "Horários planeados nesta paragem: "
+			"nextDateAccessibilityHint": "Este elemento é um texto que indica os próximos horários disponíveis",
+			"nextDateAccessibilityLabel": "Próximos horários disponíveis a partir de {value, date, dayShort}",
+			"next_date": "Próximos horários disponíveis a partir de {value, date, dayShort}",
+			"noDataAccessibilityHint": "Indica que não existem horários disponíveis",
+			"noDataAccessibilityLabel": "Nenhum horário disponível",
+			"no_data": "Horários indisponíveis para esta data.",
+			"timetableAccessibilityHint": "Este elemento é um bloco de horários planeados",
+			"timetableAccessibilityLabel": "Horários planeados",
+			"title": "Horários planeados: "
 		},
 		"SelectActivePatternGroup": {
 			"placeholder": "Selecionar percurso/destino..."

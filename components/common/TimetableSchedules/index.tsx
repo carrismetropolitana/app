@@ -3,6 +3,7 @@
 import type { Minute, Timetable } from '@/types/timetables.types';
 
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { useTranslation } from 'react-i18next';
 import { Pressable, Text, View } from 'react-native';
 
@@ -87,8 +88,7 @@ function TimetableSchedulesMinute({ isHighlighted, minuteData, onClick, selected
 	//
 
 	//
-	// A. Transform data
-
+	// A. Setup Variables
 	const isSelected = selectedExceptionIds.some(exceptionId => minuteData.exception_ids.includes(exceptionId));
 	const timeteableShcedulesMinutesStyles = styles();
 
@@ -124,9 +124,13 @@ function TimetableSchedulesMinute({ isHighlighted, minuteData, onClick, selected
 		>
 			<Text style={timeteableShcedulesMinutesStyles.minute}>
 				{minuteData.minute_label}
+
 				{minuteData.exception_ids.length > 0
 				&& minuteData.exception_ids.map(exceptionId => (
-					<Text key={exceptionId} style={timeteableShcedulesMinutesStyles.exception}>
+					<Text
+						key={exceptionId}
+						style={timeteableShcedulesMinutesStyles.exception}
+					>
 						{exceptionId}
 					</Text>
 				))}
