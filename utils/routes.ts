@@ -2,9 +2,9 @@ const staging = false;
 const production = false;
 
 const getAccountsUrl = () => {
-	if (production) return 'https://accounts.carrismetropolitana.pt/accounts';
-	if (staging) return 'https://staging.accounts.carrismetropolitana.pt/accounts';
-	return 'http://10.128.1.240:5050/accounts';
+	if (production) return process.env.EXPO_PUBLIC_PRODUCTION_ACCOUNTS_API_URL;
+	if (staging) return process.env.EXPO_PUBLIC_STAGING_ACCOUNTS_API_URL;
+	return process.env.EXPO_PUBLIC_DEV_ACCOUNTS_API_URL;
 };
 
 export const Routes = Object.freeze({

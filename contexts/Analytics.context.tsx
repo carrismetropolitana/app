@@ -1,17 +1,18 @@
 /* * */
 
-import { Ampli, ampli } from '@/amplitude';
-import { useConsentContext } from '@/contexts/Consent.context';
 import pjson from '@/package.json';
-// import { expireAllCookies } from '@/utils/expire-all-cookies.util';
+import * as Amplitude from '@amplitude/analytics-react-native';
 import { createContext, useContext, useEffect } from 'react';
 
 /* * */
 
+const AMPLITUDE_API_KEY = process.env.EXPO_PUBLIC_AMPLITUDE_API_KEY;
+
 interface AnalyticsContextState {
 	actions: {
-		capture: (callback: (instance: Ampli) => void) => void
-		captureWithDelay: (callback: (instance: Ampli) => void) => void
+		capture: (eventName: string, eventProps?: Record<string, unknown>) => void
+		setUserId: (userId: string) => void
+		setUserProperties: (props: Record<string, unknown>) => void
 	}
 }
 
@@ -30,101 +31,42 @@ export function useAnalyticsContext() {
 /* * */
 
 export const AnalyticsContextProvider = ({ children }: { children: React.ReactNode }) => {
-	//
-
-	//
-	// A. Setup variables
-
-	const consentContext = useConsentContext();
-
-	//
-	// B. Handle actions
-
 	useEffect(() => {
-		if (consentContext.data.init_status && consentContext.data.enabled_analytics && !ampli?.isLoaded) {
-			ampli.load({ client: { configuration: { appVersion: pjson.version } }, environment: 'default' });
-			ampli.client.setOptOut(false);
-		}
-		else if (consentContext.data.init_status && ampli?.isLoaded) {
-			ampli.client.setOptOut(true);
-			// expireAllCookies();
-		}
-	}, [consentContext.data.init_status, consentContext.data.enabled_analytics, ampli?.isLoaded]);
+		Amplitude.init(AMPLITUDE_API_KEY || '', undefined, { disableCookies: true, serverZone: 'EU' });
+	}, []);
 
-	useEffect(() => {
-		// Capture a ping event every minute
-		const interval = setInterval(() => {
-			if (typeof window !== 'undefined' && ampli?.isLoaded) {
-				// capture(() => ampli.ping({
-				// 	app_version: pjson.version,
-				// 	current_page: window.location.pathname,
-				// }));
-			}
-		}, 60000);
-		return () => clearInterval(interval);
+	const getDefaultProps = () => ({
+		app_version: pjson.version,
+		event_date: new Date().toISOString(),
 	});
 
-	const capture = (callback: (instance: Ampli) => void) => {
-		if (consentContext.data.enabled_analytics && ampli?.isLoaded) {
-			if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-				const defaultProps = {
-					app_version: pjson.version,
-					event_date: new Date().toISOString(),
-					page_domain: window.location.hostname,
-					page_location: window.location.href,
-					page_referer: document.referrer || window.location.origin,
-					page_title: document.title,
-				};
-
-				// const wrappedAmpli = new Proxy(ampli, {
-				// 	// Target is ampli and props is the event name
-				// 	get(target, prop: keyof Ampli) {
-				// 		if (typeof target[prop] === 'function') {
-				// 			return (eventProps = {}) => target[prop]({ ...defaultProps, ...eventProps });
-				// 		}
-				// 	},
-				// });
-
-				callback(ampli);
-			};
-		}
+	const capture = (eventName: string, eventProps: Record<string, unknown> = {}) => {
+		Amplitude.track(eventName, { ...getDefaultProps(), ...eventProps });
 	};
 
-	const captureWithDelay = (() => {
-		let timeout: NodeJS.Timeout | null = null;
+	const setUserId = (userId: string) => {
+		Amplitude.setUserId(userId);
+	};
 
-		return (callback: (instance: Ampli) => void) => {
-			if (!consentContext.data.enabled_analytics || !ampli?.isLoaded) return;
-
-			if (timeout) {
-				clearTimeout(timeout);
-			}
-
-			timeout = setTimeout(() => {
-				callback(ampli);
-				timeout = null;
-			}, 1000);
-		};
-	})();
-
-	//
-	// C. Define context value
+	const setUserProperties = (props: Record<string, unknown>) => {
+		const identifyObj = new Amplitude.Identify();
+		Object.entries(props).forEach(([key, value]) => {
+			identifyObj.set(key, value);
+		});
+		Amplitude.identify(identifyObj);
+	};
 
 	const contextValue: AnalyticsContextState = {
 		actions: {
 			capture,
-			captureWithDelay,
+			setUserId,
+			setUserProperties,
 		},
 	};
-
-	//
-	// D. Render components
 
 	return (
 		<AnalyticsContext.Provider value={contextValue}>
 			{children}
 		</AnalyticsContext.Provider>
 	);
-
-	//
 };

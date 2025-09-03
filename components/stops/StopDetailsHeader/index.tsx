@@ -8,10 +8,11 @@ import { Surface } from '@/components/common/layout/Surface';
 import { StopDisplayLocation } from '@/components/stops/StopDisplayLocation';
 import { StopDisplayName } from '@/components/stops/StopDisplayName';
 import { StopDisplayTts } from '@/components/stops/StopDisplayTts';
+import { useAnalyticsContext } from '@/contexts/Analytics.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { theming } from '@/theme/Variables';
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 
 import { styles } from './styles';
 
@@ -24,6 +25,7 @@ export function StopDetailHeader() {
 	// A. Setup variables
 
 	const profileContext = useProfileContext();
+	const analyticsContext = useAnalyticsContext();
 	const stopsDetailContext = useStopsDetailContext();
 	const stopDetailsHeader = styles();
 
@@ -33,6 +35,7 @@ export function StopDetailHeader() {
 	const handleToggleFavorite = () => {
 		if (!stopsDetailContext.data.stop) return;
 		try {
+			analyticsContext.actions.capture('Favorite Stop Added', { platform: Platform.OS, stop_id: stopsDetailContext.data.stop?.id || '' });
 			profileContext.actions.toggleFavoriteItem('stops', stopsDetailContext.data.stop.id);
 		}
 		catch (error) {

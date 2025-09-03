@@ -1,3 +1,4 @@
+/* tslint:disable */
 /* eslint-disable eslint-comments/no-unlimited-disable */
 /* eslint-disable */
 // @ts-nocheck
@@ -64,11 +65,298 @@ export interface IdentifyProperties {
   referring_domain?: string;
 }
 
+export interface AnalyticsConsentAcceptedProperties {
+  /**
+   * The version of the application that generated the event.
+   */
+  app_version: string;
+  domain: string;
+  locale: string;
+  pathname: string;
+  referrer?: string;
+  referring_domain?: string;
+}
+
+export interface ApplicationErroredProperties {
+  /**
+   * The version of the application that generated the event.
+   */
+  app_version: string;
+  domain: string;
+  /**
+   * Error text
+   */
+  error_title: string;
+  /**
+   * Captures an Error type
+   */
+  error_type: string;
+  locale: string;
+  pathname: string;
+  referrer?: string;
+  referring_domain?: string;
+}
+
+export interface CreateWidgetLinesProperties {
+  /**
+   * | Rule | Value |
+   * |---|---|
+   * | Item Type | string |
+   */
+  pattern_ids: string[];
+  widget_type: string;
+}
+
+export interface CreateWidgetSmartNotificationsProperties {
+  pattern_id: string;
+  /**
+   * Holds a the ID of the entity "Stop", which is always a 6-digit numeric string.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Min Length | 6 |
+   * | Max Length | 6 |
+   */
+  stop_id: string;
+  widget_end_time: string;
+  widget_radius: string;
+  widget_start_time: string;
+  widget_type: string;
+  /**
+   * | Rule | Value |
+   * |---|---|
+   * | Item Type | string |
+   */
+  widget_week_days: string[];
+}
+
+export interface CreateWidgetStopsProperties {
+  pattern_id: string;
+  /**
+   * Holds a the ID of the entity "Stop", which is always a 6-digit numeric string.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Min Length | 6 |
+   * | Max Length | 6 |
+   */
+  stop_id: string;
+  widget_type: string;
+}
+
+export interface DebugModeDisabledProperties {
+  /**
+   * The version of the application that generated the event.
+   */
+  app_version: string;
+  domain: string;
+  locale: string;
+  pathname: string;
+  referrer?: string;
+  referring_domain?: string;
+}
+
+export interface DebugModeEnabledProperties {
+  /**
+   * The version of the application that generated the event.
+   */
+  app_version: string;
+  domain: string;
+  locale: string;
+  pathname: string;
+  referrer?: string;
+  referring_domain?: string;
+}
+
+export interface FavoriteLineAddedProperties {
+  /**
+   * Holds a the ID of the entity "Line", which is usually a 4-digit numeric string.
+   */
+  line_id: string;
+  platform: string;
+}
+
+export interface FavoriteStopAddedProperties {
+  platform: string;
+  /**
+   * Holds a the ID of the entity "Stop", which is always a 6-digit numeric string.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Min Length | 6 |
+   * | Max Length | 6 |
+   */
+  stop_id: string;
+}
+
+export interface LocaleChangedProperties {
+  /**
+   * The version of the application that generated the event.
+   */
+  app_version: string;
+  domain: string;
+  locale: string;
+  pathname: string;
+  referrer?: string;
+  referring_domain?: string;
+}
+
+export interface OpenedStopDetailsProperties {
+  /**
+   * The version of the application that generated the event.
+   */
+  app_version: string;
+  domain: string;
+  pathname: string;
+  referrer?: string;
+  referring_domain?: string;
+  /**
+   * Holds a the ID of the entity "Stop", which is always a 6-digit numeric string.
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Min Length | 6 |
+   * | Max Length | 6 |
+   */
+  stop_id: string;
+}
+
+export interface SessionStartedProperties {
+  /**
+   * The version of the application that generated the event.
+   */
+  app_version: string;
+  domain: string;
+  pathname: string;
+  referrer?: string;
+  referring_domain?: string;
+}
+
 export class Identify implements BaseEvent {
   event_type = amplitude.Types.SpecialEventType.IDENTIFY;
 
   constructor(
     public event_properties?: IdentifyProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class AnalyticsConsentAccepted implements BaseEvent {
+  event_type = 'Analytics Consent Accepted';
+
+  constructor(
+    public event_properties: AnalyticsConsentAcceptedProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class ApplicationErrored implements BaseEvent {
+  event_type = 'Application Errored';
+
+  constructor(
+    public event_properties: ApplicationErroredProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class CreateWidgetLines implements BaseEvent {
+  event_type = 'Create Widget Lines';
+
+  constructor(
+    public event_properties: CreateWidgetLinesProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class CreateWidgetSmartNotifications implements BaseEvent {
+  event_type = 'Create Widget SmartNotifications';
+
+  constructor(
+    public event_properties: CreateWidgetSmartNotificationsProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class CreateWidgetStops implements BaseEvent {
+  event_type = 'Create Widget Stops';
+
+  constructor(
+    public event_properties: CreateWidgetStopsProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class DebugModeDisabled implements BaseEvent {
+  event_type = 'Debug Mode Disabled';
+
+  constructor(
+    public event_properties: DebugModeDisabledProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class DebugModeEnabled implements BaseEvent {
+  event_type = 'Debug Mode Enabled';
+
+  constructor(
+    public event_properties: DebugModeEnabledProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class FavoriteLineAdded implements BaseEvent {
+  event_type = 'Favorite Line Added';
+
+  constructor(
+    public event_properties: FavoriteLineAddedProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class FavoriteStopAdded implements BaseEvent {
+  event_type = 'Favorite Stop Added';
+
+  constructor(
+    public event_properties: FavoriteStopAddedProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class LocaleChanged implements BaseEvent {
+  event_type = 'Locale Changed';
+
+  constructor(
+    public event_properties: LocaleChangedProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class OpenedStopDetails implements BaseEvent {
+  event_type = 'Opened Stop Details';
+
+  constructor(
+    public event_properties: OpenedStopDetailsProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class SessionStarted implements BaseEvent {
+  event_type = 'Session Started';
+
+  constructor(
+    public event_properties: SessionStartedProperties,
   ) {
     this.event_properties = event_properties;
   }
@@ -189,6 +477,209 @@ export class Ampli {
     return this.amplitude!.flush();
   }
 
+  /**
+   * Analytics Consent Accepted
+   *
+   * [View in Tracking Plan](https://data.eu.amplitude.com/tmlmobilidade/default/events/main/latest/Analytics%20Consent%20Accepted)
+   *
+   * Event indicating that the debug mode has been disabled in the user preferences.
+   *
+   * @param properties The event's properties (e.g. app_version)
+   * @param options Amplitude event options.
+   */
+  analyticsConsentAccepted(
+    properties: AnalyticsConsentAcceptedProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new AnalyticsConsentAccepted(properties), options);
+  }
+
+  /**
+   * Application Errored
+   *
+   * [View in Tracking Plan](https://data.eu.amplitude.com/tmlmobilidade/default/events/main/latest/Application%20Errored)
+   *
+   * Event to track occurrences when the application encounters errors.
+   *
+   * @param properties The event's properties (e.g. app_version)
+   * @param options Amplitude event options.
+   */
+  applicationErrored(
+    properties: ApplicationErroredProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new ApplicationErrored(properties), options);
+  }
+
+  /**
+   * Create Widget Lines
+   *
+   * [View in Tracking Plan](https://data.eu.amplitude.com/tmlmobilidade/default/events/main/latest/Create%20Widget%20Lines)
+   *
+   * Event has no description in tracking plan.
+   *
+   * @param properties The event's properties (e.g. pattern_ids)
+   * @param options Amplitude event options.
+   */
+  createWidgetLines(
+    properties: CreateWidgetLinesProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new CreateWidgetLines(properties), options);
+  }
+
+  /**
+   * Create Widget SmartNotifications
+   *
+   * [View in Tracking Plan](https://data.eu.amplitude.com/tmlmobilidade/default/events/main/latest/Create%20Widget%20SmartNotifications)
+   *
+   * Event has no description in tracking plan.
+   *
+   * @param properties The event's properties (e.g. pattern_id)
+   * @param options Amplitude event options.
+   */
+  createWidgetSmartNotifications(
+    properties: CreateWidgetSmartNotificationsProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new CreateWidgetSmartNotifications(properties), options);
+  }
+
+  /**
+   * Create Widget Stops
+   *
+   * [View in Tracking Plan](https://data.eu.amplitude.com/tmlmobilidade/default/events/main/latest/Create%20Widget%20Stops)
+   *
+   * Event has no description in tracking plan.
+   *
+   * @param properties The event's properties (e.g. pattern_id)
+   * @param options Amplitude event options.
+   */
+  createWidgetStops(
+    properties: CreateWidgetStopsProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new CreateWidgetStops(properties), options);
+  }
+
+  /**
+   * Debug Mode Disabled
+   *
+   * [View in Tracking Plan](https://data.eu.amplitude.com/tmlmobilidade/default/events/main/latest/Debug%20Mode%20Disabled)
+   *
+   * Event indicating that the debug mode has been disabled in the user preferences.
+   *
+   * @param properties The event's properties (e.g. app_version)
+   * @param options Amplitude event options.
+   */
+  debugModeDisabled(
+    properties: DebugModeDisabledProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new DebugModeDisabled(properties), options);
+  }
+
+  /**
+   * Debug Mode Enabled
+   *
+   * [View in Tracking Plan](https://data.eu.amplitude.com/tmlmobilidade/default/events/main/latest/Debug%20Mode%20Enabled)
+   *
+   * Event indicating when a user enables debug mode in their preferences.
+   *
+   * @param properties The event's properties (e.g. app_version)
+   * @param options Amplitude event options.
+   */
+  debugModeEnabled(
+    properties: DebugModeEnabledProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new DebugModeEnabled(properties), options);
+  }
+
+  /**
+   * Favorite Line Added
+   *
+   * [View in Tracking Plan](https://data.eu.amplitude.com/tmlmobilidade/default/events/main/latest/Favorite%20Line%20Added)
+   *
+   * This event tracks the favorited lines
+   *
+   * @param properties The event's properties (e.g. line_id)
+   * @param options Amplitude event options.
+   */
+  favoriteLineAdded(
+    properties: FavoriteLineAddedProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new FavoriteLineAdded(properties), options);
+  }
+
+  /**
+   * Favorite Stop Added
+   *
+   * [View in Tracking Plan](https://data.eu.amplitude.com/tmlmobilidade/default/events/main/latest/Favorite%20Stop%20Added)
+   *
+   * This event tracks the favorited lines
+   *
+   * @param properties The event's properties (e.g. platform)
+   * @param options Amplitude event options.
+   */
+  favoriteStopAdded(
+    properties: FavoriteStopAddedProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new FavoriteStopAdded(properties), options);
+  }
+
+  /**
+   * Locale Changed
+   *
+   * [View in Tracking Plan](https://data.eu.amplitude.com/tmlmobilidade/default/events/main/latest/Locale%20Changed)
+   *
+   * Event to track when a user changes their preferred language or region settings within the app.
+   *
+   * @param properties The event's properties (e.g. app_version)
+   * @param options Amplitude event options.
+   */
+  localeChanged(
+    properties: LocaleChangedProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new LocaleChanged(properties), options);
+  }
+
+  /**
+   * Opened Stop Details
+   *
+   * [View in Tracking Plan](https://data.eu.amplitude.com/tmlmobilidade/default/events/main/latest/Opened%20Stop%20Details)
+   *
+   * Event to track when a user opens the details of a Stop.
+   *
+   * @param properties The event's properties (e.g. app_version)
+   * @param options Amplitude event options.
+   */
+  openedStopDetails(
+    properties: OpenedStopDetailsProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new OpenedStopDetails(properties), options);
+  }
+
+  /**
+   * Session Started
+   *
+   * [View in Tracking Plan](https://data.eu.amplitude.com/tmlmobilidade/default/events/main/latest/Session%20Started)
+   *
+   * Event has no description in tracking plan.
+   *
+   * @param properties The event's properties (e.g. app_version)
+   * @param options Amplitude event options.
+   */
+  sessionStarted(
+    properties: SessionStartedProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new SessionStarted(properties), options);
+  }
 }
 
 export const ampli = new Ampli();

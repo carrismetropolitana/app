@@ -1,11 +1,12 @@
 /* * */
 
+import { useAnalyticsContext } from '@/contexts/Analytics.context';
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { useWidgetContext } from '@/contexts/Widget.context';
 import { AccountWidget } from '@/types/account.types';
 import { Button } from '@rn-vui/themed';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 
 import { styles } from './styles';
 
@@ -28,6 +29,7 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onCle
 
 	const widgetContext = useWidgetContext();
 	const localeContext = useLocaleContext();
+	const analyticsContext = useAnalyticsContext();
 	const widgetActionButtonsStyles = styles();
 
 	const { t } = useTranslation('translation', { keyPrefix: 'common' });
@@ -44,11 +46,23 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onCle
 				switch (type) {
 					case 'lines':
 						if ('pattern_id' in dataToSubmit.data) {
+							analyticsContext.actions.capture('Create Widget Lines', { pattern_ids: [dataToSubmit.data.pattern_id], platform: Platform.OS, widget_type: 'lines' });
 							await widgetContext.actions.createWidget({ pattern_ids: [dataToSubmit.data.pattern_id], type: 'lines' });
 						}
 						break;
 					case 'smart-notifications':
 						if ('pattern_id' in dataToSubmit.data && 'week_days' in dataToSubmit.data) {
+							analyticsContext.actions.capture('Create Widget SmartNotifications',
+								{
+									pattern_id: dataToSubmit.data.pattern_id,
+									platform: Platform.OS,
+									stop_id: dataToSubmit.data.stop_id,
+									widget_end_time: dataToSubmit.data.end_time,
+									widget_radius: dataToSubmit.data.distance,
+									widget_start_time: dataToSubmit.data.start_time,
+									widget_type: 'smart_notifications',
+									widget_week_days: dataToSubmit.data.week_days });
+
 							await widgetContext.actions.createWidget({
 								end_time: dataToSubmit.data.end_time || 0,
 								pattern_id: dataToSubmit.data.pattern_id,
@@ -62,6 +76,7 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onCle
 						break;
 					case 'stops':
 						if ('data' in dataToSubmit && 'pattern_ids' in dataToSubmit.data && 'stop_id' in dataToSubmit.data) {
+							analyticsContext.actions.capture('Create Widget Stops', { platform: Platform.OS, stop_id: dataToSubmit.data.stop_id, widget_type: 'stops' });
 							await widgetContext.actions.createWidget({ pattern_ids: dataToSubmit.data.pattern_ids, stopId: dataToSubmit.data.stop_id, type: 'stops' });
 						}
 						break;

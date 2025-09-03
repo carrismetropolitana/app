@@ -1,5 +1,6 @@
 /* * */
 
+import { ampli } from '@/amplitude';
 import { FavoriteToggle } from '@/components/common/FavoriteToggle';
 import { Section } from '@/components/common/layout/Section';
 import { Surface } from '@/components/common/layout/Surface';
@@ -7,6 +8,7 @@ import { SelectOperationalDay } from '@/components/common/SelectOperationalDay';
 import { LineBadge } from '@/components/lines/LineBadge';
 import { LineDebugDetail } from '@/components/lines/LineDebugDetail';
 import { SelectActivePatternGroup } from '@/components/lines/SelectActivePatternGroup';
+import { useAnalyticsContext } from '@/contexts/Analytics.context';
 import { useDebugContext } from '@/contexts/Debug.context';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useLocaleContext } from '@/contexts/Locale.context';
@@ -16,7 +18,7 @@ import { Text } from '@rn-vui/themed';
 import { IconHomePlus } from '@tabler/icons-react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 
 import { LineDisplayTts } from '../LineDisplayTts';
 import { styles } from './styles';
@@ -34,6 +36,7 @@ export function LinesDetailHeader() {
 	const linesDetailContext = useLinesDetailContext();
 	const localeContext = useLocaleContext();
 	const debugContext = useDebugContext();
+	const analyticsContext = useAnalyticsContext();
 	const lineDetailsHeaderStyles = styles();
 	const { t } = useTranslation('lines.LinesDetail.lineDetailsHeader');
 	const activePattern = linesDetailContext.data.active_pattern;
@@ -47,6 +50,7 @@ export function LinesDetailHeader() {
 	const handleToggleFavorite = async () => {
 		if (!linesDetailContext.data.line) return;
 		try {
+			analyticsContext.actions.capture('Favorite Line Added', { line_id: linesDetailContext.data.line?.id || '', platform: Platform.OS });
 			await profileContext.actions.toggleFavoriteItem('lines', linesDetailContext.data.line.id);
 		}
 		catch (error) {

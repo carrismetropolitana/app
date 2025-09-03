@@ -44,8 +44,8 @@ export default function TimetableSchedules({ selectedExceptionIds, setSelectedEx
 	return (
 		<View style={timeteableShcedulesStyles.container}>
 			<View style={timeteableShcedulesStyles.column}>
-				<Text style={timeteableShcedulesStyles.hourPill}>{t('hours')}</Text>
-				<Text style={timeteableShcedulesStyles.minute}>{t('minutes')}</Text>
+				<Text accessible={false} style={timeteableShcedulesStyles.hourPill}>{t('hours')}</Text>
+				<Text accessible={false} style={timeteableShcedulesStyles.minute}>{t('minutes')}</Text>
 			</View>
 			{timetableData.hours.map((hourData, index) => {
 				const isLastHour = index === timetableData.hours.length - 1;
@@ -53,7 +53,7 @@ export default function TimetableSchedules({ selectedExceptionIds, setSelectedEx
 					<View key={hourData.hour_value} style={timeteableShcedulesStyles.column}>
 						<Text
 							accessibilityHint={t('timetableSchedulesHoursAccessibilityHint')}
-							accessibilityLabel={t('timetableSchedulesHoursAccessibilityLabel', { hour: hourData.hour_label, minutes: hourData.minutes })}
+							accessibilityLabel={t('timetableSchedulesHoursAccessibilityLabel', { hour: hourData.hour_label, minutes: hourData.minutes.map(m => m.minute_label).join(', ') })}
 							accessibilityLanguage={localeContext.locale}
 							accessibilityRole="text"
 							style={[
