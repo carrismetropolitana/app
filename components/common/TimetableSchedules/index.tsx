@@ -36,6 +36,7 @@ export default function TimetableSchedules({ selectedExceptionIds, setSelectedEx
 	const { t } = useTranslation('translation', { keyPrefix: 'common.TimetableSchedules' });
 	const linesDetailContext = useLinesDetailContext();
 	const timeteableShcedulesStyles = styles();
+	const localeContext = useLocaleContext();
 
 	//
 	// B. Render components
@@ -51,6 +52,10 @@ export default function TimetableSchedules({ selectedExceptionIds, setSelectedEx
 				return (
 					<View key={hourData.hour_value} style={timeteableShcedulesStyles.column}>
 						<Text
+							accessibilityHint={t('timetableSchedulesHoursAccessibilityHint')}
+							accessibilityLabel={t('timetableSchedulesHoursAccessibilityLabel', { hour: hourData.hour_label, minutes: hourData.minutes })}
+							accessibilityLanguage={localeContext.locale}
+							accessibilityRole="text"
 							style={[
 								timeteableShcedulesStyles.dynamicHourPillBase,
 								isLastHour && timeteableShcedulesStyles.dynamicHourPillLast,
