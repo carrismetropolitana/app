@@ -1,6 +1,5 @@
 /* * */
 
-import { AnalyticsContextProvider } from '@/contexts/Analytics.context';
 import { DebugContextProvider } from '@/contexts/Debug.context';
 import { LocaleContextProvider } from '@/contexts/Locale.context';
 import { SWRConfig, SWRConfiguration } from 'swr';
@@ -40,9 +39,7 @@ export function ConfigProviders({ children }: { children: React.ReactNode }) {
 		<SWRConfig value={swrSettings}>
 			<LocaleContextProvider>
 				<DebugContextProvider>
-					<AnalyticsContextProvider>
-						{children}
-					</AnalyticsContextProvider>
+					{children}
 				</DebugContextProvider>
 			</LocaleContextProvider>
 		</SWRConfig>

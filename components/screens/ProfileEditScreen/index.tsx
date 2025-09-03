@@ -3,6 +3,7 @@
 import { Section } from '@/components/common/layout/Section';
 import TabBarOnly from '@/components/common/layout/TabOnly';
 import { ProfileImage } from '@/components/ProfileImage';
+import { useAnalyticsContext } from '@/contexts/Analytics.context';
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
@@ -33,6 +34,7 @@ export default function ProfileEditScreen() {
 	const profileContext = useProfileContext();
 	const themeContext = useThemeContext();
 	const localeContext = useLocaleContext();
+	const analyticsContext = useAnalyticsContext();
 	const profileEditModalStyles = styles();
 
 	const activityTypes = ActivitySchema;
@@ -70,10 +72,12 @@ export default function ProfileEditScreen() {
 	// B. Handle actions
 
 	const handleRefreshPersona = () => profileContext.actions.fetchPersona();
+
 	const goBackInHistory = () => profileContext.actions.setPreviousPersona();
 
 	const handleProfileFieldBlur = async (field: string, value: number | string) => {
 		if (profileContext.data.profile) {
+			analyticsContext.actions.capture('Edit Profile Field', { device_id: profileContext.data.profile.devices[0].device_id, field: field, value: value });
 			await profileContext.actions.updateLocalProfile({
 				profile: {
 					...profileContext.data.profile.profile,

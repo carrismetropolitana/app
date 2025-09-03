@@ -35,6 +35,7 @@ export default function Profile() {
 	// B. Render components
 
 	return (
+
 		<LinesDetailContextProvider>
 			<StopsDetailContextProvider>
 				<ProfileScreen />

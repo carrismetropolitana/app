@@ -4,6 +4,8 @@ import pjson from '@/package.json';
 import * as Amplitude from '@amplitude/analytics-react-native';
 import { createContext, useContext, useEffect } from 'react';
 
+import { useProfileContext } from './Profile.context';
+
 /* * */
 
 const AMPLITUDE_API_KEY = process.env.EXPO_PUBLIC_AMPLITUDE_API_KEY;
@@ -31,10 +33,26 @@ export function useAnalyticsContext() {
 /* * */
 
 export const AnalyticsContextProvider = ({ children }: { children: React.ReactNode }) => {
+	//
+
+	//
+	// A. Setup Variables
+
+	const profileContext = useProfileContext();
+
+	// B. Transform Data
+
 	useEffect(() => {
 		Amplitude.init(AMPLITUDE_API_KEY || '', undefined, { disableCookies: true, serverZone: 'EU' });
 	}, []);
 
+	useEffect(() => {
+		if (!profileContext.data.profile) return;
+		setUserId(profileContext.data.profile?.devices[0]?.device_id);
+	}, [profileContext.data.profile?.devices[0]?.device_id]);
+
+	//
+	// C. Handle Actions
 	const getDefaultProps = () => ({
 		app_version: pjson.version,
 		event_date: new Date().toISOString(),
@@ -56,6 +74,9 @@ export const AnalyticsContextProvider = ({ children }: { children: React.ReactNo
 		Amplitude.identify(identifyObj);
 	};
 
+	//
+	// D. Define Context Value
+
 	const contextValue: AnalyticsContextState = {
 		actions: {
 			capture,
@@ -64,9 +85,14 @@ export const AnalyticsContextProvider = ({ children }: { children: React.ReactNo
 		},
 	};
 
+	//
+	// E. Render Components
+
 	return (
 		<AnalyticsContext.Provider value={contextValue}>
 			{children}
 		</AnalyticsContext.Provider>
 	);
+
+	//
 };

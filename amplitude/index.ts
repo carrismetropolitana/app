@@ -168,6 +168,12 @@ export interface DebugModeEnabledProperties {
   referring_domain?: string;
 }
 
+export interface EditProfileFieldProperties {
+  device_id: string;
+  field: string;
+  value: string;
+}
+
 export interface FavoriteLineAddedProperties {
   /**
    * Holds a the ID of the entity "Line", which is usually a 4-digit numeric string.
@@ -307,6 +313,16 @@ export class DebugModeEnabled implements BaseEvent {
 
   constructor(
     public event_properties: DebugModeEnabledProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class EditProfileField implements BaseEvent {
+  event_type = 'Edit Profile Field';
+
+  constructor(
+    public event_properties: EditProfileFieldProperties,
   ) {
     this.event_properties = event_properties;
   }
@@ -594,6 +610,23 @@ export class Ampli {
     options?: EventOptions,
   ) {
     return this.track(new DebugModeEnabled(properties), options);
+  }
+
+  /**
+   * Edit Profile Field
+   *
+   * [View in Tracking Plan](https://data.eu.amplitude.com/tmlmobilidade/default/events/main/latest/Edit%20Profile%20Field)
+   *
+   * Event has no description in tracking plan.
+   *
+   * @param properties The event's properties (e.g. device_id)
+   * @param options Amplitude event options.
+   */
+  editProfileField(
+    properties: EditProfileFieldProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new EditProfileField(properties), options);
   }
 
   /**
