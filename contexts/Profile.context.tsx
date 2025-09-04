@@ -231,7 +231,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 				await uploadProfileToCloud(currentProfile);
 			}
 			else {
-				alert('✅ Profiles are in sync');
+				console.log('✅ Profiles are in sync');
 			}
 		}
 		catch (error) {

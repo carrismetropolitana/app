@@ -56,8 +56,8 @@ export default function TabLayout() {
 	const widgetContext = useWidgetContext();
 
 	const [loaded] = useFonts({
-		Inter: require('@/assets/fonts/Inter-VariableFont_opsz,wght.ttf'),
-		SpaceMono: require('@/assets/fonts/SpaceMono-Regular.ttf'),
+		Inter: require('../../assets/fonts/Inter-VariableFont_opsz,wght.ttf'),
+		SpaceMono: require('../../assets/fonts/SpaceMono-Regular.ttf'),
 	});
 
 	//

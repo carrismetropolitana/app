@@ -90,7 +90,7 @@ export function ConsentPopup() {
 
 			{Platform.OS === 'android' && (
 			// eslint-disable-next-line @typescript-eslint/no-require-imports
-				<Image source={require('@/assets/images/logo.png')} style={{ height: 100, left: 20, resizeMode: 'contain', width: 100 }} />
+				<Image source={require('../../../../assets/images/logo.png')} style={{ height: 100, left: 20, resizeMode: 'contain', width: 100 }} />
 			)}
 
 			<Text style={consentModalStyles.title}>{t('title')}</Text>

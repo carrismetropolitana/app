@@ -65,8 +65,8 @@ export function Header() {
 			{Platform.OS === 'android' && (
 
 				themeContext.theme.mode === 'light'
-					? <Image source={require('@/assets//images/Logos/CMLogoLightMode.png')} style={{ height: 125, left: 0, resizeMode: 'contain', width: 125 }} />
-					: <Image source={require('@/assets/images/Logos/CMLogoDarkMode.png')} style={{ height: 125, left: 0, resizeMode: 'contain', width: 125 }} />
+					? <Image source={require('../../../../assets/images/Logos/CMLogoLightMode.png')} style={{ height: 125, left: 0, resizeMode: 'contain', width: 125 }} />
+					: <Image source={require('../../../../assets/images/Logos/CMLogoDarkMode.png')} style={{ height: 125, left: 0, resizeMode: 'contain', width: 125 }} />
 			)}
 
 			<Link href="/profile">

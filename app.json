@@ -9,6 +9,9 @@
 			"package": "pt.devcarrismetropolitana.mobile",
 			"versionCode": 3.0
 		},
+		"assetBundlePatterns": [
+			"assets/**/*"
+		],
 		"experiments": {
 			"typedRoutes": true
 		},
