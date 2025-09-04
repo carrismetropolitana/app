@@ -77,7 +77,7 @@ export default function ProfileEditScreen() {
 
 	const handleProfileFieldBlur = async (field: string, value: number | string) => {
 		if (profileContext.data.profile) {
-			analyticsContext.actions.capture('Edit Profile Field', { device_id: profileContext.data.profile.devices[0].device_id, field: field, value: value });
+			analyticsContext.actions.setUserProperties({ [field]: value });
 			await profileContext.actions.updateLocalProfile({
 				profile: {
 					...profileContext.data.profile.profile,

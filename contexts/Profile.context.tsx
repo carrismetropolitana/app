@@ -105,8 +105,8 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	useEffect(() => {
 		if (!localProfile) return;
 
-		const syncInterval = setInterval(() => {
-			syncWithCloud(localProfile);
+		const syncInterval = setInterval(async () => {
+			await syncWithCloud(localProfile);
 		}, 3000);
 
 		return () => clearInterval(syncInterval);
@@ -208,21 +208,30 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	};
 
 	const syncWithCloud = async (currentProfile: Account) => {
-		if (!currentProfile) return;
+		if (!currentProfile?.devices?.[0]?.device_id) {
+			console.warn('No device ID found, skipping cloud sync');
+			return;
+		}
+
 		try {
 			const cloudProfile = await fetchProfileFromCloud();
+
 			if (!cloudProfile) {
 				await uploadProfileToCloud(currentProfile);
 				return;
 			}
+
 			const localUpdated = new Date(currentProfile.updated_at || 0).getTime();
 			const cloudUpdated = new Date(cloudProfile.updated_at || 0).getTime();
 
 			if (cloudUpdated > localUpdated) {
 				setLocalProfile(cloudProfile);
 			}
-			else {
+			else if (localUpdated > cloudUpdated) {
 				await uploadProfileToCloud(currentProfile);
+			}
+			else {
+				alert('✅ Profiles are in sync');
 			}
 		}
 		catch (error) {
@@ -232,10 +241,21 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	const fetchProfileFromCloud = async (): Promise<Account | null> => {
 		const currentProfile = localProfileRef.current;
-		if (!currentProfile?.devices?.[0]?.device_id) return null;
+		if (!currentProfile?.devices?.[0]?.device_id) {
+			console.warn('No device ID for cloud fetch');
+			return null;
+		}
+
 		try {
-			const response = await fetchData(`${Routes.API_ACCOUNTS}`, 'GET', undefined, { Authorization: `Bearer ${currentProfile.devices[0].device_id}` });
-			if (!response.isOk) return null;
+			const response = await fetchData(`${Routes.API_ACCOUNTS}`, 'GET', undefined, {
+				Authorization: `Bearer ${currentProfile.devices[0].device_id}`,
+			});
+
+			if (!response.isOk) {
+				console.warn(`Cloud fetch failed: ${response.statusCode} - ${response.error}`);
+				return null;
+			}
+
 			return response.data as Account;
 		}
 		catch (error) {
@@ -245,9 +265,20 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	};
 
 	const uploadProfileToCloud = async (profile: Account) => {
-		if (!profile?.devices?.[0]?.device_id) return;
+		if (!profile?.devices?.[0]?.device_id) {
+			console.warn('No device ID for cloud upload');
+			return;
+		}
+
 		try {
-			await fetchData(`${Routes.API_ACCOUNTS}`, 'POST', profile, { 'Authorization': `Bearer ${profile.devices[0].device_id}`, 'Content-Type': 'application/json' });
+			const response = await fetchData(`${Routes.API_ACCOUNTS}`, 'POST', profile, {
+				'Authorization': `Bearer ${profile.devices[0].device_id}`,
+				'Content-Type': 'application/json',
+			});
+
+			if (!response.isOk) {
+				alert(`Cloud upload failed: ${response.statusCode} - ${response.error}`);
+			}
 		}
 		catch (error) {
 			console.error('Error uploading profile to cloud:', error);
@@ -256,8 +287,15 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	const updateLocalProfile = async (updates: Partial<Account>): Promise<void> => {
 		if (!localProfile) return;
-		const updatedProfile = { ...localProfile, ...updates, updated_at: Dates.now('utc').unix_timestamp };
+
+		const updatedProfile = {
+			...localProfile,
+			...updates,
+			updated_at: Dates.now('utc').unix_timestamp,
+		};
+
 		setLocalProfile(updatedProfile);
+
 		if (updates && !('accent_color' in updates) && !('interests' in updates)) {
 			await uploadProfileToCloud(updatedProfile);
 		}
@@ -272,12 +310,10 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			}
 			const image = response.data;
 			if (image && personaHistory.includes(image.url)) {
-				console.log('Image already exists in history, refetching...');
 				await fetchPersona();
 				return;
 			}
 			if (image) {
-				console.log(image);
 				setPersonaImage(image.url);
 				updateLocalProfile({ profile: { ...localProfile?.profile, profile_image: image.url } });
 				registerPersonaFetch(image.url);

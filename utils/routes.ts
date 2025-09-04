@@ -1,4 +1,4 @@
-const staging = false;
+const staging = true;
 const production = false;
 
 const getAccountsUrl = () => {

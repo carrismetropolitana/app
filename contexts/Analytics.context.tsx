@@ -53,6 +53,7 @@ export const AnalyticsContextProvider = ({ children }: { children: React.ReactNo
 
 	//
 	// C. Handle Actions
+
 	const getDefaultProps = () => ({
 		app_version: pjson.version,
 		event_date: new Date().toISOString(),

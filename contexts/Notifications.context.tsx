@@ -81,7 +81,6 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 	const subscribeToTopic = async (topic: string) => {
 		try {
 			await firebaseSubscribeToTopic(messaging, topic);
-			console.log(`✅ Subscribed to topic "${topic}"`);
 		}
 		catch (e) {
 			console.warn(`❌ Failed to subscribe to "${topic}"`, e);
@@ -91,10 +90,9 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 	const unsubscribeFromTopic = async (topic: string) => {
 		try {
 			await firebaseUnsubscribeFromTopic(messaging, topic);
-			console.log(`✅ Unsubscribed from topic "${topic}"`);
 		}
 		catch (e) {
-			console.warn(`❌ Failed to unsubscribe from "${topic}"`, e);
+			alert(`❌ Failed to unsubscribe from "${topic}"`, e);
 		}
 	};
 
