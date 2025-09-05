@@ -1,5 +1,5 @@
 const staging = false;
-const production = false;
+const production = true;
 
 const getAccountsUrl = () => {
 	if (production) return process.env.EXPO_PUBLIC_PRODUCTION_ACCOUNTS_API_URL;

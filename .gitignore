@@ -83,3 +83,4 @@ yarn-error.*
 # @end expo-cli
 
 /app/Info.plist
+output.apks
