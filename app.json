@@ -6,8 +6,8 @@
 				"foregroundImage": "./assets/images/Logos/CM_Logo _Symbol_LightMode.png"
 			},
 			"googleServicesFile": "./android/google-services.json",
-			"package": "pt.devcarrismetropolitana.mobile",
-			"versionCode": 3.0
+			"package": "pt.carrismetropolitana.mobile",
+			"versionCode": 4.0
 		},
 		"assetBundlePatterns": [
 			"assets/**/*"
@@ -26,7 +26,7 @@
 		"icon": "./assets/images/Logos/CM_Logo _Symbol_LightMode.png",
 		"ios": {
 			"appleTeamId": "QGATT2W97P",
-			"bundleIdentifier": "pt.devcarrismetropolitana.app",
+			"bundleIdentifier": "pt.carrismetropolitana.app",
 			"entitlements": { "aps-environment": "development" },
 			"googleServicesFile": "./ios/GoogleService-Info.plist",
 			"infoPlist": {
@@ -38,10 +38,10 @@
 			"supportsTablet": true
 		},
 		"jsEngine": "hermes",
-		"name": "Carris Metropolitana DEV",
+		"name": "Carris Metropolitana",
 		"newArchEnabled": true,
 		"orientation": "portrait",
-		"owner": "skasix00",
+		"owner": "TML",
 		"plugins": [
 			"@react-native-firebase/app",
 			"@react-native-firebase/messaging",
@@ -87,13 +87,13 @@
 		"runtimeVersion": {
 			"policy": "appVersion"
 		},
-		"scheme": "devcarrismetropolitana",
-		"slug": "Carris Metropolitana DEV",
+		"scheme": "carrismetropolitana",
+		"slug": "Carris Metropolitana",
 		"updates": {
 			"url": "https://u.expo.dev/43d60702-1266-4217-8cb8-54e1f9a722fe"
 		},
 		"userInterfaceStyle": "automatic",
-		"version": "2025.09.03",
+		"version": "2025.09.05",
 		"web": {
 			"bundler": "metro",
 			"favicon": "./assets/images/adaptive-icon.png",

@@ -1,11 +1,13 @@
 {
-	"name": "CMetropolitanaRN",
+	"name": "carris-metropolitana",
 	"version": "1.0.0",
 	"private": true,
 	"type": "commonjs",
 	"main": "expo-router/entry",
 	"scripts": {
 		"android": "expo run:android --device",
+		"build-prod-android": " cd android && ./gradlew bundleRelease",
+		"build-test-android": " cd android && ./gradlew assembleRelease",
 		"dev": "expo start --dev-client",
 		"ios": "expo run:ios --device",
 		"ios-setup": "cd ios && pod install && cd ..",
