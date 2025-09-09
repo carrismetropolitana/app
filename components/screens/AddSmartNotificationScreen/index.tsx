@@ -26,6 +26,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dimensions, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { isEnabled } from 'react-native/Libraries/Performance/Systrace';
 
 import styles from './styles';
 
@@ -44,6 +45,12 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 	//
 	// A. Setup Variables
 
+	const linesDetailContext = useLinesDetailContext();
+	const profileContext = useProfileContext();
+	const localeContext = useLocaleContext();
+	const addFavoriteLineStyles = styles();
+	const navigation = useNavigation();
+
 	const screenHeight = Dimensions.get('window').height;
 	const weekDays: ('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 	const { t } = useTranslation('translation', { keyPrefix: 'addsmartnotifications' });
@@ -54,22 +61,58 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 	const [selectedPatternId, setSelectedPatternId] = useState<null | string>(null);
 	const [selectedVersionId, setSelectedVersionId] = useState<null | string>(null);
 	const [selectedDays, setSelectedDays] = useState(weekDays);
-	const [radius, setRadius] = useState<0 | number>(0);
+	const [radius, setRadius] = useState<500 | number>(500);
 	const [startingHour, setStartingHour] = useState<Date | null>(null);
 	const [endingHour, setEndingHour] = useState<Date | null>(null);
 	const [startingSeconds, setStartingSeconds] = useState<0 | number>(0);
 	const [endingSeconds, setEndingSeconds] = useState<0 | number>(0);
 	const [selectedIndex, setSelectedIndex] = useState<number[]>([]);
 	const [loadedWidgetData, setLoadedWidgetData] = useState<any>(null);
-
-	const linesDetailContext = useLinesDetailContext();
-	const profileContext = useProfileContext();
-	const localeContext = useLocaleContext();
-	const addFavoriteLineStyles = styles();
-	const navigation = useNavigation();
+	const [isWidgetEnabled, setIsWidgetEnabled] = useState(false);
 
 	//
-	// B. Fetch Data
+	// B. Handle Actions
+
+	const verifyWidgetInfo = () => {
+		const hasPattern = !!selectedPatternId;
+		const hasStop = !!selectedStopId;
+		const hasRadius = radius >= 500;
+		const hasDays = selectedDays && selectedDays.length > 0;
+		const hasStart = startingSeconds > 0;
+		const hasEnd = endingSeconds > 0;
+		const validHourOrder = startingSeconds < endingSeconds;
+		return hasPattern && hasStop && hasRadius && hasDays && hasStart && hasEnd && validHourOrder;
+	};
+
+	//
+	// C. Fetch Data
+
+	useEffect(() => {
+		setIsWidgetEnabled(verifyWidgetInfo());
+		if (endingSeconds < startingSeconds) alert('Data de fim é recomandado que seja maior que a data de início e diferente da hora atual ');
+	}, [selectedPatternId, selectedStopId, radius, selectedDays, startingSeconds, endingSeconds]);
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			if (radius < 500) {
+				setRadius(500);
+				alert('O valor mínimo de metros para a notificação é de 500 metros');
+			}
+		}, 500);
+
+		return () => clearTimeout(timer);
+	}, [radius]);
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			if (radius < 500) {
+				setRadius(500);
+				alert('O valor mínimo de metros para a notificação é de 500 metros');
+			}
+		}, 500);
+
+		return () => clearTimeout(timer);
+	}, [radius]);
 
 	useEffect(() => {
 		if (startingHour && endingHour && endingHour <= startingHour) {
@@ -301,6 +344,7 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 				<VerticalContentSeparator ending />
 				<TestingNeedWarning />
 				<WidgetActionsButtonGroup
+					disabled={!isWidgetEnabled}
 					isUpdate={Id}
 					length={selectedStopId ? 1 : 0}
 					onClear={() => exitScreen()}
@@ -316,8 +360,8 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 							type: 'smart_notifications',
 							user_id: profileContext.data.profile?.devices[0].device_id ?? '',
 							week_days: selectedDays.length > 0 ? selectedDays as [
-							'friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday',
-							...('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[],
+									'friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday',
+									...('friday' | 'monday' | 'saturday' | 'sunday' | 'thursday' | 'tuesday' | 'wednesday')[],
 							] : ['monday'],
 						}, settings: { is_open: true },
 					}}

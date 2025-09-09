@@ -9,7 +9,7 @@ import { theming } from '@/theme/Variables';
 import { Stop } from '@carrismetropolitana/api-types/network';
 import { Overlay, Text } from '@rn-vui/themed';
 import { IconCirclePlus } from '@tabler/icons-react-native';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';

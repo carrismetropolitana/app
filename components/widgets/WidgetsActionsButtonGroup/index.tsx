@@ -15,14 +15,14 @@ import { styles } from './styles';
 
 interface Props {
 	dataToSubmit?: AccountWidget
+	disabled?: boolean
 	isUpdate?: string
 	length?: number
 	onClear?: () => void
 	type?: 'lines' | 'smart-notifications' | 'stops'
-
 }
 
-export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onClear, type }: Props) => {
+export const WidgetActionsButtonGroup = ({ dataToSubmit, disabled, isUpdate, length, onClear, type }: Props) => {
 	//
 
 	//
@@ -33,8 +33,6 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onCle
 	const analyticsContext = useAnalyticsContext();
 	const widgetActionButtonsStyles = styles();
 
-	const [isEnabled, setIsEnabled] = useState(false);
-
 	const { t } = useTranslation('translation', { keyPrefix: 'common' });
 
 	//
@@ -42,7 +40,6 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onCle
 
 	const handleSave = async () => {
 		if (dataToSubmit) {
-			setIsEnabled(true);
 			if (isUpdate) {
 				await widgetContext.actions.updateWidget(isUpdate, dataToSubmit);
 			}
@@ -58,7 +55,6 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onCle
 						if ('pattern_id' in dataToSubmit.data && 'week_days' in dataToSubmit.data) {
 							if (length === 0 && dataToSubmit.data.end_time === dataToSubmit.data.start_time) {
 								confirm('Data de fim é recomandado que seja maior que a data de início e diferente da hora atual');
-								setIsEnabled(false);
 								return;
 							}
 							analyticsContext.actions.capture('Create Widget SmartNotifications',
@@ -114,7 +110,7 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onCle
 				accessibilityLanguage={localeContext.locale}
 				accessibilityRole="button"
 				buttonStyle={widgetActionButtonsStyles.saveButton}
-				disabled={isEnabled}
+				disabled={disabled}
 				onPress={() => handleSave()}
 				title={t('saveButton')}
 				titleStyle={widgetActionButtonsStyles.saveButtonText}

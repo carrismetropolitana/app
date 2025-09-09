@@ -2,8 +2,9 @@
 
 import { Account } from '@/types/account.types';
 import { Button, Overlay, Text } from '@rn-vui/themed';
-import { SafeAreaView, View } from 'react-native';
+import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 /* * */
 
