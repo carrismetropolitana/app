@@ -5,6 +5,7 @@ import { useLocaleContext } from '@/contexts/Locale.context';
 import { useWidgetContext } from '@/contexts/Widget.context';
 import { AccountWidget } from '@/types/account.types';
 import { Button } from '@rn-vui/themed';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, View } from 'react-native';
 
@@ -32,6 +33,8 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onCle
 	const analyticsContext = useAnalyticsContext();
 	const widgetActionButtonsStyles = styles();
 
+	const [isEnabled, setIsEnabled] = useState(false);
+
 	const { t } = useTranslation('translation', { keyPrefix: 'common' });
 
 	//
@@ -39,6 +42,7 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onCle
 
 	const handleSave = async () => {
 		if (dataToSubmit) {
+			setIsEnabled(true);
 			if (isUpdate) {
 				await widgetContext.actions.updateWidget(isUpdate, dataToSubmit);
 			}
@@ -52,6 +56,11 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onCle
 						break;
 					case 'smart-notifications':
 						if ('pattern_id' in dataToSubmit.data && 'week_days' in dataToSubmit.data) {
+							if (length === 0 && dataToSubmit.data.end_time === dataToSubmit.data.start_time) {
+								confirm('Data de fim é recomandado que seja maior que a data de início e diferente da hora atual');
+								setIsEnabled(false);
+								return;
+							}
 							analyticsContext.actions.capture('Create Widget SmartNotifications',
 								{
 									pattern_id: dataToSubmit.data.pattern_id,
@@ -105,7 +114,7 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, isUpdate, length, onCle
 				accessibilityLanguage={localeContext.locale}
 				accessibilityRole="button"
 				buttonStyle={widgetActionButtonsStyles.saveButton}
-				disabled={length === 0}
+				disabled={isEnabled}
 				onPress={() => handleSave()}
 				title={t('saveButton')}
 				titleStyle={widgetActionButtonsStyles.saveButtonText}

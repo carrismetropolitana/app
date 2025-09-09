@@ -8,7 +8,7 @@ import { Platform, Pressable, View } from 'react-native';
 
 /* * */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import styles from './styles';
 /* * */
@@ -27,15 +27,16 @@ export const AddSmartNotificationsIntervalInputs = ({ endingHour, setEndingHour,
 
 	//
 	// A. Setup Variables
+
 	const localeContext = useLocaleContext();
 	const locale = localeContext.locale;
 	const { t } = useTranslation('translation', { keyPrefix: 'addsmartnotifications.IntervalInputs' });
 	const intervalInputsStyles = styles();
+	const [showStartingPicker, setShowStartingPicker] = useState(false);
+	const [showEndingPicker, setShowEndingPicker] = useState(false);
 
 	//
 	// B. Render Components
-	const [showStartingPicker, setShowStartingPicker] = useState(false);
-	const [showEndingPicker, setShowEndingPicker] = useState(false);
 
 	return (
 		<>

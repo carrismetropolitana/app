@@ -70,6 +70,13 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 
 	//
 	// B. Fetch Data
+
+	useEffect(() => {
+		if (startingHour && endingHour && endingHour <= startingHour) {
+			alert('Data de fim é recomandado que seja maior que a data de início e diferente da hora atual ');
+		}
+	}, [endingHour]);
+
 	useEffect(() => {
 		if (!Id && !PatternId) return;
 		const widget = profileContext.data.profile?.widgets?.find(w => w.data && w.data.type === 'smart_notifications' && 'id' in w.data && w.data.id === Id);

@@ -1,7 +1,7 @@
 // config.ts
 export const availableLocales = [
 	{
-		alias: ['pt-PT', 'pt_PT', 'pt-BR', 'pt_BR', 'pt-GW', 'pt-MZ'],
+		alias: ['pt-PT', 'pt_BR', 'pt-GW', 'pt-MZ'],
 		enabled: true,
 		value: 'pt',
 	},

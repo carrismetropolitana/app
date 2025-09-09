@@ -33,7 +33,7 @@ export default function Component() {
 	const fontColor = isLight ? theming.colorSystemText100 : theming.colorSystemText300;
 
 	const [dialogVisible, setDialogVisible] = useState(false);
-	const [onConfirmCallback, setOnConfirmCallback] = useState<() => void>(() => () => {});
+	const [onConfirmCallback, setOnConfirmCallback] = useState<() => void>(() => { /* noop */ });
 
 	useEffect(() => {
 		navigation.setOptions({
