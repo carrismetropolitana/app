@@ -36,6 +36,8 @@ export function VehiclesDetailPathMap({ hasToolbar = false }: Props) {
 	//
 	// B. Fetch data
 	const activeVehiclesFC = useMemo(() => {
+		if (!vehiclesContext.data.vehicles.length) return;
+
 		const patternId = linesDetailContext.data.active_pattern?.id;
 		if (!patternId) return null;
 		return vehiclesContext.actions.getVehiclesByPatternIdGeoJsonFC(patternId);

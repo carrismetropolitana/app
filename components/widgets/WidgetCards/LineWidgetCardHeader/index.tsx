@@ -23,9 +23,7 @@ export function LineWidgetCardHeader({ lineId, title }: LineWidgetCardHeaderProp
 	const headerStyles = styles();
 
 	const isLoading = linesContext.flags?.is_loading;
-	const lineData = linesContext.actions.getLineDataById
-		? linesContext.actions.getLineDataById(lineId)
-		: undefined;
+	const lineData = linesContext.actions.getLineDataById ? linesContext.actions.getLineDataById(lineId) : null;
 	const localeContext = useLocaleContext();
 	const { t } = useTranslation('translation', { keyPrefix: 'lineWidgetCard' });
 
@@ -40,7 +38,7 @@ export function LineWidgetCardHeader({ lineId, title }: LineWidgetCardHeaderProp
 	return (
 		<View style={headerStyles.container}>
 			<LineBadge color={lineData?.color} lineId={lineId} size="lg" withAlertIcon />
-			<Text accessibilityHint={`${t('lineAcessibilityHint', { lineId, title })}`} accessibilityLabel={t('lineAcessibilityLabel', { lineId, title })} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={headerStyles.headerTitle}>{title}</Text>
+			<Text accessibilityHint={`${t('lineAcessibilityHint', { lineId, title })}`} accessibilityLabel={t('lineAcessibilityLabel', { lineId, title })} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={headerStyles.headerTitle}>{title ? title : 'A carregar...'}</Text>
 		</View>
 	);
 }

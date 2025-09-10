@@ -115,7 +115,7 @@ export function LinesDetailPathMap({ hasToolbar = false }: Props) {
 					vehiclesData={activeVehiclesFC ?? getBaseGeoJsonFeatureCollection()}
 				/>
 			</MapView>
-			<Counter quantity={activeVehiclesFC?.features.length || 0} type="vehicles" />
+			<Counter quantity={activeVehiclesFC?.features ? activeVehiclesFC.features.length : undefined} type="vehicles" />
 		</View>
 	);
 }
