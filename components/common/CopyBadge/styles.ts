@@ -9,7 +9,6 @@ const container = {
 	flexWrap: 'wrap',
 	fontWeight: 700,
 	justifyContent: 'center',
-	lineHeight: 1,
 	padding: 20,
 	textAlign: 'center',
 	textTransform: 'uppercase',
@@ -33,6 +32,7 @@ export const copyBadgeStyles = StyleSheet.create({
 		fontSize: 10,
 		letterSpacing: 0.5,
 		paddingRight: 15,
+		paddingTop: 3,
 	},
 	sizeMd: {
 		...container,
