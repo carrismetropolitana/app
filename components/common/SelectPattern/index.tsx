@@ -1,7 +1,6 @@
 /* * */
 
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
-import { useLocaleContext } from '@/contexts/Locale.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Routes } from '@/utils/routes';
