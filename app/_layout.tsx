@@ -22,12 +22,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 const queryClient = new QueryClient();
 
 /* * */
+
 export default function RootLayout() {
-	//
-
-	//
-	// B. Render components
-
 	return (
 		<GestureHandlerRootView style={{ flex: 1 }}>
 			<NotificationsProvider>
@@ -56,6 +52,4 @@ export default function RootLayout() {
 			</NotificationsProvider>
 		</GestureHandlerRootView>
 	);
-
-	//
 }
