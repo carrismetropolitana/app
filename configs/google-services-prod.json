@@ -1,0 +1,48 @@
+{
+	"client": [
+		{
+			"api_key": [
+				{
+					"current_key": "AIzaSyDiGJ9KD4PLILi7lPFofN9a0mjS6WsKcIU"
+				}
+			],
+			"client_info": {
+				"android_client_info": {
+					"package_name": "pt.carrismetropolitana.mobile"
+				},
+				"mobilesdk_app_id": "1:204663201966:android:786451c165059e462dcd3f"
+			},
+			"oauth_client": [],
+			"services": {
+				"appinvite_service": {
+					"other_platform_oauth_client": []
+				}
+			}
+		},
+		{
+			"api_key": [
+				{
+					"current_key": "AIzaSyDiGJ9KD4PLILi7lPFofN9a0mjS6WsKcIU"
+				}
+			],
+			"client_info": {
+				"android_client_info": {
+					"package_name": "pt.devcarrismetropolitana.mobile"
+				},
+				"mobilesdk_app_id": "1:204663201966:android:d6821abdbd4994ab2dcd3f"
+			},
+			"oauth_client": [],
+			"services": {
+				"appinvite_service": {
+					"other_platform_oauth_client": []
+				}
+			}
+		}
+	],
+	"configuration_version": "1",
+	"project_info": {
+		"project_id": "cmet-dev",
+		"project_number": "204663201966",
+		"storage_bucket": "cmet-dev.firebasestorage.app"
+	}
+}

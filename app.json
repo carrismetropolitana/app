@@ -5,7 +5,7 @@
 				"backgroundColor": "#ffffff",
 				"foregroundImage": "./assets/images/Logos/CM_Logo _Symbol_LightMode.png"
 			},
-			"googleServicesFile": "./android/google-services-prod.json",
+			"googleServicesFile": "./configs/google-services-prod.json",
 			"package": "pt.carrismetropolitana.mobile",
 			"versionCode": 10092025
 		},
@@ -28,7 +28,7 @@
 			"appleTeamId": "QGATT2W97P",
 			"bundleIdentifier": "pt.carrismetropolitana.app",
 			"entitlements": { "aps-environment": "development" },
-			"googleServicesFile": "./ios/GoogleService-Info.plist",
+			"googleServicesFile": "./configs/GoogleService-Info.plist",
 			"infoPlist": {
 				"ITSAppUsesNonExemptEncryption": false,
 				"NSUserNotificationUsageDescription": "Precisamos de enviar notificações para avisar sobre novidades.",
@@ -46,6 +46,9 @@
 			"@react-native-firebase/app",
 			"@react-native-firebase/messaging",
 			"@maplibre/maplibre-react-native",
+			[
+				"./build-plugins/ios-add-firebase-modular-headers"
+			],
 			[
 				"expo-notifications",
 				{
