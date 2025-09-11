@@ -2,7 +2,7 @@
 
 import { Section } from '@/components/common/layout/Section';
 import TabBarOnly from '@/components/common/layout/TabOnly';
-import { ProfileImage } from '@/components/ProfileImage';
+import { ProfileImage } from '@/components/profile/ProfileImage';
 import { useAnalyticsContext } from '@/contexts/Analytics.context';
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { useProfileContext } from '@/contexts/Profile.context';
@@ -25,7 +25,7 @@ import styles from './styles';
 
 /* * */
 
-export default function ProfileEditScreen() {
+export function ProfileEditScreen() {
 	//
 
 	//

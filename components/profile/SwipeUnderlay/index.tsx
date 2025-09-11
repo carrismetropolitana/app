@@ -9,7 +9,7 @@ import { OpenDirection } from 'react-native-swipeable-item';
 
 /* * */
 
-interface Props {
+interface SwipeUnderlayProps {
 	direction: OpenDirection
 	index: number
 	open: () => void
@@ -18,7 +18,7 @@ interface Props {
 
 /* * */
 
-export const SwipeUnderlay = ({ direction, index, open, percentOpen }: Props) => {
+export function SwipeUnderlay({ direction, index, open, percentOpen }: SwipeUnderlayProps) {
 	//
 
 	//

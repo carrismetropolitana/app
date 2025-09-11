@@ -1,7 +1,7 @@
 /* * */
 
 import FavoriteItem from '@/components/common/FavoriteItem';
-import { SwipeUnderlay } from '@/components/screens/ProfileScreen/SwipeUnderlay';
+import { SwipeUnderlay } from '@/components/profile/SwipeUnderlay';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { AccountWidget } from '@/types/account.types';
@@ -21,7 +21,7 @@ interface RenderFavoriteItemProps {
 
 /* * */
 
-export const RenderFavoriteItem = ({ drag, index, isActive, item }: RenderFavoriteItemProps) => {
+export function RenderFavoriteItem({ drag, index, isActive, item }: RenderFavoriteItemProps) {
 	//
 
 	//

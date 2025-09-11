@@ -1,9 +1,9 @@
 /* * */
 
 import TabBarOnly from '@/components/common/layout/TabOnly';
-import { AddWidgetList } from '@/components/screens/ProfileScreen/AddWidgetList';
-import { RenderFavoriteItem } from '@/components/screens/ProfileScreen/RenderFavoriteItem';
-import { UserDetails } from '@/components/screens/ProfileScreen/UserDetails';
+import { AddWidgetList } from '@/components/profile/AddWidgetList';
+import { RenderFavoriteItem } from '@/components/profile/RenderFavoriteItem';
+import { UserDetails } from '@/components/profile/UserDetails';
 import { useNotifications } from '@/contexts/Notifications.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
@@ -18,7 +18,7 @@ import { styles } from './styles';
 
 /* * */
 
-export default function ProfileScreen() {
+export function ProfileScreen() {
 	//
 
 	//
@@ -80,6 +80,7 @@ export default function ProfileScreen() {
 
 	//
 	// C. Render Components
+
 	return (
 		<>
 			<View style={{ ...profileStyles.container, backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background, flex: 1 }}>

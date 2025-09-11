@@ -1,6 +1,6 @@
 /* * */
 
-import ProfileScreen from '@/components/screens/ProfileScreen';
+import { ProfileScreen } from '@/components/profile/ProfileScreen';
 import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
 import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 /* * */
 
-export default function Profile() {
+export default function Screen() {
 	//
 
 	//

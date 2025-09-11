@@ -2,7 +2,7 @@
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { Section } from '@/components/common/layout/Section';
-import { ProfileImage } from '@/components/ProfileImage';
+import { ProfileImage } from '@/components/profile/ProfileImage';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { AccountWidget } from '@/types/account.types';
 import dimAvatarBackground from '@/utils/dimAvatarBackground';
@@ -16,11 +16,13 @@ import styles from './styles';
 
 /* * */
 
-interface Props {
+interface UserDetailsProps {
 	widgetList: AccountWidget[]
 }
 
-export const UserDetails = ({ widgetList }: Props) => {
+/* * */
+
+export function UserDetails({ widgetList }: UserDetailsProps) {
 	//
 
 	//
@@ -29,6 +31,7 @@ export const UserDetails = ({ widgetList }: Props) => {
 	const profileContext = useProfileContext();
 	const userDetailsStyles = styles();
 	const { t } = useTranslation('translation', { keyPrefix: 'userdetails' });
+
 	//
 	// B. Render Components
 
@@ -48,7 +51,7 @@ export const UserDetails = ({ widgetList }: Props) => {
 				)}
 				<Text style={userDetailsStyles.userFullNameText}>{profileContext?.data.profile?.profile?.first_name} {profileContext?.data.profile?.profile?.last_name}</Text>
 				<Text style={[userDetailsStyles.userActivityText, { color: profileContext.data.accent_color || '' }]}>{profileContext?.data.profile?.profile?.activity?.toUpperCase()}</Text>
-				<Button buttonStyle={userDetailsStyles.button} containerStyle={userDetailsStyles.buttonContainer} onPress={() => router.push('/profileEdit')} title={t('editProfileButtonTitle')} titleStyle={userDetailsStyles.buttonTitle} />
+				<Button buttonStyle={userDetailsStyles.button} containerStyle={userDetailsStyles.buttonContainer} onPress={() => router.push('/profile/edit')} title={t('editProfileButtonTitle')} titleStyle={userDetailsStyles.buttonTitle} />
 			</View>
 			<View style={userDetailsStyles.favoritesListSection}>
 				<Section heading={t('personalizeWidgetsSectionTitle')} />

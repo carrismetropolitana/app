@@ -20,7 +20,7 @@ export default function TabBarOnly() {
 	const icons = { home: IconUserCircle, lines: IconArrowLoopRight, more: IconDots, stops: IconMap };
 	const isLinesDetail = pathname.startsWith('/line/');
 	const isStopsDetail = pathname.startsWith('/stop/');
-	const isHomeOverride = ['/addFavoriteLine', '/addFavoriteStop', '/addSmartNotification', '/profile', '/profileEdit'].includes(pathname);
+	const isHomeOverride = ['/addFavoriteLine', '/addFavoriteStop', '/addSmartNotification', '/profile', '/profile/edit'].includes(pathname);
 	const tabs = [{ name: 'home', route: '/home' }, { name: 'lines', route: '/lines' }, { name: 'stops', route: '/stops' }, { name: 'more', route: '/more' }];
 
 	//

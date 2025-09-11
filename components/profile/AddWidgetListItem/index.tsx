@@ -10,13 +10,15 @@ import styles from './styles';
 
 /* * */
 
-interface Props {
+interface AddWidgetListItemProps {
 	icon: React.ReactNode
 	label: string
 	route: string
 }
 
-export const AddWidgetListItem = ({ icon, label, route }: Props) => {
+/* * */
+
+export function AddWidgetListItem({ icon, label, route }: AddWidgetListItemProps) {
 	//
 
 	//
@@ -27,6 +29,7 @@ export const AddWidgetListItem = ({ icon, label, route }: Props) => {
 
 	//
 	// B. Render Components
+
 	return (
 		<ListItem onPress={() => router.push(route)}>
 			{icon}
@@ -38,4 +41,6 @@ export const AddWidgetListItem = ({ icon, label, route }: Props) => {
 			<IconCirclePlus color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100} fill="#3CB43C" size={24} />
 		</ListItem>
 	);
+
+	//
 };

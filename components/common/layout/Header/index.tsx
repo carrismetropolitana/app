@@ -3,7 +3,7 @@
 
 import zumeDark from '@/assets/header/zume/zume-dark.json';
 import zumeLight from '@/assets/header/zume/zume-light.json';
-import { ProfileImage } from '@/components/ProfileImage';
+import { ProfileImage } from '@/components/profile/ProfileImage';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';

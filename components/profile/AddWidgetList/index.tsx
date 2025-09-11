@@ -1,7 +1,7 @@
 /* * */
 
 import { Section } from '@/components/common/layout/Section';
-import { AddWidgetListItem } from '@/components/screens/ProfileScreen/AddWidgetListItem';
+import { AddWidgetListItem } from '@/components/profile/AddWidgetListItem';
 import { IconArrowLoopRight, IconBellRinging, IconBusStop } from '@tabler/icons-react-native';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -18,6 +18,7 @@ export const AddWidgetList = () => {
 
 	const addWidgetListStyles = styles();
 	const { t } = useTranslation('translation', { keyPrefix: 'profile' });
+
 	//
 	// B. Render Components
 
@@ -29,4 +30,6 @@ export const AddWidgetList = () => {
 			<AddWidgetListItem icon={<IconBellRinging color="#0C807E" size={24} />} label={t('addWidgetSmartNotificationListItemTitle')} route="/addSmartNotification" />
 		</View>
 	);
+
+	//
 };
