@@ -12,14 +12,10 @@
 		"ios": "expo run:ios --device",
 		"ios-setup": "cd ios && pod install && cd ..",
 		"lint": "eslint .",
-		"postinstall": "expo prebuild",
+		"lint:fix": "eslint . --fix",
 		"prebuild": "expo prebuild",
-		"reset-project": "node ./scripts/reset-project.js",
 		"start": "expo start -c --dev-client",
 		"web": "expo start --web"
-	},
-	"jest": {
-		"preset": "jest-expo"
 	},
 	"dependencies": {
 		"@amplitude/analytics-react-native": "1.5.8",

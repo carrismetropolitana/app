@@ -4,9 +4,12 @@
 		"editor.codeActionsOnSave": {
 			"source.fixAll.stylelint": "explicit"
 		},
-		"editor.defaultFormatter": "stylelint.vscode-stylelint"
+		"editor.defaultFormatter": "vscode.css-language-features"
 	},
 
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "vscode.typescript-language-features"
+	},
 	// Disable the default CSS formatter, use stylelint instead
 	"css.validate": false,
 
@@ -19,7 +22,6 @@
 	"editor.tabSize": 4,
 
 	"eslint.format.enable": true,
-
 	// Enable eslint for all supported languages
 	"eslint.validate": [
 		"javascript",
@@ -35,28 +37,21 @@
 		"toml",
 		"astro"
 	],
-	"eslint.workingDirectories": ["auto"],
+	"eslint.workingDirectories": [{ "mode": "auto" }],
 	"files.eol": "\n",
 
 	"less.validate": false,
 	// Disable the default formatter, use eslint instead
 	"prettier.enable": false,
-
 	"scss.validate": false,
 
+	"svg.preview.background": "custom",
 	"workbench.editor.customLabels.enabled": true,
+
 	"workbench.editor.customLabels.patterns": {
 		"**/components/**/*.css": "${dirname} (${extname})",
 		"**/components/**/*.js": "${dirname} (${extname})",
 		"**/components/**/*.tsx": "${dirname} (${extname})"
-	},
-	"i18n-ally.localesPaths": [
-		"i18n",
-		"ios/Pods/RCT-Folly/folly/lang",
-		"ios/Pods/boost/boost/predef/language",
-		"ios/Pods/Headers/Private/RCT-Folly/folly/lang",
-		"ios/Pods/Headers/Public/RCT-Folly/folly/lang"
-	],
-	"i18next.i18nPaths": "/Users/brunocastelo/Developer/carrismetropolitana/app/i18n,/Users/brunocastelo/Developer/carrismetropolitana/app/i18n/translations,/Users/brunocastelo/Developer/carrismetropolitana/app/ios/Pods/RCT-Folly/folly/lang,/Users/brunocastelo/Developer/carrismetropolitana/app/ios/Pods/Headers/Private/RCT-Folly/folly/lang,/Users/brunocastelo/Developer/carrismetropolitana/app/ios/Pods/Headers/Public/RCT-Folly/folly/lang"
+	}
 
 }
