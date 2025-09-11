@@ -29,7 +29,7 @@ export default function ProfileEditScreen() {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const profileContext = useProfileContext();
 	const themeContext = useThemeContext();

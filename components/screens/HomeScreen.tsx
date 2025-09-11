@@ -18,7 +18,7 @@ export default function HomeScreen() {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const localeContext = useLocaleContext();
 	const themeContext = useThemeContext();

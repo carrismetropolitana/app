@@ -19,7 +19,7 @@ export function VirtualizedListingLines({ data, icon, itemClick, items = 10, mun
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const localeContext = useLocaleContext();
 	const getItem = useCallback((d: any[], i: number) => d[i], []);

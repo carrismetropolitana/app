@@ -12,7 +12,7 @@ export default function OpenWebView() {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const { locale, url } = useLocalSearchParams();
 	const formedUrl = `${url}?locale=${locale}`;

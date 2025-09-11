@@ -18,7 +18,7 @@ export function NoVehicleIcon({ style }: Props) {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const noVehicleIconStyles = styles();
 	const scale = useSharedValue(0);

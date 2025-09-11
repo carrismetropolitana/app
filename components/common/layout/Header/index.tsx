@@ -20,7 +20,7 @@ export function Header() {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const insets = useSafeAreaInsets();
 	const { theme } = useThemeContext();

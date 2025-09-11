@@ -20,7 +20,7 @@ export const AddWidgetListItem = ({ icon, label, route }: Props) => {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const themeContext = useThemeContext();
 	const addWidgetListItemStyles = styles();

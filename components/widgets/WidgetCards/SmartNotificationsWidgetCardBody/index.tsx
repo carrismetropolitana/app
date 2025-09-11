@@ -18,7 +18,7 @@ export function SmartNotificationWidgetCardBody({ lineId }: Props) {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 	const lineDetailContext = useLinesDetailContext();
 	const lineData = lineDetailContext.data.line;
 

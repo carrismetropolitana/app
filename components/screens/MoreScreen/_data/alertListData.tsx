@@ -13,7 +13,7 @@ export function AlertListData() {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const { t } = useTranslation('translation', { keyPrefix: 'more.AlertList' });
 

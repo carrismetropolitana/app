@@ -18,7 +18,7 @@ export function LineWidgetCardBody({ lineId }: Props) {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 	const lineDetailContext = useLinesDetailContext();
 	//
 	// B. Fetch Data

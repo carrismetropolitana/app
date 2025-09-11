@@ -26,7 +26,7 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, disabled, isUpdate, len
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const widgetContext = useWidgetContext();
 	const localeContext = useLocaleContext();

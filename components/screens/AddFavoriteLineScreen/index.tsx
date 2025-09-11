@@ -36,7 +36,7 @@ export default function AddFavoriteLineScreen({ lineId }: Props) {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const screenHeight = Dimensions.get('screen').height;
 	const [lineChooserVisibility, setLineChooserVisibility] = useState(false);

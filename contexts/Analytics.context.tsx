@@ -36,7 +36,7 @@ export const AnalyticsContextProvider = ({ children }: { children: React.ReactNo
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const profileContext = useProfileContext();
 

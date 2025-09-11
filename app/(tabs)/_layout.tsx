@@ -27,7 +27,7 @@ export default function TabLayout() {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const themeContext = useThemeContext();
 	const insets = useSafeAreaInsets();

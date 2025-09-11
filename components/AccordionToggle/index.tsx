@@ -24,7 +24,7 @@ export const AccordionToggle = ({ expanded, isNotification, size = 24 }: Accordi
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const themeContext = useThemeContext();
 	const localeContext = useLocaleContext();

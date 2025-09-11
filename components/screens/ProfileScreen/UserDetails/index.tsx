@@ -24,7 +24,7 @@ export const UserDetails = ({ widgetList }: Props) => {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const profileContext = useProfileContext();
 	const userDetailsStyles = styles();

@@ -25,7 +25,7 @@ export const RenderFavoriteItem = ({ drag, index, isActive, item }: RenderFavori
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const themeContext = useThemeContext();
 	const key = widgetKey(item);

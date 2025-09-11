@@ -21,7 +21,7 @@ export function SelectNotificationControl({ selectedSelector }: Props) {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const { t } = useTranslation('translation', { keyPrefix: 'common.SelectNotificationControl' });
 

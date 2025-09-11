@@ -10,7 +10,7 @@ export default function TabBarOnly() {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const insets = useSafeAreaInsets();
 	const themeContext = useThemeContext();

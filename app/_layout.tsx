@@ -3,7 +3,10 @@
 import 'react-native-reanimated';
 import '@/i18n';
 import 'expo-dev-client';
-import ThemedStatusBar from '@/components/common/layout/ThemedStatusBar';
+
+/* * */
+
+import { ThemedStatusBar } from '@/components/common/layout/ThemedStatusBar';
 import { NotificationsProvider } from '@/contexts/Notifications.context';
 import { ThemeProvider } from '@/contexts/Theme.context';
 import { ConfigProviders } from '@/providers/config-providers';

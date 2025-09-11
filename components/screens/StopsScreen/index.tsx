@@ -36,7 +36,7 @@ export default function StopsScreen() {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const locationContext = useLocationsContext();
 	const stopsContext = useStopsContext();

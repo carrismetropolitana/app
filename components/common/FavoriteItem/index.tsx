@@ -27,7 +27,7 @@ export default function FavoriteItemComponent({ data, drag, isActive }: Favorite
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	let linkHref = '';
 	const stopsContext = useStopsContext();

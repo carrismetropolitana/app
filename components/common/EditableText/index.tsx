@@ -18,7 +18,7 @@ export const EditableText = ({ onBlur, onChangeText, style, value }: EditableTex
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const [isEditing, setIsEditing] = useState(false);
 

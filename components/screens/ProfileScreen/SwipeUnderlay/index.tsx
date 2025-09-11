@@ -22,7 +22,7 @@ export const SwipeUnderlay = ({ direction, index, open, percentOpen }: Props) =>
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const themeContext = useThemeContext();
 	const widgetContext = useWidgetContext();

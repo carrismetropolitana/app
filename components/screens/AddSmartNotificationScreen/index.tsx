@@ -43,7 +43,7 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const linesDetailContext = useLinesDetailContext();
 	const profileContext = useProfileContext();

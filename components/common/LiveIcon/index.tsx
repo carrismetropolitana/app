@@ -16,7 +16,7 @@ export function LiveIcon({ style }: Props) {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const liveIconStyles = styles();
 	const scale = useSharedValue(0);

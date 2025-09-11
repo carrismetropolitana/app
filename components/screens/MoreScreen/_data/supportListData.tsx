@@ -18,7 +18,7 @@ export function Supportlistdata() {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const { t } = useTranslation('translation', { keyPrefix: 'more.SupportList' });
 	const moreStyles = styles();

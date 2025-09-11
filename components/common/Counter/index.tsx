@@ -21,7 +21,7 @@ export default function Counter({ quantity, type }: Props) {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const { t } = useTranslation('translation', { keyPrefix: 'common' });
 	const counterStyles = styles();

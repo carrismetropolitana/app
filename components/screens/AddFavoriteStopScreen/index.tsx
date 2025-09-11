@@ -32,7 +32,7 @@ export default function AddFavoriteStopScreen() {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const screenHeight = Dimensions.get('window').height;
 	const [stopChooserVisibility, setStopChooserVisibility] = useState(false);

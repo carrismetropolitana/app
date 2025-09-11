@@ -20,7 +20,7 @@ export function AboutCMlistdata() {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const { t } = useTranslation('translation', { keyPrefix: 'more.AboutCMList' });
 

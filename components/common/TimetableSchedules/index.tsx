@@ -93,7 +93,7 @@ function TimetableSchedulesMinute({ isHighlighted, minuteData, onClick, selected
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 	const isSelected = selectedExceptionIds.some(exceptionId => minuteData.exception_ids.includes(exceptionId));
 	const timeteableShcedulesMinutesStyles = styles();
 

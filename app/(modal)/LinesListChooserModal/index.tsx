@@ -31,7 +31,7 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const linesDetailContext = useLinesDetailContext();
 	const linesContext = useLinesContext();

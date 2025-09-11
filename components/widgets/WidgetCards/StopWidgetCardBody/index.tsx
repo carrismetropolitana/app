@@ -20,7 +20,7 @@ export function StopWidgetCardBody({ patternIds, stopId }: Props) {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const stopDetailContext = useStopsDetailContext();
 	const localeContext = useLocaleContext();

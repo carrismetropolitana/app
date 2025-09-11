@@ -22,7 +22,7 @@ export default function ProfileScreen() {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const flatListGestureRef = useRef(null);
 	const itemRefs = useRef<Map<string, SwipeableItemImperativeRef>>(new Map());

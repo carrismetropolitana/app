@@ -12,7 +12,7 @@ export default function NotFoundScreen() {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const themeContext = useThemeContext();
 	const styles = StyleSheet.create({

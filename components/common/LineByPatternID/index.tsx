@@ -23,7 +23,7 @@ export default function LineByPatternID({ patternId }: Props) {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const [patternData, setPatternData] = useState<null | Pattern[]>(null);
 

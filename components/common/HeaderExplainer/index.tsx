@@ -18,7 +18,7 @@ export const HeaderExplainer = ({ heading, subheading }: Props) => {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const headerExplainerStyles = styles();
 	const { t } = useTranslation('translation', { keyPrefix: 'common.headerExplainer' });

@@ -14,7 +14,7 @@ export const AddWidgetList = () => {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const addWidgetListStyles = styles();
 	const { t } = useTranslation('translation', { keyPrefix: 'profile' });

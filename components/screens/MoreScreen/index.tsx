@@ -40,7 +40,7 @@ export default function MoreScreen() {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 	const localeContext = useLocaleContext();
 	const debugContext = useDebugContext();
 

@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 export default function Page() {
 	//
 
-	// A. Setup Variables
+	// A. Setup variables
 
 	const { stop_id } = useLocalSearchParams<{ stop_id: string }>();
 

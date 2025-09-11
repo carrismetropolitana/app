@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 /* * */
 
 export function Tarifslistdata() {
-	// A. Setup Variables
+	// A. Setup variables
 
 	const { t } = useTranslation('translation', { keyPrefix: 'more.TarifsList' });
 	const localeContext = useLocaleContext();

@@ -30,7 +30,7 @@ export default function StopsListChooserModal({ isVisible, onBackdropPress, sele
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const stopsContext = useStopsContext();
 	const stopsListContext = useStopsListContext();

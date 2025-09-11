@@ -59,7 +59,7 @@ export function MapView({ camera, children, fitBoundsCoords, mapStyle, onPress, 
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const [modalVisible, setModalVisible] = useState(false);
 	const [userInteracted, setUserInteracted] = useState(false);

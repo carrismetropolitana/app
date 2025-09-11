@@ -20,7 +20,7 @@ export function SelectOperationalDay() {
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const { t } = useTranslation('translation', { keyPrefix: 'common.SelectOperationalDay' });
 	const localeContext = useLocaleContext();

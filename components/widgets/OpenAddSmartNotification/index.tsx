@@ -24,7 +24,7 @@ export const OpenAddSmartNotification = ({ disabled, heading = '', patternId, su
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const openAddSmartNotificationStyles = styles();
 	const linesDetailContext = useLinesDetailContext();

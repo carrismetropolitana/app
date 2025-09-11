@@ -26,7 +26,7 @@ export const AddSmartNotificationsIntervalInputs = ({ endingHour, setEndingHour,
 	//
 
 	//
-	// A. Setup Variables
+	// A. Setup variables
 
 	const localeContext = useLocaleContext();
 	const locale = localeContext.locale;
