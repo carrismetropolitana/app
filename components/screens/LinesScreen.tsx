@@ -19,7 +19,7 @@ import LineSearchBar from '../common/LineSearchBar';
 
 /* * */
 
-export default function LinesScreen() {
+export function LinesScreen() {
 	//
 
 	//

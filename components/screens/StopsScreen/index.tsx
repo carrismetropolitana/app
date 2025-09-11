@@ -32,7 +32,7 @@ import { styles } from './styles';
 
 /* * */
 
-export default function StopsScreen() {
+export function StopsScreen() {
 	//
 
 	//

@@ -1,5 +1,8 @@
+/* * */
+
 import FavoritesBar from '@/components/common/FavoritesBar';
 import { Header } from '@/components/common/layout/Header';
+import { WidgetCards } from '@/components/widgets/WidgetCards';
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
@@ -12,9 +15,7 @@ import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { WidgetCards } from '../widgets/WidgetCards';
-
-export default function HomeScreen() {
+export function HomeScreen() {
 	//
 
 	//

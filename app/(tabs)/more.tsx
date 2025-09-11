@@ -1,17 +1,9 @@
 /* * */
 
-import MoreScreen from '@/components/screens/MoreScreen';
+import { MoreScreen } from '@/components/screens/MoreScreen';
 
 /* * */
-export default function More() {
-	//
 
-	//
-	// A. Render components
-
-	return (
-		<MoreScreen />
-	);
-
-	//
+export default function Page() {
+	return <MoreScreen />;
 }

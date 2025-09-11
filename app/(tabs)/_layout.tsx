@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
+
 /* * */
 
 import { HapticTab } from '@/components/HapticTab';

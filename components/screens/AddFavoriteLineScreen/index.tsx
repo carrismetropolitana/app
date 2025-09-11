@@ -32,7 +32,7 @@ interface Props {
 }
 /* * */
 
-export default function AddFavoriteLineScreen({ lineId }: Props) {
+export function AddFavoriteLineScreen({ lineId }: Props) {
 	//
 
 	//

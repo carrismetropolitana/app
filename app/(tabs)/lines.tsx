@@ -1,18 +1,13 @@
 /* * */
 
-import LinesScreen from '@/components/screens/LinesScreen';
+import { LinesScreen } from '@/components/screens/LinesScreen';
 import { AlertsContextProvider } from '@/contexts/Alerts.context';
 import { LinesListContextProvider } from '@/contexts/LinesList.context';
 
 /* * */
-export default function Lines() {
-	//
 
-	//
-	// A . Render components
-
+export default function Page() {
 	return (
-
 		<LinesListContextProvider>
 			<AlertsContextProvider>
 				<LinesScreen />
@@ -20,6 +15,4 @@ export default function Lines() {
 		</LinesListContextProvider>
 
 	);
-
-	//
 };

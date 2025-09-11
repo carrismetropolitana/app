@@ -36,7 +36,7 @@ interface ListSection {
 
 /* * */
 
-export default function MoreScreen() {
+export function MoreScreen() {
 	//
 
 	//

@@ -23,6 +23,7 @@ export default function Component() {
 
 	//
 	// A. Setup variables
+
 	const isLight = useThemeContext().theme.mode === 'light';
 	const { t } = useTranslation('translation', { keyPrefix: 'CookiesPage' });
 	const navigation = useNavigation();
