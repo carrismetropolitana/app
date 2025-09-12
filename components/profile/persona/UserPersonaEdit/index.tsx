@@ -9,14 +9,7 @@ import styles from './styles';
 
 /* * */
 
-export interface UserPersonaEditProps {
-	onClickBack: () => void
-	onClickRandom: () => void
-}
-
-/* * */
-
-export function UserPersonaEdit({ onClickBack, onClickRandom }: UserPersonaEditProps) {
+export function UserPersonaEdit() {
 	//
 
 	//
@@ -31,10 +24,10 @@ export function UserPersonaEdit({ onClickBack, onClickRandom }: UserPersonaEditP
 
 	return (
 		<View style={styles.container}>
-			<TouchableOpacity aria-label={t('go_back')} onPress={onClickBack} style={styles.button}>
+			<TouchableOpacity aria-label={t('go_back')} onPress={profileContext.actions.setPreviousPersona} style={styles.button}>
 				<IconArrowNarrowLeft color={profileContext.data.accent_color ?? '#000000'} size={30} />
 			</TouchableOpacity>
-			<TouchableOpacity aria-label={t('randomize')} onPress={onClickRandom} style={styles.button}>
+			<TouchableOpacity aria-label={t('randomize')} onPress={profileContext.actions.fetchPersona} style={styles.button}>
 				<IconArrowsShuffle color={profileContext.data.accent_color ?? '#000000'} size={26} />
 			</TouchableOpacity>
 		</View>

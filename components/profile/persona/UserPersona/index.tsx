@@ -1,6 +1,6 @@
 /* * */
 
-import { UserPersonaEdit, type UserPersonaEditProps } from '@/components/profile/persona/UserPersonaEdit';
+import { UserPersonaEdit } from '@/components/profile/persona/UserPersonaEdit';
 import { UserPersonaImage, type UserPersonaImageProps } from '@/components/profile/persona/UserPersonaImage';
 import { View } from 'react-native';
 
@@ -8,15 +8,15 @@ import styles from './styles';
 
 /* * */
 
-type UserPersonaProps = Partial<UserPersonaEditProps> & Partial<UserPersonaImageProps>;
+type UserPersonaProps = Partial<UserPersonaImageProps> & { withEditButtons?: boolean };
 
 /* * */
 
-export function UserPersona({ onClickBack, onClickRandom, size = 'md' }: UserPersonaProps) {
+export function UserPersona({ size = 'md', withEditButtons }: UserPersonaProps) {
 	return (
 		<View style={styles.container}>
 			<UserPersonaImage size={size} />
-			{onClickBack && onClickRandom && <UserPersonaEdit onClickBack={onClickBack} onClickRandom={onClickRandom} />}
+			{withEditButtons && <UserPersonaEdit />}
 		</View>
 	);
 }
