@@ -50,7 +50,7 @@ export function UserPersonaImage({ size = 'md' }: UserPersonaImageProps) {
 	//
 	// C. Render Components
 
-	if (!imageUrl) {
+	if (imageUrl) {
 		return (
 			<View style={[profileImageStyles.container, { borderColor: accentColor, borderWidth: borderWidth }]}>
 				<View style={[profileImageStyles.background, { backgroundColor: accentColor }]} />
@@ -66,7 +66,7 @@ export function UserPersonaImage({ size = 'md' }: UserPersonaImageProps) {
 	return (
 		<Image
 			resizeMode="contain"
-			source={{ uri: '/images/no-persona-image' }}
+			source={{ uri: 'images/no-persona-image' }}
 			style={{ height: containerSize, width: containerSize }}
 		/>
 	);

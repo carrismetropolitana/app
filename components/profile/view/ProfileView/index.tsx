@@ -1,8 +1,8 @@
 /* * */
 
-import { CreateWidgetList } from '@/components/profile/CreateWidgetList';
-import { UserOverview } from '@/components/profile/UserOverview';
-import { WidgetsList } from '@/components/profile/WidgetsList';
+import { ProfileViewPersona } from '@/components/profile/view/ProfileViewPersona';
+import { ProfileViewWidgets } from '@/components/profile/view/ProfileViewWidgets';
+import { ProfileViewWidgetsCreate } from '@/components/profile/view/ProfileViewWidgetsCreate';
 import { useNotifications } from '@/contexts/Notifications.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { useNavigation } from 'expo-router';
@@ -12,7 +12,7 @@ import { NestableScrollContainer } from 'react-native-draggable-flatlist';
 
 /* * */
 
-export function ProfileScreen() {
+export function ProfileView() {
 	//
 
 	//
@@ -43,9 +43,9 @@ export function ProfileScreen() {
 	return (
 		<SafeAreaView>
 			<NestableScrollContainer>
-				<UserOverview />
-				<WidgetsList />
-				<CreateWidgetList />
+				<ProfileViewPersona />
+				<ProfileViewWidgets />
+				<ProfileViewWidgetsCreate />
 			</NestableScrollContainer>
 		</SafeAreaView>
 	);

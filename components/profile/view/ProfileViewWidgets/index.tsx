@@ -10,7 +10,7 @@ import { NestableDraggableFlatList, type RenderItemParams, ScaleDecorator } from
 
 /* * */
 
-export function WidgetsList() {
+export function ProfileViewWidgets() {
 	//
 
 	//

@@ -1,8 +1,6 @@
 /* * */
 
-import { ProfileScreen } from '@/components/profile/ProfileScreen';
-import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
-import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
+import { ProfileView } from '@/components/profile/view/ProfileView';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
@@ -37,13 +35,7 @@ export default function Screen() {
 	//
 	// C. Render components
 
-	return (
-		<LinesDetailContextProvider>
-			<StopsDetailContextProvider>
-				<ProfileScreen />
-			</StopsDetailContextProvider>
-		</LinesDetailContextProvider>
-	);
+	return <ProfileView />;
 
 	//
 }

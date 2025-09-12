@@ -2,16 +2,14 @@
 
 import { Section } from '@/components/common/layout/Section';
 import TabBarOnly from '@/components/common/layout/TabOnly';
-import { ProfileImage } from '@/components/profile/UserPersona';
 import { useAnalyticsContext } from '@/contexts/Analytics.context';
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { ActivitySchema, InterestsSchema, UtilizationTypeSchema } from '@/types/account.types';
-import dimAvatarBackground from '@/utils/dimAvatarBackground';
-import { ButtonGroup, CheckBox, Input, ListItem, Text } from '@rn-vui/themed';
-import { IconArrowNarrowLeft, IconArrowsShuffle, IconCircle, IconCircleFilled, IconSquare, IconSquareCheckFilled } from '@tabler/icons-react-native';
+import { CheckBox, Input, ListItem, Text } from '@rn-vui/themed';
+import { IconArrowNarrowLeft, IconArrowsShuffle, IconSquare, IconSquareCheckFilled } from '@tabler/icons-react-native';
 import CountryPicker, { Country, CountryCode } from '@vricosti/react-native-country-picker-modal';
 import { useNavigation } from 'expo-router';
 import { DateTime } from 'luxon';

@@ -1,6 +1,6 @@
 /* * */
 
-import { UserPersona } from '@/components/profile/UserPersona';
+import { UserPersona } from '@/components/profile/persona/UserPersona';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { Button, Text } from '@rn-vui/themed';
 import { router } from 'expo-router';
@@ -12,15 +12,7 @@ import styles from './styles';
 
 /* * */
 
-interface UserOverviewProps {
-	onAccentPick?: (accentId: string) => void
-	onClickBack?: () => void
-	onClickRandom?: () => void
-}
-
-/* * */
-
-export function UserOverview({ onAccentPick, onClickBack, onClickRandom }: UserOverviewProps) {
+export function ProfileViewPersona() {
 	//
 
 	//
@@ -46,9 +38,19 @@ export function UserOverview({ onAccentPick, onClickBack, onClickRandom }: UserO
 	return (
 		<View style={userDetailsStyles.container}>
 			<UserPersona size="lg" />
-			<Text style={userDetailsStyles.displayName}>{userDisplayName}</Text>
-			<Text style={[userDetailsStyles.activity, { color: profileContext.data.accent_color || '' }]}>{profileContext?.data.profile?.profile?.activity ?? t('default_activity')}</Text>
-			<Button buttonStyle={userDetailsStyles.button} containerStyle={userDetailsStyles.buttonContainer} onPress={() => router.push('/profile/edit')} title={t('edit_profile')} titleStyle={userDetailsStyles.buttonTitle} />
+			<Text style={userDetailsStyles.displayName}>
+				{userDisplayName}
+			</Text>
+			<Text style={[userDetailsStyles.activity, { color: profileContext.data.accent_color || '' }]}>
+				{profileContext?.data.profile?.profile?.activity ?? t('default_activity')}
+			</Text>
+			<Button
+				buttonStyle={userDetailsStyles.button}
+				containerStyle={userDetailsStyles.buttonContainer}
+				onPress={() => router.push('/profile/edit')}
+				title={t('edit_profile')}
+				titleStyle={userDetailsStyles.buttonTitle}
+			/>
 		</View>
 	);
 

@@ -1,6 +1,6 @@
 /* * */
 
-import { UserPersona } from '@/components/profile/UserPersona';
+import { UserPersona } from '@/components/profile/persona/UserPersona';
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';

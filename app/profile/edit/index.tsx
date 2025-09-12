@@ -1,8 +1,6 @@
 /* * */
 
-import { ProfileScreenEdit } from '@/components/profile/ProfileScreenEdit';
-import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
-import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
+import { ProfileScreenEdit } from '@/components/profile/edit/ProfileScreenEdit';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';

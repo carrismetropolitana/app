@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* * */
 
-import { UserPersona } from '@/components/profile/UserPersona';
+import { UserPersona } from '@/components/profile/persona/UserPersona';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
-import { Link } from 'expo-router';
+import { router } from 'expo-router';
 import React from 'react';
-import { Image, View } from 'react-native';
+import { Image, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 /* * */
@@ -50,9 +50,9 @@ export function HomeScreenHeader() {
 				? <Image source={require('@/assets/images/Logos/CMLogoLightMode.png')} style={{ height: 125, left: 0, resizeMode: 'contain', width: 125 }} />
 				: <Image source={require('@/assets/images/Logos/CMLogoDarkMode.png')} style={{ height: 125, left: 0, resizeMode: 'contain', width: 125 }} />}
 
-			<Link accessibilityLabel="Go to profile" accessibilityRole="imagebutton" href="/profile">
+			<TouchableOpacity accessibilityLabel="Go to profile" accessibilityRole="imagebutton" onPress={() => router.push('/profile')}>
 				<UserPersona size="md" />
-			</Link>
+			</TouchableOpacity>
 
 		</View>
 	);
