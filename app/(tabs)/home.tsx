@@ -1,6 +1,6 @@
 /* * */
 
-import { HomeScreen } from '@/components/screens/HomeScreen';
+import { HomeScreen } from '@/components/home/HomeScreen';
 
 /* * */
 

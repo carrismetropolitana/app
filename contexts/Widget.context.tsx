@@ -167,5 +167,3 @@ export const WidgetContextProvider = ({ children }: { children: ReactNode }) => 
 		</WidgetContext.Provider>
 	);
 };
-
-export default WidgetContextProvider;

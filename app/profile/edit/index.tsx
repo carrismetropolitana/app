@@ -20,6 +20,9 @@ export default function Screen() {
 	const themeContext = useThemeContext();
 	const { t } = useTranslation('translation', { keyPrefix: 'profileEdit' });
 
+	//
+	// B. Handle actions
+
 	useEffect(() => {
 		navigation.setOptions({
 			headerBackTitle: t('headerTitle'),
@@ -32,7 +35,7 @@ export default function Screen() {
 	}, [navigation]);
 
 	//
-	// B. Render components
+	// C. Render components
 
 	return (
 		<LinesDetailContextProvider>

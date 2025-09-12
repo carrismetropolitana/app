@@ -1,18 +1,12 @@
 /* * */
 
-import React from 'react';
 import { Image, Text, View } from 'react-native';
 
 import { styles } from './styles';
 
 /* * */
 
-export default function OfflineScreen() {
-	//
-
-	//
-	// A. Render Components
-
+export function OfflineScreen() {
 	return (
 		<View style={styles.container}>
 			<Image
@@ -27,6 +21,4 @@ export default function OfflineScreen() {
 			</Text>
 		</View>
 	);
-
-	//
 }

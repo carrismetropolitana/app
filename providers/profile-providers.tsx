@@ -2,7 +2,7 @@
 
 import { AnalyticsContextProvider } from '@/contexts/Analytics.context';
 import { ProfileContextProvider } from '@/contexts/Profile.context';
-import WidgetContextProvider from '@/contexts/Widget.context';
+import { WidgetContextProvider } from '@/contexts/Widget.context';
 
 /* * */
 

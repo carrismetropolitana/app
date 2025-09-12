@@ -1,7 +1,7 @@
 /* * */
 
 import FavoritesBar from '@/components/common/FavoritesBar';
-import { Header } from '@/components/common/layout/Header';
+import { HomeScreenHeader } from '@/components/home/HomeScreenHeader';
 import { WidgetCards } from '@/components/widgets/WidgetCards';
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { useProfileContext } from '@/contexts/Profile.context';
@@ -48,7 +48,7 @@ export function HomeScreen() {
 
 	return (
 		<View style={{ backgroundColor: backgroundColor, flex: 1 }}>
-			<Header />
+			<HomeScreenHeader />
 			<ScrollView
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={{

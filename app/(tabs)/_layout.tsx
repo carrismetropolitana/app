@@ -3,7 +3,7 @@
 /* * */
 
 import { HapticTab } from '@/components/HapticTab';
-import OfflineScreen from '@/components/OfflineScreen';
+import { OfflineScreen } from '@/components/OfflineScreen';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useProfileContext } from '@/contexts/Profile.context';
@@ -129,4 +129,6 @@ export default function TabLayout() {
 			)}
 		</>
 	);
+
+	//
 }

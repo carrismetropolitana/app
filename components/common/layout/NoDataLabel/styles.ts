@@ -9,7 +9,7 @@ import { StyleSheet } from 'react-native';
 export const styles = () => {
 	const { theme } = useThemeContext();
 	const isLight = theme.mode === 'light';
-	const fontColor = isLight ? theming.colorSystemText200 : theming.colorSystemText400;
+	const fontColor = isLight ? theming.colorSystemText300 : theming.colorSystemText400;
 	const backgroundColor = theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100;
 	const shadowColor = theme.mode === 'light' ? theming.colorSystemBackgroundDark200 : theming.colorSystemBackgroundLight200;
 
@@ -33,10 +33,12 @@ export const styles = () => {
 		},
 		text: {
 			color: fontColor,
-			fontSize: 20,
+			fontSize: 16,
 			fontWeight: 'bold',
 			letterSpacing: 1,
+			padding: 20,
 			textAlign: 'center',
+			textTransform: 'uppercase',
 		},
 		withMinHeight: {
 			padding: 30,
