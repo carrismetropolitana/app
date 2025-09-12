@@ -1,6 +1,6 @@
 /* * */
 
-import styles from '@/components/screens/MoreScreen/styles';
+import styles from '@/components/more/MoreScreen/styles';
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { openWebView } from '@/utils/openWebView';
 import {

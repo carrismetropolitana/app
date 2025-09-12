@@ -1,4 +1,6 @@
-export interface NewsData {
+/* * */
+
+export interface News {
 	_id: string
 	content: string
 	cover_image_src: string

@@ -65,10 +65,10 @@ export default function TabLayout() {
 	// B. Transform data
 
 	useEffect(() => {
-		if (loaded && !stopContext.flags.is_loading && !linesContext.flags.is_loading && !profileContext.flags.is_loading && !widgetContext.flags.is_loading) {
+		if (loaded && !stopContext.flags.loading && !linesContext.flags.loading && !profileContext.flags.loading && !widgetContext.flags.loading) {
 			SplashScreen.hideAsync();
 		}
-	}, [loaded, stopContext.flags.is_loading, linesContext.flags.is_loading, profileContext.flags.is_loading, widgetContext.flags.is_loading]);
+	}, [loaded, stopContext.flags.loading, linesContext.flags.loading, profileContext.flags.loading, widgetContext.flags.loading]);
 
 	//
 	// C. Render components

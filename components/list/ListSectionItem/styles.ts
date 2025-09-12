@@ -1,6 +1,7 @@
 /* * */
 
-import { StyleSheet } from 'react-native';
+import { theming } from '@/theme/Variables';
+import { Appearance, StyleSheet } from 'react-native';
 
 /* * */
 
@@ -20,7 +21,8 @@ export const styles = StyleSheet.create({
 		display: 'flex',
 	},
 	label: {
-		fontSize: 16,
+		color: Appearance.getColorScheme() === 'light' ? theming.colorSystemText100 : theming.colorSystemText100,
+		fontSize: 18,
 		fontWeight: 600,
 	},
 });
