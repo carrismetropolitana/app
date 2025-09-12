@@ -237,7 +237,7 @@ export const LinesListContextProvider = ({ children }: { children: React.ReactNo
 			by_search: filterBySearchState,
 		},
 		flags: {
-			is_loading: linesContext.flags.is_loading,
+			is_loading: linesContext.flags.loading,
 		},
 	};
 

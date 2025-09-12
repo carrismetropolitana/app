@@ -103,7 +103,7 @@ export const LinesDetailContextProvider = ({ children, lineIdParams }: LinesDeta
 
 	const [flagIsFavoriteState, setFlagIsFavoriteState] = useState<LinesDetailContextState['flags']['is_favorite']>(false);
 	const [flagIsInteractiveModeState, setFlagIsInteractiveModeState] = useState<LinesDetailContextState['flags']['is_interactive_mode']>(false);
-	const [lineId, setActiveLineId] = useState<'' | any >('');
+	const [lineId, setActiveLineId] = useState<'' | any>('');
 
 	//
 	// B. Fetch data
@@ -127,20 +127,6 @@ export const LinesDetailContextProvider = ({ children, lineIdParams }: LinesDeta
 		const isFavorite = profileContext.data.favorite_lines?.includes(lineId) ? true : false;
 		setFlagIsFavoriteState(isFavorite);
 	}, [profileContext.data.favorite_lines, lineId]);
-
-	useEffect(() => {
-		if (lineId === undefined) return;
-		const serviceMetricsData = linesContext.actions.getServiceMetricsByLineId(lineId);
-		if (!serviceMetricsData) return;
-		setDataServiceMetricsState(serviceMetricsData);
-	}, [lineId, linesContext.data.service_metrics]);
-
-	useEffect(() => {
-		if (lineId === undefined) return;
-		const demandMetricsData = linesContext.actions.getDemandMetricsByLineId(lineId);
-		if (!demandMetricsData) return;
-		setDataDemandMetricsState(demandMetricsData);
-	}, [lineId, linesContext.data.demand_metrics]);
 
 	useEffect(() => {
 		if (!dataLineState || !dataLineState.route_ids) return;
@@ -418,7 +404,7 @@ export const LinesDetailContextProvider = ({ children, lineIdParams }: LinesDeta
 		flags: {
 			is_favorite: flagIsFavoriteState,
 			is_interactive_mode: flagIsInteractiveModeState,
-			is_loading: linesContext.flags.is_loading || stopsContext.flags.is_loading || dataRoutesState === null || dataAllPatternsState === null,
+			is_loading: linesContext.flags.loading || stopsContext.flags.loading || dataRoutesState === null || dataAllPatternsState === null,
 		},
 	};
 

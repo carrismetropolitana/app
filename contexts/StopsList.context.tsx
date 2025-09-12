@@ -214,7 +214,7 @@ export const StopsListContextProvider = ({ children }: { children: React.ReactNo
 			by_search: filterBySearchState,
 		},
 		flags: {
-			is_loading: stopsContext.flags.is_loading,
+			is_loading: stopsContext.flags.loading,
 		},
 	};
 

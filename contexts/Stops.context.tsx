@@ -1,7 +1,7 @@
 /* * */
 
+import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import { type Stop } from '@carrismetropolitana/api-types/network';
-import { getBaseGeoJsonFeatureCollection } from '@tmlmobilidade/utils';
 import { Feature, type FeatureCollection, type Point } from 'geojson';
 import { createContext, type PropsWithChildren, useContext, useMemo } from 'react';
 import useSWR from 'swr';
