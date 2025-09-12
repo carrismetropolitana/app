@@ -1,8 +1,7 @@
 /* * */
 
-import type { Account } from '@/types/account.types';
-import type { ProfileImage } from '@/types/profileImage.type';
-
+import { type Account } from '@/types/account.types';
+import { type ProfileImage } from '@/types/profileImage.type';
 import { Dates } from '@/utils/dates/dates';
 import { fetchData } from '@/utils/fetchData';
 import { Routes } from '@/utils/routes';
@@ -74,7 +73,14 @@ export function useProfileContext() {
 	return context;
 }
 
+/* * */
+
 export const ProfileContextProvider = ({ children }: { children: ReactNode }) => {
+	//
+
+	//
+	// A. Setup variables
+
 	const [localProfile, setLocalProfile] = useState<Account | null>(null);
 	const [accentColor, setAccentColor] = useState<string>('rgba(253,183,26,0.4)');
 	const [interests, setInterests] = useState<string[]>([]);

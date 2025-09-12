@@ -24,21 +24,21 @@ export function CreateWidgetList() {
 			key: 'stop',
 			label: 'Adicionar Paragem',
 			link: '/addFavoriteStop',
-			replaceChevron: <IconCirclePlus color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100} fill="#3CB43C" size={24} />,
+			replaceChevron: <IconCirclePlus color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100} fill="#3CB43C" size={30} />,
 		},
 		{
 			icon: <IconArrowLoopRight color="#C61D23" size={30} />,
 			key: 'line',
 			label: 'Adicionar Linha',
 			link: '/addFavoriteLine',
-			replaceChevron: <IconCirclePlus color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100} fill="#3CB43C" size={24} />,
+			replaceChevron: <IconCirclePlus color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100} fill="#3CB43C" size={30} />,
 		},
 		{
 			icon: <IconBellRinging color="#0C807E" size={30} />,
 			key: 'notification',
 			label: 'Adicionar Notificação Inteligente',
 			link: '/addSmartNotification',
-			replaceChevron: <IconCirclePlus color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100} fill="#3CB43C" size={24} />,
+			replaceChevron: <IconCirclePlus color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100} fill="#3CB43C" size={30} />,
 		},
 	];
 

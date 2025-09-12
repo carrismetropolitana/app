@@ -1,32 +1,22 @@
 /* * */
 
-import type { CachedResource } from '@carrismetropolitana/api-types/common';
-import type { Municipality } from '@carrismetropolitana/api-types/locations';
-import type { DemandMetricsByLine, ServiceMetrics } from '@carrismetropolitana/api-types/metrics';
-import type { Line, Route } from '@carrismetropolitana/api-types/network';
-
-import { Routes } from '@/utils/routes';
-import { createContext, useContext, useMemo } from 'react';
+import { type Line, type Route } from '@carrismetropolitana/api-types/network';
+import { createContext, type PropsWithChildren, useContext, useMemo } from 'react';
 import useSWR from 'swr';
 
 /* * */
 
 interface LinesContextState {
 	actions: {
-		getDemandMetricsByLineId: (lineId: string) => DemandMetricsByLine | undefined
 		getLineDataById: (lineId: string) => Line | undefined
 		getRouteDataById: (routeId: string) => Route | undefined
-		getServiceMetricsByLineId: (lineId: string) => ServiceMetrics[] | undefined
 	}
 	data: {
-		demand_metrics: DemandMetricsByLine[]
 		lines: Line[]
-		municipalities: Municipality[]
 		routes: Route[]
-		service_metrics: ServiceMetrics[]
 	}
 	flags: {
-		is_loading: boolean
+		loading: boolean
 	}
 }
 
@@ -41,53 +31,60 @@ export function useLinesContext() {
 	return context;
 }
 
-export const LinesContextProvider = ({ children }: { children: React.ReactNode }) => {
+/* * */
+
+export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 	//
 
 	//
-	// A. Fetch resources
-	const { data: allLinesData = [], isLoading: linesLoading } = useSWR<Line[]>(`${Routes.API}/lines`);
-	const { data: allRoutesData = [], isLoading: routesLoading } = useSWR<Route[]>(`${Routes.API}/routes`);
-	const { data: municipalitiesData = { data: [] }, isLoading: municipalitiesLoading } = useSWR<CachedResource<Municipality[]>>(`${Routes.API}/locations/municipalities`);
-	const { data: demandByLineData = [], isLoading: demandLoading } = useSWR<DemandMetricsByLine[]>(`${Routes.API}/metrics/demand/by_line`, { refreshInterval: 300000 });
-	const { data: serviceMetricsData = { data: [] }, isLoading: serviceLoading } = useSWR<CachedResource<ServiceMetrics[]>>(`${Routes.API}/metrics/service/all`);
+	// A. Fetch data
 
-	const is_loading = linesLoading || routesLoading || municipalitiesLoading || demandLoading || serviceLoading;
-
-	// B. Actions
-	const getLineDataById = (lineId: string) => allLinesData.find(line => line.id === lineId);
-
-	const getRouteDataById = (routeId: string) => allRoutesData.find(route => route.id === routeId);
-
-	const getDemandMetricsByLineId = (lineId: string) => demandByLineData.find(demand => demand.line_id === lineId);
-
-	const getServiceMetricsByLineId = (lineId: string) => serviceMetricsData.data.filter(metric => metric.line_id === lineId);
+	const { data: allLinesData, isLoading: allLinesLoading } = useSWR<Line[]>('https://api.carrismetropolitana.pt/v2/lines');
+	const { data: allRoutesData, isLoading: allRoutesLoading } = useSWR<Route[]>('https://api.carrismetropolitana.pt/v2/routes');
 
 	//
-	// C. Context value
+	// B. Handle actions
+
+	const getLineDataById = (lineId: string) => {
+		if (!allLinesData) return;
+		return allLinesData.find(line => line.id === lineId);
+	};
+
+	const getRouteDataById = (routeId: string) => {
+		if (!allRoutesData) return;
+		return allRoutesData.find(route => route.id === routeId);
+	};
+
+	//
+	// C. Define context value
+
 	const contextValue: LinesContextState = useMemo(() => ({
 		actions: {
-			getDemandMetricsByLineId,
 			getLineDataById,
 			getRouteDataById,
-			getServiceMetricsByLineId,
 		},
 		data: {
-			demand_metrics: demandByLineData,
-			lines: allLinesData,
-			municipalities: municipalitiesData.data,
-			routes: allRoutesData,
-			service_metrics: serviceMetricsData.data,
+			lines: allLinesData ?? [],
+			routes: allRoutesData ?? [],
 		},
-		flags: { is_loading },
+		flags: {
+			loading: allLinesLoading || allRoutesLoading,
+		},
 	}), [
 		allLinesData,
 		allRoutesData,
-		municipalitiesData,
-		demandByLineData,
-		serviceMetricsData,
-		is_loading,
+		allLinesLoading,
+		allRoutesLoading,
 	]);
 
-	return <LinesContext.Provider value={contextValue}>{children}</LinesContext.Provider>;
+	//
+	// D. Render components
+
+	return (
+		<LinesContext.Provider value={contextValue}>
+			{children}
+		</LinesContext.Provider>
+	);
+
+	//
 };

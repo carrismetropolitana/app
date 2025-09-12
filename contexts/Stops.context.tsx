@@ -1,25 +1,24 @@
 /* * */
 
-import type { Stop } from '@carrismetropolitana/api-types/network';
-
-import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
-import { Routes } from '@/utils/routes';
-import { createContext, useContext } from 'react';
+import { type Stop } from '@carrismetropolitana/api-types/network';
+import { getBaseGeoJsonFeatureCollection } from '@tmlmobilidade/utils';
+import { Feature, type FeatureCollection, type Point } from 'geojson';
+import { createContext, type PropsWithChildren, useContext, useMemo } from 'react';
 import useSWR from 'swr';
 
 /* * */
 
 interface StopsContextState {
 	actions: {
-		getAllStopsGeoJsonFC: () => GeoJSON.FeatureCollection | undefined
 		getStopById: (stopId: string) => Stop | undefined
-		getStopByIdGeoJsonFC: (stopId: string) => GeoJSON.FeatureCollection | undefined
+		getStopByIdGeoJsonFC: (stopId: string) => FeatureCollection<Point, Stop> | undefined
 	}
 	data: {
+		geojson: FeatureCollection<Point, Stop>
 		stops: Stop[]
 	}
 	flags: {
-		is_loading: boolean
+		loading: boolean
 	}
 }
 
@@ -37,65 +36,64 @@ export function useStopsContext() {
 
 /* * */
 
-export const StopsContextProvider = ({ children }: { children: React.ReactNode }) => {
+export const StopsContextProvider = ({ children }: PropsWithChildren) => {
 	//
 
 	//
 	// A. Fetch data
 
-	const { data: allStopsData, isLoading: allStopsLoading } = useSWR<Stop[], Error>(`${Routes.API}/stops`);
+	const { data: allStopsData, isLoading: allStopsLoading } = useSWR<Stop[], Error>('https://api.carrismetropolitana.pt/v2/stops');
 
 	//
-	// B. Handle actions
+	// B. Transform data
+
+	const allStopsGeoJson = useMemo(() => {
+		const base = getBaseGeoJsonFeatureCollection<Point, Stop>();
+		if (!allStopsData) return base;
+		base.features = allStopsData.map(stop => transformStopDataIntoGeoJsonFeature(stop));
+		return base;
+	}, [allStopsData]);
+
+	//
+	// C. Handle actions
 
 	const getStopById = (stopId: string): Stop | undefined => {
-		if (!allStopsLoading) {
-			const foundStop = allStopsData?.find(stop => stop.id === stopId);
-			return foundStop;
-		}
-		else {
-			return undefined;
-		}
-	};
-
-	const getAllStopsGeoJsonFC = (): GeoJSON.FeatureCollection | undefined => {
 		if (!allStopsData) return;
-		const collection = getBaseGeoJsonFeatureCollection();
-		allStopsData.forEach((stop) => {
-			const stopFC = transformStopDataIntoGeoJsonFeature(stop);
-			if (stopFC) collection.features.push(stopFC);
-		});
-		return collection;
+		return allStopsData.find(stop => stop.id === stopId);
 	};
 
-	const getStopByIdGeoJsonFC = (stopId: string): GeoJSON.FeatureCollection | undefined => {
-		const stop = getStopById(stopId);
-		if (!stop) return;
-		const collection = getBaseGeoJsonFeatureCollection();
-		const stopFC = transformStopDataIntoGeoJsonFeature(stop);
-		if (stopFC) collection.features.push(stopFC);
-		return collection;
+	const getStopByIdGeoJsonFC = (stopId: string): FeatureCollection<Point, Stop> | undefined => {
+		const foundStop = getStopById(stopId);
+		if (!foundStop) return;
+		const base = getBaseGeoJsonFeatureCollection<Point, Stop>();
+		const stopFC = transformStopDataIntoGeoJsonFeature(foundStop);
+		base.features.push(stopFC);
+		return base;
 	};
 
 	//
-	// C. Define context value
+	// D. Define context value
 
-	const contextValue: StopsContextState = {
+	const contextValue: StopsContextState = useMemo(() => ({
 		actions: {
-			getAllStopsGeoJsonFC,
 			getStopById,
 			getStopByIdGeoJsonFC,
 		},
 		data: {
-			stops: allStopsData || [],
+			geojson: allStopsGeoJson,
+			stops: allStopsData ?? [],
 		},
 		flags: {
-			is_loading: allStopsLoading,
+			loading: allStopsLoading,
 		},
-	};
+	}), [
+		allStopsGeoJson,
+		allStopsData,
+		allStopsLoading,
+	]);
 
 	//
-	// D. Render components
+	// E. Render components
 
 	return (
 		<StopsContext.Provider value={contextValue}>
@@ -108,19 +106,13 @@ export const StopsContextProvider = ({ children }: { children: React.ReactNode }
 
 /* * */
 
-export function transformStopDataIntoGeoJsonFeature(stopData: Stop): GeoJSON.Feature<GeoJSON.Point> {
+export function transformStopDataIntoGeoJsonFeature(stopData: Stop): Feature<Point, Stop> {
 	return {
 		geometry: {
 			coordinates: [stopData.lon, stopData.lat],
 			type: 'Point',
 		},
-		properties: {
-			current_status: stopData.operational_status,
-			id: stopData.id,
-			lat: stopData.lat,
-			lon: stopData.lon,
-			long_name: stopData.long_name,
-		},
+		properties: stopData,
 		type: 'Feature',
 	};
 }
