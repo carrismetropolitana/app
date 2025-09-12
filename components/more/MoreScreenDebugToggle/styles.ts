@@ -7,8 +7,13 @@ import { StyleSheet } from 'react-native';
 
 export const useStyles = () => {
 	return StyleSheet.create({
-		container: {
-			backgroundColor: useSystemVariables().background[200],
+		toggle: {
+			color: useSystemVariables().text[300],
+			fontWeight: 600,
+			marginBottom: 100,
+			padding: 15,
+			textAlign: 'center',
+			textTransform: 'uppercase',
 		},
 	});
 };

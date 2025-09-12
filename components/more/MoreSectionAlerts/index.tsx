@@ -1,7 +1,8 @@
 /* * */
 
 import { ListSection } from '@/components/list/ListSection';
-import { ListSectionItemProps } from '@/components/list/ListSectionItem';
+import { type ListSectionItemProps } from '@/components/list/ListSectionItem';
+import { useSystemVariables } from '@/theme/global';
 import { IconAlertTriangle } from '@tabler/icons-react-native';
 import { useTranslation } from 'react-i18next';
 
@@ -17,7 +18,7 @@ export function MoreSectionAlerts() {
 
 	const LIST_ITEMS: ListSectionItemProps[] = [
 		{
-			icon: <IconAlertTriangle size={32} />,
+			icon: <IconAlertTriangle color={useSystemVariables().text[100]} size={32} />,
 			key: 'alerts',
 			label: t('items.service_alerts'),
 			link: '/webview?url=https://carrismetropolitana.pt/alerts',

@@ -558,37 +558,57 @@
 			"recruitment": "Recruitment",
 			"subheading": "Learn more about Carris Metropolitana and explore different aspects of the bus operation across the 18 municipalities of the Lisbon metropolitan area."
 		},
+		"MoreScreenAppVersion": {
+			"label": "App Version"
+		},
+		"MoreScreenDebugToggle": {
+			"active": "Debug active",
+			"hint": "Activate/deactivate debug mode",
+			"inactive": "Debug inactive"
+		},
+		"MoreScreenLocaleSwitch": {
+			"en": "English",
+			"hint": "Switch the app language",
+			"pt": "Português"
+		},
+		"MoreSectionAbout": {
+			"heading": "Carris Metropolitana",
+			"items": {
+				"about": "About CMetropolitana",
+				"drivers": "Become a Driver",
+				"legal": "Legal Notice",
+				"metrics": "Our Operation Live",
+				"opendata": "Open Data",
+				"privacy": "Privacy"
+			}
+		},
 		"MoreSectionAlerts": {
 			"heading": "Alerts",
 			"items": {
 				"service_alerts": "Service Alerts"
 			}
 		},
-		"SupportList": {
-			"contacts": "Contacts",
-			"frequently_asked": "Frequently asked",
+		"MoreSectionSupport": {
 			"heading": "Support",
-			"lost_found": "Lost and Found",
-			"stores": "Stores and Agents",
-			"subheading": "Clarify you doubts about Carris Metropolitana or ask us a question"
+			"items": {
+				"contacts": "Contacts",
+				"faq": "Frequently Asked Questions",
+				"lost_and_found": "Lost and Found",
+				"stores": "Stores and Agents"
+			}
 		},
-		"TarifsList": {
+		"MoreSectionTariffs": {
 			"heading": "Tarifs",
-			"monthly_tickets": "Monthly Tickets",
-			"ocasional_tickets": "Ocasional Tickets",
-			"subheading": "Discover how much it costs to travel with CMetropolitana regularly or occasionally.",
-			"where_to_buy": "Where to buy"
+			"items": {
+				"cards": "Monthly Tickets",
+				"helpdesks": "Where to buy",
+				"tickets": "Ocasional Tickets"
+			}
 		},
 		"about_cm_list_hint": "This section contains links to pages with information about carris metropolitana",
 		"about_cm_list_label": "Usefull links about Carris Metropolitana",
 		"alert_list_hint": "This section refers to alerts",
 		"alert_list_label": "Usefull links about alerts",
-		"languages": {
-			"en": "English",
-			"language_buttons_hint": "Click one of the 2 available languages (portugese and english) to change the app's display language",
-			"language_buttons_label": "Buttons to change app display language, selected {language}",
-			"pt": "Portuguese"
-		},
 		"support_list_hint": "This section referes to support",
 		"support_list_label": "Usefull links about support",
 		"tarifs_list_hint": "This section refers to tarifs",

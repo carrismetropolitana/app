@@ -1,20 +1,31 @@
 /* * */
 
 import { MoreNews } from '@/components/more/MoreNews';
+import { MoreScreenAppVersion } from '@/components/more/MoreScreenAppVersion';
+import { MoreScreenDebugToggle } from '@/components/more/MoreScreenDebugToggle';
+import { MoreScreenLocaleSwitch } from '@/components/more/MoreScreenLocaleSwitch';
+import { MoreSectionAbout } from '@/components/more/MoreSectionAbout';
 import { MoreSectionAlerts } from '@/components/more/MoreSectionAlerts';
-import { ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { MoreSectionSupport } from '@/components/more/MoreSectionSupport';
+import { MoreSectionTariffs } from '@/components/more/MoreSectionTariffs';
+import { SafeAreaView, ScrollView } from 'react-native';
 
-import styles from './styles';
+import { useStyles } from './styles';
 
 /* * */
 
 export function MoreScreen() {
 	return (
-		<SafeAreaView style={styles.container}>
+		<SafeAreaView style={useStyles().container}>
 			<ScrollView>
 				<MoreNews />
 				<MoreSectionAlerts />
+				<MoreSectionSupport />
+				<MoreSectionTariffs />
+				<MoreSectionAbout />
+				<MoreScreenAppVersion />
+				<MoreScreenLocaleSwitch />
+				<MoreScreenDebugToggle />
 			</ScrollView>
 		</SafeAreaView>
 	);

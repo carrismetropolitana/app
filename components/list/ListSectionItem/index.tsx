@@ -5,7 +5,7 @@ import { useRouter } from 'expo-router';
 import { type ReactNode } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import { styles } from './styles';
+import { useStyles } from './styles';
 
 /* * */
 
@@ -31,10 +31,10 @@ export function ListSectionItem({ icon, label, link, replaceChevron }: ListSecti
 	// B. Render components
 
 	return (
-		<TouchableOpacity onPress={() => router.push(link)} role="listitem" style={styles.container}>
-			<View style={styles.icon}>{icon}</View>
+		<TouchableOpacity onPress={() => router.push(link)} role="listitem" style={useStyles().container}>
+			<View style={useStyles().icon}>{icon}</View>
 			<View style={{ flex: 1 }}>
-				<Text style={styles.label}>{label}</Text>
+				<Text style={useStyles().label}>{label}</Text>
 			</View>
 			{replaceChevron ? replaceChevron : <IconChevronRight color="#C0C0C8" size={24} />}
 		</TouchableOpacity>

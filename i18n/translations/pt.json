@@ -563,6 +563,16 @@
 		"MoreNews": {
 			"loading": "A carregar notícias..."
 		},
+		"MoreScreenDebugToggle": {
+			"active": "Debug ativo",
+			"hint": "Ativar/desativar modo debug",
+			"inactive": "Debug inativo"
+		},
+		"MoreScreenLocaleSwitch": {
+			"en": "English",
+			"hint": "Alterar o idioma da aplicação",
+			"pt": "Português"
+		},
 		"MoreSectionAlerts": {
 			"heading": "Alertas",
 			"items": {
@@ -588,20 +598,10 @@
 		"about_cm_list_label": "Link úteis sobre a Carris Metropolitana",
 		"alert_list_hint": "Esta secção é referente a alertas",
 		"alert_list_label": "Link úteis sobre alertas",
-		"languages": {
-			"en": "Inglês",
-			"language_buttons_hint": "Clique numa das 2 linguas (português e inglês) disponiveis para alterar a lingua da app",
-			"language_buttons_label": "Botões de mudança de idioma, selecionado {language}",
-			"pt": "Português"
-		},
 		"support_list_hint": "Esta secção é referente a apoio ao cliente",
 		"support_list_label": "Link úteis sobre apoio ao cliente",
 		"tarifs_list_hint": "Esta secção é referente a tarifas",
 		"tarifs_list_label": "Link úteis sobre tarifas",
-		"toggle_debug": "Ativar Modo de Debug",
-		"toggle_debug_hint": "Clique para ativar ou desativar o modo de debug.",
-		"toggle_debug_label": "Botão para ativar/desativar o modo de Debug",
-		"untoggle_debug": "Desativar Modo de Debug",
 		"usefullLinksHint": "Este link redireciona para  informações relacionadas com {title}",
 		"usefullLinksLabel": "Links para  {title}",
 		"version_hint": "Versão da aplicação",
