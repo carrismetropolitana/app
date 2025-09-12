@@ -1,9 +1,9 @@
 /* * */
 
+import { MoreAppVersion } from '@/components/more/MoreAppVersion';
+import { MoreDebugToggle } from '@/components/more/MoreDebugToggle';
+import { MoreLocaleSwitch } from '@/components/more/MoreLocaleSwitch';
 import { MoreNews } from '@/components/more/MoreNews';
-import { MoreScreenAppVersion } from '@/components/more/MoreScreenAppVersion';
-import { MoreScreenDebugToggle } from '@/components/more/MoreScreenDebugToggle';
-import { MoreScreenLocaleSwitch } from '@/components/more/MoreScreenLocaleSwitch';
 import { MoreSectionAbout } from '@/components/more/MoreSectionAbout';
 import { MoreSectionAlerts } from '@/components/more/MoreSectionAlerts';
 import { MoreSectionSupport } from '@/components/more/MoreSectionSupport';
@@ -23,9 +23,9 @@ export function MoreScreen() {
 				<MoreSectionSupport />
 				<MoreSectionTariffs />
 				<MoreSectionAbout />
-				<MoreScreenAppVersion />
-				<MoreScreenLocaleSwitch />
-				<MoreScreenDebugToggle />
+				<MoreAppVersion />
+				<MoreLocaleSwitch />
+				<MoreDebugToggle />
 			</ScrollView>
 		</SafeAreaView>
 	);

@@ -8,7 +8,7 @@ import { useStyles } from './styles';
 
 /* * */
 
-export function MoreScreenDebugToggle() {
+export function MoreDebugToggle() {
 	//
 
 	//
@@ -16,7 +16,7 @@ export function MoreScreenDebugToggle() {
 
 	const debugContext = useDebugContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'more.MoreScreenDebugToggle' });
+	const { t } = useTranslation('translation', { keyPrefix: 'more.MoreDebugToggle' });
 
 	//
 	// B. Render components

@@ -8,13 +8,13 @@ import { useStyles } from './styles';
 
 /* * */
 
-export function MoreScreenAppVersion() {
+export function MoreAppVersion() {
 	//
 
 	//
 	// A. Setup variables
 
-	const { t } = useTranslation('translation', { keyPrefix: 'MoreScreenAppVersion' });
+	const { t } = useTranslation('translation', { keyPrefix: 'MoreAppVersion' });
 
 	//
 	// B. Render components

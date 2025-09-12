@@ -563,12 +563,12 @@
 		"MoreNews": {
 			"loading": "A carregar notícias..."
 		},
-		"MoreScreenDebugToggle": {
+		"MoreDebugToggle": {
 			"active": "Debug ativo",
 			"hint": "Ativar/desativar modo debug",
 			"inactive": "Debug inativo"
 		},
-		"MoreScreenLocaleSwitch": {
+		"MoreLocaleSwitch": {
 			"en": "English",
 			"hint": "Alterar o idioma da aplicação",
 			"pt": "Português"

@@ -558,15 +558,15 @@
 			"recruitment": "Recruitment",
 			"subheading": "Learn more about Carris Metropolitana and explore different aspects of the bus operation across the 18 municipalities of the Lisbon metropolitan area."
 		},
-		"MoreScreenAppVersion": {
+		"MoreAppVersion": {
 			"label": "App Version"
 		},
-		"MoreScreenDebugToggle": {
+		"MoreDebugToggle": {
 			"active": "Debug active",
 			"hint": "Activate/deactivate debug mode",
 			"inactive": "Debug inactive"
 		},
-		"MoreScreenLocaleSwitch": {
+		"MoreLocaleSwitch": {
 			"en": "English",
 			"hint": "Switch the app language",
 			"pt": "Português"

@@ -10,14 +10,14 @@ import { useStyles } from './styles';
 
 /* * */
 
-export function MoreScreenLocaleSwitch() {
+export function MoreLocaleSwitch() {
 	//
 
 	//
 	// A. Setup variables
 
 	const localeContext = useLocaleContext();
-	const { t } = useTranslation('translation', { keyPrefix: 'more.MoreScreenLocaleSwitch' });
+	const { t } = useTranslation('translation', { keyPrefix: 'more.MoreLocaleSwitch' });
 
 	//
 	// B. Render components
