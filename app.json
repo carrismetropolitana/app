@@ -84,6 +84,12 @@
 					"locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
 				}
 			],
+			[
+				"expo-asset",
+				{
+					"assets": ["./assets"]
+				}
+			],
 			"expo-localization",
 			"expo-audio"
 		],

@@ -21,16 +21,16 @@ export const styles = () => {
 	// B. Render Components
 
 	return StyleSheet.create({
-		avatarContainer: {
-			backgroundColor,
+		background: {
+			height: '100%',
+			opacity: 0.5,
+			position: 'absolute',
+			width: '100%',
 		},
-		avatartWrapper: {
-			alignItems: 'center',
-			backgroundColor: 'red',
-			flex: 1,
-			height: 50,
-			justifyContent: 'center',
-			width: 50,
+		container: {
+			backgroundColor,
+			borderRadius: 999,
+			overflow: 'hidden',
 		},
 	});
 

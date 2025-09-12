@@ -612,6 +612,10 @@
 		"headerLocalityAccessibilityLabel": "Localidade da paragem {locality}"
 	},
 	"profile": {
+		"UserAvatarEdit": {
+			"go_back": "Voltar à persona anterior",
+			"randomize": "Gerar uma persona aleatória"
+		},
 		"addNewWidgetSectionTitle": "Adicionar Novo Widget",
 		"addWidgetLineListItemTitle": "Linha Favorita",
 		"addWidgetSmartNotificationListItemTitle": "Notificações Inteligentes",

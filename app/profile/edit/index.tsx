@@ -1,6 +1,6 @@
 /* * */
 
-import { ProfileEditScreen } from '@/components/profile/ProfileEditScreen';
+import { ProfileScreenEdit } from '@/components/profile/ProfileScreenEdit';
 import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
 import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
@@ -37,13 +37,7 @@ export default function Screen() {
 	//
 	// C. Render components
 
-	return (
-		<LinesDetailContextProvider>
-			<StopsDetailContextProvider>
-				<ProfileEditScreen />
-			</StopsDetailContextProvider>
-		</LinesDetailContextProvider>
-	);
+	return <ProfileScreenEdit />;
 
 	//
 }

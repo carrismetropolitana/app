@@ -610,6 +610,10 @@
 		"headerLocalityAccessibilityLabel": "Locality of the stop {locality}"
 	},
 	"profile": {
+		"UserAvatarEdit": {
+			"go_back": "Go back to the previous persona",
+			"randomize": "Generate a random persona"
+		},
 		"addNewWidgetSectionTitle": "Add New Widget",
 		"addWidgetLineListItemTitle": "Favorite Line",
 		"addWidgetSmartNotificationListItemTitle": "Smart Notifications",

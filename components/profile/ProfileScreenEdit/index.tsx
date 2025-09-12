@@ -2,7 +2,7 @@
 
 import { Section } from '@/components/common/layout/Section';
 import TabBarOnly from '@/components/common/layout/TabOnly';
-import { ProfileImage } from '@/components/profile/ProfileImage';
+import { ProfileImage } from '@/components/profile/UserAvatar';
 import { useAnalyticsContext } from '@/contexts/Analytics.context';
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { useProfileContext } from '@/contexts/Profile.context';
@@ -21,11 +21,12 @@ import { Dimensions, Pressable, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
+import { ProfileScreenEditOverview } from '../ProfileScreenEditOverview';
 import styles from './styles';
 
 /* * */
 
-export function ProfileEditScreen() {
+export function ProfileScreenEdit() {
 	//
 
 	//
@@ -186,27 +187,7 @@ export function ProfileEditScreen() {
 	return (
 		<View style={{ height: screenHeight - 100 }}>
 			<ScrollView style={profileEditModalStyles.container}>
-				<View style={profileEditModalStyles.userSection}>
-					<ProfileImage backgroundColor={accentColor ? dimAvatarBackground(accentColor) : 'rgba(253,183,26,0.4))'} borderWidth={10} color={accentColor || ''} size={200} type="url" />
-					<ButtonGroup buttons={buttons} containerStyle={{ backgroundColor: backgroundColor, borderRadius: 30, marginTop: -20, width: '25%' }} />
-					<View style={{ alignItems: 'center', flexDirection: 'row', gap: 0, justifyContent: 'center', marginVertical: 20 }}>
-						{accentColors.map((item, index) => (
-							<CheckBox
-								key={index}
-								accessibilityHint={t('changeAccentColorHint')}
-								accessibilityLabel={t('changeAccentColorLabel', { color: item.name, state: accentColor === item.code ? 'selecionado' : 'deselecionado' })}
-								accessibilityLanguage={localeContext.locale}
-								accessibilityRole="checkbox"
-								accessibilityState={{ checked: accentColor === item.code }}
-								checked={accentColor === item.code}
-								checkedIcon={<IconCircle color={item.code} fill="#FFFFFF" size={32} />}
-								containerStyle={{ backgroundColor: backgroundColor, padding: 0 }}
-								onPress={() => setAccentColor(item.code)}
-								uncheckedIcon={<IconCircleFilled color="#FFFFFF" fill={item.code} size={32} />}
-							/>
-						))}
-					</View>
-				</View>
+				<ProfileScreenEditOverview />
 				<View style={profileEditModalStyles.sectionWrapper}>
 					<Section
 						accessibilityHint={t('sectionPersonalInfoHint')}

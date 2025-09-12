@@ -5,6 +5,7 @@ import { theming } from '@/theme/Variables';
 import { StyleSheet } from 'react-native';
 
 /* * */
+
 const styles = () => {
 	//
 
@@ -24,8 +25,13 @@ const styles = () => {
 		/* CONTAINER */
 
 		container: {
+			alignItems: 'center',
 			backgroundColor: backgroundColor,
-			paddingBottom: 250,
+			display: 'flex',
+			flexDirection: 'column',
+			gap: 5,
+			paddingBottom: 30,
+			paddingTop: 30,
 		},
 
 		/* * */

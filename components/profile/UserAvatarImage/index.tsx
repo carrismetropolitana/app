@@ -1,30 +1,26 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 /* * */
 
 import { useProfileContext } from '@/contexts/Profile.context';
-import dimAvatarBackground from '@/utils/dimAvatarBackground';
 import { Routes } from '@/utils/routes';
-import { Avatar } from '@rn-vui/themed';
-import React, { useMemo } from 'react';
-import { Image } from 'react-native';
+import { useMemo } from 'react';
+import { Image, View } from 'react-native';
 
 import { styles } from './styles';
 
 /* * */
 
-interface ProfileImageProps {
+export interface UserAvatarImageProps {
 	size: 'lg' | 'md'
 }
 
 /* * */
 
-export function ProfileImage({ size = 'md' }: ProfileImageProps) {
+export function UserAvatarImage({ size = 'md' }: UserAvatarImageProps) {
 	//
 
 	//
 	// A. Setup variables
 
-	const defaultImage = require('assets/images/no-persona-image.png');
 	const profileContext = useProfileContext();
 	const profileImageStyles = styles();
 
@@ -41,11 +37,6 @@ export function ProfileImage({ size = 'md' }: ProfileImageProps) {
 		return profileContext.data.accent_color;
 	}, [profileContext.data.accent_color]);
 
-	const dimmedAccentColor = useMemo(() => {
-		if (!profileContext.data.accent_color) return '#000000';
-		return dimAvatarBackground(profileContext.data.accent_color);
-	}, [profileContext.data.accent_color]);
-
 	const containerSize = useMemo(() => {
 		if (size === 'lg') return 200;
 		return 50;
@@ -59,21 +50,23 @@ export function ProfileImage({ size = 'md' }: ProfileImageProps) {
 	//
 	// C. Render Components
 
-	if (imageUrl) {
+	if (!imageUrl) {
 		return (
-			<Avatar
-				containerStyle={[profileImageStyles.avatarContainer, { backgroundColor: dimmedAccentColor, borderColor: accentColor, borderWidth: borderWidth }]}
-				size={containerSize}
-				source={{ uri: imageUrl }}
-				rounded
-			/>
+			<View style={[profileImageStyles.container, { borderColor: accentColor, borderWidth: borderWidth }]}>
+				<View style={[profileImageStyles.background, { backgroundColor: accentColor }]} />
+				<Image
+					resizeMode="contain"
+					source={{ uri: imageUrl }}
+					style={{ height: containerSize, width: containerSize }}
+				/>
+			</View>
 		);
 	}
 
 	return (
 		<Image
 			resizeMode="contain"
-			source={defaultImage}
+			source={{ uri: '/images/no-persona-image' }}
 			style={{ height: containerSize, width: containerSize }}
 		/>
 	);
