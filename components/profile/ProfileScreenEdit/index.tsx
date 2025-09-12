@@ -2,7 +2,7 @@
 
 import { Section } from '@/components/common/layout/Section';
 import TabBarOnly from '@/components/common/layout/TabOnly';
-import { ProfileImage } from '@/components/profile/UserAvatar';
+import { ProfileImage } from '@/components/profile/UserPersona';
 import { useAnalyticsContext } from '@/contexts/Analytics.context';
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { useProfileContext } from '@/contexts/Profile.context';

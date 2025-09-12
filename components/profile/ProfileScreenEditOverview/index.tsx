@@ -1,6 +1,6 @@
 /* * */
 
-import { UserAvatar } from '@/components/profile/UserAvatar';
+import { UserPersona } from '@/components/profile/UserPersona';
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useThemeContext } from '@/contexts/Theme.context';
@@ -50,7 +50,7 @@ export function ProfileScreenEditOverview() {
 
 	return (
 		<View style={profileEditModalStyles.container}>
-			<UserAvatar
+			<UserPersona
 				onClickBack={profileContext.actions.setPreviousPersona}
 				onClickRandom={profileContext.actions.fetchPersona}
 				size="lg"

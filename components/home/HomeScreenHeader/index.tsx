@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* * */
 
-import { UserAvatar } from '@/components/profile/UserAvatar';
+import { UserPersona } from '@/components/profile/UserPersona';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Link } from 'expo-router';
@@ -51,7 +51,7 @@ export function HomeScreenHeader() {
 				: <Image source={require('@/assets/images/Logos/CMLogoDarkMode.png')} style={{ height: 125, left: 0, resizeMode: 'contain', width: 125 }} />}
 
 			<Link accessibilityLabel="Go to profile" accessibilityRole="imagebutton" href="/profile">
-				<UserAvatar size="md" />
+				<UserPersona size="md" />
 			</Link>
 
 		</View>

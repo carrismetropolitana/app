@@ -9,14 +9,14 @@ import styles from './styles';
 
 /* * */
 
-export interface UserAvatarEditProps {
+export interface UserPersonaEditProps {
 	onClickBack: () => void
 	onClickRandom: () => void
 }
 
 /* * */
 
-export function UserAvatarEdit({ onClickBack, onClickRandom }: UserAvatarEditProps) {
+export function UserPersonaEdit({ onClickBack, onClickRandom }: UserPersonaEditProps) {
 	//
 
 	//
@@ -24,7 +24,7 @@ export function UserAvatarEdit({ onClickBack, onClickRandom }: UserAvatarEditPro
 
 	const profileContext = useProfileContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'profile.UserAvatarEdit' });
+	const { t } = useTranslation('translation', { keyPrefix: 'profile.UserPersonaEdit' });
 
 	//
 	// B. Render components

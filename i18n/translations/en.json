@@ -610,7 +610,7 @@
 		"headerLocalityAccessibilityLabel": "Locality of the stop {locality}"
 	},
 	"profile": {
-		"UserAvatarEdit": {
+		"UserPersonaEdit": {
 			"go_back": "Go back to the previous persona",
 			"randomize": "Generate a random persona"
 		},

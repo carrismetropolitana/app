@@ -9,13 +9,13 @@ import { styles } from './styles';
 
 /* * */
 
-export interface UserAvatarImageProps {
+export interface UserPersonaImageProps {
 	size: 'lg' | 'md'
 }
 
 /* * */
 
-export function UserAvatarImage({ size = 'md' }: UserAvatarImageProps) {
+export function UserPersonaImage({ size = 'md' }: UserPersonaImageProps) {
 	//
 
 	//
