@@ -1,7 +1,8 @@
 /* * */
 
 import { ListSectionItem, type ListSectionItemProps } from '@/components/list/ListSectionItem';
-import { Text, View } from 'react-native';
+import { ListTitle } from '@/components/list/ListTitle';
+import { View } from 'react-native';
 
 import { useStyles } from './styles';
 
@@ -17,7 +18,7 @@ interface ListSectionProps {
 export function ListSection({ items = [], title = 'Section Title' }: ListSectionProps) {
 	return (
 		<View accessibilityLabel={title} role="list" style={useStyles().container}>
-			<Text style={useStyles().title}>{title}</Text>
+			<ListTitle title={title} />
 			<View style={useStyles().itemsWrapper}>
 				{items.map(element => (
 					<ListSectionItem

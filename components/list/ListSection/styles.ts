@@ -21,12 +21,5 @@ export const useStyles = () => {
 			gap: 1,
 			width: '100%',
 		},
-		title: {
-			color: useSystemVariables().text[200],
-			fontSize: 16,
-			fontWeight: 600,
-			padding: 10,
-			paddingLeft: 20,
-		},
 	});
 };
