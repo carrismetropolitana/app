@@ -1,10 +1,10 @@
 /* * */
 
 import StopsListChooserModal from '@/app/(modal)/StopsListChooserModal';
-import { HeaderExplainer } from '@/components/common/HeaderExplainer';
 import { Section } from '@/components/common/layout/Section';
-import TabBarOnly from '@/components/common/layout/TabOnly';
+import { Container } from '@/components/layout/Container';
 import { LineBadge } from '@/components/lines/LineBadge';
+import { WidgetConfigHeader } from '@/components/widgets/common/WidgetConfigHeader';
 import { WidgetActionsButtonGroup } from '@/components/widgets/WidgetsActionsButtonGroup';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useLocaleContext } from '@/contexts/Locale.context';
@@ -22,7 +22,6 @@ import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dimensions, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
 
 import styles from './styles';
 
@@ -143,124 +142,126 @@ export default function AddFavoriteStopScreen() {
 	}
 
 	return (
-		<View style={{ height: screenHeight - 100 }}>
-			<ScrollView style={addFavoriteStopStyles.container}>
-				<HeaderExplainer heading={t('headerTitle')} subheading={t('subheading')} />
+		<Container>
 
-				<View style={addFavoriteStopStyles.sectionContainer}>
-					<Section
-						heading={t('firstSectionTitle')}
-						subheading={t('firstSectionSubtitle')}
-					/>
-				</View>
-				<View>
-					{selectedStop && (
-						<ListItem>
-							<IconBusStop color="#FF6900" size={24} />
-							<ListItem.Content>
-								<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-									<Text accessibilityHint={t('addFavoriteStopAccessibilityHint')} accessibilityLabel={t('addFavoriteStopAccessibilityLabel', { line: selectedStop.long_name })} accessibilityLanguage={localeContext.locale} accessibilityRole="button">{selectedStop.long_name}</Text>
-								</ListItem.Title>
-							</ListItem.Content>
-							<IconX color="#9696A0" onPress={clearSelection} size={24} />
-						</ListItem>
-					)}
-					<ListItem onPress={() => setStopChooserVisibility(true)}>
-						<IconSearch color="#9696A0" size={24} />
+			<WidgetConfigHeader
+				description={t('subheading')}
+				title={t('headerTitle')}
+				videoUrl="https://carrismetropolitana.pt/app-view/widgets/videos/stops"
+			/>
+
+			<View style={addFavoriteStopStyles.sectionContainer}>
+				<Section
+					heading={t('firstSectionTitle')}
+					subheading={t('firstSectionSubtitle')}
+				/>
+			</View>
+			<View>
+				{selectedStop && (
+					<ListItem>
+						<IconBusStop color="#FF6900" size={24} />
 						<ListItem.Content>
 							<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-								<Text accessibilityHint={t('changeStopAccessibilityHint')} accessibilityLabel={t('changeStopAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="button">{t('changeStopLabel')}</Text>
+								<Text accessibilityHint={t('addFavoriteStopAccessibilityHint')} accessibilityLabel={t('addFavoriteStopAccessibilityLabel', { line: selectedStop.long_name })} accessibilityLanguage={localeContext.locale} accessibilityRole="button">{selectedStop.long_name}</Text>
 							</ListItem.Title>
 						</ListItem.Content>
-						<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
+						<IconX color="#9696A0" onPress={clearSelection} size={24} />
 					</ListItem>
-				</View>
+				)}
+				<ListItem onPress={() => setStopChooserVisibility(true)}>
+					<IconSearch color="#9696A0" size={24} />
+					<ListItem.Content>
+						<ListItem.Title style={addFavoriteStopStyles.listTitle}>
+							<Text accessibilityHint={t('changeStopAccessibilityHint')} accessibilityLabel={t('changeStopAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="button">{t('changeStopLabel')}</Text>
+						</ListItem.Title>
+					</ListItem.Content>
+					<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
+				</ListItem>
+			</View>
 
-				<View style={{ marginBottom: 10, marginTop: 10 }}>
-					<View style={addFavoriteStopStyles.sectionContainer}>
-						<Section
-							heading={t('secondSectionTitle')}
-							subheading={t('secondSectionSubtitle')}
-						/>
-					</View>
-					<View accessibilityHint={t('selectPatternAccessibilityHint')} accessibilityLabel={t('selectPatternAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text">
-						{selectedStop && Object.entries(
-							selectedStop.pattern_ids.reduce((acc: Record<string, string[]>, patternId: string) => {
-								const lineId = patternId.split('_')[0];
-								if (!acc[lineId]) acc[lineId] = [];
-								acc[lineId].push(patternId);
-								return acc;
-							}, {}),
-						).map(([lineId, patternIds]) => {
-							const line = linesContext.data.lines.find(line => line.id === lineId);
-							const lineColor = line?.color;
-							return (
-								<View key={lineId} style={{ marginBottom: 16 }}>
-									<Text style={[addFavoriteStopStyles.listTitle, addFavoriteStopStyles.lineIdentifier]}>Linha {lineId}{line?.long_name ? ` - ${line.long_name}` : ''}</Text>
-									{patternIds.map((patternId) => {
-										const isSelected = selectedStopPatterns.includes(patternId);
-										return (
-											<ListItem key={patternId} onPress={() => togglePattern(patternId, selectedStopPatterns, setSelectedStopPatterns)}>
-												<LineBadge color={lineColor} lineId={lineId} size="lg" withAlertIcon />
-												<IconArrowRight size={10} />
-												<ListItem.Content>
-													<ListItem.Title style={addFavoriteStopStyles.listTitle}> {patternNames[patternId] || 'Sem destino'}</ListItem.Title>
-												</ListItem.Content>
-												{isSelected && (
-													<IconCircleCheckFilled
-														accessibilityHint={t('iconCheckedPatternAccessibilityHint')}
-														accessibilityLabel={t('iconCheckedPatternAccessibilityLabel')}
-														accessibilityLanguage={localeContext.locale}
-														accessibilityRole="checkbox"
-														accessibilityState={{ checked: isSelected }}
-														fill="#3CB43C"
-														size={24}
-														color={
-															themeContext.theme.mode === 'light'
-																? theming.colorSystemBackgroundLight100
-																: theming.colorSystemBackgroundDark100
-														}
-													/>
-												)}
-												{!isSelected && (
-													<IconCircle
-														accessibilityHint={t('iconUncheckedPatternAccessibilityHint')}
-														accessibilityLabel={t('iconUncheckedPatternAccessibilityLabel')}
-														accessibilityLanguage={localeContext.locale}
-														accessibilityRole="checkbox"
-														accessibilityState={{ checked: false }}
-														color="grey"
-														size={24}
-													/>
-												)}
-											</ListItem>
-										);
-									})}
-								</View>
-							);
-						})}
-						{!selectedStop && selectedStopPatterns.length === 0 && (
-							<ListItem>
-								<ListItem.Content>
-									<ListItem.Title style={addFavoriteStopStyles.listTitle}>
-										<Text
-											accessibilityHint={t('selectStopAccessibilityHint')}
-											accessibilityLabel={t('selectStopAccessibilityLabel')}
-											accessibilityLanguage={localeContext.locale}
-											accessibilityRole="text"
-										>{t('selectStopLabel')}
-										</Text>
-									</ListItem.Title>
-								</ListItem.Content>
-							</ListItem>
-						)}
-					</View>
+			<View style={{ marginBottom: 10, marginTop: 10 }}>
+				<View style={addFavoriteStopStyles.sectionContainer}>
+					<Section
+						heading={t('secondSectionTitle')}
+						subheading={t('secondSectionSubtitle')}
+					/>
 				</View>
-				<WidgetActionsButtonGroup dataToSubmit={dataToSubmit} isUpdate={widgetId} length={selectedStopPatterns.length} onClear={exitScreen} type="stops" />
-				<StopsListChooserModal isVisible={stopChooserVisibility} onBackdropPress={() => setStopChooserVisibility(!stopChooserVisibility)} selectedStopData={stopData => handleSelectedStop(stopData)} />
-			</ScrollView>
-			<TabBarOnly />
-		</View>
+				<View accessibilityHint={t('selectPatternAccessibilityHint')} accessibilityLabel={t('selectPatternAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text">
+					{selectedStop && Object.entries(
+						selectedStop.pattern_ids.reduce((acc: Record<string, string[]>, patternId: string) => {
+							const lineId = patternId.split('_')[0];
+							if (!acc[lineId]) acc[lineId] = [];
+							acc[lineId].push(patternId);
+							return acc;
+						}, {}),
+					).map(([lineId, patternIds]) => {
+						const line = linesContext.data.lines.find(line => line.id === lineId);
+						const lineColor = line?.color;
+						return (
+							<View key={lineId} style={{ marginBottom: 16 }}>
+								<Text style={[addFavoriteStopStyles.listTitle, addFavoriteStopStyles.lineIdentifier]}>Linha {lineId}{line?.long_name ? ` - ${line.long_name}` : ''}</Text>
+								{patternIds.map((patternId) => {
+									const isSelected = selectedStopPatterns.includes(patternId);
+									return (
+										<ListItem key={patternId} onPress={() => togglePattern(patternId, selectedStopPatterns, setSelectedStopPatterns)}>
+											<LineBadge color={lineColor} lineId={lineId} size="lg" withAlertIcon />
+											<IconArrowRight size={10} />
+											<ListItem.Content>
+												<ListItem.Title style={addFavoriteStopStyles.listTitle}> {patternNames[patternId] || 'Sem destino'}</ListItem.Title>
+											</ListItem.Content>
+											{isSelected && (
+												<IconCircleCheckFilled
+													accessibilityHint={t('iconCheckedPatternAccessibilityHint')}
+													accessibilityLabel={t('iconCheckedPatternAccessibilityLabel')}
+													accessibilityLanguage={localeContext.locale}
+													accessibilityRole="checkbox"
+													accessibilityState={{ checked: isSelected }}
+													fill="#3CB43C"
+													size={24}
+													color={
+														themeContext.theme.mode === 'light'
+															? theming.colorSystemBackgroundLight100
+															: theming.colorSystemBackgroundDark100
+													}
+												/>
+											)}
+											{!isSelected && (
+												<IconCircle
+													accessibilityHint={t('iconUncheckedPatternAccessibilityHint')}
+													accessibilityLabel={t('iconUncheckedPatternAccessibilityLabel')}
+													accessibilityLanguage={localeContext.locale}
+													accessibilityRole="checkbox"
+													accessibilityState={{ checked: false }}
+													color="grey"
+													size={24}
+												/>
+											)}
+										</ListItem>
+									);
+								})}
+							</View>
+						);
+					})}
+					{!selectedStop && selectedStopPatterns.length === 0 && (
+						<ListItem>
+							<ListItem.Content>
+								<ListItem.Title style={addFavoriteStopStyles.listTitle}>
+									<Text
+										accessibilityHint={t('selectStopAccessibilityHint')}
+										accessibilityLabel={t('selectStopAccessibilityLabel')}
+										accessibilityLanguage={localeContext.locale}
+										accessibilityRole="text"
+									>{t('selectStopLabel')}
+									</Text>
+								</ListItem.Title>
+							</ListItem.Content>
+						</ListItem>
+					)}
+				</View>
+			</View>
+			<WidgetActionsButtonGroup dataToSubmit={dataToSubmit} isUpdate={widgetId} length={selectedStopPatterns.length} onClear={exitScreen} type="stops" />
+			<StopsListChooserModal isVisible={stopChooserVisibility} onBackdropPress={() => setStopChooserVisibility(!stopChooserVisibility)} selectedStopData={stopData => handleSelectedStop(stopData)} />
+		</Container>
 	);
 
 	//

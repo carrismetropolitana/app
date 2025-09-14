@@ -156,15 +156,13 @@
 		"changeStopLabel": "Alterar Paragem Selecionada",
 		"firstSectionSubtitle": "Escolha uma paragem para visualizar na página principal",
 		"firstSectionTitle": "1. Selecionar Paragem ",
-		"headerTitle": "Paragem Favorita",
 		"secondSectionSubtitle": "Pode escolher apenas os destinos que lhe interessam a partir desta paragem. Personalize o seu painel de informação único.",
 		"secondSectionTitle": "2. Selecionar destino ",
 		"selectPatternAccessibilityHint": "Este bloco serve para selecionar um destino relacionado com a paragem selecionada",
 		"selectPatternAccessibilityLabel": "Selecionar destino",
 		"selectStopAccessibilityHint": "Este elemento é um botão para selecionar uma paragem",
 		"selectStopAccessibilityLabel": "Selecione uma paragem",
-		"selectStopLabel": "Selecione uma paragem para ver o seu destino",
-		"subheading": "Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas."
+		"selectStopLabel": "Selecione uma paragem para ver o seu destino"
 	},
 	"addsmartnotifications": {
 		"DaysSelector": {
@@ -336,12 +334,6 @@
 		},
 		"goToProfileButtonAccessibilityHint": "Este botão leva-o para a página de personalização de perfil",
 		"goToProfileButtonAccessibilityLabel": "Botão para redirecionar para a página de personalização de perfil",
-		"headerExplainer": {
-			"headingAccessibilityHint": "Este elemento é um cabeçalho explicativo sobre {heading}",
-			"headingAccessibilityLabel": "Titulo da página {heading}",
-			"subheadingAccessibilityHint": "Este elemento é uma descrição sobre {heading}",
-			"subheadingAccessibilityLabel": "Descrição {heading}"
-		},
 		"lineCounterOne": "linha encontrada",
 		"lineCounterOneHint": "Linha encontrada pela pesquisa efetuada",
 		"lineCounterOneLabel": "Paragemencontradas",
@@ -741,5 +733,14 @@
 	"virtualizedListingStops": {
 		"virtualizedListAccessibilityHint": "Este elemento é uma lista de paragens",
 		"virtualizedListAccessibilityLabel": "Lista de Paragens"
+	},
+	"widgets": {
+		"WidgetConfigHeader": {
+			"video_label": "Ver vídeo explicativo"
+		},
+		"WidgetStopConfig": {
+			"description": "Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas.",
+			"title": "Widget Paragem"
+		}
 	}
 }

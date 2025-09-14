@@ -1,0 +1,279 @@
+/* * */
+
+import LinesListChooserModal from '@/app/(modal)/LinesListChooserModal';
+import { Section } from '@/components/common/layout/Section';
+import { Container } from '@/components/layout/Container';
+import { LineBadge } from '@/components/lines/LineBadge';
+import { OpenAddSmartNotification } from '@/components/widgets/OpenAddSmartNotification';
+import { WidgetActionsButtonGroup } from '@/components/widgets/WidgetsActionsButtonGroup';
+import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useLocaleContext } from '@/contexts/Locale.context';
+import { useProfileContext } from '@/contexts/Profile.context';
+import { useThemeContext } from '@/contexts/Theme.context';
+import { theming } from '@/theme/Variables';
+import { AccountWidget } from '@/types/account.types';
+import { Routes } from '@/utils/routes';
+import { Pattern } from '@carrismetropolitana/api-types/network';
+import { ListItem, Text } from '@rn-vui/themed';
+import { IconArrowLoopRight, IconArrowRight, IconCircle, IconCircleCheckFilled, IconSearch, IconX } from '@tabler/icons-react-native';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Dimensions, Platform, View } from 'react-native';
+
+import { WidgetConfigHeader } from '../../common/WidgetConfigHeader';
+import styles from './styles';
+
+/* * */
+
+interface Props {
+	lineId?: string
+}
+/* * */
+
+export function AddFavoriteLineScreen({ lineId }: Props) {
+	//
+
+	//
+	// A. Setup variables
+
+	const screenHeight = Dimensions.get('screen').height;
+	const [lineChooserVisibility, setLineChooserVisibility] = useState(false);
+	const [patternNames, setPatternNames] = useState<Record<string, string>>({});
+	const [selectedPatterns, setSelectedPatterns] = useState<string[]>([]);
+	const [dataToSubmit, setDataToSubmit] = useState<AccountWidget | undefined>(undefined);
+	// const [isToggled, setIsToggled] = useState(false);
+
+	const { widgetId } = useLocalSearchParams<{ widgetId?: string }>();
+
+	const linesDetailContext = useLinesDetailContext();
+	const themeContext = useThemeContext();
+	const localeContext = useLocaleContext();
+	const profileContext = useProfileContext();
+	const addFavoriteLineStyles = styles();
+	const navigation = useNavigation();
+
+	const { t } = useTranslation('translation', { keyPrefix: 'addfavoriteline' });
+
+	//
+	// B. Fetch Data
+
+	useEffect(() => {
+		if (lineId) {
+			linesDetailContext.actions.setLineId(lineId);
+		}
+	}, [lineId]);
+
+	const fetchPattern = async (patternId: string) => {
+		try {
+			const response = await fetch(`${Routes.API}/patterns/${patternId}`);
+			const data: Pattern = await response.json();
+			return data;
+		}
+		catch (error) {
+			console.error(`Error fetching pattern ${patternId}:`, error);
+			return null;
+		}
+	};
+
+	useEffect(() => {
+		if (!linesDetailContext.data.line?.pattern_ids) return;
+		const fetchPatterns = async () => {
+			const patternName: Record<string, string> = {};
+			const patterns = linesDetailContext.data.line?.pattern_ids;
+
+			if (patterns) {
+				await Promise.all(
+					patterns.map(async (pattern) => {
+						const data = await fetchPattern(pattern);
+						if (data) {
+							patternName[pattern] = data[0].headsign;
+						}
+					}),
+				);
+				setPatternNames(patternName);
+			}
+			else {
+				return;
+			}
+		};
+		fetchPatterns();
+	}, [linesDetailContext.data.line?.pattern_ids]);
+
+	useEffect(() => {
+		setDataToSubmit({
+			data: { pattern_id: selectedPatterns[0], type: 'lines' as const },
+			settings: { is_open: true },
+		});
+	}, [selectedPatterns]);
+
+	//
+	// C. Handle actions
+
+	const clearScreen = () => {
+		setSelectedPatterns([]);
+		linesDetailContext.actions.resetLineId();
+		navigation.goBack();
+	};
+
+	function togglePattern(patternId: string) {
+		setSelectedPatterns([]);
+		setSelectedPatterns(prev =>
+			prev.includes(patternId)
+				? prev.filter(id => id !== patternId)
+				: [...prev, patternId],
+		);
+	}
+
+	useEffect(() => {
+		if (widgetId) {
+			const widget = profileContext.data.profile?.widgets?.find(
+				w => w.data && w.data.type === 'lines' && String(w.settings?.display_order) === String(widgetId),
+			);
+
+			if (widget && widget.data.type === 'lines') {
+				linesDetailContext.actions.setLineId(widget?.data.pattern_id.split('_')[0] || '');
+			}
+
+			if (widget && widget.data.type === 'lines') {
+				setSelectedPatterns([widget.data.pattern_id]);
+			}
+		}
+	}, [widgetId, profileContext.data.profile?.widgets]);
+
+	//
+	// D. Render Components
+
+	return (
+		<Container>
+			<WidgetConfigHeader
+				description={t('subheading')}
+				title={t('headerTitle')}
+				videoUrl="https://carrismetropolitana.pt/app-view/widgets/videos/lines"
+			/>
+			<View style={addFavoriteLineStyles.sectionContainer}>
+				<Section heading={t('firstSectionTitle')} subheading={t('firstSectionSubtitle')} />
+			</View>
+			<View>
+				{linesDetailContext.data.line && (
+					<ListItem>
+						<IconArrowLoopRight color="#C61D23" size={24} />
+						<ListItem.Content>
+							<ListItem.Title style={addFavoriteLineStyles.listTitle}>
+								<Text accessibilityHint={t('linesLongnameAccessibilityHint')} accessibilityLabel={t('linesLongnameAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text">{linesDetailContext.data.line.long_name}</Text>
+							</ListItem.Title>
+						</ListItem.Content>
+						<IconX accessibilityHint={t('deselectLineHint')} accessibilityLabel={t('deselectLineLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="button" color="#9696A0" onPress={linesDetailContext.actions.resetLineId} size={24} />
+					</ListItem>
+				)}
+
+				{!linesDetailContext.data.line && (
+					<ListItem onPress={() => setLineChooserVisibility(true)}>
+						<IconSearch color="#9696A0" size={24} />
+						<ListItem.Content>
+							<ListItem.Title style={addFavoriteLineStyles.listTitle}>
+								<Text accessibilityHint={t('changeLineAccessibilityHint')} accessibilityLabel={t('changeLineAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="button">{t('changeLineLabel')}</Text>
+							</ListItem.Title>
+						</ListItem.Content>
+						<ListItem.Chevron iconStyle={{ fontSize: 24 }} />
+					</ListItem>
+				)}
+			</View>
+
+			<View style={{ marginBottom: 20, marginTop: 20 }}>
+				<View accessibilityHint={t('selectPatternAccessibilityHint')} accessibilityLabel={t('selectPatternAccessibilityLabel')} accessibilityRole="button" style={addFavoriteLineStyles.sectionContainer}>
+					<Section
+						heading={t('secondSectionTitle')}
+						subheading={t('secondSectionSubtitle')}
+					/>
+				</View>
+				<View>
+					{linesDetailContext.data.line?.pattern_ids ? (
+						<View>
+							<Text style={addFavoriteLineStyles.lineIdentifier}>Linha {linesDetailContext.data.line.id} - {linesDetailContext.data.line.long_name}</Text>
+							{linesDetailContext.data.line.pattern_ids.map((item) => {
+								const isSelected = selectedPatterns.includes(item);
+								return (
+									<ListItem
+										key={item}
+										onPress={() => togglePattern(item)}
+									>
+										<LineBadge
+											color={linesDetailContext.data.line?.color}
+											lineId={linesDetailContext.data.lineId}
+											size="lg"
+											withAlertIcon
+										/>
+										<IconArrowRight size={10} />
+										<ListItem.Content>
+											<ListItem.Title style={addFavoriteLineStyles.listTitle}>
+												<Text>{patternNames[item] || 'Sem destino'}</Text>
+											</ListItem.Title>
+										</ListItem.Content>
+										{isSelected ? (
+											<IconCircleCheckFilled
+												accessibilityHint={t('iconCheckedPatternAccessibilityHint')}
+												accessibilityLabel={t('iconCheckedPatternAccessibilityLabel')}
+												accessibilityRole="checkbox"
+												accessibilityState={{ checked: isSelected }}
+												fill="#3CB43C"
+												size={24}
+												color={
+													themeContext.theme.mode === 'light'
+														? theming.colorSystemBackgroundLight100
+														: theming.colorSystemBackgroundDark100
+												}
+											/>
+										) : (
+											<IconCircle
+												accessibilityHint={t('iconUncheckedPatternAccessibilityHint')}
+												accessibilityLabel={t('iconUncheckedPatternAccessibilityLabel')}
+												accessibilityRole="checkbox"
+												accessibilityState={{ checked: false }}
+												color="grey"
+												size={24}
+											/>
+										)}
+									</ListItem>
+								);
+							})}
+						</View>
+					) : (
+						<ListItem>
+							<ListItem.Content>
+								<ListItem.Title style={addFavoriteLineStyles.listTitle}>
+									<Text
+										accessibilityHint={t('selectLineAccessibilityHint')}
+										accessibilityLabel={t('selectLineAccessibilityLabel')}
+										accessibilityRole="text"
+									>{t('selectLineLabel')}
+									</Text>
+								</ListItem.Title>
+							</ListItem.Content>
+						</ListItem>
+					)}
+				</View>
+
+			</View>
+			<OpenAddSmartNotification
+				disabled={selectedPatterns.length === 0}
+				heading={t('thirdSectionTitle')}
+				patternId={selectedPatterns[0]}
+				subheading={t('thirdSectionSubtitle')}
+			/>
+			<WidgetActionsButtonGroup
+				dataToSubmit={dataToSubmit}
+				isUpdate={widgetId}
+				length={selectedPatterns.length}
+				onClear={clearScreen}
+				type="lines"
+			/>
+			<LinesListChooserModal
+				isVisible={lineChooserVisibility}
+				onBackdropPress={() => setLineChooserVisibility(!lineChooserVisibility)}
+			/>
+		</Container>
+	);
+
+	//
+}

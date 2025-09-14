@@ -4,7 +4,6 @@ import { ProfileEdit } from '@/components/profile/edit/ProfileEdit';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 
 /* * */
 
@@ -16,19 +15,17 @@ export default function Screen() {
 
 	const navigation = useNavigation();
 	const themeContext = useThemeContext();
-	const { t } = useTranslation('translation', { keyPrefix: 'profileEdit' });
 
 	//
 	// B. Handle actions
 
 	useEffect(() => {
 		navigation.setOptions({
-			headerBackTitle: t('headerTitle'),
 			headerShown: true,
 			headerStyle: {
 				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
 			},
-			headerTitle: '',
+			headerTitle: 'Edit Profile',
 		});
 	}, [navigation]);
 

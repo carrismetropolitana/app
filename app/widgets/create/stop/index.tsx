@@ -1,14 +1,14 @@
 /* * */
 
-import { ProfileView } from '@/components/profile/view/ProfileView';
+import { WidgetStopConfig } from '@/components/widgets/stops/WidgetStopConfig';
 import { useThemeContext } from '@/contexts/Theme.context';
+import { WidgetStopConfigContextProvider } from '@/contexts/WidgetStopConfig.context';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 
 /* * */
 
-export default function Screen() {
+export default function Page() {
 	//
 
 	//
@@ -16,25 +16,27 @@ export default function Screen() {
 
 	const navigation = useNavigation();
 	const themeContext = useThemeContext();
-	const { t } = useTranslation('translation', { keyPrefix: 'profile' });
 
 	//
 	// B. Handle actions
 
 	useEffect(() => {
 		navigation.setOptions({
-			headerShown: true,
 			headerStyle: {
 				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
 			},
-			headerTitle: 'Profile',
+			headerTitle: '',
 		});
 	}, [navigation]);
 
 	//
 	// C. Render components
 
-	return <ProfileView />;
+	return (
+		<WidgetStopConfigContextProvider>
+			<WidgetStopConfig />
+		</WidgetStopConfigContextProvider>
+	);
 
 	//
 }

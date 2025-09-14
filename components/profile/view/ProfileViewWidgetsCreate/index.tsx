@@ -23,7 +23,7 @@ export function ProfileViewWidgetsCreate() {
 			icon: <IconBusStop color="#FF6900" size={30} />,
 			key: 'stop',
 			label: t('stop'),
-			link: '/addFavoriteStop',
+			link: '/widgets/create/stop',
 			replaceChevron: <IconCirclePlus color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100} fill="#3CB43C" size={30} />,
 		},
 		{

@@ -14,7 +14,7 @@ import { theming } from '@/theme/Variables';
 import { useNetInfo } from '@react-native-community/netinfo';
 import { IconArrowLoopRight, IconDots, IconMap, IconUserCircle } from '@tabler/icons-react-native';
 import { useFonts } from 'expo-font';
-import { SplashScreen, Tabs } from 'expo-router';
+import { SplashScreen, Tabs, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Platform } from 'react-native';
@@ -51,6 +51,7 @@ export default function TabLayout() {
 		},
 	});
 
+	const navigation = useNavigation();
 	const stopContext = useStopsContext();
 	const linesContext = useLinesContext();
 	const profileContext = useProfileContext();
@@ -60,6 +61,13 @@ export default function TabLayout() {
 		Inter: require('../../assets/fonts/Inter-VariableFont_opsz,wght.ttf'),
 		SpaceMono: require('../../assets/fonts/SpaceMono-Regular.ttf'),
 	});
+
+	useEffect(() => {
+		navigation.setOptions({
+			headerShown: false,
+			headerTitle: 'Home',
+		});
+	}, [navigation]);
 
 	//
 	// B. Transform data

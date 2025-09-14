@@ -8,22 +8,21 @@ import { StyleSheet } from 'react-native';
 export const useStyles = () => {
 	return StyleSheet.create({
 		container: {
-			alignItems: 'center',
 			backgroundColor: useSystemVariables().background[100],
-			display: 'flex',
-			flexDirection: 'row',
-			gap: 20,
 			padding: 20,
-			paddingLeft: 20,
-			width: '100%',
 		},
-		icon: {
-			display: 'flex',
-		},
-		label: {
+		description: {
 			color: useSystemVariables().text[100],
-			fontSize: 18,
-			fontWeight: 600,
+			fontSize: 14,
+			fontWeight: '500',
+			marginBottom: 8,
+		},
+		title: {
+			color: useSystemVariables().text[100],
+			fontSize: 26,
+			fontWeight: '700',
+			marginBottom: 8,
+
 		},
 	});
 };

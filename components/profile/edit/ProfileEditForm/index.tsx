@@ -4,12 +4,10 @@ import { Section } from '@/components/common/layout/Section';
 import { useAnalyticsContext } from '@/contexts/Analytics.context';
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { useProfileContext } from '@/contexts/Profile.context';
-import { useThemeContext } from '@/contexts/Theme.context';
 import { ActivitySchema, InterestsSchema, UtilizationTypeSchema } from '@/types/account.types';
 import { CheckBox, Input, ListItem, Text } from '@rn-vui/themed';
 import { IconSquare, IconSquareCheckFilled } from '@tabler/icons-react-native';
 import CountryPicker, { Country, CountryCode } from '@vricosti/react-native-country-picker-modal';
-import { useNavigation } from 'expo-router';
 import { DateTime } from 'luxon';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -27,7 +25,6 @@ export function ProfileEditForm() {
 	// A. Setup variables
 
 	const profileContext = useProfileContext();
-	const themeContext = useThemeContext();
 	const localeContext = useLocaleContext();
 	const analyticsContext = useAnalyticsContext();
 	const profileEditModalStyles = styles();
@@ -50,7 +47,6 @@ export function ProfileEditForm() {
 	const [usageType, setUsageType] = useState(profileContext.data.profile?.profile?.utilization_type || '');
 	const [interestTopics, setInterestTopics] = useState<string[]>(profileContext.data.interests || []);
 	const [showPicker, setShowPicker] = useState(false);
-	const navigation = useNavigation();
 	const { t } = useTranslation('translation', { keyPrefix: 'profileEdit' });
 	//
 	// B. Handle actions
@@ -95,16 +91,6 @@ export function ProfileEditForm() {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		return emailRegex.test(email);
 	};
-
-	useEffect(() => {
-		navigation.setOptions({
-			headerBackTitle: t('headerTitle'),
-			headerStyle: {
-				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
-			},
-			headerTitle: '',
-		});
-	}, [navigation]);
 
 	useEffect(() => {
 		if (!country || !phone) {

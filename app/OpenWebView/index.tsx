@@ -27,7 +27,6 @@ export default function OpenWebView() {
 
 	useEffect(() => {
 		navigation.setOptions({
-			headerBackTitle: `${t('BackButton')}`,
 			headerStyle: {
 				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
 			},

@@ -1,6 +1,6 @@
 /* * */
 
-import AddFavoriteStopScreen from '@/components/screens/AddFavoriteStopScreen';
+import AddFavoriteStopScreen from '@/components/widgets/create/AddFavoriteStopScreen';
 import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
 import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
 import { StopsListContextProvider } from '@/contexts/StopsList.context';

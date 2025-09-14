@@ -9,7 +9,6 @@ export const useStyles = () => {
 	return StyleSheet.create({
 		container: {
 			paddingBottom: 10,
-			paddingTop: 10,
 			width: '100%',
 		},
 		itemsWrapper: {

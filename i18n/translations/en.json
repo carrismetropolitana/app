@@ -156,15 +156,13 @@
 		"changeStopLabel": "Change selected stop",
 		"firstSectionSubtitle": "Choose a stop to display on the main page",
 		"firstSectionTitle": "1. Select a stop ",
-		"headerTitle": "Favorite Stop",
 		"secondSectionSubtitle": "You can only choose the destinations that interest you from this stop. Customize your unique information panel.",
 		"secondSectionTitle": "2. Select destination ",
 		"selectPatternAccessibilityHint": "This block's purpose is for you to select a destination related to the selected stop",
 		"selectPatternAccessibilityLabel": "Select destination",
 		"selectStopAccessibilityHint": "This element is a button to select a stop",
 		"selectStopAccessibilityLabel": "Select a stop",
-		"selectStopLabel": "Select a stop to see its destination",
-		"subheading": "Add your home or work stop as a favorite. This way, whenever you need it, just open the app to see the next arrivals."
+		"selectStopLabel": "Select a stop to see its destination"
 	},
 	"addsmartnotifications": {
 		"DaysSelector": {
@@ -334,12 +332,6 @@
 		},
 		"goToProfileButtonAccessibilityHint": "This button takes you to the profile customization page",
 		"goToProfileButtonAccessibilityLabel": "Button to redirect to the profile customization page",
-		"headerExplainer": {
-			"headingAccessibilityHint": "This element is a explainer header about {heading}",
-			"headingAccessibilityLabel": "Page title {heading}",
-			"subheadingAccessibilityHint": "This element is a description about {heading}",
-			"subheadingAccessibilityLabel": "Description {heading}"
-		},
 		"lineCounterOne": "line found",
 		"lineCounterOneHint": "Line found for the search",
 		"lineCounterOneLabel": "Line found",
@@ -639,9 +631,9 @@
 			"edit_profile": "Edit Profile"
 		},
 		"ProfileViewWidgetsCreate": {
-			"line": "Add Favorite Line",
-			"smart_notification": "Add Smart Notification",
-			"stop": "Add Favorite Stop",
+			"line": "Add Line Widget",
+			"smart_notification": "Add Smart Notification Widget",
+			"stop": "Add Stop Widget",
 			"title": "Add New Widget"
 		},
 		"UserPersonaEdit": {
@@ -802,5 +794,14 @@
 	"virtualizedListingStops": {
 		"virtualizedListAccessibilityHint": "This element is a lsit of stops",
 		"virtualizedListAccessibilityLabel": "Stops list"
+	},
+	"widgets": {
+		"WidgetConfigHeader": {
+			"video_label": "Watch Explainer Video"
+		},
+		"WidgetStopConfig": {
+			"description": "Add your home or work stop as a favorite. This way, whenever you need it, just open the app to see the next arrivals.",
+			"title": "Stop Widget"
+		}
 	}
 }

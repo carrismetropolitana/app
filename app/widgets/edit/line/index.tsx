@@ -1,6 +1,6 @@
 /* * */
 
-import AddSmartNotificationScreen from '@/components/widgets/create/AddSmartNotificationScreen';
+import { AddFavoriteLineScreen } from '@/components/widgets/create/AddFavoriteLineScreen';
 import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
 import { LinesListContextProvider } from '@/contexts/LinesList.context';
 import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
@@ -10,23 +10,22 @@ import { useEffect } from 'react';
 
 /* * */
 
-export default function AddSmartNotification() {
+export default function Page() {
 	//
 
 	//
 	// A. Setup variables
 
+	const params = useLocalSearchParams();
 	const navigation = useNavigation();
 	const themeContext = useThemeContext();
-	const params = useLocalSearchParams();
-	const smartNotificationID = typeof params.smartNotificationId === 'string' ? params.smartNotificationId : Array.isArray(params.smartNotificationId) ? params.smartNotificationId[0] : undefined;
 	const lineID = typeof params.lineId === 'string' ? params.lineId : Array.isArray(params.lineId) ? params.lineId[0] : undefined;
-	const patternId = typeof params.patternId === 'string' ? params.patternId : Array.isArray(params.patternId) ? params.patternId[0] : undefined;
-	const id = smartNotificationID ? smartNotificationID : lineID;
+
+	//
+	// B. Handle actions
 
 	useEffect(() => {
 		navigation.setOptions({
-			headerBackTitle: 'Voltar',
 			headerStyle: {
 				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
 			},
@@ -35,13 +34,13 @@ export default function AddSmartNotification() {
 	}, [navigation]);
 
 	//
-	// B. Render components
+	// C. Render components
 
 	return (
 		<LinesListContextProvider>
 			<LinesDetailContextProvider>
 				<StopsDetailContextProvider>
-					<AddSmartNotificationScreen Id={id} PatternId={patternId} />
+					<AddFavoriteLineScreen lineId={lineID} />
 				</StopsDetailContextProvider>
 			</LinesDetailContextProvider>
 		</LinesListContextProvider>

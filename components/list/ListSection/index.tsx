@@ -10,15 +10,15 @@ import { useStyles } from './styles';
 
 interface ListSectionProps {
 	items?: ListSectionItemProps[]
-	title: string
+	title?: string
 }
 
 /* * */
 
-export function ListSection({ items = [], title = 'Section Title' }: ListSectionProps) {
+export function ListSection({ items = [], title }: ListSectionProps) {
 	return (
 		<View accessibilityLabel={title} role="list" style={useStyles().container}>
-			<ListTitle title={title} />
+			{title && <ListTitle title={title} />}
 			<View style={useStyles().itemsWrapper}>
 				{items.map(element => (
 					<ListSectionItem

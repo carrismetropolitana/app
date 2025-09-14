@@ -1,6 +1,6 @@
 /* * */
 
-import { AddFavoriteLineScreen } from '@/components/screens/AddFavoriteLineScreen';
+import { AddFavoriteLineScreen } from '@/components/widgets/create/AddFavoriteLineScreen';
 import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
 import { LinesListContextProvider } from '@/contexts/LinesList.context';
 import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';

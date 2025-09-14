@@ -13,6 +13,7 @@ export const useStyles = () => {
 		},
 		safeArea: {
 			backgroundColor: useSystemVariables().background[200],
+			height: '100%',
 		},
 	});
 };
