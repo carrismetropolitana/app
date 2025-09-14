@@ -117,10 +117,6 @@
 		"warningTitleAccessibilityHint": "Este elemento é um título de aviso",
 		"warningTitleAccessibilityLabel": "Atenção"
 	},
-	"UserOverview": {
-		"default_activity": "Em Viagem",
-		"edit_profile": "Editar Perfil"
-	},
 	"accordionToggle": {
 		"accessibilityHint": "Este botão expande ou colapsa o widget selecionado",
 		"accessibilityLabel": "Botão para expandir ou colapsar o widget"
@@ -560,9 +556,6 @@
 			"recruitment": "Recrutamento",
 			"subheading": "Conheça melhor a Carris Metropolitana e explore diferentes ângulos da operação rodoviária dos 18 municípios da área metropolitana de Lisboa."
 		},
-		"MoreNews": {
-			"loading": "A carregar notícias..."
-		},
 		"MoreDebugToggle": {
 			"active": "Debug ativo",
 			"hint": "Ativar/desativar modo debug",
@@ -572,6 +565,9 @@
 			"en": "English",
 			"hint": "Alterar o idioma da aplicação",
 			"pt": "Português"
+		},
+		"MoreNews": {
+			"loading": "A carregar notícias..."
 		},
 		"MoreSectionAlerts": {
 			"heading": "Alertas",
@@ -630,18 +626,28 @@
 			},
 			"label": "Definir cor principal"
 		},
+		"ProfileViewPersona": {
+			"activity": {
+				"default": "Em Viagem",
+				"other": "Em Viagem",
+				"retired": "Reformado",
+				"student": "Estudante",
+				"university": "Universitário",
+				"working": "Trabalhador"
+			},
+			"edit_profile": "Editar Perfil"
+		},
+		"ProfileViewWidgetsCreate": {
+			"line": "Adicionar Linha Favorita",
+			"smart_notification": "Adicionar Notificação Inteligente",
+			"stop": "Adicionar Paragem Favorita",
+			"title": "Adicionar Novo Widget"
+		},
 		"UserPersonaEdit": {
 			"go_back": "Voltar à persona anterior",
 			"randomize": "Gerar uma persona aleatória"
 		},
-		"addNewWidgetSectionTitle": "Adicionar Novo Widget",
-		"addWidgetLineListItemTitle": "Linha Favorita",
-		"addWidgetSmartNotificationListItemTitle": "Notificações Inteligentes",
-		"addWidgetStopListItemTitle": "Paragem Favorita",
-		"favoriteLineListItemSubtitle": "Linha Favorita",
-		"favoriteStopListItemSubtitle": "Paragem Favorita",
-		"headerTitle": "Editar Perfil",
-		"smartNotificationListItemSubtitle": "Notificação Inteligente"
+		"headerTitle": "Editar Perfil"
 	},
 	"profileImage": {
 		"accessibilityHint": "Persona do seu perfil é {profileImageDescription}",

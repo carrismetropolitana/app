@@ -117,10 +117,6 @@
 		"warningTitleAccessibilityHint": "This is a warning title ",
 		"warningTitleAccessibilityLabel": "Attention"
 	},
-	"UserOverview": {
-		"default_activity": "Traveling",
-		"edit_profile": "Editar Perfil"
-	},
 	"accordionToggle": {
 		"accessibilityHint": "This button expands or collapses the selected widget",
 		"accessibilityLabel": "Button to expand or collapse the widget"
@@ -631,18 +627,28 @@
 		"headerLocalityAccessibilityLabel": "Locality of the stop {locality}"
 	},
 	"profile": {
+		"ProfileViewPersona": {
+			"activity": {
+				"default": "Traveling",
+				"other": "Traveling",
+				"retired": "Retired",
+				"student": "Student",
+				"university": "University",
+				"working": "Working"
+			},
+			"edit_profile": "Edit Profile"
+		},
+		"ProfileViewWidgetsCreate": {
+			"line": "Add Favorite Line",
+			"smart_notification": "Add Smart Notification",
+			"stop": "Add Favorite Stop",
+			"title": "Add New Widget"
+		},
 		"UserPersonaEdit": {
 			"go_back": "Go back to the previous persona",
 			"randomize": "Generate a random persona"
 		},
-		"addNewWidgetSectionTitle": "Add New Widget",
-		"addWidgetLineListItemTitle": "Favorite Line",
-		"addWidgetSmartNotificationListItemTitle": "Smart Notifications",
-		"addWidgetStopListItemTitle": "Favorite Stop",
-		"favoriteLineListItemSubtitle": "Favorite Line",
-		"favoriteStopListItemSubtitle": "Favorite Stop",
-		"headerTitle": "Edit Profile",
-		"smartNotificationListItemSubtitle": "Smart Notification"
+		"headerTitle": "Edit Profile"
 	},
 	"profileEdit": {
 		"activityInfoHint": "This input purpose is for you to choose your type of activity",

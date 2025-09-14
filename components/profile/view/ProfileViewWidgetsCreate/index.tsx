@@ -16,27 +16,27 @@ export function ProfileViewWidgetsCreate() {
 	// A. Setup variables
 
 	const themeContext = useThemeContext();
-	const { t } = useTranslation('translation', { keyPrefix: 'profile' });
+	const { t } = useTranslation('translation', { keyPrefix: 'profile.ProfileViewWidgetsCreate' });
 
 	const LIST_ITEMS: ListSectionItemProps[] = [
 		{
 			icon: <IconBusStop color="#FF6900" size={30} />,
 			key: 'stop',
-			label: 'Adicionar Paragem',
+			label: t('stop'),
 			link: '/addFavoriteStop',
 			replaceChevron: <IconCirclePlus color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100} fill="#3CB43C" size={30} />,
 		},
 		{
 			icon: <IconArrowLoopRight color="#C61D23" size={30} />,
 			key: 'line',
-			label: 'Adicionar Linha',
+			label: t('line'),
 			link: '/addFavoriteLine',
 			replaceChevron: <IconCirclePlus color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100} fill="#3CB43C" size={30} />,
 		},
 		{
 			icon: <IconBellRinging color="#0C807E" size={30} />,
-			key: 'notification',
-			label: 'Adicionar Notificação Inteligente',
+			key: 'smart_notification',
+			label: t('smart_notification'),
 			link: '/addSmartNotification',
 			replaceChevron: <IconCirclePlus color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100} fill="#3CB43C" size={30} />,
 		},
@@ -48,7 +48,7 @@ export function ProfileViewWidgetsCreate() {
 	return (
 		<ListSection
 			items={LIST_ITEMS}
-			title={t('addNewWidgetSectionTitle')}
+			title={t('title')}
 		/>
 	);
 
