@@ -4,13 +4,13 @@ import { ProfileEditPersonaAccent } from '@/components/profile/edit/ProfileEditP
 import { UserPersona } from '@/components/profile/persona/UserPersona';
 import { View } from 'react-native';
 
-import styles from './styles';
+import { useStyles } from './styles';
 
 /* * */
 
 export function ProfileEditPersona() {
 	return (
-		<View style={styles.container}>
+		<View style={useStyles().container}>
 			<UserPersona size="lg" withEditButtons />
 			<ProfileEditPersonaAccent />
 		</View>

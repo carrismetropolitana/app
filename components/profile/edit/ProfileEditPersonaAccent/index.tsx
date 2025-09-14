@@ -4,7 +4,7 @@ import { useProfileContext } from '@/contexts/Profile.context';
 import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 
-import styles from './styles';
+import { useStyles } from './styles';
 
 /* * */
 
@@ -33,7 +33,7 @@ export function ProfileEditPersonaAccent() {
 	// D. Render Components
 
 	return (
-		<View aria-label={t('label')} role="radiogroup" style={styles.container}>
+		<View aria-label={t('label')} role="radiogroup" style={useStyles().container}>
 			{AVAILABLE_ACCENT_COLORS.map(item => (
 				<TouchableOpacity
 					key={item.id}
@@ -41,7 +41,7 @@ export function ProfileEditPersonaAccent() {
 					disabled={profileContext.data.accent_color === item.color_code}
 					onPress={() => profileContext.actions.setAccentColor(item.color_code)}
 					role="radio"
-					style={[styles.accentOption, {
+					style={[useStyles().accentOption, {
 						backgroundColor: profileContext.data.accent_color === item.color_code ? 'transparent' : item.color_code,
 						borderColor: profileContext.data.accent_color === item.color_code ? item.color_code : 'transparent',
 					}]}

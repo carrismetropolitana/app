@@ -1,13 +1,12 @@
 /* * */
 
+import { Container } from '@/components/layout/Container';
 import { ProfileEditForm } from '@/components/profile/edit/ProfileEditForm';
 import { ProfileEditPersona } from '@/components/profile/edit/ProfileEditPersona';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SafeAreaView } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
 
 /* * */
 
@@ -38,12 +37,10 @@ export function ProfileEdit() {
 	// C. Render components
 
 	return (
-		<SafeAreaView>
-			<ScrollView>
-				<ProfileEditPersona />
-				<ProfileEditForm />
-			</ScrollView>
-		</SafeAreaView>
+		<Container>
+			<ProfileEditPersona />
+			<ProfileEditForm />
+		</Container>
 	);
 
 	//

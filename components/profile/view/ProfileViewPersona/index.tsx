@@ -28,7 +28,7 @@ export function ProfileViewPersona() {
 		// Return a friendly greeting if no name is set
 		if (!profileContext?.data.profile?.profile?.first_name) return 'Olá 👋';
 		// Return a personalized greeting otherwise
-		return `Olá ${profileContext?.data.profile?.profile?.first_name}!`;
+		return `Olá ${profileContext?.data.profile?.profile?.first_name.trim()}!`;
 	}, [profileContext?.data.profile?.profile]);
 
 	//

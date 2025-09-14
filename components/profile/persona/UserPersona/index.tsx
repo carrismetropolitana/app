@@ -4,7 +4,7 @@ import { UserPersonaEdit } from '@/components/profile/persona/UserPersonaEdit';
 import { UserPersonaImage, type UserPersonaImageProps } from '@/components/profile/persona/UserPersonaImage';
 import { View } from 'react-native';
 
-import styles from './styles';
+import { useStyles } from './styles';
 
 /* * */
 
@@ -14,7 +14,7 @@ type UserPersonaProps = Partial<UserPersonaImageProps> & { withEditButtons?: boo
 
 export function UserPersona({ size = 'md', withEditButtons }: UserPersonaProps) {
 	return (
-		<View style={styles.container}>
+		<View style={useStyles().container}>
 			<UserPersonaImage size={size} />
 			{withEditButtons && <UserPersonaEdit />}
 		</View>

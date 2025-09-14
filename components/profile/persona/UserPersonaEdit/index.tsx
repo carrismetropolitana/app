@@ -5,7 +5,7 @@ import { IconArrowNarrowLeft, IconArrowsShuffle } from '@tabler/icons-react-nati
 import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 
-import styles from './styles';
+import { useStyles } from './styles';
 
 /* * */
 
@@ -23,11 +23,11 @@ export function UserPersonaEdit() {
 	// B. Render components
 
 	return (
-		<View style={styles.container}>
-			<TouchableOpacity aria-label={t('go_back')} onPress={profileContext.actions.setPreviousPersona} style={styles.button}>
+		<View style={useStyles().container}>
+			<TouchableOpacity aria-label={t('go_back')} onPress={profileContext.actions.setPreviousPersona} style={useStyles().button}>
 				<IconArrowNarrowLeft color={profileContext.data.accent_color ?? '#000000'} size={30} />
 			</TouchableOpacity>
-			<TouchableOpacity aria-label={t('randomize')} onPress={profileContext.actions.fetchPersona} style={styles.button}>
+			<TouchableOpacity aria-label={t('randomize')} onPress={profileContext.actions.fetchPersona} style={useStyles().button}>
 				<IconArrowsShuffle color={profileContext.data.accent_color ?? '#000000'} size={26} />
 			</TouchableOpacity>
 		</View>
