@@ -33,11 +33,13 @@ export function WidgetLineConfig({ widgetId }: WidgetLineConfigProps) {
 	//
 	// B. Handle Actions
 
-	//
-	// C. Fetch Data
+	const handleSave = () => {
+		widgetLineConfigContext.actions.saveWidget();
+		router.back();
+	};
 
 	//
-	// D. Render Components
+	// C. Render Components
 
 	return (
 		<Container>
@@ -63,7 +65,7 @@ export function WidgetLineConfig({ widgetId }: WidgetLineConfigProps) {
 				<LargeButton
 					disabled={!widgetLineConfigContext.flags.can_save}
 					label="Save"
-					onPress={widgetLineConfigContext.actions.saveWidget}
+					onPress={handleSave}
 					type="primary"
 				/>
 				{!widgetId && (

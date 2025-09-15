@@ -33,11 +33,13 @@ export function WidgetStopConfig({ widgetId }: WidgetStopConfigProps) {
 	//
 	// B. Handle Actions
 
-	//
-	// C. Fetch Data
+	const handleSave = () => {
+		widgetStopConfigContext.actions.saveWidget();
+		router.back();
+	};
 
 	//
-	// D. Render Components
+	// C. Render Components
 
 	return (
 		<Container>
@@ -64,7 +66,7 @@ export function WidgetStopConfig({ widgetId }: WidgetStopConfigProps) {
 				<LargeButton
 					disabled={!widgetStopConfigContext.flags.can_save}
 					label="Save"
-					onPress={widgetStopConfigContext.actions.saveWidget}
+					onPress={handleSave}
 					type="primary"
 				/>
 				{!widgetId && (
