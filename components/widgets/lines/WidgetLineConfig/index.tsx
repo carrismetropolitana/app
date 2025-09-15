@@ -3,9 +3,9 @@
 import { Container } from '@/components/layout/Container';
 import { LargeButton } from '@/components/layout/LargeButton';
 import { WidgetConfigHeader } from '@/components/widgets/common/WidgetConfigHeader';
+import { WidgetConfigSelectLine } from '@/components/widgets/common/WidgetConfigSelectLine';
 import { WidgetConfigSelectPattern } from '@/components/widgets/common/WidgetConfigSelectPattern';
-import { WidgetConfigSelectStop } from '@/components/widgets/common/WidgetConfigSelectStop';
-import { useWidgetStopConfigContext } from '@/contexts/WidgetStopConfig.context';
+import { useWidgetLineConfigContext } from '@/contexts/WidgetLineConfig.context';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -14,21 +14,21 @@ import { useStyles } from './styles';
 
 /* * */
 
-interface WidgetStopConfigProps {
+interface WidgetLineConfigProps {
 	widgetId?: string
 }
 
 /* * */
 
-export function WidgetStopConfig({ widgetId }: WidgetStopConfigProps) {
+export function WidgetLineConfig({ widgetId }: WidgetLineConfigProps) {
 	//
 
 	//
 	// A. Setup variables
 
-	const widgetStopConfigContext = useWidgetStopConfigContext();
+	const widgetLineConfigContext = useWidgetLineConfigContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetStopConfig' });
+	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetLineConfig' });
 
 	//
 	// B. Handle Actions
@@ -45,26 +45,25 @@ export function WidgetStopConfig({ widgetId }: WidgetStopConfigProps) {
 			<WidgetConfigHeader
 				description={t('description')}
 				title={t('title')}
-				videoUrl="https://carrismetropolitana.pt/app-view/widgets/videos/stops"
+				videoUrl="https://carrismetropolitana.pt/app-view/widgets/videos/lines"
 			/>
 
-			<WidgetConfigSelectStop
-				onSelectStopId={widgetStopConfigContext.actions.selectStopId}
-				selectedStop={widgetStopConfigContext.data.selected_stop}
+			<WidgetConfigSelectLine
+				onSelectLineId={widgetLineConfigContext.actions.selectLineId}
+				selectedLine={widgetLineConfigContext.data.selected_line}
 			/>
 
 			<WidgetConfigSelectPattern
-				availablePatterns={widgetStopConfigContext.data.available_patterns}
-				onTogglePatternId={widgetStopConfigContext.actions.togglePatternId}
-				onToggleSelectAll={widgetStopConfigContext.actions.toggleSelectAll}
-				selectedPatternIds={widgetStopConfigContext.data.selected_pattern_ids}
+				availablePatterns={widgetLineConfigContext.data.available_patterns}
+				onTogglePatternId={widgetLineConfigContext.actions.selectPatternId}
+				selectedPatternIds={widgetLineConfigContext.data.selected_pattern_id ? [widgetLineConfigContext.data.selected_pattern_id] : []}
 			/>
 
 			<View style={useStyles().buttonContainer}>
 				<LargeButton
-					disabled={!widgetStopConfigContext.flags.can_save}
+					disabled={!widgetLineConfigContext.flags.can_save}
 					label="Save"
-					onPress={widgetStopConfigContext.actions.saveWidget}
+					onPress={widgetLineConfigContext.actions.saveWidget}
 					type="primary"
 				/>
 				{!widgetId && (
@@ -77,7 +76,7 @@ export function WidgetStopConfig({ widgetId }: WidgetStopConfigProps) {
 				{widgetId && (
 					<LargeButton
 						label="Eliminar"
-						onPress={widgetStopConfigContext.actions.deleteWidget}
+						onPress={widgetLineConfigContext.actions.deleteWidget}
 						type="danger"
 					/>
 				)}

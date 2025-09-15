@@ -30,7 +30,7 @@ export function ProfileViewWidgetsCreate() {
 			icon: <IconArrowLoopRight color="#C61D23" size={30} />,
 			key: 'line',
 			label: t('line'),
-			link: '/addFavoriteLine',
+			link: '/widgets/create/line',
 			replaceChevron: <IconCirclePlus color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100} fill="#3CB43C" size={30} />,
 		},
 		{

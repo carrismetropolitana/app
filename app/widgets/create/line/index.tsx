@@ -1,11 +1,9 @@
 /* * */
 
-import { AddFavoriteLineScreen } from '@/components/widgets/create/AddFavoriteLineScreen';
-import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
-import { LinesListContextProvider } from '@/contexts/LinesList.context';
-import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
+import { WidgetLineConfig } from '@/components/widgets/lines/WidgetLineConfig';
 import { useThemeContext } from '@/contexts/Theme.context';
-import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { WidgetLineConfigContextProvider } from '@/contexts/WidgetLineConfig.context';
+import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 
 /* * */
@@ -16,10 +14,8 @@ export default function Page() {
 	//
 	// A. Setup variables
 
-	const params = useLocalSearchParams();
 	const navigation = useNavigation();
 	const themeContext = useThemeContext();
-	const lineID = typeof params.lineId === 'string' ? params.lineId : Array.isArray(params.lineId) ? params.lineId[0] : undefined;
 
 	//
 	// B. Handle actions
@@ -37,13 +33,9 @@ export default function Page() {
 	// C. Render components
 
 	return (
-		<LinesListContextProvider>
-			<LinesDetailContextProvider>
-				<StopsDetailContextProvider>
-					<AddFavoriteLineScreen lineId={lineID} />
-				</StopsDetailContextProvider>
-			</LinesDetailContextProvider>
-		</LinesListContextProvider>
+		<WidgetLineConfigContextProvider>
+			<WidgetLineConfig />
+		</WidgetLineConfigContextProvider>
 	);
 
 	//

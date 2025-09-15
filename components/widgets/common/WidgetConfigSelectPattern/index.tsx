@@ -12,7 +12,7 @@ import { useMemo } from 'react';
 interface WidgetConfigSelectPatternProps {
 	availablePatterns?: Pattern[]
 	onTogglePatternId: (patternId: string) => void
-	onToggleSelectAll: () => void
+	onToggleSelectAll?: () => void
 	selectedPatternIds?: string[]
 }
 
@@ -25,27 +25,32 @@ export function WidgetConfigSelectPattern({ availablePatterns, onTogglePatternId
 	// A. Transform data
 
 	const availablePatternsList: ListSectionItemProps[] = useMemo(() => {
-		if (!availablePatterns) return [];
-		return availablePatterns.map(item => ({
+		// Skip if no patterns are available
+		if (!availablePatterns?.length) return [];
+		// Prepare patterns list
+		const preparedPatterns = availablePatterns.map(item => ({
 			icon: <LineBadge color={item.color} shortName={item.short_name} textColor={item.text_color} />,
 			key: item.id,
 			label: item.headsign,
 			onPress: () => onTogglePatternId(item.id),
 			replaceChevron: selectedPatternIds?.includes(item.id) ? <IconCircleCheckFilled /> : <IconCircle />,
 		}));
+		// Check if "select all" option should be added
+		if (!onToggleSelectAll || preparedPatterns?.length <= 1) return preparedPatterns;
+		// Add "select all" option at the top of the list
+		const selectAllListItem: ListSectionItemProps = {
+			key: 'select_all',
+			label: isAllSelected ? 'Desmarcar todos' : 'Selecionar todos',
+			onPress: onToggleSelectAll,
+			replaceChevron: <IconChecks />,
+		};
+		return [selectAllListItem, ...preparedPatterns];
 	}, [availablePatterns, selectedPatternIds]);
 
 	const isAllSelected = useMemo(() => {
 		if (!availablePatterns || !selectedPatternIds) return false;
 		return availablePatterns.length === selectedPatternIds.length;
 	}, [availablePatterns, selectedPatternIds]);
-
-	const selectAllListItem: ListSectionItemProps = {
-		key: 'select_all',
-		label: isAllSelected ? 'Desmarcar todos' : 'Selecionar todos',
-		onPress: onToggleSelectAll,
-		replaceChevron: <IconChecks />,
-	};
 
 	//
 	// B. Render components
@@ -56,7 +61,7 @@ export function WidgetConfigSelectPattern({ availablePatterns, onTogglePatternId
 
 	return (
 		<ListSection
-			items={[selectAllListItem, ...availablePatternsList]}
+			items={availablePatternsList}
 			subtitle="Escolha se quer ver estimativas de chegada para todos os destinos desta paragem ou apenas alguns na página inicial."
 			title="Selecione um ou mais destinos"
 		/>

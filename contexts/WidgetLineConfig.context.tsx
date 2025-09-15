@@ -2,7 +2,7 @@
 
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useWidgetContext } from '@/contexts/Widget.context';
-import { type Pattern } from '@carrismetropolitana/api-types/network';
+import { type Line, type Pattern } from '@carrismetropolitana/api-types/network';
 import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
 /* * */
@@ -16,6 +16,7 @@ interface WidgetLineConfigContextState {
 	}
 	data: {
 		available_patterns: Pattern[]
+		selected_line: Line | undefined
 		selected_line_id: string | undefined
 		selected_pattern_id: string | undefined
 	}
@@ -124,6 +125,7 @@ export const WidgetLineConfigContextProvider = ({ children }: PropsWithChildren)
 		},
 		data: {
 			available_patterns: availablePatternsData,
+			selected_line: selectedLineData,
 			selected_line_id: selectedLineId,
 			selected_pattern_id: selectedPatternId,
 		},
@@ -134,6 +136,7 @@ export const WidgetLineConfigContextProvider = ({ children }: PropsWithChildren)
 	}), [
 		availablePatternsData,
 		selectedLineId,
+		selectedLineData,
 		selectedPatternId,
 		canSave,
 	]);
