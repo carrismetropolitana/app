@@ -1,8 +1,8 @@
 /* * */
 
 import { AccordionToggle } from '@/components/AccordionToggle';
-import { useLinesContext } from '@/contexts/Lines.context';
 import { useLocaleContext } from '@/contexts/Locale.context';
+import { useLocationsContext } from '@/contexts/Locations.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { AccountWidget } from '@/types/account.types';
 import { ListItem } from '@rn-vui/themed';
@@ -32,7 +32,7 @@ export function StopWidgetCard({ data, expanded, onToggle }: StopWidgetCardProps
 	const [stopName, setStopName] = useState<string>('');
 	const [stopMunicipality, setStopMunicipality] = useState<string>();
 
-	const linesContext = useLinesContext();
+	const locationsContext = useLocationsContext();
 	const stopsContext = useStopsContext();
 	const localeContext = useLocaleContext();
 
@@ -43,10 +43,10 @@ export function StopWidgetCard({ data, expanded, onToggle }: StopWidgetCardProps
 	// B. Fetch Data
 
 	useEffect(() => {
-		if (stopsContext.flags.is_loading || !stopId || !stopsContext.actions.getStopById) return;
+		if (stopsContext.flags.loading || !stopId || !stopsContext.actions.getStopById) return;
 		fetchStopName(stopId);
 		fetchMunicipalities(stopId);
-	}, [stopsContext.flags.is_loading, stopId]);
+	}, [stopsContext.flags.loading, stopId]);
 
 	const fetchStopName = async (id: string) => {
 		if (!id) return;
@@ -66,7 +66,7 @@ export function StopWidgetCard({ data, expanded, onToggle }: StopWidgetCardProps
 		}
 
 		if (stop.municipality_id) {
-			const municipality = linesContext.data.municipalities.find(m => m.id === stop.municipality_id);
+			const municipality = locationsContext.data.municipalities.find(m => m.id === stop.municipality_id);
 			if (municipality) {
 				setStopMunicipality(municipality.name);
 			}

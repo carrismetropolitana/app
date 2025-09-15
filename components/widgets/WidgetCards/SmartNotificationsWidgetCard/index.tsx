@@ -1,8 +1,8 @@
 /* * */
 
 import { AccordionToggle } from '@/components/AccordionToggle';
-import { useLinesContext } from '@/contexts/Lines.context';
 import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
+import { useLocationsContext } from '@/contexts/Locations.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { AccountWidget } from '@/types/account.types';
 import { ListItem } from '@rn-vui/themed';
@@ -32,7 +32,7 @@ export function SmartNotificationWidgetCard({ data, expanded = true, onToggle }:
 	// A. Setup variables
 
 	const stopsContext = useStopsContext();
-	const linesContext = useLinesContext();
+	const locationsContext = useLocationsContext();
 
 	const smartNotificationsData = data?.data.type === 'smart_notifications' ? data.data : undefined;
 	const smartNotificationHour = DateTime.fromSeconds(smartNotificationsData?.start_time || 0).toFormat('HH:mm');
@@ -46,10 +46,10 @@ export function SmartNotificationWidgetCard({ data, expanded = true, onToggle }:
 	const lineID = patternId?.split('_')[0] || '';
 
 	useEffect(() => {
-		if (stopsContext.flags.is_loading || !data || !stopsContext.actions.getStopById) return;
+		if (stopsContext.flags.loading || !data || !stopsContext.actions.getStopById) return;
 		fetchMunicipalities(smartNotificationsData?.stop_id || '');
 		fetchStopName(smartNotificationsData?.stop_id || '');
-	}, [stopsContext.flags.is_loading, data]);
+	}, [stopsContext.flags.loading, data]);
 
 	const fetchStopName = async (id: string) => {
 		if (!id) return;
@@ -67,7 +67,7 @@ export function SmartNotificationWidgetCard({ data, expanded = true, onToggle }:
 			return;
 		}
 		if (stop.municipality_id) {
-			const municipality = linesContext.data.municipalities.find(m => m.id === stop.municipality_id);
+			const municipality = locationsContext.data.municipalities.find(m => m.id === stop.municipality_id);
 			if (municipality) {
 				setStopMunicipality(municipality.name);
 			}

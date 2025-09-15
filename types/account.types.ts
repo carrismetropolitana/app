@@ -2,6 +2,8 @@
 import { DateTime } from 'luxon';
 import { z } from 'zod';
 
+import { Widget } from './widget.types';
+
 /* * */
 
 /**
@@ -118,7 +120,7 @@ const ProfileSchema = z.object({
 	email: z.string().email().nullish(),
 	first_name: z.string().nullish(),
 	gender: GenderSchema.nullish(),
-	interests: z.array(z.string(InterestsSchema)).nullish(),
+	interests: z.array(InterestsSchema).nullish(),
 	last_name: z.string().nullish(),
 	phone: PhoneSchema.nullish(),
 	profile_image: z.string().nullish(),
@@ -197,7 +199,7 @@ export type Account = Omit<
 	interests?: AccountInterests
 	profile?: AccountProfile
 	updated_at?: UnixTimestamp
-	widgets?: AccountWidget[]
+	widgets?: Widget[]
 };
 
 export type CreateAccountDto = Omit<

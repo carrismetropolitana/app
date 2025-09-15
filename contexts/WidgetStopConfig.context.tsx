@@ -9,8 +9,8 @@ import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, 
 
 interface WidgetStopConfigContextState {
 	actions: {
-		confirmWidget: () => void
 		deleteWidget: () => void
+		saveWidget: () => void
 		selectStopId: (stopId: string) => void
 		togglePatternId: (patternId: string) => void
 		toggleSelectAll: () => void
@@ -47,26 +47,21 @@ export const WidgetStopConfigContextProvider = ({ children }: PropsWithChildren)
 	//
 	// A. Setup variables
 
-	const widgetContext = useWidgetContext();
 	const stopsContext = useStopsContext();
+	const widgetContext = useWidgetContext();
 
-	const [dataSelectedStopIdState, setDataSelectedStopIdState] = useState<string | undefined>();
-	const [dataSelectedPatternIdsState, setDataSelectedPatternIdsState] = useState<string[] | undefined>();
+	const [selectedStopId, setSelectedStopId] = useState<string | undefined>();
+	const [selectedPatternIds, setSelectedPatternIds] = useState<string[] | undefined>();
 
 	const [availablePatternsData, setAvailablePatternsData] = useState<Pattern[]>([]);
-
-	//
-	// B. Fetch data
-
-	// const { data: allAlertsData, isLoading: allAlertsLoading } = useSWR<Alert[], Error>(`${Routes.API}/alerts`);
 
 	//
 	// C. Transform data
 
 	const selectedStopData = useMemo(() => {
-		if (!dataSelectedStopIdState) return undefined;
-		return stopsContext.actions.getStopById(dataSelectedStopIdState);
-	}, [dataSelectedStopIdState]);
+		if (!selectedStopId) return undefined;
+		return stopsContext.actions.getStopById(selectedStopId);
+	}, [selectedStopId]);
 
 	useEffect(() => {
 		const fetchPatterns = async () => {
@@ -85,23 +80,23 @@ export const WidgetStopConfigContextProvider = ({ children }: PropsWithChildren)
 			setAvailablePatternsData(fetchResult);
 		};
 		fetchPatterns();
-	}, [dataSelectedStopIdState, selectedStopData]);
+	}, [selectedStopId, selectedStopData]);
 
 	const canSave = useMemo(() => {
-		if (!dataSelectedStopIdState) return false;
-		if (!dataSelectedPatternIdsState || dataSelectedPatternIdsState.length === 0) return false;
+		if (!selectedStopId) return false;
+		if (!selectedPatternIds || selectedPatternIds.length === 0) return false;
 		return true;
-	}, [dataSelectedPatternIdsState, dataSelectedStopIdState]);
+	}, [selectedPatternIds, selectedStopId]);
 
 	//
 	// D. Handle actions
 
 	const selectStopId = (stopId: string) => {
-		setDataSelectedStopIdState(stopId);
+		setSelectedStopId(stopId);
 	};
 
 	const togglePatternId = (patternId: string) => {
-		setDataSelectedPatternIdsState((prev) => {
+		setSelectedPatternIds((prev) => {
 			const set = new Set(prev);
 			if (set.has(patternId)) set.delete(patternId);
 			else set.add(patternId);
@@ -110,22 +105,23 @@ export const WidgetStopConfigContextProvider = ({ children }: PropsWithChildren)
 	};
 
 	const toggleSelectAll = () => {
-		setDataSelectedPatternIdsState((prev) => {
+		setSelectedPatternIds((prev) => {
 			if (prev && prev.length === availablePatternsData.length) return [];
 			return availablePatternsData.map(pattern => pattern.id);
 		});
 	};
 
-	const confirmWidget = () => {
-		if (!dataSelectedStopIdState || !dataSelectedPatternIdsState || dataSelectedPatternIdsState.length === 0) {
-			return;
-		}
+	const saveWidget = () => {
+		// Skip if we don't have the required data
+		if (!selectedStopId) return;
+		if (!selectedPatternIds) return;
+		if (selectedPatternIds.length === 0) return;
+		// Create the widget
 		widgetContext.actions.createWidget({
-			pattern_ids: dataSelectedPatternIdsState,
-			stopId: dataSelectedStopIdState,
+			pattern_ids: selectedPatternIds,
+			stopId: selectedStopId,
 			type: 'stops',
 		});
-		console.log('confirmWidgetCreation');
 	};
 
 	const deleteWidget = () => {
@@ -137,25 +133,25 @@ export const WidgetStopConfigContextProvider = ({ children }: PropsWithChildren)
 
 	const contextValue: WidgetStopConfigContextState = useMemo(() => ({
 		actions: {
-			confirmWidget,
 			deleteWidget,
+			saveWidget,
 			selectStopId,
 			togglePatternId,
 			toggleSelectAll,
 		},
 		data: {
 			available_patterns: availablePatternsData,
-			selected_pattern_ids: dataSelectedPatternIdsState,
+			selected_pattern_ids: selectedPatternIds,
 			selected_stop: selectedStopData,
-			selected_stop_id: dataSelectedStopIdState,
+			selected_stop_id: selectedStopId,
 		},
 		flags: {
 			can_save: canSave,
 			loading: false,
 		},
 	}), [
-		dataSelectedPatternIdsState,
-		dataSelectedStopIdState,
+		selectedPatternIds,
+		selectedStopId,
 		availablePatternsData,
 		selectedStopData,
 		canSave,
