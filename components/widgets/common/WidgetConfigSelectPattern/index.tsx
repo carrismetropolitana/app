@@ -14,11 +14,13 @@ interface WidgetConfigSelectPatternProps {
 	onTogglePatternId: (patternId: string) => void
 	onToggleSelectAll?: () => void
 	selectedPatternIds?: string[]
+	subtitle?: string
+	title?: string
 }
 
 /* * */
 
-export function WidgetConfigSelectPattern({ availablePatterns, onTogglePatternId, onToggleSelectAll, selectedPatternIds }: WidgetConfigSelectPatternProps) {
+export function WidgetConfigSelectPattern({ availablePatterns, onTogglePatternId, onToggleSelectAll, selectedPatternIds, subtitle, title }: WidgetConfigSelectPatternProps) {
 	//
 
 	//
@@ -62,8 +64,8 @@ export function WidgetConfigSelectPattern({ availablePatterns, onTogglePatternId
 	return (
 		<ListSection
 			items={availablePatternsList}
-			subtitle="Escolha se quer ver estimativas de chegada para todos os destinos desta paragem ou apenas alguns na página inicial."
-			title="Selecione um ou mais destinos"
+			subtitle={subtitle}
+			title={title}
 		/>
 	);
 

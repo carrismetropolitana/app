@@ -37,6 +37,13 @@ export function ProfileViewWidgetsCreate() {
 			icon: <IconBellRinging color="#0C807E" size={30} />,
 			key: 'smart_notification',
 			label: t('smart_notification'),
+			link: '/widgets/create/smart-notification',
+			replaceChevron: <IconCirclePlus color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100} fill="#3CB43C" size={30} />,
+		},
+		{
+			icon: <IconBellRinging color="#0C807E" size={30} />,
+			key: 'smart_notification-old',
+			label: 'old sn',
 			link: '/addSmartNotification',
 			replaceChevron: <IconCirclePlus color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100} fill="#3CB43C" size={30} />,
 		},

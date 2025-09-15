@@ -3,7 +3,7 @@
 import { ListSection } from '@/components/list/ListSection';
 import { WidgetConfigSelectLineList } from '@/components/widgets/common/WidgetConfigSelectLineList';
 import { type Line } from '@carrismetropolitana/api-types/network';
-import { IconArrowsLeftRight, IconBusStop } from '@tabler/icons-react-native';
+import { IconArrowLoopRight, IconArrowsLeftRight } from '@tabler/icons-react-native';
 import { useState } from 'react';
 
 /* * */
@@ -11,11 +11,13 @@ import { useState } from 'react';
 interface WidgetConfigSelectLineProps {
 	onSelectLineId: (lineId: string) => void
 	selectedLine?: Line
+	subtitle?: string
+	title?: string
 }
 
 /* * */
 
-export function WidgetConfigSelectLine({ onSelectLineId, selectedLine }: WidgetConfigSelectLineProps) {
+export function WidgetConfigSelectLine({ onSelectLineId, selectedLine, subtitle, title }: WidgetConfigSelectLineProps) {
 	//
 
 	//
@@ -39,10 +41,10 @@ export function WidgetConfigSelectLine({ onSelectLineId, selectedLine }: WidgetC
 
 			{!selectedLine && (
 				<ListSection
-					subtitle="Escolha uma linha para avançar no mapa."
-					title="Selecione uma linha"
+					subtitle={subtitle}
+					title={title}
 					items={[{
-						icon: <IconBusStop color="#FF6900" />,
+						icon: <IconArrowLoopRight color="#FF6900" />,
 						key: 'select-line',
 						label: 'Procurar linha',
 						onPress: () => setModalVisible(true),
@@ -52,8 +54,8 @@ export function WidgetConfigSelectLine({ onSelectLineId, selectedLine }: WidgetC
 
 			{selectedLine && (
 				<ListSection
-					subtitle="Escolha uma linha para avançar no mapa."
-					title="Selecione uma linha"
+					subtitle={subtitle}
+					title={title}
 					items={[{
 						key: 'selected-line',
 						label: selectedLine.long_name,

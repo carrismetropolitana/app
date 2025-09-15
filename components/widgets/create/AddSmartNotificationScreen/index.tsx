@@ -4,12 +4,12 @@
 import LinesListChooserModal from '@/app/(modal)/LinesListChooserModal';
 import { SelectNotificationControl } from '@/components/common/SelectNotifcationControl';
 import { TestingNeedWarning } from '@/components/common/TestingNeedWarning';
-import { VerticalContentSeparator } from '@/components/common/VerticalContentSeparator';
 import { Container } from '@/components/layout/Container';
 import { LineBadge } from '@/components/lines/LineBadge';
 import { AddSmartNotificationDaysSelector } from '@/components/widgets/create/AddSmartNotificationScreen/AddSmartNotificationDaysSelector';
 import { AddSmartNotificationsIntervalInputs } from '@/components/widgets/create/AddSmartNotificationScreen/AddSmartNotificationIntervalInputs';
 import { AddSmartNotificationsStopSelector } from '@/components/widgets/create/AddSmartNotificationScreen/AddSmartNotificationStopSelector';
+import { WidgetSmartNotificationConfigSeparator } from '@/components/widgets/smart-notifications/WidgetSmartNotificationConfigSeparator';
 import { WidgetActionsButtonGroup } from '@/components/widgets/WidgetsActionsButtonGroup';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useLocaleContext } from '@/contexts/Locale.context';
@@ -274,7 +274,6 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 					videoUrl="https://carrismetropolitana.pt/app-view/widgets/videos/smart-notifications"
 				/>
 
-				<VerticalContentSeparator starting />
 				<Text accessibilityHint={t('chooseLineTitleAccessibilityHint')} accessibilityLabel={t('chooseLineTitleAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={addFavoriteLineStyles.text}> {t('chooseLineTitle')}</Text>
 				<View>
 					{linesDetailContext.data.line && (
@@ -300,7 +299,7 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 						</ListItem>
 					)}
 				</View>
-				<VerticalContentSeparator middle />
+				<WidgetSmartNotificationConfigSeparator style="middle" />
 				<Text style={addFavoriteLineStyles.text}>com o percurso / destino</Text>
 				<View>
 					{linesDetailContext.data.line?.pattern_ids ? (
@@ -328,22 +327,22 @@ export default function AddSmartNotificationScreen({ Id, PatternId }: AddSmartNo
 						</View>
 					) : null}
 				</View>
-				<VerticalContentSeparator middle />
+				<WidgetSmartNotificationConfigSeparator style="middle" />
 				<Text accessibilityHint={t('chooseLineRadiusAccessibilityHint')} accessibilityLabel={t('chooseLineRadiusAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={addFavoriteLineStyles.text}>{t('radiusAt')}</Text>
 				<View style={addFavoriteLineStyles.selectNotificationContol}>
 					<Input accessibilityHint={t('chooseLineRadiusValueAccessibilityHint')} accessibilityLabel={t('chooseLineRadiusValueAccessibilityLabel', { value: radius })} accessibilityLanguage={localeContext.locale} containerStyle={addFavoriteLineStyles.input} keyboardType="number-pad" onChangeText={text => setRadius(Number(text))} placeholder={t('valuePlaceholder')} value={radius.toString()} />
 					<SelectNotificationControl />
 				</View>
-				<VerticalContentSeparator middle />
+				<WidgetSmartNotificationConfigSeparator style="middle" />
 				<AddSmartNotificationsStopSelector selectedStopId={selectedStopId || undefined} selectedVersionId={selectedVersionId || undefined} setSelectedStopId={setSelectedStopId} />
-				<VerticalContentSeparator middle />
+				<WidgetSmartNotificationConfigSeparator style="middle" />
 				<Text accessibilityHint={t('chooseLinePeriodAccessibilityHint')} accessibilityLabel={t('chooseLinePeriodAccessibilityLabel')} accessibilityLanguage={localeContext.locale} style={addFavoriteLineStyles.text}>{t('periodSelectorTitle')}</Text>
 				<View style={addFavoriteLineStyles.lastSectionWrapper}>
 					<AddSmartNotificationsIntervalInputs endingHour={endingHour || DateTime.now().toJSDate()} setEndingHour={setEndingHour} setStartingHour={setStartingHour} startingHour={startingHour || DateTime.now().toJSDate()} />
 					<AddSmartNotificationDaysSelector selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
 				</View>
 			</View>
-			<VerticalContentSeparator ending />
+			<WidgetSmartNotificationConfigSeparator style="end" />
 			<TestingNeedWarning />
 			<WidgetActionsButtonGroup
 				disabled={!isWidgetEnabled}

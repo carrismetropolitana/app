@@ -11,11 +11,13 @@ import { useState } from 'react';
 interface WidgetConfigSelectStopProps {
 	onSelectStopId: (stopId: string) => void
 	selectedStop?: Stop
+	subtitle?: string
+	title?: string
 }
 
 /* * */
 
-export function WidgetConfigSelectStop({ onSelectStopId, selectedStop }: WidgetConfigSelectStopProps) {
+export function WidgetConfigSelectStop({ onSelectStopId, selectedStop, subtitle, title }: WidgetConfigSelectStopProps) {
 	//
 
 	//
@@ -39,8 +41,8 @@ export function WidgetConfigSelectStop({ onSelectStopId, selectedStop }: WidgetC
 
 			{!selectedStop && (
 				<ListSection
-					subtitle="Escolha uma paragem para avançar no mapa."
-					title="Selecione uma paragem"
+					subtitle={subtitle}
+					title={title}
 					items={[{
 						icon: <IconBusStop color="#FF6900" />,
 						key: 'select-stop',
@@ -52,8 +54,8 @@ export function WidgetConfigSelectStop({ onSelectStopId, selectedStop }: WidgetC
 
 			{selectedStop && (
 				<ListSection
-					subtitle="Escolha uma paragem para avançar no mapa."
-					title="Selecione uma paragem"
+					subtitle={subtitle}
+					title={title}
 					items={[{
 						key: 'selected-stop',
 						label: selectedStop.long_name,
