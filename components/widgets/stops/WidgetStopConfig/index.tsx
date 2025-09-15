@@ -1,30 +1,16 @@
 /* * */
 
-import StopsListChooserModal from '@/app/(modal)/StopsListChooserModal';
-import { Section } from '@/components/common/layout/Section';
 import { Container } from '@/components/layout/Container';
-import { LineBadge } from '@/components/lines/LineBadge';
+import { LargeButton } from '@/components/layout/LargeButton';
 import { WidgetConfigHeader } from '@/components/widgets/common/WidgetConfigHeader';
-import { WidgetActionsButtonGroup } from '@/components/widgets/WidgetsActionsButtonGroup';
-import { useLinesContext } from '@/contexts/Lines.context';
-import { useLocaleContext } from '@/contexts/Locale.context';
-import { useProfileContext } from '@/contexts/Profile.context';
-import { useStopsContext } from '@/contexts/Stops.context';
-import { useThemeContext } from '@/contexts/Theme.context';
-import { useWidgetContext } from '@/contexts/Widget.context';
+import { WidgetConfigSelectPattern } from '@/components/widgets/common/WidgetConfigSelectPattern';
+import { WidgetConfigSelectStop } from '@/components/widgets/common/WidgetConfigSelectStop';
 import { useWidgetStopConfigContext } from '@/contexts/WidgetStopConfig.context';
-import { theming } from '@/theme/Variables';
-import { AccountWidget } from '@/types/account.types';
-import { Routes } from '@/utils/routes';
-import { Pattern, Stop } from '@carrismetropolitana/api-types/network';
-import { ListItem, Text } from '@rn-vui/themed';
-import { IconArrowRight, IconBusStop, IconCircle, IconCircleCheckFilled, IconSearch, IconX } from '@tabler/icons-react-native';
-import { useNavigation } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
-import styles from './styles';
+import { useStyles } from './styles';
 
 /* * */
 
@@ -61,6 +47,41 @@ export function WidgetStopConfig({ widgetId }: WidgetStopConfigProps) {
 				title={t('title')}
 				videoUrl="https://carrismetropolitana.pt/app-view/widgets/videos/stops"
 			/>
+
+			<WidgetConfigSelectStop
+				onSelectStopId={widgetStopConfigContext.actions.selectStopId}
+				selectedStop={widgetStopConfigContext.data.selected_stop}
+			/>
+
+			<WidgetConfigSelectPattern
+				availablePatterns={widgetStopConfigContext.data.available_patterns}
+				onTogglePatternId={widgetStopConfigContext.actions.togglePatternId}
+				onToggleSelectAll={widgetStopConfigContext.actions.toggleSelectAll}
+				selectedPatternIds={widgetStopConfigContext.data.selected_pattern_ids}
+			/>
+
+			<View style={useStyles().buttonContainer}>
+				<LargeButton
+					disabled={!widgetStopConfigContext.flags.can_save}
+					label="Save"
+					onPress={widgetStopConfigContext.actions.confirmWidget}
+					type="primary"
+				/>
+				{!widgetId && (
+					<LargeButton
+						label="Cancelar"
+						onPress={router.back}
+						type="secondary"
+					/>
+				)}
+				{widgetId && (
+					<LargeButton
+						label="Eliminar"
+						onPress={widgetStopConfigContext.actions.deleteWidget}
+						type="danger"
+					/>
+				)}
+			</View>
 
 		</Container>
 	);

@@ -13,13 +13,14 @@ export interface ListSectionItemProps {
 	icon?: ReactNode
 	key: string
 	label: string
-	link: string
+	link?: string
+	onPress?: () => void
 	replaceChevron?: ReactNode
 }
 
 /* * */
 
-export function ListSectionItem({ icon, label, link, replaceChevron }: ListSectionItemProps) {
+export function ListSectionItem({ icon, label, link, onPress, replaceChevron }: ListSectionItemProps) {
 	//
 
 	//
@@ -28,11 +29,19 @@ export function ListSectionItem({ icon, label, link, replaceChevron }: ListSecti
 	const router = useRouter();
 
 	//
+	// B. Handle actions
+
+	const handlePress = () => {
+		if (link) router.push(link);
+		else if (onPress) onPress();
+	};
+
+	//
 	// B. Render components
 
 	return (
-		<TouchableOpacity onPress={() => router.push(link)} role="listitem" style={useStyles().container}>
-			<View style={useStyles().icon}>{icon}</View>
+		<TouchableOpacity onPress={handlePress} role="listitem" style={useStyles().container}>
+			{icon && <View style={useStyles().icon}>{icon}</View>}
 			<View style={{ flex: 1 }}>
 				<Text style={useStyles().label}>{label}</Text>
 			</View>

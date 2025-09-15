@@ -1,23 +1,28 @@
 /* * */
 
-import { useLinesContext } from '@/contexts/Lines.context';
 import { useStopsContext } from '@/contexts/Stops.context';
-import { createContext, type PropsWithChildren, useContext, useMemo, useState } from 'react';
+import { useWidgetContext } from '@/contexts/Widget.context';
+import { Pattern, type Stop } from '@carrismetropolitana/api-types/network';
+import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
 /* * */
 
 interface WidgetStopConfigContextState {
 	actions: {
-		clear: () => void
-		confirm: () => void
-		selectPatternId: (patternId: string) => void
+		confirmWidget: () => void
+		deleteWidget: () => void
 		selectStopId: (stopId: string) => void
+		togglePatternId: (patternId: string) => void
+		toggleSelectAll: () => void
 	}
 	data: {
-		selected_pattern_id: null | string
-		selected_stop_id: null | string
+		available_patterns: Pattern[]
+		selected_pattern_ids: string[] | undefined
+		selected_stop: Stop | undefined
+		selected_stop_id: string | undefined
 	}
 	flags: {
+		can_save: boolean
 		loading: boolean
 	}
 }
@@ -42,11 +47,13 @@ export const WidgetStopConfigContextProvider = ({ children }: PropsWithChildren)
 	//
 	// A. Setup variables
 
+	const widgetContext = useWidgetContext();
 	const stopsContext = useStopsContext();
-	const linesContext = useLinesContext();
 
-	const [dataSelectedStopIdState, setDataSelectedStopIdState] = useState<null | string>(null);
-	const [dataSelectedPatternIdState, setDataSelectedPatternIdState] = useState<null | string>(null);
+	const [dataSelectedStopIdState, setDataSelectedStopIdState] = useState<string | undefined>();
+	const [dataSelectedPatternIdsState, setDataSelectedPatternIdsState] = useState<string[] | undefined>();
+
+	const [availablePatternsData, setAvailablePatternsData] = useState<Pattern[]>([]);
 
 	//
 	// B. Fetch data
@@ -56,6 +63,36 @@ export const WidgetStopConfigContextProvider = ({ children }: PropsWithChildren)
 	//
 	// C. Transform data
 
+	const selectedStopData = useMemo(() => {
+		if (!dataSelectedStopIdState) return undefined;
+		return stopsContext.actions.getStopById(dataSelectedStopIdState);
+	}, [dataSelectedStopIdState]);
+
+	useEffect(() => {
+		const fetchPatterns = async () => {
+			if (!selectedStopData) return;
+			const today = '20250915';
+			const fetchResult: Pattern[] = [];
+			for (const patternId of selectedStopData.pattern_ids) {
+				const result = await fetch(`https://api.carrismetropolitana.pt/v2/patterns/${patternId}`);
+				const patternData: Pattern[] = await result.json();
+				for (const element of patternData) {
+					if (element.valid_on.includes(today)) {
+						fetchResult.push(element);
+					}
+				}
+			}
+			setAvailablePatternsData(fetchResult);
+		};
+		fetchPatterns();
+	}, [dataSelectedStopIdState, selectedStopData]);
+
+	const canSave = useMemo(() => {
+		if (!dataSelectedStopIdState) return false;
+		if (!dataSelectedPatternIdsState || dataSelectedPatternIdsState.length === 0) return false;
+		return true;
+	}, [dataSelectedPatternIdsState, dataSelectedStopIdState]);
+
 	//
 	// D. Handle actions
 
@@ -63,16 +100,36 @@ export const WidgetStopConfigContextProvider = ({ children }: PropsWithChildren)
 		setDataSelectedStopIdState(stopId);
 	};
 
-	const selectPatternId = (patternId: string) => {
-		setDataSelectedPatternIdState(patternId);
+	const togglePatternId = (patternId: string) => {
+		setDataSelectedPatternIdsState((prev) => {
+			const set = new Set(prev);
+			if (set.has(patternId)) set.delete(patternId);
+			else set.add(patternId);
+			return Array.from(set);
+		});
 	};
 
-	const confirm = () => {
+	const toggleSelectAll = () => {
+		setDataSelectedPatternIdsState((prev) => {
+			if (prev && prev.length === availablePatternsData.length) return [];
+			return availablePatternsData.map(pattern => pattern.id);
+		});
+	};
+
+	const confirmWidget = () => {
+		if (!dataSelectedStopIdState || !dataSelectedPatternIdsState || dataSelectedPatternIdsState.length === 0) {
+			return;
+		}
+		widgetContext.actions.createWidget({
+			pattern_ids: dataSelectedPatternIdsState,
+			stopId: dataSelectedStopIdState,
+			type: 'stops',
+		});
 		console.log('confirmWidgetCreation');
 	};
 
-	const clear = () => {
-		console.log('clearWidgetCreation');
+	const deleteWidget = () => {
+		console.log('deleteWidget');
 	};
 
 	//
@@ -80,21 +137,28 @@ export const WidgetStopConfigContextProvider = ({ children }: PropsWithChildren)
 
 	const contextValue: WidgetStopConfigContextState = useMemo(() => ({
 		actions: {
-			clear,
-			confirm,
-			selectPatternId,
+			confirmWidget,
+			deleteWidget,
 			selectStopId,
+			togglePatternId,
+			toggleSelectAll,
 		},
 		data: {
-			selected_pattern_id: dataSelectedPatternIdState,
+			available_patterns: availablePatternsData,
+			selected_pattern_ids: dataSelectedPatternIdsState,
+			selected_stop: selectedStopData,
 			selected_stop_id: dataSelectedStopIdState,
 		},
 		flags: {
+			can_save: canSave,
 			loading: false,
 		},
 	}), [
-		dataSelectedPatternIdState,
+		dataSelectedPatternIdsState,
 		dataSelectedStopIdState,
+		availablePatternsData,
+		selectedStopData,
+		canSave,
 	]);
 
 	//

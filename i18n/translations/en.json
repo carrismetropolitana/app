@@ -384,7 +384,6 @@
 		}
 	},
 	"layout": {
-		"BackButton": "Back",
 		"NoDataLabel": {
 			"default": "No data available",
 			"noDataAccessibilityHint": "Indicates that there isn't any data available",
@@ -798,6 +797,9 @@
 	"widgets": {
 		"WidgetConfigHeader": {
 			"video_label": "Watch Explainer Video"
+		},
+		"WidgetConfigSelectStopList": {
+			"close_button": "Close"
 		},
 		"WidgetStopConfig": {
 			"description": "Add your home or work stop as a favorite. This way, whenever you need it, just open the app to see the next arrivals.",

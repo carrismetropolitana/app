@@ -386,7 +386,6 @@
 		}
 	},
 	"layout": {
-		"BackButton": "Voltar",
 		"NoDataLabel": {
 			"default": "Sem dados disponíveis",
 			"noDataAccessibilityHint": "Indica que não existem dados disponíveis",
@@ -737,6 +736,9 @@
 	"widgets": {
 		"WidgetConfigHeader": {
 			"video_label": "Ver vídeo explicativo"
+		},
+		"WidgetConfigSelectStopList": {
+			"close_button": "Close"
 		},
 		"WidgetStopConfig": {
 			"description": "Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas.",

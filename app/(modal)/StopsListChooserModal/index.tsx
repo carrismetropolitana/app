@@ -3,7 +3,6 @@
 import StopSearchBar from '@/components/common/StopSearchBar';
 import { VirtualizedListingStops } from '@/components/common/VitualizedListStops';
 import { useStopsContext } from '@/contexts/Stops.context';
-import { useStopsListContext } from '@/contexts/StopsList.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Stop } from '@carrismetropolitana/api-types/network';
@@ -33,9 +32,7 @@ export default function StopsListChooserModal({ isVisible, onBackdropPress, sele
 	// A. Setup variables
 
 	const stopsContext = useStopsContext();
-	const stopsListContext = useStopsListContext();
 	const themeContext = useThemeContext();
-	const filteredStops = stopsListContext.data.filtered;
 	const [selectedStop, setSelectedStop] = useState('');
 	const { t } = useTranslation('translation', { keyPrefix: 'layout' });
 
@@ -70,9 +67,9 @@ export default function StopsListChooserModal({ isVisible, onBackdropPress, sele
 							<Text style={styles.backText}>{t('BackButton')}</Text>
 						</TouchableOpacity>
 					</View>
-					<StopSearchBar />
+					{/* <StopSearchBar /> */}
 					<VirtualizedListingStops
-						data={filteredStops}
+						data={stopsContext.data.stops}
 						icon={(<IconCirclePlus color={themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100} fill="#3CB43C" size={24} />)}
 						itemClick={handleStopClick}
 					/>
