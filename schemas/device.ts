@@ -1,0 +1,22 @@
+/* * */
+
+import { z } from 'zod';
+
+/* * */
+
+const DEVICE_TYPE_VALUES = ['android', 'ios', 'web'] as const;
+
+export const DeviceTypeSchema = z.enum(DEVICE_TYPE_VALUES);
+
+export type DeviceType = z.infer<typeof DeviceTypeSchema>;
+
+/* * */
+
+export const DeviceSchema = z.object({
+	app_version: z.string(),
+	device_id: z.string(),
+	name: z.string().nullable(),
+	type: DeviceTypeSchema,
+});
+
+export type Device = z.infer<typeof DeviceSchema>;
