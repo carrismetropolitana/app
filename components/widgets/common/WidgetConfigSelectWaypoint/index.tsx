@@ -5,22 +5,23 @@ import { type ListSectionItemProps } from '@/components/list/ListSectionItem';
 import { WidgetConfigSelectWaypointSequence } from '@/components/widgets/common/WidgetConfigSelectWaypointSequence';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { type Waypoint } from '@carrismetropolitana/api-types/network';
-import { IconCircle, IconCircleCheckFilled } from '@tabler/icons-react-native';
+import { IconCircle, IconCircleCheckFilled, IconX } from '@tabler/icons-react-native';
 import { useMemo } from 'react';
 
 /* * */
 
 interface WidgetConfigSelectWaypointProps {
 	availableWaypoints?: Waypoint[]
+	description?: string
+	disableFirst?: boolean
 	onToggleWaypoint: (waypoint: Waypoint) => void
 	selectedWaypoint?: Waypoint
-	subtitle?: string
 	title?: string
 }
 
 /* * */
 
-export function WidgetConfigSelectWaypoint({ availableWaypoints, onToggleWaypoint, selectedWaypoint, subtitle, title }: WidgetConfigSelectWaypointProps) {
+export function WidgetConfigSelectWaypoint({ availableWaypoints, description, disableFirst, onToggleWaypoint, selectedWaypoint, title }: WidgetConfigSelectWaypointProps) {
 	//
 
 	//
@@ -36,16 +37,18 @@ export function WidgetConfigSelectWaypoint({ availableWaypoints, onToggleWaypoin
 		if (!availableWaypoints?.length) return [];
 		// Prepare waypoints list
 		const preparedWaypoints = availableWaypoints
-			.map((item) => {
+			.sort((a, b) => a.stop_sequence - b.stop_sequence)
+			.map((item, index) => {
 				const stopData = stopsContext.actions.getStopById(item.stop_id);
 				if (!stopData) return null;
 				const isSelected = selectedWaypoint?.stop_id === item.stop_id && selectedWaypoint?.stop_sequence === item.stop_sequence;
+				const isDisabled = disableFirst && index === 0;
 				return {
 					icon: <WidgetConfigSelectWaypointSequence sequence={item.stop_sequence} />,
 					key: `${item.stop_id}-${item.stop_sequence}`,
 					label: stopData.long_name,
-					onPress: () => onToggleWaypoint(item),
-					replaceChevron: isSelected ? <IconCircleCheckFilled /> : <IconCircle />,
+					onPress: () => !isDisabled && onToggleWaypoint(item),
+					replaceChevron: isDisabled ? <IconX /> : isSelected ? <IconCircleCheckFilled /> : <IconCircle />,
 				};
 			})
 			.filter(item => !!item);
@@ -62,8 +65,8 @@ export function WidgetConfigSelectWaypoint({ availableWaypoints, onToggleWaypoin
 
 	return (
 		<ListSection
+			description={description}
 			items={availableWaypointsList}
-			subtitle={subtitle}
 			title={title}
 		/>
 	);

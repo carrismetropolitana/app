@@ -11,16 +11,16 @@ import { useMemo } from 'react';
 
 interface WidgetConfigSelectPatternProps {
 	availablePatterns?: Pattern[]
+	description?: string
 	onTogglePatternId: (patternId: string) => void
 	onToggleSelectAll?: () => void
 	selectedPatternIds?: string[]
-	subtitle?: string
 	title?: string
 }
 
 /* * */
 
-export function WidgetConfigSelectPattern({ availablePatterns, onTogglePatternId, onToggleSelectAll, selectedPatternIds, subtitle, title }: WidgetConfigSelectPatternProps) {
+export function WidgetConfigSelectPattern({ availablePatterns, description, onTogglePatternId, onToggleSelectAll, selectedPatternIds, title }: WidgetConfigSelectPatternProps) {
 	//
 
 	//
@@ -63,8 +63,8 @@ export function WidgetConfigSelectPattern({ availablePatterns, onTogglePatternId
 
 	return (
 		<ListSection
+			description={description}
 			items={availablePatternsList}
-			subtitle={subtitle}
 			title={title}
 		/>
 	);

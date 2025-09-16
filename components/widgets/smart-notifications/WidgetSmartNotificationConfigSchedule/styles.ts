@@ -8,21 +8,19 @@ import { StyleSheet } from 'react-native';
 export const useStyles = () => {
 	return StyleSheet.create({
 		container: {
+			alignItems: 'center',
+			backgroundColor: useSystemVariables().border[100],
 			display: 'flex',
 			flexDirection: 'column',
-			gap: 2,
-			padding: 20,
-			paddingBottom: 10,
-		},
-		description: {
-			color: useSystemVariables().text[300],
-			fontSize: 14,
-			fontWeight: 500,
+			gap: 1,
+			justifyContent: 'center',
+			paddingVertical: 1,
 		},
 		title: {
-			color: useSystemVariables().text[200],
-			fontSize: 16,
-			fontWeight: 600,
+			alignItems: 'center',
+		},
+		weekday: {
+			alignItems: 'center',
 		},
 	});
 };

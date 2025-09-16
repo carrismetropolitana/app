@@ -7,17 +7,17 @@ import { useStyles } from './styles';
 /* * */
 
 interface ListTitleProps {
-	subtitle?: string
+	description?: string
 	title: string
 }
 
 /* * */
 
-export function ListTitle({ subtitle, title = 'Section Title' }: ListTitleProps) {
+export function ListTitle({ description, title = 'Section Title' }: ListTitleProps) {
 	return (
 		<View style={useStyles().container}>
 			<Text style={useStyles().title}>{title}</Text>
-			{subtitle && <Text style={useStyles().subtitle}>{subtitle}</Text>}
+			{description && <Text style={useStyles().description}>{description}</Text>}
 		</View>
 	);
 }

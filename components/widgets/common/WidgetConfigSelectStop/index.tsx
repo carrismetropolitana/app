@@ -5,25 +5,28 @@ import { WidgetConfigSelectStopList } from '@/components/widgets/common/WidgetCo
 import { type Stop } from '@carrismetropolitana/api-types/network';
 import { IconArrowsLeftRight, IconBusStop } from '@tabler/icons-react-native';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 /* * */
 
 interface WidgetConfigSelectStopProps {
+	description?: string
 	onSelectStopId: (stopId: string) => void
 	selectedStop?: Stop
-	subtitle?: string
 	title?: string
 }
 
 /* * */
 
-export function WidgetConfigSelectStop({ onSelectStopId, selectedStop, subtitle, title }: WidgetConfigSelectStopProps) {
+export function WidgetConfigSelectStop({ description, onSelectStopId, selectedStop, title }: WidgetConfigSelectStopProps) {
 	//
 
 	//
 	// A. Setup variables
 
 	const [modalVisible, setModalVisible] = useState(false);
+
+	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetConfigSelectStop' });
 
 	//
 	// B. Handle actions
@@ -41,12 +44,12 @@ export function WidgetConfigSelectStop({ onSelectStopId, selectedStop, subtitle,
 
 			{!selectedStop && (
 				<ListSection
-					subtitle={subtitle}
+					description={description}
 					title={title}
 					items={[{
 						icon: <IconBusStop color="#FF6900" />,
 						key: 'select-stop',
-						label: 'Procurar paragem',
+						label: t('label'),
 						onPress: () => setModalVisible(true),
 					}]}
 				/>
@@ -54,7 +57,7 @@ export function WidgetConfigSelectStop({ onSelectStopId, selectedStop, subtitle,
 
 			{selectedStop && (
 				<ListSection
-					subtitle={subtitle}
+					description={description}
 					title={title}
 					items={[{
 						key: 'selected-stop',

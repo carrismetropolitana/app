@@ -2,6 +2,7 @@
 
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useWidgetContext } from '@/contexts/Widget.context';
+import { WidgetSmartNotification } from '@/types/widget.types';
 import { type Line, type Pattern, type Waypoint } from '@carrismetropolitana/api-types/network';
 import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
@@ -12,18 +13,24 @@ interface WidgetSmartNotificationConfigContextState {
 		deleteWidget: () => void
 		saveWidget: () => void
 		selectDistance: (distance: number) => void
+		selectEndTime: (timeInSeconds: number) => void
 		selectLineId: (lineId: string) => void
 		selectPatternId: (patternId: string) => void
+		selectStartTime: (timeInSeconds: number) => void
 		selectWaypoint: (waypoint: Waypoint) => void
+		selectWeekday: (weekday: WidgetSmartNotification['week_days'][number]) => void
 	}
 	data: {
 		available_patterns: Pattern[]
 		available_waypoints: Waypoint[]
 		selected_distance: number
+		selected_end_time: number
 		selected_line: Line | undefined
 		selected_line_id: string | undefined
 		selected_pattern_id: string | undefined
+		selected_start_time: number
 		selected_waypoint: undefined | Waypoint
+		selected_weekdays: WidgetSmartNotification['week_days']
 	}
 	flags: {
 		can_save: boolean
@@ -58,6 +65,9 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children }: Props
 	const [selectedPatternId, setSelectedPatternId] = useState<string | undefined>();
 	const [selectedWaypoint, setSelectedWaypoint] = useState<undefined | Waypoint>();
 	const [selectedDistance, setSelectedDistance] = useState<number>(500);
+	const [selectedWeekdays, setSelectedWeekdays] = useState<WidgetSmartNotification['week_days']>([]);
+	const [selectedStartTime, setSelectedStartTime] = useState<number>(0);
+	const [selectedEndTime, setSelectedEndTime] = useState<number>(86400);
 
 	const [availablePatternsData, setAvailablePatternsData] = useState<Pattern[]>([]);
 
@@ -100,6 +110,9 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children }: Props
 		if (!selectedPatternId) return false;
 		if (!selectedWaypoint) return false;
 		if (!selectedDistance || selectedDistance < 500) return false;
+		if (selectedWeekdays.length === 0) return false;
+		if (selectedStartTime >= selectedEndTime) return false;
+		// All good, we can save
 		return true;
 	}, [selectedPatternId, selectedLineId, selectedWaypoint, selectedDistance]);
 
@@ -122,14 +135,36 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children }: Props
 		setSelectedDistance(distance);
 	};
 
+	const selectWeekday = (weekday: WidgetSmartNotification['week_days'][number]) => {
+		if (selectedWeekdays.includes(weekday)) {
+			setSelectedWeekdays(selectedWeekdays.filter(item => item !== weekday));
+		}
+		else {
+			setSelectedWeekdays([...selectedWeekdays, weekday]);
+		}
+	};
+
+	const selectStartTime = (timeInSeconds: number) => {
+		setSelectedStartTime(timeInSeconds);
+	};
+
+	const selectEndTime = (timeInSeconds: number) => {
+		setSelectedEndTime(timeInSeconds);
+	};
+
 	const saveWidget = () => {
 		// Skip if we don't have the required data
 		if (!selectedLineId) return;
 		if (!selectedPatternId) return;
 		// Create the widget
 		widgetContext.actions.createWidget({
-			pattern_ids: [selectedPatternId],
-			type: 'lines',
+			end_time: selectedEndTime,
+			pattern_id: selectedPatternId,
+			radius: selectedDistance,
+			start_time: selectedStartTime,
+			stop_id: selectedWaypoint?.stop_id ?? '',
+			type: 'smart_notifications',
+			week_days: selectedWeekdays,
 		});
 	};
 
@@ -145,18 +180,24 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children }: Props
 			deleteWidget,
 			saveWidget,
 			selectDistance,
+			selectEndTime,
 			selectLineId,
 			selectPatternId,
+			selectStartTime,
 			selectWaypoint,
+			selectWeekday,
 		},
 		data: {
 			available_patterns: availablePatternsData,
 			available_waypoints: availableWaypointsData,
 			selected_distance: selectedDistance,
+			selected_end_time: selectedEndTime,
 			selected_line: selectedLineData,
 			selected_line_id: selectedLineId,
 			selected_pattern_id: selectedPatternId,
+			selected_start_time: selectedStartTime,
 			selected_waypoint: selectedWaypoint,
+			selected_weekdays: selectedWeekdays,
 		},
 		flags: {
 			can_save: canSave,
@@ -167,7 +208,10 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children }: Props
 		selectedDistance,
 		selectedLineId,
 		selectedLineData,
+		selectedEndTime,
+		selectedStartTime,
 		availableWaypointsData,
+		selectedWeekdays,
 		selectedWaypoint,
 		selectedPatternId,
 		canSave,

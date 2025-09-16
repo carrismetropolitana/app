@@ -164,96 +164,6 @@
 		"selectStopAccessibilityLabel": "Select a stop",
 		"selectStopLabel": "Select a stop to see its destination"
 	},
-	"addsmartnotifications": {
-		"DaysSelector": {
-			"dayButtonAccessibilityHint": "Click this button to select or deselect the day {day}",
-			"dayButtonAccessibilityLabel": "Button to select the day {day}",
-			"friday": "Fri",
-			"monday": "Mon",
-			"saturday": "Sat",
-			"sunday": "Sun",
-			"thursday": "Thu",
-			"tuesday": "Tue",
-			"wednesday": "Wed",
-			"weekDaysTitle": "At the days of the week"
-		},
-		"IntervalInputs": {
-			"endingTime": "To",
-			"endingTimePickerAccessibilityHint": "This element is the ending time selector ",
-			"endingTimePickerAccessibilityLabel": "Selector of end time",
-			"startingTime": "From",
-			"startingTimePickerAccessibilityHint": "This element is the selector of the starting hour ",
-			"startingTimePickerAccessibilityLabel": "Starting hour selector"
-		},
-		"StopSelector": {
-			"functionalityNotAvailable": "This functionality is not available at the first stop of the route because it is not possible to predict the arrival at the first stop.",
-			"showLess": "Show less",
-			"showMore": "Show more",
-			"stopSelectorAccessibilityHint": "This section is to select a stop ",
-			"stopSelectorStopIDAccessibilityHint": "This element is the text that indicates the stop id ",
-			"stopSelectorStopIDAccessibilityLabel": "Stop ID {id}",
-			"stopSelectorStopLocalityAccessibilityHint": "This element is a text that indicates the locality of the stop ",
-			"stopSelectorStopLocalityAccessibilityLabel": "Stop Locality is {locality}",
-			"stopSelectorStopNameAccessibilityHint": "This element is a text that indicates the name of the stop ",
-			"stopSelectorStopNameAccessibilityLabel": "Stop name is {name}",
-			"stopSelectorStopSequenceAccessibilityHint": "This id {number} represents the stop number of order",
-			"stopSelectorStopSequenceAccessibilityLabel": "Stop order number {number}",
-			"stopSelectorStopShowLessAccessibilityHint": "This button colapses the stop list ",
-			"stopSelectorStopShowLessAccessibilityLabel": "Colapse the stop listing",
-			"stopSelectorStopShowMoreAccessibilityHint": "This button expands the stop listing ",
-			"stopSelectorStopShowMoreAccessibilityLabel": "Expand the stop listing",
-			"stopSelectorTitle": "from the stop",
-			"stopSelectorTitleAccessibilityHint": "This element is a hedaer to select a stop",
-			"stopSelectorTitleAccessibilityLabel": "Section to select a stop",
-			"stops": "stops",
-			"title": "Select a line to see it's stops"
-		},
-		"Toolbar": {
-			"friday": "F",
-			"monday": "M",
-			"saturday": "S",
-			"sunday": "S",
-			"thursday": "T",
-			"tuesday": "T",
-			"wednesday": "W"
-		},
-		"changeLineLabel": "Change Selected Line",
-		"chooseLineChangeLineAccessibilityHint": "Click this button to change the selected line",
-		"chooseLineChangeLineAccessibilityLabel": "Button to change selected line",
-		"chooseLineCheckedAccessibilityHint": "Indicates that the line {line} is selected",
-		"chooseLineCheckedAccessibilityLabel": "Line {line} is selected",
-		"chooseLineLongNameAccessibilityHint": "The name of the line is {line}",
-		"chooseLineLongNameAccessibilityLabel": "Line {line}",
-		"chooseLinePatternNameAccessibilityHint": "The Destiny that the line  is going to is {pattern}",
-		"chooseLinePatternNameAccessibilityLabel": "Destination {pattern}",
-		"chooseLinePeriodAccessibilityHint": "Indicates the period in which you pretend to receive notifications",
-		"chooseLinePeriodAccessibilityLabel": "Period to which you want to receive notifications",
-		"chooseLineRadiusAccessibilityHint": "Indicates the distance in meters to which you wish to receive notifications",
-		"chooseLineRadiusAccessibilityLabel": "Distance to which you whish to receive a notification",
-		"chooseLineRadiusValueAccessibilityHint": "The distance in meters to which you wish to receive a notification",
-		"chooseLineRadiusValueAccessibilityLabel": "{value} meters",
-		"chooseLineTitle": "Notifiy me when a bus from the line",
-		"chooseLineTitleAccessibilityHint": "Select a line to receive smart notifications",
-		"chooseLineTitleAccessibilityLabel": "Select a line  to receive smart notifications",
-		"chooseLineUncheckedAccessibilityHint": "Indicates that line {line} is not selected",
-		"chooseLineUncheckedAccessibilityLabel": "Line {line} not selected",
-		"friday": "Fri",
-		"heading": "Smart Notifications",
-		"monday": "Mon",
-		"noDestination": "No destination",
-		"noLineSelected": "No line selected",
-		"periodSelectorTitle": "in the interval",
-		"radiusAt": "is at",
-		"radiusMeters": "meters",
-		"radiusTime": "minutes",
-		"saturday": "Sat",
-		"subheading": "Do you use the same line everyday? Would you like to know exactly when to leave the house, or when to finish drinking your coffe, to go to the stop and catch your bus?",
-		"sunday": "Sun",
-		"thursday": "Thu",
-		"tuesday": "Tue",
-		"valuePlaceholder": "Value",
-		"wednesday": "Wed"
-	},
 	"alerts": {
 		"AlertActivePeriod": {
 			"end": "End: <parsedDate>{{parsedDate}}</parsedDate>",
@@ -798,6 +708,9 @@
 		"WidgetConfigHeader": {
 			"video_label": "Watch Explainer Video"
 		},
+		"WidgetConfigSelectStop": {
+			"label": "Search for a stop..."
+		},
 		"WidgetConfigSelectStopList": {
 			"close_button": "Close"
 		},
@@ -825,8 +738,38 @@
 		"WidgetSmartNotificationConfigDistanceInput": {
 			"unit": "meters"
 		},
+		"WidgetSmartNotificationConfigSchedule": {
+			"end_time_title": "Ending at",
+			"start_time_title": "Starting from",
+			"weekdays_title": "On the following weekdays"
+
+		},
+		"WidgetSmartNotificationConfigScheduleWeekdaysInput": {
+			"weekdays": {
+				"friday": "Fri",
+				"monday": "Mon",
+				"saturday": "Sat",
+				"sunday": "Sun",
+				"thursday": "Thu",
+				"tuesday": "Tue",
+				"wednesday": "Wed"
+			}
+		},
 		"WidgetStopConfig": {
+			"actions": {
+				"cancel": "Cancel",
+				"delete": "Delete",
+				"save": "Save"
+			},
 			"description": "Add your home or work stop as a favorite. This way, whenever you need it, just open the app to see the next arrivals.",
+			"step_1": {
+				"description": "Pick a stop to display on the main page",
+				"title": "Select a stop"
+			},
+			"step_2": {
+				"description": "You can choose any number of destinations starting from this stop.",
+				"title": "Select a destination"
+			},
 			"title": "Stop Widget"
 		}
 	}

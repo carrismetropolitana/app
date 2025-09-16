@@ -9,15 +9,15 @@ import { useState } from 'react';
 /* * */
 
 interface WidgetConfigSelectLineProps {
+	description?: string
 	onSelectLineId: (lineId: string) => void
 	selectedLine?: Line
-	subtitle?: string
 	title?: string
 }
 
 /* * */
 
-export function WidgetConfigSelectLine({ onSelectLineId, selectedLine, subtitle, title }: WidgetConfigSelectLineProps) {
+export function WidgetConfigSelectLine({ description, onSelectLineId, selectedLine, title }: WidgetConfigSelectLineProps) {
 	//
 
 	//
@@ -41,7 +41,7 @@ export function WidgetConfigSelectLine({ onSelectLineId, selectedLine, subtitle,
 
 			{!selectedLine && (
 				<ListSection
-					subtitle={subtitle}
+					description={description}
 					title={title}
 					items={[{
 						icon: <IconArrowLoopRight color="#FF6900" />,
@@ -54,7 +54,7 @@ export function WidgetConfigSelectLine({ onSelectLineId, selectedLine, subtitle,
 
 			{selectedLine && (
 				<ListSection
-					subtitle={subtitle}
+					description={description}
 					title={title}
 					items={[{
 						key: 'selected-line',

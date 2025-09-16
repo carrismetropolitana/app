@@ -9,17 +9,17 @@ import { useStyles } from './styles';
 /* * */
 
 interface ListSectionProps {
+	description?: string
 	items?: ListSectionItemProps[]
-	subtitle?: string
 	title?: string
 }
 
 /* * */
 
-export function ListSection({ items = [], subtitle, title }: ListSectionProps) {
+export function ListSection({ description, items = [], title }: ListSectionProps) {
 	return (
 		<View accessibilityLabel={title} role="list" style={useStyles().container}>
-			{title && <ListTitle subtitle={subtitle} title={title} />}
+			{title && <ListTitle description={description} title={title} />}
 			<View style={useStyles().itemsWrapper}>
 				{items.map(element => (
 					<ListSectionItem

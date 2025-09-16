@@ -737,11 +737,27 @@
 		"WidgetConfigHeader": {
 			"video_label": "Ver vídeo explicativo"
 		},
+		"WidgetConfigSelectStop": {
+			"label": "Procurar paragem..."
+		},
 		"WidgetConfigSelectStopList": {
-			"close_button": "Close"
+			"close_button": "Fechar"
 		},
 		"WidgetStopConfig": {
+			"actions": {
+				"cancel": "Cancel",
+				"delete": "Delete",
+				"save": "Save"
+			},
 			"description": "Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas.",
+			"step_1": {
+				"description": "Escolha uma paragem para exibir na página principal",
+				"title": "Selecione uma paragem"
+			},
+			"step_2": {
+				"description": "Pode escolher qualquer número de destinos a partir desta paragem.",
+				"title": "Selecione um destino"
+			},
 			"title": "Widget Paragem"
 		}
 	}

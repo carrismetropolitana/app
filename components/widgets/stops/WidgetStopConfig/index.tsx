@@ -50,35 +50,45 @@ export function WidgetStopConfig({ widgetId }: WidgetStopConfigProps) {
 				videoUrl="https://carrismetropolitana.pt/app-view/widgets/videos/stops"
 			/>
 
+			{/* * */}
+
 			<WidgetConfigSelectStop
+				description={t('step_1.description')}
 				onSelectStopId={widgetStopConfigContext.actions.selectStopId}
 				selectedStop={widgetStopConfigContext.data.selected_stop}
+				title={t('step_1.title')}
 			/>
+
+			{/* * */}
 
 			<WidgetConfigSelectPattern
 				availablePatterns={widgetStopConfigContext.data.available_patterns}
+				description={t('step_2.description')}
 				onTogglePatternId={widgetStopConfigContext.actions.togglePatternId}
 				onToggleSelectAll={widgetStopConfigContext.actions.toggleSelectAll}
 				selectedPatternIds={widgetStopConfigContext.data.selected_pattern_ids}
+				title={t('step_2.title')}
 			/>
+
+			{/* * */}
 
 			<View style={useStyles().buttonContainer}>
 				<LargeButton
 					disabled={!widgetStopConfigContext.flags.can_save}
-					label="Save"
+					label={t('actions.save')}
 					onPress={handleSave}
 					type="primary"
 				/>
 				{!widgetId && (
 					<LargeButton
-						label="Cancelar"
+						label={t('actions.cancel')}
 						onPress={router.back}
 						type="secondary"
 					/>
 				)}
 				{widgetId && (
 					<LargeButton
-						label="Eliminar"
+						label={t('actions.delete')}
 						onPress={widgetStopConfigContext.actions.deleteWidget}
 						type="danger"
 					/>

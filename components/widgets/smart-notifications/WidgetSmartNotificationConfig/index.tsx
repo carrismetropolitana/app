@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
 import { WidgetConfigSelectWaypoint } from '../../common/WidgetConfigSelectWaypoint';
+import { WidgetSmartNotificationConfigSchedule } from '../WidgetSmartNotificationConfigSchedule';
 import { useStyles } from './styles';
 
 /* * */
@@ -109,6 +110,7 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 					availableWaypoints={widgetSmartNotificationConfigContext.data.available_waypoints}
 					onToggleWaypoint={widgetSmartNotificationConfigContext.actions.selectWaypoint}
 					selectedWaypoint={widgetSmartNotificationConfigContext.data.selected_waypoint}
+					disableFirst
 				/>
 			)}
 
@@ -117,6 +119,15 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 			<WidgetSmartNotificationConfigSeparator style="middle" />
 
 			<Text style={useStyles().text}>{t('step_5.title')}</Text>
+
+			<WidgetSmartNotificationConfigSchedule
+				endTime={widgetSmartNotificationConfigContext.data.selected_end_time}
+				onEndTimeChange={widgetSmartNotificationConfigContext.actions.selectEndTime}
+				onStartTimeChange={widgetSmartNotificationConfigContext.actions.selectStartTime}
+				onToggleWeekday={widgetSmartNotificationConfigContext.actions.selectWeekday}
+				selectedWeekdays={widgetSmartNotificationConfigContext.data.selected_weekdays}
+				startTime={widgetSmartNotificationConfigContext.data.selected_start_time}
+			/>
 
 			{/* * */}
 
