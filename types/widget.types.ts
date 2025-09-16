@@ -7,7 +7,7 @@ export interface WidgetStop {
 }
 
 export interface WidgetLine {
-	pattern_id: string[]
+	pattern_id: string
 	type: 'lines'
 }
 

@@ -708,11 +708,34 @@
 		"WidgetConfigHeader": {
 			"video_label": "Watch Explainer Video"
 		},
+		"WidgetConfigSelectLine": {
+			"label": "Search for a line..."
+		},
+		"WidgetConfigSelectLineList": {
+			"close_button": "Close"
+		},
 		"WidgetConfigSelectStop": {
 			"label": "Search for a stop..."
 		},
 		"WidgetConfigSelectStopList": {
 			"close_button": "Close"
+		},
+		"WidgetLineConfig": {
+			"actions": {
+				"cancel": "Cancel",
+				"delete": "Delete",
+				"save": "Save"
+			},
+			"description": "Add your home or work stop as a favorite. This way, whenever you need it, just open the app to see the next arrivals.",
+			"step_1": {
+				"description": "Pick a line to display on the main page",
+				"title": "Select a line"
+			},
+			"step_2": {
+				"description": "You can choose one destination to pin to the homescreen. If you want to see more, just add another widget.",
+				"title": "Select a destination"
+			},
+			"title": "Line Widget"
 		},
 		"WidgetSmartNotificationConfig": {
 			"description": "Add your home or work stop as a favorite. This way, whenever you need it, just open the app to see the next arrivals.",

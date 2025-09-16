@@ -737,11 +737,55 @@
 		"WidgetConfigHeader": {
 			"video_label": "Ver vídeo explicativo"
 		},
+		"WidgetConfigSelectLine": {
+			"label": "Procurar linha..."
+		},
+		"WidgetConfigSelectLineList": {
+			"close_button": "Fechar"
+		},
 		"WidgetConfigSelectStop": {
 			"label": "Procurar paragem..."
 		},
 		"WidgetConfigSelectStopList": {
 			"close_button": "Fechar"
+		},
+		"WidgetLineConfig": {
+			"actions": {
+				"cancel": "Cancel",
+				"delete": "Delete",
+				"save": "Save"
+			},
+			"description": "Add your home or work stop as a favorite. This way, whenever you need it, just open the app to see the next arrivals.",
+			"step_1": {
+				"description": "Pick a stop to display on the main page",
+				"title": "Select a stop"
+			},
+			"step_2": {
+				"description": "You can choose any number of destinations starting from this stop.",
+				"title": "Select a destination"
+			},
+			"title": "Line Widget"
+		},
+		"WidgetSmartNotificationConfig": {
+			"description": "Add your home or work stop as a favorite. This way, whenever you need it, just open the app to see the next arrivals.",
+			"step_1": {
+				"title": "When a bus from the line"
+			},
+			"step_2": {
+				"no_data": "Select a line to continue",
+				"title": "with destination to"
+			},
+			"step_3": {
+				"title": "is at"
+			},
+			"step_4": {
+				"no_data": "Select a destination to continue",
+				"title": "from the stop"
+			},
+			"step_5": {
+				"title": "in the interval"
+			},
+			"title": "Smart Notification Widget"
 		},
 		"WidgetStopConfig": {
 			"actions": {

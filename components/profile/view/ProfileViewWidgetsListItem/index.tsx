@@ -11,16 +11,15 @@ import SwipeableItem, { OpenDirection, SwipeableItemImperativeRef } from 'react-
 
 /* * */
 
-interface RenderFavoriteItemProps {
-	drag: () => void
+interface ProfileViewWidgetsListItemProps {
 	index: number
-	isActive: boolean
+	// isActive: boolean
 	item: AccountWidget
 }
 
 /* * */
 
-export function RenderFavoriteItem({ drag, index, isActive, item }: RenderFavoriteItemProps) {
+export function ProfileViewWidgetsListItem({ index, item }: ProfileViewWidgetsListItemProps) {
 	//
 
 	//
@@ -47,7 +46,7 @@ export function RenderFavoriteItem({ drag, index, isActive, item }: RenderFavori
 				activationThreshold={20}
 				item={item}
 				snapPointsLeft={[100]}
-				swipeEnabled={!isActive}
+				// swipeEnabled={!isActive}
 				onChange={({ openDirection }) => {
 					if (openDirection !== OpenDirection.NONE) {
 						itemRefs.current.forEach((r, k) => {
@@ -59,7 +58,7 @@ export function RenderFavoriteItem({ drag, index, isActive, item }: RenderFavori
 					<SwipeUnderlay direction={OpenDirection.LEFT} index={item.settings?.display_order ?? index} open={open} percentOpen={percentOpen} />
 				)}
 			>
-				<FavoriteItem data={item} drag={drag} isActive={isActive} />
+				<FavoriteItem data={item} />
 			</SwipeableItem>
 		</View>
 	);

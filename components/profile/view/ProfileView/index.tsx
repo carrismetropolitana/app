@@ -2,11 +2,10 @@
 
 import { Container } from '@/components/layout/Container';
 import { ProfileViewPersona } from '@/components/profile/view/ProfileViewPersona';
-import { ProfileViewWidgets } from '@/components/profile/view/ProfileViewWidgets';
 import { ProfileViewWidgetsCreate } from '@/components/profile/view/ProfileViewWidgetsCreate';
+import { ProfileViewWidgetsList } from '@/components/profile/view/ProfileViewWidgetsList';
 import { useNotifications } from '@/contexts/Notifications.context';
 import { useEffect } from 'react';
-import { NestableScrollContainer } from 'react-native-draggable-flatlist';
 
 /* * */
 
@@ -19,7 +18,7 @@ export function ProfileView() {
 	const notificationsContext = useNotifications();
 
 	//
-	// B. Transform data
+	// B. Handle actions
 
 	useEffect(() => {
 		notificationsContext.actions.askForPermissions();
@@ -30,11 +29,9 @@ export function ProfileView() {
 
 	return (
 		<Container>
-			<NestableScrollContainer>
-				<ProfileViewPersona />
-				<ProfileViewWidgets />
-				<ProfileViewWidgetsCreate />
-			</NestableScrollContainer>
+			<ProfileViewPersona />
+			<ProfileViewWidgetsList />
+			<ProfileViewWidgetsCreate />
 		</Container>
 	);
 

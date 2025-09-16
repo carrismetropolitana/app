@@ -50,16 +50,26 @@ export function WidgetLineConfig({ widgetId }: WidgetLineConfigProps) {
 				videoUrl="https://carrismetropolitana.pt/app-view/widgets/videos/lines"
 			/>
 
+			{/* * */}
+
 			<WidgetConfigSelectLine
+				description={t('step_1.description')}
 				onSelectLineId={widgetLineConfigContext.actions.selectLineId}
 				selectedLine={widgetLineConfigContext.data.selected_line}
+				title={t('step_1.title')}
 			/>
+
+			{/* * */}
 
 			<WidgetConfigSelectPattern
 				availablePatterns={widgetLineConfigContext.data.available_patterns}
+				description={t('step_2.description')}
 				onTogglePatternId={widgetLineConfigContext.actions.selectPatternId}
 				selectedPatternIds={widgetLineConfigContext.data.selected_pattern_id ? [widgetLineConfigContext.data.selected_pattern_id] : []}
+				title={t('step_2.title')}
 			/>
+
+			{/* * */}
 
 			<View style={useStyles().buttonContainer}>
 				<LargeButton

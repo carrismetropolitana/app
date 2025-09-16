@@ -5,6 +5,7 @@ import { WidgetConfigSelectLineList } from '@/components/widgets/common/WidgetCo
 import { type Line } from '@carrismetropolitana/api-types/network';
 import { IconArrowLoopRight, IconArrowsLeftRight } from '@tabler/icons-react-native';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 /* * */
 
@@ -24,6 +25,8 @@ export function WidgetConfigSelectLine({ description, onSelectLineId, selectedLi
 	// A. Setup variables
 
 	const [modalVisible, setModalVisible] = useState(false);
+
+	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetConfigSelectLine' });
 
 	//
 	// B. Handle actions
@@ -46,7 +49,7 @@ export function WidgetConfigSelectLine({ description, onSelectLineId, selectedLi
 					items={[{
 						icon: <IconArrowLoopRight color="#FF6900" />,
 						key: 'select-line',
-						label: 'Procurar linha',
+						label: t('label'),
 						onPress: () => setModalVisible(true),
 					}]}
 				/>

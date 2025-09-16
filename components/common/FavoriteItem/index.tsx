@@ -1,8 +1,7 @@
 /* * */
 
-import type { AccountWidget } from '@/types/account.types';
-
 import { useStopsContext } from '@/contexts/Stops.context';
+import { type AccountWidget } from '@/types/account.types';
 import { Routes } from '@/utils/routes';
 import { ListItem } from '@rn-vui/themed';
 import { IconGripVertical } from '@tabler/icons-react-native';
@@ -17,13 +16,12 @@ import styles from './styles';
 
 interface FavoriteItemProps {
 	data: AccountWidget
-	drag?: () => void
 	isActive?: boolean
 }
 
 /* * */
 
-export default function FavoriteItemComponent({ data, drag, isActive }: FavoriteItemProps) {
+export default function FavoriteItemComponent({ data, isActive }: FavoriteItemProps) {
 	//
 
 	//
@@ -107,7 +105,7 @@ export default function FavoriteItemComponent({ data, drag, isActive }: Favorite
 
 	return (
 		<View style={favoriteItemStyles.wrapper}>
-			<TouchableHighlight disabled={isActive} onLongPress={drag} onPress={() => router.push(linkHref)} style={favoriteItemStyles.container} underlayColor="rgba(0,0,0,0.05)">
+			<TouchableHighlight disabled={isActive} onPress={() => router.push(linkHref)} style={favoriteItemStyles.container} underlayColor="rgba(0,0,0,0.05)">
 				<View style={favoriteItemStyles.inner}>
 					<View style={favoriteItemStyles.grip}>
 						<IconGripVertical color="#9696A0" size={24} />
