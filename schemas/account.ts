@@ -1,11 +1,12 @@
 /* * */
 
+import { DocumentSchema } from '@/core-replica/document';
 import { DeviceSchema } from '@/schemas/device';
 import { FavoritesSchema } from '@/schemas/favorites';
 import { NotificationsSchema } from '@/schemas/notifications';
+import { PersonaSchema } from '@/schemas/persona';
 import { ProfileSchema } from '@/schemas/profile';
 import { WidgetSchema } from '@/schemas/widgets';
-import { DocumentSchema } from '@tmlmobilidade/types';
 import { z } from 'zod';
 
 /* * */
@@ -19,9 +20,10 @@ export type AccountRole = z.infer<typeof AccountRoleSchema>;
 /* * */
 
 export const AccountSchema = DocumentSchema.extend({
-	devices: z.array(DeviceSchema).min(1),
+	devices: z.array(DeviceSchema).default([]),
 	favorites: FavoritesSchema,
 	notifications: NotificationsSchema,
+	persona: PersonaSchema,
 	profile: ProfileSchema,
 	role: AccountRoleSchema.default('user'),
 	widgets: z.array(WidgetSchema).default([]),

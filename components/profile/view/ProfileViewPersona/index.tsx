@@ -1,7 +1,7 @@
 /* * */
 
 import { UserPersona } from '@/components/profile/persona/UserPersona';
-import { useProfileContext } from '@/contexts/Profile.context';
+import { useAccountContext } from '@/contexts/Account.context';
 import { Button, Text } from '@rn-vui/themed';
 import { router } from 'expo-router';
 import { useMemo } from 'react';
@@ -18,7 +18,7 @@ export function ProfileViewPersona() {
 	//
 	// A. Setup variables
 
-	const profileContext = useProfileContext();
+	const accountContext = useAccountContext();
 	const { t } = useTranslation('translation', { keyPrefix: 'profile.ProfileViewPersona' });
 
 	//
@@ -26,10 +26,24 @@ export function ProfileViewPersona() {
 
 	const userDisplayName = useMemo(() => {
 		// Return a friendly greeting if no name is set
-		if (!profileContext?.data.profile?.profile?.first_name) return 'Olá 👋';
+		if (!accountContext?.data.account?.profile?.first_name) return 'Olá 👋';
 		// Return a personalized greeting otherwise
-		return `Olá ${profileContext?.data.profile?.profile?.first_name.trim()}!`;
-	}, [profileContext?.data.profile?.profile]);
+		return `Olá ${accountContext?.data.account?.profile?.first_name.trim()}!`;
+	}, [accountContext?.data.account?.profile]);
+
+	const activityDisplay = useMemo(() => {
+		// Return the default label if no activity is set
+		if (!accountContext?.data.account?.profile?.activity) return t('activity.default');
+		// Return the chosen activity label otherwise
+		return t(`activity.${accountContext?.data.account.profile.activity}`);
+	}, [accountContext?.data.account?.profile]);
+
+	const accentColor = useMemo(() => {
+		// Return the default label if no accent color is set
+		if (!accountContext?.data.account?.persona?.accent_color) return '#000000';
+		// Return the chosen accent color otherwise
+		return accountContext?.data.account?.persona?.accent_color;
+	}, [accountContext?.data.account?.persona]);
 
 	//
 	// C. Render components
@@ -40,8 +54,8 @@ export function ProfileViewPersona() {
 			<Text style={useStyles().displayName}>
 				{userDisplayName}
 			</Text>
-			<Text style={[useStyles().activity, { color: profileContext.data.accent_color || '' }]}>
-				{profileContext?.data.profile?.profile?.activity ? t(`activity.${profileContext.data.profile.profile.activity}`) : t('activity.default')}
+			<Text style={[useStyles().activity, { color: accentColor }]}>
+				{activityDisplay}
 			</Text>
 			<Button
 				buttonStyle={useStyles().button}

@@ -1,6 +1,6 @@
 /* * */
 
-import { DocumentSchema } from '@tmlmobilidade/types';
+import { DocumentSchema } from '@/core-replica/document';
 import { z } from 'zod';
 
 /* * */

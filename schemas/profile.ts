@@ -46,17 +46,17 @@ export type ProfileWorkSetting = z.infer<typeof ProfileWorkSettingSchema>;
 /* * */
 
 export const ProfileSchema = z.object({
-	activity: ProfileActivitySchema.nullable(),
-	birthdate: operationalDateSchema.nullable(),
-	email: z.string().email().nullable(),
-	first_name: z.string().nullable(),
-	gender: ProfileGenderSchema.nullable(),
+	activity: ProfileActivitySchema.nullable().default(null),
+	birthdate: operationalDateSchema.nullable().default(null),
+	email: z.string().email().nullable().default(null),
+	first_name: z.string().nullable().default(null),
+	gender: ProfileGenderSchema.nullable().default(null),
 	interests: z.array(ProfileInterestsSchema).default([]),
-	last_name: z.string().nullable(),
-	persona: z.string().nullable(),
-	phone: z.string().regex(/^\+[1-9]\d{1,14}$/).nullable(),
-	utilization_type: ProfileUtilizationTypeSchema.nullable(),
-	work_setting: ProfileWorkSettingSchema.nullable(),
+	last_name: z.string().nullable().default(null),
+	persona: z.string().nullable().default(null),
+	phone: z.string().regex(/^\+[1-9]\d{1,14}$/).nullable().default(null),
+	utilization_type: ProfileUtilizationTypeSchema.nullable().default(null),
+	work_setting: ProfileWorkSettingSchema.nullable().default(null),
 }).strict();
 
 export type Profile = z.infer<typeof ProfileSchema>;
