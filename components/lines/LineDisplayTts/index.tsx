@@ -1,7 +1,7 @@
 /* * */
 
 import { useLocaleContext } from '@/contexts/Locale.context';
-import { audioTtsUrl } from '@/settings/urls.settings';
+import { audioTtsUrl } from '@/settings/service-urls';
 import { IconPlayerPause, IconVolume } from '@tabler/icons-react-native';
 import { Audio, AVPlaybackStatus } from 'expo-av';
 import { useEffect, useState } from 'react';

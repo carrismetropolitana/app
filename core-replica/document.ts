@@ -1,6 +1,6 @@
 /* * */
 
-import { unixTimeStampSchema } from '@/core-replica/unix-timestamp.js';
+import { unixTimeStampSchema } from '@/core-replica/unix-timestamp';
 import { z } from 'zod';
 
 /* * */

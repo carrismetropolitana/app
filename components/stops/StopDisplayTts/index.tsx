@@ -1,6 +1,6 @@
 /* * */
 
-import { audioTtsUrl } from '@/settings/urls.settings';
+import { getServiceUrl } from '@/settings/service-urls';
 import { IconPlayerPause, IconVolume } from '@tabler/icons-react-native';
 import { Audio, AVPlaybackStatus } from 'expo-av';
 import { useEffect, useState } from 'react';
@@ -33,7 +33,7 @@ export function StopDisplayTts({ stopId }: Props) {
 	useEffect(() => {
 		const loadSound = async () => {
 			const { sound } = await Audio.Sound.createAsync(
-				{ uri: `${audioTtsUrl}/stops/${stopId}.mp3` },
+				{ uri: `${getServiceUrl('tts')}/stops/${stopId}.mp3` },
 			);
 			setSound(sound);
 		};
