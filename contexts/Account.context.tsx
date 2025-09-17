@@ -1,5 +1,6 @@
 /* * */
 
+import { type DotPath, type PathValue, setValueAtPath } from '@/core-replica/set-value-at-path';
 import { type Account } from '@/schemas/account';
 import { fetchData } from '@/utils/fetchData';
 import { swrFetcher } from '@/utils/swr-fetcher';
@@ -17,7 +18,7 @@ const LOCAL_STORAGE_KEYS = {
 
 interface AccountContextState {
 	actions: {
-		update: (data: Partial<Account>) => Promise<void>
+		update: (path: DotPath<Account>, value: PathValue<Account, DotPath<Account>>) => Promise<void>
 	}
 	data: {
 		account: Account | undefined
@@ -61,20 +62,41 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 
 	useEffect(() => {
 		(async () => {
+			// Skip if already initialized
+			if (isInit) return;
+			// Try to get Account ID from local storage
 			const foundAccountId = await AsyncStorage.getItem(LOCAL_STORAGE_KEYS.account_id);
+			// Set Account ID if found
 			if (foundAccountId) setAccountId(foundAccountId);
+			// Mark as initialized
 			setIsInit(true);
 		})();
-	}, []);
+	}, [isInit]);
 
-	const update = async (data: Partial<Account>) => {
+	useEffect(() => {
+		(async () => {
+			// Skip if not yet initialized
+			if (!isInit) return;
+			// Skip if Account ID already exists
+			if (accountId) return;
+			// Fetch new Account ID from the server
+			const newAccount = await fetchData<Account>('https://accounts.carrismetropolitana.pt/accounts');
+			// Save new Account ID to local storage and state
+			if (!newAccount?.data?._id) return;
+			setAccountId(newAccount.data._id);
+			await AsyncStorage.setItem(LOCAL_STORAGE_KEYS.account_id, newAccount.data._id);
+		})();
+	}, [isInit]);
+
+	const update = async (path: DotPath<Account>, value: PathValue<Account, DotPath<Account>>) => {
+		if (!accountData || !accountId) return;
 		// Merge existing data with new data
-		const mergedData = { ...accountData, ...data };
+		const updatedAccountData = setValueAtPath(Object.assign({}, accountData), path, value);
 		// Send updated data to the server
 		await fetchData(
 			'https://accounts.carrismetropolitana.pt/accounts',
-			'POST',
-			JSON.stringify(mergedData),
+			'PUT',
+			JSON.stringify(updatedAccountData),
 			{ 'Authorization': `Bearer ${accountId}`, 'Content-Type': 'application/json' },
 		);
 		// Revalidate SWR data
@@ -97,6 +119,7 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 			loading: !isInit || accountLoading,
 		},
 	}), [
+		isInit,
 		accountId,
 		accountData,
 		accountLoading,

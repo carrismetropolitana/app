@@ -1,6 +1,6 @@
 /* * */
 
-import { useProfileContext } from '@/contexts/Profile.context';
+import { useAccountContext } from '@/contexts/Account.context';
 import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 
@@ -25,25 +25,27 @@ export function ProfileEditPersonaAccent() {
 	//
 	// A. Setup variables
 
-	const profileContext = useProfileContext();
+	const styles = useStyles();
+
+	const accountContext = useAccountContext();
 
 	const { t } = useTranslation('translation', { keyPrefix: 'profile.ProfileEditPersonaAccent' });
 
 	//
-	// D. Render Components
+	// B. Render Components
 
 	return (
-		<View aria-label={t('label')} role="radiogroup" style={useStyles().container}>
+		<View aria-label={t('label')} role="radiogroup" style={styles.container}>
 			{AVAILABLE_ACCENT_COLORS.map(item => (
 				<TouchableOpacity
 					key={item.id}
 					aria-label={t(`accent_colors.${item.id}`)}
-					disabled={profileContext.data.accent_color === item.color_code}
-					onPress={() => profileContext.actions.setAccentColor(item.color_code)}
+					disabled={accountContext.data.account?.persona?.accent_color === item.color_code}
+					onPress={() => accountContext.actions.update('persona.accent_color', item.color_code)}
 					role="radio"
-					style={[useStyles().accentOption, {
-						backgroundColor: profileContext.data.accent_color === item.color_code ? 'transparent' : item.color_code,
-						borderColor: profileContext.data.accent_color === item.color_code ? item.color_code : 'transparent',
+					style={[styles.accentOption, {
+						backgroundColor: accountContext.data.account?.persona?.accent_color === item.color_code ? 'transparent' : item.color_code,
+						borderColor: accountContext.data.account?.persona?.accent_color === item.color_code ? item.color_code : 'transparent',
 					}]}
 				/>
 			))}

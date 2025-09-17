@@ -2,9 +2,8 @@
 
 import FavoriteItem from '@/components/common/FavoriteItem';
 import { SwipeUnderlay } from '@/components/profile/SwipeUnderlay';
-import { useThemeContext } from '@/contexts/Theme.context';
-import { theming } from '@/theme/Variables';
-import { AccountWidget } from '@/types/account.types';
+import { type Widget } from '@/schemas/widgets';
+import { useSystemVariables } from '@/theme/global';
 import { useRef } from 'react';
 import { View } from 'react-native';
 import SwipeableItem, { OpenDirection, SwipeableItemImperativeRef } from 'react-native-swipeable-item';
@@ -13,8 +12,7 @@ import SwipeableItem, { OpenDirection, SwipeableItemImperativeRef } from 'react-
 
 interface ProfileViewWidgetsListItemProps {
 	index: number
-	// isActive: boolean
-	item: AccountWidget
+	item: Widget
 }
 
 /* * */
@@ -25,33 +23,24 @@ export function ProfileViewWidgetsListItem({ index, item }: ProfileViewWidgetsLi
 	//
 	// A. Setup variables
 
-	const themeContext = useThemeContext();
-	const key = widgetKey(item);
-	const itemRefs = useRef<Map<string, SwipeableItemImperativeRef>>(new Map());
-
-	function widgetKey(widget: AccountWidget) {
-		if (widget.data.type === 'lines') return `lines-${widget.data.pattern_id}`;
-		if (widget.data.type === 'stops') return `stops-${widget.data.stop_id}`;
-		if (widget.data.type === 'smart_notifications') return `smart_notifications-${widget.data.id || ''}`;
-	}
+	const systemVariables = useSystemVariables();
+	const itemRef = useRef<null | SwipeableItemImperativeRef>(null);
 
 	//
 	// B.Render Components
 
 	return (
-		<View style={{ backgroundColor: themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100 }}>
+		<View style={{ backgroundColor: systemVariables.background[100] }}>
 			<SwipeableItem
-				key={key}
-				ref={(ref) => { if (ref && key) itemRefs.current.set(key, ref); }}
+				key={item._id}
+				ref={itemRef}
 				activationThreshold={20}
 				item={item}
 				snapPointsLeft={[100]}
 				// swipeEnabled={!isActive}
 				onChange={({ openDirection }) => {
 					if (openDirection !== OpenDirection.NONE) {
-						itemRefs.current.forEach((r, k) => {
-							if (k !== key) r.close();
-						});
+						itemRef.current?.close();
 					}
 				}}
 				renderUnderlayLeft={({ open, percentOpen }) => (

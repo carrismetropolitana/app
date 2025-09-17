@@ -3,7 +3,7 @@
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { ListSection } from '@/components/list/ListSection';
 import { type ListSectionItemProps } from '@/components/list/ListSectionItem';
-import { useProfileContext } from '@/contexts/Profile.context';
+import { useAccountContext } from '@/contexts/Account.context';
 import { Icon123 } from '@tabler/icons-react-native';
 import { useMemo } from 'react';
 
@@ -15,21 +15,23 @@ export function ProfileViewWidgetsList() {
 	//
 	// A. Setup variables
 
-	const profileContext = useProfileContext();
+	const accountContext = useAccountContext();
 
 	//
 	// B. Transform data
 
 	const listItems: ListSectionItemProps[] = useMemo(() => {
-		if (!profileContext.data.profile?.widgets) return [];
-		const sorted = profileContext.data.profile.widgets.sort((a, b) => (a.settings?.display_order ?? 0) - (b.settings?.display_order ?? 0));
-		return sorted.map(widget => ({
+		if (!accountContext.data.account?.widgets) return [];
+		const sortedWidgets = accountContext.data.account.widgets.sort((a, b) => {
+			return (a.settings.display_order ?? 0) - (b.settings.display_order ?? 0);
+		});
+		return sortedWidgets.map(widget => ({
 			icon: <Icon123 />,
-			key: widget.id,
-			label: widget.label ?? 'No label',
-			link: `/widgets/config/${widget.id}`,
+			key: widget._id,
+			label: widget.settings.label ?? 'No label',
+			link: `/widgets/${widget.type}/${widget._id}`,
 		}));
-	}, [profileContext.data.profile?.widgets]);
+	}, [accountContext.data.account?.widgets]);
 
 	//
 	// C. Render components
