@@ -90,7 +90,6 @@ export default function TabLayout() {
 					<Tabs
 						screenOptions={({ route }) => ({
 							headerShown: false,
-							headerStyle: { backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background },
 							tabBarActiveTintColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.primary : theming.colorSystemBackgroundDark300,
 							tabBarBackground: TabBarBackground,
 							tabBarButton: HapticTab,

@@ -379,6 +379,11 @@
 		"vehicleCounterZeroHint": "Nenhum veículo encontrado pela pesquisa efetuada",
 		"vehicleCounterZeroLabel": "Nenhum veículo encontrado"
 	},
+	"home": {
+		"HomeScreenCustomizeButton": {
+			"label": "Personalizar"
+		}
+	},
 	"homepage": {
 		"SuggestionCard": {
 			"SuggestionCardDescription": "Interaja com o seu perfil (Botão Abaixo) para adicionar os seus widgets favoritos aqui.",

@@ -97,17 +97,16 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		if (!accountData || !accountId) return;
 		// Update local copy of the data
 		const updatedAccountData = setValueAtPath(Object.assign({}, accountData), path, value);
-		// Optimistically update the SWR data
-		accountMutate(updatedAccountData);
 		// Send updated data to the server
-		await fetchData(
+		const response = await fetchData<Account>(
 			`${getServiceUrl('accounts')}/accounts`,
 			'PUT',
 			updatedAccountData,
 			{ 'Authorization': `Bearer ${accountId}`, 'Content-Type': 'application/json' },
 		);
+		if (!response.data) return;
 		// Revalidate SWR data
-		accountMutate();
+		accountMutate(response.data);
 	};
 
 	//

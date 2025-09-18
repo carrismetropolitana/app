@@ -1,19 +1,16 @@
 /* * */
 
-import FavoritesBar from '@/components/common/FavoritesBar';
-import { HomeScreenHeader } from '@/components/home/HomeScreenHeader';
-import { WidgetCards } from '@/components/widgets/WidgetCards';
-import { useLocaleContext } from '@/contexts/Locale.context';
-import { useProfileContext } from '@/contexts/Profile.context';
-import { useThemeContext } from '@/contexts/Theme.context';
-import { theming } from '@/theme/Variables';
-import { Button } from '@rn-vui/themed';
-import { router } from 'expo-router';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { HomeScreenListFooter } from '@/components/home/HomeScreenListFooter';
+import { HomeScreenListHeader } from '@/components/home/HomeScreenListHeader';
+import { useAccountContext } from '@/contexts/Account.context';
+import { type Widget } from '@/schemas/widgets';
+import { useMemo } from 'react';
+import { Text, TouchableOpacity } from 'react-native';
+import DragList, { DragListRenderItemInfo } from 'react-native-draglist';
+
+import { useStyles } from './styles';
+
+/* * */
 
 export function HomeScreen() {
 	//
@@ -21,72 +18,62 @@ export function HomeScreen() {
 	//
 	// A. Setup variables
 
-	const localeContext = useLocaleContext();
-	const themeContext = useThemeContext();
-	const profileContext = useProfileContext();
-	const insets = useSafeAreaInsets();
-	const [hasFavorites, setHasFavorites] = useState<boolean | undefined>(undefined);
-	const backgroundColor = themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background;
-	const buttonBackgroundColor = themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundDark100 : theming.colorSystemBackgroundDark100;
-	const titleColor = themeContext.theme.mode === 'light' ? theming.colorSystemText900 : theming.colorSystemText300;
-	const { t } = useTranslation('translation', { keyPrefix: 'common' });
+	const styles = useStyles();
+
+	const accountContext = useAccountContext();
 
 	//
-	// B. Transform Data
+	// B. Transform data
 
-	useEffect(() => {
-		if (!profileContext.data.profile?.favorites?.lines || profileContext.data.profile?.favorites?.lines.length === 0) {
-			setHasFavorites(false);
-		}
-		else {
-			setHasFavorites(true);
-		}
-	}, [profileContext.data.profile?.favorites?.lines]);
+	const sortedWidgetsList = useMemo(() => {
+		if (!accountContext.data.account?.widgets.length) return [];
+		return accountContext.data.account.widgets.sort((a, b) => (a.settings.display_order ?? 0) - (b.settings.display_order ?? 0));
+	}, [accountContext.data.account?.widgets]);
 
 	//
-	// C. Render Components
+	// C. Handle actions
+
+	async function onReordered(fromIndex: number, toIndex: number) {
+		// Create a copy of the current widgets list
+		// as to not mutate the React state directly
+		const localCopyOfList = [...sortedWidgetsList];
+		// Splice out the item being moved
+		const listSegment = localCopyOfList.splice(fromIndex, 1);
+		// Insert the moved item at its new position
+		localCopyOfList.splice(toIndex, 0, listSegment[0]);
+		// Reset the display order property based on the new array order
+		localCopyOfList.forEach((widget, index) => widget.settings.display_order = index);
+		// Update the account to re-render the list
+		await accountContext.actions.update('widgets', localCopyOfList);
+	}
+
+	//
+	// C. Render components
+
+	function renderItem({ isActive, item, onDragEnd, onDragStart }: DragListRenderItemInfo<Widget>) {
+		return (
+			<TouchableOpacity
+				key={item._id}
+				onLongPress={onDragStart}
+				onPressOut={onDragEnd}
+			>
+				<Text style={[styles.container2, isActive && styles.activeContainer]}>{item._id}</Text>
+			</TouchableOpacity>
+		);
+	}
 
 	return (
-		<View style={{ backgroundColor: backgroundColor, flex: 1 }}>
-			<HomeScreenHeader />
-			<ScrollView
-				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{
-					paddingBottom: 124 + insets.bottom,
-					paddingTop: hasFavorites ? 0 : insets.top + 80,
-				}}
-			>
-				<FavoritesBar />
-				<View style={{ padding: 20, paddingTop: 30 }}>
-					<WidgetCards />
-					<Button
-						accessibilityHint={t('goToProfileButtonAccessibilityHint')}
-						accessibilityLabel={t('goToProfileButtonAccessibilityLabel')}
-						accessibilityLanguage={localeContext.locale}
-						accessibilityRole="button"
-						onPress={() => router.push('/profile')}
-						title={t('personalizeButton')}
-						buttonStyle={{
-							alignSelf: 'center',
-							backgroundColor: buttonBackgroundColor,
-							borderRadius: 999,
-							flexDirection: 'row',
-							marginBottom: 20,
-							minWidth: '30%',
-						}}
-						containerStyle={{
-							backgroundColor: backgroundColor,
-							paddingTop: 10,
-						}}
-						titleStyle={{
-							color: titleColor,
-							fontSize: theming.fontSizeMuted,
-							fontWeight: theming.fontWeightSemibold as 'semibold',
-						}}
-					/>
-				</View>
-			</ScrollView>
-		</View>
+		<DragList
+			contentContainerStyle={styles.list}
+			data={sortedWidgetsList}
+			keyExtractor={item => item._id}
+			ListFooterComponent={<HomeScreenListFooter />}
+			ListHeaderComponent={<HomeScreenListHeader />}
+			onReordered={onReordered}
+			renderItem={renderItem}
+			stickyHeaderIndices={[0]}
+			style={styles.container}
+		/>
 	);
 
 	//

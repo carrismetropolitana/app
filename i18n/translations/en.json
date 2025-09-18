@@ -287,6 +287,11 @@
 		"vehicleCounterZeroHint": "No vehicle found for the search",
 		"vehicleCounterZeroLabel": "No vehicle found"
 	},
+	"home": {
+		"HomeScreenCustomizeButton": {
+			"label": "Customize"
+		}
+	},
 	"homepage": {
 		"SuggestionCard": {
 			"SuggestionCardDescription": "Interact with your profile (Button Below) to add your favorite widgets here.",
