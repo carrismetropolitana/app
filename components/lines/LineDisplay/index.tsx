@@ -1,9 +1,8 @@
 /* * */
 
-import type { Line } from '@carrismetropolitana/api-types/network';
-
 import { LineBadge } from '@/components/lines/LineBadge';
 import { LineName } from '@/components/lines/LineName';
+import { type Line } from '@carrismetropolitana/api-types/network';
 import { Skeleton } from '@rn-vui/themed';
 import { View } from 'react-native';
 
@@ -27,8 +26,6 @@ interface Props {
 export function LineDisplay({ color, lineData, longName, municipality, shortName, size = 'md', textColor, width = 200 }: Props) {
 	//
 
-	//
-	// A. Render Components
 	if (lineData) {
 		return (
 			<View style={lineDisplayStyles.container}>

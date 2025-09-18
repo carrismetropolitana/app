@@ -20,6 +20,7 @@ export const useStyles = () => {
 			alignItems: 'center',
 			display: 'flex',
 			flexDirection: 'row',
+			gap: 5,
 			justifyContent: 'space-between',
 			width: '100%',
 		},

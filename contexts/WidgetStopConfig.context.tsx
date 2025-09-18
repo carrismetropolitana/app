@@ -1,9 +1,8 @@
 /* * */
 
 import { useStopsContext } from '@/contexts/Stops.context';
-import { useWidgetContext } from '@/contexts/Widget.context';
-import { Dates, generateRandomString } from '@/core-replica';
-import { Widget, WidgetSchema } from '@/schemas/widgets';
+import { generateRandomString } from '@/core-replica';
+import { WidgetSchema } from '@/schemas/widgets';
 import { Pattern, type Stop } from '@carrismetropolitana/api-types/network';
 import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
@@ -52,7 +51,6 @@ export const WidgetStopConfigContextProvider = ({ children }: PropsWithChildren)
 	// A. Setup variables
 
 	const stopsContext = useStopsContext();
-	const widgetContext = useWidgetContext();
 	const accountContext = useAccountContext();
 
 	const [selectedStopId, setSelectedStopId] = useState<string | undefined>();

@@ -1,7 +1,7 @@
 /* * */
 
-import { type Line, type Route } from '@carrismetropolitana/api-types/network';
-import { createContext, type PropsWithChildren, useContext, useMemo } from 'react';
+import { type Line, type Pattern, type Route } from '@carrismetropolitana/api-types/network';
+import { createContext, type PropsWithChildren, useContext, useMemo, useState } from 'react';
 import useSWR from 'swr';
 
 /* * */
@@ -9,6 +9,7 @@ import useSWR from 'swr';
 interface LinesContextState {
 	actions: {
 		getLineDataById: (lineId: string) => Line | undefined
+		getPatternDataById: (patternId: string) => Promise<null | Pattern[]>
 		getRouteDataById: (routeId: string) => Route | undefined
 	}
 	data: {
@@ -37,13 +38,18 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 	//
 
 	//
-	// A. Fetch data
+	// A. Setup variables
+
+	const [patternsCache, setPatternsCache] = useState<Record<string, Pattern[]>>({});
+
+	//
+	// B. Fetch data
 
 	const { data: allLinesData, isLoading: allLinesLoading } = useSWR<Line[]>('https://api.carrismetropolitana.pt/v2/lines');
 	const { data: allRoutesData, isLoading: allRoutesLoading } = useSWR<Route[]>('https://api.carrismetropolitana.pt/v2/routes');
 
 	//
-	// B. Handle actions
+	// C. Handle actions
 
 	const getLineDataById = (lineId: string) => {
 		if (!allLinesData) return;
@@ -55,12 +61,25 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 		return allRoutesData.find(route => route.id === routeId);
 	};
 
+	const getPatternDataById = async (patternId: string) => {
+		// Check if pattern is in cache
+		if (patternsCache[patternId]) return patternsCache[patternId];
+		// If not, fetch pattern data
+		const response = await fetch(`https://api.carrismetropolitana.pt/v2/patterns/${patternId}`);
+		const responseData = await response.json();
+		// Save pattern to cache
+		setPatternsCache(prev => ({ ...prev, [patternId]: responseData }));
+		// Return pattern data
+		return responseData;
+	};
+
 	//
 	// C. Define context value
 
 	const contextValue: LinesContextState = useMemo(() => ({
 		actions: {
 			getLineDataById,
+			getPatternDataById,
 			getRouteDataById,
 		},
 		data: {

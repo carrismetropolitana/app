@@ -1,7 +1,9 @@
 /* * */
 
+import { useAccountContext } from '@/contexts/Account.context';
 import { useLinesContext } from '@/contexts/Lines.context';
-import { useWidgetContext } from '@/contexts/Widget.context';
+import { generateRandomString } from '@/core-replica';
+import { WidgetSchema } from '@/schemas/widgets';
 import { type Line, type Pattern } from '@carrismetropolitana/api-types/network';
 import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
@@ -47,7 +49,7 @@ export const WidgetLineConfigContextProvider = ({ children }: PropsWithChildren)
 	// A. Setup variables
 
 	const linesContext = useLinesContext();
-	const widgetContext = useWidgetContext();
+	const accountContext = useAccountContext();
 
 	const [selectedLineId, setSelectedLineId] = useState<string | undefined>();
 	const [selectedPatternId, setSelectedPatternId] = useState<string | undefined>();
@@ -99,15 +101,32 @@ export const WidgetLineConfigContextProvider = ({ children }: PropsWithChildren)
 	};
 
 	const saveWidget = () => {
+		// Skip if account data is not available
+		if (!accountContext.data.account) return;
 		// Skip if we don't have the required data
-		if (!selectedLineId) return;
 		if (!selectedPatternId) return;
-		// Create the widget
-		widgetContext.actions.createWidget({
-			pattern_ids: [selectedPatternId],
-			type: 'lines',
+		// Create the widget object
+		const widgetObject = WidgetSchema.parse({
+			_id: generateRandomString(),
+			properties: {
+				pattern_id: selectedPatternId,
+			},
+			type: 'line',
 		});
+		// Save the widget
+		accountContext.actions.update('widgets', [...accountContext.data.account.widgets, widgetObject]);
 	};
+
+	// const saveWidget = () => {
+	// 	// Skip if we don't have the required data
+	// 	if (!selectedLineId) return;
+	// 	if (!selectedPatternId) return;
+	// 	// Create the widget
+	// 	widgetContext.actions.createWidget({
+	// 		pattern_id: selectedPatternId,
+	// 		type: 'lines',
+	// 	});
+	// };
 
 	const deleteWidget = () => {
 		console.log('deleteWidget');

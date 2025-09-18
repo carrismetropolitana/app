@@ -10,7 +10,6 @@ import { useProfileContext } from './Profile.context';
 interface WidgetContextState {
 	actions: {
 		createWidget: (params: WidgetCreate) => Promise<void>
-		deleteWidgetByDisplayOrder: (display_order: number) => Promise<void>
 		updateWidget: (id: string, newWidgetData: AccountWidget) => Promise<void>
 	}
 	counters: {

@@ -1,7 +1,7 @@
 /* * */
 
 import { useSystemVariables } from '@/theme/global';
-import { IconChevronDown, IconChevronLeft } from '@tabler/icons-react-native';
+import { IconCaretDownFilled, IconCaretLeftFilled } from '@tabler/icons-react-native';
 import { View } from 'react-native';
 
 import { useStyles } from './styles';
@@ -29,8 +29,8 @@ export function WidgetCardOpenToggle({ isOpen }: WidgetCardOpenToggleProps) {
 	return (
 		<View style={styles.container}>
 			{isOpen
-				? <IconChevronDown color={systemVariables.text[300]} size={28} />
-				: <IconChevronLeft color={systemVariables.text[300]} size={28} />}
+				? <IconCaretDownFilled color={systemVariables.text[400]} size={28} />
+				: <IconCaretLeftFilled color={systemVariables.text[400]} size={28} />}
 		</View>
 	);
 

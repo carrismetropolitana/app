@@ -1,6 +1,9 @@
 /* * */
 
+import { WidgetCardLineBody } from '@/components/widgets/cards/WidgetCardLineBody';
+import { WidgetCardLineHeader } from '@/components/widgets/cards/WidgetCardLineHeader';
 import { WidgetCardOpenToggle } from '@/components/widgets/cards/WidgetCardOpenToggle';
+import { WidgetCardSmartNotificationBody } from '@/components/widgets/cards/WidgetCardSmartNotificationBody';
 import { WidgetCardStopBody } from '@/components/widgets/cards/WidgetCardStopBody';
 import { WidgetCardStopHeader } from '@/components/widgets/cards/WidgetCardStopHeader';
 import { useAccountContext } from '@/contexts/Account.context';
@@ -48,7 +51,7 @@ export function WidgetCard({ data, isDragging, onDragEnd, onDragStart }: WidgetC
 
 				<View style={[styles.headerWrapper, data.settings.is_open && styles.headerWrapperIsOpen]}>
 					{data.type === 'stop' && <WidgetCardStopHeader label={data.settings.label} stopId={data.properties.stop_id} /> }
-					{/* {data.type === 'line' && <WidgetCardStopHeader label={data.settings.label} stopId={data._id} /> } */}
+					{data.type === 'line' && <WidgetCardLineHeader patternId={data.properties.pattern_id} /> }
 					{/* {data.type === 'smart_notification' && <WidgetCardStopHeader label={data.settings.label} stopId={data._id} /> } */}
 					<WidgetCardOpenToggle isOpen={data.settings.is_open} />
 				</View>
@@ -56,8 +59,8 @@ export function WidgetCard({ data, isDragging, onDragEnd, onDragStart }: WidgetC
 				{data.settings.is_open && (
 					<View>
 						{data.type === 'stop' && <WidgetCardStopBody data={data} />}
-						{/* {data.type === 'line' && <WidgetCardStop data={data} />} */}
-						{/* {data.type === 'smart_notification' && <WidgetCardStop data={data} />} */}
+						{data.type === 'line' && <WidgetCardLineBody data={data} />}
+						{data.type === 'smart_notification' && <WidgetCardSmartNotificationBody data={data} />}
 					</View>
 				)}
 
