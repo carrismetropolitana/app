@@ -2,8 +2,12 @@
 
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useWidgetContext } from '@/contexts/Widget.context';
+import { Dates, generateRandomString } from '@/core-replica';
+import { Widget, WidgetSchema } from '@/schemas/widgets';
 import { Pattern, type Stop } from '@carrismetropolitana/api-types/network';
 import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
+
+import { useAccountContext } from './Account.context';
 
 /* * */
 
@@ -49,6 +53,7 @@ export const WidgetStopConfigContextProvider = ({ children }: PropsWithChildren)
 
 	const stopsContext = useStopsContext();
 	const widgetContext = useWidgetContext();
+	const accountContext = useAccountContext();
 
 	const [selectedStopId, setSelectedStopId] = useState<string | undefined>();
 	const [selectedPatternIds, setSelectedPatternIds] = useState<string[] | undefined>();
@@ -112,16 +117,23 @@ export const WidgetStopConfigContextProvider = ({ children }: PropsWithChildren)
 	};
 
 	const saveWidget = () => {
+		// Skip if account data is not available
+		if (!accountContext.data.account) return;
 		// Skip if we don't have the required data
 		if (!selectedStopId) return;
 		if (!selectedPatternIds) return;
 		if (selectedPatternIds.length === 0) return;
-		// Create the widget
-		widgetContext.actions.createWidget({
-			pattern_ids: selectedPatternIds,
-			stopId: selectedStopId,
-			type: 'stops',
+		// Create the widget object
+		const widgetObject = WidgetSchema.parse({
+			_id: generateRandomString(),
+			properties: {
+				pattern_ids: selectedPatternIds,
+				stop_id: selectedStopId,
+			},
+			type: 'stop',
 		});
+		// Save the widget
+		accountContext.actions.update('widgets', [...accountContext.data.account.widgets, widgetObject]);
 	};
 
 	const deleteWidget = () => {

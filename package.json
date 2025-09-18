@@ -42,6 +42,7 @@
 		"expo-av": "15.0.2",
 		"expo-clipboard": "7.0.1",
 		"expo-constants": "17.0.8",
+		"expo-crypto": "~14.0.2",
 		"expo-dev-client": "5.0.14",
 		"expo-font": "13.0.4",
 		"expo-haptics": "14.0.1",
@@ -74,7 +75,8 @@
 		"react-native-uuid": "2.0.3",
 		"react-native-webview": "13.12.5",
 		"swr": "2.3.6",
-		"ukkonen": "2.2.0"
+		"ukkonen": "2.2.0",
+		"zod": "3.25.76"
 	},
 	"devDependencies": {
 		"@babel/core": "7.28.4",

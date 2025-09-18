@@ -1,8 +1,8 @@
 /* * */
 
+import { Dates } from '@/core-replica/dates';
 import { type Account } from '@/types/account.types';
 import { type ProfileImage } from '@/types/profileImage.type';
-import { Dates } from '@/utils/dates/dates';
 import { fetchData } from '@/utils/fetchData';
 import { Routes } from '@/utils/routes';
 import { Line } from '@carrismetropolitana/api-types/network';

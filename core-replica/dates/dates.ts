@@ -1,7 +1,7 @@
 /* * */
 
-import { type DatesFormat, Formats, OPERATIONAL_DATE_FORMAT } from '@/utils/dates/format';
-import { type TimezoneIdentified, timezoneList, timezoneListSchema } from '@/utils/dates/types';
+import { type DatesFormat, Formats, OPERATIONAL_DATE_FORMAT } from '@/core-replica/dates/format';
+import { type TimezoneIdentified, timezoneList, timezoneListSchema } from '@/core-replica/dates/types';
 import { type OperationalDate, type UnixTimestamp } from '@tmlmobilidade/types';
 import { type DateObjectUnits, DateTime, type DateTimeUnit, type DurationObjectUnits } from 'luxon';
 
@@ -27,7 +27,7 @@ export class Dates {
 
 	static get FORMATS() { return Formats; }
 	static get TIMEZONE_LIST() { return timezoneList; }
-	static get TIMEZONE_LIST_VALUES() { return timezoneListSchema.Values; }
+	static get TIMEZONE_LIST_VALUES() { return timezoneListSchema._zod.values; }
 
 	//
 	// Instance properties
@@ -262,8 +262,8 @@ export class Dates {
 	 * Sets the timezone for the Dates object.
 	 * @param timezone The timezone to set in the format of an IANA timezone.
 	 * @param method The method to use for updating the timezone information.
-	 *   - 'offset_only': Updates only offset setting to the new timezone. The ISO string will show adjusted time components (hour, minutes, etc.) to their equivalent in the new timezone. The UTC value in milliseconds stays the same. The timestamp is the source of truth.
-	 *   - 'rebase_utc': Keeps the individual time components (hour, minutes, etc.) and updates the internal UTC value in milliseconds to reflect the change. The ISO string will show the same time components as before, but the UTC value in milliseconds will be adjusted to match the new timezone. The ISO string is the source of truth.
+	 *   - `offset_only` Updates only offset setting to the new timezone. The ISO string will show adjusted time components (hour, minutes, etc.) to their equivalent in the new timezone. The UTC value in milliseconds stays the same. The timestamp is the source of truth.
+	 *   - `rebase_utc` Keeps the individual time components (hour, minutes, etc.) and updates the internal UTC value in milliseconds to reflect the change. The ISO string will show the same time components as before, but the UTC value in milliseconds will be adjusted to match the new timezone. The ISO string is the source of truth.
 	 * @returns The Dates object
 	 */
 	setZone(timezone: TimezoneIdentified, method: 'offset_only' | 'rebase_utc'): Dates {

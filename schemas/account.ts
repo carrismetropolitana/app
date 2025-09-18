@@ -21,12 +21,12 @@ export type AccountRole = z.infer<typeof AccountRoleSchema>;
 
 export const AccountSchema = DocumentSchema.extend({
 	devices: z.array(DeviceSchema).default([]),
-	favorites: FavoritesSchema,
-	notifications: NotificationsSchema,
-	persona: PersonaSchema,
-	profile: ProfileSchema,
+	favorites: FavoritesSchema.default({}),
+	notifications: NotificationsSchema.default({}),
+	persona: PersonaSchema.default({}),
+	profile: ProfileSchema.default({}),
 	role: AccountRoleSchema.default('user'),
 	widgets: z.array(WidgetSchema).default([]),
-}).strict();
+});
 
 export type Account = z.infer<typeof AccountSchema>;

@@ -1,6 +1,6 @@
 /* * */
 
-import { Dates } from '@/utils/dates/dates';
+import { Dates } from '@/core-replica/dates/dates';
 import { type OperationalDate, type UnixTimestamp } from '@tmlmobilidade/types';
 
 /* * */
