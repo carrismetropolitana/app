@@ -1,11 +1,11 @@
 /* * */
 
-import { useProfileContext } from '@/contexts/Profile.context';
-import { Routes } from '@/utils/routes';
+import { useAccountContext } from '@/contexts/Account.context';
+import { getServiceUrl } from '@/settings/service-urls';
 import { useMemo } from 'react';
 import { Image, View } from 'react-native';
 
-import { styles } from './styles';
+import { useStyles } from './styles';
 
 /* * */
 
@@ -21,21 +21,21 @@ export function UserPersonaImage({ size = 'md' }: UserPersonaImageProps) {
 	//
 	// A. Setup variables
 
-	const profileContext = useProfileContext();
-	const profileImageStyles = styles();
+	const styles = useStyles();
+
+	const accountContext = useAccountContext();
 
 	//
 	// B. Transform data
 
 	const imageUrl = useMemo(() => {
-		if (!profileContext.data.profile?.profile?.profile_image) return null;
-		return `${Routes.API_ACCOUNTS}/persona/${profileContext.data.profile?.profile?.profile_image}`;
-	}, [profileContext.data.profile?.profile?.profile_image]);
+		if (!accountContext.data.account?.persona.image_id) return null;
+		return `${getServiceUrl('accounts')}/personas/${accountContext.data.account.persona.image_id}`;
+	}, [accountContext.data.account?.persona.image_id]);
 
 	const accentColor = useMemo(() => {
-		if (!profileContext.data.accent_color) return '#000000';
-		return profileContext.data.accent_color;
-	}, [profileContext.data.accent_color]);
+		return accountContext.data.account?.persona.accent_color ?? '#000000';
+	}, [accountContext.data.account?.persona.accent_color]);
 
 	const containerSize = useMemo(() => {
 		if (size === 'lg') return 200;
@@ -52,8 +52,8 @@ export function UserPersonaImage({ size = 'md' }: UserPersonaImageProps) {
 
 	if (imageUrl) {
 		return (
-			<View style={[profileImageStyles.container, { borderColor: accentColor, borderWidth: borderWidth }]}>
-				<View style={[profileImageStyles.background, { backgroundColor: accentColor }]} />
+			<View style={[styles.container, { borderColor: accentColor, borderWidth: borderWidth }]}>
+				<View style={[styles.background, { backgroundColor: accentColor }]} />
 				<Image
 					resizeMode="contain"
 					source={{ uri: imageUrl }}

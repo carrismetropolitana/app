@@ -1,7 +1,8 @@
 /* * */
 
-import { type DotPath, type PathValue, setValueAtPath } from '@/core-replica/set-value-at-path';
+import { type DotPath, HttpException, type PathValue, setValueAtPath } from '@/core-replica';
 import { type Account } from '@/schemas/account';
+import { getServiceUrl } from '@/settings/service-urls';
 import { fetchData } from '@/utils/fetchData';
 import { swrFetcher } from '@/utils/swr-fetcher';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,7 +12,7 @@ import useSWR from 'swr';
 /* * */
 
 const LOCAL_STORAGE_KEYS = {
-	account_id: 'token',
+	account_id: 'account_id',
 };
 
 /* * */
@@ -55,7 +56,7 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 	//
 	// B. Fetch data
 
-	const { data: accountData, isLoading: accountLoading, mutate: accountMutate } = useSWR<Account>({ accountId: accountId, url: accountId && 'https://accounts.carrismetropolitana.pt/accounts' }, swrFetcher, { refreshInterval: 1000 });
+	const { data: accountData, error: accountError, isLoading: accountLoading, mutate: accountMutate } = useSWR<Account, HttpException>({ accountId: accountId, url: `${getServiceUrl('accounts')}/accounts` }, swrFetcher, { refreshInterval: 1000 });
 
 	//
 	// C. Handle actions
@@ -66,37 +67,43 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 			if (isInit) return;
 			// Try to get Account ID from local storage
 			const foundAccountId = await AsyncStorage.getItem(LOCAL_STORAGE_KEYS.account_id);
-			// Set Account ID if found
-			if (foundAccountId) setAccountId(foundAccountId);
-			// Mark as initialized
+			// Set Account ID if found...
+			if (foundAccountId) {
+				setAccountId(foundAccountId);
+				setIsInit(true);
+				return;
+			}
+			// ...or else fetch a new one from the server
+			const newAccount = await fetchData<Account>(`${getServiceUrl('accounts')}/accounts/new`);
+			if (!newAccount?.data?._id) return;
+			await AsyncStorage.setItem(LOCAL_STORAGE_KEYS.account_id, newAccount.data._id);
+			setAccountId(newAccount.data._id);
 			setIsInit(true);
 		})();
 	}, [isInit]);
 
 	useEffect(() => {
-		(async () => {
-			// Skip if not yet initialized
-			if (!isInit) return;
-			// Skip if Account ID already exists
-			if (accountId) return;
-			// Fetch new Account ID from the server
-			const newAccount = await fetchData<Account>('https://accounts.carrismetropolitana.pt/accounts');
-			// Save new Account ID to local storage and state
-			if (!newAccount?.data?._id) return;
-			setAccountId(newAccount.data._id);
-			await AsyncStorage.setItem(LOCAL_STORAGE_KEYS.account_id, newAccount.data._id);
-		})();
-	}, [isInit]);
+		// Skip if no error
+		if (!accountError) return;
+		// Skip if error is 404 (Not Found)
+		if (accountError.statusCode !== 404) return;
+		// This means the account ID is invalid, so we need to clear it
+		AsyncStorage.removeItem(LOCAL_STORAGE_KEYS.account_id);
+		setAccountId(undefined);
+		setIsInit(false);
+	}, [accountError]);
 
-	const update = async (path: DotPath<Account>, value: PathValue<Account, DotPath<Account>>) => {
+	async function update(path: DotPath<Account>, value: PathValue<Account, DotPath<Account>>) {
 		if (!accountData || !accountId) return;
-		// Merge existing data with new data
+		// Update local copy of the data
 		const updatedAccountData = setValueAtPath(Object.assign({}, accountData), path, value);
+		// Optimistically update the SWR data
+		accountMutate(updatedAccountData);
 		// Send updated data to the server
 		await fetchData(
-			'https://accounts.carrismetropolitana.pt/accounts',
+			`${getServiceUrl('accounts')}/accounts`,
 			'PUT',
-			JSON.stringify(updatedAccountData),
+			updatedAccountData,
 			{ 'Authorization': `Bearer ${accountId}`, 'Content-Type': 'application/json' },
 		);
 		// Revalidate SWR data

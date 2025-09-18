@@ -53,7 +53,6 @@ export const ProfileSchema = z.object({
 	gender: ProfileGenderSchema.nullable().default(null),
 	interests: z.array(ProfileInterestsSchema).default([]),
 	last_name: z.string().nullable().default(null),
-	persona: z.string().nullable().default(null),
 	phone: z.string().regex(/^\+[1-9]\d{1,14}$/).nullable().default(null),
 	utilization_type: ProfileUtilizationTypeSchema.nullable().default(null),
 	work_setting: ProfileWorkSettingSchema.nullable().default(null),

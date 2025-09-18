@@ -4,7 +4,7 @@ import { type Environment, getCurrentEnvironment } from '@/core-replica';
 
 /* * */
 
-const SERVICE_URLS: Record<string, Record<Environment, string>> = Object.freeze({
+const SERVICE_URLS = Object.freeze({
 
 	accounts: {
 		development: 'localhost:3000',

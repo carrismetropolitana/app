@@ -1,6 +1,8 @@
 /* * */
 
-import { type HttpResponse } from './fetchData';
+import { HttpException } from '@/core-replica';
+
+import { HttpResponse } from './fetchData';
 
 /* * */
 
@@ -15,9 +17,16 @@ interface SWRFetcherParams {
  * @returns The data from the HTTP response.
  */
 export const swrFetcher = async <T>({ accountId, url }: SWRFetcherParams): Promise<T> => {
+	// Ensure account ID is provided
+	if (!accountId) throw new Error('No account ID provided for authenticated request');
+	// Make the fetch request with the Authorization header
 	const response = await fetch(url, { headers: { Authorization: `Bearer ${accountId}` } });
+	// Parse the JSON response
 	const responseData = await response.json() as HttpResponse<T>;
-	if (!response.ok) throw new Error(responseData.error || 'An error occurred while fetching data.');
-	if (!responseData.data) throw new Error('No data found in the response.');
+	// Handle non-OK responses
+	if (!response.ok) throw new HttpException(responseData.statusCode, responseData.error || 'Unknown error from server.');
+	// Handle missing data
+	if (!responseData.data) throw new HttpException(500, 'No data received from the server');
+	// Return the data
 	return responseData.data;
 };
