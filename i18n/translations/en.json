@@ -201,7 +201,7 @@
 			"hours": "Hours",
 			"meters": "Meters"
 		},
-		"SelectOperationalDay": {
+		"SelectOperationalDate": {
 			"customDayAccessibilityHint": "This button allows you to select a date of your choice",
 			"customDayAccessibilityLabel": "Button to select a day of your choise, the date selected is {date}",
 			"datePickerAccessibilityHint": "This element is a date selector",

@@ -1,6 +1,7 @@
 /* * */
 
 import { type Line, type Pattern, type Route } from '@carrismetropolitana/api-types/network';
+import { type OperationalDate } from '@tmlmobilidade/types';
 import { createContext, type PropsWithChildren, useContext, useMemo, useState } from 'react';
 import useSWR from 'swr';
 
@@ -9,8 +10,10 @@ import useSWR from 'swr';
 interface LinesContextState {
 	actions: {
 		getLineDataById: (lineId: string) => Line | undefined
-		getPatternDataById: (patternId: string) => Promise<null | Pattern[]>
+		getPatternDataById: (patternId: string) => Promise<Pattern[] | undefined>
+		getPatternVersionById: (patternId: string, version: string) => Promise<Pattern | undefined>
 		getRouteDataById: (routeId: string) => Route | undefined
+		getValidPatternVersionForOperationalDate: (patternId: string, operationalDate: OperationalDate) => Promise<Pattern | undefined>
 	}
 	data: {
 		lines: Line[]
@@ -61,16 +64,56 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 		return allRoutesData.find(route => route.id === routeId);
 	};
 
-	const getPatternDataById = async (patternId: string) => {
+	async function getPatternDataById(patternId: string): Promise<Pattern[] | undefined> {
 		// Check if pattern is in cache
 		if (patternsCache[patternId]) return patternsCache[patternId];
 		// If not, fetch pattern data
 		const response = await fetch(`https://api.carrismetropolitana.pt/v2/patterns/${patternId}`);
 		const responseData = await response.json();
+		if (!responseData) return;
 		// Save pattern to cache
 		setPatternsCache(prev => ({ ...prev, [patternId]: responseData }));
 		// Return pattern data
 		return responseData;
+	};
+
+	async function getPatternVersionById(patternId: string, version: string): Promise<Pattern | undefined> {
+		// Get pattern data
+		const patternData = await getPatternDataById(patternId);
+		if (!patternData) return;
+		// Check if version exists
+		const versionData = patternData.find(p => p.version_id === version);
+		if (versionData) return versionData;
+		// Return pattern version data
+		return versionData;
+	};
+
+	async function getValidPatternVersionForOperationalDate(patternId: string, operationalDate: OperationalDate): Promise<Pattern | undefined> {
+		// Skip if no operational date
+		if (!operationalDate) return;
+		const patternData = await getPatternDataById(patternId);
+		if (!patternData) return;
+		const activePatterns: Pattern[] = [];
+		let closestDateSoFar: null | string = null;
+		let patternGroupWithClosestDate: null | Pattern = null;
+		for (const patternGroup of patternData) {
+			const selectedDate = operationalDate;
+			if (!selectedDate) return;
+			// Find the closest valid date
+			const closestDate = patternGroup.valid_on.reduce((acc, curr) => {
+				if (selectedDate <= curr && (acc === '' || curr < acc)) return curr;
+				return acc;
+			}, '');
+			if (!closestDateSoFar) closestDateSoFar = closestDate;
+			if (closestDate && closestDate <= closestDateSoFar) {
+				patternGroupWithClosestDate = patternGroup;
+				closestDateSoFar = closestDate;
+			}
+		}
+		// If the closest date is valid, add the pattern group to the list
+		if (patternGroupWithClosestDate && !activePatterns.find(activePattern => activePattern.id === patternGroupWithClosestDate.id)) {
+			return patternGroupWithClosestDate;
+		}
 	};
 
 	//
@@ -80,7 +123,9 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 		actions: {
 			getLineDataById,
 			getPatternDataById,
+			getPatternVersionById,
 			getRouteDataById,
+			getValidPatternVersionForOperationalDate,
 		},
 		data: {
 			lines: allLinesData ?? [],

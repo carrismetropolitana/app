@@ -7,7 +7,7 @@ import { PathWaypointNextArrivals } from '@/components/lines/PathWaypointNextArr
 import { PathWaypointSpine } from '@/components/lines/PathWaypointSpine';
 import { PathWaypointTimetable } from '@/components/lines/PathWaypointTimetable';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
-import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
+import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { theming } from '@/theme/Variables';
 import { TouchableOpacity, View } from 'react-native';
 
@@ -41,7 +41,7 @@ export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isInfoSelec
 	const now = Date.now();
 
 	const linesDetailContext = useLinesDetailContext();
-	const operationalDayContext = useOperationalDayContext();
+	const operationalDayContext = useOperationalDateContext();
 
 	const pathWaypointStyles = styles();
 

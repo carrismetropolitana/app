@@ -1,10 +1,9 @@
 /* * */
 
-import { ampli } from '@/amplitude';
 import { FavoriteToggle } from '@/components/common/FavoriteToggle';
 import { Section } from '@/components/common/layout/Section';
 import { Surface } from '@/components/common/layout/Surface';
-import { SelectOperationalDay } from '@/components/common/SelectOperationalDay';
+import { SelectOperationalDate } from '@/components/common/SelectOperationalDate';
 import { LineBadge } from '@/components/lines/LineBadge';
 import { LineDebugDetail } from '@/components/lines/LineDebugDetail';
 import { SelectActivePatternGroup } from '@/components/lines/SelectActivePatternGroup';
@@ -105,7 +104,7 @@ export function LinesDetailHeader() {
 				</View>
 				<View style={lineDetailsHeaderStyles.toolbarSection}>
 					<View style={lineDetailsHeaderStyles.operationalDaySection}>
-						<SelectOperationalDay />
+						<SelectOperationalDate />
 					</View>
 					<SelectActivePatternGroup />
 				</View>

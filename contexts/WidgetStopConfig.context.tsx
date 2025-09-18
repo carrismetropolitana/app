@@ -1,12 +1,13 @@
 /* * */
 
+import { useAccountContext } from '@/contexts/Account.context';
+import { useLinesContext } from '@/contexts/Lines.context';
+import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { generateRandomString } from '@/core-replica';
 import { WidgetSchema } from '@/schemas/widgets';
 import { Pattern, type Stop } from '@carrismetropolitana/api-types/network';
 import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
-
-import { useAccountContext } from './Account.context';
 
 /* * */
 
@@ -51,7 +52,9 @@ export const WidgetStopConfigContextProvider = ({ children }: PropsWithChildren)
 	// A. Setup variables
 
 	const stopsContext = useStopsContext();
+	const linesContext = useLinesContext();
 	const accountContext = useAccountContext();
+	const operationalDateContext = useOperationalDateContext();
 
 	const [selectedStopId, setSelectedStopId] = useState<string | undefined>();
 	const [selectedPatternIds, setSelectedPatternIds] = useState<string[] | undefined>();
@@ -67,22 +70,15 @@ export const WidgetStopConfigContextProvider = ({ children }: PropsWithChildren)
 	}, [selectedStopId]);
 
 	useEffect(() => {
-		const fetchPatterns = async () => {
+		(async () => {
 			if (!selectedStopData) return;
-			const today = '20250915';
 			const fetchResult: Pattern[] = [];
 			for (const patternId of selectedStopData.pattern_ids) {
-				const result = await fetch(`https://api.carrismetropolitana.pt/v2/patterns/${patternId}`);
-				const patternData: Pattern[] = await result.json();
-				for (const element of patternData) {
-					if (element.valid_on.includes(today)) {
-						fetchResult.push(element);
-					}
-				}
+				const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(patternId, operationalDateContext.data.today.operational_date);
+				if (validPatternData) fetchResult.push(validPatternData);
 			}
 			setAvailablePatternsData(fetchResult);
-		};
-		fetchPatterns();
+		})();
 	}, [selectedStopId, selectedStopData]);
 
 	const canSave = useMemo(() => {

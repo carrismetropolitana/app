@@ -4,7 +4,7 @@ import type { Line, Pattern, Shape, Stop } from '@carrismetropolitana/api-types/
 
 import { useAlertsContext } from '@/contexts/Alerts.context';
 import { useLinesContext } from '@/contexts/Lines.context';
-import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
+import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { Routes } from '@/utils/routes';
@@ -59,7 +59,7 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 	const linesContext = useLinesContext();
 	const alertsContext = useAlertsContext();
 	const profileContext = useProfileContext();
-	const operationalDayContext = useOperationalDayContext();
+	const operationalDayContext = useOperationalDateContext();
 	const [dataStopState, setDataStopState] = useState<Stop | undefined>(undefined);
 	const [dataActiveStopIdState, setDataActiveStopIdState] = useState<string>(stopId || '');
 	const [dataLinesState, setDataLinesState] = useState<Line[] | undefined>(undefined);

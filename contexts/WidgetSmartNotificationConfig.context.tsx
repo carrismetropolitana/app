@@ -1,6 +1,7 @@
 /* * */
 
 import { useLinesContext } from '@/contexts/Lines.context';
+import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { useWidgetContext } from '@/contexts/Widget.context';
 import { WidgetSmartNotification } from '@/types/widget.types';
 import { type Line, type Pattern, type Waypoint } from '@carrismetropolitana/api-types/network';
@@ -60,6 +61,7 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children }: Props
 
 	const linesContext = useLinesContext();
 	const widgetContext = useWidgetContext();
+	const operationalDateContext = useOperationalDateContext();
 
 	const [selectedLineId, setSelectedLineId] = useState<string | undefined>();
 	const [selectedPatternId, setSelectedPatternId] = useState<string | undefined>();
@@ -80,22 +82,15 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children }: Props
 	}, [selectedLineId]);
 
 	useEffect(() => {
-		const fetchPatterns = async () => {
+		(async () => {
 			if (!selectedLineData) return;
-			const today = '20250915';
 			const fetchResult: Pattern[] = [];
 			for (const patternId of selectedLineData.pattern_ids) {
-				const result = await fetch(`https://api.carrismetropolitana.pt/v2/patterns/${patternId}`);
-				const patternData: Pattern[] = await result.json();
-				for (const element of patternData) {
-					if (element.valid_on.includes(today)) {
-						fetchResult.push(element);
-					}
-				}
+				const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(patternId, operationalDateContext.data.today.operational_date);
+				if (validPatternData) fetchResult.push(validPatternData);
 			}
 			setAvailablePatternsData(fetchResult);
-		};
-		fetchPatterns();
+		})();
 	}, [selectedLineId, selectedLineData]);
 
 	const availableWaypointsData = useMemo(() => {

@@ -7,7 +7,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 /* * */
 
-interface OperationalDayContextState {
+interface OperationalDateContextState {
 	actions: {
 		updateSelectedDate: (value: OperationalDate) => void
 		updateSelectedDateFromFormat: (value: string, format?: string) => void
@@ -30,19 +30,19 @@ interface OperationalDayContextState {
 
 /* * */
 
-const OperationalDayContext = createContext<OperationalDayContextState | undefined>(undefined);
+const OperationalDateContext = createContext<OperationalDateContextState | undefined>(undefined);
 
-export function useOperationalDayContext() {
-	const context = useContext(OperationalDayContext);
+export function useOperationalDateContext() {
+	const context = useContext(OperationalDateContext);
 	if (!context) {
-		throw new Error('useOperationalDayContext must be used within a OperationalDayContextProvider');
+		throw new Error('useOperationalDateContext must be used within a OperationalDateContextProvider');
 	}
 	return context;
 }
 
 /* * */
 
-export const OperationalDayContextProvider = ({ children }: { children: React.ReactNode }) => {
+export const OperationalDateContextProvider = ({ children }: { children: React.ReactNode }) => {
 	//
 
 	//
@@ -119,7 +119,7 @@ export const OperationalDayContextProvider = ({ children }: { children: React.Re
 	//
 	// D. Define context value
 
-	const contextValue: OperationalDayContextState = {
+	const contextValue: OperationalDateContextState = {
 		actions: {
 			updateSelectedDate,
 			updateSelectedDateFromFormat,
@@ -144,9 +144,9 @@ export const OperationalDayContextProvider = ({ children }: { children: React.Re
 	// E. Render components
 
 	return (
-		<OperationalDayContext.Provider value={contextValue}>
+		<OperationalDateContext.Provider value={contextValue}>
 			{children}
-		</OperationalDayContext.Provider>
+		</OperationalDateContext.Provider>
 	);
 
 	//

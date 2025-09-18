@@ -5,7 +5,7 @@ import { Surface } from '@/components/common/layout/Surface';
 import { LinesDetailPathList } from '@/components/lines/LinesDetailPathList';
 import { LinesDetailPathMap } from '@/components/lines/LinesDetailPathMap';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
-import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
+import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { View } from 'react-native';
 
 /* * */
@@ -19,7 +19,7 @@ export function LinesDetailPath() {
 	// const t = useTranslations('lines.LinesDetailPath');
 
 	const linesDetailContext = useLinesDetailContext();
-	const operationalDayContext = useOperationalDayContext();
+	const operationalDayContext = useOperationalDateContext();
 
 	//
 	// B. Render components

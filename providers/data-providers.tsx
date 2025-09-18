@@ -3,7 +3,7 @@
 import { AlertsContextProvider } from '@/contexts/Alerts.context';
 import { LinesContextProvider } from '@/contexts/Lines.context';
 import { LocationsContextProvider } from '@/contexts/Locations.context';
-import { OperationalDayContextProvider } from '@/contexts/OperationalDay.context';
+import { OperationalDateContextProvider } from '@/contexts/OperationalDate.context';
 import { StopsContextProvider } from '@/contexts/Stops.context';
 import { VehiclesContextProvider } from '@/contexts/Vehicles.context';
 
@@ -11,7 +11,7 @@ import { VehiclesContextProvider } from '@/contexts/Vehicles.context';
 
 export function DataProviders({ children }: { children: React.ReactNode }) {
 	return (
-		<OperationalDayContextProvider>
+		<OperationalDateContextProvider>
 			<LocationsContextProvider>
 				<AlertsContextProvider>
 					<StopsContextProvider>
@@ -23,6 +23,6 @@ export function DataProviders({ children }: { children: React.ReactNode }) {
 					</StopsContextProvider>
 				</AlertsContextProvider>
 			</LocationsContextProvider>
-		</OperationalDayContextProvider>
+		</OperationalDateContextProvider>
 	);
 }

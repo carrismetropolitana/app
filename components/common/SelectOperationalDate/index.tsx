@@ -1,7 +1,7 @@
 /* * */
 
 import { useLocaleContext } from '@/contexts/Locale.context';
-import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
+import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { ButtonGroup, Text } from '@rn-vui/themed';
 import { IconCalendar } from '@tabler/icons-react-native';
 import { DateTime } from 'luxon';
@@ -16,15 +16,15 @@ import { styles } from './styles';
 
 /* * */
 
-export function SelectOperationalDay() {
+export function SelectOperationalDate() {
 	//
 
 	//
 	// A. Setup variables
 
-	const { t } = useTranslation('translation', { keyPrefix: 'common.SelectOperationalDay' });
+	const { t } = useTranslation('translation', { keyPrefix: 'common.SelectOperationalDate' });
 	const localeContext = useLocaleContext();
-	const operationalDayContext = useOperationalDayContext();
+	const operationalDayContext = useOperationalDateContext();
 
 	const [selectedIndex, setSelectedIndex] = useState(0);
 	const [showPicker, setShowPicker] = useState(false);

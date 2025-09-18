@@ -3,7 +3,7 @@
 import Timetable from '@/components/common/Timetable';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useLocaleContext } from '@/contexts/Locale.context';
-import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
+import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import createTimetable from '@/utils/createTimetable';
 import { DateTime } from 'luxon';
 import { useMemo } from 'react';
@@ -18,7 +18,7 @@ export function PathWaypointTimetable() {
 	const { t } = useTranslation('translation', { keyPrefix: 'lines.PathWaypointTimetable' });
 	const localeContext = useLocaleContext();
 	const linesDetailContext = useLinesDetailContext();
-	const operationalDayContext = useOperationalDayContext();
+	const operationalDayContext = useOperationalDateContext();
 	const timeTableStyles = styles();
 	const showVariantsOnTimetable = true;
 
@@ -28,21 +28,21 @@ export function PathWaypointTimetable() {
 		const mentionedRoutes = linesDetailContext.data.routes;
 		const selectedStopId = linesDetailContext.data.active_waypoint?.stop_id;
 		const selectedStopSequence = linesDetailContext.data.active_waypoint?.stop_sequence;
-		const selectedOperationalDay = operationalDayContext.data.selected_date?.operational_date;
-		if (!activePatternGroup || !mentionedRoutes || !selectedStopId || selectedStopSequence === undefined || !selectedOperationalDay) {
+		const selectedOperationalDate = operationalDayContext.data.selected_date?.operational_date;
+		if (!activePatternGroup || !mentionedRoutes || !selectedStopId || selectedStopSequence === undefined || !selectedOperationalDate) {
 			return null;
 		}
-		if (!activePatternGroup.valid_on.includes(selectedOperationalDay)) {
+		if (!activePatternGroup.valid_on.includes(selectedOperationalDate)) {
 			return activePatternGroup.valid_on.reduce((acc, curr) => {
-				if (selectedOperationalDay <= curr && (acc === '' || curr < acc)) return curr;
+				if (selectedOperationalDate <= curr && (acc === '' || curr < acc)) return curr;
 				return acc;
 			}, '');
 		}
 		if (showVariantsOnTimetable) {
-			return createTimetable(activePatternGroup, secondaryPatternGroups, mentionedRoutes, selectedStopId, selectedStopSequence, selectedOperationalDay);
+			return createTimetable(activePatternGroup, secondaryPatternGroups, mentionedRoutes, selectedStopId, selectedStopSequence, selectedOperationalDate);
 		}
 		else {
-			return createTimetable(activePatternGroup, [], [], selectedStopId, selectedStopSequence, selectedOperationalDay);
+			return createTimetable(activePatternGroup, [], [], selectedStopId, selectedStopSequence, selectedOperationalDate);
 		}
 	}, [linesDetailContext.data.active_pattern, linesDetailContext.data.valid_patterns, linesDetailContext.data.active_waypoint, operationalDayContext.data.selected_date]);
 

@@ -7,7 +7,7 @@ import type { Line, Pattern, Route, Shape, Waypoint } from '@carrismetropolitana
 
 import { useAlertsContext } from '@/contexts/Alerts.context';
 import { useLinesContext } from '@/contexts/Lines.context';
-import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
+import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { Routes } from '@/utils/routes';
@@ -79,7 +79,7 @@ export const LinesDetailContextProvider = ({ children, lineIdParams }: LinesDeta
 	const stopsContext = useStopsContext();
 	const alertsContext = useAlertsContext();
 	const profileContext = useProfileContext();
-	const operationalDayContext = useOperationalDayContext();
+	const operationalDayContext = useOperationalDateContext();
 
 	const { active_pattern_id } = useLocalSearchParams<{ active_pattern_id: string }>();
 	const { active_waypoint_stop_id } = useLocalSearchParams<{ active_waypoint_stop_id: string }>();
@@ -313,12 +313,11 @@ export const LinesDetailContextProvider = ({ children, lineIdParams }: LinesDeta
 	 */
 	const setActivePattern = (patternVersionId: string) => {
 		// Return early if there are no valid patterns
-
 		if (!dataValidPatternsState) return;
 		// Find the pattern data that matches the pattern version id
 		const foundPatternData = dataValidPatternsState.find(validPattern => validPattern.version_id === patternVersionId);
-
 		// Update the state
+		console.log('here3', patternVersionId, dataValidPatternsState.map(p => p.version_id), foundPatternData);
 		if (foundPatternData) {
 			setFilterActivePatternIdState(foundPatternData.id);
 			setFlagIsInteractiveModeState(false);

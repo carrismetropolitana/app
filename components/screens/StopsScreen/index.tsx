@@ -11,7 +11,7 @@ import { MapViewStyleStops } from '@/components/map/MapViewStyleStops';
 import StopDetailNextArrivals from '@/components/stops/StopDetailNextArrivals';
 import { useLocationsContext } from '@/contexts/Locations.context';
 import { useMapOptionsContext } from '@/contexts/MapOptions.context';
-import { useOperationalDayContext } from '@/contexts/OperationalDay.context';
+import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
 import { useStopsListContext } from '@/contexts/StopsList.context';
@@ -44,7 +44,7 @@ export function StopsScreen() {
 	const stopDetailContext = useStopsDetailContext();
 	const locationsContext = useLocationsContext();
 	const mapOptionsContext = useMapOptionsContext();
-	const operationalDayContext = useOperationalDayContext();
+	const operationalDayContext = useOperationalDateContext();
 	const themeContext = useThemeContext();
 	const insets = useSafeAreaInsets();
 	const stopMapDetailStyles = styles();

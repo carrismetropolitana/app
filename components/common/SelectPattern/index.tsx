@@ -63,7 +63,7 @@ export function SelectPattern() {
 	const fetchPattern = async (patternId: string) => {
 		try {
 			const response = await fetch(`${Routes.API}/patterns/${patternId}`);
-			const data: Pattern | Pattern[] = await response.json();
+			const data: Pattern[] = await response.json();
 			if (Array.isArray(data)) {
 				return data[0];
 			}
