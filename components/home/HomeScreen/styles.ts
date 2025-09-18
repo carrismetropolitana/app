@@ -17,8 +17,5 @@ export const useStyles = () => {
 			marginHorizontal: 20,
 			marginTop: 20,
 		},
-		listItemDragging: {
-			transform: [{ scale: 1.05 }],
-		},
 	});
 };

@@ -3,11 +3,11 @@
 import { HomeScreenListEmpty } from '@/components/home/HomeScreenListEmpty';
 import { HomeScreenListFooter } from '@/components/home/HomeScreenListFooter';
 import { HomeScreenListHeader } from '@/components/home/HomeScreenListHeader';
-import { WidgetCardStop } from '@/components/widgets/cards/WidgetCardStop';
+import { WidgetCard } from '@/components/widgets/cards/WidgetCard';
 import { useAccountContext } from '@/contexts/Account.context';
 import { type Widget } from '@/schemas/widgets';
 import { useMemo } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { View } from 'react-native';
 import DragList, { DragListRenderItemInfo } from 'react-native-draglist';
 
 import { useStyles } from './styles';
@@ -54,12 +54,13 @@ export function HomeScreen() {
 
 	function renderItem({ isActive, item, onDragEnd, onDragStart }: DragListRenderItemInfo<Widget>) {
 		return (
-			<View key={item._id} style={[styles.listItem, isActive && styles.listItemDragging]}>
-				<TouchableOpacity onLongPress={onDragStart} onPressOut={onDragEnd}>
-					{item.type === 'stop' && <WidgetCardStop data={item} />}
-					{/* {item.type === 'line' && <WidgetCardStop data={item} />} */}
-					{/* {item.type === 'smart_notification' && <WidgetCardStop data={item} />} */}
-				</TouchableOpacity>
+			<View key={item._id} style={styles.listItem}>
+				<WidgetCard
+					data={item}
+					isDragging={isActive}
+					onDragEnd={onDragEnd}
+					onDragStart={onDragStart}
+				/>
 			</View>
 		);
 	}

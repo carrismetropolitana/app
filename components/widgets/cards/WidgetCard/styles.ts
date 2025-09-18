@@ -7,13 +7,14 @@ import { StyleSheet } from 'react-native';
 
 export const useStyles = () => {
 	return StyleSheet.create({
-		bodyWrapper: {
-			padding: 15,
-		},
 		container: {
 			backgroundColor: useSystemVariables().background[100],
 			borderRadius: 10,
 			boxShadow: '0 0 15px 0px rgba(0,0,0,0.1)',
+			overflow: 'hidden',
+		},
+		containerIsDragging: {
+			transform: [{ scale: 1.05 }],
 		},
 		headerWrapper: {
 			alignItems: 'center',
@@ -22,7 +23,7 @@ export const useStyles = () => {
 			justifyContent: 'space-between',
 			width: '100%',
 		},
-		headerWrapperOpen: {
+		headerWrapperIsOpen: {
 			borderBottomColor: useSystemVariables().border[100],
 			borderBottomWidth: 1,
 		},
