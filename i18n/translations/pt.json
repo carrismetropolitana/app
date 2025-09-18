@@ -739,6 +739,9 @@
 		"virtualizedListAccessibilityLabel": "Lista de Paragens"
 	},
 	"widgets": {
+		"WidgetCardStopHeader": {
+			"no_name": "Nome Indisponível"
+		},
 		"WidgetConfigHeader": {
 			"video_label": "Ver vídeo explicativo"
 		},

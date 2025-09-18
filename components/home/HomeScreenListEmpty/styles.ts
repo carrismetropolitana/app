@@ -9,16 +9,10 @@ export const useStyles = () => {
 	return StyleSheet.create({
 		container: {
 			backgroundColor: useSystemVariables().background[100],
-		},
-		contentContainer: {
-			backgroundColor: useSystemVariables().background[200],
-		},
-		listItem: {
-			marginHorizontal: 20,
-			marginTop: 20,
-		},
-		listItemDragging: {
-			transform: [{ scale: 1.05 }],
+			borderBottomColor: useSystemVariables().border[100],
+			borderBottomWidth: 1,
+			display: 'flex',
+			flexDirection: 'column',
 		},
 	});
 };

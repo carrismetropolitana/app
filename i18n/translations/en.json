@@ -710,6 +710,9 @@
 		"virtualizedListAccessibilityLabel": "Stops list"
 	},
 	"widgets": {
+		"WidgetCardStopHeader": {
+			"no_name": "Stop Name Unavailable"
+		},
 		"WidgetConfigHeader": {
 			"video_label": "Watch Explainer Video"
 		},
