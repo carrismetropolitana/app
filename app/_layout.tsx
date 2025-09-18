@@ -15,14 +15,9 @@ import { MapProviders } from '@/providers/map-providers';
 import { PrivacyProviders } from '@/providers/privacy-providers';
 import { ProfileProviders } from '@/providers/profile-providers';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-
-/* * */
-
-const queryClient = new QueryClient();
 
 /* * */
 
@@ -36,16 +31,14 @@ export default function RootLayout() {
 							<ProfileProviders>
 								<MapProviders>
 									<BottomSheetModalProvider>
-										<QueryClientProvider client={queryClient}>
-											<ThemeProvider>
-												<SafeAreaProvider>
-													<ThemedStatusBar />
-													<Stack>
-														<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-													</Stack>
-												</SafeAreaProvider>
-											</ThemeProvider>
-										</QueryClientProvider>
+										<ThemeProvider>
+											<SafeAreaProvider>
+												<ThemedStatusBar />
+												<Stack>
+													<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+												</Stack>
+											</SafeAreaProvider>
+										</ThemeProvider>
 									</BottomSheetModalProvider>
 								</MapProviders>
 							</ProfileProviders>

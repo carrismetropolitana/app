@@ -3,7 +3,6 @@ import type { AccountWidget, WidgetCreate } from '@/types/account.types';
 
 import messagingLib from '@react-native-firebase/messaging';
 import { createContext, ReactNode, useContext, useEffect, useMemo } from 'react';
-import uuid from 'react-native-uuid';
 
 import { useProfileContext } from './Profile.context';
 
@@ -84,7 +83,6 @@ export const WidgetContextProvider = ({ children }: { children: ReactNode }) => 
 				mergedWidgets = [...otherWidgets, ...updatedStopWidgets];
 			}
 			else if (params.type === 'smart_notifications') {
-				const id = uuid.v4();
 				const smartNotificationWidgets = allWidgets.filter(w => w.data && w.data.type === 'smart_notifications');
 				const otherWidgets = allWidgets.filter(w => !w.data || w.data.type !== 'smart_notifications');
 				const updatedSmartWidgets = [...smartNotificationWidgets];
@@ -92,12 +90,12 @@ export const WidgetContextProvider = ({ children }: { children: ReactNode }) => 
 				const defaultWeekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const;
 				const validWeekDays = (Array.isArray(params.week_days) && params.week_days.length > 0 ? params.week_days : defaultWeekDays) as any;
 				const newWidgetSmartNotification: AccountWidget = {
-					data: { distance: params.radius || 0, end_time: params.end_time || 0, id: id, pattern_id: params.pattern_id || '0', start_time: params.start_time || 0, stop_id: params.stop_id || '', type: 'smart_notifications', user_id: user_id || '', week_days: validWeekDays },
+					data: { distance: params.radius || 0, end_time: params.end_time || 0, id: 'id', pattern_id: params.pattern_id || '0', start_time: params.start_time || 0, stop_id: params.stop_id || '', type: 'smart_notifications', user_id: user_id || '', week_days: validWeekDays },
 					settings: { display_order: otherWidgets.length + smartNotificationWidgets.length + 1, is_open: true },
 				};
 				updatedSmartWidgets.push(newWidgetSmartNotification);
 				mergedWidgets = [...otherWidgets, ...updatedSmartWidgets];
-				await messagingLib().subscribeToTopic(id);
+				await messagingLib().subscribeToTopic('id');
 			}
 			// Update profile widgets using the simpler updateLocalProfile function
 			await profileContext.actions.updateLocalProfile({

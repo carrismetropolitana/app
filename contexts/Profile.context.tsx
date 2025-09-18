@@ -10,7 +10,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { ReactNode } from 'react';
 import { Platform } from 'react-native';
-import uuid from 'react-native-uuid';
 
 /* * */
 
@@ -175,11 +174,10 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 	};
 
 	const createNewProfile = async (): Promise<Account> => {
-		const newDeviceId = uuid.v4();
 		const newProfile: Account = {
 			_id: '',
 			devices: [{
-				device_id: newDeviceId,
+				device_id: 'newDeviceId',
 				name: '',
 				type: Platform.OS === 'ios' ? 'ios' : 'android',
 			}],
@@ -201,10 +199,10 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			widgets: [],
 		};
 		setLocalProfile(newProfile);
-		AsyncStorage.setItem(LOCAL_STORAGE_KEYS.token, newDeviceId);
+		AsyncStorage.setItem(LOCAL_STORAGE_KEYS.token, 'newDeviceId');
 
 		try {
-			await fetchData<Account>(`${Routes.API_ACCOUNTS}`, 'POST', newProfile, { Authorization: `Bearer ${newDeviceId}` });
+			await fetchData<Account>(`${Routes.API_ACCOUNTS}`, 'POST', newProfile, { Authorization: `Bearer ${'newDeviceId'}` });
 		}
 		catch (error) {
 			console.error('Error creating profile on cloud:', error);

@@ -8,7 +8,8 @@ import { MoreSectionAbout } from '@/components/more/MoreSectionAbout';
 import { MoreSectionAlerts } from '@/components/more/MoreSectionAlerts';
 import { MoreSectionSupport } from '@/components/more/MoreSectionSupport';
 import { MoreSectionTariffs } from '@/components/more/MoreSectionTariffs';
-import { SafeAreaView, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useStyles } from './styles';
 

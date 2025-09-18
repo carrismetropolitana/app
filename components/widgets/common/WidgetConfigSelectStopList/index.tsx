@@ -5,7 +5,8 @@ import { WidgetConfigSelectStopListItem } from '@/components/widgets/common/Widg
 import { useStopsContext } from '@/contexts/Stops.context';
 import { type Stop } from '@carrismetropolitana/api-types/network';
 import { useTranslation } from 'react-i18next';
-import { Button, Modal, SafeAreaView, View, VirtualizedList } from 'react-native';
+import { Button, Modal, View, VirtualizedList } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useStyles } from './styles';
 
