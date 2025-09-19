@@ -1,3 +1,7 @@
+ALERT!
+Below instructions are deprecated. Do not follow.
+
+
 ### LOCAL SETUP
 
 Run `npm i`
