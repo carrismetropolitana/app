@@ -7,6 +7,12 @@
 			},
 			"googleServicesFile": "./configs/google-services-prod.json",
 			"package": "pt.carrismetropolitana.mobile",
+			"permissions": [
+				"android.permission.ACCESS_COARSE_LOCATION",
+				"android.permission.ACCESS_FINE_LOCATION",
+				"android.permission.RECORD_AUDIO",
+				"android.permission.MODIFY_AUDIO_SETTINGS"
+			],
 			"versionCode": 10092025
 		},
 		"assetBundlePatterns": [
@@ -17,7 +23,7 @@
 		},
 		"extra": {
 			"eas": {
-				"projectId": "43d60702-1266-4217-8cb8-54e1f9a722fe"
+				"projectId": "aa327210-947a-4d53-bb3f-2c09c2f6cde5"
 			},
 			"router": {
 				"origin": false
@@ -27,12 +33,16 @@
 		"ios": {
 			"appleTeamId": "QGATT2W97P",
 			"bundleIdentifier": "pt.carrismetropolitana.app",
-			"entitlements": { "aps-environment": "development" },
+			"entitlements": {
+				"aps-environment": "development"
+			},
 			"googleServicesFile": "./configs/GoogleService-Info.plist",
 			"infoPlist": {
 				"ITSAppUsesNonExemptEncryption": false,
 				"NSUserNotificationUsageDescription": "Precisamos de enviar notificações para avisar sobre novidades.",
-				"UIBackgroundModes": ["remote-notification"]
+				"UIBackgroundModes": [
+					"remote-notification"
+				]
 			},
 			"jsEngine": "hermes",
 			"supportsTablet": true
@@ -41,14 +51,9 @@
 		"name": "Carris Metropolitana",
 		"newArchEnabled": true,
 		"orientation": "portrait",
-		"owner": "TML",
+		"owner": "carrismetropolitana",
 		"plugins": [
-			"@react-native-firebase/app",
-			"@react-native-firebase/messaging",
 			"@maplibre/maplibre-react-native",
-			[
-				"./build-plugins/ios-add-firebase-modular-headers"
-			],
 			[
 				"expo-notifications",
 				{
@@ -87,7 +92,9 @@
 			[
 				"expo-asset",
 				{
-					"assets": ["./assets"]
+					"assets": [
+						"./assets"
+					]
 				}
 			],
 			"expo-localization",
@@ -97,7 +104,7 @@
 			"policy": "appVersion"
 		},
 		"scheme": "carrismetropolitana",
-		"slug": "CarrisMetropolitana",
+		"slug": "app",
 		"updates": {
 			"url": "https://u.expo.dev/43d60702-1266-4217-8cb8-54e1f9a722fe"
 		},
