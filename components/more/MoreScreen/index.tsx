@@ -1,5 +1,6 @@
 /* * */
 
+import { Container } from '@/components/layout/Container';
 import { MoreAppVersion } from '@/components/more/MoreAppVersion';
 import { MoreDebugToggle } from '@/components/more/MoreDebugToggle';
 import { MoreLocaleSwitch } from '@/components/more/MoreLocaleSwitch';
@@ -8,27 +9,14 @@ import { MoreSectionAbout } from '@/components/more/MoreSectionAbout';
 import { MoreSectionAlerts } from '@/components/more/MoreSectionAlerts';
 import { MoreSectionSupport } from '@/components/more/MoreSectionSupport';
 import { MoreSectionTariffs } from '@/components/more/MoreSectionTariffs';
-import { ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-import { useStyles } from './styles';
 
 /* * */
 
 export function MoreScreen() {
-	//
-
-	//
-	// A. Setup variables
-
-	const styles = useStyles();
-
-	//
-	// B. Render components
-
 	return (
-		<SafeAreaView style={styles.container}>
-			<ScrollView>
+		<SafeAreaView>
+			<Container>
 				<MoreNews />
 				<MoreSectionAlerts />
 				<MoreSectionSupport />
@@ -37,9 +25,7 @@ export function MoreScreen() {
 				<MoreAppVersion />
 				<MoreLocaleSwitch />
 				<MoreDebugToggle />
-			</ScrollView>
+			</Container>
 		</SafeAreaView>
 	);
-
-	//
 }
