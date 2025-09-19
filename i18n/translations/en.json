@@ -533,6 +533,9 @@
 		"headerLocalityAccessibilityLabel": "Locality of the stop {locality}"
 	},
 	"profile": {
+		"Page": {
+			"title": "Profile"
+		},
 		"ProfileViewPersona": {
 			"activity": {
 				"default": "Traveling",

@@ -608,6 +608,9 @@
 		"headerLocalityAccessibilityLabel": "Localidade da paragem {locality}"
 	},
 	"profile": {
+		"Page": {
+			"title": "Perfil"
+		},
 		"ProfileEdit": {
 			"title": "Editar Perfil"
 		},
