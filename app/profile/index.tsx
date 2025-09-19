@@ -14,6 +14,8 @@ export default function Page() {
 	//
 	// A. Setup variables
 
+	const systemVariables = useSystemVariables();
+
 	const navigation = useNavigation();
 	const { t } = useTranslation('translation', { keyPrefix: 'profile.Page' });
 
@@ -24,7 +26,7 @@ export default function Page() {
 		navigation.setOptions({
 			headerShown: true,
 			headerStyle: {
-				backgroundColor: useSystemVariables().background[100],
+				backgroundColor: systemVariables.background[100],
 			},
 			headerTitle: t('title'),
 		});

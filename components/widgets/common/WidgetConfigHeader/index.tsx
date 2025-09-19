@@ -24,6 +24,8 @@ export function WidgetConfigHeader({ description, title, videoUrl }: WidgetStopH
 	//
 	// A. Setup variables
 
+	const styles = useStyles();
+
 	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetConfigHeader' });
 
 	const LIST_ITEMS: ListSectionItemProps[] = [
@@ -40,9 +42,9 @@ export function WidgetConfigHeader({ description, title, videoUrl }: WidgetStopH
 
 	return (
 		<>
-			<View style={useStyles().container}>
-				<Text style={useStyles().title}>{title}</Text>
-				<Text style={useStyles().description}>{description}</Text>
+			<View style={styles.container}>
+				<Text style={styles.title}>{title}</Text>
+				<Text style={styles.description}>{description}</Text>
 			</View>
 			<ListSection items={LIST_ITEMS} />
 		</>

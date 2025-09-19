@@ -26,6 +26,8 @@ export function WidgetLineConfig({ widgetId }: WidgetLineConfigProps) {
 	//
 	// A. Setup variables
 
+	const styles = useStyles();
+
 	const widgetLineConfigContext = useWidgetLineConfigContext();
 
 	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetLineConfig' });
@@ -71,7 +73,7 @@ export function WidgetLineConfig({ widgetId }: WidgetLineConfigProps) {
 
 			{/* * */}
 
-			<View style={useStyles().buttonContainer}>
+			<View style={styles.buttonContainer}>
 				<LargeButton
 					disabled={!widgetLineConfigContext.flags.can_save}
 					label="Save"

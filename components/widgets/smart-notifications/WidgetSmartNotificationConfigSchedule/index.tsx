@@ -27,13 +27,15 @@ export function WidgetSmartNotificationConfigSchedule({ endTime, onEndTimeChange
 	//
 	// A. Setup variables
 
+	const styles = useStyles();
+
 	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetSmartNotificationConfigSchedule' });
 
 	//
 	// B. Render components
 
 	return (
-		<View style={useStyles().container}>
+		<View style={styles.container}>
 			<WidgetSmartNotificationConfigScheduleTimeInput
 				onChange={onStartTimeChange}
 				title={t('start_time_title')}

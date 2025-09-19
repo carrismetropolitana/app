@@ -10,11 +10,12 @@ export const useStyles = () => {
 	//
 
 	const insets = useSafeAreaInsets();
+	const systemVariables = useSystemVariables();
 
 	return StyleSheet.create({
 		container: {
-			backgroundColor: useSystemVariables().background[100],
-			borderBottomColor: useSystemVariables().border[100],
+			backgroundColor: systemVariables.background[100],
+			borderBottomColor: systemVariables.border[100],
 			borderBottomWidth: 1,
 			display: 'flex',
 			flexDirection: 'column',

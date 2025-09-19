@@ -6,15 +6,15 @@ import { LargeButton } from '@/components/layout/LargeButton';
 import { WidgetConfigHeader } from '@/components/widgets/common/WidgetConfigHeader';
 import { WidgetConfigSelectLine } from '@/components/widgets/common/WidgetConfigSelectLine';
 import { WidgetConfigSelectPattern } from '@/components/widgets/common/WidgetConfigSelectPattern';
+import { WidgetConfigSelectWaypoint } from '@/components/widgets/common/WidgetConfigSelectWaypoint';
 import { WidgetSmartNotificationConfigDistanceInput } from '@/components/widgets/smart-notifications/WidgetSmartNotificationConfigDistanceInput';
+import { WidgetSmartNotificationConfigSchedule } from '@/components/widgets/smart-notifications/WidgetSmartNotificationConfigSchedule';
 import { WidgetSmartNotificationConfigSeparator } from '@/components/widgets/smart-notifications/WidgetSmartNotificationConfigSeparator';
 import { useWidgetSmartNotificationConfigContext } from '@/contexts/WidgetSmartNotificationConfig.context';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
-import { WidgetConfigSelectWaypoint } from '../../common/WidgetConfigSelectWaypoint';
-import { WidgetSmartNotificationConfigSchedule } from '../WidgetSmartNotificationConfigSchedule';
 import { useStyles } from './styles';
 
 /* * */
@@ -30,6 +30,8 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 
 	//
 	// A. Setup variables
+
+	const styles = useStyles();
 
 	const widgetSmartNotificationConfigContext = useWidgetSmartNotificationConfigContext();
 
@@ -59,7 +61,7 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 
 			<WidgetSmartNotificationConfigSeparator style="start" />
 
-			<Text style={useStyles().text}>{t('step_1.title')}</Text>
+			<Text style={styles.text}>{t('step_1.title')}</Text>
 
 			<WidgetConfigSelectLine
 				onSelectLineId={widgetSmartNotificationConfigContext.actions.selectLineId}
@@ -70,7 +72,7 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 
 			<WidgetSmartNotificationConfigSeparator style="middle" />
 
-			<Text style={useStyles().text}>{t('step_2.title')}</Text>
+			<Text style={styles.text}>{t('step_2.title')}</Text>
 
 			{!widgetSmartNotificationConfigContext.data.selected_line && (
 				<NoDataLabel text={t('step_2.no_data')} />
@@ -88,7 +90,7 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 
 			<WidgetSmartNotificationConfigSeparator style="middle" />
 
-			<Text style={useStyles().text}>{t('step_3.title')}</Text>
+			<Text style={styles.text}>{t('step_3.title')}</Text>
 
 			<WidgetSmartNotificationConfigDistanceInput
 				onChange={widgetSmartNotificationConfigContext.actions.selectDistance}
@@ -99,7 +101,7 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 
 			<WidgetSmartNotificationConfigSeparator style="middle" />
 
-			<Text style={useStyles().text}>{t('step_4.title')}</Text>
+			<Text style={styles.text}>{t('step_4.title')}</Text>
 
 			{!widgetSmartNotificationConfigContext.data.selected_pattern_id && (
 				<NoDataLabel text={t('step_4.no_data')} />
@@ -118,7 +120,7 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 
 			<WidgetSmartNotificationConfigSeparator style="middle" />
 
-			<Text style={useStyles().text}>{t('step_5.title')}</Text>
+			<Text style={styles.text}>{t('step_5.title')}</Text>
 
 			<WidgetSmartNotificationConfigSchedule
 				endTime={widgetSmartNotificationConfigContext.data.selected_end_time}
@@ -135,7 +137,7 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 
 			{/* * */}
 
-			<View style={useStyles().buttonContainer}>
+			<View style={styles.buttonContainer}>
 				<LargeButton
 					disabled={!widgetSmartNotificationConfigContext.flags.can_save}
 					label="Save"

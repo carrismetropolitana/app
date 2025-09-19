@@ -20,20 +20,22 @@ export function WidgetSmartNotificationConfigDistanceInput({ onChange, value }: 
 	//
 	// A. Setup variables
 
+	const styles = useStyles();
+
 	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetSmartNotificationConfigDistanceInput' });
 
 	//
 	// B. Render components
 
 	return (
-		<View style={useStyles().container}>
+		<View style={styles.container}>
 			<TextInput
 				keyboardType="number-pad"
 				onChangeText={text => onChange(Number(text))}
-				style={useStyles().input}
+				style={styles.input}
 				value={value ? value.toString() : ''}
 			/>
-			<Text style={useStyles().text}>{t('unit')}</Text>
+			<Text style={styles.text}>{t('unit')}</Text>
 		</View>
 	);
 

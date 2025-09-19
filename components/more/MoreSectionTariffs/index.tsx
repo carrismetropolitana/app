@@ -14,23 +14,25 @@ export function MoreSectionTariffs() {
 	//
 	// A. Setup variables
 
+	const systemVariables = useSystemVariables();
+
 	const { t } = useTranslation('translation', { keyPrefix: 'more.MoreSectionTariffs' });
 
 	const LIST_ITEMS: ListSectionItemProps[] = [
 		{
-			icon: <IconTicket color={useSystemVariables().text[100]} size={32} />,
+			icon: <IconTicket color={systemVariables.text[100]} size={32} />,
 			key: 'tickets',
 			label: t('items.tickets'),
 			link: '/webview?url=https://www.carrismetropolitana.pt/tickets',
 		},
 		{
-			icon: <IconCreditCardPay color={useSystemVariables().text[100]} size={32} />,
+			icon: <IconCreditCardPay color={systemVariables.text[100]} size={32} />,
 			key: 'cards',
 			label: t('items.cards'),
 			link: '/webview?url=https://www.carrismetropolitana.pt/cards',
 		},
 		{
-			icon: <IconMapQuestion color={useSystemVariables().text[100]} size={32} />,
+			icon: <IconMapQuestion color={systemVariables.text[100]} size={32} />,
 			key: 'helpdesks',
 			label: t('items.helpdesks'),
 			link: '/webview?url=https://www.carrismetropolitana.pt/helpdesks',

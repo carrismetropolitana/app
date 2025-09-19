@@ -6,9 +6,13 @@ import { StyleSheet } from 'react-native';
 /* * */
 
 export const useStyles = () => {
+	//
+
+	const systemVariables = useSystemVariables();
+
 	return StyleSheet.create({
 		toggle: {
-			color: useSystemVariables().text[300],
+			color: systemVariables.text[300],
 			fontWeight: 600,
 			marginBottom: 100,
 			padding: 15,

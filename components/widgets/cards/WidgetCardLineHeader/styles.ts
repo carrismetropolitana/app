@@ -6,6 +6,10 @@ import { StyleSheet } from 'react-native';
 /* * */
 
 export const useStyles = () => {
+	//
+
+	const systemVariables = useSystemVariables();
+
 	return StyleSheet.create({
 		container: {
 			alignItems: 'center',
@@ -17,7 +21,7 @@ export const useStyles = () => {
 			padding: 15,
 		},
 		title: {
-			color: useSystemVariables().text[100],
+			color: systemVariables.text[100],
 			flexShrink: 1,
 			fontSize: 16,
 			fontWeight: 700,

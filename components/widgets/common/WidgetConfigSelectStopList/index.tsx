@@ -26,6 +26,8 @@ export function WidgetConfigSelectStopList({ isVisible, onClose, onSelectStop }:
 	//
 	// A. Setup variables
 
+	const styles = useStyles();
+
 	const stopsContext = useStopsContext();
 
 	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetConfigSelectStopList' });
@@ -43,8 +45,8 @@ export function WidgetConfigSelectStopList({ isVisible, onClose, onSelectStop }:
 
 	return (
 		<Modal animationType="slide" presentationStyle="formSheet" visible={isVisible}>
-			<SafeAreaView style={useStyles().safeArea}>
-				<View style={useStyles().header}>
+			<SafeAreaView style={styles.safeArea}>
+				<View style={styles.header}>
 					<Button onPress={onClose} title={t('close_button')} />
 				</View>
 				{/* <StopSearchBar /> */}

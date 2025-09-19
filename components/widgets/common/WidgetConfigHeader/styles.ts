@@ -6,19 +6,23 @@ import { StyleSheet } from 'react-native';
 /* * */
 
 export const useStyles = () => {
+	//
+
+	const systemVariables = useSystemVariables();
+
 	return StyleSheet.create({
 		container: {
-			backgroundColor: useSystemVariables().background[100],
+			backgroundColor: systemVariables.background[100],
 			padding: 20,
 		},
 		description: {
-			color: useSystemVariables().text[100],
+			color: systemVariables.text[100],
 			fontSize: 14,
 			fontWeight: '500',
 			marginBottom: 8,
 		},
 		title: {
-			color: useSystemVariables().text[100],
+			color: systemVariables.text[100],
 			fontSize: 26,
 			fontWeight: '700',
 			marginBottom: 8,

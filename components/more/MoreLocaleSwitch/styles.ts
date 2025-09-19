@@ -6,10 +6,14 @@ import { StyleSheet } from 'react-native';
 /* * */
 
 export const useStyles = () => {
+	//
+
+	const systemVariables = useSystemVariables();
+
 	return StyleSheet.create({
 		button: {
 			alignItems: 'center',
-			backgroundColor: useSystemVariables().background[100],
+			backgroundColor: systemVariables.background[100],
 			display: 'flex',
 			flex: 1,
 			flexDirection: 'row',
@@ -19,7 +23,7 @@ export const useStyles = () => {
 			padding: 20,
 		},
 		buttonLabel: {
-			color: useSystemVariables().text[100],
+			color: systemVariables.text[100],
 			fontSize: 16,
 			fontWeight: '600',
 		},

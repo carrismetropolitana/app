@@ -13,9 +13,21 @@ interface WidgetConfigSelectWaypointSequenceProps {
 /* * */
 
 export function WidgetConfigSelectWaypointSequence({ sequence }: WidgetConfigSelectWaypointSequenceProps) {
+	//
+
+	//
+	// A. Setup variables
+
+	const styles = useStyles();
+
+	//
+	// B. Render components
+
 	return (
-		<View style={useStyles().container}>
-			<Text style={useStyles().text}>{sequence}</Text>
+		<View style={styles.container}>
+			<Text style={styles.text}>{sequence}</Text>
 		</View>
 	);
+
+	//
 }

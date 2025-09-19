@@ -6,9 +6,13 @@ import { Dimensions, StyleSheet } from 'react-native';
 /* * */
 
 export const useStyles = () => {
+	//
+
+	const systemVariables = useSystemVariables();
+
 	return StyleSheet.create({
 		container: {
-			backgroundColor: useSystemVariables().background[100],
+			backgroundColor: systemVariables.background[100],
 			display: 'flex',
 			flexDirection: 'column',
 			gap: 10,
@@ -17,13 +21,13 @@ export const useStyles = () => {
 			width: '100%',
 		},
 		title: {
-			color: useSystemVariables().text[100],
+			color: systemVariables.text[100],
 			fontSize: 14,
 			fontWeight: 600,
 		},
 		weekday: {
-			backgroundColor: useSystemVariables().background[100],
-			color: useSystemVariables().text[100],
+			backgroundColor: systemVariables.background[100],
+			color: systemVariables.text[100],
 			fontSize: 14,
 			fontWeight: '600',
 			paddingVertical: 10,
@@ -31,12 +35,12 @@ export const useStyles = () => {
 			width: Math.ceil(Dimensions.get('screen').width / 7) - 5,
 		},
 		weekdaySelected: {
-			backgroundColor: useSystemVariables().text[100],
-			color: useSystemVariables().background[100],
+			backgroundColor: systemVariables.text[100],
+			color: systemVariables.background[100],
 		},
 		weekdaysWrapper: {
-			backgroundColor: useSystemVariables().border[100],
-			borderColor: useSystemVariables().border[100],
+			backgroundColor: systemVariables.border[100],
+			borderColor: systemVariables.border[100],
 			borderRadius: 5,
 			borderWidth: 1,
 			display: 'flex',

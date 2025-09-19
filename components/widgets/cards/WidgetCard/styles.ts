@@ -6,9 +6,13 @@ import { StyleSheet } from 'react-native';
 /* * */
 
 export const useStyles = () => {
+	//
+
+	const systemVariables = useSystemVariables();
+
 	return StyleSheet.create({
 		container: {
-			backgroundColor: useSystemVariables().background[100],
+			backgroundColor: systemVariables.background[100],
 			borderRadius: 10,
 			boxShadow: '0 0 15px 0px rgba(0,0,0,0.1)',
 			overflow: 'hidden',
@@ -25,7 +29,7 @@ export const useStyles = () => {
 			width: '100%',
 		},
 		headerWrapperIsOpen: {
-			borderBottomColor: useSystemVariables().border[100],
+			borderBottomColor: systemVariables.border[100],
 			borderBottomWidth: 1,
 		},
 	});

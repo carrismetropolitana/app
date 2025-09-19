@@ -19,6 +19,7 @@
 			"assets/**/*"
 		],
 		"experiments": {
+			"reactCanary": true,
 			"typedRoutes": true
 		},
 		"extra": {

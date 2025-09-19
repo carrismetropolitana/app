@@ -26,6 +26,8 @@ export function WidgetStopConfig({ widgetId }: WidgetStopConfigProps) {
 	//
 	// A. Setup variables
 
+	const styles = useStyles();
+
 	const widgetStopConfigContext = useWidgetStopConfigContext();
 
 	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetStopConfig' });
@@ -72,7 +74,7 @@ export function WidgetStopConfig({ widgetId }: WidgetStopConfigProps) {
 
 			{/* * */}
 
-			<View style={useStyles().buttonContainer}>
+			<View style={styles.buttonContainer}>
 				<LargeButton
 					disabled={!widgetStopConfigContext.flags.can_save}
 					label={t('actions.save')}

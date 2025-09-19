@@ -26,6 +26,7 @@ export function ListSectionItem({ icon, label, link, onPress, replaceChevron }: 
 	//
 	// A. Setup variables
 
+	const styles = useStyles();
 	const router = useRouter();
 
 	//
@@ -37,13 +38,13 @@ export function ListSectionItem({ icon, label, link, onPress, replaceChevron }: 
 	};
 
 	//
-	// B. Render components
+	// C. Render components
 
 	return (
-		<TouchableOpacity onPress={handlePress} role="listitem" style={useStyles().container}>
-			{icon && <View style={useStyles().icon}>{icon}</View>}
+		<TouchableOpacity onPress={handlePress} role="listitem" style={styles.container}>
+			{icon && <View style={styles.icon}>{icon}</View>}
 			<View style={{ flex: 1 }}>
-				<Text style={useStyles().label}>{label}</Text>
+				<Text style={styles.label}>{label}</Text>
 			</View>
 			{replaceChevron ? replaceChevron : <IconChevronRight color="#C0C0C8" size={24} />}
 		</TouchableOpacity>

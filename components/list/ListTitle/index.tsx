@@ -14,10 +14,22 @@ interface ListTitleProps {
 /* * */
 
 export function ListTitle({ description, title = 'Section Title' }: ListTitleProps) {
+	//
+
+	//
+	// A. Setup variables
+
+	const styles = useStyles();
+
+	//
+	// B. Render components
+
 	return (
-		<View style={useStyles().container}>
-			<Text style={useStyles().title}>{title}</Text>
-			{description && <Text style={useStyles().description}>{description}</Text>}
+		<View style={styles.container}>
+			<Text style={styles.title}>{title}</Text>
+			{description && <Text style={styles.description}>{description}</Text>}
 		</View>
 	);
+
+	//
 }

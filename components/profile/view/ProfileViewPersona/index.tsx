@@ -18,7 +18,10 @@ export function ProfileViewPersona() {
 	//
 	// A. Setup variables
 
+	const styles = useStyles();
+
 	const accountContext = useAccountContext();
+
 	const { t } = useTranslation('translation', { keyPrefix: 'profile.ProfileViewPersona' });
 
 	//
@@ -49,20 +52,20 @@ export function ProfileViewPersona() {
 	// C. Render components
 
 	return (
-		<View style={useStyles().container}>
+		<View style={styles.container}>
 			<UserPersona size="lg" />
-			<Text style={useStyles().displayName}>
+			<Text style={styles.displayName}>
 				{userDisplayName}
 			</Text>
-			<Text style={[useStyles().activity, { color: accentColor }]}>
+			<Text style={[styles.activity, { color: accentColor }]}>
 				{activityDisplay}
 			</Text>
 			<Button
-				buttonStyle={useStyles().button}
-				containerStyle={useStyles().buttonContainer}
+				buttonStyle={styles.button}
+				containerStyle={styles.buttonContainer}
 				onPress={() => router.push('/profile/edit')}
 				title={t('edit_profile')}
-				titleStyle={useStyles().buttonTitle}
+				titleStyle={styles.buttonTitle}
 			/>
 		</View>
 	);

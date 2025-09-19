@@ -14,11 +14,19 @@ interface WidgetSmartNotificationConfigSeparatorProps {
 export function WidgetSmartNotificationConfigSeparator({ style }: WidgetSmartNotificationConfigSeparatorProps) {
 	//
 
+	//
+	// A. Setup variables
+
+	const systemVariables = useSystemVariables();
+
+	//
+	// B. Render components
+
 	if (style === 'start') {
 		return (
 			<Svg fill="none" height="36" style={{ marginVertical: 20 }} viewBox="0 0 12 36" width="100%">
-				<Circle cx="6" cy="6" fill={useSystemVariables().text[400]} r="6" />
-				<Rect fill={useSystemVariables().text[400]} height="30" width="2" x="5" y="6" />
+				<Circle cx="6" cy="6" fill={systemVariables.text[400]} r="6" />
+				<Rect fill={systemVariables.text[400]} height="30" width="2" x="5" y="6" />
 			</Svg>
 		);
 	}
@@ -26,7 +34,7 @@ export function WidgetSmartNotificationConfigSeparator({ style }: WidgetSmartNot
 	if (style === 'middle') {
 		return (
 			<Svg fill="none" height="30" style={{ marginVertical: 20 }} viewBox="0 0 2 30" width="100%">
-				<Rect fill={useSystemVariables().text[400]} height="30" width="2" />
+				<Rect fill={systemVariables.text[400]} height="30" width="2" />
 			</Svg>
 		);
 	}
@@ -34,8 +42,8 @@ export function WidgetSmartNotificationConfigSeparator({ style }: WidgetSmartNot
 	if (style === 'end') {
 		return (
 			<Svg fill="none" height="36" style={{ marginVertical: 20 }} viewBox="0 0 12 36" width="100%">
-				<Rect fill={useSystemVariables().text[400]} height="30" width="2" x="5" y="6" />
-				<Circle cx="6" cy="30" fill={useSystemVariables().text[400]} r="6" />
+				<Rect fill={systemVariables.text[400]} height="30" width="2" x="5" y="6" />
+				<Circle cx="6" cy="30" fill={systemVariables.text[400]} r="6" />
 			</Svg>
 		);
 	}

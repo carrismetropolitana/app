@@ -1,20 +1,33 @@
 /* * */
 
 import { type PropsWithChildren } from 'react';
-import { SafeAreaView, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useStyles } from './styles';
 
 /* * */
 
 export function Container({ children }: PropsWithChildren) {
+	//
+
+	//
+	// A. Setup variables
+
+	const styles = useStyles();
+
+	//
+	// B. Render components
+
 	return (
-		<SafeAreaView style={useStyles().safeArea}>
+		<SafeAreaView style={styles.safeArea}>
 			<ScrollView>
-				<View style={useStyles().container}>
+				<View style={styles.container}>
 					{children}
 				</View>
 			</ScrollView>
 		</SafeAreaView>
 	);
+
+	//
 }

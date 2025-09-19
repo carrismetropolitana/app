@@ -6,10 +6,14 @@ import { StyleSheet } from 'react-native';
 /* * */
 
 export const useStyles = () => {
+	//
+
+	const systemVariables = useSystemVariables();
+
 	return StyleSheet.create({
 		container: {
 			alignItems: 'center',
-			backgroundColor: useSystemVariables().background[100],
+			backgroundColor: systemVariables.background[100],
 			display: 'flex',
 			flexDirection: 'row',
 			gap: 20,
@@ -21,7 +25,7 @@ export const useStyles = () => {
 			display: 'flex',
 		},
 		label: {
-			color: useSystemVariables().text[100],
+			color: systemVariables.text[100],
 			fontSize: 18,
 			fontWeight: 600,
 		},

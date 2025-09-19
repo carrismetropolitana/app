@@ -6,6 +6,10 @@ import { StyleSheet } from 'react-native';
 /* * */
 
 export const useStyles = () => {
+	//
+
+	const systemVariables = useSystemVariables();
+
 	return StyleSheet.create({
 		buttonContainer: {
 			display: 'flex',
@@ -15,7 +19,7 @@ export const useStyles = () => {
 			paddingTop: 50,
 		},
 		text: {
-			color: useSystemVariables().text[200],
+			color: systemVariables.text[200],
 			fontSize: 16,
 			fontWeight: '600',
 			justifyContent: 'center',

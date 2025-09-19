@@ -14,13 +14,15 @@ export function MoreAppVersion() {
 	//
 	// A. Setup variables
 
+	const styles = useStyles();
+
 	const { t } = useTranslation('translation', { keyPrefix: 'MoreAppVersion' });
 
 	//
 	// B. Render components
 
 	return (
-		<Text aria-label={t('label')} style={useStyles().version}>
+		<Text aria-label={t('label')} style={styles.version}>
 			{Constants.expoConfig?.version}
 		</Text>
 	);

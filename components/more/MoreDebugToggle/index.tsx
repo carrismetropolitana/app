@@ -14,6 +14,8 @@ export function MoreDebugToggle() {
 	//
 	// A. Setup variables
 
+	const styles = useStyles();
+
 	const debugContext = useDebugContext();
 
 	const { t } = useTranslation('translation', { keyPrefix: 'more.MoreDebugToggle' });
@@ -26,7 +28,7 @@ export function MoreDebugToggle() {
 			accessibilityHint={t('hint')}
 			onPress={debugContext.actions.toggleDebugMode}
 		>
-			<Text style={useStyles().toggle}>
+			<Text style={styles.toggle}>
 				{debugContext.flags.is_debug_mode ? `${t('active')}` : `${t('inactive')}`}
 			</Text>
 		</TouchableOpacity>

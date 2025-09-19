@@ -13,10 +13,22 @@ type UserPersonaProps = Partial<UserPersonaImageProps> & { withEditButtons?: boo
 /* * */
 
 export function UserPersona({ size = 'md', withEditButtons }: UserPersonaProps) {
+	//
+
+	//
+	// A. Setup variables
+
+	const styles = useStyles();
+
+	//
+	// B. Render components
+
 	return (
-		<View style={useStyles().container}>
+		<View style={styles.container}>
 			<UserPersonaImage size={size} />
 			{withEditButtons && <UserPersonaEdit />}
 		</View>
 	);
+
+	//
 }

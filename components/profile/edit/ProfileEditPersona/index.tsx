@@ -9,10 +9,22 @@ import { useStyles } from './styles';
 /* * */
 
 export function ProfileEditPersona() {
+	//
+
+	//
+	// A. Setup variables
+
+	const styles = useStyles();
+
+	//
+	// B. Render components
+
 	return (
-		<View style={useStyles().container}>
+		<View style={styles.container}>
 			<UserPersona size="lg" withEditButtons />
 			<ProfileEditPersonaAccent />
 		</View>
 	);
+
+	//
 }

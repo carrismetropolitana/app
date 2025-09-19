@@ -6,16 +6,22 @@ import { StyleSheet } from 'react-native';
 /* * */
 
 export const useStyles = () => {
+	//
+
+	const systemVariables = useSystemVariables();
+
 	return StyleSheet.create({
 		container: {
-			backgroundColor: useSystemVariables().background[100],
+			backgroundColor: systemVariables.background[100],
 		},
 		contentContainer: {
-			backgroundColor: useSystemVariables().background[200],
+			backgroundColor: systemVariables.background[200],
 		},
 		listItem: {
 			marginHorizontal: 20,
 			marginTop: 20,
 		},
 	});
+
+	//
 };

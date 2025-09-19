@@ -6,13 +6,17 @@ import { StyleSheet } from 'react-native';
 /* * */
 
 export const useStyles = () => {
+	//
+
+	const systemVariables = useSystemVariables();
+
 	return StyleSheet.create({
 		container: {
 			alignItems: 'center',
-			backgroundColor: useSystemVariables().background[100],
-			borderBottomColor: useSystemVariables().border[100],
+			backgroundColor: systemVariables.background[100],
+			borderBottomColor: systemVariables.border[100],
 			borderBottomWidth: 1,
-			borderTopColor: useSystemVariables().border[100],
+			borderTopColor: systemVariables.border[100],
 			borderTopWidth: 1,
 			display: 'flex',
 			flexDirection: 'row',
@@ -21,10 +25,10 @@ export const useStyles = () => {
 			padding: 15,
 		},
 		input: {
-			borderColor: useSystemVariables().border[200],
+			borderColor: systemVariables.border[200],
 			borderRadius: 8,
 			borderWidth: 1,
-			color: useSystemVariables().text[100],
+			color: systemVariables.text[100],
 			fontSize: 18,
 			fontWeight: '600',
 			justifyContent: 'center',
@@ -33,7 +37,7 @@ export const useStyles = () => {
 			width: 100,
 		},
 		text: {
-			color: useSystemVariables().text[200],
+			color: systemVariables.text[200],
 			fontSize: 16,
 			fontWeight: '600',
 			justifyContent: 'center',

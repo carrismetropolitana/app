@@ -6,6 +6,10 @@ import { StyleSheet } from 'react-native';
 /* * */
 
 export const useStyles = () => {
+	//
+
+	const systemVariables = useSystemVariables();
+
 	return StyleSheet.create({
 		button: {
 			borderRadius: 999,
@@ -20,15 +24,15 @@ export const useStyles = () => {
 		},
 		typeDanger: {
 			backgroundColor: 'red',
-			color: useSystemVariables().background[100],
+			color: systemVariables.background[100],
 		},
 		typePrimary: {
-			backgroundColor: useSystemVariables().text[100],
-			color: useSystemVariables().background[100],
+			backgroundColor: systemVariables.text[100],
+			color: systemVariables.background[100],
 		},
 		typeSecondary: {
-			backgroundColor: useSystemVariables().text[400],
-			color: useSystemVariables().text[200],
+			backgroundColor: systemVariables.text[400],
+			color: systemVariables.text[200],
 		},
 	});
 };

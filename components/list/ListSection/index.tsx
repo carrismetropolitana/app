@@ -17,10 +17,20 @@ interface ListSectionProps {
 /* * */
 
 export function ListSection({ description, items = [], title }: ListSectionProps) {
+	//
+
+	//
+	// A. Setup variables
+
+	const styles = useStyles();
+
+	//
+	// B. Render components
+
 	return (
-		<View accessibilityLabel={title} role="list" style={useStyles().container}>
+		<View accessibilityLabel={title} role="list" style={styles.container}>
 			{title && <ListTitle description={description} title={title} />}
-			<View style={useStyles().itemsWrapper}>
+			<View style={styles.itemsWrapper}>
 				{items.map(element => (
 					<ListSectionItem
 						key={element.key}

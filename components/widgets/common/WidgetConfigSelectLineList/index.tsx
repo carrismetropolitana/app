@@ -26,6 +26,8 @@ export function WidgetConfigSelectLineList({ isVisible, onClose, onSelectLine }:
 	//
 	// A. Setup variables
 
+	const styles = useStyles();
+
 	const lineContext = useLinesContext();
 
 	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetConfigSelectLineList' });
@@ -43,8 +45,8 @@ export function WidgetConfigSelectLineList({ isVisible, onClose, onSelectLine }:
 
 	return (
 		<Modal animationType="slide" presentationStyle="formSheet" visible={isVisible}>
-			<SafeAreaView style={useStyles().safeArea}>
-				<View style={useStyles().header}>
+			<SafeAreaView style={styles.safeArea}>
+				<View style={styles.header}>
 					<Button onPress={onClose} title={t('close_button')} />
 				</View>
 				{/* <LineSearchBar /> */}

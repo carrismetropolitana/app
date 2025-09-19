@@ -14,11 +14,13 @@ export function MoreSectionAlerts() {
 	//
 	// A. Setup variables
 
+	const systemVariables = useSystemVariables();
+
 	const { t } = useTranslation('translation', { keyPrefix: 'more.MoreSectionAlerts' });
 
 	const LIST_ITEMS: ListSectionItemProps[] = [
 		{
-			icon: <IconAlertTriangle color={useSystemVariables().text[100]} size={32} />,
+			icon: <IconAlertTriangle color={systemVariables.text[100]} size={32} />,
 			key: 'alerts',
 			label: t('items.service_alerts'),
 			link: '/webview?url=https://carrismetropolitana.pt/alerts',

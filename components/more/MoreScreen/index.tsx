@@ -16,8 +16,18 @@ import { useStyles } from './styles';
 /* * */
 
 export function MoreScreen() {
+	//
+
+	//
+	// A. Setup variables
+
+	const styles = useStyles();
+
+	//
+	// B. Render components
+
 	return (
-		<SafeAreaView style={useStyles().container}>
+		<SafeAreaView style={styles.container}>
 			<ScrollView>
 				<MoreNews />
 				<MoreSectionAlerts />
@@ -30,4 +40,6 @@ export function MoreScreen() {
 			</ScrollView>
 		</SafeAreaView>
 	);
+
+	//
 }
