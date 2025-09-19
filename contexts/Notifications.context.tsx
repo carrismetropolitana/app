@@ -1,33 +1,22 @@
 /* * */
 
-import { type DotPath, HttpException, type PathValue, setValueAtPath } from '@/core-replica';
-import { getServiceUrl } from '@/settings/service-urls';
-import { fetchData } from '@/utils/fetchData';
-import { swrFetcher } from '@/utils/swr-fetcher';
 import Constants from 'expo-constants';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
-import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { Button, Platform, Text, View } from 'react-native';
-
-/* * */
-
-const LOCAL_STORAGE_KEYS = {
-	account_id: 'account_id',
-};
+import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
+import { Platform } from 'react-native';
 
 /* * */
 
 interface NotificationsContextState {
 	actions: {
-		update: (path: DotPath<Notification>, value: PathValue<Notification, DotPath<Notification>>) => Promise<void>
+		askForPermission: () => void
 	}
 	data: {
-		account: Notification | undefined
-		account_id: string | undefined
+		token: string
 	}
 	flags: {
-		loading: boolean
+		enabled: boolean
 	}
 }
 
@@ -45,86 +34,6 @@ export function useNotificationsContext() {
 
 /* * */
 
-Notifications.setNotificationHandler({
-	handleNotification: async () => ({
-		shouldPlaySound: true,
-		shouldSetBadge: true,
-		shouldShowBanner: true,
-		shouldShowList: true,
-	}),
-});
-
-async function sendPushNotification(expoPushToken: string) {
-	const message = {
-		body: 'And here is the body!',
-		data: { someData: 'goes here' },
-		sound: 'default',
-		title: 'Original Title',
-		to: expoPushToken,
-	};
-
-	await fetch('https://exp.host/--/api/v2/push/send', {
-		body: JSON.stringify(message),
-		headers: {
-			'Accept': 'application/json',
-			'Accept-encoding': 'gzip, deflate',
-			'Content-Type': 'application/json',
-		},
-		method: 'POST',
-	});
-}
-
-function handleRegistrationError(errorMessage: string) {
-	alert(errorMessage);
-	throw new Error(errorMessage);
-}
-
-async function registerForPushNotificationsAsync() {
-	if (Platform.OS === 'android') {
-		await Notifications.setNotificationChannelAsync('default', {
-			importance: Notifications.AndroidImportance.MAX,
-			lightColor: '#FF231F7C',
-			name: 'default',
-			vibrationPattern: [0, 250, 250, 250],
-		});
-	}
-
-	if (Device.isDevice) {
-		const { status: existingStatus } = await Notifications.getPermissionsAsync();
-		let finalStatus = existingStatus;
-		if (existingStatus !== 'granted') {
-			const { status } = await Notifications.requestPermissionsAsync();
-			finalStatus = status;
-		}
-		if (finalStatus !== 'granted') {
-			handleRegistrationError('Permission not granted to get push token for push notification!');
-			return;
-		}
-		const projectId
-      = Constants?.expoConfig?.extra?.eas?.projectId ?? Constants?.easConfig?.projectId;
-		if (!projectId) {
-			handleRegistrationError('Project ID not found');
-		}
-		try {
-			const pushTokenString = (
-				await Notifications.getExpoPushTokenAsync({
-					projectId,
-				})
-			).data;
-			console.log(pushTokenString);
-			return pushTokenString;
-		}
-		catch (e: unknown) {
-			handleRegistrationError(`${e}`);
-		}
-	}
-	else {
-		handleRegistrationError('Must use physical device for push notifications');
-	}
-}
-
-/* * */
-
 export const NotificationsContextProvider = ({ children }: PropsWithChildren) => {
 	//
 
@@ -132,46 +41,127 @@ export const NotificationsContextProvider = ({ children }: PropsWithChildren) =>
 	// A. Setup variables
 
 	const [expoPushToken, setExpoPushToken] = useState('');
-	const [notification, setNotification] = useState<Notifications.Notification | undefined>(
-		undefined,
-	);
+	const [permissionStatus, setPermissionStatus] = useState<Notifications.PermissionStatus | undefined>();
 
 	//
-	// B. Fetch data
-
-	//
-	// C. Handle actions
+	// B. Handle actions
 
 	useEffect(() => {
+		// This handler defines how notifications are shown when received.
+		// For example, you can choose to show an alert, play a sound, or set a badge on the app icon.
+		// If you don't set this handler, notifications will not be shown when the app is in the foreground.
+		Notifications.setNotificationHandler({
+			handleNotification: async () => ({
+				shouldPlaySound: true,
+				shouldSetBadge: true,
+				shouldShowBanner: true,
+				shouldShowList: true,
+			}),
+		});
+	}, []);
+
+	useEffect(() => {
+		// Register for push notifications
+		// This function also creates a channel on Android
+		// (channels are required for Android 8.0 and above)
 		registerForPushNotificationsAsync()
 			.then(token => setExpoPushToken(token ?? ''))
-			.catch((error: any) => setExpoPushToken(`${error}`));
-
+			.catch(error => alert(`${error}`));
+		// This listener is fired whenever a notification is received while the app is foregrounded
+		// (when the app is open and in use). You can use this to update your UI in response
+		// to the notification (for example, by showing an in-app banner or updating a notifications list).
 		const notificationListener = Notifications.addNotificationReceivedListener((notification) => {
-			setNotification(notification);
+			console.log(notification);
 		});
-
+		// This listener is fired whenever a user taps on or interacts with a notification
+		// (works when the app is foregrounded, backgrounded, or killed).
+		// You can use this to navigate the user to a specific screen or perform
+		// an action in response to the notification.
 		const responseListener = Notifications.addNotificationResponseReceivedListener((response) => {
 			console.log(response);
 		});
-
+		// Clean up the notification listeners
+		// when the component unmounts.
 		return () => {
 			notificationListener.remove();
 			responseListener.remove();
 		};
 	}, []);
 
+	async function registerForPushNotificationsAsync() {
+		// Android remote notification permissions are granted during the app install,
+		// so this will only ask on iOS and it will only ask once.
+		// Subsequent calls to this function will return the existing permission status.
+		// On Android, we create a channel to categorize notifications.
+		// We use the 'default' channel name here, but you can create custom channels for different
+		// types of notifications and then specify the channelId when sending a notification.
+		if (Platform.OS === 'android') {
+			await Notifications.setNotificationChannelAsync('default', {
+				importance: Notifications.AndroidImportance.MAX,
+				lightColor: '#FF231F7C',
+				name: 'default',
+				vibrationPattern: [0, 250, 250, 250],
+			});
+		}
+		// iOS and Android devices require
+		// a physical device for push notifications.
+		if (Device.isDevice) {
+			// Check for existing permissions
+			const existingPermissions = await Notifications.getPermissionsAsync();
+			let finalStatus = existingPermissions.status;
+			// If no existing permission, ask for permission
+			if (existingPermissions.status !== 'granted') {
+				const permissionRequestStatus = await Notifications.requestPermissionsAsync();
+				finalStatus = permissionRequestStatus.status;
+			}
+			// Update the permission status state
+			setPermissionStatus(finalStatus);
+			// If no permission, exit the function
+			if (finalStatus !== 'granted') {
+				alert('Permission not granted to get push token for push notification!');
+				return;
+			}
+			// Get the token that identifies this device for push notifications
+			// This requires the project ID from EAS or Expo Go
+			const projectId = Constants?.expoConfig?.extra?.eas?.projectId ?? Constants?.easConfig?.projectId;
+			if (!projectId) alert('Project ID not found');
+			try {
+				const expoPushToken = await Notifications.getExpoPushTokenAsync({ projectId });
+				console.log(expoPushToken.data);
+				return expoPushToken.data;
+			}
+			catch (e: unknown) {
+				alert(`${e}`);
+			}
+		}
+		else {
+			alert('Must use physical device for push notifications');
+		}
+	}
+
+	function askForPermission() {
+		// If permission is already granted, exit the function
+		if (permissionStatus === 'granted') return;
+		// Otherwise, ask for permission
+		registerForPushNotificationsAsync();
+	}
+
 	//
 	// C. Context value
 
 	const contextValue: NotificationsContextState = useMemo(() => ({
 		actions: {
+			askForPermission,
 		},
 		data: {
+			token: expoPushToken,
 		},
 		flags: {
+			enabled: permissionStatus === 'granted',
 		},
 	}), [
+		expoPushToken,
+		permissionStatus,
 	]);
 
 	//
@@ -179,20 +169,6 @@ export const NotificationsContextProvider = ({ children }: PropsWithChildren) =>
 
 	return (
 		<NotificationsContext.Provider value={contextValue}>
-			<View style={{ alignItems: 'center', flex: 1, justifyContent: 'space-around' }}>
-				<Text>Your Expo push token: {expoPushToken}</Text>
-				<View style={{ alignItems: 'center', justifyContent: 'center' }}>
-					<Text>Title: {notification && notification.request.content.title} </Text>
-					<Text>Body: {notification && notification.request.content.body}</Text>
-					<Text>Data: {notification && JSON.stringify(notification.request.content.data)}</Text>
-				</View>
-				<Button
-					title="Press to Send Notification"
-					onPress={async () => {
-						await sendPushNotification(expoPushToken);
-					}}
-				/>
-			</View>
 			{children}
 		</NotificationsContext.Provider>
 	);
