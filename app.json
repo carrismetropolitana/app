@@ -78,8 +78,8 @@
 				"expo-font",
 				{
 					"fonts": [
-						"./assets/fonts/Inter-VariableFont_opsz,wght.ttf",
-						"./assets/fonts/SpaceMono-Regular.ttf"
+						"./assets/clean/fonts/inter-variable.ttf",
+						"./assets/clean/fonts/space-mono-regular.ttf"
 					]
 				}
 			],
