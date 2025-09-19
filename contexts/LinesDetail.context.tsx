@@ -317,7 +317,6 @@ export const LinesDetailContextProvider = ({ children, lineIdParams }: LinesDeta
 		// Find the pattern data that matches the pattern version id
 		const foundPatternData = dataValidPatternsState.find(validPattern => validPattern.version_id === patternVersionId);
 		// Update the state
-		console.log('here3', patternVersionId, dataValidPatternsState.map(p => p.version_id), foundPatternData);
 		if (foundPatternData) {
 			setFilterActivePatternIdState(foundPatternData.id);
 			setFlagIsInteractiveModeState(false);
