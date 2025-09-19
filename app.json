@@ -93,7 +93,7 @@
 				"expo-asset",
 				{
 					"assets": [
-						"./assets"
+						"./assets/clean"
 					]
 				}
 			],
