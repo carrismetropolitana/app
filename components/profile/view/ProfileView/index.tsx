@@ -4,8 +4,6 @@ import { Container } from '@/components/layout/Container';
 import { ProfileViewPersona } from '@/components/profile/view/ProfileViewPersona';
 import { ProfileViewWidgetsCreate } from '@/components/profile/view/ProfileViewWidgetsCreate';
 import { ProfileViewWidgetsList } from '@/components/profile/view/ProfileViewWidgetsList';
-import { useNotifications } from '@/contexts/Notifications.context';
-import { useEffect } from 'react';
 
 /* * */
 
@@ -15,14 +13,14 @@ export function ProfileView() {
 	//
 	// A. Setup variables
 
-	const notificationsContext = useNotifications();
+	// const notificationsContext = useNotifications();
 
 	//
 	// B. Handle actions
 
-	useEffect(() => {
-		notificationsContext.actions.askForPermissions();
-	}, []);
+	// useEffect(() => {
+	// 	notificationsContext.actions.askForPermissions();
+	// }, []);
 
 	//
 	// C. Render components

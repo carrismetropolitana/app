@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { AccountWidget, WidgetCreate } from '@/types/account.types';
 
-import messagingLib from '@react-native-firebase/messaging';
 import { createContext, ReactNode, useContext, useEffect, useMemo } from 'react';
 
 import { useProfileContext } from './Profile.context';
@@ -43,16 +42,16 @@ export const WidgetContextProvider = ({ children }: { children: ReactNode }) => 
 	const dataWidgetStopsState = useMemo(() => widgets.filter(w => w.data?.type === 'stops'), [widgets]);
 	const dataWidgetSmartNotificationsState = useMemo(() => widgets.filter(w => w.data?.type === 'smart_notifications'), [widgets]);
 
-	useEffect(() => {
-		const subscribeToAllWidgetTopics = async () => {
-			await Promise.all(
-				dataWidgetSmartNotificationsState
-					.filter(widget => widget.data.type === 'smart_notifications' && 'id' in widget.data && widget.data.id)
-					.map(widget => messagingLib().subscribeToTopic((widget.data as { id: string }).id)),
-			);
-		};
-		subscribeToAllWidgetTopics();
-	}, [dataWidgetSmartNotificationsState]);
+	// useEffect(() => {
+	// 	const subscribeToAllWidgetTopics = async () => {
+	// 		await Promise.all(
+	// 			dataWidgetSmartNotificationsState
+	// 				.filter(widget => widget.data.type === 'smart_notifications' && 'id' in widget.data && widget.data.id)
+	// 				.map(widget => messagingLib().subscribeToTopic((widget.data as { id: string }).id)),
+	// 		);
+	// 	};
+	// 	subscribeToAllWidgetTopics();
+	// }, [dataWidgetSmartNotificationsState]);
 
 	const createWidget = async (params: WidgetCreate) => {
 		try {
@@ -95,7 +94,7 @@ export const WidgetContextProvider = ({ children }: { children: ReactNode }) => 
 				};
 				updatedSmartWidgets.push(newWidgetSmartNotification);
 				mergedWidgets = [...otherWidgets, ...updatedSmartWidgets];
-				await messagingLib().subscribeToTopic('id');
+				// await messagingLib().subscribeToTopic('id');
 			}
 			// Update profile widgets using the simpler updateLocalProfile function
 			await profileContext.actions.updateLocalProfile({
@@ -108,10 +107,10 @@ export const WidgetContextProvider = ({ children }: { children: ReactNode }) => 
 	};
 
 	const deleteWidgetByDisplayOrder = async (displayOrder: number) => {
-		const removedWidget = widgets.find(widget => widget.settings?.display_order === displayOrder);
-		if (removedWidget?.data?.type === 'smart_notifications' && removedWidget.data.id) {
-			await messagingLib().unsubscribeFromTopic(removedWidget.data.id);
-		}
+		// const removedWidget = widgets.find(widget => widget.settings?.display_order === displayOrder);
+		// if (removedWidget?.data?.type === 'smart_notifications' && removedWidget.data.id) {
+		// 	await messagingLib().unsubscribeFromTopic(removedWidget.data.id);
+		// }
 		const newList = widgets.filter(widget => widget.settings?.display_order !== displayOrder);
 		const orderedWidgets = newList.map((widget, idx) => ({ ...widget, settings: { ...widget.settings, display_order: idx } }));
 		await profileContext.actions.updateLocalProfile({
