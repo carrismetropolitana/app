@@ -14,7 +14,7 @@ export const useStyles = () => {
 		toggle: {
 			color: systemVariables.text[300],
 			fontWeight: 600,
-			marginBottom: 100,
+			marginBottom: 40,
 			padding: 15,
 			textAlign: 'center',
 			textTransform: 'uppercase',

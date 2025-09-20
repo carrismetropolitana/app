@@ -7,7 +7,7 @@ import { View } from 'react-native';
 
 export function HomeScreenListFooter() {
 	return (
-		<View style={{ marginBottom: 150, marginTop: 50 }}>
+		<View style={{ marginVertical: 50 }}>
 			<HomeScreenCustomizeButton />
 		</View>
 	);

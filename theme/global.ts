@@ -23,6 +23,10 @@ export const useSystemVariables = () => {
 			200: colorScheme === 'light' ? '#BEBEC8' : '#505055',
 		},
 
+		brand: {
+			cm: '#FFDD00',
+		},
+
 		text: {
 			100: colorScheme === 'light' ? '#000000' : '#FFFFFF',
 			200: colorScheme === 'light' ? '#5A5A64' : '#C8C8D2',

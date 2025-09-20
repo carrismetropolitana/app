@@ -203,7 +203,7 @@ export function StopsScreen() {
 	// D. Render Components
 
 	return (
-		<SafeAreaView style={stopMapDetailStyles.container}>
+		<>
 			<MapView
 				camera={{ centerCoordinate: cameraState.center, zoomLevel: cameraState.zoom }}
 				mapStyle={(mapOptionsContext.data.style as MapStyle) ?? 'map'}
@@ -271,7 +271,7 @@ export function StopsScreen() {
 					{!stopData && <NoDataLabel text={t('noDataFound')} />}
 				</BottomSheetScrollView>
 			</BottomSheetModal> */}
-		</SafeAreaView>
+		</>
 	);
 
 	//

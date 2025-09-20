@@ -17,6 +17,7 @@ export default function Page() {
 	const systemVariables = useSystemVariables();
 
 	const navigation = useNavigation();
+
 	const { t } = useTranslation('translation', { keyPrefix: 'profile.Page' });
 
 	//

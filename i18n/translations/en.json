@@ -290,6 +290,9 @@
 	"home": {
 		"HomeScreenCustomizeButton": {
 			"label": "Customize"
+		},
+		"Page": {
+			"title": "Home"
 		}
 	},
 	"homepage": {
@@ -414,6 +417,9 @@
 			"linesAroundMe": "Lines Around Me",
 			"recentLines": "Recent Lines"
 		},
+		"Page": {
+			"title": "Lines"
+		},
 		"PathStopNextArrivals": {
 			"arriving": "Arriving",
 			"nextArrivalsRealtimeAccessibilityHint": "Next trip in real time",
@@ -506,6 +512,9 @@
 				"helpdesks": "Where to buy",
 				"tickets": "Ocasional Tickets"
 			}
+		},
+		"Page": {
+			"title": "More"
 		},
 		"about_cm_list_hint": "This section contains links to pages with information about carris metropolitana",
 		"about_cm_list_label": "Usefull links about Carris Metropolitana",

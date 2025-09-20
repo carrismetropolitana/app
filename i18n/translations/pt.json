@@ -382,6 +382,9 @@
 	"home": {
 		"HomeScreenCustomizeButton": {
 			"label": "Personalizar"
+		},
+		"Page": {
+			"title": "Home"
 		}
 	},
 	"homepage": {
@@ -506,6 +509,9 @@
 			"linesAroundMe": "A minha volta",
 			"recentLines": "Linhas Recentes"
 		},
+		"Page": {
+			"title": "Linhas"
+		},
 		"PathStopNextArrivals": {
 			"arriving": "A chegar",
 			"nextArrivalsRealtimeAccessibilityHint": "Próxima passagem em tempo real",
@@ -570,6 +576,9 @@
 			"items": {
 				"service_alerts": "Alertas de Serviço"
 			}
+		},
+		"Page": {
+			"title": "Mais"
 		},
 		"SupportList": {
 			"contacts": "Contactos",
