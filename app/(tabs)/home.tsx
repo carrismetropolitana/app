@@ -20,12 +20,12 @@ export default function Page() {
 	//
 	// B. Handle actions
 
-	// useEffect(() => {
-	// 	navigation.setOptions({
-	// 		headerShown: false,
-	// 		// headerTitle: t('title'),
-	// 	});
-	// }, [navigation]);
+	useEffect(() => {
+		navigation.setOptions({
+			headerShown: false,
+			headerTitle: t('title'),
+		});
+	}, [navigation]);
 
 	//
 	// C. Render components
