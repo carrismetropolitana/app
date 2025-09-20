@@ -1,9 +1,10 @@
 /* * */
 
+import { useAccountContext } from '@/contexts/Account.context';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
-import { useWidgetContext } from '@/contexts/Widget.context';
-import { WidgetSmartNotification } from '@/types/widget.types';
+import { generateRandomString } from '@/core-replica';
+import { WidgetSchema, WidgetSmartNotification } from '@/schemas/widgets';
 import { type Line, type Pattern, type Waypoint } from '@carrismetropolitana/api-types/network';
 import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
@@ -19,7 +20,7 @@ interface WidgetSmartNotificationConfigContextState {
 		selectPatternId: (patternId: string) => void
 		selectStartTime: (timeInSeconds: number) => void
 		selectWaypoint: (waypoint: Waypoint) => void
-		selectWeekday: (weekday: WidgetSmartNotification['week_days'][number]) => void
+		selectWeekday: (weekday: WidgetSmartNotification['properties']['weekdays'][number]) => void
 	}
 	data: {
 		available_patterns: Pattern[]
@@ -31,7 +32,7 @@ interface WidgetSmartNotificationConfigContextState {
 		selected_pattern_id: string | undefined
 		selected_start_time: number
 		selected_waypoint: undefined | Waypoint
-		selected_weekdays: WidgetSmartNotification['week_days']
+		selected_weekdays: WidgetSmartNotification['properties']['weekdays'][number][]
 	}
 	flags: {
 		can_save: boolean
@@ -60,14 +61,14 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children }: Props
 	// A. Setup variables
 
 	const linesContext = useLinesContext();
-	const widgetContext = useWidgetContext();
+	const accountContext = useAccountContext();
 	const operationalDateContext = useOperationalDateContext();
 
 	const [selectedLineId, setSelectedLineId] = useState<string | undefined>();
 	const [selectedPatternId, setSelectedPatternId] = useState<string | undefined>();
 	const [selectedWaypoint, setSelectedWaypoint] = useState<undefined | Waypoint>();
 	const [selectedDistance, setSelectedDistance] = useState<number>(500);
-	const [selectedWeekdays, setSelectedWeekdays] = useState<WidgetSmartNotification['week_days']>([]);
+	const [selectedWeekdays, setSelectedWeekdays] = useState<WidgetSmartNotification['properties']['weekdays'][number][]>([]);
 	const [selectedStartTime, setSelectedStartTime] = useState<number>(0);
 	const [selectedEndTime, setSelectedEndTime] = useState<number>(86400);
 
@@ -101,6 +102,15 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children }: Props
 	}, [availablePatternsData, selectedPatternId]);
 
 	const canSave = useMemo(() => {
+		console.log('canSave recompute', {
+			selectedDistance,
+			selectedEndTime,
+			selectedLineId,
+			selectedPatternId,
+			selectedStartTime,
+			selectedWaypoint,
+			selectedWeekdays,
+		});
 		if (!selectedLineId) return false;
 		if (!selectedPatternId) return false;
 		if (!selectedWaypoint) return false;
@@ -109,7 +119,15 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children }: Props
 		if (selectedStartTime >= selectedEndTime) return false;
 		// All good, we can save
 		return true;
-	}, [selectedPatternId, selectedLineId, selectedWaypoint, selectedDistance]);
+	}, [
+		selectedDistance,
+		selectedEndTime,
+		selectedLineId,
+		selectedPatternId,
+		selectedStartTime,
+		selectedWaypoint,
+		selectedWeekdays,
+	]);
 
 	//
 	// D. Handle actions
@@ -130,7 +148,7 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children }: Props
 		setSelectedDistance(distance);
 	};
 
-	const selectWeekday = (weekday: WidgetSmartNotification['week_days'][number]) => {
+	const selectWeekday = (weekday: WidgetSmartNotification['properties']['weekdays'][number]) => {
 		if (selectedWeekdays.includes(weekday)) {
 			setSelectedWeekdays(selectedWeekdays.filter(item => item !== weekday));
 		}
@@ -148,19 +166,30 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children }: Props
 	};
 
 	const saveWidget = () => {
+		// Skip if account data is not available
+		if (!accountContext.data.account) return;
 		// Skip if we don't have the required data
+		if (!canSave) return;
 		if (!selectedLineId) return;
 		if (!selectedPatternId) return;
-		// Create the widget
-		widgetContext.actions.createWidget({
-			end_time: selectedEndTime,
-			pattern_id: selectedPatternId,
-			radius: selectedDistance,
-			start_time: selectedStartTime,
-			stop_id: selectedWaypoint?.stop_id ?? '',
-			type: 'smart_notifications',
-			week_days: selectedWeekdays,
+		if (!selectedWaypoint) return;
+		// Create the widget object
+		const widgetObject = WidgetSchema.parse({
+			_id: generateRandomString(),
+			properties: {
+				distance: selectedDistance,
+				end_time: selectedEndTime,
+				line_id: selectedLineId,
+				pattern_id: selectedPatternId,
+				start_time: selectedStartTime,
+				stop_id: selectedWaypoint.stop_id,
+				stop_sequence: selectedWaypoint.stop_sequence,
+				weekdays: selectedWeekdays,
+			},
+			type: 'smart_notification',
 		});
+		// Save the widget
+		accountContext.actions.update('widgets', [...accountContext.data.account.widgets, widgetObject]);
 	};
 
 	const deleteWidget = () => {

@@ -1,6 +1,5 @@
 /* * */
 
-import { HomeScreenTopBar } from '@/components/home/HomeScreenTopBar';
 import { View } from 'react-native';
 
 import { useStyles } from './styles';
@@ -20,7 +19,7 @@ export function HomeScreenListEmpty() {
 
 	return (
 		<View style={styles.container}>
-			<HomeScreenTopBar />
+			{/* <HomeScreenTopBar /> */}
 		</View>
 	);
 

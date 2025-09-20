@@ -15,6 +15,7 @@ import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
+import { WidgetSmartNotificationConfigWarning } from '../WidgetSmartNotificationConfigWarning';
 import { useStyles } from './styles';
 
 /* * */
@@ -134,6 +135,17 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 			{/* * */}
 
 			<WidgetSmartNotificationConfigSeparator style="end" />
+
+			{/* * */}
+
+			<WidgetSmartNotificationConfigWarning
+				selectedDistance={widgetSmartNotificationConfigContext.data.selected_distance}
+				selectedEndTime={widgetSmartNotificationConfigContext.data.selected_end_time}
+				selectedLine={widgetSmartNotificationConfigContext.data.selected_line}
+				selectedStartTime={widgetSmartNotificationConfigContext.data.selected_start_time}
+				selectedWaypoint={widgetSmartNotificationConfigContext.data.selected_waypoint}
+				selectedWeekdays={widgetSmartNotificationConfigContext.data.selected_weekdays}
+			/>
 
 			{/* * */}
 

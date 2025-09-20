@@ -54,7 +54,7 @@ export type WidgetStop = z.infer<typeof WidgetStopSchema>;
 
 export const WidgetSmartNotificationSchema = WidgetBaseSchema.extend({
 	properties: z.object({
-		distance: z.number().gt(500),
+		distance: z.number().gte(500),
 		end_time: z.number().gt(0).lte(86400),
 		geojson: z.any().nullish(),
 		pattern_id: z.string(),

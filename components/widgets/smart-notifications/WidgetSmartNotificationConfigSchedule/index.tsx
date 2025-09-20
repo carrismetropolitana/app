@@ -2,7 +2,7 @@
 
 import { WidgetSmartNotificationConfigScheduleTimeInput } from '@/components/widgets/smart-notifications/WidgetSmartNotificationConfigScheduleTimeInput';
 import { WidgetSmartNotificationConfigScheduleWeekdaysInput } from '@/components/widgets/smart-notifications/WidgetSmartNotificationConfigScheduleWeekdaysInput';
-import { WidgetSmartNotification } from '@/types/widget.types';
+import { WidgetSmartNotification } from '@/schemas/widgets';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
@@ -14,8 +14,8 @@ interface WidgetSmartNotificationConfigScheduleProps {
 	endTime: number
 	onEndTimeChange: (value: number) => void
 	onStartTimeChange: (value: number) => void
-	onToggleWeekday: (weekday: WidgetSmartNotification['week_days'][number]) => void
-	selectedWeekdays: WidgetSmartNotification['week_days']
+	onToggleWeekday: (weekday: WidgetSmartNotification['properties']['weekdays'][number]) => void
+	selectedWeekdays: WidgetSmartNotification['properties']['weekdays'][number][]
 	startTime: number
 }
 

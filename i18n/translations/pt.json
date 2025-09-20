@@ -807,6 +807,37 @@
 			},
 			"title": "Smart Notification Widget"
 		},
+		"WidgetSmartNotificationConfigDistanceInput": {
+			"unit": "metros"
+		},
+		"WidgetSmartNotificationConfigScheduleWeekdaysInput": {
+			"weekdays": {
+				"friday": "Fri",
+				"monday": "Mon",
+				"saturday": "Sat",
+				"sunday": "Sun",
+				"thursday": "Thu",
+				"tuesday": "Tue",
+				"wednesday": "Wed"
+			}
+		},
+		"WidgetSmartNotificationConfigWarning": {
+			"disclaimer": "Por favor teste esta funcionalidade antes de a utilizar com confiança. Poderá ser necessário ajustar a distância para garantir um aviso com antecedência. As notificações são enviadas com base na localização em tempo real dos autocarros, e podem ocorrer discrepâncias ocasionais.",
+			"summary": "Está prestes a configurar uma notificação inteligente para {weekdays} entre as {start_time} e as {end_time}. Será notificado quando um autocarro da linha\u00A0{line_short_name} estiver a {distance}\u00A0metros da paragem\u00A0\"{stop_name}\".",
+			"title": "Resumo",
+			"weekdays": {
+				"business_days": "dias úteis",
+				"every_day": "todos os dias",
+				"friday": "sextas",
+				"monday": "segundas",
+				"saturday": "sábados",
+				"sunday": "domingos",
+				"thursday": "quintas",
+				"tuesday": "terças",
+				"wednesday": "quartas",
+				"weekends": "fins de semana"
+			}
+		},
 		"WidgetStopConfig": {
 			"actions": {
 				"cancel": "Cancel",
