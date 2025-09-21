@@ -11,13 +11,21 @@ export const useStyles = () => {
 	const systemVariables = useSystemVariables();
 
 	return StyleSheet.create({
-		container: {
+		column: {
 			alignItems: 'flex-start',
 			display: 'flex',
 			flexDirection: 'column',
 			flexShrink: 1,
 			gap: 4,
 			justifyContent: 'center',
+		},
+		container: {
+			alignItems: 'center',
+			display: 'flex',
+			flexDirection: 'row',
+			flexShrink: 1,
+			gap: 10,
+			justifyContent: 'flex-start',
 			padding: 15,
 		},
 		label: {
@@ -37,7 +45,7 @@ export const useStyles = () => {
 			fontSize: 14,
 			fontWeight: 600,
 		},
-		stopName: {
+		title: {
 			color: systemVariables.text[100],
 			fontSize: 14,
 			fontWeight: 700,

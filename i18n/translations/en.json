@@ -722,6 +722,9 @@
 		"virtualizedListAccessibilityLabel": "Stops list"
 	},
 	"widgets": {
+		"WidgetCardSmartNotificationHeader": {
+			"title": "Next {weekday}, at {start_time}"
+		},
 		"WidgetCardStopHeader": {
 			"no_name": "Stop Name Unavailable"
 		},
