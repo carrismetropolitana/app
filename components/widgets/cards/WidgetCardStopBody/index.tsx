@@ -1,10 +1,8 @@
 /* * */
 
-import { useAccountContext } from '@/contexts/Account.context';
+import { WidgetCardStopBodyArrivals } from '@/components/widgets/cards/WidgetCardStopBodyArrivals';
+import { ArrivalsContextProvider } from '@/contexts/Arrivals.context';
 import { type WidgetStop } from '@/schemas/widgets';
-import { Text, View } from 'react-native';
-
-import { useStyles } from './styles';
 
 /* * */
 
@@ -15,23 +13,14 @@ interface WidgetCardStopBodyProps {
 /* * */
 
 export function WidgetCardStopBody({ data }: WidgetCardStopBodyProps) {
-	//
-
-	//
-	// A. Setup variables
-
-	const styles = useStyles();
-
-	const accountContext = useAccountContext();
-
-	//
-	// C. Render components
-
 	return (
-		<View style={styles.container}>
-			<Text>WidgetCardStopBody</Text>
-		</View>
+		<ArrivalsContextProvider
+			limit={5}
+			patternIds={data.properties.pattern_ids}
+			stopId={data.properties.stop_id}
+			onlyFuture
+		>
+			<WidgetCardStopBodyArrivals />
+		</ArrivalsContextProvider>
 	);
-
-	//
 }

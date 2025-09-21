@@ -1,5 +1,6 @@
 /* * */
 
+import { useSystemVariables } from '@/theme/global';
 import { IconChevronRight } from '@tabler/icons-react-native';
 import { useRouter } from 'expo-router';
 import { type ReactNode } from 'react';
@@ -27,6 +28,8 @@ export function ListSectionItem({ icon, label, link, onPress, replaceChevron }: 
 	// A. Setup variables
 
 	const styles = useStyles();
+	const systemVariables = useSystemVariables();
+
 	const router = useRouter();
 
 	//
@@ -46,7 +49,7 @@ export function ListSectionItem({ icon, label, link, onPress, replaceChevron }: 
 			<View style={{ flex: 1 }}>
 				<Text style={styles.label}>{label}</Text>
 			</View>
-			{replaceChevron ? replaceChevron : <IconChevronRight color="#C0C0C8" size={24} />}
+			{replaceChevron ? replaceChevron : <IconChevronRight color={systemVariables.text[400]} size={24} />}
 		</TouchableOpacity>
 	);
 

@@ -1,6 +1,7 @@
 /* * */
 
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
+import { getServiceUrl } from '@/settings/service-urls';
 import { type Stop } from '@carrismetropolitana/api-types/network';
 import { Feature, type FeatureCollection, type Point } from 'geojson';
 import { createContext, type PropsWithChildren, useContext, useMemo } from 'react';
@@ -42,7 +43,7 @@ export const StopsContextProvider = ({ children }: PropsWithChildren) => {
 	//
 	// A. Fetch data
 
-	const { data: allStopsData, isLoading: allStopsLoading } = useSWR<Stop[], Error>('https://api.carrismetropolitana.pt/v2/stops');
+	const { data: allStopsData, isLoading: allStopsLoading } = useSWR<Stop[], Error>(`${getServiceUrl('api')}/v2/stops`);
 
 	//
 	// B. Transform data

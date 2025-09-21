@@ -12,18 +12,11 @@ export const useStyles = () => {
 
 	return StyleSheet.create({
 		container: {
-			backgroundColor: systemVariables.background[100],
-			height: '100%',
-		},
-		contentContainer: {
-			backgroundColor: systemVariables.background[200],
-			minHeight: '100%',
-		},
-		listItem: {
-			marginHorizontal: 20,
-			marginTop: 20,
+			backgroundColor: systemVariables.border[100],
+			display: 'flex',
+			flexDirection: 'column',
+			gap: 1,
+			justifyContent: 'flex-start',
 		},
 	});
-
-	//
 };

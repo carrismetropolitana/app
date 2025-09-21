@@ -46,7 +46,7 @@ export function WidgetCardSmartNotificationHeader({ label, selectedStartTime, se
 				.now('Europe/Lisbon')
 				.toFormat('s');
 			setNowAsSeconds(Number(currentHour) * 3600 + Number(currentMinute) * 60 + Number(currentSecond));
-		}, 60000);
+		}, 120_000);
 		return () => clearInterval(interval);
 	}, []);
 

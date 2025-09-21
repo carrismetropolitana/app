@@ -20,7 +20,7 @@ interface Props {
 	lineId?: string
 	onPress?: () => void
 	shortName?: string
-	size?: 'lg' | 'md'
+	size?: 'lg' | 'md' | 'sm'
 	textColor?: string
 	withAlertIcon?: boolean
 }
@@ -40,6 +40,7 @@ export function LineBadge({ color, lineData, lineId, onPress, shortName, size = 
 	const badgeStyles = [
 		size === 'lg' && lineBadgeStyles.sizeLg,
 		size === 'md' && lineBadgeStyles.sizeMd,
+		size === 'sm' && lineBadgeStyles.sizeSm,
 		onPress && lineBadgeStyles.clickable,
 	];
 

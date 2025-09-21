@@ -49,4 +49,13 @@ export const lineBadgeStyles = StyleSheet.create({
 		minWidth: 65,
 		padding: 3,
 	},
+	sizeSm: {
+		...container,
+		fontSize: 12,
+		maxHeight: 22,
+		maxWidth: 55,
+		minHeight: 22,
+		minWidth: 55,
+		padding: 2,
+	},
 });

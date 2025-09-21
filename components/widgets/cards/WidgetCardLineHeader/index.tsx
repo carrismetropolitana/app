@@ -2,6 +2,7 @@
 
 import { LineBadge } from '@/components/lines/LineBadge';
 import { useLinesContext } from '@/contexts/Lines.context';
+import { Dates } from '@/core-replica';
 import { Pattern } from '@carrismetropolitana/api-types/network';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
@@ -27,18 +28,19 @@ export function WidgetCardLineHeader({ patternId }: WidgetCardLineHeaderProps) {
 
 	const linesContext = useLinesContext();
 
-	const [patternData, setPatternData] = useState<null | Pattern>(null);
+	const [patternData, setPatternData] = useState<Pattern | undefined>(linesContext.data.patterns_cache[patternId]?.[0]);
 
 	//
 	// B. Transform data
 
 	useEffect(() => {
-		(async () => {
-			const data = await linesContext.actions.getPatternDataById(patternId);
-			if (!data?.length) return setPatternData(null);
-			setPatternData(data[0]);
-		})();
-	}, [patternId]);
+		if (patternData?.id === patternId) return;
+		const today = Dates.now('Europe/Lisbon').operational_date;
+		linesContext.actions.getValidPatternVersionForOperationalDate(patternId, today).then((data) => {
+			if (!data) return setPatternData(undefined);
+			setPatternData(data);
+		});
+	}, [patternId, patternData]);
 
 	//
 	// C. Render components

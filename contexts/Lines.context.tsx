@@ -1,5 +1,6 @@
 /* * */
 
+import { getServiceUrl } from '@/settings/service-urls';
 import { type Line, type Pattern, type Route } from '@carrismetropolitana/api-types/network';
 import { type OperationalDate } from '@tmlmobilidade/types';
 import { createContext, type PropsWithChildren, useContext, useMemo, useState } from 'react';
@@ -17,6 +18,7 @@ interface LinesContextState {
 	}
 	data: {
 		lines: Line[]
+		patterns_cache: Record<string, Pattern[]>
 		routes: Route[]
 	}
 	flags: {
@@ -48,8 +50,8 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 	//
 	// B. Fetch data
 
-	const { data: allLinesData, isLoading: allLinesLoading } = useSWR<Line[]>('https://api.carrismetropolitana.pt/v2/lines');
-	const { data: allRoutesData, isLoading: allRoutesLoading } = useSWR<Route[]>('https://api.carrismetropolitana.pt/v2/routes');
+	const { data: allLinesData, isLoading: allLinesLoading } = useSWR<Line[]>(`${getServiceUrl('api')}/v2/lines`);
+	const { data: allRoutesData, isLoading: allRoutesLoading } = useSWR<Route[]>(`${getServiceUrl('api')}/v2/routes`);
 
 	//
 	// C. Handle actions
@@ -68,7 +70,7 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 		// Check if pattern is in cache
 		if (patternsCache[patternId]) return patternsCache[patternId];
 		// If not, fetch pattern data
-		const response = await fetch(`https://api.carrismetropolitana.pt/v2/patterns/${patternId}`);
+		const response = await fetch(`${getServiceUrl('api')}/v2/patterns/${patternId}`);
 		const responseData = await response.json();
 		if (!responseData) return;
 		// Save pattern to cache
@@ -129,6 +131,7 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 		},
 		data: {
 			lines: allLinesData ?? [],
+			patterns_cache: patternsCache,
 			routes: allRoutesData ?? [],
 		},
 		flags: {
@@ -136,6 +139,7 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 		},
 	}), [
 		allLinesData,
+		patternsCache,
 		allRoutesData,
 		allLinesLoading,
 		allRoutesLoading,

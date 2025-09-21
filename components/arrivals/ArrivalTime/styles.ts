@@ -12,18 +12,17 @@ export const useStyles = () => {
 
 	return StyleSheet.create({
 		container: {
+			alignItems: 'center',
 			backgroundColor: systemVariables.background[100],
-			height: '100%',
+			display: 'flex',
+			flexDirection: 'row',
+			gap: 5,
+			justifyContent: 'flex-start',
 		},
-		contentContainer: {
-			backgroundColor: systemVariables.background[200],
-			minHeight: '100%',
-		},
-		listItem: {
-			marginHorizontal: 20,
-			marginTop: 20,
+		title: {
+			color: systemVariables.text[100],
+			fontSize: 14,
+			fontWeight: 700,
 		},
 	});
-
-	//
 };

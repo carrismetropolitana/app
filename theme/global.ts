@@ -25,6 +25,7 @@ export const useSystemVariables = () => {
 
 		brand: {
 			cm: '#FFDD00',
+			realtime: '#00CD32',
 		},
 
 		text: {
