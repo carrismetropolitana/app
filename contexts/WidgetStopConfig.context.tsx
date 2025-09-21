@@ -15,12 +15,14 @@ interface WidgetStopConfigContextState {
 	actions: {
 		deleteWidget: () => void
 		saveWidget: () => void
+		selectLabel: (label: string) => void
 		selectStopId: (stopId: string) => void
 		togglePatternId: (patternId: string) => void
 		toggleSelectAll: () => void
 	}
 	data: {
 		available_patterns: Pattern[]
+		selected_label: string
 		selected_pattern_ids: string[] | undefined
 		selected_stop: Stop | undefined
 		selected_stop_id: string | undefined
@@ -58,6 +60,7 @@ export const WidgetStopConfigContextProvider = ({ children }: PropsWithChildren)
 
 	const [selectedStopId, setSelectedStopId] = useState<string | undefined>();
 	const [selectedPatternIds, setSelectedPatternIds] = useState<string[] | undefined>();
+	const [selectedLabel, setSelectedLabel] = useState<string>('');
 
 	const [availablePatternsData, setAvailablePatternsData] = useState<Pattern[]>([]);
 
@@ -89,6 +92,10 @@ export const WidgetStopConfigContextProvider = ({ children }: PropsWithChildren)
 
 	//
 	// D. Handle actions
+
+	const selectLabel = (label: string) => {
+		setSelectedLabel(label.trim());
+	};
 
 	const selectStopId = (stopId: string) => {
 		setSelectedStopId(stopId);
@@ -124,6 +131,9 @@ export const WidgetStopConfigContextProvider = ({ children }: PropsWithChildren)
 				pattern_ids: selectedPatternIds,
 				stop_id: selectedStopId,
 			},
+			settings: {
+				label: selectedLabel || null,
+			},
 			type: 'stop',
 		});
 		// Save the widget
@@ -141,12 +151,14 @@ export const WidgetStopConfigContextProvider = ({ children }: PropsWithChildren)
 		actions: {
 			deleteWidget,
 			saveWidget,
+			selectLabel,
 			selectStopId,
 			togglePatternId,
 			toggleSelectAll,
 		},
 		data: {
 			available_patterns: availablePatternsData,
+			selected_label: selectedLabel,
 			selected_pattern_ids: selectedPatternIds,
 			selected_stop: selectedStopData,
 			selected_stop_id: selectedStopId,
@@ -159,6 +171,7 @@ export const WidgetStopConfigContextProvider = ({ children }: PropsWithChildren)
 		selectedPatternIds,
 		selectedStopId,
 		availablePatternsData,
+		selectedLabel,
 		selectedStopData,
 		canSave,
 	]);

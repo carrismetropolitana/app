@@ -18,5 +18,8 @@ export const useStyles = () => {
 			gap: 1,
 			justifyContent: 'flex-start',
 		},
+		noDataContainer: {
+			backgroundColor: systemVariables.background[100],
+		},
 	});
 };

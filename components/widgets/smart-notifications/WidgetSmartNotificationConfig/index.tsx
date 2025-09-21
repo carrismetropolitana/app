@@ -4,18 +4,19 @@ import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { Container } from '@/components/layout/Container';
 import { LargeButton } from '@/components/layout/LargeButton';
 import { WidgetConfigHeader } from '@/components/widgets/common/WidgetConfigHeader';
+import { WidgetConfigLabelInput } from '@/components/widgets/common/WidgetConfigLabelInput';
 import { WidgetConfigSelectLine } from '@/components/widgets/common/WidgetConfigSelectLine';
 import { WidgetConfigSelectPattern } from '@/components/widgets/common/WidgetConfigSelectPattern';
 import { WidgetConfigSelectWaypoint } from '@/components/widgets/common/WidgetConfigSelectWaypoint';
 import { WidgetSmartNotificationConfigDistanceInput } from '@/components/widgets/smart-notifications/WidgetSmartNotificationConfigDistanceInput';
 import { WidgetSmartNotificationConfigSchedule } from '@/components/widgets/smart-notifications/WidgetSmartNotificationConfigSchedule';
 import { WidgetSmartNotificationConfigSeparator } from '@/components/widgets/smart-notifications/WidgetSmartNotificationConfigSeparator';
+import { WidgetSmartNotificationConfigWarning } from '@/components/widgets/smart-notifications/WidgetSmartNotificationConfigWarning';
 import { useWidgetSmartNotificationConfigContext } from '@/contexts/WidgetSmartNotificationConfig.context';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
-import { WidgetSmartNotificationConfigWarning } from '../WidgetSmartNotificationConfigWarning';
 import { useStyles } from './styles';
 
 /* * */
@@ -135,6 +136,13 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 			{/* * */}
 
 			<WidgetSmartNotificationConfigSeparator style="end" />
+
+			{/* * */}
+
+			<WidgetConfigLabelInput
+				onChange={widgetSmartNotificationConfigContext.actions.selectLabel}
+				value={widgetSmartNotificationConfigContext.data.selected_label}
+			/>
 
 			{/* * */}
 

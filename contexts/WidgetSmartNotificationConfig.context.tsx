@@ -16,6 +16,7 @@ interface WidgetSmartNotificationConfigContextState {
 		saveWidget: () => void
 		selectDistance: (distance: number) => void
 		selectEndTime: (timeInSeconds: number) => void
+		selectLabel: (label: string) => void
 		selectLineId: (lineId: string) => void
 		selectPatternId: (patternId: string) => void
 		selectStartTime: (timeInSeconds: number) => void
@@ -27,6 +28,7 @@ interface WidgetSmartNotificationConfigContextState {
 		available_waypoints: Waypoint[]
 		selected_distance: number
 		selected_end_time: number
+		selected_label: string
 		selected_line: Line | undefined
 		selected_line_id: string | undefined
 		selected_pattern_id: string | undefined
@@ -71,6 +73,7 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children }: Props
 	const [selectedWeekdays, setSelectedWeekdays] = useState<WidgetSmartNotification['properties']['weekdays'][number][]>([]);
 	const [selectedStartTime, setSelectedStartTime] = useState<number>(0);
 	const [selectedEndTime, setSelectedEndTime] = useState<number>(86400);
+	const [selectedLabel, setSelectedLabel] = useState<string>('');
 
 	const [availablePatternsData, setAvailablePatternsData] = useState<Pattern[]>([]);
 
@@ -165,6 +168,10 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children }: Props
 		setSelectedEndTime(timeInSeconds);
 	};
 
+	const selectLabel = (label: string) => {
+		setSelectedLabel(label.trim());
+	};
+
 	const saveWidget = () => {
 		// Skip if account data is not available
 		if (!accountContext.data.account) return;
@@ -186,6 +193,9 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children }: Props
 				stop_sequence: selectedWaypoint.stop_sequence,
 				weekdays: selectedWeekdays,
 			},
+			settings: {
+				label: selectedLabel || null,
+			},
 			type: 'smart_notification',
 		});
 		// Save the widget
@@ -205,6 +215,7 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children }: Props
 			saveWidget,
 			selectDistance,
 			selectEndTime,
+			selectLabel,
 			selectLineId,
 			selectPatternId,
 			selectStartTime,
@@ -216,6 +227,7 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children }: Props
 			available_waypoints: availableWaypointsData,
 			selected_distance: selectedDistance,
 			selected_end_time: selectedEndTime,
+			selected_label: selectedLabel,
 			selected_line: selectedLineData,
 			selected_line_id: selectedLineId,
 			selected_pattern_id: selectedPatternId,
@@ -232,6 +244,7 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children }: Props
 		selectedDistance,
 		selectedLineId,
 		selectedLineData,
+		selectedLabel,
 		selectedEndTime,
 		selectedStartTime,
 		availableWaypointsData,

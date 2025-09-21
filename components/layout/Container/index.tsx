@@ -1,7 +1,7 @@
 /* * */
 
 import { type PropsWithChildren } from 'react';
-import { ScrollView, View } from 'react-native';
+import { KeyboardAvoidingView, ScrollView, View } from 'react-native';
 
 import { useStyles } from './styles';
 
@@ -19,11 +19,13 @@ export function Container({ children }: PropsWithChildren) {
 	// B. Render components
 
 	return (
-		<ScrollView>
-			<View style={styles.container}>
-				{children}
-			</View>
-		</ScrollView>
+		<KeyboardAvoidingView behavior="position">
+			<ScrollView>
+				<View style={styles.container}>
+					{children}
+				</View>
+			</ScrollView>
+		</KeyboardAvoidingView>
 	);
 
 	//

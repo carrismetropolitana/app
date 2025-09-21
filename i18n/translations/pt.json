@@ -751,11 +751,21 @@
 		"virtualizedListAccessibilityLabel": "Lista de Paragens"
 	},
 	"widgets": {
+		"WidgetCardSmartNotificationHeader": {
+			"title": "Próximo {weekday}, às {start_time}"
+		},
+		"WidgetCardStopBodyArrivals": {
+			"no_data": "Nenhuma passagem prevista para hoje"
+		},
 		"WidgetCardStopHeader": {
 			"no_name": "Nome Indisponível"
 		},
 		"WidgetConfigHeader": {
 			"video_label": "Ver vídeo explicativo"
+		},
+		"WidgetConfigLabelInput": {
+			"label": "Etiqueta",
+			"placeholder": "ex. Casa, Trabalho..."
 		},
 		"WidgetConfigSelectLine": {
 			"label": "Procurar linha..."
@@ -852,6 +862,10 @@
 			"step_2": {
 				"description": "Pode escolher qualquer número de destinos a partir desta paragem.",
 				"title": "Selecione um destino"
+			},
+			"step_3": {
+				"description": "Por exemplo 'Casa' ou 'Trabalho'.",
+				"title": "Introduza uma etiqueta (opcional)"
 			},
 			"title": "Widget Paragem"
 		}

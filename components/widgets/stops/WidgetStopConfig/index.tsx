@@ -10,6 +10,7 @@ import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
+import { WidgetConfigLabelInput } from '../../common/WidgetConfigLabelInput';
 import { useStyles } from './styles';
 
 /* * */
@@ -70,6 +71,15 @@ export function WidgetStopConfig({ widgetId }: WidgetStopConfigProps) {
 				onToggleSelectAll={widgetStopConfigContext.actions.toggleSelectAll}
 				selectedPatternIds={widgetStopConfigContext.data.selected_pattern_ids}
 				title={t('step_2.title')}
+			/>
+
+			{/* * */}
+
+			<WidgetConfigLabelInput
+				description={t('step_3.description')}
+				onChange={widgetStopConfigContext.actions.selectLabel}
+				title={t('step_3.title')}
+				value={widgetStopConfigContext.data.selected_label}
 			/>
 
 			{/* * */}

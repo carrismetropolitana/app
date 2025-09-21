@@ -34,7 +34,7 @@ export function ArrivalRow({ data }: ArrivalRowProps) {
 	const router = useRouter();
 
 	//
-	// C. Transform data
+	// B. Transform data
 
 	const lineData = useMemo(() => {
 		// Skip if no data
@@ -46,17 +46,15 @@ export function ArrivalRow({ data }: ArrivalRowProps) {
 	}, [data]);
 
 	//
-	// B. Handle actions
+	// C. Handle actions
 
 	const handlePress = () => {
 		if (!data.vehicle_id) return;
 		router.push(`/vehicle/${data.vehicle_id}`);
 	};
 
-	console.log(data.status, data.estimated_arrival_unix, data.scheduled_arrival_unix);
-
 	//
-	// B. Render components
+	// D. Render components
 
 	if (data.status === 'realtime') {
 		return (

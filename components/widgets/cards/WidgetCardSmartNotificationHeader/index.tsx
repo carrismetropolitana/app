@@ -78,8 +78,6 @@ export function WidgetCardSmartNotificationHeader({ label, selectedStartTime, se
 		return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
 	}, [selectedStartTime]);
 
-	label = 'trabalho';
-
 	//
 	// C. Render components
 

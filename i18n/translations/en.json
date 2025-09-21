@@ -725,11 +725,18 @@
 		"WidgetCardSmartNotificationHeader": {
 			"title": "Next {weekday}, at {start_time}"
 		},
+		"WidgetCardStopBodyArrivals": {
+			"no_data": "No upcoming arrivals"
+		},
 		"WidgetCardStopHeader": {
 			"no_name": "Stop Name Unavailable"
 		},
 		"WidgetConfigHeader": {
 			"video_label": "Watch Explainer Video"
+		},
+		"WidgetConfigLabelInput": {
+			"label": "Label",
+			"placeholder": "ex. Home, Work..."
 		},
 		"WidgetConfigSelectLine": {
 			"label": "Search for a line..."
@@ -833,6 +840,10 @@
 			"step_2": {
 				"description": "You can choose any number of destinations starting from this stop.",
 				"title": "Select a destination"
+			},
+			"step_3": {
+				"description": "For example 'Home' or 'Work'.",
+				"title": "Enter a label (optional)"
 			},
 			"title": "Stop Widget"
 		}
