@@ -51,7 +51,7 @@ export function WidgetCard({ data, isDragging, onDragEnd, onDragStart }: WidgetC
 			<View style={[styles.container, isDragging && styles.containerIsDragging]}>
 
 				<View style={[styles.headerWrapper, data.settings.is_open && styles.headerWrapperIsOpen]}>
-					{data.type === 'stop' && <WidgetCardStopHeader label={data.settings.label ?? 'Trabalho'} stopId={data.properties.stop_id} /> }
+					{data.type === 'stop' && <WidgetCardStopHeader label={data.settings.label} stopId={data.properties.stop_id} /> }
 					{data.type === 'line' && <WidgetCardLineHeader patternId={data.properties.pattern_id} /> }
 					{data.type === 'smart_notification' && <WidgetCardSmartNotificationHeader label={data.settings.label} selectedStartTime={data.properties.start_time} selectedWeekdays={data.properties.weekdays} /> }
 					<WidgetCardOpenToggle isOpen={data.settings.is_open} />

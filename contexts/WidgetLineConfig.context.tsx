@@ -43,7 +43,7 @@ export function useWidgetLineConfigContext() {
 
 /* * */
 
-export const WidgetLineConfigContextProvider = ({ children }: PropsWithChildren) => {
+export const WidgetLineConfigContextProvider = ({ children, widgetId }: PropsWithChildren<{ widgetId?: string }>) => {
 	//
 
 	//
@@ -59,7 +59,7 @@ export const WidgetLineConfigContextProvider = ({ children }: PropsWithChildren)
 	const [availablePatternsData, setAvailablePatternsData] = useState<Pattern[]>([]);
 
 	//
-	// C. Transform data
+	// B. Transform data
 
 	const selectedLineData = useMemo(() => {
 		if (!selectedLineId) return undefined;
@@ -85,7 +85,24 @@ export const WidgetLineConfigContextProvider = ({ children }: PropsWithChildren)
 	}, [selectedPatternId, selectedLineId]);
 
 	//
-	// D. Handle actions
+	// C. Handle actions
+
+	useEffect(() => {
+		// Skip if no widget ID
+		if (!widgetId) return;
+		// Fetch existing widget data
+		const existingWidget = accountContext.data.account?.widgets.find(widget => widget._id === widgetId);
+		// Skip if not a line widget
+		if (existingWidget?.type !== 'line') return;
+		// Fetch pattern data to validate the widget
+		linesContext.actions.getValidPatternVersionForOperationalDate(existingWidget.properties.pattern_id).then((foundPatternData) => {
+			// Skip if no pattern data found
+			if (!foundPatternData) return;
+			// Set existing data
+			setSelectedLineId(foundPatternData.line_id);
+			setSelectedPatternId(existingWidget.properties.pattern_id);
+		});
+	}, [widgetId]);
 
 	const selectLineId = (lineId: string) => {
 		setSelectedLineId(lineId);
@@ -112,23 +129,12 @@ export const WidgetLineConfigContextProvider = ({ children }: PropsWithChildren)
 		accountContext.actions.update('widgets', [...accountContext.data.account.widgets, widgetObject]);
 	};
 
-	// const saveWidget = () => {
-	// 	// Skip if we don't have the required data
-	// 	if (!selectedLineId) return;
-	// 	if (!selectedPatternId) return;
-	// 	// Create the widget
-	// 	widgetContext.actions.createWidget({
-	// 		pattern_id: selectedPatternId,
-	// 		type: 'lines',
-	// 	});
-	// };
-
 	const deleteWidget = () => {
 		console.log('deleteWidget');
 	};
 
 	//
-	// E. Define context value
+	// D. Define context value
 
 	const contextValue: WidgetLineConfigContextState = useMemo(() => ({
 		actions: {

@@ -651,6 +651,10 @@
 			"stop": "Adicionar Paragem Favorita",
 			"title": "Adicionar Novo Widget"
 		},
+		"ProfileViewWidgetsList": {
+			"no_data": "Nenhum widget adicionado ainda",
+			"title": "Os teus Widgets"
+		},
 		"UserPersonaEdit": {
 			"go_back": "Voltar à persona anterior",
 			"randomize": "Gerar uma persona aleatória"

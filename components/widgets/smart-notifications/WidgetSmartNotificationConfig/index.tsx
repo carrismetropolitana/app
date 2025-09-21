@@ -135,7 +135,7 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 
 			{/* * */}
 
-			<WidgetSmartNotificationConfigSeparator style="end" />
+			<WidgetSmartNotificationConfigSeparator style="middle" />
 
 			{/* * */}
 
@@ -143,6 +143,10 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 				onChange={widgetSmartNotificationConfigContext.actions.selectLabel}
 				value={widgetSmartNotificationConfigContext.data.selected_label}
 			/>
+
+			{/* * */}
+
+			<WidgetSmartNotificationConfigSeparator style="end" />
 
 			{/* * */}
 

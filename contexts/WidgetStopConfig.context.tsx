@@ -47,7 +47,7 @@ export function useWidgetStopConfigContext() {
 
 /* * */
 
-export const WidgetStopConfigContextProvider = ({ children }: PropsWithChildren) => {
+export const WidgetStopConfigContextProvider = ({ children, widgetId }: PropsWithChildren<{ widgetId?: string }>) => {
 	//
 
 	//
@@ -92,6 +92,19 @@ export const WidgetStopConfigContextProvider = ({ children }: PropsWithChildren)
 
 	//
 	// D. Handle actions
+
+	useEffect(() => {
+		// Skip if no widget ID
+		if (!widgetId) return;
+		// Fetch existing widget data
+		const existingWidget = accountContext.data.account?.widgets.find(widget => widget._id === widgetId);
+		// Skip if not a stop widget
+		if (existingWidget?.type !== 'stop') return;
+		// Set existing data
+		setSelectedLabel(existingWidget.settings.label || '');
+		setSelectedStopId(existingWidget.properties.stop_id);
+		setSelectedPatternIds(existingWidget.properties.pattern_ids);
+	}, [widgetId]);
 
 	const selectLabel = (label: string) => {
 		setSelectedLabel(label.trim());

@@ -1,7 +1,7 @@
 /* * */
 
 import { useLocaleContext } from '@/contexts/Locale.context';
-import { useThemeContext } from '@/contexts/Theme.context';
+import { useSystemVariables } from '@/theme/global';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useMemo } from 'react';
 import { WebView } from 'react-native-webview';
@@ -16,8 +16,8 @@ export default function Page() {
 
 	const searchParams = useLocalSearchParams();
 	const localeContext = useLocaleContext();
-	const themeContext = useThemeContext();
 	const navigation = useNavigation();
+	const systemVariables = useSystemVariables();
 
 	//
 	// B. Transform data
@@ -26,11 +26,11 @@ export default function Page() {
 		navigation.setOptions({
 			headerShown: true,
 			headerStyle: {
-				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
+				backgroundColor: systemVariables.background[100],
 			},
 			headerTitle: '',
 		});
-	}, [navigation, themeContext.theme.mode]);
+	}, [navigation]);
 
 	const preparedUrl = useMemo(() => {
 		return `${searchParams.url}?locale=${localeContext.locale}`;

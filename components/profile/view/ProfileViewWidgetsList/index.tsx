@@ -6,6 +6,7 @@ import { type ListSectionItemProps } from '@/components/list/ListSectionItem';
 import { useAccountContext } from '@/contexts/Account.context';
 import { Icon123 } from '@tabler/icons-react-native';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 /* * */
 
@@ -16,6 +17,8 @@ export function ProfileViewWidgetsList() {
 	// A. Setup variables
 
 	const accountContext = useAccountContext();
+
+	const { t } = useTranslation('translation', { keyPrefix: 'profile.ProfileViewWidgetsList' });
 
 	//
 	// B. Transform data
@@ -29,7 +32,7 @@ export function ProfileViewWidgetsList() {
 			icon: <Icon123 />,
 			key: widget._id,
 			label: widget.settings.label ?? 'No label',
-			link: `/widgets/${widget.type}/${widget._id}`,
+			link: `/widgets/create/${widget.type}?widget_id=${widget._id}`,
 		}));
 	}, [accountContext.data.account?.widgets]);
 
@@ -37,13 +40,13 @@ export function ProfileViewWidgetsList() {
 	// C. Render components
 
 	if (!listItems.length) {
-		return <NoDataLabel text="No widgets added yet" />;
+		return <NoDataLabel text={t('no_data')} />;
 	}
 
 	return (
 		<ListSection
 			items={listItems}
-			title="title"
+			title={t('title')}
 		/>
 	);
 

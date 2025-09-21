@@ -56,7 +56,7 @@ export function useWidgetSmartNotificationConfigContext() {
 
 /* * */
 
-export const WidgetSmartNotificationConfigContextProvider = ({ children }: PropsWithChildren) => {
+export const WidgetSmartNotificationConfigContextProvider = ({ children, widgetId }: PropsWithChildren<{ widgetId?: string }>) => {
 	//
 
 	//
@@ -134,6 +134,34 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children }: Props
 
 	//
 	// D. Handle actions
+
+	useEffect(() => {
+		// Skip if no widget ID
+		if (!widgetId) return;
+		// Fetch existing widget data
+		const existingWidget = accountContext.data.account?.widgets.find(widget => widget._id === widgetId);
+		// Skip if not a smart notification widget
+		if (existingWidget?.type !== 'smart_notification') return;
+		// Fetch pattern data to validate the widget
+		linesContext.actions.getValidPatternVersionForOperationalDate(existingWidget.properties.pattern_id).then((foundPatternData) => {
+			// Skip if no pattern data found
+			if (!foundPatternData) return;
+			// Set existing data
+			setSelectedLineId(foundPatternData.line_id);
+			setSelectedPatternId(existingWidget.properties.pattern_id);
+			setSelectedStartTime(existingWidget.properties.start_time);
+			setSelectedEndTime(existingWidget.properties.end_time);
+			setSelectedDistance(existingWidget.properties.distance);
+			setSelectedWeekdays(existingWidget.properties.weekdays);
+			setSelectedLabel(existingWidget.settings.label || '');
+			// Set existing waypoint
+			const foundWaypoint = foundPatternData.path.find(waypoint => (
+				waypoint.stop_id === existingWidget.properties.stop_id
+				&& waypoint.stop_sequence === existingWidget.properties.stop_sequence
+			));
+			if (foundWaypoint) setSelectedWaypoint(foundWaypoint);
+		});
+	}, [widgetId]);
 
 	const selectLineId = (lineId: string) => {
 		setSelectedLineId(lineId);

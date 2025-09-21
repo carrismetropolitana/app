@@ -1,5 +1,6 @@
 /* * */
 
+import { Dates } from '@/core-replica';
 import { getServiceUrl } from '@/settings/service-urls';
 import { type Line, type Pattern, type Route } from '@carrismetropolitana/api-types/network';
 import { type OperationalDate } from '@tmlmobilidade/types';
@@ -14,7 +15,7 @@ interface LinesContextState {
 		getPatternDataById: (patternId: string) => Promise<Pattern[] | undefined>
 		getPatternVersionById: (patternId: string, version: string) => Promise<Pattern | undefined>
 		getRouteDataById: (routeId: string) => Route | undefined
-		getValidPatternVersionForOperationalDate: (patternId: string, operationalDate: OperationalDate) => Promise<Pattern | undefined>
+		getValidPatternVersionForOperationalDate: (patternId: string, operationalDate?: OperationalDate) => Promise<Pattern | undefined>
 	}
 	data: {
 		lines: Line[]
@@ -90,9 +91,10 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 		return versionData;
 	};
 
-	async function getValidPatternVersionForOperationalDate(patternId: string, operationalDate: OperationalDate): Promise<Pattern | undefined> {
+	async function getValidPatternVersionForOperationalDate(patternId: string, operationalDate?: OperationalDate): Promise<Pattern | undefined> {
 		// Skip if no operational date
-		if (!operationalDate) return;
+		if (!operationalDate) operationalDate = Dates.now('Europe/Lisbon').operational_date;
+		// Get pattern data
 		const patternData = await getPatternDataById(patternId);
 		if (!patternData) return;
 		const activePatterns: Pattern[] = [];

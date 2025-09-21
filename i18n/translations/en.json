@@ -562,6 +562,10 @@
 			"stop": "Add Stop Widget",
 			"title": "Add New Widget"
 		},
+		"ProfileViewWidgetsList": {
+			"no_data": "No widgets added yet",
+			"title": "Your Widgets"
+		},
 		"UserPersonaEdit": {
 			"go_back": "Go back to the previous persona",
 			"randomize": "Generate a random persona"
