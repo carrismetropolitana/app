@@ -85,3 +85,7 @@ yarn-error.*
 /app/Info.plist
 output.apks
 installFromAAB.sh
+
+
+# Build artifacts
+builds/
