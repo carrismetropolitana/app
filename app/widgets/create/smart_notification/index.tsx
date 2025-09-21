@@ -42,7 +42,7 @@ export default function Page() {
 
 	return (
 		<WidgetSmartNotificationConfigContextProvider widgetId={preparedWidgetId}>
-			<WidgetSmartNotificationConfig />
+			<WidgetSmartNotificationConfig widgetId={preparedWidgetId} />
 		</WidgetSmartNotificationConfigContextProvider>
 	);
 

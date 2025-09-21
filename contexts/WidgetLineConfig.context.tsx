@@ -125,12 +125,28 @@ export const WidgetLineConfigContextProvider = ({ children, widgetId }: PropsWit
 			},
 			type: 'line',
 		});
-		// Save the widget
-		accountContext.actions.update('widgets', [...accountContext.data.account.widgets, widgetObject]);
+		// Get a copy of existing widgets
+		const existingWidgets = [...accountContext.data.account.widgets];
+		// If we have a widget ID, we are editing an existing widget.
+		if (widgetId) {
+			// Filter out the widget to be updated
+			existingWidgets.filter(widget => widget._id !== widgetId);
+		}
+		// Append new data to the existing widgets array.
+		accountContext.actions.update('widgets', [...existingWidgets, widgetObject]);
 	};
 
 	const deleteWidget = () => {
-		console.log('deleteWidget');
+		// Skip if account data is not available
+		if (!accountContext.data.account) return;
+		// Skip if we don't have a widget ID
+		if (!widgetId) return;
+		// Get a copy of existing widgets
+		const existingWidgets = [...accountContext.data.account.widgets];
+		// Filter out the widget to be deleted
+		const updatedWidgets = existingWidgets.filter(widget => widget._id !== widgetId);
+		// Update account data
+		accountContext.actions.update('widgets', updatedWidgets);
 	};
 
 	//

@@ -41,6 +41,11 @@ export function WidgetStopConfig({ widgetId }: WidgetStopConfigProps) {
 		router.back();
 	};
 
+	const handleDelete = () => {
+		widgetStopConfigContext.actions.deleteWidget();
+		router.back();
+	};
+
 	//
 	// C. Render Components
 
@@ -101,7 +106,7 @@ export function WidgetStopConfig({ widgetId }: WidgetStopConfigProps) {
 				{widgetId && (
 					<LargeButton
 						label={t('actions.delete')}
-						onPress={widgetStopConfigContext.actions.deleteWidget}
+						onPress={handleDelete}
 						type="danger"
 					/>
 				)}

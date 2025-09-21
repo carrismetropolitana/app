@@ -42,7 +42,7 @@ export default function Page() {
 
 	return (
 		<WidgetStopConfigContextProvider widgetId={preparedWidgetId}>
-			<WidgetStopConfig />
+			<WidgetStopConfig widgetId={preparedWidgetId} />
 		</WidgetStopConfigContextProvider>
 	);
 

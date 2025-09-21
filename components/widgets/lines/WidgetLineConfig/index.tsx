@@ -40,6 +40,11 @@ export function WidgetLineConfig({ widgetId }: WidgetLineConfigProps) {
 		router.back();
 	};
 
+	const handleDelete = () => {
+		widgetLineConfigContext.actions.deleteWidget();
+		router.back();
+	};
+
 	//
 	// C. Render Components
 
@@ -90,7 +95,7 @@ export function WidgetLineConfig({ widgetId }: WidgetLineConfigProps) {
 				{widgetId && (
 					<LargeButton
 						label="Eliminar"
-						onPress={widgetLineConfigContext.actions.deleteWidget}
+						onPress={handleDelete}
 						type="danger"
 					/>
 				)}

@@ -47,6 +47,11 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 		router.back();
 	};
 
+	const handleDelete = () => {
+		widgetSmartNotificationConfigContext.actions.deleteWidget();
+		router.back();
+	};
+
 	//
 	// C. Render Components
 
@@ -178,7 +183,7 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 				{widgetId && (
 					<LargeButton
 						label="Eliminar"
-						onPress={widgetSmartNotificationConfigContext.actions.deleteWidget}
+						onPress={handleDelete}
 						type="danger"
 					/>
 				)}

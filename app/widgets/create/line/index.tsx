@@ -42,7 +42,7 @@ export default function Page() {
 
 	return (
 		<WidgetLineConfigContextProvider widgetId={preparedWidgetId}>
-			<WidgetLineConfig />
+			<WidgetLineConfig widgetId={preparedWidgetId} />
 		</WidgetLineConfigContextProvider>
 	);
 
