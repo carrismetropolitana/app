@@ -44,7 +44,6 @@ export default function Page() {
 		<StopsDetailContextProvider>
 			<LinesDetailContextProvider lineIdParams={line_id}>
 				<LinesDetail />
-				<TabBarOnly />
 			</LinesDetailContextProvider>
 		</StopsDetailContextProvider>
 	);

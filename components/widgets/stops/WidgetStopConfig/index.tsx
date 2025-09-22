@@ -55,7 +55,7 @@ export function WidgetStopConfig({ widgetId }: WidgetStopConfigProps) {
 			<WidgetConfigHeader
 				description={t('description')}
 				title={t('title')}
-				videoUrl="https://carrismetropolitana.pt/app-view/widgets/videos/stops"
+				videoUrl="/account/widgets/stop/video"
 			/>
 
 			{/* * */}

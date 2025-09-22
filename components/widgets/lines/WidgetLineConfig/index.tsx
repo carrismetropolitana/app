@@ -54,7 +54,7 @@ export function WidgetLineConfig({ widgetId }: WidgetLineConfigProps) {
 			<WidgetConfigHeader
 				description={t('description')}
 				title={t('title')}
-				videoUrl="https://carrismetropolitana.pt/app-view/widgets/videos/lines"
+				videoUrl="/account/widgets/line/video"
 			/>
 
 			{/* * */}

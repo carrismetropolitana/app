@@ -109,17 +109,22 @@
 		},
 		"title": "Cookies Policy"
 	},
-	"TestingNeedWarning": {
-		"TestingNeedWarningTextAccessibilityHint": "This is a warning ",
-		"TestingNeedWarningTextAccessibilityLabel": "Please test this functionality before using it with trust. It may be necessary to adjust the timming needed to garantee that it arrives to the place",
-		"warningText": "Please test this functionality before utilizing it with full trust. It may be needed to adjust the necessary times to garantee that you'll reach the the desired stop.",
-		"warningTitle": "Warning",
-		"warningTitleAccessibilityHint": "This is a warning title ",
-		"warningTitleAccessibilityLabel": "Attention"
-	},
-	"accordionToggle": {
-		"accessibilityHint": "This button expands or collapses the selected widget",
-		"accessibilityLabel": "Button to expand or collapse the widget"
+	"_app": {
+		"name": "Carris Metropolitana",
+		"sitemap": {
+			"home": {
+				"title": "Home"
+			},
+			"home/account": {
+				"title": "Account"
+			},
+			"home/account/profile": {
+				"title": "Profile"
+			},
+			"home/account/widgets": {
+				"title": "Widgets"
+			}
+		}
 	},
 	"addfavoriteline": {
 		"changeLineAccessibilityHint": "This element is a button to select a line",
@@ -189,6 +194,9 @@
 		}
 	},
 	"common": {
+		"CloseButton": {
+			"title": "Close"
+		},
 		"LineSearchBar": {
 			"placeholder": "Search by name, number..."
 		},

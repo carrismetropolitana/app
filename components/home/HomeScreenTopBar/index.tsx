@@ -27,7 +27,7 @@ export function HomeScreenTopBar() {
 				? <Image resizeMode="contain" source={{ uri: 'https://carrismetropolitana.pt/assets/header/static/cmet-header-light@3x.png' }} style={styles.logo} />
 				: <Image resizeMode="contain" source={{ uri: 'https://carrismetropolitana.pt/assets/header/static/cmet-header-dark@3x.png' }} style={styles.logo} />}
 
-			<TouchableOpacity onPress={() => router.push('/profile')}>
+			<TouchableOpacity onPress={() => router.push('/account')}>
 				<UserPersona size="md" />
 			</TouchableOpacity>
 

@@ -63,7 +63,7 @@ export function ProfileViewPersona() {
 			<Button
 				buttonStyle={styles.button}
 				containerStyle={styles.buttonContainer}
-				onPress={() => router.push('/profile/edit')}
+				onPress={() => router.push('/account/profile')}
 				title={t('edit_profile')}
 				titleStyle={styles.buttonTitle}
 			/>

@@ -5,14 +5,15 @@ import { OfflineScreen } from '@/components/OfflineScreen';
 import { useSystemVariables } from '@/theme/global';
 import { useNetInfo } from '@react-native-community/netinfo';
 import { IconArrowLoopRight, IconDots, IconMap, IconUserCircle } from '@tabler/icons-react-native';
-import { Tabs } from 'expo-router';
+import { Tabs, useNavigation } from 'expo-router';
+import { useEffect } from 'react';
 import { View } from 'react-native';
 
-import { useStyles } from './styles';
+import { useStyles } from '../../theme/styles';
 
 /* * */
 
-export default function RootLayout() {
+export default function Layout() {
 	//
 
 	//
@@ -20,8 +21,17 @@ export default function RootLayout() {
 
 	const netInfo = useNetInfo();
 
+	const navigation = useNavigation();
+
 	const styles = useStyles();
 	const systemVariables = useSystemVariables();
+
+	useEffect(() => {
+		navigation.setOptions({
+			headerShown: true,
+			headerTitle: 'here',
+		});
+	}, [navigation]);
 
 	//
 	// B. Render components

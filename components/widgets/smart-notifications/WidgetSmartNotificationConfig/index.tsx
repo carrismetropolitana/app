@@ -61,7 +61,7 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 			<WidgetConfigHeader
 				description={t('description')}
 				title={t('title')}
-				videoUrl="https://carrismetropolitana.pt/app-view/widgets/videos/smart-notifications"
+				videoUrl="/account/widgets/smart_notification/video"
 			/>
 
 			{/* * */}

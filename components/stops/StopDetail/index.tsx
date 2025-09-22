@@ -33,7 +33,6 @@ export function StopDetail() {
 				<StopDetailLineGoTrough />
 				{/* <StopDetailCharacterization /> */}
 			</ScrollView>
-			<TabBarOnly />
 		</View>
 	);
 

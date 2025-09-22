@@ -33,7 +33,7 @@ export function WidgetConfigHeader({ description, title, videoUrl }: WidgetStopH
 			icon: <IconPlayerPlayFilled color="#3D85C6" fill="#3D85C6" size={24} />,
 			key: 'video',
 			label: t('video_label'),
-			link: `/webview?url=${encodeURIComponent(videoUrl)}`,
+			link: videoUrl,
 		},
 	];
 

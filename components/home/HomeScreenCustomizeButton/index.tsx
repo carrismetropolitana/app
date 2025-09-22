@@ -23,7 +23,7 @@ export function HomeScreenCustomizeButton() {
 
 	return (
 		<View style={styles.container}>
-			<TouchableOpacity onPress={() => router.push('/profile')}>
+			<TouchableOpacity onPress={() => router.push('/account')}>
 				<Text style={styles.button}>{t('label')}</Text>
 			</TouchableOpacity>
 		</View>

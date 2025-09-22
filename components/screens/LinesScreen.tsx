@@ -61,7 +61,7 @@ export function LinesScreen() {
 
 	const handlePress = (item: Line) => {
 		profileContext.actions.addRecentLines(item);
-		router.push(`/line/${item.id}`);
+		router.push(`/lines/${item.id}`);
 	};
 	useEffect(() => {
 		AccessibilityInfo.announceForAccessibility('LINHAS');

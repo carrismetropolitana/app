@@ -1,43 +1,107 @@
 /* * */
 
-import 'react-native-reanimated';
 import '@/i18n';
+import 'react-native-reanimated';
 import 'expo-dev-client';
 
 /* * */
 
-import { ThemeProvider } from '@/contexts/Theme.context';
-import { ConfigProviders } from '@/providers/config-providers';
-import { DataProviders } from '@/providers/data-providers';
-import { MapProviders } from '@/providers/map-providers';
-import { PrivacyProviders } from '@/providers/privacy-providers';
-import { ProfileProviders } from '@/providers/profile-providers';
-// import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import { NativeProviders } from '@/providers/native-providers';
-import { Stack } from 'expo-router';
+import { HapticTab } from '@/components/HapticTab';
+import { OfflineScreen } from '@/components/OfflineScreen';
+import { AllProviders } from '@/providers/all-providers';
+import { useSystemVariables } from '@/theme/global';
+import { useNetInfo } from '@react-native-community/netinfo';
+import { IconArrowLoopRight, IconDots, IconMap, IconUserCircle } from '@tabler/icons-react-native';
+import { Tabs } from 'expo-router';
+import { View } from 'react-native';
+
+import { useStyles } from '../theme/styles';
 
 /* * */
 
 export default function RootLayout() {
+	//
+
+	//
+	// A. Setup variables
+
+	const netInfo = useNetInfo();
+
+	const styles = useStyles();
+	const systemVariables = useSystemVariables();
+
+	//
+	// B. Render components
+
+	if (netInfo.isConnected === false) {
+		return <OfflineScreen />;
+	}
+
 	return (
-		<NativeProviders>
-			<ConfigProviders>
-				<PrivacyProviders>
-					<DataProviders>
-						<ProfileProviders>
-							<MapProviders>
-								{/* <BottomSheetModalProvider> */}
-								<ThemeProvider>
-									<Stack>
-										<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-									</Stack>
-								</ThemeProvider>
-								{/* </BottomSheetModalProvider> */}
-							</MapProviders>
-						</ProfileProviders>
-					</DataProviders>
-				</PrivacyProviders>
-			</ConfigProviders>
-		</NativeProviders>
+		<AllProviders>
+			<Tabs
+				screenOptions={{
+					headerShown: false,
+					tabBarActiveTintColor: systemVariables.text[100],
+					tabBarButton: HapticTab,
+					tabBarShowLabel: false,
+					tabBarStyle: styles.tabBar,
+				}}
+			>
+				<Tabs.Screen
+					name="(home)"
+					options={{
+						tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
+							<View style={[styles.iconWrapper, focused && styles.iconWrapperIsFocused]}>
+								<IconUserCircle color={focused ? 'black' : color} size={26} />
+							</View>
+						),
+					}}
+				/>
+				<Tabs.Screen
+					name="lines"
+					options={{
+						tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
+							<View style={[styles.iconWrapper, focused && styles.iconWrapperIsFocused]}>
+								<IconArrowLoopRight color={focused ? 'black' : color} size={26} />
+							</View>
+						),
+					}}
+				/>
+				<Tabs.Screen
+					name="stops"
+					options={{
+						tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
+							<View style={[styles.iconWrapper, focused && styles.iconWrapperIsFocused]}>
+								<IconMap color={focused ? 'black' : color} size={26} />
+							</View>
+						),
+					}}
+				/>
+				<Tabs.Screen
+					name="more"
+					options={{
+						tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
+							<View style={[styles.iconWrapper, focused && styles.iconWrapperIsFocused]}>
+								<IconDots color={focused ? 'black' : color} size={26} />
+							</View>
+						),
+					}}
+				/>
+				<Tabs.Screen
+					name="vehicles"
+					options={{
+						href: null,
+						tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
+							<View style={[styles.iconWrapper, focused && styles.iconWrapperIsFocused]}>
+								<IconDots color={focused ? 'black' : color} size={26} />
+							</View>
+						),
+					}}
+				/>
+			</Tabs>
+		</AllProviders>
 	);
+
+	//
 }

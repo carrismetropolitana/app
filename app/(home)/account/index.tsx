@@ -1,6 +1,6 @@
 /* * */
 
-import { HomeScreen } from '@/components/home/HomeScreen';
+import { ProfileView } from '@/components/profile/view/ProfileView';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -15,22 +15,19 @@ export default function Page() {
 
 	const navigation = useNavigation();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'home.Page' });
+	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.home/account' });
 
 	//
 	// B. Handle actions
 
 	useEffect(() => {
-		navigation.setOptions({
-			headerShown: false,
-			headerTitle: t('title'),
-		});
+		navigation.setOptions({ headerShown: true, headerTitle: t('title') });
 	}, [navigation]);
 
 	//
 	// C. Render components
 
-	return <HomeScreen />;
+	return <ProfileView />;
 
 	//
 }

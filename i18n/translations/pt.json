@@ -279,6 +279,9 @@
 		}
 	},
 	"common": {
+		"CloseButton": {
+			"title": "Fechar"
+		},
 		"LineSearchBar": {
 			"placeholder": "Pesquisar por nome, número..."
 		},
