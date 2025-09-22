@@ -1,7 +1,7 @@
 /* * */
 
 import { type BottomTabBarButtonProps } from '@react-navigation/bottom-tabs';
-import * as Haptics from 'expo-haptics';
+import Haptics from 'expo-haptics';
 import { type GestureResponderEvent, Pressable } from 'react-native';
 
 /* * */
