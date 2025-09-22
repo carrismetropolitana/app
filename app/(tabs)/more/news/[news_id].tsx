@@ -1,6 +1,6 @@
 /* * */
 
-import { AppWebView } from '@/components/AppWebView';
+import { AppWebView } from '@/components/layout/AppWebView';
 import { getServiceUrl } from '@/settings/service-urls';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useMemo } from 'react';
