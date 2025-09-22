@@ -23,7 +23,7 @@ export function MoreSectionAlerts() {
 			icon: <IconAlertTriangle color={systemVariables.text[100]} size={32} />,
 			key: 'alerts',
 			label: t('items.service_alerts'),
-			link: '/webview?url=https://carrismetropolitana.pt/alerts',
+			link: '/more/alerts',
 		},
 	];
 

@@ -117,6 +117,35 @@
 		"warningTitleAccessibilityHint": "Este elemento é um título de aviso",
 		"warningTitleAccessibilityLabel": "Atenção"
 	},
+	"_app": {
+		"name": "Carris Metropolitana",
+		"sitemap": {
+			"home": {
+				"title": "Início"
+			},
+			"home/account": {
+				"title": "Conta"
+			},
+			"home/account/profile": {
+				"title": "Perfil"
+			},
+			"home/account/widgets": {
+				"title": "Widgets"
+			},
+			"more": {
+				"title": "Mais"
+			},
+			"more/alerts": {
+				"title": "Alertas de Serviço"
+			},
+			"more/alerts/[alert_id]": {
+				"title": "Alerta de Serviço"
+			},
+			"more/news/[news_id]": {
+				"title": "Notícia"
+			}
+		}
+	},
 	"accordionToggle": {
 		"accessibilityHint": "Este botão expande ou colapsa o widget selecionado",
 		"accessibilityLabel": "Botão para expandir ou colapsar o widget"
@@ -574,10 +603,40 @@
 		"MoreNews": {
 			"loading": "A carregar notícias..."
 		},
+		"MoreSectionAbout": {
+			"heading": "Carris Metropolitana",
+			"items": {
+				"about": "Sobre a CMetropolitana",
+				"drivers": "Recrutamento de Motoristas",
+				"legal": "Aviso Legal",
+				"metrics": "A nossa Operação ao Vivo",
+				"open-data": "Dados Abertos",
+				"privacy": "Privacidade",
+				"vehicles": "Frota"
+			}
+		},
 		"MoreSectionAlerts": {
 			"heading": "Alertas",
 			"items": {
 				"service_alerts": "Alertas de Serviço"
+			}
+		},
+		"MoreSectionFares": {
+			"heading": "Tarifas",
+			"items": {
+				"cards": "Passe Mensal",
+				"helpdesks": "Onde Comprar",
+				"tap-and-ride": "Tap & Ride",
+				"tickets": "Bilhetes Ocasionais"
+			}
+		},
+		"MoreSectionSupport": {
+			"heading": "Suporte",
+			"items": {
+				"contacts": "Contactos",
+				"faq": "Perguntas Frequentes",
+				"lost_and_found": "Perdidos e Achados",
+				"stores": "Lojas e Rede de Agentes"
 			}
 		},
 		"Page": {

@@ -18,6 +18,12 @@ const SERVICE_URLS = Object.freeze({
 		staging: 'https://api.carrismetropolitana.pt',
 	},
 
+	app_view: {
+		development: 'localhost:3000',
+		production: 'https://carrismetropolitana.pt/app-view',
+		staging: 'https://staging.carrismetropolitana.pt/app-view',
+	},
+
 	assets: {
 		development: 'localhost:3000',
 		production: 'https://storage.carrismetropolitana.pt/static',
@@ -30,10 +36,22 @@ const SERVICE_URLS = Object.freeze({
 		staging: 'https://backoffice.carrismetropolitana.pt',
 	},
 
+	tap_and_ride: {
+		development: 'localhost:3000',
+		production: 'https://tap-and-ride.carrismetropolitana.pt',
+		staging: 'https://tap-and-ride.carrismetropolitana.pt',
+	},
+
 	tts: {
 		development: 'localhost:3000',
 		production: 'https://storage.carrismetropolitana.pt/static',
 		staging: 'https://storage.carrismetropolitana.pt/static',
+	},
+
+	website: {
+		development: 'localhost:3000',
+		production: 'https://carrismetropolitana.pt',
+		staging: 'https://staging.carrismetropolitana.pt',
 	},
 
 });

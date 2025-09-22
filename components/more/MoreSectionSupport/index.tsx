@@ -23,25 +23,25 @@ export function MoreSectionSupport() {
 			icon: <IconHelpHexagon color={systemVariables.text[100]} size={32} />,
 			key: 'faq',
 			label: t('items.faq'),
-			link: '/webview?url=https://www.carrismetropolitana.pt/faq',
+			link: '/more/support/faq',
 		},
 		{
 			icon: <IconUmbrella color={systemVariables.text[100]} size={32} />,
 			key: 'lost_and_found',
 			label: t('items.lost_and_found'),
-			link: '/webview?url=https://www.carrismetropolitana.pt/lost-and-found',
+			link: '/more/support/lost-and-found',
 		},
 		{
 			icon: <IconBuildingStore color={systemVariables.text[100]} size={32} />,
 			key: 'stores',
 			label: t('items.stores'),
-			link: '/webview?url=https://www.carrismetropolitana.pt/stores',
+			link: '/more/support/stores',
 		},
 		{
 			icon: <IconMessages color={systemVariables.text[100]} size={32} />,
 			key: 'contacts',
 			label: t('items.contacts'),
-			link: '/webview?url=https://www.carrismetropolitana.pt/app-ios/stores',
+			link: '/more/support/contacts',
 		},
 	];
 

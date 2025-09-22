@@ -1,10 +1,10 @@
 /* * */
 
 import { AppWebView } from '@/components/AppWebView';
-import { CloseButton } from '@/components/common/CloseButton';
 import { getServiceUrl } from '@/settings/service-urls';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 /* * */
 
@@ -16,27 +16,22 @@ export default function Page() {
 
 	const navigation = useNavigation();
 
+	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.more/fares/tap-and-ride' });
+
 	//
 	// B. Transform data
 
 	useEffect(() => {
 		navigation.setOptions({
-			headerRight: () => <CloseButton />,
 			headerShown: true,
-			headerTitle: '',
-			presentation: 'modal',
+			headerTitle: t('title'),
 		});
 	}, [navigation]);
 
 	//
 	// C. Render components
 
-	return (
-		<AppWebView
-			mediaPlaybackRequiresUserAction={false}
-			url={`${getServiceUrl('app_view')}/widgets/videos/lines`}
-		/>
-	);
+	return <AppWebView url={getServiceUrl('tap_and_ride')} />;
 
 	//
 }

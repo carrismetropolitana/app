@@ -1,11 +1,10 @@
 /* * */
 
+import { AppWebView } from '@/components/AppWebView';
 import { CloseButton } from '@/components/common/CloseButton';
-import { useLocaleContext } from '@/contexts/Locale.context';
-import { useSystemVariables } from '@/theme/global';
+import { getServiceUrl } from '@/settings/service-urls';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
-import { WebView } from 'react-native-webview';
 
 /* * */
 
@@ -16,8 +15,6 @@ export default function Page() {
 	// A. Setup variables
 
 	const navigation = useNavigation();
-	const localContext = useLocaleContext();
-	const systemVariables = useSystemVariables();
 
 	//
 	// B. Transform data
@@ -35,11 +32,9 @@ export default function Page() {
 	// C. Render components
 
 	return (
-		<WebView
+		<AppWebView
 			mediaPlaybackRequiresUserAction={false}
-			source={{ uri: `https://carrismetropolitana.pt/app-view/widgets/videos/stops?locale=${localContext.locale}` }}
-			style={{ backgroundColor: systemVariables.background[200] }}
-			allowsFullscreenVideo
+			url={`${getServiceUrl('app_view')}/widgets/videos/stop`}
 		/>
 	);
 

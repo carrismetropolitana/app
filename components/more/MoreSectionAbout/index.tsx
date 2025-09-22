@@ -3,7 +3,7 @@
 import { ListSection } from '@/components/list/ListSection';
 import { type ListSectionItemProps } from '@/components/list/ListSectionItem';
 import { useSystemVariables } from '@/theme/global';
-import { IconChartBarPopular, IconGavel, IconHomeStar, IconLockSquare, IconSpeakerphone, IconUserHeart } from '@tabler/icons-react-native';
+import { IconBus, IconChartBar, IconGavel, IconHomeSpark, IconLockSquare, IconPrompt, IconUserHeart } from '@tabler/icons-react-native';
 import { useTranslation } from 'react-i18next';
 
 /* * */
@@ -20,40 +20,46 @@ export function MoreSectionAbout() {
 
 	const LIST_ITEMS: ListSectionItemProps[] = [
 		{
-			icon: <IconHomeStar color={systemVariables.text[100]} size={32} />,
+			icon: <IconHomeSpark color={systemVariables.text[100]} size={32} />,
 			key: 'about',
 			label: t('items.about'),
-			link: '/webview?url=https://carrismetropolitana.pt/about',
+			link: '/more/about',
 		},
 		{
-			icon: <IconChartBarPopular color={systemVariables.text[100]} size={32} />,
+			icon: <IconChartBar color={systemVariables.text[100]} size={32} />,
 			key: 'metrics',
 			label: t('items.metrics'),
-			link: '/webview?url=https://carrismetropolitana.pt/metrics',
+			link: '/more/about/metrics',
 		},
 		{
-			icon: <IconSpeakerphone color={systemVariables.text[100]} size={32} />,
-			key: 'opendata',
-			label: t('items.opendata'),
-			link: '/webview?url=https://carrismetropolitana.pt/opendata',
+			icon: <IconPrompt color={systemVariables.text[100]} size={32} />,
+			key: 'open-data',
+			label: t('items.open-data'),
+			link: '/more/about/open-data',
 		},
 		{
 			icon: <IconUserHeart color={systemVariables.text[100]} size={32} />,
 			key: 'drivers',
 			label: t('items.drivers'),
-			link: '/webview?url=https://carrismetropolitana.pt/drivers',
+			link: '/more/about/drivers',
+		},
+		{
+			icon: <IconBus color={systemVariables.text[100]} size={32} />,
+			key: 'vehicles',
+			label: t('items.vehicles'),
+			link: '/more/about/vehicles',
 		},
 		{
 			icon: <IconLockSquare color={systemVariables.text[100]} size={32} />,
 			key: 'privacy',
 			label: t('items.privacy'),
-			link: '/webview?url=https://www.carrismetropolitana.pt/privacy',
+			link: '/more/about/privacy',
 		},
 		{
 			icon: <IconGavel color={systemVariables.text[100]} size={32} />,
 			key: 'legal',
 			label: t('items.legal'),
-			link: '/webview?url=https://www.carrismetropolitana.pt/legal',
+			link: '/more/about/legal',
 		},
 	];
 

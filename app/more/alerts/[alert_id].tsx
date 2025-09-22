@@ -17,7 +17,7 @@ export default function Page() {
 	const navigation = useNavigation();
 	const searchParams = useLocalSearchParams();
 
-	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.more/news/[news_id]' });
+	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.more/alerts/[alert_id]' });
 
 	//
 	// B. Transform data
@@ -29,16 +29,16 @@ export default function Page() {
 		});
 	}, [navigation]);
 
-	const preparedNewsId = useMemo(() => {
-		if (!searchParams.news_id) return;
-		if (Array.isArray(searchParams.news_id)) return searchParams.news_id[0];
-		return searchParams.news_id;
-	}, [searchParams.news_id]);
+	const preparedAlertId = useMemo(() => {
+		if (!searchParams.alert_id) return;
+		if (Array.isArray(searchParams.alert_id)) return searchParams.alert_id[0];
+		return searchParams.alert_id;
+	}, [searchParams.alert_id]);
 
 	//
 	// C. Render components
 
-	return <AppWebView url={`${getServiceUrl('app_view')}/news/${preparedNewsId}`} />;
+	return <AppWebView url={`${getServiceUrl('app_view')}/alerts/${preparedAlertId}`} />;
 
 	//
 }

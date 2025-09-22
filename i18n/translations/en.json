@@ -126,6 +126,60 @@
 			},
 			"more": {
 				"title": "More"
+			},
+			"more/about": {
+				"title": "About CMetropolitana"
+			},
+			"more/about/drivers": {
+				"title": "Become a Driver"
+			},
+			"more/about/legal": {
+				"title": "Legal Notice"
+			},
+			"more/about/metrics": {
+				"title": "Our Operation Live"
+			},
+			"more/about/open-data": {
+				"title": "Open Data"
+			},
+			"more/about/privacy": {
+				"title": "Privacy Policy"
+			},
+			"more/about/vehicles": {
+				"title": "Fleet"
+			},
+			"more/alerts": {
+				"title": "Service Alerts"
+			},
+			"more/alerts/[alert_id]": {
+				"title": "Service Alert"
+			},
+			"more/fares/cards": {
+				"title": "Monthly Pass"
+			},
+			"more/fares/helpdesks": {
+				"title": "Where to Buy"
+			},
+			"more/fares/tap-and-ride": {
+				"title": "Tap & Ride"
+			},
+			"more/fares/tickets": {
+				"title": "Occasional Tickets"
+			},
+			"more/news/[news_id]": {
+				"title": "News"
+			},
+			"more/support/contacts": {
+				"title": "Contacts"
+			},
+			"more/support/faq": {
+				"title": "F.A.Q."
+			},
+			"more/support/lost-and-found": {
+				"title": "Lost and Found"
+			},
+			"more/support/stores": {
+				"title": "Stores"
 			}
 		}
 	},
@@ -301,9 +355,6 @@
 	"home": {
 		"HomeScreenCustomizeButton": {
 			"label": "Customize"
-		},
-		"Page": {
-			"title": "Home"
 		}
 	},
 	"homepage": {
@@ -497,14 +548,24 @@
 				"drivers": "Become a Driver",
 				"legal": "Legal Notice",
 				"metrics": "Our Operation Live",
-				"opendata": "Open Data",
-				"privacy": "Privacy"
+				"open-data": "Open Data",
+				"privacy": "Privacy",
+				"vehicles": "Fleet"
 			}
 		},
 		"MoreSectionAlerts": {
 			"heading": "Alerts",
 			"items": {
 				"service_alerts": "Service Alerts"
+			}
+		},
+		"MoreSectionFares": {
+			"heading": "Fares",
+			"items": {
+				"cards": "Monthly Pass",
+				"helpdesks": "Where to buy",
+				"tap-and-ride": "Tap & Ride",
+				"tickets": "Occasional Tickets"
 			}
 		},
 		"MoreSectionSupport": {
@@ -515,34 +576,7 @@
 				"lost_and_found": "Lost and Found",
 				"stores": "Stores and Agents"
 			}
-		},
-		"MoreSectionTariffs": {
-			"heading": "Tarifs",
-			"items": {
-				"cards": "Monthly Tickets",
-				"helpdesks": "Where to buy",
-				"tickets": "Ocasional Tickets"
-			}
-		},
-		"Page": {
-			"title": "More"
-		},
-		"about_cm_list_hint": "This section contains links to pages with information about carris metropolitana",
-		"about_cm_list_label": "Usefull links about Carris Metropolitana",
-		"alert_list_hint": "This section refers to alerts",
-		"alert_list_label": "Usefull links about alerts",
-		"support_list_hint": "This section referes to support",
-		"support_list_label": "Usefull links about support",
-		"tarifs_list_hint": "This section refers to tarifs",
-		"tarifs_list_label": "Usefull links about tarifs",
-		"toggle_debug": "Toggle Debug Mode",
-		"toggle_debug_hint": "Click this button to toggle debug mode ",
-		"toggle_debug_label": "Button to toggle debug mode",
-		"untoggle_debug": "Deactivate Debug Mode",
-		"usefullLinksHint": "This link redirects to info related to {title}",
-		"usefullLinksLabel": "Link to {title}",
-		"version_hint": "App Version",
-		"version_label": "App version {version}"
+		}
 	},
 	"pathWaypoint": {
 		"headerFacilityAccessibilityHint": "This elemtn is a text that indicates the facilities available close to the stop ",
@@ -553,9 +587,6 @@
 		"headerLocalityAccessibilityLabel": "Locality of the stop {locality}"
 	},
 	"profile": {
-		"Page": {
-			"title": "Profile"
-		},
 		"ProfileViewPersona": {
 			"activity": {
 				"default": "Traveling",
