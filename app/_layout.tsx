@@ -38,9 +38,16 @@ export default function RootLayout() {
 				headerShown: false,
 				headerStyle: { backgroundColor: systemVariables.background[100] },
 				headerTitleStyle: { color: systemVariables.text[100] },
-				presentation: 'modal',
 			}}
-			/>
+			>
+				<Stack.Screen
+					name="vehicles/[vehicle_id]"
+					options={{
+						headerShown: true,
+						presentation: 'modal',
+					}}
+				/>
+			</Stack>
 		</AllProviders>
 	);
 

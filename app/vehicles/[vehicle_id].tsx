@@ -29,7 +29,6 @@ export default function Page() {
 	useEffect(() => {
 		navigation.setOptions({
 			headerRight: () => <CloseButton />,
-			headerShown: true,
 			headerTitle: t('title'),
 		});
 	}, [navigation]);
