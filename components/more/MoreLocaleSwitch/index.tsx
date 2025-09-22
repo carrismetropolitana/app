@@ -30,22 +30,22 @@ export function MoreLocaleSwitch() {
 		<View accessibilityHint={t('hint')} style={styles.container}>
 
 			<TouchableOpacity
-				disabled={localeContext.locale === 'en'}
-				onPress={localeContext.actions.changeToEnglish}
-				style={[styles.button, { opacity: localeContext.locale === 'en' ? 0.5 : 1 }]}
+				disabled={localeContext.data.locale === 'en'}
+				onPress={() => localeContext.actions.changeLanguage('en')}
+				style={[styles.button, { opacity: localeContext.data.locale === 'en' ? 0.5 : 1 }]}
 			>
-				{localeContext.locale === 'en' && <IconCheck color={systemVariables.text[100]} />}
+				{localeContext.data.locale === 'en' && <IconCheck color={systemVariables.text[100]} />}
 				<Text style={styles.buttonLabel}>
 					{t('en')}
 				</Text>
 			</TouchableOpacity>
 
 			<TouchableOpacity
-				disabled={localeContext.locale === 'pt'}
-				onPress={localeContext.actions.changeToPortuguese}
-				style={[styles.button, { opacity: localeContext.locale === 'pt' ? 0.5 : 1 }]}
+				disabled={localeContext.data.locale === 'pt'}
+				onPress={() => localeContext.actions.changeLanguage('pt')}
+				style={[styles.button, { opacity: localeContext.data.locale === 'pt' ? 0.5 : 1 }]}
 			>
-				{localeContext.locale === 'pt' && <IconCheck color={systemVariables.text[100]} />}
+				{localeContext.data.locale === 'pt' && <IconCheck color={systemVariables.text[100]} />}
 				<Text style={styles.buttonLabel}>
 					{t('pt')}
 				</Text>

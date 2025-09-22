@@ -1,79 +1,92 @@
-// LocaleContext.tsx
+/* * */
+
 import i18n from '@/i18n';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
-export interface LocaleContextState {
+/* * */
+
+const LOCAL_STORAGE_KEYS = {
+	locale: 'locale',
+};
+
+/* * */
+
+interface LocaleContextState {
 	actions: {
 		changeLanguage: (lang: string) => void
-		changeToEnglish: () => void
-		changeToPortuguese: () => void
 	}
-	locale: string
+	data: {
+		locale: string
+	}
 }
 
-const LOCALE_KEY = 'user_locale';
+/* * */
+
 const LocaleContext = createContext<LocaleContextState | undefined>(undefined);
 
-export const LocaleContextProvider = ({ children }: { children: ReactNode }) => {
-	const [locale, setLocale] = useState(i18n.language);
+export function useLocaleContext() {
+	const context = useContext(LocaleContext);
+	if (!context) {
+		throw new Error('useLocaleContext must be used within a LocaleContextProvider');
+	}
+	return context;
+}
 
-	// On mount, read locale from AsyncStorage and set it
+/* * */
+
+export const LocaleContextProvider = ({ children }: PropsWithChildren) => {
+	//
+
+	//
+	// A. Setup variables
+
+	const [currentLocale, setCurrentLocale] = useState<string>(i18n.language);
+
+	//
+	// B. Fetch data
+
 	useEffect(() => {
-		const loadLocale = async () => {
-			try {
-				const storedLocale = await AsyncStorage.getItem(LOCALE_KEY);
-				if (storedLocale && storedLocale !== i18n.language) {
-					i18n.changeLanguage(storedLocale);
-				}
-			}
-			catch (e) {
-				console.error('Failed to load locale from AsyncStorage', e);
-			}
-		};
-		loadLocale();
+		(async () => {
+			const foundLocale = await AsyncStorage.getItem(LOCAL_STORAGE_KEYS.locale);
+			if (foundLocale) setCurrentLocale(foundLocale);
+		})();
 	}, []);
 
+	//
+	// C. Handle actions
+
 	useEffect(() => {
-		const handleLanguageChanged = async (lng: string) => {
-			setLocale(lng);
-			try {
-				await AsyncStorage.setItem(LOCALE_KEY, lng);
-			}
-			catch (e) {
-				console.error('Failed to save locale to AsyncStorage', e);
-			}
-		};
-		i18n.on('languageChanged', handleLanguageChanged);
-		return () => {
-			i18n.off('languageChanged', handleLanguageChanged);
-		};
-	}, []);
+		(async () => {
+			i18n.changeLanguage(currentLocale);
+			await AsyncStorage.setItem(LOCAL_STORAGE_KEYS.locale, currentLocale);
+		})();
+	}, [currentLocale]);
 
 	const changeLanguage = (lang: string) => {
-		i18n.changeLanguage(lang);
+		setCurrentLocale(lang);
 	};
 
-	const contextValue: LocaleContextState = {
+	//
+	// C. Context value
+
+	const contextValue: LocaleContextState = useMemo(() => ({
 		actions: {
 			changeLanguage,
-			changeToEnglish: () => changeLanguage('en'),
-			changeToPortuguese: () => changeLanguage('pt'),
 		},
-		locale,
-	};
+		data: {
+			locale: currentLocale,
+		},
+	}), [currentLocale]);
+
+	//
+	// C. Render components
 
 	return (
 		<LocaleContext.Provider value={contextValue}>
 			{children}
 		</LocaleContext.Provider>
 	);
-};
 
-export const useLocaleContext = () => {
-	const context = useContext(LocaleContext);
-	if (!context) {
-		throw new Error('useLocaleContext must be used within a LocaleContextProvider');
-	}
-	return context;
+	//
 };
