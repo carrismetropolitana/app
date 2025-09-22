@@ -40,7 +40,7 @@ export function MoreNews() {
 	// D. Handle action
 
 	const handlePress = (newsId: string) => {
-		router.push(`/webview?url=https://carrismetropolitana.pt/news/${newsId}`);
+		router.push(`/more/news/${newsId}`);
 	};
 
 	//

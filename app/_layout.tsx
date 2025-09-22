@@ -42,6 +42,7 @@ export default function RootLayout() {
 			<Tabs
 				screenOptions={{
 					headerShown: false,
+					sceneStyle: { backgroundColor: systemVariables.background[200] },
 					tabBarActiveTintColor: systemVariables.text[100],
 					tabBarButton: HapticTab,
 					tabBarShowLabel: false,

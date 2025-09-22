@@ -16,7 +16,6 @@ export default function Page() {
 
 	const navigation = useNavigation();
 	const searchParams = useLocalSearchParams();
-
 	const systemVariables = useSystemVariables();
 
 	//

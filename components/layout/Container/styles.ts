@@ -14,7 +14,12 @@ export const useStyles = () => {
 		container: {
 			display: 'flex',
 			flexDirection: 'column',
+		},
+		safeBottom: {
 			paddingBottom: safeAreaInsets.bottom,
+		},
+		safeTop: {
+			paddingTop: safeAreaInsets.top,
 		},
 	});
 };

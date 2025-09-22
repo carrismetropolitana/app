@@ -24,12 +24,8 @@ export default function Page() {
 
 	useEffect(() => {
 		navigation.setOptions({
-			headerRight: () => <CloseButton onPress={() => navigation.goBack()} />,
+			headerRight: () => <CloseButton />,
 			headerShown: true,
-			headerStyle: {
-				backgroundColor: systemVariables.background[100],
-				color: systemVariables.text[100],
-			},
 			headerTitle: '',
 			presentation: 'modal',
 		});
@@ -42,6 +38,7 @@ export default function Page() {
 		<WebView
 			mediaPlaybackRequiresUserAction={false}
 			source={{ uri: `https://carrismetropolitana.pt/app-view/widgets/videos/stops?locale=${localContext.locale}` }}
+			style={{ backgroundColor: systemVariables.background[200] }}
 			allowsFullscreenVideo
 		/>
 	);

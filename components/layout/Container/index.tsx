@@ -7,7 +7,14 @@ import { useStyles } from './styles';
 
 /* * */
 
-export function Container({ children }: PropsWithChildren) {
+interface ContainerProps {
+	safeBottom?: boolean
+	safeTop?: boolean
+}
+
+/* * */
+
+export function Container({ children, safeBottom = true, safeTop }: PropsWithChildren<ContainerProps>) {
 	//
 
 	//
@@ -21,7 +28,7 @@ export function Container({ children }: PropsWithChildren) {
 	return (
 		<KeyboardAvoidingView behavior="position">
 			<ScrollView>
-				<View style={styles.container}>
+				<View style={[styles.container, safeTop && styles.safeTop, safeBottom && styles.safeBottom]}>
 					{children}
 				</View>
 			</ScrollView>

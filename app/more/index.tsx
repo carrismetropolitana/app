@@ -15,7 +15,7 @@ export default function Page() {
 
 	const navigation = useNavigation();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'more.Page' });
+	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.more' });
 
 	//
 	// B. Handle actions

@@ -123,6 +123,9 @@
 			},
 			"home/account/widgets": {
 				"title": "Widgets"
+			},
+			"more": {
+				"title": "More"
 			}
 		}
 	},
