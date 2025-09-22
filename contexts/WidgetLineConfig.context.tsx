@@ -178,7 +178,7 @@ export const WidgetLineConfigContextProvider = ({ children, widgetId }: PropsWit
 	]);
 
 	//
-	// F. Render components
+	// E. Render components
 
 	return (
 		<WidgetLineConfigContext.Provider value={contextValue}>

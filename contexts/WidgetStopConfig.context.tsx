@@ -65,7 +65,7 @@ export const WidgetStopConfigContextProvider = ({ children, widgetId }: PropsWit
 	const [availablePatternsData, setAvailablePatternsData] = useState<Pattern[]>([]);
 
 	//
-	// C. Transform data
+	// B. Transform data
 
 	const selectedStopData = useMemo(() => {
 		if (!selectedStopId) return undefined;
@@ -91,7 +91,7 @@ export const WidgetStopConfigContextProvider = ({ children, widgetId }: PropsWit
 	}, [selectedPatternIds, selectedStopId]);
 
 	//
-	// D. Handle actions
+	// C. Handle actions
 
 	useEffect(() => {
 		// Skip if no widget ID
@@ -174,7 +174,7 @@ export const WidgetStopConfigContextProvider = ({ children, widgetId }: PropsWit
 	};
 
 	//
-	// E. Define context value
+	// D. Define context value
 
 	const contextValue: WidgetStopConfigContextState = useMemo(() => ({
 		actions: {
@@ -206,7 +206,7 @@ export const WidgetStopConfigContextProvider = ({ children, widgetId }: PropsWit
 	]);
 
 	//
-	// F. Render components
+	// E. Render components
 
 	return (
 		<WidgetStopConfigContext.Provider value={contextValue}>

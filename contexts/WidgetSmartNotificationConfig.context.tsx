@@ -78,7 +78,7 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children, widgetI
 	const [availablePatternsData, setAvailablePatternsData] = useState<Pattern[]>([]);
 
 	//
-	// C. Transform data
+	// B. Transform data
 
 	const selectedLineData = useMemo(() => {
 		if (!selectedLineId) return undefined;
@@ -124,7 +124,7 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children, widgetI
 	]);
 
 	//
-	// D. Handle actions
+	// C. Handle actions
 
 	useEffect(() => {
 		// Skip if no widget ID
@@ -242,7 +242,7 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children, widgetI
 	};
 
 	//
-	// E. Define context value
+	// D. Define context value
 
 	const contextValue: WidgetSmartNotificationConfigContextState = useMemo(() => ({
 		actions: {
@@ -290,7 +290,7 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children, widgetI
 	]);
 
 	//
-	// F. Render components
+	// E. Render components
 
 	return (
 		<WidgetSmartNotificationConfigContext.Provider value={contextValue}>

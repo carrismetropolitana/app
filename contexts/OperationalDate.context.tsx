@@ -3,7 +3,7 @@
 import { Dates } from '@/core-replica/dates';
 import { type OperationalDate } from '@/types/operational-date';
 import { useLocalSearchParams } from 'expo-router';
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
 /* * */
 
@@ -42,7 +42,7 @@ export function useOperationalDateContext() {
 
 /* * */
 
-export const OperationalDateContextProvider = ({ children }: { children: React.ReactNode }) => {
+export const OperationalDateContextProvider = ({ children }: PropsWithChildren) => {
 	//
 
 	//
@@ -119,7 +119,7 @@ export const OperationalDateContextProvider = ({ children }: { children: React.R
 	//
 	// D. Define context value
 
-	const contextValue: OperationalDateContextState = {
+	const contextValue: OperationalDateContextState = useMemo(() => ({
 		actions: {
 			updateSelectedDate,
 			updateSelectedDateFromFormat,
@@ -138,7 +138,11 @@ export const OperationalDateContextProvider = ({ children }: { children: React.R
 			is_today_selected: selectedDate?.operational_date === todayDate.operational_date,
 			is_tomorrow_selected: selectedDate?.operational_date === tomorrowDate.operational_date,
 		},
-	};
+	}), [
+		todayDate,
+		tomorrowDate,
+		selectedDate,
+	]);
 
 	//
 	// E. Render components

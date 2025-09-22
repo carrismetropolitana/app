@@ -4,11 +4,9 @@ import { Alert, SimplifiedAlert } from '@/types/alerts.types';
 import convertToSimplifiedAlert from '@/utils/convertToSimplifiedAlert';
 import { Routes } from '@/utils/routes';
 import { getLocales } from 'expo-localization';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { ReactNode } from 'react';
 import useSWR from 'swr';
-
-// import { useAnalyticsContext } from './Analytics.context';
 
 /* * */
 
@@ -48,7 +46,6 @@ export const AlertsContextProvider = ({ children }: { children: ReactNode }) => 
 	// A. Setup variables
 
 	const currentLocale = getLocales()[0].languageCode;
-	// const analyticsContext = useAnalyticsContext();
 
 	const [dataSimplifiedState, setDataSimplifiedState] = useState<SimplifiedAlert[]>([]);
 
@@ -61,10 +58,9 @@ export const AlertsContextProvider = ({ children }: { children: ReactNode }) => 
 	// C. Transform data
 
 	useEffect(() => {
-		// if (!allAlertsData) return;
-		const allSimplifiedAlerts = allAlertsData?.map(alert => convertToSimplifiedAlert(alert, currentLocale || 'pt'));
+		if (!allAlertsData) return;
+		const allSimplifiedAlerts = allAlertsData.map(alert => convertToSimplifiedAlert(alert, currentLocale || 'pt'));
 		setDataSimplifiedState(allSimplifiedAlerts || []);
-		// analyticsContext.actions.capture(ampli => ampli.captureAlertsReferer({ page_referer: document.referrer }));
 	}, [allAlertsData]);
 
 	//
@@ -93,7 +89,7 @@ export const AlertsContextProvider = ({ children }: { children: ReactNode }) => 
 	//
 	// E. Define context value
 
-	const contextValue: AlertsContextState = {
+	const contextValue: AlertsContextState = useMemo(() => ({
 		actions: {
 			getSimplifiedAlertById,
 			getSimplifiedAlertsByLineId,
@@ -106,7 +102,11 @@ export const AlertsContextProvider = ({ children }: { children: ReactNode }) => 
 		flags: {
 			is_loading: allAlertsLoading,
 		},
-	};
+	}), [
+		allAlertsData,
+		allAlertsLoading,
+		dataSimplifiedState,
+	]);
 
 	//
 	// F. Render components

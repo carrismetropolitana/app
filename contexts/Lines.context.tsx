@@ -121,7 +121,7 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 	};
 
 	//
-	// C. Define context value
+	// D. Define context value
 
 	const contextValue: LinesContextState = useMemo(() => ({
 		actions: {
@@ -148,7 +148,7 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 	]);
 
 	//
-	// D. Render components
+	// E. Render components
 
 	return (
 		<LinesContext.Provider value={contextValue}>

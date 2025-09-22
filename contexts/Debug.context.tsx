@@ -1,8 +1,6 @@
 /* * */
 
-import { createContext, useContext, useState } from 'react';
-
-// import { useAnalyticsContext } from './Analytics.context';
+import { createContext, useContext, useMemo, useState } from 'react';
 
 /* * */
 
@@ -36,27 +34,25 @@ export const DebugContextProvider = ({ children }: { children: React.ReactNode }
 	// A. Setup variables
 
 	const [flagIsDebugModeState, setFlagIsDebugModeState] = useState<boolean>(false);
-	// const analyticsContext = useAnalyticsContext();
 
 	//
 	// B. Handle actions
 
 	const toggleDebugMode = () => {
-		// analyticsContext.actions.capture(ampli => ampli.clickDebugToggle({ is_enabled: (!flagIsDebugModeState).toString() }));
 		setFlagIsDebugModeState(prev => !prev);
 	};
 
 	//
 	// C. Define context value
 
-	const contextValue: DebugContextState = {
+	const contextValue: DebugContextState = useMemo(() => ({
 		actions: {
 			toggleDebugMode,
 		},
 		flags: {
 			is_debug_mode: flagIsDebugModeState,
 		},
-	};
+	}), [flagIsDebugModeState]);
 
 	//
 	// D. Render components

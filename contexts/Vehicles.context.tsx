@@ -1,10 +1,10 @@
 /* * */
-import type { Vehicle } from '@carrismetropolitana/api-types/vehicles';
 
+import { getServiceUrl } from '@/settings/service-urls';
 import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
-import { Routes } from '@/utils/routes';
+import { type Vehicle } from '@carrismetropolitana/api-types/vehicles';
 import { DateTime } from 'luxon';
-import { createContext, useContext, useMemo } from 'react';
+import { createContext, type PropsWithChildren, useContext, useMemo } from 'react';
 import useSWR from 'swr';
 
 /* * */
@@ -26,7 +26,7 @@ interface VehiclesContextState {
 		vehicles: Vehicle[]
 	}
 	flags: {
-		is_loading: boolean
+		loading: boolean
 	}
 }
 
@@ -44,22 +44,25 @@ export function useVehiclesContext() {
 
 /* * */
 
-export const VehiclesContextProvider = ({ children }: { children: React.ReactNode }) => {
+export const VehiclesContextProvider = ({ children }: PropsWithChildren) => {
 	//
 
 	//
 	// A. Fetch data
 
-	const { data: fetchedVehiclesData, isLoading: allVehiclesLoading } = useSWR<Vehicle[], Error>(`${Routes.API}/vehicles`, { refreshInterval: 5000 });
-
-	const allVehiclesData = useMemo(() => {
-		if (!fetchedVehiclesData) return [];
-		const now = DateTime.now().toUnixInteger();
-		return fetchedVehiclesData.filter((vehicle: Vehicle) => (vehicle.timestamp ?? 0) > now - 180);
-	}, [fetchedVehiclesData]);
+	const { data: allVehiclesData, isLoading: allVehiclesLoading } = useSWR<Vehicle[], Error>(`${getServiceUrl('api')}/v2/vehicles`, { refreshInterval: 3_000 });
 
 	//
-	// B. Handle actions
+	// B. Transform data
+
+	const filteredVehiclesData = useMemo(() => {
+		if (!allVehiclesData) return [];
+		const now = DateTime.now().toUnixInteger();
+		return allVehiclesData.filter((vehicle: Vehicle) => (vehicle.timestamp ?? 0) > now - 180);
+	}, [allVehiclesData]);
+
+	//
+	// C. Handle actions
 
 	const getVehicleById = (vehicleId: string): undefined | Vehicle => {
 		return allVehiclesData?.find(vehicle => vehicle.id === vehicleId);
@@ -79,12 +82,12 @@ export const VehiclesContextProvider = ({ children }: { children: React.ReactNod
 
 	const getAllVehiclesGeoJsonFC = (): GeoJSON.FeatureCollection | undefined => {
 		const collection = getBaseGeoJsonFeatureCollection();
-		allVehiclesData.forEach(vehicle => collection.features.push(transformVehicleDataIntoGeoJsonFeature(vehicle)));
+		filteredVehiclesData.forEach(vehicle => collection.features.push(transformVehicleDataIntoGeoJsonFeature(vehicle)));
 		return collection;
 	};
 
 	const getVehiclesByLineId = (lineId: string): Vehicle[] => {
-		return allVehiclesData?.filter(vehicle => vehicle.line_id === lineId) || [];
+		return filteredVehiclesData?.filter(vehicle => vehicle.line_id === lineId) || [];
 	};
 
 	const getVehiclesByLineIdGeoJsonFC = (lineId: string): GeoJSON.FeatureCollection | undefined => {
@@ -96,7 +99,7 @@ export const VehiclesContextProvider = ({ children }: { children: React.ReactNod
 	};
 
 	const getVehiclesByPatternId = (patternId: string): Vehicle[] => {
-		return allVehiclesData?.filter(vehicle => vehicle.pattern_id === patternId) || [];
+		return filteredVehiclesData?.filter(vehicle => vehicle.pattern_id === patternId) || [];
 	};
 
 	const getVehiclesByPatternIdGeoJsonFC = (patternId: string): GeoJSON.FeatureCollection | undefined => {
@@ -108,7 +111,7 @@ export const VehiclesContextProvider = ({ children }: { children: React.ReactNod
 	};
 
 	const getVehiclesByTripId = (tripId: string): Vehicle[] => {
-		return allVehiclesData?.filter(vehicle => vehicle.trip_id === tripId) || [];
+		return filteredVehiclesData?.filter(vehicle => vehicle.trip_id === tripId) || [];
 	};
 
 	const getVehiclesByTripIdGeoJsonFC = (tripId: string): GeoJSON.FeatureCollection | undefined => {
@@ -120,15 +123,14 @@ export const VehiclesContextProvider = ({ children }: { children: React.ReactNod
 	};
 
 	//
-	// C. Define context value
+	// D. Define context value
 
-	const contextValue: VehiclesContextState = {
+	const contextValue: VehiclesContextState = useMemo(() => ({
 		actions: {
 			getAllVehicles,
 			getAllVehiclesGeoJsonFC,
 			getVehicleById,
 			getVehicleByIdGeoJsonFC,
-			// getVehicleBySearch,
 			getVehiclesByLineId,
 			getVehiclesByLineIdGeoJsonFC,
 			getVehiclesByPatternId,
@@ -137,15 +139,18 @@ export const VehiclesContextProvider = ({ children }: { children: React.ReactNod
 			getVehiclesByTripIdGeoJsonFC,
 		},
 		data: {
-			vehicles: allVehiclesData || [],
+			vehicles: filteredVehiclesData || [],
 		},
 		flags: {
-			is_loading: allVehiclesLoading,
+			loading: allVehiclesLoading,
 		},
-	};
+	}), [
+		filteredVehiclesData,
+		allVehiclesLoading,
+	]);
 
 	//
-	// D. Render components
+	// E. Render components
 
 	return (
 		<VehiclesContext.Provider value={contextValue}>

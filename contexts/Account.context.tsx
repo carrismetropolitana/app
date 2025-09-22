@@ -110,7 +110,7 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 	};
 
 	//
-	// C. Context value
+	// D. Context value
 
 	const contextValue: AccountContextState = useMemo(() => ({
 		actions: {
@@ -132,7 +132,7 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 	]);
 
 	//
-	// C. Render components
+	// E. Render components
 
 	return (
 		<AccountContext.Provider value={contextValue}>

@@ -45,15 +45,12 @@ export const ArrivalsContextProvider = ({ children, limit, onlyFuture, patternId
 	//
 
 	//
-	// A. Setup variables
-
-	//
-	// B. Fetch data
+	// A. Fetch data
 
 	const { data: arrivalsData, isLoading: arrivalsLoading } = useSWR<Arrival[], HttpException>(`${getServiceUrl('api')}/v2/arrivals/by_stop/${stopId}`, { refreshInterval: 10_000 });
 
 	//
-	// C. Transform data
+	// B. Transform data
 
 	const filteredArrivalsByPatternIds = useMemo(() => {
 		// Skip if no data
@@ -134,7 +131,7 @@ export const ArrivalsContextProvider = ({ children, limit, onlyFuture, patternId
 	]);
 
 	//
-	// C. Render components
+	// D. Render components
 
 	return (
 		<ArrivalsContext.Provider value={contextValue}>
