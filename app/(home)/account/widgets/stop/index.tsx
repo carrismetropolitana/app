@@ -1,6 +1,6 @@
 /* * */
 
-import { WidgetStopConfig } from '@/components/widgets/stops/WidgetStopConfig';
+import { WidgetStopConfig } from '@/components/widgets/config/WidgetStopConfig';
 import { WidgetStopConfigContextProvider } from '@/contexts/WidgetStopConfig.context';
 import { useSystemVariables } from '@/theme/global';
 import { useLocalSearchParams, useNavigation } from 'expo-router';

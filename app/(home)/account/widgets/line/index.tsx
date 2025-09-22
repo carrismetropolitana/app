@@ -1,6 +1,6 @@
 /* * */
 
-import { WidgetLineConfig } from '@/components/widgets/lines/WidgetLineConfig';
+import { WidgetLineConfig } from '@/components/widgets/config/WidgetLineConfig';
 import { WidgetLineConfigContextProvider } from '@/contexts/WidgetLineConfig.context';
 import { useSystemVariables } from '@/theme/global';
 import { useLocalSearchParams, useNavigation } from 'expo-router';

@@ -36,7 +36,7 @@ export function WidgetCardStopHeader({ label, stopId }: WidgetCardStopHeaderProp
 
 	const stopData = useMemo(() => {
 		return stopsContext.actions.getStopById(stopId);
-	}, [stopId]);
+	}, [stopId, stopsContext.data.stops]);
 
 	const stopName = useMemo(() => {
 		return stopData?.long_name ?? t('no_name');

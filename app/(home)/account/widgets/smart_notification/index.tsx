@@ -1,6 +1,6 @@
 /* * */
 
-import { WidgetSmartNotificationConfig } from '@/components/widgets/smart-notifications/WidgetSmartNotificationConfig';
+import { WidgetSmartNotificationConfig } from '@/components/widgets/config/WidgetSmartNotificationConfig';
 import { WidgetSmartNotificationConfigContextProvider } from '@/contexts/WidgetSmartNotificationConfig.context';
 import { useSystemVariables } from '@/theme/global';
 import { useLocalSearchParams, useNavigation } from 'expo-router';

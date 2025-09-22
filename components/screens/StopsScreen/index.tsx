@@ -18,7 +18,7 @@ import { useStopsListContext } from '@/contexts/StopsList.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
-// import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { PointAnnotation } from '@maplibre/maplibre-react-native';
 import { ListItem, Text } from '@rn-vui/themed';
 import { router } from 'expo-router';
@@ -58,7 +58,7 @@ export function StopsScreen() {
 		const camera = locationsContext.data.currentCords;
 		return camera ? { center: [camera.longitude, camera.latitude], zoom: 16 } : { center: [0, 0], zoom: 16 };
 	});
-	// const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 	const stops = useMemo(() => {
 		if (isStopSelected && stopData) {
 			const selectedStopFeature: Feature<Point> = {
@@ -108,7 +108,7 @@ export function StopsScreen() {
 		const stopData = stopsContext.actions.getStopById(selectedStop);
 		if (stopData) {
 			setStopData(stopData);
-			// bottomSheetModalRef.current?.present();
+			bottomSheetModalRef.current?.present();
 
 			const fetchShapes = async () => {
 				if (!stopData.pattern_ids) return;
@@ -184,12 +184,12 @@ export function StopsScreen() {
 		stopDetailContext.actions.setActiveStopId(stopId);
 		setIsStopSelected(true);
 		handleCenterStop(stop);
-		// bottomSheetModalRef.current?.present();
+		bottomSheetModalRef.current?.present();
 	};
 	const handleStopDeselect = () => {
-		// if (bottomSheetModalRef.current) {
-		// 	bottomSheetModalRef.current.close();
-		// }
+		if (bottomSheetModalRef.current) {
+			bottomSheetModalRef.current.close();
+		}
 		setSelectedStop('');
 		setFlaggedStopId(null);
 		setStopData(undefined);
@@ -225,7 +225,7 @@ export function StopsScreen() {
 			<View style={{ left: 0, paddingTop: insets.top + 10, position: 'absolute', right: 0, top: 0, zIndex: 1000 }}>
 				<StopSearchBar counter={false} disabled={isStopSelected} onPress={handleStopDeselect} />
 			</View>
-			{/* <BottomSheetModal
+			<BottomSheetModal
 				ref={bottomSheetModalRef}
 				backgroundStyle={{ backgroundColor: themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight200 : theming.colorSystemBackgroundDark200 }}
 				snapPoints={['70%']}
@@ -270,7 +270,7 @@ export function StopsScreen() {
 					)}
 					{!stopData && <NoDataLabel text={t('noDataFound')} />}
 				</BottomSheetScrollView>
-			</BottomSheetModal> */}
+			</BottomSheetModal>
 		</>
 	);
 
