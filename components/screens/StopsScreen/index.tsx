@@ -25,7 +25,7 @@ import { router } from 'expo-router';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle } from 'react-native-svg';
 
 import { styles } from './styles';
@@ -109,65 +109,6 @@ export function StopsScreen() {
 		if (stopData) {
 			setStopData(stopData);
 			bottomSheetModalRef.current?.present();
-
-			const fetchShapes = async () => {
-				if (!stopData.pattern_ids) return;
-				const selected_date = operationalDayContext.data.selected_date;
-				if (!selected_date) return;
-
-				// const uniquePatternIds = [...new Set(stopData.pattern_ids)];
-
-				// const promises = uniquePatternIds.map(async (patternId): Promise<Feature<LineString, GeoJsonProperties> | null> => {
-				// 	try {
-				// 		const patternGroups: Pattern[] = await fetch(`${Routes.API}/patterns/${patternId}`).then(res => res.json());
-
-				// 		let validPattern: Pattern | undefined;
-				// 		for (const patternGroup of patternGroups) {
-				// 			const closestDate = patternGroup.valid_on.reduce((acc, curr) => {
-				// 				if (selected_date <= curr && (acc === '' || curr < acc)) return curr;
-				// 				return acc;
-				// 			}, '');
-				// 			if (closestDate !== '') {
-				// 				validPattern = patternGroup;
-				// 				break;
-				// 			}
-				// 		}
-
-				// 		if (!validPattern) {
-				// 			if (patternGroups.length > 0) validPattern = patternGroups[0];
-				// 			else return null;
-				// 		}
-
-				// 		const shape = await fetch(`${Routes.API}/shapes/${validPattern.shape_id}`).then(res => res.json());
-
-				// 		if (shape && shape.geojson) {
-				// 			return {
-				// 				...shape.geojson,
-				// 				properties: {
-				// 					...shape.geojson.properties,
-				// 					color: validPattern.color,
-				// 					text_color: validPattern.text_color,
-				// 				},
-				// 			};
-				// 		}
-				// 		return null;
-				// 	}
-				// 	catch (e) {
-				// 		console.error(e);
-				// 		return null;
-				// 	}
-				// });
-
-				// const shapeFeatures = (await Promise.all(promises)).filter((feature): feature is Feature<LineString> => feature !== null);
-
-				// const allShapesFc: FeatureCollection<LineString> = {
-				// 	features: shapeFeatures,
-				// 	type: 'FeatureCollection',
-				// };
-				// setLineShapes(allShapesFc);
-			};
-
-			fetchShapes();
 		}
 	}, [selectedStop, operationalDayContext.data.selected_date]);
 
