@@ -1,9 +1,9 @@
 /* * */
 
-import { TabBarButton } from '@/components/layout/tabs/TabBarButton';
-import { TabBarHaptic } from '@/components/layout/tabs/TabBarHaptic';
+import { TabBarButton } from '@/components/tabs/TabBarButton';
+import { TabBarHaptic } from '@/components/tabs/TabBarHaptic';
 import { useSystemVariables } from '@/theme/global';
-import { IconArrowLoopRight, IconBus, IconDots, IconMap, IconUserCircle } from '@tabler/icons-react-native';
+import { IconArrowLoopRight, IconBus, IconDots, IconError404, IconMap, IconUserCircle } from '@tabler/icons-react-native';
 import { Tabs } from 'expo-router';
 
 import { useStyles } from './styles';
@@ -80,6 +80,17 @@ export function TabBar() {
 					tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
 						<TabBarButton focused={focused}>
 							<IconBus color={focused ? 'black' : color} size={26} />
+						</TabBarButton>
+					),
+				}}
+			/>
+			<Tabs.Screen
+				name="+not-found"
+				options={{
+					href: null,
+					tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
+						<TabBarButton focused={focused}>
+							<IconError404 color={focused ? 'black' : color} size={26} />
 						</TabBarButton>
 					),
 				}}

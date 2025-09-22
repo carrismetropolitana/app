@@ -6,8 +6,8 @@ import 'expo-dev-client';
 
 /* * */
 
-import { TabBar } from '@/components/layout/tabs/TabBar';
-import { OfflineScreen } from '@/components/OfflineScreen';
+import { OfflineScreen } from '@/components/layout/OfflineScreen';
+import { TabBar } from '@/components/tabs/TabBar';
 import { AllProviders } from '@/providers/all-providers';
 import { useNetInfo } from '@react-native-community/netinfo';
 
