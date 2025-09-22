@@ -97,6 +97,8 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		if (!accountData || !accountId) return;
 		// Update local copy of the data
 		const updatedAccountData = setValueAtPath(Object.assign({}, accountData), path, value);
+		// Update local SWR data immediately (optimistic update)
+		accountMutate(updatedAccountData, { revalidate: false });
 		// Send updated data to the server
 		const response = await fetchData<Account>(
 			`${getServiceUrl('accounts')}/accounts`,

@@ -2,7 +2,6 @@
 
 import { DebugContextProvider } from '@/contexts/Debug.context';
 import { LocaleContextProvider } from '@/contexts/Locale.context';
-import { NotificationsContextProvider } from '@/contexts/Notifications.context';
 import { type PropsWithChildren } from 'react';
 import { SWRConfig, SWRConfiguration } from 'swr';
 
@@ -41,9 +40,7 @@ export function ConfigProviders({ children }: PropsWithChildren) {
 		<SWRConfig value={swrSettings}>
 			<LocaleContextProvider>
 				<DebugContextProvider>
-					<NotificationsContextProvider>
-						{children}
-					</NotificationsContextProvider>
+					{children}
 				</DebugContextProvider>
 			</LocaleContextProvider>
 		</SWRConfig>

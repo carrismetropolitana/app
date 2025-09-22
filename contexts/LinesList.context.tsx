@@ -1,47 +1,30 @@
 /* * */
 
-import type { Line, Stop } from '@carrismetropolitana/api-types/network';
-
+import { useFavoritesContext } from '@/contexts/Favorites.context';
 import { useLinesContext } from '@/contexts/Lines.context';
-import { useProfileContext } from '@/contexts/Profile.context';
+import { useStopsContext } from '@/contexts/Stops.context';
+import { useUserLocationContext } from '@/contexts/UserLocation.context';
 import createDocCollection from '@/hooks/useOtheSearch';
+import { type Line, type Stop } from '@carrismetropolitana/api-types/network';
 import { getDistance } from 'geolib';
-import { createContext, useContext, useEffect, useState } from 'react';
-
-// import { useAnalyticsContext } from './Analytics.context';
-
-import { useLocationsContext } from './Locations.context';
-import { useStopsContext } from './Stops.context';
+import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
 /* * */
 
 interface LinesListContextState {
 	actions: {
-		getLinesAroundLocation: () => Promise<Line[]>
-		updateFilterByAttribute: (value: string) => void
-		updateFilterByCurrentView: (value: 'all' | 'favorites') => void
-		updateFilterByFacility: (value: string) => void
-		updateFilterByMunicipalityOrLocality: (value: string) => void
 		updateFilterBySearch: (value: string) => void
 	}
-	counters: {
-		favorites: number
-	}
 	data: {
+		around: Line[]
 		favorites: Line[]
 		filtered: Line[]
-		linesAroundLocation: Line[]
-		raw: Line[]
 	}
 	filters: {
-		by_attribute: null | string
-		by_current_view: 'all' | 'favorites'
-		by_facility: null | string
-		by_municipality_or_locality: null | string
 		by_search: string
 	}
 	flags: {
-		is_loading: boolean
+		loading: boolean
 	}
 }
 
@@ -59,32 +42,25 @@ export function useLinesListContext() {
 
 /* * */
 
-export const LinesListContextProvider = ({ children }: { children: React.ReactNode }) => {
+export const LinesListContextProvider = ({ children }: PropsWithChildren) => {
 	//
 
 	//
 	// A. Setup variables
 
 	const linesContext = useLinesContext();
-	const profileContext = useProfileContext();
-	const locationContext = useLocationsContext();
 	const stopsContext = useStopsContext();
-	// const analyticsContext = useAnalyticsContext();
+	const favoritesContext = useFavoritesContext();
+	const userLocationContext = useUserLocationContext();
 
-	const [dataFilteredState, setDataFilteredState] = useState<Line[]>([]);
 	const [dataFavoritesState, setDataFavoritesState] = useState<Line[]>([]);
-	const [linesAroundLocation, setLinesAroundLocation] = useState<Line[]>([]);
+	const [dataFilteredState, setDataFilteredState] = useState<Line[]>([]);
+	const [dataAroundState, setDataAroundState] = useState<Line[]>([]);
 
-	const [filterByAttributeState, setFilterByAttributeState] = useState<LinesListContextState['filters']['by_attribute']>(null);
-	const [filterByCurrentViewState, setFilterByCurrentViewState] = useState<LinesListContextState['filters']['by_current_view']>('all');
-	const [filterByFacilityState, setFilterByFacilityState] = useState<LinesListContextState['filters']['by_facility']>(null);
-	const [filterByMunicipalityOrLocalityState, setFilterByMunicipalityOrLocalityState] = useState<LinesListContextState['filters']['by_municipality_or_locality']>(null);
 	const [filterBySearchState, setFilterBySearchState] = useState<LinesListContextState['filters']['by_search']>('');
 
-	const allLinesData = linesContext.data.lines;
-
 	//
-	// C. Transform data
+	// B. Transform data
 
 	const applyFiltersToData = (allData: Line[] = []) => {
 		//
@@ -92,38 +68,11 @@ export const LinesListContextProvider = ({ children }: { children: React.ReactNo
 		let filterResult = allData;
 
 		//
-		// Filter by_attribute
-
-		if (filterByAttributeState) {
-			filterResult = filterResult.filter(() => {
-				return true;
-			});
-		}
-
-		//
-		// Filter by_facility
-
-		if (filterByFacilityState) {
-			filterResult = filterResult.filter(() => {
-				return true;
-			});
-		}
-
-		//
-		// Filter by by_municipality_or_locality
-
-		if (filterByMunicipalityOrLocalityState) {
-			filterResult = filterResult.filter(() => {
-				return true; // line.municipality_id === filtersState.by_municipality;
-			});
-		}
-
-		//
 		// Filter by by_search
 
 		if (filterBySearchState) {
 			// Give extra weight to favorite lines
-			const boostedData = filterResult.map(line => ({ ...line, boost: profileContext.data.favorite_lines?.includes(line.id) ? true : false }));
+			const boostedData = filterResult.map(line => ({ ...line, boost: favoritesContext.data.line_ids.includes(line.id) ? true : false }));
 			const searchHook = createDocCollection(boostedData, {
 				id: 4,
 				// locality_ids: 1,
@@ -145,41 +94,18 @@ export const LinesListContextProvider = ({ children }: { children: React.ReactNo
 	useEffect(() => {
 		const filteredData = applyFiltersToData(linesContext.data.lines);
 		setDataFilteredState(filteredData);
-	}, [linesContext.data.lines, filterByAttributeState, filterByFacilityState, filterByMunicipalityOrLocalityState, filterBySearchState]);
+	}, [linesContext.data.lines, filterBySearchState]);
 
 	useEffect(() => {
-		const favoritesLinesData = linesContext.data.lines?.filter(line => profileContext.data.favorite_lines?.includes(line.id)) || [];
+		const favoritesLinesData = linesContext.data.lines.filter(line => favoritesContext.data.line_ids.includes(line.id)) || [];
 		setDataFavoritesState(favoritesLinesData);
-	}, [linesContext.data.lines, profileContext.data.favorite_lines]);
-
-	useEffect(() => {
-		if (dataFavoritesState.length > 0) {
-			setFilterByCurrentViewState('favorites');
-		}
-	}, [dataFavoritesState.length]);
+	}, [linesContext.data.lines, favoritesContext.data.line_ids]);
 
 	//
 	// D. Handle actions
 
-	const updateFilterByAttribute = (value: LinesListContextState['filters']['by_attribute']) => {
-		setFilterByAttributeState(value || null);
-	};
-
-	const updateFilterByCurrentView = (value: LinesListContextState['filters']['by_current_view']) => {
-		setFilterByCurrentViewState(value);
-	};
-
-	const updateFilterByFacility = (value: LinesListContextState['filters']['by_facility']) => {
-		setFilterByFacilityState(value || null);
-	};
-
-	const updateFilterByMunicipalityOrLocality = (value: LinesListContextState['filters']['by_municipality_or_locality']) => {
-		setFilterByMunicipalityOrLocalityState(value || null);
-	};
-
 	const updateFilterBySearch = (value: LinesListContextState['filters']['by_search']) => {
 		setFilterBySearchState(value);
-		// analyticsContext.actions.captureWithDelay(ampli => ampli.searchLine({ search_value: value }));
 	};
 
 	const filterStopsByRadius = (stops: Stop[], center: { latitude: number, longitude: number }, radiusMeters: number) =>
@@ -191,55 +117,48 @@ export const LinesListContextProvider = ({ children }: { children: React.ReactNo
 		);
 
 	const getLinesAroundLocation = async (): Promise<Line[]> => {
-		const center = locationContext.data.currentCords;
+		const center = userLocationContext.data.location?.coords;
+		if (!center) return [];
 		const nearbyStops = filterStopsByRadius(stopsContext.data.stops, center, 500);
 		const uniqueIds = Array.from(new Set(nearbyStops.flatMap(stop => stop.line_ids)));
 		const nearbyLines = uniqueIds
-			.map(id => allLinesData.find(line => line.id === id))
+			.map(id => linesContext.data.lines.find(line => line.id === id))
 			.filter((l): l is Line => Boolean(l));
-		setLinesAroundLocation(nearbyLines);
+		setDataAroundState(nearbyLines);
 		return nearbyLines;
 	};
 
 	useEffect(() => {
-		if (stopsContext.data.stops.length > 0 && allLinesData.length > 0 && locationContext.data.currentCords.latitude !== 0 && locationContext.data.currentCords.longitude !== 0) {
+		if (stopsContext.data.stops.length > 0 && linesContext.data.lines.length > 0 && userLocationContext.data.location?.coords.latitude !== 0 && userLocationContext.data.location?.coords.longitude !== 0) {
 			getLinesAroundLocation();
 		}
-	}, [stopsContext.data.stops, allLinesData, locationContext.data.currentCords]);
+	}, [stopsContext.data.stops, linesContext.data.lines, userLocationContext.data.location?.coords]);
 
 	//
 	// E. Define context value
 
-	const contextValue: LinesListContextState = {
+	const contextValue: LinesListContextState = useMemo(() => ({
 		actions: {
-			getLinesAroundLocation,
-			updateFilterByAttribute,
-			updateFilterByCurrentView,
-			updateFilterByFacility,
-			updateFilterByMunicipalityOrLocality,
 			updateFilterBySearch,
-
-		},
-		counters: {
-			favorites: profileContext.counters.favorite_lines,
 		},
 		data: {
+			around: dataAroundState,
 			favorites: dataFavoritesState,
 			filtered: dataFilteredState,
-			linesAroundLocation: linesAroundLocation,
-			raw: linesContext.data.lines || [],
 		},
 		filters: {
-			by_attribute: filterByAttributeState,
-			by_current_view: filterByCurrentViewState,
-			by_facility: filterByFacilityState,
-			by_municipality_or_locality: filterByMunicipalityOrLocalityState,
 			by_search: filterBySearchState,
 		},
 		flags: {
-			is_loading: linesContext.flags.loading,
+			loading: linesContext.flags.loading,
 		},
-	};
+	}), [
+		dataAroundState,
+		dataFavoritesState,
+		dataFilteredState,
+		filterBySearchState,
+		linesContext.flags.loading,
+	]);
 
 	//
 	// F. Render components

@@ -1,7 +1,6 @@
 /* * */
 
 import { LinesScreen } from '@/components/screens/LinesScreen';
-import { AlertsContextProvider } from '@/contexts/Alerts.context';
 import { LinesListContextProvider } from '@/contexts/LinesList.context';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
@@ -34,9 +33,7 @@ export default function Page() {
 
 	return (
 		<LinesListContextProvider>
-			<AlertsContextProvider>
-				<LinesScreen />
-			</AlertsContextProvider>
+			<LinesScreen />
 		</LinesListContextProvider>
 
 	);
