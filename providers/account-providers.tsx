@@ -2,19 +2,22 @@
 
 import { AccountContextProvider } from '@/contexts/Account.context';
 import { AnalyticsContextProvider } from '@/contexts/Analytics.context';
+import { FavoritesContextProvider } from '@/contexts/Favorites.context';
 import { ProfileContextProvider } from '@/contexts/Profile.context';
-import { PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 
 /* * */
 
 export function AccountProviders({ children }: PropsWithChildren) {
 	return (
 		<AccountContextProvider>
-			<ProfileContextProvider>
-				<AnalyticsContextProvider>
-					{children}
-				</AnalyticsContextProvider>
-			</ProfileContextProvider>
+			<FavoritesContextProvider>
+				<ProfileContextProvider>
+					<AnalyticsContextProvider>
+						{children}
+					</AnalyticsContextProvider>
+				</ProfileContextProvider>
+			</FavoritesContextProvider>
 		</AccountContextProvider>
 	);
 }

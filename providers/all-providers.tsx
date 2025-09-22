@@ -8,7 +8,7 @@ import { MapProviders } from '@/providers/map-providers';
 import { NativeProviders } from '@/providers/native-providers';
 import { PrivacyProviders } from '@/providers/privacy-providers';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import { PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 
 /* * */
 

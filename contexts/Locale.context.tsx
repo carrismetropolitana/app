@@ -2,7 +2,7 @@
 
 import i18n from '@/i18n';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
 /* * */
 
@@ -68,7 +68,7 @@ export const LocaleContextProvider = ({ children }: PropsWithChildren) => {
 	};
 
 	//
-	// C. Context value
+	// D. Context value
 
 	const contextValue: LocaleContextState = useMemo(() => ({
 		actions: {
@@ -80,7 +80,7 @@ export const LocaleContextProvider = ({ children }: PropsWithChildren) => {
 	}), [currentLocale]);
 
 	//
-	// C. Render components
+	// E. Render components
 
 	return (
 		<LocaleContext.Provider value={contextValue}>

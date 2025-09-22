@@ -6,10 +6,11 @@ import { LocationsContextProvider } from '@/contexts/Locations.context';
 import { OperationalDateContextProvider } from '@/contexts/OperationalDate.context';
 import { StopsContextProvider } from '@/contexts/Stops.context';
 import { VehiclesContextProvider } from '@/contexts/Vehicles.context';
+import { type PropsWithChildren } from 'react';
 
 /* * */
 
-export function DataProviders({ children }: { children: React.ReactNode }) {
+export function DataProviders({ children }: PropsWithChildren) {
 	return (
 		<OperationalDateContextProvider>
 			<LocationsContextProvider>

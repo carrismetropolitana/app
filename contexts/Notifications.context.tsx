@@ -1,8 +1,8 @@
 /* * */
 
 import Constants from 'expo-constants';
-import * as Device from 'expo-device';
-import * as Notifications from 'expo-notifications';
+import Device from 'expo-device';
+import Notifications from 'expo-notifications';
 import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 import { Platform } from 'react-native';
 
@@ -165,7 +165,7 @@ export const NotificationsContextProvider = ({ children }: PropsWithChildren) =>
 	]);
 
 	//
-	// C. Render components
+	// D. Render components
 
 	return (
 		<NotificationsContext.Provider value={contextValue}>
