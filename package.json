@@ -7,8 +7,8 @@
 	"scripts": {
 		"build-prod-android": " cd android && ./gradlew bundleRelease",
 		"build-test-android": " cd android && ./gradlew assembleRelease",
-		"build:android": "eas build --local --platform android --output ./builds/android",
-		"build:ios": "eas build --local --platform ios --output ./builds/ios",
+		"build:android": "eas build --local --platform android",
+		"build:ios": "eas build --local --platform ios",
 		"dev": "expo start --dev-client",
 		"dev:android": "expo run:android --device",
 		"dev:ios": "expo run:ios --device",
