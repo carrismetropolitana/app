@@ -77,6 +77,7 @@ export function TabBar() {
 				name="vehicles"
 				options={{
 					href: null,
+					// presentation: 'modal',
 					tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
 						<TabBarButton focused={focused}>
 							<IconBus color={focused ? 'black' : color} size={26} />

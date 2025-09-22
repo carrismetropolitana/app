@@ -1,6 +1,5 @@
 /* * */
 
-import TabBarOnly from '@/components/common/layout/TabOnly';
 import StopDetailLineGoTrough from '@/components/stops/StopDetailLineGoTrough';
 import StopDetailNextArrivals from '@/components/stops/StopDetailNextArrivals';
 import { StopDetailHeader } from '@/components/stops/StopDetailsHeader';

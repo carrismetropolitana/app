@@ -32,7 +32,7 @@ export function ProfileViewWidgetsList() {
 			icon: <Icon123 />,
 			key: widget._id,
 			label: widget.settings.label ?? 'No label',
-			link: `/widgets/create/${widget.type}?widget_id=${widget._id}`,
+			link: `/account/widgets/${widget.type}?widget_id=${widget._id}`,
 		}));
 	}, [accountContext.data.account?.widgets]);
 

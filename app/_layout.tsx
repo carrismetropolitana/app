@@ -7,9 +7,10 @@ import 'expo-dev-client';
 /* * */
 
 import { OfflineScreen } from '@/components/layout/OfflineScreen';
-import { TabBar } from '@/components/tabs/TabBar';
 import { AllProviders } from '@/providers/all-providers';
+import { useSystemVariables } from '@/theme/global';
 import { useNetInfo } from '@react-native-community/netinfo';
+import { Stack } from 'expo-router';
 
 /* * */
 
@@ -21,6 +22,8 @@ export default function RootLayout() {
 
 	const netInfo = useNetInfo();
 
+	const systemVariables = useSystemVariables();
+
 	//
 	// B. Render components
 
@@ -30,7 +33,14 @@ export default function RootLayout() {
 
 	return (
 		<AllProviders>
-			<TabBar />
+			<Stack screenOptions={{
+				contentStyle: { backgroundColor: systemVariables.background[200] },
+				headerShown: false,
+				headerStyle: { backgroundColor: systemVariables.background[100] },
+				headerTitleStyle: { color: systemVariables.text[100] },
+				presentation: 'modal',
+			}}
+			/>
 		</AllProviders>
 	);
 
