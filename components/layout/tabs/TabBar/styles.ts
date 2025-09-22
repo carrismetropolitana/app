@@ -13,19 +13,7 @@ export const useStyles = () => {
 	const safeAreaInsets = useSafeAreaInsets();
 
 	return StyleSheet.create({
-		iconWrapper: {
-			alignItems: 'center',
-			color: systemVariables.text[300],
-			display: 'flex',
-			height: 45,
-			justifyContent: 'center',
-			width: 45,
-		},
-		iconWrapperIsFocused: {
-			backgroundColor: systemVariables.brand.cm,
-			borderRadius: 999,
-		},
-		tabBar: {
+		container: {
 			backgroundColor: systemVariables.background[100],
 			borderTopColor: systemVariables.border[100],
 			height: 55 + safeAreaInsets.bottom,

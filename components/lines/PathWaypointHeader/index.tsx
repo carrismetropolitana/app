@@ -78,21 +78,21 @@ export function PathWaypointHeader({ isFirstStop, isLastStop, isSelected, waypoi
 
 	return (
 		<View style={containerStyles}>
-			<Text accessibilityHint={t('headerLinkAccessibilityHint')} accessibilityLabel={t('headerLinkAccessibilityLabel', { stopName: stopData.long_name })} accessibilityLanguage={localeContext.locale} accessibilityRole="link" style={pathWaypointHeaderStyles.stopName}>
+			<Text accessibilityHint={t('headerLinkAccessibilityHint')} accessibilityLabel={t('headerLinkAccessibilityLabel', { stopName: stopData.long_name })} accessibilityLanguage={localeContext.data.locale} accessibilityRole="link" style={pathWaypointHeaderStyles.stopName}>
 				{stopData.long_name}
 				<Link href={`/stop/${waypointData.stop_id}`} style={pathWaypointHeaderStyles.stopNameUrl}>
 					<IconArrowUpRight color={iconColor} size={14} />
 				</Link>
 			</Text>
 			<View style={pathWaypointHeaderStyles.subHeaderWrapper}>
-				<Text accessibilityHint={t('headerLocalityAccessibilityHint')} accessibilityLabel={t('headerLocalityAccessibilityLabel', { locality: localityData?.display || municipalityData?.name })} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={pathWaypointHeaderStyles.stopLocation}>{localityData?.display || municipalityData?.name}</Text>
+				<Text accessibilityHint={t('headerLocalityAccessibilityHint')} accessibilityLabel={t('headerLocalityAccessibilityLabel', { locality: localityData?.display || municipalityData?.name })} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" style={pathWaypointHeaderStyles.stopLocation}>{localityData?.display || municipalityData?.name}</Text>
 				<Text onPress={handleClickStopId} style={stopIdStyles}>
 					#{stopData.id} {stopIdClipboard ? <IconCheck style={pathWaypointHeaderStyles.stopIdCopyIcon} /> : <IconCopy style={pathWaypointHeaderStyles.stopIdCopyIcon} />}
 				</Text>
 			</View>
 			{isSelected && stopData.facilities.length > 0 && (
 				<View style={pathWaypointHeaderStyles.facilitiesWrapper}>
-					{stopData.facilities.map(facility => (<View key={facility} accessibilityHint={t('headerFacilityAccessibilityHint')} accessibilityLabel={t('headerFacilityAccessibilityLabel', { facility })} accessibilityLanguage={localeContext.locale} accessibilityRole="link"><IconDisplay category="facilities" name={facility} /></View>))}
+					{stopData.facilities.map(facility => (<View key={facility} accessibilityHint={t('headerFacilityAccessibilityHint')} accessibilityLabel={t('headerFacilityAccessibilityLabel', { facility })} accessibilityLanguage={localeContext.data.locale} accessibilityRole="link"><IconDisplay category="facilities" name={facility} /></View>))}
 				</View>
 			)}
 		</View>

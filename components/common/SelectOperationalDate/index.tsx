@@ -36,7 +36,7 @@ export function SelectOperationalDate() {
 			<Text
 				accessibilityHint={t('todayAccessibilityHint')}
 				accessibilityLabel={t('todayAccessibilityLabel')}
-				accessibilityLanguage={localeContext.locale}
+				accessibilityLanguage={localeContext.data.locale}
 				accessibilityRole="button"
 				accessibilityState={{ selected: selectedIndex === 0 }}
 				style={selectedIndex === 0 ? selectStyles.textSelected : selectStyles.text}
@@ -47,7 +47,7 @@ export function SelectOperationalDate() {
 			<Text
 				accessibilityHint={t('tomorrowAccessibilityHint')}
 				accessibilityLabel={t('tomorrowAccessibilityLabel')}
-				accessibilityLanguage={localeContext.locale}
+				accessibilityLanguage={localeContext.data.locale}
 				accessibilityRole="button"
 				accessibilityState={{ selected: selectedIndex === 1 }}
 				style={selectedIndex === 1 ? selectStyles.textSelected : selectStyles.text}
@@ -60,14 +60,14 @@ export function SelectOperationalDate() {
 				<Text
 					accessibilityHint={t('customDayAccessibilityHint')}
 					accessibilityLabel={t('customDayAccessibilityLabel')}
-					accessibilityLanguage={localeContext.locale}
+					accessibilityLanguage={localeContext.data.locale}
 					accessibilityRole="button"
 					accessibilityState={{ selected: selectedIndex === 2 }}
 					style={selectedIndex === 2 ? selectStyles.textSelected : selectStyles.text}
 				>
 					{operationalDayContext.data.selected_date?.js_date
-						? DateTime.fromJSDate(operationalDayContext.data.selected_date.js_date).setLocale(localeContext.locale).toLocaleString(DateTime.DATE_MED).replaceAll('de', '').replaceAll('.', '').toLocaleUpperCase()
-						: DateTime.now().setLocale(localeContext.locale).toLocaleString(DateTime.DATE_MED)}
+						? DateTime.fromJSDate(operationalDayContext.data.selected_date.js_date).setLocale(localeContext.data.locale).toLocaleString(DateTime.DATE_MED).replaceAll('de', '').replaceAll('.', '').toLocaleUpperCase()
+						: DateTime.now().setLocale(localeContext.data.locale).toLocaleString(DateTime.DATE_MED)}
 				</Text>
 			</View>
 		),
@@ -118,12 +118,12 @@ export function SelectOperationalDate() {
 			<DateTimePickerModal
 				accessibilityHint={t('datePickerAccessibilityHint')}
 				accessibilityLabel={t('datePickerAccessibilityLabel', { date: operationalDayContext.data.selected_date })}
-				accessibilityLanguage={localeContext.locale}
+				accessibilityLanguage={localeContext.data.locale}
 				accessibilityRole="button"
 				accessibilityState={{ expanded: showPicker }}
 				date={operationalDayContext.data.selected_date?.js_date ?? undefined}
 				isVisible={showPicker}
-				locale={localeContext.locale}
+				locale={localeContext.data.locale}
 				mode="date"
 				onCancel={handleCancel}
 				onConfirm={handleConfirm}

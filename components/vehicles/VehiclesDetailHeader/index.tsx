@@ -65,12 +65,12 @@ export function VehiclesDetailHeader({ data }: VehiclesDetailHeaderProps) {
 					</View>
 					<View style={lineDetailsHeaderStyles.accessibilitySection}>
 						{data?.wheelchair_accessible
-							? <IconDisabled2 accessibilityHint={t('wheelchairAvailableAccessibilityHint')} accessibilityLabel={t('wheelchairAvailableAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" color={theming.colorStatusOkText} size={32} />
-							: <IconDisabledOff accessibilityHint={t('wheelchairNotAvailableAccessibilityHint')} accessibilityLabel={t('wheelchairNotAvailableAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" color={theming.colorStatusOkText} size={32} />}
+							? <IconDisabled2 accessibilityHint={t('wheelchairAvailableAccessibilityHint')} accessibilityLabel={t('wheelchairAvailableAccessibilityLabel')} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" color={theming.colorStatusOkText} size={32} />
+							: <IconDisabledOff accessibilityHint={t('wheelchairNotAvailableAccessibilityHint')} accessibilityLabel={t('wheelchairNotAvailableAccessibilityLabel')} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" color={theming.colorStatusOkText} size={32} />}
 						{data?.occupancy_status && data?.occupancy_status.toString() === 'FULL' && data?.occupancy_status.toString() === 'NO_DATA_AVAILABLE'
 						&& (
 							<>
-								<IconUser accessibilityHint={t('occupancyFullAccessibilityHint')} accessibilityLabel={t('occupancyFullAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" color={theming.colorStatusOkText} size={32} />
+								<IconUser accessibilityHint={t('occupancyFullAccessibilityHint')} accessibilityLabel={t('occupancyFullAccessibilityLabel')} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" color={theming.colorStatusOkText} size={32} />
 								<IconCircleFilled accessible={false} color={theming.colorStatusOkText} fill={theming.colorStatusOkText} size={26} />
 								<IconCircleFilled accessible={false} color={theming.colorStatusOkText} fill={theming.colorStatusOkText} size={26} />
 								<IconCircleFilled accessible={false} color={theming.colorStatusOkText} fill={theming.colorStatusOkText} size={26} />
@@ -79,7 +79,7 @@ export function VehiclesDetailHeader({ data }: VehiclesDetailHeaderProps) {
 						{data?.occupancy_status && data?.occupancy_status.toString() === 'EMPTY'
 						&& (
 							<>
-								<IconUser accessibilityHint={t('occupancyEmptyAccessibilityHint')} accessibilityLabel={t('occupancyEmptyAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" color={theming.colorStatusOkText} size={32} />
+								<IconUser accessibilityHint={t('occupancyEmptyAccessibilityHint')} accessibilityLabel={t('occupancyEmptyAccessibilityLabel')} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" color={theming.colorStatusOkText} size={32} />
 								<IconCircleFilled accessible={false}color={theming.colorStatusOkText} fill={theming.colorStatusOkText} size={26} />
 								<IconCircleFilled accessible={false}color={theming.colorStatusOkText} fill={theming.colorStatusOkText} size={26} />
 								<IconCircleFilled accessible={false}color={theming.colorStatusOkText} fill={theming.colorStatusOkText} size={26} />
@@ -88,7 +88,7 @@ export function VehiclesDetailHeader({ data }: VehiclesDetailHeaderProps) {
 						{data?.occupancy_status && data?.occupancy_status.toString() === 'SEATS_AVAILABLE'
 						&& (
 							<>
-								<IconUser accessibilityHint={t('occupancySeatsAvailableAccessibilityHint')} accessibilityLabel={t('occupancySeatsAvailableAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" color={theming.colorStatusOkText} size={32} />
+								<IconUser accessibilityHint={t('occupancySeatsAvailableAccessibilityHint')} accessibilityLabel={t('occupancySeatsAvailableAccessibilityLabel')} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" color={theming.colorStatusOkText} size={32} />
 								<IconCircleFilled accessible={false}color={theming.colorStatusOkText} fill={theming.colorStatusOkText} size={26} />
 								<IconCircleFilled accessible={false}color={theming.colorStatusOkText} fill={theming.colorStatusOkText} size={26} />
 								<IconCircleFilled accessible={false}color={theming.colorStatusOkText} fill={theming.colorStatusOkText} size={26} />
@@ -97,7 +97,7 @@ export function VehiclesDetailHeader({ data }: VehiclesDetailHeaderProps) {
 						{data?.occupancy_status && data?.occupancy_status.toString() === 'STANDING_ONLY'
 						&& (
 							<>
-								<IconUser accessibilityHint={t('occupancyStandingOnlyAccessibilityHint')} accessibilityLabel={t('occupancyStandingOnlyAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" color={theming.colorStatusOkText} size={32} />
+								<IconUser accessibilityHint={t('occupancyStandingOnlyAccessibilityHint')} accessibilityLabel={t('occupancyStandingOnlyAccessibilityLabel')} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" color={theming.colorStatusOkText} size={32} />
 								<IconCircleFilled accessible={false} color={theming.colorStatusOkText} fill={theming.colorStatusOkText} size={26} />
 								<IconCircleFilled accessible={false} color={theming.colorStatusOkText} fill={theming.colorStatusOkText} size={26} />
 								<IconCircleFilled accessible={false} color={theming.colorStatusOkText} fill={theming.colorStatusOkText} size={26} />
@@ -106,7 +106,7 @@ export function VehiclesDetailHeader({ data }: VehiclesDetailHeaderProps) {
 
 						{!data?.occupancy_status && (
 							<>
-								<IconUser accessibilityHint={t('occupancyUnknownAccessibilityHint')} accessibilityLabel={t('occupancyUnknownAccessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" color={theming.colorStatusOkText} size={32} />
+								<IconUser accessibilityHint={t('occupancyUnknownAccessibilityHint')} accessibilityLabel={t('occupancyUnknownAccessibilityLabel')} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" color={theming.colorStatusOkText} size={32} />
 								<IconCircleFilled accessible={false} color={theming.colorStatusOkText} fill={theming.colorStatusOkText} size={26} />
 								<IconCircleFilled accessible={false} color={theming.colorStatusOkText} fill={theming.colorStatusOkText} size={26} />
 								<IconCircleFilled accessible={false} color={theming.colorStatusOkText} fill={theming.colorStatusOkText} size={26} />

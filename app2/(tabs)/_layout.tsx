@@ -1,6 +1,6 @@
 /* * */
 
-import { HapticTab } from '@/components/HapticTab';
+import { HapticTab } from '@/components/layout/tabs/TabBarHaptic';
 import { OfflineScreen } from '@/components/OfflineScreen';
 import { useSystemVariables } from '@/theme/global';
 import { useNetInfo } from '@react-native-community/netinfo';
@@ -9,7 +9,7 @@ import { Tabs, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 
-import { useStyles } from '../../theme/styles';
+import { useStyles } from '../../components/layout/tabs/TabBar/styles';
 
 /* * */
 

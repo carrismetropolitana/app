@@ -1,4 +1,4 @@
-import { HapticTab } from '@/components/HapticTab';
+import { HapticTab } from '@/components/layout/tabs/TabBarHaptic';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { IconArrowLoopRight, IconDots, IconMap, IconUserCircle } from '@tabler/icons-react-native';

@@ -69,7 +69,7 @@ export function FavoriteToggle({ color, isActive, onToggle, type }: Props) {
 					<IconHeartFilled
 						accessibilityHint={`${t('filledAccessibilityHint')} ${type}`}
 						accessibilityLabel={`${t('filledAccessibilityLabel')} ${type}`}
-						accessibilityLanguage={localeContext.locale}
+						accessibilityLanguage={localeContext.data.locale}
 						accessibilityRole="button"
 						color={theming.colorBrand}
 						fill={color}
@@ -85,7 +85,7 @@ export function FavoriteToggle({ color, isActive, onToggle, type }: Props) {
 				<IconHeart
 					accessibilityHint={`${t('unfilledAccessibilityHint')} ${type}`}
 					accessibilityLabel={`${t('unfilledAccessibilityLabel')} ${type}`}
-					accessibilityLanguage={localeContext.locale}
+					accessibilityLanguage={localeContext.data.locale}
 					accessibilityRole="button"
 					color={theming.colorSystemText300}
 				/>

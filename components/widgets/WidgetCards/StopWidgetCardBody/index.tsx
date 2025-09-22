@@ -45,7 +45,7 @@ export function StopWidgetCardBody({ patternIds, stopId }: Props) {
 	}
 
 	return (
-		<View accessibilityHint={t('accessibilityHint')} accessibilityLabel={t('accessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="list">
+		<View accessibilityHint={t('accessibilityHint')} accessibilityLabel={t('accessibilityLabel')} accessibilityLanguage={localeContext.data.locale} accessibilityRole="list">
 			{ stopId && (
 				<StopDetailNextArrivalsByPatternID key={stopId} descriptionEnabled={false} href={`/stop/${stopId}`} patternIds={patternIds} />
 			)}

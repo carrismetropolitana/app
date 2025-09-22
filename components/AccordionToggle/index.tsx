@@ -75,7 +75,7 @@ export const AccordionToggle = ({ expanded, isNotification, size = 24 }: Accordi
 		<>
 			{isNotification && (
 				<Animated.View style={[accordionToggleStyles.gradientCircle, { backgroundColor: '#daf0ef', position: 'absolute', transform: [{ scale: pulseAnim }], zIndex: 0 }]}>
-					<View accessibilityHint={t('accordionToggle.accessibilityHint')} accessibilityLabel={t('accordionToggle.accessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="button" style={[accordionToggleStyles.gradientCircle, { backgroundColor: 'transparent', position: 'absolute', zIndex: 1 }]}>
+					<View accessibilityHint={t('accordionToggle.accessibilityHint')} accessibilityLabel={t('accordionToggle.accessibilityLabel')} accessibilityLanguage={localeContext.data.locale} accessibilityRole="button" style={[accordionToggleStyles.gradientCircle, { backgroundColor: 'transparent', position: 'absolute', zIndex: 1 }]}>
 						<Animated.View style={[accordionToggleStyles.innerCircle, { alignSelf: 'center', position: 'absolute', transform: [{ rotate }], zIndex: 2 }]}>
 							<IconBell color="#fff" size={32} />
 							<View style={accordionToggleStyles.notificationDot} />
@@ -84,7 +84,7 @@ export const AccordionToggle = ({ expanded, isNotification, size = 24 }: Accordi
 				</Animated.View>
 			)}
 			{!isNotification && (
-				<Animated.View accessibilityHint={t('accordionToggle.accessibilityHint')} accessibilityLabel={t('accordionToggle.accessibilityLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="button" style={[{ transform: [{ rotate: rotate }] }]}>
+				<Animated.View accessibilityHint={t('accordionToggle.accessibilityHint')} accessibilityLabel={t('accordionToggle.accessibilityLabel')} accessibilityLanguage={localeContext.data.locale} accessibilityRole="button" style={[{ transform: [{ rotate: rotate }] }]}>
 					<IconCaretLeft color={chevronColor} fill={chevronColor} size={size} />
 				</Animated.View>
 			)}

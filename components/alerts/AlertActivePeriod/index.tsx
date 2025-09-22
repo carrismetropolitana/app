@@ -28,7 +28,7 @@ export function AlertActivePeriodEnd({ date, size = 'md' }: AlertActivePeriodEnd
 	// A. Setup variables
 	const alertActivePeriodStyles = styles();
 	const localeContext = useLocaleContext();
-	const resolvedLocale = ['pt', 'pt-PT'].includes(localeContext.locale) ? 'pt-PT' : 'en-GB';
+	const resolvedLocale = ['pt', 'pt-PT'].includes(localeContext.data.locale) ? 'pt-PT' : 'en-GB';
 
 	const { t } = useTranslation('translation', { keyPrefix: 'alerts.AlertActivePeriod' });
 
@@ -63,7 +63,7 @@ export function AlertActivePeriodStart({ date, size = 'md' }: AlertActivePeriodS
 	const alertActivePeriodStyles = styles();
 	const { t } = useTranslation('translation', { keyPrefix: 'alerts.AlertActivePeriod' });
 	const localeContext = useLocaleContext();
-	const resolvedLocale = ['pt', 'pt-PT'].includes(localeContext.locale) ? 'pt-PT' : 'en-GB';
+	const resolvedLocale = ['pt', 'pt-PT'].includes(localeContext.data.locale) ? 'pt-PT' : 'en-GB';
 
 	//
 	// B. Render components

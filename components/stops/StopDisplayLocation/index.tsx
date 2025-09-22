@@ -44,7 +44,7 @@ export function StopDisplayLocation({ localityId, longName, municipalityId, size
 			<Text
 				accessibilityHint={t('stopDisplayLocalityAccessibilityHint')}
 				accessibilityLabel={t('stopDisplayLocalityAccessibilityLabel', { stopName: longName || localityData.display })}
-				accessibilityLanguage={localeContext.locale}
+				accessibilityLanguage={localeContext.data.locale}
 				accessibilityRole="search"
 				style={[styles.default, StopDisplayLocationStyles]}
 			>
@@ -58,7 +58,7 @@ export function StopDisplayLocation({ localityId, longName, municipalityId, size
 			<Text
 				accessibilityHint={t('stopDisplayMunicipalityAccessibilityHint')}
 				accessibilityLabel={t('stopDisplayMunicipalityAccessibilityLabel', { stopName: longName || municipalityData.name })}
-				accessibilityLanguage={localeContext.locale}
+				accessibilityLanguage={localeContext.data.locale}
 				accessibilityRole="search"
 				style={[styles.default, StopDisplayLocationStyles]}
 			>

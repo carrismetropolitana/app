@@ -55,7 +55,7 @@ export function VirtualizedListingLines({ data, icon, itemClick, items = 10, mun
 		<VirtualizedList
 			accessibilityHint={t('virtualizedListAccessibilityHint')}
 			accessibilityLabel={t('virtualizedListAccessibilityLabel')}
-			accessibilityLanguage={localeContext.locale}
+			accessibilityLanguage={localeContext.data.locale}
 			accessibilityRole="text"
 			data={data}
 			getItem={getItem}

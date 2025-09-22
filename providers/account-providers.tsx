@@ -3,19 +3,17 @@
 import { AccountContextProvider } from '@/contexts/Account.context';
 import { AnalyticsContextProvider } from '@/contexts/Analytics.context';
 import { ProfileContextProvider } from '@/contexts/Profile.context';
-import { WidgetContextProvider } from '@/contexts/Widget.context';
+import { PropsWithChildren } from 'react';
 
 /* * */
 
-export function ProfileProviders({ children }: { children: React.ReactNode }) {
+export function AccountProviders({ children }: PropsWithChildren) {
 	return (
 		<AccountContextProvider>
 			<ProfileContextProvider>
-				<WidgetContextProvider>
-					<AnalyticsContextProvider>
-						{children}
-					</AnalyticsContextProvider>
-				</WidgetContextProvider>
+				<AnalyticsContextProvider>
+					{children}
+				</AnalyticsContextProvider>
 			</ProfileContextProvider>
 		</AccountContextProvider>
 	);

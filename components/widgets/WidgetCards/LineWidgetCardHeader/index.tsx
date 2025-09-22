@@ -38,7 +38,7 @@ export function LineWidgetCardHeader({ lineId, title }: LineWidgetCardHeaderProp
 	return (
 		<View style={headerStyles.container}>
 			<LineBadge color={lineData?.color} lineId={lineId} size="lg" withAlertIcon />
-			<Text accessibilityHint={`${t('lineAcessibilityHint', { lineId, title })}`} accessibilityLabel={t('lineAcessibilityLabel', { lineId, title })} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={headerStyles.headerTitle}>{title ? title : 'A carregar...'}</Text>
+			<Text accessibilityHint={`${t('lineAcessibilityHint', { lineId, title })}`} accessibilityLabel={t('lineAcessibilityLabel', { lineId, title })} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" style={headerStyles.headerTitle}>{title ? title : 'A carregar...'}</Text>
 		</View>
 	);
 }

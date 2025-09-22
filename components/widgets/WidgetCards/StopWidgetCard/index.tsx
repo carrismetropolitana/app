@@ -80,7 +80,7 @@ export function StopWidgetCard({ data, expanded, onToggle }: StopWidgetCardProps
 		<ListItem.Accordion
 			accessibilityHint={t('stopWidgetCardAccessibilityHint')}
 			accessibilityLabel={t('stopWidgetCardAccessibilityLabel')}
-			accessibilityLanguage={localeContext.locale}
+			accessibilityLanguage={localeContext.data.locale}
 			accessibilityRole="togglebutton"
 			accessibilityState={{ expanded }}
 			containerStyle={!expanded ? cardStyles.cardClosed : cardStyles.cardOpen}

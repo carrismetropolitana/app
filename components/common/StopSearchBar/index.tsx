@@ -37,7 +37,7 @@ export default function StopSearchBar({ counter = true, disabled = false, onPres
 			<Input
 				accessibilityHint={t('stopSearchBarAcessibilityHint')}
 				accessibilityLabel={t('stopSearchBarAcessibilityLabel')}
-				accessibilityLanguage={localeContext.locale}
+				accessibilityLanguage={localeContext.data.locale}
 				accessibilityRole="search"
 				clearButtonMode="always"
 				containerStyle={{ borderRadius: 30 }}

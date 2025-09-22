@@ -33,8 +33,8 @@ export default function Page() {
 	}, [navigation]);
 
 	const preparedUrl = useMemo(() => {
-		return `${searchParams.url}?locale=${localeContext.locale}`;
-	}, [searchParams.url, localeContext.locale]);
+		return `${searchParams.url}?locale=${localeContext.data.locale}`;
+	}, [searchParams.url, localeContext.data.locale]);
 
 	//
 	// C. Render components

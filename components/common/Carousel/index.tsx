@@ -43,7 +43,7 @@ const Carousel = memo(({ slides }: { slides: SimplifiedAlert[] }) => {
 			renderItem={({ index, item }) => (
 				<Pressable accessibilityHint={`Este alerta é sobre ${item.title}`} accessibilityLabel={`Alerta ${item.title}`} accessibilityRole="button">
 					<View style={alertCarouselStyles.imageContainer}>
-						<TouchableOpacity onPress={() => openWebView({ locale: localeContext.locale, url: `https://carrismetropolitana.pt/alerts/${item.alert_id}` })} style={alertCarouselStyles.container}>
+						<TouchableOpacity onPress={() => openWebView({ locale: localeContext.data.locale, url: `https://carrismetropolitana.pt/alerts/${item.alert_id}` })} style={alertCarouselStyles.container}>
 							<AlertActivePeriodStart date={item.start_date} size="sm" />
 							<View style={alertCarouselStyles.bodyContentContainer}>
 								<Text style={alertCarouselStyles.title}>{item.title}</Text>

@@ -57,7 +57,7 @@ export function VirtualizedListingStops({ data, icon, itemClick, items, size }: 
 		<VirtualizedList
 			accessibilityHint={t('virtualizedListAccessibilityHint')}
 			accessibilityLabel={t('virtualizedListAccessibilityLabel')}
-			accessibilityLanguage={localeContext.locale}
+			accessibilityLanguage={localeContext.data.locale}
 			accessibilityRole="text"
 			data={data}
 			getItem={getItem}

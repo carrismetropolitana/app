@@ -57,7 +57,7 @@ export function PathWaypointTimetable() {
 				<Text
 					accessibilityHint={t('noDataAccessibilityHint')}
 					accessibilityLabel={t('noDataAccessibilityLabel')}
-					accessibilityLanguage={localeContext.locale}
+					accessibilityLanguage={localeContext.data.locale}
 					accessibilityRole="text"
 					style={timeTableStyles.noData}
 				>{t('no_data')}
@@ -67,7 +67,7 @@ export function PathWaypointTimetable() {
 						<Text
 							accessibilityHint={t('nextDateAccessibilityHint')}
 							accessibilityLabel={t('nextDateAccessibilityLabel', { value: nextDate })}
-							accessibilityLanguage={localeContext.locale}
+							accessibilityLanguage={localeContext.data.locale}
 							accessibilityRole="text"
 							style={timeTableStyles.nextDate}
 						>{t('next_date', { value: nextDate })}
@@ -83,7 +83,7 @@ export function PathWaypointTimetable() {
 			<Text
 				accessibilityHint={t('timetableAccessibilityHint')}
 				accessibilityLabel={t('timetableAccessibilityLabel')}
-				accessibilityLanguage={localeContext.locale}
+				accessibilityLanguage={localeContext.data.locale}
 				accessibilityRole="text"
 				style={timeTableStyles.title}
 			>{t('title')}

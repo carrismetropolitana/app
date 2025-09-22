@@ -1,13 +1,13 @@
 /* * */
 
 import { ThemeProvider } from '@/contexts/Theme.context';
+import { AccountProviders } from '@/providers/account-providers';
 import { ConfigProviders } from '@/providers/config-providers';
 import { DataProviders } from '@/providers/data-providers';
 import { MapProviders } from '@/providers/map-providers';
 import { NativeProviders } from '@/providers/native-providers';
 import { PrivacyProviders } from '@/providers/privacy-providers';
-import { ProfileProviders } from '@/providers/profile-providers';
-// import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { PropsWithChildren } from 'react';
 
 /* * */
@@ -18,15 +18,15 @@ export function AllProviders({ children }: PropsWithChildren) {
 			<ConfigProviders>
 				<PrivacyProviders>
 					<DataProviders>
-						<ProfileProviders>
+						<AccountProviders>
 							<MapProviders>
-								{/* <BottomSheetModalProvider> */}
-								<ThemeProvider>
-									{children}
-								</ThemeProvider>
-								{/* </BottomSheetModalProvider> */}
+								<BottomSheetModalProvider>
+									<ThemeProvider>
+										{children}
+									</ThemeProvider>
+								</BottomSheetModalProvider>
 							</MapProviders>
-						</ProfileProviders>
+						</AccountProviders>
 					</DataProviders>
 				</PrivacyProviders>
 			</ConfigProviders>

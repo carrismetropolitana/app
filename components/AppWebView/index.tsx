@@ -28,9 +28,9 @@ export function AppWebView({ mediaPlaybackRequiresUserAction = true, url }: AppW
 
 	const preparedUrl = useMemo(() => {
 		const originalUrl = new URL(url);
-		originalUrl.searchParams.set('locale', localeContext.locale);
+		originalUrl.searchParams.set('locale', localeContext.data.locale);
 		return originalUrl.toString();
-	}, [url, localeContext.locale]);
+	}, [url, localeContext.data.locale]);
 
 	//
 	// C. Render components

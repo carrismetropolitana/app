@@ -34,40 +34,40 @@ export default function Counter({ quantity, type }: Props) {
 	return (
 		<>
 			{/* Lines Counter */}
-			{(quantity === undefined || quantity === null) && <Text accessibilityHint={t('lineCounterZeroHint')} accessibilityLabel={t('lineCounterZeroLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={counterStyles.text}>{t('lineCounterZero')}</Text>}
-			{quantity === 0 && type === 'lines' && <Text accessibilityHint={t('lineCounterZeroHint')} accessibilityLabel={t('lineCounterZeroLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={counterStyles.text}> {t('lineCounterZero')}</Text>}
-			{quantity === 1 && type === 'lines' && <Text accessibilityHint={t('lineCounterOneHint')} accessibilityLabel={t('lineCounterOneLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={counterStyles.text}>{quantity} {t('lineCounterOne')}</Text>}
-			{typeof quantity === 'number' && quantity > 1 && type === 'lines' && <Text accessibilityHint={t('lineCounterOtherHint')} accessibilityLabel={t('lineCounterOtherLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={counterStyles.text}>{quantity} {t('lineCounterOther')}</Text>}
+			{(quantity === undefined || quantity === null) && <Text accessibilityHint={t('lineCounterZeroHint')} accessibilityLabel={t('lineCounterZeroLabel')} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" style={counterStyles.text}>{t('lineCounterZero')}</Text>}
+			{quantity === 0 && type === 'lines' && <Text accessibilityHint={t('lineCounterZeroHint')} accessibilityLabel={t('lineCounterZeroLabel')} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" style={counterStyles.text}> {t('lineCounterZero')}</Text>}
+			{quantity === 1 && type === 'lines' && <Text accessibilityHint={t('lineCounterOneHint')} accessibilityLabel={t('lineCounterOneLabel')} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" style={counterStyles.text}>{quantity} {t('lineCounterOne')}</Text>}
+			{typeof quantity === 'number' && quantity > 1 && type === 'lines' && <Text accessibilityHint={t('lineCounterOtherHint')} accessibilityLabel={t('lineCounterOtherLabel')} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" style={counterStyles.text}>{quantity} {t('lineCounterOther')}</Text>}
 
 			{/* Stops Counter */}
-			{(quantity === undefined || quantity === null) && <Text accessibilityHint={t('stopCounterZeroHint')} accessibilityLabel={t('stopCounterZeroLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={counterStyles.text}>{t('stopCounterZero')}</Text>}
-			{quantity === 0 && type === 'stops' && <Text accessibilityHint={t('stopCounterZeroHint')} accessibilityLabel={t('stopCounterZeroLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={counterStyles.text}>{t('stopCounterZero')}</Text>}
-			{quantity === 1 && type === 'stops' && <Text accessibilityHint={t('stopCounterOneHint')} accessibilityLabel={t('stopCounterOneLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={counterStyles.text}>{quantity} {t('stopCounterOne')}</Text>}
-			{typeof quantity === 'number' && quantity > 1 && type === 'stops' && <Text accessibilityHint={t('stopCounterOtherHint')} accessibilityLabel={t('stopCounterOtherLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={counterStyles.text}>{quantity} {t('stopCounterOther')}</Text>}
+			{(quantity === undefined || quantity === null) && <Text accessibilityHint={t('stopCounterZeroHint')} accessibilityLabel={t('stopCounterZeroLabel')} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" style={counterStyles.text}>{t('stopCounterZero')}</Text>}
+			{quantity === 0 && type === 'stops' && <Text accessibilityHint={t('stopCounterZeroHint')} accessibilityLabel={t('stopCounterZeroLabel')} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" style={counterStyles.text}>{t('stopCounterZero')}</Text>}
+			{quantity === 1 && type === 'stops' && <Text accessibilityHint={t('stopCounterOneHint')} accessibilityLabel={t('stopCounterOneLabel')} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" style={counterStyles.text}>{quantity} {t('stopCounterOne')}</Text>}
+			{typeof quantity === 'number' && quantity > 1 && type === 'stops' && <Text accessibilityHint={t('stopCounterOtherHint')} accessibilityLabel={t('stopCounterOtherLabel')} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" style={counterStyles.text}>{quantity} {t('stopCounterOther')}</Text>}
 
 			{/* Vehicles Counter */}
 			{(quantity === undefined || quantity === null) && (
 				<View style={counterStyles.zeroCount}>
 					<NoVehicleIcon />
-					<Text accessibilityHint={t('vehicleCounterZeroHint')} accessibilityLabel={t('vehicleCounterZeroLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={counterStyles.textMuted}>{t('vehicleCounterZero')}</Text>
+					<Text accessibilityHint={t('vehicleCounterZeroHint')} accessibilityLabel={t('vehicleCounterZeroLabel')} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" style={counterStyles.textMuted}>{t('vehicleCounterZero')}</Text>
 				</View>
 			)}
 			{quantity === 0 && type === 'vehicles' && (
 				<View style={counterStyles.zeroCount}>
 					<NoVehicleIcon />
-					<Text accessibilityHint={t('vehicleCounterZeroHint')} accessibilityLabel={t('vehicleCounterZeroLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={counterStyles.textMuted}>{t('vehicleCounterZero')}</Text>
+					<Text accessibilityHint={t('vehicleCounterZeroHint')} accessibilityLabel={t('vehicleCounterZeroLabel')} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" style={counterStyles.textMuted}>{t('vehicleCounterZero')}</Text>
 				</View>
 			)}
 			{quantity === 1 && type === 'vehicles' && (
 				<View style={counterStyles.vehiclesCounter}>
 					<LiveIcon />
-					<Text accessibilityHint={t('vehicleCounterOneHint')} accessibilityLabel={t('vehicleCounterOneLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={counterStyles.textRealtime}>{quantity} {t('vehicleCounterOne')}</Text>
+					<Text accessibilityHint={t('vehicleCounterOneHint')} accessibilityLabel={t('vehicleCounterOneLabel')} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" style={counterStyles.textRealtime}>{quantity} {t('vehicleCounterOne')}</Text>
 				</View>
 			)}
 			{typeof quantity === 'number' && quantity > 1 && type === 'vehicles' && (
 				<View style={counterStyles.vehiclesCounter}>
 					<LiveIcon />
-					<Text accessibilityHint={t('vehicleCounterOtherHint')} accessibilityLabel={t('vehicleCounterOtherLabel')} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={counterStyles.textRealtime}>{quantity} {t('vehicleCounterOther')}</Text>
+					<Text accessibilityHint={t('vehicleCounterOtherHint')} accessibilityLabel={t('vehicleCounterOtherLabel')} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" style={counterStyles.textRealtime}>{quantity} {t('vehicleCounterOther')}</Text>
 				</View>
 			)}
 		</>

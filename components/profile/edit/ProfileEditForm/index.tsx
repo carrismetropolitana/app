@@ -134,7 +134,7 @@ export function ProfileEditForm() {
 				<Section
 					accessibilityHint={t('sectionPersonalInfoHint')}
 					accessibilityLabel={t('sectionPersonalInfoLabel')}
-					accessibilityLanguage={localeContext.locale}
+					accessibilityLanguage={localeContext.data.locale}
 					heading={t('personalInfoSectionTitle')}
 				/>
 				<ListItem>
@@ -143,7 +143,7 @@ export function ProfileEditForm() {
 							<Text
 								accessibilityHint={t('nameInputHint')}
 								accessibilityLabel={t('nameInputLabel')}
-								accessibilityLanguage={localeContext.locale}
+								accessibilityLanguage={localeContext.data.locale}
 								accessibilityRole="text"
 							>{t('firstNameInputLabel')}
 							</Text>
@@ -157,7 +157,7 @@ export function ProfileEditForm() {
 							<Text
 								accessibilityHint={t('surnameInputHint')}
 								accessibilityLabel={t('surnameInputLabel')}
-								accessibilityLanguage={localeContext.locale}
+								accessibilityLanguage={localeContext.data.locale}
 								accessibilityRole="text"
 							>{t('lastNameInputLabel')}
 							</Text>
@@ -174,23 +174,23 @@ export function ProfileEditForm() {
 							<Input
 								accessibilityHint={t('birthdateInputHint')}
 								accessibilityLabel={t('birthdateInputLabel')}
-								accessibilityLanguage={localeContext.locale}
+								accessibilityLanguage={localeContext.data.locale}
 								accessibilityRole="text"
 								containerStyle={profileEditModalStyles.inputContainer}
 								editable={false}
 								placeholder="Selecionar data"
 								pointerEvents="none"
-								value={birthDate ? DateTime.fromJSDate(new Date(Number(birthDate))).setLocale(localeContext.locale).toLocaleString(DateTime.DATE_MED).replace(/\bde\b/g, '') : ''}
+								value={birthDate ? DateTime.fromJSDate(new Date(Number(birthDate))).setLocale(localeContext.data.locale).toLocaleString(DateTime.DATE_MED).replace(/\bde\b/g, '') : ''}
 							/>
 						</Pressable>
 						<DateTimePickerModal
 							accessibilityHint={t('birthdateInputContentHint')}
 							accessibilityLabel={t('birthdateInputContentLabel')}
-							accessibilityLanguage={localeContext.locale}
+							accessibilityLanguage={localeContext.data.locale}
 							accessibilityRole="adjustable"
 							date={birthDate ? new Date(Number(birthDate)) : new Date()}
 							isVisible={showPicker}
-							locale={localeContext.locale}
+							locale={localeContext.data.locale}
 							mode="date"
 							onCancel={() => setShowPicker(false)}
 							onConfirm={(date) => {
@@ -205,7 +205,7 @@ export function ProfileEditForm() {
 				<Section
 					accessibilityHint={t('sectionContactsInfoHint')}
 					accessibilityLabel={t('sectionContactsInfoLabel')}
-					accessibilityLanguage={localeContext.locale}
+					accessibilityLanguage={localeContext.data.locale}
 					heading={t('contactSectionTitle')}
 				/>
 				<ListItem>
@@ -214,7 +214,7 @@ export function ProfileEditForm() {
 						<Input
 							accessibilityHint={t('emailInputHint')}
 							accessibilityLabel={t('emailInputContentLabel')}
-							accessibilityLanguage={localeContext.locale}
+							accessibilityLanguage={localeContext.data.locale}
 							accessibilityRole="text"
 							containerStyle={profileEditModalStyles.inputContainer}
 							errorMessage={!emailValid && email ? t('invalidEmail') : undefined}
@@ -229,7 +229,7 @@ export function ProfileEditForm() {
 						<View
 							accessibilityHint={t('phoneInputHint')}
 							accessibilityLabel={t('phoneInputContentLabel')}
-							accessibilityLanguage={localeContext.locale}
+							accessibilityLanguage={localeContext.data.locale}
 							accessibilityRole="text"
 							style={{ alignItems: 'center', flexDirection: 'row' }}
 						>
@@ -263,7 +263,7 @@ export function ProfileEditForm() {
 				<Section
 					accessibilityHint={t('sectionActivityInfoHint')}
 					accessibilityLabel={t('sectionActivityInfoLabel')}
-					accessibilityLanguage={localeContext.locale}
+					accessibilityLanguage={localeContext.data.locale}
 					heading={t('activityProfileSectionTitle')}
 				/>
 				{activityTypes.options.map((item, index) => (
@@ -273,7 +273,7 @@ export function ProfileEditForm() {
 								key={index}
 								accessibilityHint={t('activityInfoHint')}
 								accessibilityLabel={t('activityInfoLabel')}
-								accessibilityLanguage={localeContext.locale}
+								accessibilityLanguage={localeContext.data.locale}
 								accessibilityRole="checkbox"
 								accessibilityState={{ checked: activityProfile === item }}
 								checked={activityProfile === item}
@@ -295,7 +295,7 @@ export function ProfileEditForm() {
 				<Section
 					accessibilityHint={t('sectionUtilizationTypeHint')}
 					accessibilityLabel={t('sectionUtilizationTypeLabel')}
-					accessibilityLanguage={localeContext.locale}
+					accessibilityLanguage={localeContext.data.locale}
 					heading={t('utilizationTypesSectionTitle')}
 				/>
 				{utilizationTypes.options.map((item, index) => (
@@ -305,7 +305,7 @@ export function ProfileEditForm() {
 								key={index}
 								accessibilityHint={t('utilizationTypeInfoHint')}
 								accessibilityLabel={t('utilizationTypeInfoLabel')}
-								accessibilityLanguage={localeContext.locale}
+								accessibilityLanguage={localeContext.data.locale}
 								accessibilityRole="checkbox"
 								accessibilityState={{ checked: usageType === item }}
 								checked={usageType === item}
@@ -327,7 +327,7 @@ export function ProfileEditForm() {
 				<Section
 					accessibilityHint={t('sectionTopicsOfInterestHint')}
 					accessibilityLabel={t('sectionTopicsOfInterestLabel')}
-					accessibilityLanguage={localeContext.locale}
+					accessibilityLanguage={localeContext.data.locale}
 					heading={t('topicsOfInterestSectionTitle')}
 				/>
 				{interestsTypes.options.map((item, index) => (
@@ -336,7 +336,7 @@ export function ProfileEditForm() {
 							<CheckBox
 								accessibilityHint={t('topicsOfInterestInfoHint')}
 								accessibilityLabel={t('topicsOfInterestLabel')}
-								accessibilityLanguage={localeContext.locale}
+								accessibilityLanguage={localeContext.data.locale}
 								accessibilityRole="checkbox"
 								accessibilityState={{ checked: interestTopics.includes(item) }}
 								checked={interestTopics.includes(item)}

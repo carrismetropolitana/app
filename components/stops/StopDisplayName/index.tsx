@@ -32,7 +32,7 @@ export function StopDisplayName({ longName, size = 'md' }: Props) {
 		<Text
 			accessibilityHint={t('stopDisplayNameAccessibilityHint')}
 			accessibilityLabel={t('stopDisplayNameAccessibilityLabel')}
-			accessibilityLanguage={localeContext.locale}
+			accessibilityLanguage={localeContext.data.locale}
 			accessibilityRole="search"
 			style={longNameStyles}
 		>

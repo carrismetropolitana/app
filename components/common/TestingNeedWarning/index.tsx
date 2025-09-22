@@ -14,14 +14,14 @@ export const TestingNeedWarning = () => {
 			<Text
 				accessibilityHint={t('TestingNeedWarningTitleAccessibilityHint')}
 				accessibilityLabel={t('TestingNeedWarningTitleAccessibilityLabel')}
-				accessibilityLanguage={localeContext.locale}
+				accessibilityLanguage={localeContext.data.locale}
 				style={testingNeedWarningStyles.warningTitle}
 			>{t('warningTitle')}
 			</Text>
 			<Text
 				accessibilityHint={t('TestingNeedWarningTextAccessibilityHint')}
 				accessibilityLabel={t('TestingNeedWarningTextAccessibilityLabel')}
-				accessibilityLanguage={localeContext.locale}
+				accessibilityLanguage={localeContext.data.locale}
 				style={testingNeedWarningStyles.warningText}
 			>{t('warningText')}
 			</Text>

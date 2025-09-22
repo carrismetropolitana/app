@@ -58,7 +58,7 @@ export function LineBadge({ color, lineData, lineId, onPress, shortName, size = 
 			<Text
 				accessibilityHint={`${t('lineAccessibilityHint')} ${shortName || lineData?.short_name || fetchedLineData?.short_name}`}
 				accessibilityLabel={`${t('lineAccessibilityLabel')} ${shortName || lineData?.short_name || fetchedLineData?.short_name}`}
-				accessibilityLanguage={localeContext.locale}
+				accessibilityLanguage={localeContext.data.locale}
 				accessibilityRole="button"
 				style={[badgeStyles, { backgroundColor: color ? color : fetchedLineData?.color || lineData?.color, color: textColor || lineData?.text_color || fetchedLineData?.text_color }]}
 			>

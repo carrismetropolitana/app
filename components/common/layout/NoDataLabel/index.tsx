@@ -32,7 +32,7 @@ export function NoDataLabel({ text }: NoDataLabelProps) {
 		<Text
 			accessibilityHint={t('noDataAccessibilityHint')}
 			accessibilityLabel={t('noDataAccessibilityLabel')}
-			accessibilityLanguage={localeContext.locale}
+			accessibilityLanguage={localeContext.data.locale}
 			style={noDataLabelStyles.text}
 		>
 			{text || t('default')}

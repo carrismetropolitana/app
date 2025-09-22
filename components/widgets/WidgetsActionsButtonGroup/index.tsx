@@ -107,7 +107,7 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, disabled, isUpdate, len
 			<Button
 				accessibilityHint={t('saveButtonAccessibilityHint')}
 				accessibilityLabel={t('saveButtonAccessibilityLabel')}
-				accessibilityLanguage={localeContext.locale}
+				accessibilityLanguage={localeContext.data.locale}
 				accessibilityRole="button"
 				buttonStyle={widgetActionButtonsStyles.saveButton}
 				disabled={disabled}
@@ -118,7 +118,7 @@ export const WidgetActionsButtonGroup = ({ dataToSubmit, disabled, isUpdate, len
 			<Button
 				accessibilityHint={t('cancelButtonAccessibilityHint')}
 				accessibilityLabel={t('cancelButtonAccessibilityLabel')}
-				accessibilityLanguage={localeContext.locale}
+				accessibilityLanguage={localeContext.data.locale}
 				accessibilityRole="button"
 				buttonStyle={widgetActionButtonsStyles.saveButton}
 				onPress={() => handleCancel()}

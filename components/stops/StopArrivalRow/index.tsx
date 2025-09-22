@@ -50,18 +50,18 @@ export const StopArrivalRow = ({ formatted, status, tripData }: StopArrivalRowPr
 					<ListItem.Title>
 						<View style={stopDetailNextArrivals.arrivalContainer}>
 							<LineBadge lineId={tripData.line_id} size="lg" withAlertIcon />
-							<Text accessibilityHint={t('next_arrival_row_realtime_hint')} accessibilityLabel={t('next_arrival_row_realtime_label', { headsign: tripData.headsign })} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={stopDetailNextArrivals.headsign}>{tripData.headsign}</Text>
+							<Text accessibilityHint={t('next_arrival_row_realtime_hint')} accessibilityLabel={t('next_arrival_row_realtime_label', { headsign: tripData.headsign })} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" style={stopDetailNextArrivals.headsign}>{tripData.headsign}</Text>
 							<View style={{ flex: 1 }} />
 							{formatted && status === 'realtime' && (
 								<View style={stopDetailNextArrivals.rippleContainer}>
 									<LiveIcon />
-									<Text accessibilityHint={t('next_arrival_row_realtime_time_hint')} accessibilityLabel={t('next_arrival_row_realtime_time_label', { headsign: formatted })} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={stopDetailNextArrivals.arrival}>{formatted.label}</Text>
+									<Text accessibilityHint={t('next_arrival_row_realtime_time_hint')} accessibilityLabel={t('next_arrival_row_realtime_time_label', { headsign: formatted })} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" style={stopDetailNextArrivals.arrival}>{formatted.label}</Text>
 								</View>
 							)}
 							{formatted && status === 'scheduled' && (
 								<View style={stopDetailNextArrivals.rippleContainer}>
 									<IconClock color={theming.colorSystemText300} size={24} />
-									<Text accessibilityHint={t('next_arrival_row_scheduled_time_hint')} accessibilityLabel={t('next_arrival_row_scheduled_time_label', { headsign: DateTime.fromSeconds(formatted.estimated_arrival_unix).toFormat('HH:mm') })} accessibilityLanguage={localeContext.locale} accessibilityRole="text" style={stopDetailNextArrivals.arrivalScheduled}>{DateTime.fromSeconds(formatted.estimated_arrival_unix).toFormat('HH:mm')}</Text>
+									<Text accessibilityHint={t('next_arrival_row_scheduled_time_hint')} accessibilityLabel={t('next_arrival_row_scheduled_time_label', { headsign: DateTime.fromSeconds(formatted.estimated_arrival_unix).toFormat('HH:mm') })} accessibilityLanguage={localeContext.data.locale} accessibilityRole="text" style={stopDetailNextArrivals.arrivalScheduled}>{DateTime.fromSeconds(formatted.estimated_arrival_unix).toFormat('HH:mm')}</Text>
 								</View>
 							)}
 						</View>

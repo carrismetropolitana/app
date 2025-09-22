@@ -85,7 +85,7 @@ export default function LinesListChooserModal({ isVisible, onBackdropPress }: Pr
 				<View
 					accessibilityHint={t('linelistChooserAccessibilityHint')}
 					accessibilityLabel={t('linelistChooserAccessibilityLabel')}
-					accessibilityLanguage={localeContext.locale}
+					accessibilityLanguage={localeContext.data.locale}
 					accessibilityRole="text"
 					style={styles.container}
 				>

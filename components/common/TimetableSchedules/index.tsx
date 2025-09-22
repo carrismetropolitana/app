@@ -54,7 +54,7 @@ export default function TimetableSchedules({ selectedExceptionIds, setSelectedEx
 						<Text
 							accessibilityHint={t('timetableSchedulesHoursAccessibilityHint')}
 							accessibilityLabel={t('timetableSchedulesHoursAccessibilityLabel', { hour: hourData.hour_label, minutes: hourData.minutes.map(m => m.minute_label).join(', ') })}
-							accessibilityLanguage={localeContext.locale}
+							accessibilityLanguage={localeContext.data.locale}
 							accessibilityRole="text"
 							style={[
 								timeteableShcedulesStyles.dynamicHourPillBase,

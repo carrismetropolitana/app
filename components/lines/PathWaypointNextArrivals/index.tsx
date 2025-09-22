@@ -59,7 +59,7 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 			<Text
 				accessibilityHint={t('nextArrivalsTitleAccessibilityHint')}
 				accessibilityLabel={t('nextArrivalsTitleAccessibilityLabel')}
-				accessibilityLanguage={localeContext.locale}
+				accessibilityLanguage={localeContext.data.locale}
 				accessibilityRole="header"
 				style={pathWaypointNextArrivalsStyles.title}
 			>
@@ -75,7 +75,7 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 									<Text
 										accessibilityHint={t('nextArrivalsRealtimeAccessibilityHint')}
 										accessibilityLabel={t('nextArrivalsRealtimeAccessibilityLabel', formatDelta(realtimeArrival.unixTs - now))}
-										accessibilityLanguage={localeContext.locale}
+										accessibilityLanguage={localeContext.data.locale}
 										accessibilityRole="text"
 										style={pathWaypointNextArrivalsStyles.realtimeArrival}
 									>
@@ -96,7 +96,7 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 									<Text
 										accessibilityHint={t('nextArrivalsRealtimeAccessibilityHint')}
 										accessibilityLabel={t('nextArrivalsRealtimeAccessibilityLabel', dayjs(scheduledArrival.unixTs).format('HH:mm'))}
-										accessibilityLanguage={localeContext.locale}
+										accessibilityLanguage={localeContext.data.locale}
 										accessibilityRole="text"
 										style={pathWaypointNextArrivalsStyles.scheduledArrival}
 									>

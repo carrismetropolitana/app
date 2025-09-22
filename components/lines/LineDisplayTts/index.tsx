@@ -79,7 +79,7 @@ export function LineDisplayTts({ patternId }: Props) {
 	// 	<TouchableOpacity
 	// 		accessibilityHint={t('ttsAccessibilityHint')}
 	// 		accessibilityLabel={t('ttsAccessibilityLabel')}
-	// 		accessibilityLanguage={localeContext.locale}
+	// 		accessibilityLanguage={localeContext.data.locale}
 	// 		accessibilityRole="button"
 	// 		onPress={handleToogleAudio}
 	// 	>
