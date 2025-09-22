@@ -41,7 +41,7 @@ export default function StopDetailLineGoTrough() {
 				<View key={lineId} style={{ marginBottom: 16 }}>
 					{patternIds.map(patternId => (
 						<View key={patternId} style={{ flex: 1, width: '100%' }}>
-							<Link href={`/line/${lineId}`} style={{ flex: 1, width: '100%' }}>
+							<Link href={`/lines/${lineId}`} style={{ flex: 1, width: '100%' }}>
 								<LineByPatternID patternId={patternId} />
 							</Link>
 						</View>

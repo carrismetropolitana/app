@@ -80,7 +80,7 @@ export function PathWaypointHeader({ isFirstStop, isLastStop, isSelected, waypoi
 		<View style={containerStyles}>
 			<Text accessibilityHint={t('headerLinkAccessibilityHint')} accessibilityLabel={t('headerLinkAccessibilityLabel', { stopName: stopData.long_name })} accessibilityLanguage={localeContext.data.locale} accessibilityRole="link" style={pathWaypointHeaderStyles.stopName}>
 				{stopData.long_name}
-				<Link href={`/stop/${waypointData.stop_id}`} style={pathWaypointHeaderStyles.stopNameUrl}>
+				<Link href={`/stops/${waypointData.stop_id}`} style={pathWaypointHeaderStyles.stopNameUrl}>
 					<IconArrowUpRight color={iconColor} size={14} />
 				</Link>
 			</Text>

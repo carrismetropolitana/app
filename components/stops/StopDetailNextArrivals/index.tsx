@@ -131,12 +131,12 @@ export default function StopDetailNextArrivals({ description, descriptionEnabled
 					return (
 						<View key={tripData.trip_id} style={{ width: '100%' }}>
 							{status === 'realtime' && (
-								<Link key={tripData.trip_id} href={`/vehicle/${tripData.vehicle_id}`} style={{ width: '100%' }}>
+								<Link key={tripData.trip_id} href={`/vehicles/${tripData.vehicle_id}`} style={{ width: '100%' }}>
 									<ArrivalRow key={tripData.trip_id} status={status} tripData={tripData} />
 								</Link>
 							)}
 							{status === 'scheduled' && (
-								<Link key={tripData.trip_id} href={`/line/${tripData.line_id}`} style={{ width: '100%' }}>
+								<Link key={tripData.trip_id} href={`/lines/${tripData.line_id}`} style={{ width: '100%' }}>
 									<ArrivalRow key={tripData.trip_id} status={status} tripData={tripData} />
 								</Link>
 							)}

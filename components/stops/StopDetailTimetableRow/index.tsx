@@ -8,8 +8,9 @@ import { Text } from '@rn-vui/themed';
 import { useCallback, useMemo } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 
-import StopDetailNextArrivals from '../StopDetailNextArrivals';
 import styles from './styles.module.css';
+
+import StopDetailNextArrivals from '../StopDetailNextArrivals';
 
 /* * */
 
@@ -71,7 +72,7 @@ export function StopsDetailContentTimetableRow({ arrivalData, status }: Props) {
 						textColor={thisPattern.text_color}
 					/>
 					<StopDetailNextArrivals
-						href={`/line/${arrivalData.line_id}`}
+						href={`/lines/${arrivalData.line_id}`}
 						title={arrivalData.headsign}
 					/>
 				</View>

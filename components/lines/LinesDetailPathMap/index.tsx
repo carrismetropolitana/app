@@ -111,7 +111,7 @@ export function LinesDetailPathMap({ hasToolbar = false }: Props) {
 				/>
 				<MapViewStyleActiveStops stopsData={activeStopFC || getBaseGeoJsonFeatureCollection()} />
 				<MapViewStyleVehicles
-					onVehiclePress={(id) => { router.push(`/vehicle/${id}`); }}
+					onVehiclePress={(id) => { router.push(`/vehicles/${id}`); }}
 					vehiclesData={activeVehiclesFC ?? getBaseGeoJsonFeatureCollection()}
 				/>
 			</MapView>

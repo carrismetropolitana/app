@@ -42,7 +42,7 @@ export default function FavoritesBar() {
 			<ScrollView bounces={false} showsHorizontalScrollIndicator={false} horizontal>
 				{favoritesLines.map(line => (
 					<View key={line.id} style={favoriteBarStyles.item}>
-						<Link href={`/line/${line.id}`}>
+						<Link href={`/lines/${line.id}`}>
 							<LineBadge lineData={line} lineId={line.id} size="lg" withAlertIcon={true} />
 						</Link>
 					</View>

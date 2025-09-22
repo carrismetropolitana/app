@@ -234,7 +234,7 @@ export function StopsScreen() {
 					{stopData && (
 						<>
 							<ListItem>
-								<TouchableOpacity onPress={() => router.push(`/stop/${stopData.id}`)} style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
+								<TouchableOpacity onPress={() => router.push(`/stops/${stopData.id}`)} style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
 									<ListItem.Content>
 										<View style={{ alignItems: 'center', flexDirection: 'row', gap: 10 }}>
 											<Svg fill="none" height={21} viewBox="0 0 20 21" width={20}>
@@ -264,7 +264,7 @@ export function StopsScreen() {
 							</ListItem>
 							<View style={stopMapDetailStyles.nextArrivalsContainer}>
 								<Text style={stopMapDetailStyles.nextArrivalsLabel}>{t('StopDetails.nextArrivalsLabel')}</Text>
-								<StopDetailNextArrivals href={`/stop/${selectedStop}`} />
+								<StopDetailNextArrivals href={`/stops/${selectedStop}`} />
 							</View>
 						</>
 					)}

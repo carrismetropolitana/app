@@ -50,7 +50,7 @@ export function ArrivalRow({ data }: ArrivalRowProps) {
 
 	const handlePress = () => {
 		if (!data.vehicle_id) return;
-		router.push(`/vehicle/${data.vehicle_id}`);
+		router.push(`/vehicles/${data.vehicle_id}`);
 	};
 
 	//

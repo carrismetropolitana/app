@@ -41,7 +41,7 @@ export function VirtualizedListingStops({ data, icon, itemClick, items, size }: 
 					</ListItem.Content>
 				)
 				: (
-					<Link href={`/stop/${item.id}`} asChild>
+					<Link href={`/stops/${item.id}`} asChild>
 						<ListItem.Content>
 							<StopDisplay size={size} stopData={item} />
 						</ListItem.Content>
