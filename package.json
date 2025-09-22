@@ -5,8 +5,7 @@
 	"type": "commonjs",
 	"main": "expo-router/entry",
 	"scripts": {
-		"build-prod-android": " cd android && ./gradlew bundleRelease",
-		"build-test-android": " cd android && ./gradlew assembleRelease",
+		"build": "eas build --local --platform all",
 		"build:android": "eas build --local --platform android",
 		"build:ios": "eas build --local --platform ios",
 		"dev": "expo start --dev-client",
@@ -14,6 +13,8 @@
 		"dev:ios": "expo run:ios --device",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
+		"old-build-prod-android": " cd android && ./gradlew bundleRelease",
+		"old-build-test-android": " cd android && ./gradlew assembleRelease",
 		"prebuild": "expo prebuild",
 		"prebuild:clean": "expo prebuild --clean",
 		"publish:android": "eas submit --platform android",

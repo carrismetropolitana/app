@@ -5,15 +5,13 @@
 				"backgroundColor": "#ffffff",
 				"foregroundImage": "./assets/images/Logos/CM_Logo _Symbol_LightMode.png"
 			},
-			"googleServicesFile": "./configs/google-services-prod.json",
 			"package": "pt.carrismetropolitana.mobile",
 			"permissions": [
 				"android.permission.ACCESS_COARSE_LOCATION",
 				"android.permission.ACCESS_FINE_LOCATION",
 				"android.permission.RECORD_AUDIO",
 				"android.permission.MODIFY_AUDIO_SETTINGS"
-			],
-			"versionCode": 10092025
+			]
 		},
 		"assetBundlePatterns": [
 			"assets/**/*"
@@ -37,7 +35,6 @@
 			"entitlements": {
 				"aps-environment": "development"
 			},
-			"googleServicesFile": "./configs/GoogleService-Info.plist",
 			"infoPlist": {
 				"ITSAppUsesNonExemptEncryption": false,
 				"NSUserNotificationUsageDescription": "Precisamos de enviar notificações para avisar sobre novidades.",
