@@ -1,10 +1,7 @@
 /* * */
 
 import { CloseButton } from '@/components/common/CloseButton';
-import { VehiclesDetail } from '@/components/vehicles/VehiclesDetail';
-import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
-import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
-import { VehiclesContextProvider } from '@/contexts/Vehicles.context';
+import { VehicleDetail } from '@/components/vehicles/detail/VehicleDetail';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -36,15 +33,7 @@ export default function Page() {
 	//
 	// C. Render components
 
-	return (
-		<LinesDetailContextProvider>
-			<StopsDetailContextProvider>
-				<VehiclesContextProvider>
-					<VehiclesDetail id={vehicle_id} />
-				</VehiclesContextProvider>
-			</StopsDetailContextProvider>
-		</LinesDetailContextProvider>
-	);
+	return <VehicleDetail id={vehicle_id} />;
 
 	//
 }

@@ -1,7 +1,6 @@
 /* * */
 
 import { LinesList } from '@/components/lines/list/LinesList';
-import { LinesListContextProvider } from '@/contexts/LinesList.context';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -31,11 +30,7 @@ export default function Page() {
 	//
 	// C. Render components
 
-	return (
-		<LinesListContextProvider>
-			<LinesList />
-		</LinesListContextProvider>
-	);
+	return <LinesList />;
 
 	//
 };

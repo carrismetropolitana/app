@@ -72,7 +72,7 @@ export function ArrivalTime({ status, time }: ArrivalTimeProps) {
 		return (
 			<View style={[styles.container, { gap: 1 }]}>
 				<LiveIcon />
-				<Text style={[styles.title, { color: systemVariables.brand.realtime }]}>
+				<Text style={[styles.title, { color: systemVariables.status.live }]}>
 					{relativeTimeDisplay}
 				</Text>
 			</View>

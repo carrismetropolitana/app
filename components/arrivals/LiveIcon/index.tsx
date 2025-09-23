@@ -82,13 +82,13 @@ export function LiveIcon({ status = 'active' }: LiveIconProps) {
 	return (
 		<View style={styles.container}>
 			<Animated.View style={[styles.ripple, {
-				backgroundColor: systemVariables.brand.realtime,
+				backgroundColor: systemVariables.status.live,
 				opacity: opacity.current,
 				transform: [{ scale: scale.current }],
 			}]}
 			/>
 			<View style={[styles.dot, {
-				backgroundColor: systemVariables.brand.realtime,
+				backgroundColor: systemVariables.status.live,
 			}]}
 			/>
 		</View>

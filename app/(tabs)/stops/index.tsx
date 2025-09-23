@@ -1,7 +1,6 @@
 /* * */
 
 import { StopsList } from '@/components/stops/list/StopsList';
-import { StopsListContextProvider } from '@/contexts/OldStopsList.context';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -31,11 +30,7 @@ export default function Page() {
 	//
 	// C. Render components
 
-	return (
-		<StopsListContextProvider>
-			<StopsList />
-		</StopsListContextProvider>
-	);
+	return <StopsList />;
 
 	//
 };

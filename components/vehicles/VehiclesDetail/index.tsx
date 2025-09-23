@@ -1,6 +1,6 @@
 /* * */
 
-import { VehiclesDetailHeader } from '@/components/vehicles/VehiclesDetailHeader';
+import { VehiclesDetailHeader } from '@/components/vehicles/detail/VehiclesDetailOverview';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { useVehiclesContext } from '@/contexts/Vehicles.context';

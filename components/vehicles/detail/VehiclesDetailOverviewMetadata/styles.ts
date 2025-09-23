@@ -13,23 +13,17 @@ export const useStyles = () => {
 	return StyleSheet.create({
 		container: {
 			alignItems: 'center',
-			height: 20,
+			display: 'flex',
+			flexDirection: 'row',
+			flexWrap: 'wrap',
+			gap: 10,
 			justifyContent: 'center',
-			position: 'relative',
-			width: 20,
 		},
-		dot: {
-			backgroundColor: systemVariables.status.live,
-			borderRadius: 999,
-			height: 4,
-			width: 4,
-		},
-		ripple: {
-			backgroundColor: systemVariables.status.live,
-			borderRadius: 999,
-			height: 20,
-			position: 'absolute',
-			width: 20,
+		makeAndModel: {
+			color: systemVariables.text[200],
+			fontSize: 14,
+			fontWeight: 600,
+			textAlign: 'center',
 		},
 	});
 };
