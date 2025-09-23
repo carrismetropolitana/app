@@ -1,6 +1,6 @@
 /* * */
 
-import { ProfileView } from '@/components/profile/view/ProfileView';
+import { AccountView } from '@/components/account/view/AccountView';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -27,7 +27,7 @@ export default function Page() {
 	//
 	// C. Render components
 
-	return <ProfileView />;
+	return <AccountView />;
 
 	//
 }

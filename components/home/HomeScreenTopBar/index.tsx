@@ -1,6 +1,6 @@
 /* * */
 
-import { UserPersona } from '@/components/profile/persona/UserPersona';
+import { UserPersona } from '@/components/account/persona/UserPersona';
 import { router } from 'expo-router';
 import { Image, TouchableOpacity, useColorScheme, View } from 'react-native';
 

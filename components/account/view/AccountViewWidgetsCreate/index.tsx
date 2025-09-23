@@ -8,14 +8,14 @@ import { useTranslation } from 'react-i18next';
 
 /* * */
 
-export function ProfileViewWidgetsCreate() {
+export function AccountViewWidgetsCreate() {
 	//
 
 	//
 	// A. Setup variables
 
 	const systemVariables = useSystemVariables();
-	const { t } = useTranslation('translation', { keyPrefix: 'profile.ProfileViewWidgetsCreate' });
+	const { t } = useTranslation('translation', { keyPrefix: 'account.AccountViewWidgetsCreate' });
 
 	const LIST_ITEMS: ListSectionItemProps[] = [
 		{

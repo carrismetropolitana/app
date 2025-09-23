@@ -1,7 +1,7 @@
 /* * */
 
-import { UserPersonaEdit } from '@/components/profile/persona/UserPersonaEdit';
-import { UserPersonaImage, type UserPersonaImageProps } from '@/components/profile/persona/UserPersonaImage';
+import { UserPersonaEdit } from '@/components/account/persona/UserPersonaEdit';
+import { UserPersonaImage, type UserPersonaImageProps } from '@/components/account/persona/UserPersonaImage';
 import { View } from 'react-native';
 
 import { useStyles } from './styles';

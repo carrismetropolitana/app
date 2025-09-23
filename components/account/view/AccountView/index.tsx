@@ -1,15 +1,15 @@
 /* * */
 
+import { AccountViewPersona } from '@/components/account/view/AccountViewPersona';
+import { AccountViewWidgetsCreate } from '@/components/account/view/AccountViewWidgetsCreate';
+import { AccountViewWidgetsList } from '@/components/account/view/AccountViewWidgetsList';
 import { Container } from '@/components/layout/Container';
-import { ProfileViewPersona } from '@/components/profile/view/ProfileViewPersona';
-import { ProfileViewWidgetsCreate } from '@/components/profile/view/ProfileViewWidgetsCreate';
-import { ProfileViewWidgetsList } from '@/components/profile/view/ProfileViewWidgetsList';
 import { useNotificationsContext } from '@/contexts/Notifications.context';
 import { useEffect } from 'react';
 
 /* * */
 
-export function ProfileView() {
+export function AccountView() {
 	//
 
 	//
@@ -49,9 +49,9 @@ export function ProfileView() {
 
 	return (
 		<Container>
-			<ProfileViewPersona />
-			<ProfileViewWidgetsList />
-			<ProfileViewWidgetsCreate />
+			<AccountViewPersona />
+			<AccountViewWidgetsList />
+			<AccountViewWidgetsCreate />
 		</Container>
 	);
 

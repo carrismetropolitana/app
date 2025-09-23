@@ -19,7 +19,7 @@ const AVAILABLE_ACCENT_COLORS = [
 
 /* * */
 
-export function ProfileEditPersonaAccent() {
+export function AccountEditPersonaAccent() {
 	//
 
 	//
@@ -29,7 +29,7 @@ export function ProfileEditPersonaAccent() {
 
 	const accountContext = useAccountContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'profile.ProfileEditPersonaAccent' });
+	const { t } = useTranslation('translation', { keyPrefix: 'account.AccountEditPersonaAccent' });
 
 	//
 	// B. Render Components

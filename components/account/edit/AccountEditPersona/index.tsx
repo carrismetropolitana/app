@@ -1,14 +1,14 @@
 /* * */
 
-import { ProfileEditPersonaAccent } from '@/components/profile/edit/ProfileEditPersonaAccent';
-import { UserPersona } from '@/components/profile/persona/UserPersona';
+import { AccountEditPersonaAccent } from '@/components/account/edit/AccountEditPersonaAccent';
+import { UserPersona } from '@/components/account/persona/UserPersona';
 import { View } from 'react-native';
 
 import { useStyles } from './styles';
 
 /* * */
 
-export function ProfileEditPersona() {
+export function AccountEditPersona() {
 	//
 
 	//
@@ -22,7 +22,7 @@ export function ProfileEditPersona() {
 	return (
 		<View style={styles.container}>
 			<UserPersona size="lg" withEditButtons />
-			<ProfileEditPersonaAccent />
+			<AccountEditPersonaAccent />
 		</View>
 	);
 

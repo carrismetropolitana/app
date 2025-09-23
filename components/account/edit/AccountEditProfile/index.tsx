@@ -18,7 +18,7 @@ import styles from './styles';
 
 /* * */
 
-export function ProfileEditForm() {
+export function AccountEditForm() {
 	//
 
 	//

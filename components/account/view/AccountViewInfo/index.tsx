@@ -1,6 +1,6 @@
 /* * */
 
-import { UserPersona } from '@/components/profile/persona/UserPersona';
+import { UserPersona } from '@/components/account/persona/UserPersona';
 import { useAccountContext } from '@/contexts/Account.context';
 import { Button, Text } from '@rn-vui/themed';
 import { router } from 'expo-router';
@@ -12,7 +12,7 @@ import { useStyles } from './styles';
 
 /* * */
 
-export function ProfileViewPersona() {
+export function AccountViewInfo() {
 	//
 
 	//
@@ -22,7 +22,7 @@ export function ProfileViewPersona() {
 
 	const accountContext = useAccountContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'profile.ProfileViewPersona' });
+	const { t } = useTranslation('translation', { keyPrefix: 'account.AccountViewInfo' });
 
 	//
 	// B. Transform data

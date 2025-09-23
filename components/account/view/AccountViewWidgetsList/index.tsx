@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 /* * */
 
-export function ProfileViewWidgetsList() {
+export function AccountViewWidgetsList() {
 	//
 
 	//
@@ -18,7 +18,7 @@ export function ProfileViewWidgetsList() {
 
 	const accountContext = useAccountContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'profile.ProfileViewWidgetsList' });
+	const { t } = useTranslation('translation', { keyPrefix: 'account.AccountViewWidgetsList' });
 
 	//
 	// B. Transform data

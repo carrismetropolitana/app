@@ -22,7 +22,7 @@ export function UserPersonaEdit() {
 
 	const accountContext = useAccountContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'profile.UserPersonaEdit' });
+	const { t } = useTranslation('translation', { keyPrefix: 'account.UserPersonaEdit' });
 
 	//
 	// B. Transform data

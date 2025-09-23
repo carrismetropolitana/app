@@ -86,6 +86,51 @@
 		"accessibilityHint": "Este botão expande ou colapsa o widget selecionado",
 		"accessibilityLabel": "Botão para expandir ou colapsar o widget"
 	},
+	"account": {
+		"AccountEdit": {
+			"title": "Editar Perfil"
+		},
+		"AccountEditPersonaAccent": {
+			"accent_colors": {
+				"inter-regional": "Roxo, cor das Linhas Inter-Regionais",
+				"longa": "Vermelho, cor das Linhas Longas",
+				"mar": "Azul Esmeralda, cor das Linhas Mar",
+				"proxima": "Azul, cor das Linhas Próximas",
+				"rapida": "Amarelo, cor das Linhas Rápidas",
+				"turistica": "Laranja, cor das Linhas Turísticas"
+			},
+			"label": "Definir cor principal"
+		},
+		"AccountViewPersona": {
+			"activity": {
+				"default": "Em Viagem",
+				"other": "Em Viagem",
+				"retired": "Reformado",
+				"student": "Estudante",
+				"university": "Universitário",
+				"working": "Trabalhador"
+			},
+			"edit_profile": "Editar Perfil"
+		},
+		"AccountViewWidgetsCreate": {
+			"line": "Adicionar Linha Favorita",
+			"smart_notification": "Adicionar Notificação Inteligente",
+			"stop": "Adicionar Paragem Favorita",
+			"title": "Adicionar Novo Widget"
+		},
+		"AccountViewWidgetsList": {
+			"no_data": "Nenhum widget adicionado ainda",
+			"title": "Os teus Widgets"
+		},
+		"Page": {
+			"title": "Perfil"
+		},
+		"UserPersonaEdit": {
+			"go_back": "Voltar à persona anterior",
+			"randomize": "Gerar uma persona aleatória"
+		},
+		"headerTitle": "Editar Perfil"
+	},
 	"addfavoriteline": {
 		"changeLineAccessibilityHint": "Este elemento é um botão para selecionar uma linha",
 		"changeLineAccessibilityLabel": "Selecione uma linha ",
@@ -630,51 +675,6 @@
 		"headerLinkAccessibilityLabel": "Link para detalhes da paragem {stopName}",
 		"headerLocalityAccessibilityHint": "Este elemento é um texto que indica a localidade da paragem",
 		"headerLocalityAccessibilityLabel": "Localidade da paragem {locality}"
-	},
-	"profile": {
-		"Page": {
-			"title": "Perfil"
-		},
-		"ProfileEdit": {
-			"title": "Editar Perfil"
-		},
-		"ProfileEditPersonaAccent": {
-			"accent_colors": {
-				"inter-regional": "Roxo, cor das Linhas Inter-Regionais",
-				"longa": "Vermelho, cor das Linhas Longas",
-				"mar": "Azul Esmeralda, cor das Linhas Mar",
-				"proxima": "Azul, cor das Linhas Próximas",
-				"rapida": "Amarelo, cor das Linhas Rápidas",
-				"turistica": "Laranja, cor das Linhas Turísticas"
-			},
-			"label": "Definir cor principal"
-		},
-		"ProfileViewPersona": {
-			"activity": {
-				"default": "Em Viagem",
-				"other": "Em Viagem",
-				"retired": "Reformado",
-				"student": "Estudante",
-				"university": "Universitário",
-				"working": "Trabalhador"
-			},
-			"edit_profile": "Editar Perfil"
-		},
-		"ProfileViewWidgetsCreate": {
-			"line": "Adicionar Linha Favorita",
-			"smart_notification": "Adicionar Notificação Inteligente",
-			"stop": "Adicionar Paragem Favorita",
-			"title": "Adicionar Novo Widget"
-		},
-		"ProfileViewWidgetsList": {
-			"no_data": "Nenhum widget adicionado ainda",
-			"title": "Os teus Widgets"
-		},
-		"UserPersonaEdit": {
-			"go_back": "Voltar à persona anterior",
-			"randomize": "Gerar uma persona aleatória"
-		},
-		"headerTitle": "Editar Perfil"
 	},
 	"profileImage": {
 		"accessibilityHint": "Persona do seu perfil é {profileImageDescription}",

@@ -82,6 +82,39 @@
 			}
 		}
 	},
+	"account": {
+		"AccountViewPersona": {
+			"activity": {
+				"default": "Traveling",
+				"other": "Traveling",
+				"retired": "Retired",
+				"student": "Student",
+				"university": "University",
+				"working": "Working"
+			},
+			"edit_profile": "Edit Profile"
+		},
+		"AccountViewWidgetsCreate": {
+			"line": "Add Line Widget",
+			"smart_notification": "Add Smart Notification Widget",
+			"stop": "Add Stop Widget",
+			"title": "Add New Widget"
+		},
+		"AccountViewWidgetsList": {
+			"description": {
+				"line": "Line Widget",
+				"smart_notification": "Smart Notification",
+				"stop": "Stop Widget"
+			},
+			"no_data": "No widgets added yet",
+			"title": "Your Widgets"
+		},
+		"UserPersonaEdit": {
+			"go_back": "Go back to the previous persona",
+			"randomize": "Generate a random persona"
+		},
+		"headerTitle": "Edit Profile"
+	},
 	"addfavoriteline": {
 		"changeLineAccessibilityHint": "This element is a button to select a line",
 		"changeLineAccessibilityLabel": "Select a line",
@@ -499,39 +532,6 @@
 		"headerLinkAccessibilityLabel": "Link for the details of the stop {stopName}",
 		"headerLocalityAccessibilityHint": "This element is a text that indicates the locality of the stop",
 		"headerLocalityAccessibilityLabel": "Locality of the stop {locality}"
-	},
-	"profile": {
-		"ProfileViewPersona": {
-			"activity": {
-				"default": "Traveling",
-				"other": "Traveling",
-				"retired": "Retired",
-				"student": "Student",
-				"university": "University",
-				"working": "Working"
-			},
-			"edit_profile": "Edit Profile"
-		},
-		"ProfileViewWidgetsCreate": {
-			"line": "Add Line Widget",
-			"smart_notification": "Add Smart Notification Widget",
-			"stop": "Add Stop Widget",
-			"title": "Add New Widget"
-		},
-		"ProfileViewWidgetsList": {
-			"description": {
-				"line": "Line Widget",
-				"smart_notification": "Smart Notification",
-				"stop": "Stop Widget"
-			},
-			"no_data": "No widgets added yet",
-			"title": "Your Widgets"
-		},
-		"UserPersonaEdit": {
-			"go_back": "Go back to the previous persona",
-			"randomize": "Generate a random persona"
-		},
-		"headerTitle": "Edit Profile"
 	},
 	"profileEdit": {
 		"activityInfoHint": "This input purpose is for you to choose your type of activity",
