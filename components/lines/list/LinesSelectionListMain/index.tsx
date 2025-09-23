@@ -43,11 +43,11 @@ export function LinesSelectionListMain({ addToRecentsOnPress, onPress }: LinesSe
 			{ data: linesListContext.data.favorites, title: t('favorites.title') },
 			{ data: linesListContext.data.around, title: t('around.title') },
 			{ data: linesListContext.data.recent, title: t('recent.title') },
-			{ data: linesListContext.data.all.slice(0, 5), title: t('all.title') },
+			{ data: linesListContext.data.all, title: t('all.title') },
 		];
 		// Filter out empty sections
 		const searchResultsSection = [
-			{ data: linesListContext.data.filtered.slice(0, 5), title: linesListContext.data.filtered.length === 1 ? t('search_results.title.singular') : t('search_results.title.plural', { count: linesListContext.data.filtered.length || 0 }) },
+			{ data: linesListContext.data.filtered, title: linesListContext.data.filtered.length === 1 ? t('search_results.title.singular') : t('search_results.title.plural', { count: linesListContext.data.filtered.length || 0 }) },
 		];
 		// If search is active, show only the search results section
 		if (linesListContext.filters.by_search) return searchResultsSection;
