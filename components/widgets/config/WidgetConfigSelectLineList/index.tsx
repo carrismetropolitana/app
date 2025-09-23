@@ -1,12 +1,9 @@
 /* * */
 
-import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
-import { WidgetConfigSelectLineListItem } from '@/components/widgets/config/WidgetConfigSelectLineListItem';
-import { useLinesContext } from '@/contexts/Lines.context';
+import { LinesSelectionList } from '@/components/lines/list/LinesSelectionList';
 import { type Line } from '@carrismetropolitana/api-types/network';
 import { useTranslation } from 'react-i18next';
-import { Button, Modal, View, VirtualizedList } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Modal, View } from 'react-native';
 
 import { useStyles } from './styles';
 
@@ -28,8 +25,6 @@ export function WidgetConfigSelectLineList({ isVisible, onClose, onSelectLine }:
 
 	const styles = useStyles();
 
-	const lineContext = useLinesContext();
-
 	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetConfigSelectLineList' });
 
 	//
@@ -44,21 +39,18 @@ export function WidgetConfigSelectLineList({ isVisible, onClose, onSelectLine }:
 	// C. Render components
 
 	return (
-		<Modal animationType="slide" presentationStyle="formSheet" visible={isVisible}>
-			<SafeAreaView style={styles.safeArea}>
-				<View style={styles.header}>
-					<Button onPress={onClose} title={t('close_button')} />
-				</View>
-				{/* <LineSearchBar /> */}
-				<VirtualizedList
-					data={lineContext.data.lines}
-					getItem={(data: [], index: number) => data[index]}
-					getItemCount={data => data?.length || 0}
-					keyExtractor={item => item.id}
-					ListEmptyComponent={(<NoDataLabel />)}
-					renderItem={({ item }: { item: Line }) => <WidgetConfigSelectLineListItem item={item} onPress={handleLineClick} />}
-				/>
-			</SafeAreaView>
+		<Modal
+			animationType="slide"
+			onRequestClose={onClose}
+			presentationStyle="formSheet"
+			visible={isVisible}
+		>
+			<View style={styles.header}>
+				<Button onPress={onClose} title={t('close_button')} />
+			</View>
+			<View style={styles.content}>
+				<LinesSelectionList onPress={handleLineClick} />
+			</View>
 		</Modal>
 	);
 

@@ -13,17 +13,9 @@ export const useStyles = () => {
 	const safeAreaInsets = useSafeAreaInsets();
 
 	return StyleSheet.create({
-		content: {
+		container: {
 			backgroundColor: systemVariables.background[200],
-			paddingBottom: safeAreaInsets.bottom,
-		},
-		header: {
-			alignItems: 'flex-end',
-			backgroundColor: systemVariables.background[100],
-			borderBottomColor: systemVariables.border[100],
-			borderBottomWidth: 1,
-			display: 'flex',
-			padding: 5,
+			paddingTop: safeAreaInsets.top,
 		},
 	});
 };

@@ -1,6 +1,6 @@
 /* * */
 
-import { LinesScreen } from '@/components/screens/LinesScreen';
+import { LinesList } from '@/components/lines/list/LinesList';
 import { LinesListContextProvider } from '@/contexts/LinesList.context';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
@@ -33,9 +33,8 @@ export default function Page() {
 
 	return (
 		<LinesListContextProvider>
-			<LinesScreen />
+			<LinesList />
 		</LinesListContextProvider>
-
 	);
 
 	//

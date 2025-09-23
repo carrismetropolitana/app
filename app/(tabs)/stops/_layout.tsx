@@ -18,6 +18,7 @@ export default function Layout() {
 
 	return (
 		<Stack screenOptions={{
+			contentStyle: { backgroundColor: systemVariables.background[200] },
 			headerStyle: { backgroundColor: systemVariables.background[100] },
 			headerTitleStyle: { color: systemVariables.text[100] },
 		}}

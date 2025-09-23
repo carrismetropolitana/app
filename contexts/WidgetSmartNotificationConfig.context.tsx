@@ -201,7 +201,7 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children, widgetI
 		if (!selectedWaypoint) return;
 		// Create the widget object
 		const widgetObject = WidgetSchema.parse({
-			_id: generateRandomString(),
+			_id: widgetId ?? generateRandomString(),
 			properties: {
 				distance: selectedDistance,
 				end_time: selectedEndTime,
@@ -217,13 +217,8 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children, widgetI
 			},
 			type: 'smart_notification',
 		});
-		// Get a copy of existing widgets
-		const existingWidgets = [...accountContext.data.account.widgets];
-		// If we have a widget ID, we are editing an existing widget.
-		if (widgetId) {
-			// Filter out the widget to be updated
-			existingWidgets.filter(widget => widget._id !== widgetId);
-		}
+		// Get a copy of existing widgets and filter out the widget to be updated
+		const existingWidgets = [...accountContext.data.account.widgets].filter(item => item._id !== widgetObject._id);
 		// Append new data to the existing widgets array.
 		accountContext.actions.update('widgets', [...existingWidgets, widgetObject]);
 	};

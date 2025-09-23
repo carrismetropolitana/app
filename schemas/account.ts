@@ -5,6 +5,7 @@ import { DeviceSchema } from '@/schemas/device';
 import { FavoritesSchema } from '@/schemas/favorites';
 import { NotificationsSchema } from '@/schemas/notifications';
 import { PersonaSchema } from '@/schemas/persona';
+import { PreferencesSchema } from '@/schemas/preferences';
 import { ProfileSchema } from '@/schemas/profile';
 import { WidgetSchema } from '@/schemas/widgets';
 import { z } from 'zod';
@@ -24,6 +25,7 @@ export const AccountSchema = DocumentSchema.extend({
 	favorites: FavoritesSchema.default({}),
 	notifications: NotificationsSchema.default({}),
 	persona: PersonaSchema.default({}),
+	preferences: PreferencesSchema.default({}),
 	profile: ProfileSchema.default({}),
 	role: AccountRoleSchema.default('user'),
 	widgets: z.array(WidgetSchema).default([]),
