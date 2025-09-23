@@ -730,7 +730,7 @@
 		"WidgetConfigSelectStop": {
 			"label": "Search for a stop..."
 		},
-		"WidgetConfigSelectStopList": {
+		"WidgetConfigSelectStopModal": {
 			"close_button": "Close"
 		},
 		"WidgetLineConfig": {

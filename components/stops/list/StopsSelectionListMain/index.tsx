@@ -18,11 +18,12 @@ import { useStyles } from './styles';
 export interface StopsSelectionListMainProps {
 	addToRecentsOnPress?: boolean
 	onPress: (item: Stop) => void
+	replaceChevron?: React.ReactNode
 }
 
 /* * */
 
-export function StopsSelectionListMain({ addToRecentsOnPress, onPress }: StopsSelectionListMainProps) {
+export function StopsSelectionListMain({ addToRecentsOnPress, onPress, replaceChevron }: StopsSelectionListMainProps) {
 	//
 
 	//
@@ -93,6 +94,7 @@ export function StopsSelectionListMain({ addToRecentsOnPress, onPress }: StopsSe
 					icon={<LineBadge shortName={item.id} />}
 					label={item.long_name}
 					onPress={() => handlePress(item)}
+					replaceChevron={replaceChevron}
 				/>
 			)}
 		/>

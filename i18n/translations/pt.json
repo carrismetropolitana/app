@@ -818,7 +818,7 @@
 		"WidgetConfigSelectStop": {
 			"label": "Procurar paragem..."
 		},
-		"WidgetConfigSelectStopList": {
+		"WidgetConfigSelectStopModal": {
 			"close_button": "Fechar"
 		},
 		"WidgetLineConfig": {

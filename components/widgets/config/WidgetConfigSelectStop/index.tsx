@@ -1,7 +1,7 @@
 /* * */
 
 import { ListSection } from '@/components/list/ListSection';
-import { WidgetConfigSelectStopList } from '@/components/widgets/config/WidgetConfigSelectStopList';
+import { WidgetConfigSelectStopModal } from '@/components/widgets/config/WidgetConfigSelectStopModal';
 import { type Stop } from '@carrismetropolitana/api-types/network';
 import { IconArrowsLeftRight, IconBusStop } from '@tabler/icons-react-native';
 import { useState } from 'react';
@@ -68,7 +68,7 @@ export function WidgetConfigSelectStop({ description, onSelectStopId, selectedSt
 				/>
 			)}
 
-			<WidgetConfigSelectStopList
+			<WidgetConfigSelectStopModal
 				isVisible={modalVisible}
 				onClose={() => setModalVisible(false)}
 				onSelectStop={handleSelectStop}
