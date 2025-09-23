@@ -1,10 +1,11 @@
 {
 	"name": "@carrismetropolitana/app",
-	"version": "20250923.1742.34",
+	"version": "20250923.1948.49",
 	"private": true,
 	"type": "commonjs",
 	"main": "expo-router/entry",
 	"scripts": {
+		"android": "expo run:android",
 		"build": "eas build --local --platform all",
 		"build:android": "npm run bump && eas build --local --platform android",
 		"build:ios": "npm run bump && eas build --local --platform ios",
@@ -12,6 +13,7 @@
 		"dev": "expo start --dev-client",
 		"dev:android": "expo run:android --device",
 		"dev:ios": "expo run:ios --device",
+		"ios": "expo run:ios",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"old-build-prod-android": " cd android && ./gradlew bundleRelease",
