@@ -1,7 +1,7 @@
 /* * */
 
-import { AppWebView } from '@/components/layout/AppWebView';
 import { CloseButton } from '@/components/common/CloseButton';
+import { AppWebView } from '@/components/layout/AppWebView';
 import { getServiceUrl } from '@/settings/service-urls';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
@@ -34,7 +34,7 @@ export default function Page() {
 	return (
 		<AppWebView
 			mediaPlaybackRequiresUserAction={false}
-			url={`${getServiceUrl('app_view')}/widgets/videos/lines`}
+			url={`${getServiceUrl('app_view')}/widgets/videos/line`}
 		/>
 	);
 

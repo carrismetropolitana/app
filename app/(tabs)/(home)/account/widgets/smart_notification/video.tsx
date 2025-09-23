@@ -34,7 +34,7 @@ export default function Page() {
 	return (
 		<AppWebView
 			mediaPlaybackRequiresUserAction={false}
-			url={`${getServiceUrl('app_view')}/widgets/videos/smart-notifications`}
+			url={`${getServiceUrl('app_view')}/widgets/videos/smart-notification`}
 		/>
 	);
 

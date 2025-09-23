@@ -698,7 +698,7 @@
 		"WidgetConfigSelectLine": {
 			"label": "Search for a line..."
 		},
-		"WidgetConfigSelectLineList": {
+		"WidgetConfigSelectLineModal": {
 			"close_button": "Close"
 		},
 		"WidgetConfigSelectStop": {

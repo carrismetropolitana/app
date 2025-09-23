@@ -1,7 +1,7 @@
 /* * */
 
-import { AppWebView } from '@/components/layout/AppWebView';
 import { CloseButton } from '@/components/common/CloseButton';
+import { AppWebView } from '@/components/layout/AppWebView';
 import { getServiceUrl } from '@/settings/service-urls';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
