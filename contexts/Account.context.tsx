@@ -56,7 +56,7 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 	//
 	// B. Fetch data
 
-	const { data: accountData, error: accountError, isLoading: accountLoading, mutate: accountMutate } = useSWR<Account, HttpException>({ accountId: accountId, url: `${getServiceUrl('accounts')}/accounts` }, swrFetcher, { refreshInterval: 1000 });
+	const { data: accountData, error: accountError, isLoading: accountLoading, mutate: accountMutate } = useSWR<Account, HttpException>({ accountId: accountId, url: `${getServiceUrl('accounts')}/accounts` }, swrFetcher, { refreshInterval: 10_000 });
 
 	//
 	// C. Handle actions

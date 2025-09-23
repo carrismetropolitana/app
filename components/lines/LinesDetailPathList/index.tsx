@@ -30,7 +30,7 @@ export function LinesDetailPathList() {
 	//
 	// B. Fetch data
 
-	const { data: patternRealtimeData } = useSWR<PatternRealtime[]>(linesDetailContext.data.active_pattern?.id && `${Routes.API}/arrivals/by_pattern/${linesDetailContext.data.active_pattern.id}`, { refreshInterval: 10000 });
+	const { data: patternRealtimeData } = useSWR<PatternRealtime[]>(linesDetailContext.data.active_pattern?.id && `${Routes.API}/arrivals/by_pattern/${linesDetailContext.data.active_pattern.id}`, { refreshInterval: 30_000 });
 
 	//
 	// C. Transform data

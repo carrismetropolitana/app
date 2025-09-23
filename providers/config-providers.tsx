@@ -28,7 +28,7 @@ export function ConfigProviders({ children }: PropsWithChildren) {
 			}
 			return res.json();
 		},
-		refreshInterval: 900000,
+		refreshInterval: 900_000,
 		revalidateOnFocus: true,
 		revalidateOnMount: true,
 	};
