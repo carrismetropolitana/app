@@ -91,6 +91,7 @@ export function StopsSelectionListMain({ addToRecentsOnPress, onPress, replaceCh
 			renderItem={({ item }) => (
 				<ListSectionItem
 					key={item.id}
+					description={item.id}
 					icon={<LineBadge shortName={item.id} />}
 					label={item.long_name}
 					onPress={() => handlePress(item)}

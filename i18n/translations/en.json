@@ -519,6 +519,11 @@
 			"title": "Add New Widget"
 		},
 		"ProfileViewWidgetsList": {
+			"description": {
+				"line": "Line Widget",
+				"smart_notification": "Smart Notification",
+				"stop": "Stop Widget"
+			},
 			"no_data": "No widgets added yet",
 			"title": "Your Widgets"
 		},

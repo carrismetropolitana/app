@@ -34,11 +34,13 @@ export function ListSection({ description, items = [], title }: ListSectionProps
 				{items.map(element => (
 					<ListSectionItem
 						key={element.key}
+						description={element.description}
 						icon={element.icon}
 						label={element.label}
 						link={element.link}
 						onPress={element.onPress}
 						replaceChevron={element.replaceChevron}
+						size={element.size}
 					/>
 				))}
 			</View>
