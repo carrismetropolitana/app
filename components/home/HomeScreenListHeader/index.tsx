@@ -1,5 +1,6 @@
 /* * */
 
+import { HomeScreenGeneralStatus } from '@/components/home/HomeScreenGeneralStatus';
 import { HomeScreenTopBar } from '@/components/home/HomeScreenTopBar';
 import { View } from 'react-native';
 
@@ -19,9 +20,12 @@ export function HomeScreenListHeader() {
 	// B. Render components
 
 	return (
-		<View style={styles.container}>
-			<HomeScreenTopBar />
-		</View>
+		<>
+			<View style={styles.container}>
+				<HomeScreenTopBar />
+			</View>
+			<HomeScreenGeneralStatus />
+		</>
 	);
 
 	//

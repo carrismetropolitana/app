@@ -67,6 +67,7 @@ export function ProfileViewPersona() {
 				title={t('edit_profile')}
 				titleStyle={styles.buttonTitle}
 			/>
+			<Text>{accountContext?.data.account?._id}</Text>
 		</View>
 	);
 

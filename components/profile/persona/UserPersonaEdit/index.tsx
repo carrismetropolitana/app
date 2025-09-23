@@ -48,10 +48,28 @@ export function UserPersonaEdit() {
 	};
 
 	const handleRandomize = async () => {
-		const response = await fetchData<string>(`${getServiceUrl('accounts')}/personas`);
-		if (!response.data) return;
-		accountContext.actions.update('persona.image_history', [...accountContext.data.account?.persona.image_history ?? [], accountContext.data.account?.persona.image_id]);
-		accountContext.actions.update('persona.image_id', response.data);
+		// Get a copy of the current persona image and history
+		const currentHistory = [...accountContext.data.account?.persona.image_history ?? []];
+		const currentImage = accountContext.data.account?.persona.image_id;
+		// Fetch a new random image from the API until it's different
+		// from the current one and not in the recent history
+		let newImageId: string;
+		do {
+			// Fetch a new random image from the API
+			const response = await fetchData<string>(`${getServiceUrl('accounts')}/personas`);
+			if (!response.data) return;
+			// Store the new image ID
+			newImageId = response.data;
+		} while (newImageId === currentImage || currentHistory.includes(newImageId));
+		// Ensure the history doesn't exceed the limit
+		// (e.g., 50 items). If it does, remove the oldest entries.
+		const historyLimit = 50;
+		if (currentHistory.length >= historyLimit) currentHistory.splice(0, currentHistory.length - historyLimit);
+		// Add the current image to the history, if it exists
+		if (currentImage) currentHistory.push(currentImage);
+		// Update the account with the new history and image ID
+		accountContext.actions.update('persona.image_history', currentHistory);
+		accountContext.actions.update('persona.image_id', newImageId);
 	};
 
 	//
