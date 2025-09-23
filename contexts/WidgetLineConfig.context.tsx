@@ -106,6 +106,7 @@ export const WidgetLineConfigContextProvider = ({ children, widgetId }: PropsWit
 
 	const selectLineId = (lineId: string) => {
 		setSelectedLineId(lineId);
+		setSelectedPatternId(undefined);
 	};
 
 	const selectPatternId = (patternId: string) => {

@@ -112,6 +112,8 @@ export const WidgetStopConfigContextProvider = ({ children, widgetId }: PropsWit
 
 	const selectStopId = (stopId: string) => {
 		setSelectedStopId(stopId);
+		setSelectedPatternIds(undefined);
+		setAvailablePatternsData([]);
 	};
 
 	const togglePatternId = (patternId: string) => {

@@ -156,10 +156,14 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children, widgetI
 
 	const selectLineId = (lineId: string) => {
 		setSelectedLineId(lineId);
+		setSelectedPatternId(undefined);
+		setSelectedWaypoint(undefined);
+		setAvailablePatternsData([]);
 	};
 
 	const selectPatternId = (patternId: string) => {
 		setSelectedPatternId(patternId);
+		setSelectedWaypoint(undefined);
 	};
 
 	const selectWaypoint = (waypoint: Waypoint) => {

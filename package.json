@@ -1,6 +1,6 @@
 {
 	"name": "@carrismetropolitana/app",
-	"version": "20250923.1948.49",
+	"version": "20250923.2012.49",
 	"private": true,
 	"type": "commonjs",
 	"main": "expo-router/entry",
