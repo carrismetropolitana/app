@@ -1,7 +1,7 @@
 /* * */
 
 import { ListSection } from '@/components/list/ListSection';
-import { WidgetConfigSelectLineList } from '@/components/widgets/config/WidgetConfigSelectLineList';
+import { WidgetConfigSelectLineModal } from '@/components/widgets/config/WidgetConfigSelectLineModal';
 import { type Line } from '@carrismetropolitana/api-types/network';
 import { IconArrowLoopRight, IconArrowsLeftRight } from '@tabler/icons-react-native';
 import { useState } from 'react';
@@ -68,7 +68,7 @@ export function WidgetConfigSelectLine({ description, onSelectLineId, selectedLi
 				/>
 			)}
 
-			<WidgetConfigSelectLineList
+			<WidgetConfigSelectLineModal
 				isVisible={modalVisible}
 				onClose={() => setModalVisible(false)}
 				onSelectLine={handleSelectLine}

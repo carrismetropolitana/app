@@ -18,11 +18,12 @@ import { useStyles } from './styles';
 export interface LinesSelectionListMainProps {
 	addToRecentsOnPress?: boolean
 	onPress: (item: Line) => void
+	replaceChevron?: React.ReactNode
 }
 
 /* * */
 
-export function LinesSelectionListMain({ addToRecentsOnPress, onPress }: LinesSelectionListMainProps) {
+export function LinesSelectionListMain({ addToRecentsOnPress, onPress, replaceChevron }: LinesSelectionListMainProps) {
 	//
 
 	//
@@ -95,6 +96,7 @@ export function LinesSelectionListMain({ addToRecentsOnPress, onPress }: LinesSe
 					icon={<LineBadge color={item.color} shortName={item.short_name} textColor={item.text_color} />}
 					label={item.long_name}
 					onPress={() => handlePress(item)}
+					replaceChevron={replaceChevron}
 				/>
 			)}
 		/>
