@@ -14,6 +14,9 @@
 			"(tabs)/home/account/widgets": {
 				"title": "Widgets"
 			},
+			"(tabs)/lines": {
+				"title": "Lines"
+			},
 			"(tabs)/more": {
 				"title": "More"
 			},
@@ -70,6 +73,9 @@
 			},
 			"(tabs)/more/support/stores": {
 				"title": "Stores"
+			},
+			"(tabs)/stops": {
+				"title": "Stops"
 			},
 			"vehicles/[vehicle_id]": {
 				"title": "Vehicle Detail"
@@ -390,9 +396,6 @@
 		"LinesSelectionListSearch": {
 			"placeholder": "Search..."
 		},
-		"Page": {
-			"title": "Lines"
-		},
 		"PathStopNextArrivals": {
 			"arriving": "Arriving",
 			"nextArrivalsRealtimeAccessibilityHint": "Next trip in real time",
@@ -639,6 +642,29 @@
 			"stopDisplayMunicipalityAccessibilityLabel": "The stop {stopName} is located in the municipality of {municipalityName}",
 			"stopDisplayNameAccessibilityHint": "This element represents the name of the stop",
 			"stopDisplayNameAccessibilityLabel": "Stop name  {stopName}"
+		},
+		"StopsSelectionListMain": {
+			"all": {
+				"title": "All Stops"
+			},
+			"around": {
+				"title": "Stops Around Me"
+			},
+			"favorites": {
+				"title": "Favorite Stops"
+			},
+			"recent": {
+				"title": "Recent Stops"
+			},
+			"search_results": {
+				"title": {
+					"plural": "Found {count} stops",
+					"singular": "Found 1 stop"
+				}
+			}
+		},
+		"StopsSelectionListSearch": {
+			"placeholder": "Search..."
 		},
 		"noDataFound": "No data found for this stop"
 	},

@@ -14,6 +14,9 @@
 			"(tabs)/home/account/widgets": {
 				"title": "Widgets"
 			},
+			"(tabs)/lines": {
+				"title": "Linhas"
+			},
 			"(tabs)/more": {
 				"title": "Mais"
 			},
@@ -70,6 +73,9 @@
 			},
 			"(tabs)/more/support/stores": {
 				"title": "Lojas"
+			},
+			"(tabs)/stops": {
+				"title": "Paragens"
 			},
 			"vehicles/[vehicle_id]": {
 				"title": "Veículo"
@@ -344,9 +350,6 @@
 	"home": {
 		"HomeScreenCustomizeButton": {
 			"label": "Personalizar"
-		},
-		"Page": {
-			"title": "Home"
 		}
 	},
 	"homepage": {
@@ -471,8 +474,28 @@
 			"linesAroundMe": "A minha volta",
 			"recentLines": "Linhas Recentes"
 		},
-		"Page": {
-			"title": "Linhas"
+		"LinesSelectionListMain": {
+			"all": {
+				"title": "Todas as Linhas"
+			},
+			"around": {
+				"title": "À Minha Volta"
+			},
+			"favorites": {
+				"title": "Favoritas"
+			},
+			"recent": {
+				"title": "Recentes"
+			},
+			"search_results": {
+				"title": {
+					"plural": "Encontradas {count} linhas",
+					"singular": "Encontrada 1 linha"
+				}
+			}
+		},
+		"LinesSelectionListSearch": {
+			"placeholder": "Pesquisar..."
 		},
 		"PathStopNextArrivals": {
 			"arriving": "A chegar",
@@ -708,6 +731,29 @@
 			"stopDisplayMunicipalityAccessibilityLabel": "A paragem {stopName} está localizada no município {municipalityName}",
 			"stopDisplayNameAccessibilityHint": "Este elemento representa o nome da paragem",
 			"stopDisplayNameAccessibilityLabel": "Nome da paragem {stopName}"
+		},
+		"StopsSelectionListMain": {
+			"all": {
+				"title": "Todas as Paragens"
+			},
+			"around": {
+				"title": "À Minha Volta"
+			},
+			"favorites": {
+				"title": "Favoritas"
+			},
+			"recent": {
+				"title": "Recentes"
+			},
+			"search_results": {
+				"title": {
+					"plural": "Encontradas {count} paragens",
+					"singular": "Encontrada 1 paragem"
+				}
+			}
+		},
+		"StopsSelectionListSearch": {
+			"placeholder": "Pesquisar..."
 		},
 		"noDataFound": "Nenhum dado encontrado para esta paragem"
 	},

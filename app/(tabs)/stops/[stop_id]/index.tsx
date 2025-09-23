@@ -2,10 +2,8 @@
 
 import { StopDetail } from '@/components/stops/StopDetail';
 import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
-import { useThemeContext } from '@/contexts/Theme.context';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 
 /* * */
 
@@ -16,24 +14,16 @@ export default function Page() {
 
 	const { stop_id } = useLocalSearchParams<{ stop_id: string }>();
 
-	const themeContext = useThemeContext();
-
 	const navigation = useNavigation();
-	const { t } = useTranslation('translation', { keyPrefix: 'layout' });
 
 	//
 	// B. Fetch Data
 
 	useEffect(() => {
 		navigation.setOptions({
-			headerBackTitle: `${t('BackButton')}`,
-			headerShown: true,
-			headerStyle: {
-				backgroundColor: themeContext.theme.mode === 'light' ? themeContext.theme.lightColors?.background : themeContext.theme.darkColors?.background,
-			},
-			headerTitle: '',
+			headerTitle: stop_id,
 		});
-	}, [navigation, themeContext.theme.mode]);
+	}, [navigation]);
 
 	//
 	// C. Render components

@@ -79,9 +79,7 @@ export const StopsListContextProvider = ({ children }: PropsWithChildren) => {
 		const boostedData = stopsContext.data.stops.map(stop => ({ ...stop, boost: accountContext.data.account?.favorites.stop_ids.includes(stop.id) ? true : false }));
 		const searchHook = createDocCollection(boostedData, {
 			id: 4,
-			// locality_ids: 1,
 			long_name: 2,
-			short_name: 4,
 			tts_name: 3,
 		});
 		return searchHook.search(filterBySearchState);

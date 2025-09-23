@@ -16,7 +16,7 @@ export default function Page() {
 
 	const navigation = useNavigation();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'stops.Page' });
+	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.(tabs)/stops' });
 
 	//
 	// B. Handle actions
