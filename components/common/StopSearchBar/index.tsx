@@ -1,7 +1,7 @@
 /* * */
 
 import { useLocaleContext } from '@/contexts/Locale.context';
-import { useStopsListContext } from '@/contexts/StopsList.context';
+import { useStopsListContext } from '@/contexts/OldStopsList.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Input } from '@rn-vui/themed';

@@ -1,0 +1,18 @@
+/* * */
+
+import { StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+/* * */
+
+export const useStyles = () => {
+	//
+
+	const safeAreaInsets = useSafeAreaInsets();
+
+	return StyleSheet.create({
+		container: {
+			paddingTop: safeAreaInsets.top,
+		},
+	});
+};

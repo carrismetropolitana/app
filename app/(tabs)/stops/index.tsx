@@ -1,10 +1,10 @@
 /* * */
 
-import { StopsScreen } from '@/components/screens/StopsScreen';
-import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
-import { StopsListContextProvider } from '@/contexts/StopsList.context';
+import { StopsList } from '@/components/stops/list/StopsList';
+import { StopsListContextProvider } from '@/contexts/OldStopsList.context';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 /* * */
 
@@ -16,13 +16,15 @@ export default function Page() {
 
 	const navigation = useNavigation();
 
+	const { t } = useTranslation('translation', { keyPrefix: 'stops.Page' });
+
 	//
 	// B. Handle actions
 
 	useEffect(() => {
 		navigation.setOptions({
 			headerShown: false,
-			headerTitle: 'Stops',
+			headerTitle: t('title'),
 		});
 	}, [navigation]);
 
@@ -31,11 +33,9 @@ export default function Page() {
 
 	return (
 		<StopsListContextProvider>
-			<StopsDetailContextProvider>
-				<StopsScreen />
-			</StopsDetailContextProvider>
+			<StopsList />
 		</StopsListContextProvider>
 	);
 
 	//
-}
+};

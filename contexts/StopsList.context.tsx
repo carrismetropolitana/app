@@ -1,39 +1,30 @@
 /* * */
 
-import { useProfileContext } from '@/contexts/Profile.context';
-import { transformStopDataIntoGeoJsonFeature, useStopsContext } from '@/contexts/Stops.context';
+import { useAccountContext } from '@/contexts/Account.context';
+import { useFavoritesContext } from '@/contexts/Favorites.context';
+import { useStopsContext } from '@/contexts/Stops.context';
 import createDocCollection from '@/hooks/useOtheSearch';
-import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
 import { type Stop } from '@carrismetropolitana/api-types/network';
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, type PropsWithChildren, useContext, useMemo, useState } from 'react';
 
 /* * */
 
 interface StopsListContextState {
 	actions: {
-		updateFilterByAttribute: (value: string) => void
-		updateFilterByCurrentView: (value: 'favorites' | 'list' | 'map') => void
-		updateFilterByFacility: (value: string) => void
-		updateFilterByMunicipalityOrLocality: (value: string) => void
+		addToRecent: (item: Stop) => void
 		updateFilterBySearch: (value: string) => void
 	}
-	counters: {
-		favorites: number
-	}
 	data: {
+		all: Stop[]
 		favorites: Stop[]
 		filtered: Stop[]
-		filtered_fc: GeoJSON.FeatureCollection<GeoJSON.Point, GeoJSON.GeoJsonProperties>
+		recent: Stop[]
 	}
 	filters: {
-		by_attribute: null | string
-		by_current_view: 'favorites' | 'list' | 'map'
-		by_facility: null | string
-		by_municipality_or_locality: null | string
 		by_search: string
 	}
 	flags: {
-		is_loading: boolean
+		loading: boolean
 	}
 }
 
@@ -51,175 +42,102 @@ export function useStopsListContext() {
 
 /* * */
 
-export const StopsListContextProvider = ({ children }: { children: React.ReactNode }) => {
+export const StopsListContextProvider = ({ children }: PropsWithChildren) => {
 	//
 
 	//
 	// A. Setup variables
 
-	const profileContext = useProfileContext();
 	const stopsContext = useStopsContext();
+	const accountContext = useAccountContext();
+	const favoritesContext = useFavoritesContext();
 
-	const [dataFilteredState, setDataFilteredState] = useState<Stop[]>([]);
-	const [dataFilteredGeojsonFCState, setDataFilteredGeojsonFCState] = useState<GeoJSON.FeatureCollection<GeoJSON.Point, GeoJSON.GeoJsonProperties>>();
-	const [dataFavoritesState, setDataFavoritesState] = useState<Stop[]>([]);
-
-	const [filterByAttributeState, setFilterByAttributeState] = useState <StopsListContextState['filters']['by_attribute']>(null);
-	const [filterByCurrentViewState, setFilterByCurrentViewState] = useState <StopsListContextState['filters']['by_current_view']>('map');
-	const [filterByFacilityState, setFilterByFacilityState] = useState <StopsListContextState['filters']['by_facility']>(null);
-	const [filterByMunicipalityOrLocalityState, setFilterByMunicipalityOrLocalityState] = useState <StopsListContextState['filters']['by_municipality_or_locality']>(null);
-	const [filterBySearchState, setFilterBySearchState] = useState <StopsListContextState['filters']['by_search']>('');
+	const [filterBySearchState, setFilterBySearchState] = useState<StopsListContextState['filters']['by_search']>('');
 
 	//
 	// B. Transform data
 
-	const searchHook = useMemo(() => {
-		// Prepare data for search function
-		const preparedSearchCollection = stopsContext.data.stops.map((item) => {
-			const isFavorite = profileContext.data.favorite_stops?.includes(item.id) ? true : false;
-			return {
-				...item,
-				boost: isFavorite,
-			};
+	const recentStopsData = useMemo(() => {
+		// Get recent stop IDs from user preferences
+		const recentStopIds = new Set(accountContext.data.account?.preferences?.recent_stop_ids || []);
+		// Map IDs to stop data
+		return Array.from(recentStopIds)
+			.map(id => stopsContext.data.stops.find(stop => stop.id === id))
+			.filter(item => !!item)
+			.sort((a, b) => a.id.localeCompare(b.id));
+	}, [accountContext.data.account?.preferences?.recent_stop_ids, stopsContext.data.stops]);
+
+	const favoriteStopsData = useMemo(() => {
+		const currentFavorites = new Set(favoritesContext.data.stop_ids || []);
+		return stopsContext.data.stops.filter(stop => currentFavorites.has(stop.id));
+	}, [stopsContext.data.stops, favoritesContext.data.stop_ids]);
+
+	const filteredStopsData = useMemo(() => {
+		// Skip if no filters are applied
+		if (!filterBySearchState) return [];
+		// Give extra weight to favorite stops
+		const boostedData = stopsContext.data.stops.map(stop => ({ ...stop, boost: accountContext.data.account?.favorites.stop_ids.includes(stop.id) ? true : false }));
+		const searchHook = createDocCollection(boostedData, {
+			id: 4,
+			// locality_ids: 1,
+			long_name: 2,
+			short_name: 4,
+			tts_name: 3,
 		});
-		return createDocCollection(preparedSearchCollection, {
-			id: 2,
-			long_name: 1,
-			short_name: 1,
-			tts_name: 1.5,
-		}, {
-			threshold: 1.7,
-		});
-	}, [stopsContext.data.stops, profileContext.data.favorite_stops]);
-
-	const applyFiltersToData = (allData: Stop[] = []) => {
-		//
-
-		let filterResult = allData;
-
-		//
-		// Filter by by_search
-
-		if (filterBySearchState) {
-			// Give extra weight to favorite lines
-			filterResult = searchHook.search(filterBySearchState) || filterResult;
-		}
-
-		//
-		// Filter by_attribute
-
-		if (filterByAttributeState) {
-			filterResult = filterResult.filter(() => {
-				return true;
-			});
-		}
-
-		//
-		// Filter by_facility
-
-		if (filterByFacilityState) {
-			filterResult = filterResult.filter(() => {
-				return true;
-			});
-		}
-
-		//
-		// Filter by by_municipality_or_locality
-
-		if (filterByMunicipalityOrLocalityState) {
-			filterResult = filterResult.filter(() => {
-				return true; // line.municipality_id === filtersState.by_municipality;
-			});
-		}
-
-		//
-		// Return resulting items
-
-		return filterResult;
-
-		//
-	};
-
-	useEffect(() => {
-		const filteredData = applyFiltersToData(stopsContext.data.stops);
-		setDataFilteredState(filteredData);
-	}, [stopsContext.data.stops, filterByAttributeState, filterByFacilityState, filterByMunicipalityOrLocalityState, filterBySearchState]);
-
-	useEffect(() => {
-		const favoritesStopsData = stopsContext.data.stops?.filter(stop => profileContext.data.favorite_stops?.includes(stop.id)) || [];
-		setDataFavoritesState(favoritesStopsData);
-	}, [stopsContext.data.stops, profileContext.data.favorite_stops]);
-
-	useEffect(() => {
-		// Check if all data is available
-		if (!dataFilteredState) return;
-		// Initialize worker if not already initialized
-		const collection = getBaseGeoJsonFeatureCollection();
-		dataFilteredState.forEach((stop) => {
-			const stopFC = transformStopDataIntoGeoJsonFeature(stop);
-			if (stopFC) collection.features.push(stopFC);
-		});
-		// Set state value
-		setDataFilteredGeojsonFCState(collection);
-		//
-	}, [dataFilteredState]);
+		return searchHook.search(filterBySearchState);
+	}, [stopsContext.data.stops, filterBySearchState]);
 
 	//
-	// C. Handle actions
+	// D. Handle actions
 
-	const updateFilterByAttribute = (value: StopsListContextState['filters']['by_attribute']) => {
-		setFilterByAttributeState(value || null);
+	const addToRecent = (item: Stop) => {
+		// Get current recent stops from user preferences
+		const currentRecentStops = new Set(accountContext.data.account?.preferences?.recent_stop_ids || []);
+		// If the item is already in recent, remove it (to re-add it at the top)
+		if (currentRecentStops.has(item.id)) currentRecentStops.delete(item.id);
+		// Add the new item
+		currentRecentStops.add(item.id);
+		// Limit to the last 3 items
+		const limitedRecentStops = Array.from(currentRecentStops).slice(-3);
+		// Update user preferences
+		accountContext.actions.update('preferences.recent_stop_ids', limitedRecentStops);
 	};
 
-	const updateFilterByCurrentView = (value: StopsListContextState['filters']['by_current_view']) => {
-		setFilterByCurrentViewState(value);
-	};
-
-	const updateFilterByFacility = (value: StopsListContextState['filters']['by_facility']) => {
-		setFilterByFacilityState(value || null);
-	};
-
-	const updateFilterByMunicipalityOrLocality = (value: StopsListContextState['filters']['by_municipality_or_locality']) => {
-		setFilterByMunicipalityOrLocalityState(value || null);
-	};
-
-	const updateFilterBySearch = (value: StopsListContextState['filters']['by_search']) => {
+	const updateFilterBySearch = (value: string) => {
 		setFilterBySearchState(value);
 	};
 
 	//
-	// D. Define context value
+	// E. Define context value
 
-	const contextValue: StopsListContextState = {
+	const contextValue: StopsListContextState = useMemo(() => ({
 		actions: {
-			updateFilterByAttribute,
-			updateFilterByCurrentView,
-			updateFilterByFacility,
-			updateFilterByMunicipalityOrLocality,
+			addToRecent,
 			updateFilterBySearch,
 		},
-		counters: {
-			favorites: profileContext.counters.favorite_stops,
-		},
 		data: {
-			favorites: dataFavoritesState,
-			filtered: dataFilteredState,
-			filtered_fc: dataFilteredGeojsonFCState || getBaseGeoJsonFeatureCollection(),
+			all: stopsContext.data.stops,
+			favorites: favoriteStopsData,
+			filtered: filteredStopsData,
+			recent: recentStopsData,
 		},
 		filters: {
-			by_attribute: filterByAttributeState,
-			by_current_view: filterByCurrentViewState,
-			by_facility: filterByFacilityState,
-			by_municipality_or_locality: filterByMunicipalityOrLocalityState,
 			by_search: filterBySearchState,
 		},
 		flags: {
-			is_loading: stopsContext.flags.loading,
+			loading: stopsContext.flags.loading,
 		},
-	};
+	}), [
+		recentStopsData,
+		favoriteStopsData,
+		filteredStopsData,
+		filterBySearchState,
+		stopsContext.data.stops,
+		stopsContext.flags.loading,
+	]);
 
 	//
-	// E. Render components
+	// F. Render components
 
 	return (
 		<StopsListContext.Provider value={contextValue}>

@@ -14,7 +14,7 @@ import { useMapOptionsContext } from '@/contexts/MapOptions.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
-import { useStopsListContext } from '@/contexts/StopsList.context';
+import { useStopsListContext } from '@/contexts/OldStopsList.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
