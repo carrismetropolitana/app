@@ -1,6 +1,7 @@
 /* * */
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
+import { LinesSelectionListSearch } from '@/components/lines/list/LinesSelectionListSearch';
 import { ListSectionItem } from '@/components/list/ListSectionItem';
 import { ListTitle } from '@/components/list/ListTitle';
 import { useLinesListContext } from '@/contexts/LinesList.context';
@@ -14,14 +15,14 @@ import { useStyles } from './styles';
 
 /* * */
 
-export interface LinesSelectionListSectionsProps {
+export interface LinesSelectionListMainProps {
 	addToRecentsOnPress?: boolean
 	onPress: (item: Line) => void
 }
 
 /* * */
 
-export function LinesSelectionListSections({ addToRecentsOnPress, onPress }: LinesSelectionListSectionsProps) {
+export function LinesSelectionListMain({ addToRecentsOnPress, onPress }: LinesSelectionListMainProps) {
 	//
 
 	//
@@ -31,22 +32,27 @@ export function LinesSelectionListSections({ addToRecentsOnPress, onPress }: Lin
 
 	const linesListContext = useLinesListContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'lines.LinesList' });
+	const { t } = useTranslation('translation', { keyPrefix: 'lines.LinesSelectionListMain' });
 
 	//
 	// B. Transform data
 
 	const listSections = useMemo(() => {
 		// Setup a final variable to add the sections
-		const sections = [
+		const regularSections = [
 			{ data: linesListContext.data.favorites, title: t('favorites.title') },
 			{ data: linesListContext.data.around, title: t('around.title') },
 			{ data: linesListContext.data.recent, title: t('recent.title') },
 			{ data: linesListContext.data.all.slice(0, 5), title: t('all.title') },
+		];
+		// Filter out empty sections
+		const searchResultsSection = [
 			{ data: linesListContext.data.filtered.slice(0, 5), title: linesListContext.data.filtered.length === 1 ? t('search_results.title.singular') : t('search_results.title.plural', { count: linesListContext.data.filtered.length || 0 }) },
 		];
-		// Return only sections with data
-		return sections.filter(section => section.data.length > 0);
+		// If search is active, show only the search results section
+		if (linesListContext.filters.by_search) return searchResultsSection;
+		// Otherwise, return only sections with data
+		return regularSections.filter(section => section.data.length > 0);
 	}, [
 		linesListContext.data.favorites,
 		linesListContext.data.around,
@@ -77,6 +83,12 @@ export function LinesSelectionListSections({ addToRecentsOnPress, onPress }: Lin
 			SectionSeparatorComponent={() => <View style={styles.border} />}
 			stickySectionHeadersEnabled={false}
 			windowSize={30}
+			ListHeaderComponent={(
+				<LinesSelectionListSearch
+					onChange={linesListContext.actions.updateFilterBySearch}
+					value={linesListContext.filters.by_search}
+				/>
+			)}
 			renderItem={({ item }) => (
 				<ListSectionItem
 					key={item.id}

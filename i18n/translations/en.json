@@ -347,26 +347,6 @@
 			"no_data": "Select a Path / Destination",
 			"summary": "Line <lineNumber>{line_number}</lineNumber> headed towards <destinationName>{destination_name}</destinationName> on <dayName>{day_name, date, long}</dayName>. <changeDay>Change day ›</changeDay>"
 		},
-		"LinesList": {
-			"all": {
-				"title": "All Lines"
-			},
-			"around": {
-				"title": "Lines Around Me"
-			},
-			"favorites": {
-				"title": "Favorite Lines"
-			},
-			"recent": {
-				"title": "Recent Lines"
-			},
-			"search_results": {
-				"title": {
-					"plural": "Found {count} lines",
-					"singular": "Found 1 line"
-				}
-			}
-		},
 		"LinesListToolbar": {
 			"by_current_view": {
 				"all": "All Lines",
@@ -386,6 +366,29 @@
 		},
 		"LinesListViewFavorites": {
 			"no_favorites": "No favorite lines yet"
+		},
+		"LinesSelectionListMain": {
+			"all": {
+				"title": "All Lines"
+			},
+			"around": {
+				"title": "Lines Around Me"
+			},
+			"favorites": {
+				"title": "Favorite Lines"
+			},
+			"recent": {
+				"title": "Recent Lines"
+			},
+			"search_results": {
+				"title": {
+					"plural": "Found {count} lines",
+					"singular": "Found 1 line"
+				}
+			}
+		},
+		"LinesSelectionListSearch": {
+			"placeholder": "Search..."
 		},
 		"Page": {
 			"title": "Lines"

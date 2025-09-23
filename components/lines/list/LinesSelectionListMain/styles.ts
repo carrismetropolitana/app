@@ -17,10 +17,8 @@ export const useStyles = () => {
 			width: '100%',
 		},
 		contentContainer: {
+			minHeight: '100%',
 			paddingBottom: 50,
-		},
-		title: {
-			backgroundColor: 'red',
 		},
 	});
 };

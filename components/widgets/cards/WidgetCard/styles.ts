@@ -14,7 +14,7 @@ export const useStyles = () => {
 		container: {
 			backgroundColor: systemVariables.background[100],
 			borderRadius: 10,
-			boxShadow: '0 0 15px 0px rgba(0,0,0,0.1)',
+			boxShadow: '0 0 15px 0 rgba(0,0,0,0.1)',
 			overflow: 'hidden',
 		},
 		containerIsDragging: {

@@ -1,14 +1,14 @@
 /* * */
 
-import { LinesSelectionListSections, type LinesSelectionListSectionsProps } from '@/components/lines/list/LinesSelectionListSections';
+import { LinesSelectionListMain, type LinesSelectionListMainProps } from '@/components/lines/list/LinesSelectionListMain';
 import { LinesListContextProvider } from '@/contexts/LinesList.context';
 
 /* * */
 
-export function LinesSelectionList(props: LinesSelectionListSectionsProps) {
+export function LinesSelectionList(props: LinesSelectionListMainProps) {
 	return (
 		<LinesListContextProvider>
-			<LinesSelectionListSections {...props} />
+			<LinesSelectionListMain {...props} />
 		</LinesListContextProvider>
 	);
 }
