@@ -97,6 +97,7 @@ export function LinesSelectionListMain({ addToRecentsOnPress, onPress, replaceCh
 					label={item.long_name}
 					onPress={() => handlePress(item)}
 					replaceChevron={replaceChevron}
+					size="sm"
 				/>
 			)}
 		/>
