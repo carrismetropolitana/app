@@ -1,6 +1,6 @@
 {
 	"name": "@carrismetropolitana/app",
-	"version": "20250923.1337.20",
+	"version": "20250923.1742.34",
 	"private": true,
 	"type": "commonjs",
 	"main": "expo-router/entry",
@@ -81,6 +81,7 @@
 		"@babel/core": "7.28.4",
 		"@carrismetropolitana/api-types": "20250921.1534.23",
 		"@carrismetropolitana/eslint": "20250622.1204.50",
+		"@react-native-community/cli": "latest",
 		"@tmlmobilidade/types": "20250922.953.29",
 		"@types/geojson": "7946.0.16",
 		"@types/luxon": "3.7.1",
