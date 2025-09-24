@@ -1,5 +1,6 @@
 /* * */
 
+import { AccountViewInfo } from '@/components/account/view/AccountViewInfo';
 import { AccountViewPersona } from '@/components/account/view/AccountViewPersona';
 import { AccountViewWidgetsCreate } from '@/components/account/view/AccountViewWidgetsCreate';
 import { AccountViewWidgetsList } from '@/components/account/view/AccountViewWidgetsList';
@@ -52,6 +53,7 @@ export function AccountView() {
 			<AccountViewPersona />
 			<AccountViewWidgetsList />
 			<AccountViewWidgetsCreate />
+			<AccountViewInfo />
 		</Container>
 	);
 
