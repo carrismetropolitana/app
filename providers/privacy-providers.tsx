@@ -1,5 +1,6 @@
 /* * */
 
+import { AnalyticsContextProvider } from '@/contexts/Analytics.context';
 import { ConsentContextProvider } from '@/contexts/Consent.context';
 import { NotificationsContextProvider } from '@/contexts/Notifications.context';
 import { UserLocationContextProvider } from '@/contexts/UserLocation.context';
@@ -12,7 +13,9 @@ export function PrivacyProviders({ children }: PropsWithChildren) {
 		<ConsentContextProvider>
 			<NotificationsContextProvider>
 				<UserLocationContextProvider>
-					{children}
+					<AnalyticsContextProvider>
+						{children}
+					</AnalyticsContextProvider>
 				</UserLocationContextProvider>
 			</NotificationsContextProvider>
 		</ConsentContextProvider>

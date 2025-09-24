@@ -1,7 +1,6 @@
 /* * */
 
 import { AccountContextProvider } from '@/contexts/Account.context';
-import { AnalyticsContextProvider } from '@/contexts/Analytics.context';
 import { FavoritesContextProvider } from '@/contexts/Favorites.context';
 import { ProfileContextProvider } from '@/contexts/Profile.context';
 import { type PropsWithChildren } from 'react';
@@ -13,9 +12,7 @@ export function AccountProviders({ children }: PropsWithChildren) {
 		<AccountContextProvider>
 			<FavoritesContextProvider>
 				<ProfileContextProvider>
-					<AnalyticsContextProvider>
-						{children}
-					</AnalyticsContextProvider>
+					{children}
 				</ProfileContextProvider>
 			</FavoritesContextProvider>
 		</AccountContextProvider>

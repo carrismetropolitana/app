@@ -4,8 +4,6 @@ import pjson from '@/package.json';
 import * as Amplitude from '@amplitude/analytics-react-native';
 import { createContext, useContext, useEffect } from 'react';
 
-import { useProfileContext } from './Profile.context';
-
 /* * */
 
 const AMPLITUDE_API_KEY = process.env.EXPO_PUBLIC_AMPLITUDE_API_KEY;
@@ -14,7 +12,7 @@ interface AnalyticsContextState {
 	actions: {
 		capture: (eventName: string, eventProps?: Record<string, unknown>) => void
 		setUserId: (userId: string) => void
-		setUserProperties: (props: Record<string, unknown>) => void
+		// setUserProperties: (props: Record<string, unknown>) => void
 	}
 }
 
@@ -38,18 +36,11 @@ export const AnalyticsContextProvider = ({ children }: { children: React.ReactNo
 	//
 	// A. Setup variables
 
-	const profileContext = useProfileContext();
-
 	// B. Transform Data
 
 	useEffect(() => {
 		Amplitude.init(AMPLITUDE_API_KEY || '', undefined, { disableCookies: true, serverZone: 'EU' });
 	}, []);
-
-	useEffect(() => {
-		if (!profileContext.data.profile) return;
-		setUserId(profileContext.data.profile?.devices[0]?.device_id);
-	}, [profileContext.data.profile?.devices[0]?.device_id]);
 
 	//
 	// C. Handle Actions
@@ -67,13 +58,13 @@ export const AnalyticsContextProvider = ({ children }: { children: React.ReactNo
 		Amplitude.setUserId(userId);
 	};
 
-	const setUserProperties = (props: Record<string, unknown>) => {
-		const identifyObj = new Amplitude.Identify();
-		Object.entries(props).forEach(([key, value]) => {
-			identifyObj.set(key, value);
-		});
-		Amplitude.identify(identifyObj);
-	};
+	// const setUserProperties = (props: Record<string, unknown>) => {
+	// 	const identifyObj = new Amplitude.Identify();
+	// 	Object.entries(props).forEach(([key, value]) => {
+	// 		identifyObj.set(key, value);
+	// 	});
+	// 	Amplitude.identify(identifyObj);
+	// };
 
 	//
 	// D. Define Context Value
@@ -82,7 +73,7 @@ export const AnalyticsContextProvider = ({ children }: { children: React.ReactNo
 		actions: {
 			capture,
 			setUserId,
-			setUserProperties,
+			// setUserProperties,
 		},
 	};
 
