@@ -18,6 +18,12 @@ export const useStyles = () => {
 			gap: 1,
 			justifyContent: 'flex-start',
 		},
+		loadingContainer: {
+			alignItems: 'center',
+			backgroundColor: systemVariables.background[100],
+			justifyContent: 'center',
+			padding: 30,
+		},
 		noDataContainer: {
 			backgroundColor: systemVariables.background[100],
 		},

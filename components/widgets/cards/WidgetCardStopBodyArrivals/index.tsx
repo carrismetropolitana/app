@@ -4,7 +4,7 @@ import { ArrivalRow } from '@/components/arrivals/ArrivalRow';
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { useArrivalsContext } from '@/contexts/Arrivals.context';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 
 import { useStyles } from './styles';
 
@@ -24,6 +24,14 @@ export function WidgetCardStopBodyArrivals() {
 
 	//
 	// B. Render components
+
+	if (arrivalsContext.flags.loading) {
+		return (
+			<View style={[styles.container, styles.loadingContainer]}>
+				<ActivityIndicator size="large" />
+			</View>
+		);
+	}
 
 	if (!arrivalsContext.data.arrivals.length) {
 		return (

@@ -82,10 +82,6 @@
 			}
 		}
 	},
-	"accordionToggle": {
-		"accessibilityHint": "Este botão expande ou colapsa o widget selecionado",
-		"accessibilityLabel": "Botão para expandir ou colapsar o widget"
-	},
 	"account": {
 		"AccountEdit": {
 			"title": "Editar Perfil"
@@ -100,6 +96,9 @@
 				"turistica": "Laranja, cor das Linhas Turísticas"
 			},
 			"label": "Definir cor principal"
+		},
+		"AccountViewInfo": {
+			"account_id_copied": "ID da Conta Copiado"
 		},
 		"AccountViewPersona": {
 			"activity": {
@@ -122,14 +121,10 @@
 			"no_data": "Nenhum widget adicionado ainda",
 			"title": "Os teus Widgets"
 		},
-		"Page": {
-			"title": "Perfil"
-		},
 		"UserPersonaEdit": {
 			"go_back": "Voltar à persona anterior",
 			"randomize": "Gerar uma persona aleatória"
-		},
-		"headerTitle": "Editar Perfil"
+		}
 	},
 	"addfavoriteline": {
 		"changeLineAccessibilityHint": "Este elemento é um botão para selecionar uma linha",

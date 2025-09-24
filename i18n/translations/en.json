@@ -83,6 +83,9 @@
 		}
 	},
 	"account": {
+		"AccountViewInfo": {
+			"account_id_copied": "Account ID Copied"
+		},
 		"AccountViewPersona": {
 			"activity": {
 				"default": "Traveling",
@@ -112,8 +115,7 @@
 		"UserPersonaEdit": {
 			"go_back": "Go back to the previous persona",
 			"randomize": "Generate a random persona"
-		},
-		"headerTitle": "Edit Profile"
+		}
 	},
 	"addfavoriteline": {
 		"changeLineAccessibilityHint": "This element is a button to select a line",
