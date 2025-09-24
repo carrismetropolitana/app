@@ -1,8 +1,9 @@
 /* * */
 
+import { HomeScreenGeneralStatusItem } from '@/components/home/HomeScreenGeneralStatusItem';
 import { getServiceUrl } from '@/settings/service-urls';
 import { type GeneralStatusMessage } from '@/types/general-status';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import useSWR from 'swr';
 
 import { useStyles } from './styles';
@@ -27,10 +28,8 @@ export function HomeScreenGeneralStatus() {
 
 	return (
 		<View style={styles.container}>
-			{generalStatusData?.length && generalStatusData.map(status => (
-				<View key={status._id} style={styles.message}>
-					<Text style={styles.title}>{status.title}</Text>
-				</View>
+			{generalStatusData?.length && generalStatusData.map(item => (
+				<HomeScreenGeneralStatusItem key={item._id} data={item} />
 			))}
 		</View>
 	);
