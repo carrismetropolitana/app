@@ -5,6 +5,7 @@
 				"backgroundColor": "#ffffff",
 				"foregroundImage": "./assets/images/Logos/CM_Logo _Symbol_LightMode.png"
 			},
+			"googleServicesFile": "./environments/production/secrets/google-services.json",
 			"package": "pt.carrismetropolitana.mobile",
 			"permissions": [
 				"android.permission.ACCESS_COARSE_LOCATION",
