@@ -32,8 +32,8 @@ const SERVICE_URLS = Object.freeze({
 
 	backoffice: {
 		development: 'localhost:3000',
-		production: 'https://backoffice.carrismetropolitana.pt',
-		staging: 'https://backoffice.carrismetropolitana.pt',
+		production: 'https://carrismetropolitana.pt/admin',
+		staging: 'https://carrismetropolitana.pt/admin',
 	},
 
 	tap_and_ride: {

@@ -20,12 +20,10 @@ export function HomeScreenListHeader() {
 	// B. Render components
 
 	return (
-		<>
-			<View style={styles.container}>
-				<HomeScreenTopBar />
-			</View>
+		<View style={styles.container}>
+			<HomeScreenTopBar />
 			<HomeScreenGeneralStatus />
-		</>
+		</View>
 	);
 
 	//

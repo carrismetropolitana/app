@@ -15,5 +15,17 @@ export const useStyles = () => {
 			display: 'flex',
 			flexDirection: 'column',
 		},
+		message: {
+			backgroundColor: systemVariables.status.info,
+			display: 'flex',
+			flexDirection: 'column',
+			paddingHorizontal: 20,
+			paddingVertical: 15,
+		},
+		title: {
+			color: '#ffffff',
+			fontSize: 16,
+			fontWeight: '600',
+		},
 	});
 };
