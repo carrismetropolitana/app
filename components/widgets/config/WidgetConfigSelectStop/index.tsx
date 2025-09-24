@@ -2,6 +2,7 @@
 
 import { ListSection } from '@/components/list/ListSection';
 import { WidgetConfigSelectStopModal } from '@/components/widgets/config/WidgetConfigSelectStopModal';
+import { useSystemVariables } from '@/theme/global';
 import { type Stop } from '@carrismetropolitana/api-types/network';
 import { IconArrowsLeftRight, IconBusStop } from '@tabler/icons-react-native';
 import { useState } from 'react';
@@ -23,6 +24,8 @@ export function WidgetConfigSelectStop({ description, onSelectStopId, selectedSt
 
 	//
 	// A. Setup variables
+
+	const systemVariables = useSystemVariables();
 
 	const [modalVisible, setModalVisible] = useState(false);
 
@@ -60,10 +63,11 @@ export function WidgetConfigSelectStop({ description, onSelectStopId, selectedSt
 					description={description}
 					title={title}
 					items={[{
+						description: selectedStop.id,
 						key: 'selected-stop',
 						label: selectedStop.long_name,
 						onPress: () => setModalVisible(true),
-						replaceChevron: <IconArrowsLeftRight />,
+						replaceChevron: <IconArrowsLeftRight color={systemVariables.text[100]} />,
 					}]}
 				/>
 			)}

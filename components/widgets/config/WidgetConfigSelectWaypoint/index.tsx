@@ -4,6 +4,7 @@ import { ListSection } from '@/components/list/ListSection';
 import { type ListSectionItemProps } from '@/components/list/ListSectionItem';
 import { WidgetConfigSelectWaypointSequence } from '@/components/widgets/config/WidgetConfigSelectWaypointSequence';
 import { useStopsContext } from '@/contexts/Stops.context';
+import { useSystemVariables } from '@/theme/global';
 import { type Waypoint } from '@carrismetropolitana/api-types/network';
 import { IconCircle, IconCircleCheckFilled, IconX } from '@tabler/icons-react-native';
 import { useMemo } from 'react';
@@ -29,6 +30,8 @@ export function WidgetConfigSelectWaypoint({ availableWaypoints, description, di
 
 	const stopsContext = useStopsContext();
 
+	const systemVariables = useSystemVariables();
+
 	//
 	// B. Transform data
 
@@ -44,11 +47,12 @@ export function WidgetConfigSelectWaypoint({ availableWaypoints, description, di
 				const isSelected = selectedWaypoint?.stop_id === item.stop_id && selectedWaypoint?.stop_sequence === item.stop_sequence;
 				const isDisabled = disableFirst && index === 0;
 				return {
+					disabled: isDisabled,
 					icon: <WidgetConfigSelectWaypointSequence sequence={item.stop_sequence} />,
 					key: `${item.stop_id}-${item.stop_sequence}`,
 					label: stopData.long_name,
 					onPress: () => !isDisabled && onToggleWaypoint(item),
-					replaceChevron: isDisabled ? <IconX /> : isSelected ? <IconCircleCheckFilled /> : <IconCircle />,
+					replaceChevron: isDisabled ? <IconX color={systemVariables.text[200]} /> : isSelected ? <IconCircleCheckFilled color={systemVariables.status.ok} /> : <IconCircle color={systemVariables.text[200]} />,
 				};
 			})
 			.filter(item => !!item);

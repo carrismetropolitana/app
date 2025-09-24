@@ -1,8 +1,9 @@
 /* * */
 
 import { StopsSelectionList } from '@/components/stops/list/StopsSelectionList';
+import { useSystemVariables } from '@/theme/global';
 import { type Stop } from '@carrismetropolitana/api-types/network';
-import { IconCirclePlus } from '@tabler/icons-react-native';
+import { IconCirclePlusFilled } from '@tabler/icons-react-native';
 import { useTranslation } from 'react-i18next';
 import { Button, Modal, View } from 'react-native';
 
@@ -25,6 +26,7 @@ export function WidgetConfigSelectStopModal({ isVisible, onClose, onSelectStop }
 	// A. Setup variables
 
 	const styles = useStyles();
+	const systemVariables = useSystemVariables();
 
 	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetConfigSelectStopModal' });
 
@@ -52,7 +54,7 @@ export function WidgetConfigSelectStopModal({ isVisible, onClose, onSelectStop }
 			<View style={styles.content}>
 				<StopsSelectionList
 					onPress={handleStopClick}
-					replaceChevron={<IconCirclePlus size={24} />}
+					replaceChevron={<IconCirclePlusFilled color={systemVariables.status.ok} size={24} />}
 				/>
 			</View>
 		</Modal>

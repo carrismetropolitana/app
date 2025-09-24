@@ -1,7 +1,9 @@
 /* * */
 
+import { LineBadge } from '@/components/lines/LineBadge';
 import { ListSection } from '@/components/list/ListSection';
 import { WidgetConfigSelectLineModal } from '@/components/widgets/config/WidgetConfigSelectLineModal';
+import { useSystemVariables } from '@/theme/global';
 import { type Line } from '@carrismetropolitana/api-types/network';
 import { IconArrowLoopRight, IconArrowsLeftRight } from '@tabler/icons-react-native';
 import { useState } from 'react';
@@ -23,6 +25,8 @@ export function WidgetConfigSelectLine({ description, onSelectLineId, selectedLi
 
 	//
 	// A. Setup variables
+
+	const systemVariables = useSystemVariables();
 
 	const [modalVisible, setModalVisible] = useState(false);
 
@@ -60,10 +64,12 @@ export function WidgetConfigSelectLine({ description, onSelectLineId, selectedLi
 					description={description}
 					title={title}
 					items={[{
+						icon: <LineBadge color={selectedLine.color} shortName={selectedLine.short_name} textColor={selectedLine.text_color} />,
 						key: 'selected-line',
 						label: selectedLine.long_name,
 						onPress: () => setModalVisible(true),
-						replaceChevron: <IconArrowsLeftRight />,
+						replaceChevron: <IconArrowsLeftRight color={systemVariables.text[100]} />,
+						size: 'sm',
 					}]}
 				/>
 			)}

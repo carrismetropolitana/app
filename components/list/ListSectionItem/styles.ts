@@ -21,6 +21,9 @@ export const useStyles = () => {
 			paddingRight: 15,
 			width: '100%',
 		},
+		containerDisabled: {
+			opacity: 0.25,
+		},
 		contentWrapper: {
 			display: 'flex',
 			flexDirection: 'column',

@@ -82,7 +82,7 @@ export function ArrivalTime({ status, time }: ArrivalTimeProps) {
 	if (status === 'scheduled') {
 		return (
 			<View style={styles.container}>
-				<IconClockHour9 size={16} />
+				<IconClockHour9 color={systemVariables.text[100]} size={16} />
 				<Text style={styles.title}>
 					{absoluteTimeDisplay}
 				</Text>

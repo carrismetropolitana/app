@@ -35,7 +35,7 @@ export const useStyles = () => {
 			width: Math.ceil(Dimensions.get('screen').width / 7) - 5,
 		},
 		weekdaySelected: {
-			backgroundColor: systemVariables.text[100],
+			backgroundColor: systemVariables.status.ok,
 			color: systemVariables.background[100],
 		},
 		weekdaysWrapper: {

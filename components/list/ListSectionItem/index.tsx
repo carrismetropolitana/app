@@ -12,6 +12,7 @@ import { useStyles } from './styles';
 
 export interface ListSectionItemProps {
 	description?: string
+	disabled?: boolean
 	icon?: ReactNode
 	key: string
 	label: string
@@ -23,7 +24,7 @@ export interface ListSectionItemProps {
 
 /* * */
 
-export function ListSectionItem({ description, icon, label, link, onPress, replaceChevron, size = 'md' }: ListSectionItemProps) {
+export function ListSectionItem({ description, disabled, icon, label, link, onPress, replaceChevron, size = 'md' }: ListSectionItemProps) {
 	//
 
 	//
@@ -38,6 +39,8 @@ export function ListSectionItem({ description, icon, label, link, onPress, repla
 	// B. Handle actions
 
 	const handlePress = () => {
+		console.log('isDisabled', disabled);
+		if (disabled) return;
 		if (link) router.push(link);
 		else if (onPress) onPress();
 	};
@@ -47,7 +50,12 @@ export function ListSectionItem({ description, icon, label, link, onPress, repla
 
 	if (label && description) {
 		return (
-			<TouchableOpacity onPress={handlePress} role="listitem" style={styles.container}>
+			<TouchableOpacity
+				disabled={disabled}
+				onPress={handlePress}
+				role="listitem"
+				style={[styles.container, disabled && styles.containerDisabled]}
+			>
 				{icon && <View style={styles.icon}>{icon}</View>}
 				<View style={styles.contentWrapper}>
 					<Text style={[styles.label, styles.labelSm]}>{label}</Text>
@@ -59,7 +67,12 @@ export function ListSectionItem({ description, icon, label, link, onPress, repla
 	}
 
 	return (
-		<TouchableOpacity onPress={handlePress} role="listitem" style={styles.container}>
+		<TouchableOpacity
+			disabled={disabled}
+			onPress={handlePress}
+			role="listitem"
+			style={[styles.container, disabled && styles.containerDisabled]}
+		>
 			{icon && <View style={styles.icon}>{icon}</View>}
 			<View style={styles.contentWrapper}>
 				<Text style={[styles.label, size === 'md' ? styles.labelMd : styles.labelSm]}>{label}</Text>

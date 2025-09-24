@@ -3,6 +3,7 @@
 import { LineBadge } from '@/components/lines/LineBadge';
 import { ListSection } from '@/components/list/ListSection';
 import { ListSectionItemProps } from '@/components/list/ListSectionItem';
+import { useSystemVariables } from '@/theme/global';
 import { type Pattern } from '@carrismetropolitana/api-types/network';
 import { IconChecks, IconCircle, IconCircleCheckFilled } from '@tabler/icons-react-native';
 import { useMemo } from 'react';
@@ -24,7 +25,12 @@ export function WidgetConfigSelectPattern({ availablePatterns, description, onTo
 	//
 
 	//
-	// A. Transform data
+	// A. Setup variables
+
+	const systemVariables = useSystemVariables();
+
+	//
+	// B. Transform data
 
 	const availablePatternsList: ListSectionItemProps[] = useMemo(() => {
 		// Skip if no patterns are available
@@ -35,7 +41,7 @@ export function WidgetConfigSelectPattern({ availablePatterns, description, onTo
 			key: item.id,
 			label: item.headsign,
 			onPress: () => onTogglePatternId(item.id),
-			replaceChevron: selectedPatternIds?.includes(item.id) ? <IconCircleCheckFilled /> : <IconCircle />,
+			replaceChevron: selectedPatternIds?.includes(item.id) ? <IconCircleCheckFilled color={systemVariables.status.ok} /> : <IconCircle color={systemVariables.text[200]} />,
 		}));
 		// Check if "select all" option should be added
 		if (!onToggleSelectAll || preparedPatterns?.length <= 1) return preparedPatterns;
@@ -44,7 +50,7 @@ export function WidgetConfigSelectPattern({ availablePatterns, description, onTo
 			key: 'select_all',
 			label: isAllSelected ? 'Desmarcar todos' : 'Selecionar todos',
 			onPress: onToggleSelectAll,
-			replaceChevron: <IconChecks />,
+			replaceChevron: <IconChecks color={systemVariables.text[100]} />,
 		};
 		return [selectAllListItem, ...preparedPatterns];
 	}, [availablePatterns, selectedPatternIds]);
@@ -55,7 +61,7 @@ export function WidgetConfigSelectPattern({ availablePatterns, description, onTo
 	}, [availablePatterns, selectedPatternIds]);
 
 	//
-	// B. Render components
+	// C. Render components
 
 	if (!availablePatterns || availablePatterns.length === 0) {
 		return null;
