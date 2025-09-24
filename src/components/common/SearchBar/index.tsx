@@ -9,14 +9,14 @@ import { useStyles } from './styles';
 
 /* * */
 
-interface LinesSelectionListSearchProps {
+interface SearchBarProps {
 	onChange?: (text: string) => void
 	value?: string
 }
 
 /* * */
 
-export function LinesSelectionListSearch({ onChange, value }: LinesSelectionListSearchProps) {
+export function SearchBar({ onChange, value }: SearchBarProps) {
 	//
 
 	//
@@ -25,7 +25,7 @@ export function LinesSelectionListSearch({ onChange, value }: LinesSelectionList
 	const styles = useStyles();
 	const systemVariables = useSystemVariables();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'lines.LinesSelectionListSearch' });
+	const { t } = useTranslation('translation', { keyPrefix: 'common.SearchBar' });
 
 	//
 	// B. Render components
@@ -35,12 +35,14 @@ export function LinesSelectionListSearch({ onChange, value }: LinesSelectionList
 			<View style={styles.inputWrapper}>
 				<IconSearch color={systemVariables.text[300]} size={28} />
 				<TextInput
+					accessibilityRole="search"
 					clearButtonMode="always"
 					onChangeText={onChange}
 					placeholder={t('placeholder')}
 					placeholderTextColor={systemVariables.text[400]}
 					style={styles.input}
 					value={value || ''}
+					autoFocus
 				/>
 			</View>
 		</View>

@@ -1,7 +1,7 @@
 /* * */
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
-import { LinesSelectionListSearch } from '@/components/lines/list/LinesSelectionListSearch';
+import { SearchBar } from '@/components/common/SearchBar';
 import { ListSectionItem } from '@/components/list/ListSectionItem';
 import { ListTitle } from '@/components/list/ListTitle';
 import { useLinesListContext } from '@/contexts/LinesList.context';
@@ -85,14 +85,16 @@ export function LinesSelectionListMain({ addToRecentsOnPress, onPress, replaceCh
 			stickySectionHeadersEnabled={false}
 			windowSize={30}
 			ListHeaderComponent={(
-				<LinesSelectionListSearch
+				<SearchBar
 					onChange={linesListContext.actions.updateFilterBySearch}
 					value={linesListContext.filters.by_search}
 				/>
 			)}
-			renderItem={({ item }) => (
+			renderItem={({ index, item }) => (
 				<ListSectionItem
 					key={item.id}
+					accessibilityHint={t('items.accessibility_hint', { short_name: item.short_name })}
+					accessibilityLabel={t('items.accessibility_label', { ordinal: String(index + 1), tts_name: item.tts_name })}
 					icon={<LineBadge color={item.color} shortName={item.short_name} textColor={item.text_color} />}
 					label={item.long_name}
 					onPress={() => handlePress(item)}

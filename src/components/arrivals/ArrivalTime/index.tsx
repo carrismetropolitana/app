@@ -6,6 +6,7 @@ import { type ArrivalStatus } from '@/schemas/realtime-arrival';
 import { useSystemVariables } from '@/theme/global';
 import { IconClockHour9 } from '@tabler/icons-react-native';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
 import { useStyles } from './styles';
@@ -27,6 +28,8 @@ export function ArrivalTime({ status, time }: ArrivalTimeProps) {
 
 	const styles = useStyles();
 	const systemVariables = useSystemVariables();
+
+	const { t } = useTranslation('translation', { keyPrefix: 'arrivals.ArrivalTime' });
 
 	const [relativeTimeDisplay, setRelativeTimeDisplay] = useState<string | undefined>(undefined);
 	const [absoluteTimeDisplay, setAbsoluteTimeDisplay] = useState<string | undefined>(undefined);
@@ -70,7 +73,7 @@ export function ArrivalTime({ status, time }: ArrivalTimeProps) {
 
 	if (status === 'realtime') {
 		return (
-			<View style={[styles.container, { gap: 1 }]}>
+			<View accessibilityLabel={t('realtime.accessibility_label')} style={[styles.container, { gap: 1 }]}>
 				<LiveIcon />
 				<Text style={[styles.title, { color: systemVariables.status.live }]}>
 					{relativeTimeDisplay}
@@ -81,9 +84,9 @@ export function ArrivalTime({ status, time }: ArrivalTimeProps) {
 
 	if (status === 'scheduled') {
 		return (
-			<View style={styles.container}>
+			<View accessibilityLabel={t('scheduled.accessibility_label')} style={styles.container}>
 				<IconClockHour9 color={systemVariables.text[100]} size={16} />
-				<Text style={styles.title}>
+				<Text accessibilityRole="timer" style={styles.title}>
 					{absoluteTimeDisplay}
 				</Text>
 			</View>

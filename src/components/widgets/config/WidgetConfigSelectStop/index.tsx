@@ -63,6 +63,8 @@ export function WidgetConfigSelectStop({ description, onSelectStopId, selectedSt
 					description={description}
 					title={title}
 					items={[{
+						accessibilityHint: t('selected.accessibility_hint'),
+						accessibilityLabel: t('selected.accessibility_label', { tts_name: selectedStop.tts_name }),
 						description: selectedStop.id,
 						key: 'selected-stop',
 						label: selectedStop.long_name,

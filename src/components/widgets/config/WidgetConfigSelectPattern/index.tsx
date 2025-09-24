@@ -7,6 +7,7 @@ import { useSystemVariables } from '@/theme/global';
 import { type Pattern } from '@carrismetropolitana/api-types/network';
 import { IconChecks, IconCircle, IconCircleCheckFilled } from '@tabler/icons-react-native';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 /* * */
 
@@ -29,6 +30,8 @@ export function WidgetConfigSelectPattern({ availablePatterns, description, onTo
 
 	const systemVariables = useSystemVariables();
 
+	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetConfigSelectPattern' });
+
 	//
 	// B. Transform data
 
@@ -48,7 +51,7 @@ export function WidgetConfigSelectPattern({ availablePatterns, description, onTo
 		// Add "select all" option at the top of the list
 		const selectAllListItem: ListSectionItemProps = {
 			key: 'select_all',
-			label: isAllSelected ? 'Desmarcar todos' : 'Selecionar todos',
+			label: isAllSelected ? t('deselect_all') : t('select_all'),
 			onPress: onToggleSelectAll,
 			replaceChevron: <IconChecks color={systemVariables.text[100]} />,
 		};

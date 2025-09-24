@@ -283,6 +283,16 @@
 			"title": "Respeitamos a sua Privacidade"
 		}
 	},
+	"arrivals": {
+		"ArrivalTime": {
+			"realtime": {
+				"accessibility_label": "Tempo Real"
+			},
+			"scheduled": {
+				"accessibility_label": "Pleneado"
+			}
+		}
+	},
 	"common": {
 		"CloseButton": {
 			"title": "Fechar"
@@ -294,6 +304,9 @@
 			"arriving": "A chegar",
 			"hours": "h",
 			"minutes": "min"
+		},
+		"SearchBar": {
+			"placeholder": "Pesquisar..."
 		},
 		"SelectNotificationControl": {
 			"hours": "Horas",
@@ -530,6 +543,10 @@
 			"favorites": {
 				"title": "Favoritas"
 			},
+			"items": {
+				"accessibility_hint": "Número da Linha: {short_name}",
+				"accessibility_label": "{ordinal}º: {tts_name}"
+			},
 			"recent": {
 				"title": "Recentes"
 			},
@@ -539,9 +556,6 @@
 					"singular": "Encontrada 1 linha"
 				}
 			}
-		},
-		"LinesSelectionListSearch": {
-			"placeholder": "Pesquisar..."
 		},
 		"PathStopNextArrivals": {
 			"arriving": "A chegar",
@@ -743,6 +757,10 @@
 			"favorites": {
 				"title": "Favoritas"
 			},
+			"items": {
+				"accessibility_hint": "Código da paragem: {id}",
+				"accessibility_label": "{ordinal}º: {tts_name}"
+			},
 			"recent": {
 				"title": "Recentes"
 			},
@@ -807,8 +825,9 @@
 			"video_label": "Ver vídeo explicativo"
 		},
 		"WidgetConfigLabelInput": {
+			"accessibility_label": "Etiqueta do Widget",
 			"label": "Etiqueta",
-			"placeholder": "ex. Casa, Trabalho..."
+			"placeholder": "Casa, Trabalho..."
 		},
 		"WidgetConfigSelectLine": {
 			"label": "Procurar linha..."
@@ -816,8 +835,16 @@
 		"WidgetConfigSelectLineModal": {
 			"close_button": "Fechar"
 		},
+		"WidgetConfigSelectPattern": {
+			"deselect_all": "Desmarcar todas",
+			"select_all": "Selecionar todas"
+		},
 		"WidgetConfigSelectStop": {
-			"label": "Procurar paragem..."
+			"label": "Procurar paragem...",
+			"selected": {
+				"accessibility_hint": "Toque duplo para alterar",
+				"accessibility_label": "Paragem selecionada: {tts_name}"
+			}
 		},
 		"WidgetConfigSelectStopModal": {
 			"close_button": "Fechar"
@@ -910,7 +937,7 @@
 				"description": "Por exemplo 'Casa' ou 'Trabalho'.",
 				"title": "Introduza uma etiqueta (opcional)"
 			},
-			"title": "Widget Paragem"
+			"title": "Widget de Paragem"
 		}
 	}
 }

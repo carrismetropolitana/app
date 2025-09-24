@@ -2,7 +2,7 @@
 
 import { useSystemVariables } from '@/theme/global';
 import { IconChevronRight } from '@tabler/icons-react-native';
-import { useRouter } from 'expo-router';
+import { type ExternalPathString, type RelativePathString, useRouter } from 'expo-router';
 import { type ReactNode } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
@@ -11,12 +11,15 @@ import { useStyles } from './styles';
 /* * */
 
 export interface ListSectionItemProps {
+	accessibilityHint?: string
+	accessibilityLabel?: string
+	accessibilityLanguage?: string
 	description?: string
 	disabled?: boolean
 	icon?: ReactNode
 	key: string
 	label: string
-	link?: string
+	link?: ExternalPathString | RelativePathString
 	onPress?: () => void
 	replaceChevron?: ReactNode
 	size?: 'md' | 'sm'
@@ -24,7 +27,7 @@ export interface ListSectionItemProps {
 
 /* * */
 
-export function ListSectionItem({ description, disabled, icon, label, link, onPress, replaceChevron, size = 'md' }: ListSectionItemProps) {
+export function ListSectionItem({ accessibilityHint, accessibilityLabel, accessibilityLanguage, description, disabled, icon, label, link, onPress, replaceChevron, size = 'md' }: ListSectionItemProps) {
 	//
 
 	//
@@ -51,9 +54,11 @@ export function ListSectionItem({ description, disabled, icon, label, link, onPr
 	if (label && description) {
 		return (
 			<TouchableOpacity
+				accessibilityHint={accessibilityHint}
+				accessibilityLabel={accessibilityLabel}
+				accessibilityLanguage={accessibilityLanguage}
 				disabled={disabled}
 				onPress={handlePress}
-				role="listitem"
 				style={[styles.container, disabled && styles.containerDisabled]}
 			>
 				{icon && <View style={styles.icon}>{icon}</View>}
@@ -68,9 +73,11 @@ export function ListSectionItem({ description, disabled, icon, label, link, onPr
 
 	return (
 		<TouchableOpacity
+			accessibilityHint={accessibilityHint}
+			accessibilityLabel={accessibilityLabel}
+			accessibilityLanguage={accessibilityLanguage}
 			disabled={disabled}
 			onPress={handlePress}
-			role="listitem"
 			style={[styles.container, disabled && styles.containerDisabled]}
 		>
 			{icon && <View style={styles.icon}>{icon}</View>}

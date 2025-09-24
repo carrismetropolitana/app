@@ -54,26 +54,29 @@ export function WidgetCard({ data, isDragging, onDragEnd, onDragStart }: WidgetC
 	// C. Render components
 
 	return (
-		<TouchableOpacity onLongPress={handleDragStart} onPress={handleToggleOpen} onPressOut={onDragEnd}>
-			<View style={[styles.container, isDragging && styles.containerIsDragging]}>
+		<View style={[styles.container, isDragging && styles.containerIsDragging]}>
 
-				<View style={[styles.headerWrapper, data.settings.is_open && styles.headerWrapperIsOpen]}>
-					{data.type === 'stop' && <WidgetCardStopHeader label={data.settings.label} stopId={data.properties.stop_id} /> }
-					{data.type === 'line' && <WidgetCardLineHeader patternId={data.properties.pattern_id} /> }
-					{data.type === 'smart_notification' && <WidgetCardSmartNotificationHeader label={data.settings.label} selectedStartTime={data.properties.start_time} selectedWeekdays={data.properties.weekdays} /> }
-					<WidgetCardOpenToggle isOpen={data.settings.is_open} />
+			<TouchableOpacity
+				onLongPress={handleDragStart}
+				onPress={handleToggleOpen}
+				onPressOut={onDragEnd}
+				style={[styles.headerWrapper, data.settings.is_open && styles.headerWrapperIsOpen]}
+			>
+				{data.type === 'stop' && <WidgetCardStopHeader label={data.settings.label} stopId={data.properties.stop_id} /> }
+				{data.type === 'line' && <WidgetCardLineHeader patternId={data.properties.pattern_id} /> }
+				{data.type === 'smart_notification' && <WidgetCardSmartNotificationHeader label={data.settings.label} selectedStartTime={data.properties.start_time} selectedWeekdays={data.properties.weekdays} /> }
+				<WidgetCardOpenToggle isOpen={data.settings.is_open} />
+			</TouchableOpacity>
+
+			{data.settings.is_open && (
+				<View>
+					{data.type === 'stop' && <WidgetCardStopBody data={data} />}
+					{data.type === 'line' && <WidgetCardLineBody data={data} />}
+					{data.type === 'smart_notification' && <WidgetCardSmartNotificationBody data={data} />}
 				</View>
+			)}
 
-				{data.settings.is_open && (
-					<View>
-						{data.type === 'stop' && <WidgetCardStopBody data={data} />}
-						{data.type === 'line' && <WidgetCardLineBody data={data} />}
-						{data.type === 'smart_notification' && <WidgetCardSmartNotificationBody data={data} />}
-					</View>
-				)}
-
-			</View>
-		</TouchableOpacity>
+		</View>
 	);
 
 	//

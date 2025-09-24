@@ -33,9 +33,10 @@ export function WidgetConfigLabelInput({ description, onChange, title, value }: 
 	return (
 		<>
 			{title && <ListTitle description={description} title={title} />}
-			<View style={styles.container}>
-				<Text style={styles.text}>{t('label')}</Text>
+			<View accessibilityRole="text" style={styles.container}>
+				<Text accessible={false} style={styles.text}>{t('label')}</Text>
 				<TextInput
+					accessibilityLabel={t('accessibility_label')}
 					onChangeText={onChange}
 					placeholder={t('placeholder')}
 					style={styles.input}

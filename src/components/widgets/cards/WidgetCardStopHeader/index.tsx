@@ -38,10 +38,6 @@ export function WidgetCardStopHeader({ label, stopId }: WidgetCardStopHeaderProp
 		return stopsContext.actions.getStopById(stopId);
 	}, [stopId, stopsContext.data.stops]);
 
-	const stopName = useMemo(() => {
-		return stopData?.long_name ?? t('no_name');
-	}, [stopData]);
-
 	const locationName = useMemo(() => {
 		// Skip if no stop data is available
 		if (!stopData?.municipality_id) return;
@@ -60,7 +56,7 @@ export function WidgetCardStopHeader({ label, stopId }: WidgetCardStopHeaderProp
 	return (
 		<View style={styles.container}>
 			{label && <Text style={styles.label}>{label}</Text>}
-			<Text style={styles.stopName}>{stopName}</Text>
+			<Text accessibilityLabel={stopData?.tts_name ?? t('no_name')} style={styles.stopName}>{stopData?.long_name ?? t('no_name')}</Text>
 			{locationName && <Text style={styles.locationName}>{locationName}</Text>}
 		</View>
 	);

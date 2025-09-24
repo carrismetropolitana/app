@@ -1,10 +1,9 @@
 /* * */
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
-import { LineBadge } from '@/components/lines/LineBadge';
+import { SearchBar } from '@/components/common/SearchBar';
 import { ListSectionItem } from '@/components/list/ListSectionItem';
 import { ListTitle } from '@/components/list/ListTitle';
-import { StopsSelectionListSearch } from '@/components/stops/list/StopsSelectionListSearch';
 import { useStopsListContext } from '@/contexts/StopsList.context';
 import { type Stop } from '@carrismetropolitana/api-types/network';
 import { useMemo } from 'react';
@@ -83,16 +82,17 @@ export function StopsSelectionListMain({ addToRecentsOnPress, onPress, replaceCh
 			stickySectionHeadersEnabled={false}
 			windowSize={30}
 			ListHeaderComponent={(
-				<StopsSelectionListSearch
+				<SearchBar
 					onChange={stopsListContext.actions.updateFilterBySearch}
 					value={stopsListContext.filters.by_search}
 				/>
 			)}
-			renderItem={({ item }) => (
+			renderItem={({ index, item }) => (
 				<ListSectionItem
 					key={item.id}
+					accessibilityHint={t('items.accessibility_hint', { id: item.id })}
+					accessibilityLabel={t('items.accessibility_label', { ordinal: String(index + 1), tts_name: item.tts_name })}
 					description={item.id}
-					icon={<LineBadge shortName={item.id} />}
 					label={item.long_name}
 					onPress={() => handlePress(item)}
 					replaceChevron={replaceChevron}

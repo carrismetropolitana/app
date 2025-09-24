@@ -184,6 +184,16 @@
 			"title": "We respect your privacy"
 		}
 	},
+	"arrivals": {
+		"ArrivalTime": {
+			"realtime": {
+				"accessibility_label": "Real Time"
+			},
+			"scheduled": {
+				"accessibility_label": "Scheduled"
+			}
+		}
+	},
 	"common": {
 		"CloseButton": {
 			"title": "Close"
@@ -195,6 +205,9 @@
 			"arriving": "Incoming",
 			"hours": "h",
 			"minutes": "min"
+		},
+		"SearchBar": {
+			"placeholder": "Search..."
 		},
 		"SelectNotificationControl": {
 			"hours": "Hours",
@@ -424,6 +437,10 @@
 			"favorites": {
 				"title": "Favorite Lines"
 			},
+			"items": {
+				"accessibility_hint": "Line Number: {short_name}",
+				"accessibility_label": "{ordinal}nd: {tts_name}"
+			},
 			"recent": {
 				"title": "Recent Lines"
 			},
@@ -433,9 +450,6 @@
 					"singular": "Found 1 line"
 				}
 			}
-		},
-		"LinesSelectionListSearch": {
-			"placeholder": "Search..."
 		},
 		"PathStopNextArrivals": {
 			"arriving": "Arriving",
@@ -666,6 +680,10 @@
 			"favorites": {
 				"title": "Favorite Stops"
 			},
+			"items": {
+				"accessibility_hint": "Stop code: {id}",
+				"accessibility_label": "{ordinal}nd: {tts_name}"
+			},
 			"recent": {
 				"title": "Recent Stops"
 			},
@@ -731,8 +749,9 @@
 			"video_label": "Watch Explainer Video"
 		},
 		"WidgetConfigLabelInput": {
+			"accessibility_label": "Widget Label",
 			"label": "Label",
-			"placeholder": "ex. Home, Work..."
+			"placeholder": "Home, Work..."
 		},
 		"WidgetConfigSelectLine": {
 			"label": "Search for a line..."
@@ -740,8 +759,16 @@
 		"WidgetConfigSelectLineModal": {
 			"close_button": "Close"
 		},
+		"WidgetConfigSelectPattern": {
+			"deselect_all": "Deselect all",
+			"select_all": "Select all"
+		},
 		"WidgetConfigSelectStop": {
-			"label": "Search for a stop..."
+			"label": "Search for a stop...",
+			"selected": {
+				"accessibility_hint": "Double tap to change",
+				"accessibility_label": "Selected stop: {tts_name}"
+			}
 		},
 		"WidgetConfigSelectStopModal": {
 			"close_button": "Close"
