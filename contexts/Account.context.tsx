@@ -1,6 +1,6 @@
 /* * */
 
-import { type DotPath, HttpException, type PathValue, setValueAtPath } from '@/core-replica';
+import { type DotPath, generateRandomString, HttpException, type PathValue, setValueAtPath } from '@/core-replica';
 import { type Account } from '@/schemas/account';
 import { getServiceUrl } from '@/settings/service-urls';
 import { fetchData } from '@/utils/fetchData';
@@ -13,6 +13,7 @@ import useSWR from 'swr';
 
 const LOCAL_STORAGE_KEYS = {
 	account_id: 'account_id',
+	device_id: 'device_id',
 };
 
 /* * */
@@ -52,6 +53,7 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 
 	const [isInit, setIsInit] = useState<boolean>(false);
 	const [accountId, setAccountId] = useState<string | undefined>();
+	const [deviceId, setDeviceId] = useState<string | undefined>();
 
 	//
 	// B. Fetch data
@@ -93,6 +95,19 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		setIsInit(false);
 	}, [accountError]);
 
+	useEffect(() => {
+		(async () => {
+			// Skip if no data
+			if (!accountData) return;
+			// Skip if account ID is the same as before
+			if (accountData._id && accountData._id === accountId) return;
+			// Keep account ID updated if changed
+			setAccountId(accountData._id);
+			// Keep account ID in local storage updated if changed
+			await AsyncStorage.setItem(LOCAL_STORAGE_KEYS.account_id, accountData._id);
+		})();
+	}, [accountData]);
+
 	async function update(path: DotPath<Account>, value: PathValue<Account, DotPath<Account>>) {
 		if (!accountData || !accountId) return;
 		// Update local copy of the data
@@ -110,6 +125,20 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		// Revalidate SWR data
 		accountMutate(response.data);
 	};
+
+	useEffect(() => {
+		(async () => {
+			// Skip if no account data
+			if (!accountData) return;
+			// Try to get Device ID from local storage
+			const foundDeviceId = await AsyncStorage.getItem(LOCAL_STORAGE_KEYS.device_id);
+			// Get current list of devices
+			const currentDevices = accountData.devices || [];
+			// Add the current device to the account's devices list
+			const uniqueDeviceId = generateRandomString();
+			//
+		})();
+	}, [accountError]);
 
 	//
 	// D. Context value
