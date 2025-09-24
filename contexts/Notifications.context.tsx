@@ -127,7 +127,6 @@ export const NotificationsContextProvider = ({ children }: PropsWithChildren) =>
 			if (!projectId) alert('Project ID not found');
 			try {
 				const expoPushToken = await Notifications.getExpoPushTokenAsync({ projectId });
-				console.log(expoPushToken.data);
 				return expoPushToken.data;
 			}
 			catch (e: unknown) {

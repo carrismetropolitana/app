@@ -84,7 +84,7 @@
 	},
 	"account": {
 		"AccountViewInfo": {
-			"device_id_copied": "Device ID Copied"
+			"copied": "Identifier Copied"
 		},
 		"AccountViewPersona": {
 			"activity": {

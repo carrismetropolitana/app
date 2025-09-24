@@ -98,7 +98,7 @@
 			"label": "Definir cor principal"
 		},
 		"AccountViewInfo": {
-			"device_id_copied": "ID do Dispositivo Copiado"
+			"copied": "Identificador Copiado"
 		},
 		"AccountViewPersona": {
 			"activity": {
