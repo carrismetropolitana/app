@@ -6,9 +6,10 @@ import { HomeScreenListHeader } from '@/components/home/HomeScreenListHeader';
 import { WidgetCard } from '@/components/widgets/cards/WidgetCard';
 import { useAccountContext } from '@/contexts/Account.context';
 import { type Widget } from '@/schemas/widgets';
+import * as Haptics from 'expo-haptics';
 import { useMemo } from 'react';
 import { View } from 'react-native';
-import DragList, { DragListRenderItemInfo } from 'react-native-draglist';
+import DragList, { type DragListRenderItemInfo } from 'react-native-draglist';
 
 import { useStyles } from './styles';
 
@@ -36,6 +37,8 @@ export function HomeScreen() {
 	// C. Handle actions
 
 	async function onReordered(fromIndex: number, toIndex: number) {
+		// Provide haptic feedback on reorder
+		await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 		// Create a copy of the current widgets list
 		// as to not mutate the React state directly
 		const localCopyOfList = [...sortedWidgetsList];

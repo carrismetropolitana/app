@@ -28,8 +28,8 @@ export function HomeScreenGeneralStatus() {
 	return (
 		<View style={styles.container}>
 			{generalStatusData?.length && generalStatusData.map(status => (
-				<View style={styles.message}>
-					<Text key={status._id} style={styles.title}>{status.title}</Text>
+				<View key={status._id} style={styles.message}>
+					<Text style={styles.title}>{status.title}</Text>
 				</View>
 			))}
 		</View>

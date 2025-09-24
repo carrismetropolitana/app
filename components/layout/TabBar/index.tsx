@@ -1,10 +1,10 @@
 /* * */
 
-import { TabBarButton } from '@/components/tabs/TabBarButton';
-import { TabBarHaptic } from '@/components/tabs/TabBarHaptic';
 import { useSystemVariables } from '@/theme/global';
 import { IconArrowLoopRight, IconDots, IconMap, IconUserCircle } from '@tabler/icons-react-native';
+import * as Haptics from 'expo-haptics';
 import { Tabs } from 'expo-router';
+import { View } from 'react-native';
 
 import { useStyles } from './styles';
 
@@ -20,7 +20,14 @@ export function TabBar() {
 	const systemVariables = useSystemVariables();
 
 	//
-	// B. Render components
+	// B. Handle actions
+
+	const handleTouchStart = async () => {
+		await Haptics.selectionAsync();
+	};
+
+	//
+	// C. Render components
 
 	return (
 		<Tabs
@@ -28,7 +35,6 @@ export function TabBar() {
 				headerShown: false,
 				sceneStyle: { backgroundColor: systemVariables.background[200] },
 				tabBarActiveTintColor: systemVariables.text[100],
-				tabBarButton: TabBarHaptic,
 				tabBarShowLabel: false,
 				tabBarStyle: styles.container,
 			}}
@@ -37,9 +43,9 @@ export function TabBar() {
 				name="(home)"
 				options={{
 					tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
-						<TabBarButton focused={focused}>
-							<IconUserCircle color={focused ? 'black' : color} size={26} />
-						</TabBarButton>
+						<View onTouchStart={handleTouchStart} style={[styles.button, focused && styles.buttonIsFocused]}>
+							<IconUserCircle color={focused ? 'black' : color} size={30} />
+						</View>
 					),
 				}}
 			/>
@@ -47,9 +53,9 @@ export function TabBar() {
 				name="lines"
 				options={{
 					tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
-						<TabBarButton focused={focused}>
-							<IconArrowLoopRight color={focused ? 'black' : color} size={26} />
-						</TabBarButton>
+						<View onTouchStart={handleTouchStart} style={[styles.button, focused && styles.buttonIsFocused]}>
+							<IconArrowLoopRight color={focused ? 'black' : color} size={30} />
+						</View>
 					),
 				}}
 			/>
@@ -57,9 +63,9 @@ export function TabBar() {
 				name="stops"
 				options={{
 					tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
-						<TabBarButton focused={focused}>
-							<IconMap color={focused ? 'black' : color} size={26} />
-						</TabBarButton>
+						<View onTouchStart={handleTouchStart} style={[styles.button, focused && styles.buttonIsFocused]}>
+							<IconMap color={focused ? 'black' : color} size={30} />
+						</View>
 					),
 				}}
 			/>
@@ -67,9 +73,9 @@ export function TabBar() {
 				name="more"
 				options={{
 					tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
-						<TabBarButton focused={focused}>
-							<IconDots color={focused ? 'black' : color} size={26} />
-						</TabBarButton>
+						<View onTouchStart={handleTouchStart} style={[styles.button, focused && styles.buttonIsFocused]}>
+							<IconDots color={focused ? 'black' : color} size={30} />
+						</View>
 					),
 				}}
 			/>

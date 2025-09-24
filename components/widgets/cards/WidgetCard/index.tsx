@@ -9,6 +9,7 @@ import { WidgetCardStopBody } from '@/components/widgets/cards/WidgetCardStopBod
 import { WidgetCardStopHeader } from '@/components/widgets/cards/WidgetCardStopHeader';
 import { useAccountContext } from '@/contexts/Account.context';
 import { type Widget } from '@/schemas/widgets';
+import * as Haptics from 'expo-haptics';
 import { TouchableOpacity, View } from 'react-native';
 
 import { useStyles } from './styles';
@@ -38,16 +39,22 @@ export function WidgetCard({ data, isDragging, onDragEnd, onDragStart }: WidgetC
 	// B. Handle actions
 
 	const handleToggleOpen = async () => {
+		await Haptics.selectionAsync();
 		const thisWidget = { ...data, settings: { ...data.settings, is_open: data.settings.is_open ? false : true } };
 		const allWidgets = accountContext.data.account?.widgets.map(w => w._id === thisWidget._id ? thisWidget : w) || [];
 		await accountContext.actions.update('widgets', allWidgets);
+	};
+
+	const handleDragStart = async () => {
+		await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+		onDragStart();
 	};
 
 	//
 	// C. Render components
 
 	return (
-		<TouchableOpacity onLongPress={onDragStart} onPress={handleToggleOpen} onPressOut={onDragEnd}>
+		<TouchableOpacity onLongPress={handleDragStart} onPress={handleToggleOpen} onPressOut={onDragEnd}>
 			<View style={[styles.container, isDragging && styles.containerIsDragging]}>
 
 				<View style={[styles.headerWrapper, data.settings.is_open && styles.headerWrapperIsOpen]}>

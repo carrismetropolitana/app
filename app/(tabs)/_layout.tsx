@@ -1,6 +1,6 @@
 /* * */
 
-import { TabBar } from '@/components/tabs/TabBar';
+import { TabBar } from '@/components/layout/TabBar';
 
 /* * */
 
