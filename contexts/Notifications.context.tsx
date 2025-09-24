@@ -2,7 +2,7 @@
 
 import Constants from 'expo-constants';
 import { isDevice } from 'expo-device';
-import { addNotificationReceivedListener, addNotificationResponseReceivedListener, AndroidImportance, getExpoPushTokenAsync, getPermissionsAsync, type PermissionStatus, requestPermissionsAsync, setNotificationChannelAsync, setNotificationHandler } from 'expo-notifications';
+import * as Notifications from 'expo-notifications';
 import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 import { Platform } from 'react-native';
 
@@ -41,7 +41,7 @@ export const NotificationsContextProvider = ({ children }: PropsWithChildren) =>
 	// A. Setup variables
 
 	const [expoPushToken, setExpoPushToken] = useState('');
-	const [permissionStatus, setPermissionStatus] = useState<PermissionStatus | undefined>();
+	const [permissionStatus, setPermissionStatus] = useState<Notifications.PermissionStatus | undefined>();
 
 	//
 	// B. Handle actions
@@ -50,7 +50,7 @@ export const NotificationsContextProvider = ({ children }: PropsWithChildren) =>
 		// This handler defines how notifications are shown when received.
 		// For example, you can choose to show an alert, play a sound, or set a badge on the app icon.
 		// If you don't set this handler, notifications will not be shown when the app is in the foreground.
-		setNotificationHandler({
+		Notifications.setNotificationHandler({
 			handleNotification: async () => ({
 				shouldPlaySound: true,
 				shouldSetBadge: true,
@@ -70,14 +70,14 @@ export const NotificationsContextProvider = ({ children }: PropsWithChildren) =>
 		// This listener is fired whenever a notification is received while the app is foregrounded
 		// (when the app is open and in use). You can use this to update your UI in response
 		// to the notification (for example, by showing an in-app banner or updating a notifications list).
-		const notificationListener = addNotificationReceivedListener((notification) => {
+		const notificationListener = Notifications.addNotificationReceivedListener((notification) => {
 			console.log(notification);
 		});
 		// This listener is fired whenever a user taps on or interacts with a notification
 		// (works when the app is foregrounded, backgrounded, or killed).
 		// You can use this to navigate the user to a specific screen or perform
 		// an action in response to the notification.
-		const responseListener = addNotificationResponseReceivedListener((response) => {
+		const responseListener = Notifications.addNotificationResponseReceivedListener((response) => {
 			console.log(response);
 		});
 		// Clean up the notification listeners
@@ -96,8 +96,8 @@ export const NotificationsContextProvider = ({ children }: PropsWithChildren) =>
 		// We use the 'default' channel name here, but you can create custom channels for different
 		// types of notifications and then specify the channelId when sending a notification.
 		if (Platform.OS === 'android') {
-			await setNotificationChannelAsync('default', {
-				importance: AndroidImportance.MAX,
+			await Notifications.setNotificationChannelAsync('default', {
+				importance: Notifications.AndroidImportance.MAX,
 				lightColor: '#FF231F7C',
 				name: 'default',
 				vibrationPattern: [0, 250, 250, 250],
@@ -107,11 +107,11 @@ export const NotificationsContextProvider = ({ children }: PropsWithChildren) =>
 		// a physical device for push notifications.
 		if (isDevice) {
 			// Check for existing permissions
-			const existingPermissions = await getPermissionsAsync();
+			const existingPermissions = await Notifications.getPermissionsAsync();
 			let finalStatus = existingPermissions.status;
 			// If no existing permission, ask for permission
 			if (existingPermissions.status !== 'granted') {
-				const permissionRequestStatus = await requestPermissionsAsync();
+				const permissionRequestStatus = await Notifications.requestPermissionsAsync();
 				finalStatus = permissionRequestStatus.status;
 			}
 			// Update the permission status state
@@ -126,7 +126,7 @@ export const NotificationsContextProvider = ({ children }: PropsWithChildren) =>
 			const projectId = Constants?.expoConfig?.extra?.eas?.projectId ?? Constants?.easConfig?.projectId;
 			if (!projectId) alert('Project ID not found');
 			try {
-				const expoPushToken = await getExpoPushTokenAsync({ projectId });
+				const expoPushToken = await Notifications.getExpoPushTokenAsync({ projectId });
 				console.log(expoPushToken.data);
 				return expoPushToken.data;
 			}
