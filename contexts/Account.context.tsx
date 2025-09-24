@@ -1,18 +1,20 @@
 /* * */
 
-import { type DotPath, generateRandomString, HttpException, type PathValue, setValueAtPath } from '@/core-replica';
+import { useNotificationsContext } from '@/contexts/Notifications.context';
+import { type DotPath, HttpException, type PathValue, setValueAtPath } from '@/core-replica';
 import { type Account } from '@/schemas/account';
 import { getServiceUrl } from '@/settings/service-urls';
 import { fetchData } from '@/utils/fetchData';
 import { swrFetcher } from '@/utils/swr-fetcher';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Constants from 'expo-constants';
+import * as Device from 'expo-device';
 import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 import useSWR from 'swr';
 
 /* * */
 
 const LOCAL_STORAGE_KEYS = {
-	account_id: 'account_id',
 	device_id: 'device_id',
 };
 
@@ -24,7 +26,7 @@ interface AccountContextState {
 	}
 	data: {
 		account: Account | undefined
-		account_id: string | undefined
+		device_id: string | undefined
 	}
 	flags: {
 		loading: boolean
@@ -51,14 +53,15 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 	//
 	// A. Setup variables
 
+	const notificationsContext = useNotificationsContext();
+
 	const [isInit, setIsInit] = useState<boolean>(false);
-	const [accountId, setAccountId] = useState<string | undefined>();
 	const [deviceId, setDeviceId] = useState<string | undefined>();
 
 	//
 	// B. Fetch data
 
-	const { data: accountData, error: accountError, isLoading: accountLoading, mutate: accountMutate } = useSWR<Account, HttpException>({ accountId: accountId, url: `${getServiceUrl('accounts')}/accounts` }, swrFetcher, { refreshInterval: 10_000 });
+	const { data: accountData, error: accountError, isLoading: accountLoading, mutate: accountMutate } = useSWR<Account, HttpException>({ device_id: deviceId, url: `${getServiceUrl('accounts')}/accounts` }, swrFetcher, { refreshInterval: 10_000 });
 
 	//
 	// C. Handle actions
@@ -67,19 +70,19 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		(async () => {
 			// Skip if already initialized
 			if (isInit) return;
-			// Try to get Account ID from local storage
-			const foundAccountId = await AsyncStorage.getItem(LOCAL_STORAGE_KEYS.account_id);
-			// Set Account ID if found...
-			if (foundAccountId) {
-				setAccountId(foundAccountId);
+			// Try to get Device ID from local storage
+			const foundDeviceId = await AsyncStorage.getItem(LOCAL_STORAGE_KEYS.device_id);
+			// Set Device ID if found...
+			if (foundDeviceId) {
+				setDeviceId(foundDeviceId);
 				setIsInit(true);
 				return;
 			}
 			// ...or else fetch a new one from the server
-			const newAccount = await fetchData<Account>(`${getServiceUrl('accounts')}/accounts/new`);
-			if (!newAccount?.data?._id) return;
-			await AsyncStorage.setItem(LOCAL_STORAGE_KEYS.account_id, newAccount.data._id);
-			setAccountId(newAccount.data._id);
+			const newAccount = await fetchData<{ device_id: string }>(`${getServiceUrl('accounts')}/accounts/new`);
+			if (!newAccount.data?.device_id) return;
+			await AsyncStorage.setItem(LOCAL_STORAGE_KEYS.device_id, newAccount.data.device_id);
+			setDeviceId(newAccount.data.device_id);
 			setIsInit(true);
 		})();
 	}, [isInit]);
@@ -89,27 +92,14 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		if (!accountError) return;
 		// Skip if error is 404 (Not Found)
 		if (accountError.statusCode !== 404) return;
-		// This means the account ID is invalid, so we need to clear it
-		AsyncStorage.removeItem(LOCAL_STORAGE_KEYS.account_id);
-		setAccountId(undefined);
+		// This means the Device ID is invalid, so we need to clear it
+		AsyncStorage.removeItem(LOCAL_STORAGE_KEYS.device_id);
+		setDeviceId(undefined);
 		setIsInit(false);
 	}, [accountError]);
 
-	useEffect(() => {
-		(async () => {
-			// Skip if no data
-			if (!accountData) return;
-			// Skip if account ID is the same as before
-			if (accountData._id && accountData._id === accountId) return;
-			// Keep account ID updated if changed
-			setAccountId(accountData._id);
-			// Keep account ID in local storage updated if changed
-			await AsyncStorage.setItem(LOCAL_STORAGE_KEYS.account_id, accountData._id);
-		})();
-	}, [accountData]);
-
 	async function update(path: DotPath<Account>, value: PathValue<Account, DotPath<Account>>) {
-		if (!accountData || !accountId) return;
+		if (!accountData || !deviceId) return;
 		// Update local copy of the data
 		const updatedAccountData = setValueAtPath(Object.assign({}, accountData), path, value);
 		// Update local SWR data immediately (optimistic update)
@@ -119,7 +109,7 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 			`${getServiceUrl('accounts')}/accounts`,
 			'PUT',
 			updatedAccountData,
-			{ 'Authorization': `Bearer ${accountId}`, 'Content-Type': 'application/json' },
+			{ 'Authorization': `Bearer ${deviceId}`, 'Content-Type': 'application/json' },
 		);
 		if (!response.data) return;
 		// Revalidate SWR data
@@ -128,17 +118,21 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 
 	useEffect(() => {
 		(async () => {
-			// Skip if no account data
+		// Skip if no account data
 			if (!accountData) return;
-			// Try to get Device ID from local storage
-			const foundDeviceId = await AsyncStorage.getItem(LOCAL_STORAGE_KEYS.device_id);
-			// Get current list of devices
-			const currentDevices = accountData.devices || [];
-			// Add the current device to the account's devices list
-			const uniqueDeviceId = generateRandomString();
-			//
+			// Get the current device
+			const currentDevice = accountData.devices.find(d => d.device_id === deviceId);
+			const currentDeviceIndex = accountData.devices.findIndex(d => d.device_id === deviceId);
+			if (!currentDevice || currentDeviceIndex === -1) return;
+			// Update device with latest information
+			currentDevice.app_version = Constants.expoConfig?.version || null;
+			currentDevice.brand = Device.brand;
+			currentDevice.name = Device.deviceName || null;
+			currentDevice.push_token = notificationsContext.data.token || null;
+			// Find the current device index and update it in the array
+			await update(`devices.${currentDeviceIndex}`, currentDevice);
 		})();
-	}, [accountError]);
+	}, [deviceId, notificationsContext.data.token, Device.brand, Device.deviceName]);
 
 	//
 	// D. Context value
@@ -149,7 +143,7 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		},
 		data: {
 			account: accountData,
-			account_id: accountId,
+			device_id: deviceId,
 		},
 		flags: {
 			init: isInit,
@@ -157,7 +151,7 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		},
 	}), [
 		isInit,
-		accountId,
+		deviceId,
 		accountData,
 		accountLoading,
 	]);

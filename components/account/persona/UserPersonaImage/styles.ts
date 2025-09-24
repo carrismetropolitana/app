@@ -11,6 +11,10 @@ export const useStyles = () => {
 	const systemVariables = useSystemVariables();
 
 	return StyleSheet.create({
+		activityIndicator: {
+			position: 'absolute',
+			zIndex: 999,
+		},
 		background: {
 			height: '100%',
 			opacity: 0.5,
@@ -18,8 +22,11 @@ export const useStyles = () => {
 			width: '100%',
 		},
 		container: {
+			alignItems: 'center',
 			backgroundColor: systemVariables.background[100],
 			borderRadius: 999,
+			display: 'flex',
+			justifyContent: 'center',
 			overflow: 'hidden',
 		},
 	});

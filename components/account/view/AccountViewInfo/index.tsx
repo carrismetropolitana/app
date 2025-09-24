@@ -25,9 +25,9 @@ export function AccountViewInfo() {
 	// B. Handle actions
 
 	const handlePressAccountId = async () => {
-		if (!accountContext?.data.account?._id) return;
-		await Clipboard.setStringAsync(accountContext?.data.account?._id);
-		alert(t('account_id_copied'));
+		if (!accountContext?.data.device_id) return;
+		await Clipboard.setStringAsync(accountContext?.data.device_id);
+		alert(t('device_id_copied'));
 	};
 
 	//
@@ -36,7 +36,7 @@ export function AccountViewInfo() {
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity onPress={handlePressAccountId}>
-				<Text style={styles.accountId}>{accountContext?.data.account?._id}</Text>
+				<Text style={styles.deviceId}>{accountContext?.data.device_id}</Text>
 			</TouchableOpacity>
 		</View>
 	);

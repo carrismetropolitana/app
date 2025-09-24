@@ -4,7 +4,7 @@ import { useAccountContext } from '@/contexts/Account.context';
 import { getServiceUrl } from '@/settings/service-urls';
 import { fetchData } from '@/utils/fetchData';
 import { IconArrowNarrowLeft, IconArrowsShuffle } from '@tabler/icons-react-native';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 
@@ -23,6 +23,8 @@ export function UserPersonaEdit() {
 	const accountContext = useAccountContext();
 
 	const { t } = useTranslation('translation', { keyPrefix: 'account.UserPersonaEdit' });
+
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	//
 	// B. Transform data
@@ -48,6 +50,8 @@ export function UserPersonaEdit() {
 	};
 
 	const handleRandomize = async () => {
+		// Update state
+		setIsLoading(true);
 		// Get a copy of the current persona image and history
 		const currentHistory = [...accountContext.data.account?.persona.image_history ?? []];
 		const currentImage = accountContext.data.account?.persona.image_id;
@@ -57,7 +61,7 @@ export function UserPersonaEdit() {
 		do {
 			// Fetch a new random image from the API
 			const response = await fetchData<string>(`${getServiceUrl('accounts')}/personas`);
-			if (!response.data) return;
+			if (!response.data) return setIsLoading(false);
 			// Store the new image ID
 			newImageId = response.data;
 		} while (newImageId === currentImage || currentHistory.includes(newImageId));
@@ -68,8 +72,10 @@ export function UserPersonaEdit() {
 		// Add the current image to the history, if it exists
 		if (currentImage) currentHistory.push(currentImage);
 		// Update the account with the new history and image ID
-		accountContext.actions.update('persona.image_history', currentHistory);
-		accountContext.actions.update('persona.image_id', newImageId);
+		await accountContext.actions.update('persona.image_history', currentHistory);
+		await accountContext.actions.update('persona.image_id', newImageId);
+		// Update state
+		setIsLoading(false);
 	};
 
 	//
@@ -81,6 +87,7 @@ export function UserPersonaEdit() {
 			{historyEnabled && (
 				<TouchableOpacity
 					aria-label={t('go_back')}
+					disabled={isLoading}
 					onPress={handleGoBack}
 					style={styles.button}
 				>
@@ -93,6 +100,7 @@ export function UserPersonaEdit() {
 
 			<TouchableOpacity
 				aria-label={t('randomize')}
+				disabled={isLoading}
 				onPress={handleRandomize}
 				style={styles.button}
 			>
@@ -101,6 +109,8 @@ export function UserPersonaEdit() {
 					size={26}
 				/>
 			</TouchableOpacity>
+
+			{/* {isLoading && <ActivityIndicator size="large" />} */}
 
 		</View>
 	);

@@ -13,7 +13,7 @@ interface NotificationsContextState {
 		askForPermission: () => void
 	}
 	data: {
-		token: string
+		token: string | undefined
 	}
 	flags: {
 		enabled: boolean
@@ -40,7 +40,7 @@ export const NotificationsContextProvider = ({ children }: PropsWithChildren) =>
 	//
 	// A. Setup variables
 
-	const [expoPushToken, setExpoPushToken] = useState('');
+	const [expoPushToken, setExpoPushToken] = useState<string | undefined>(undefined);
 	const [permissionStatus, setPermissionStatus] = useState<Notifications.PermissionStatus | undefined>();
 
 	//

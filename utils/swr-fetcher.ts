@@ -1,13 +1,12 @@
 /* * */
 
 import { HttpException } from '@/core-replica';
-
-import { HttpResponse } from './fetchData';
+import { type HttpResponse } from '@/utils/fetchData';
 
 /* * */
 
 interface SWRFetcherParams {
-	accountId: string
+	device_id: string
 	url: string
 }
 
@@ -16,11 +15,11 @@ interface SWRFetcherParams {
  * @param params An object containing the URL and the account ID for the request.
  * @returns The data from the HTTP response.
  */
-export const swrFetcher = async <T>({ accountId, url }: SWRFetcherParams): Promise<T> => {
-	// Ensure account ID is provided
-	if (!accountId) throw new Error('No account ID provided for authenticated request');
+export const swrFetcher = async <T>({ device_id, url }: SWRFetcherParams): Promise<T> => {
+	// Ensure device ID is provided
+	if (!device_id) throw new Error('No device ID provided for authenticated request');
 	// Make the fetch request with the Authorization header
-	const response = await fetch(url, { headers: { Authorization: `Bearer ${accountId}` } });
+	const response = await fetch(url, { headers: { Authorization: `Bearer ${device_id}` } });
 	// Parse the JSON response
 	const responseData = await response.json() as HttpResponse<T>;
 	// Handle non-OK responses
