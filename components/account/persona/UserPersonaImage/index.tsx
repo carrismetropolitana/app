@@ -2,8 +2,8 @@
 
 import { useAccountContext } from '@/contexts/Account.context';
 import { getServiceUrl } from '@/settings/service-urls';
-import { useMemo, useState } from 'react';
-import { ActivityIndicator, Image, View } from 'react-native';
+import { useMemo } from 'react';
+import { Image, View } from 'react-native';
 
 import { useStyles } from './styles';
 
@@ -24,8 +24,6 @@ export function UserPersonaImage({ size = 'md' }: UserPersonaImageProps) {
 	const styles = useStyles();
 
 	const accountContext = useAccountContext();
-
-	const [isLoading, setIsLoading] = useState(false);
 
 	//
 	// B. Transform data
@@ -58,13 +56,10 @@ export function UserPersonaImage({ size = 'md' }: UserPersonaImageProps) {
 				<View style={[styles.background, { backgroundColor: accentColor }]} />
 				<Image
 					fadeDuration={0}
-					onLoadEnd={() => setIsLoading(false)}
-					onLoadStart={() => setIsLoading(true)}
 					resizeMode="contain"
 					source={{ uri: imageUrl }}
 					style={{ height: containerSize, width: containerSize }}
 				/>
-				{isLoading && <ActivityIndicator color={accentColor} size="large" style={styles.activityIndicator} />}
 			</View>
 		);
 	}

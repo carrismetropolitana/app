@@ -32,7 +32,7 @@ export function ListSection({ description, items = [], title }: ListSectionProps
 			{title && <ListTitle description={description} title={title} />}
 			<View style={styles.itemsWrapper}>
 				{items.map(element => (
-					<ListSectionItem {...element} />
+					<ListSectionItem {...element} key={element.key} />
 				))}
 			</View>
 		</View>
