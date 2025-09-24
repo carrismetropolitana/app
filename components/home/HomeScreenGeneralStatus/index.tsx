@@ -26,9 +26,13 @@ export function HomeScreenGeneralStatus() {
 	//
 	// C. Render components
 
+	if (!generalStatusData?.length) {
+		return null;
+	}
+
 	return (
 		<View style={styles.container}>
-			{generalStatusData?.length && generalStatusData.map(item => (
+			{generalStatusData.map(item => (
 				<HomeScreenGeneralStatusItem key={item._id} data={item} />
 			))}
 		</View>

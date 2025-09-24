@@ -16,6 +16,7 @@ export const DeviceSchema = z.object({
 	app_version: z.string(),
 	device_id: z.string(),
 	name: z.string().nullable(),
+	push_token: z.string().nullable().default(null),
 	type: DeviceTypeSchema,
 });
 

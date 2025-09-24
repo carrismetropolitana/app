@@ -1,8 +1,7 @@
 /* * */
 
 import { useSystemVariables } from '@/theme/global';
-import { StyleSheet } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Platform, StyleSheet } from 'react-native';
 
 /* * */
 
@@ -10,7 +9,6 @@ export const useStyles = () => {
 	//
 
 	const systemVariables = useSystemVariables();
-	const safeAreaInsets = useSafeAreaInsets();
 
 	return StyleSheet.create({
 		button: {
@@ -29,7 +27,7 @@ export const useStyles = () => {
 			backgroundColor: systemVariables.background[100],
 			borderTopColor: systemVariables.border[100],
 			borderTopWidth: 1,
-			paddingBottom: 32 + safeAreaInsets.bottom,
+			paddingBottom: Platform.OS === 'ios' ? 68 : 100,
 			paddingTop: 20,
 		},
 	});
