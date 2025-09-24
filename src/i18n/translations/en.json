@@ -291,7 +291,10 @@
 			"label": "Customize"
 		},
 		"HomeScreenGeneralStatusItem": {
-			"label": "Aviso Geral"
+			"label": "General Alert"
+		},
+		"HomeScreenTopBar": {
+			"aria_label": "Profile"
 		}
 	},
 	"homepage": {

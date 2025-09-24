@@ -390,6 +390,12 @@
 	"home": {
 		"HomeScreenCustomizeButton": {
 			"label": "Personalizar"
+		},
+		"HomeScreenGeneralStatusItem": {
+			"label": "Aviso Geral"
+		},
+		"HomeScreenTopBar": {
+			"aria_label": "Perfil"
 		}
 	},
 	"homepage": {

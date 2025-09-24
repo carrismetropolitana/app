@@ -2,6 +2,7 @@
 
 import { UserPersona } from '@/components/account/persona/UserPersona';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { Image, TouchableOpacity, useColorScheme, View } from 'react-native';
 
 import { useStyles } from './styles';
@@ -17,6 +18,8 @@ export function HomeScreenTopBar() {
 	const styles = useStyles();
 	const colorScheme = useColorScheme();
 
+	const { t } = useTranslation('translation', { keyPrefix: 'home.HomeScreenTopBar' });
+
 	//
 	// B. Render components
 
@@ -27,7 +30,7 @@ export function HomeScreenTopBar() {
 				? <Image resizeMode="contain" source={{ uri: 'https://carrismetropolitana.pt/assets/header/static/cmet-header-light@3x.png' }} style={styles.logo} />
 				: <Image resizeMode="contain" source={{ uri: 'https://carrismetropolitana.pt/assets/header/static/cmet-header-dark@3x.png' }} style={styles.logo} />}
 
-			<TouchableOpacity onPress={() => router.push('/account')}>
+			<TouchableOpacity aria-label={t('aria_label')} onPress={() => router.push('/account')}>
 				<UserPersona size="md" />
 			</TouchableOpacity>
 

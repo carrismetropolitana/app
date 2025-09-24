@@ -1,7 +1,7 @@
 /* * */
 
-import pjson from '@/package.json';
 import * as Amplitude from '@amplitude/analytics-react-native';
+// import pjson from 'package.json';
 import { createContext, useContext, useEffect } from 'react';
 
 /* * */
@@ -46,7 +46,7 @@ export const AnalyticsContextProvider = ({ children }: { children: React.ReactNo
 	// C. Handle Actions
 
 	const getDefaultProps = () => ({
-		app_version: pjson.version,
+		app_version: 'pjson.version',
 		event_date: new Date().toISOString(),
 	});
 
