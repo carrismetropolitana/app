@@ -28,13 +28,13 @@ export function NoVehicleIcon({ style }: Props) {
 	}));
 
 	//
-	// B. Transform Data
+	// B. Transform data
 	useEffect(() => {
 		scale.value = withRepeat(withTiming(1.3, { duration: 1500, easing: Easing.out(Easing.ease) }), -1, false);
 	}, []);
 
 	//
-	// C. Render Components
+	// C. Render components
 	return (
 		<View style={[noVehicleIconStyles.container, style && style]}>
 			<Animated.View style={[noVehicleIconStyles.ripple, animatedRippleStyle]} />

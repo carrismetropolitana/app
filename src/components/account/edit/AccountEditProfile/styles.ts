@@ -19,7 +19,7 @@ const styles = () => {
 	const fontColor = isLight ? theming.colorSystemText100 : theming.colorSystemText300;
 
 	//
-	// B. Render Components
+	// B. Render components
 	// C. Return styles
 	return StyleSheet.create({
 		/* CONTAINER */

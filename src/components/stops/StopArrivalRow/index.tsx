@@ -42,7 +42,7 @@ export const StopArrivalRow = ({ formatted, status, tripData }: StopArrivalRowPr
 	const { t } = useTranslation('translations', { keyPrefix: 'common' });
 
 	//
-	// B. Render Components
+	// B. Render components
 	return (
 		<View style={{ flex: 1, width: '100%' }}>
 			<ListItem bottomDivider>

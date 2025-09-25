@@ -18,7 +18,7 @@ export function AppSplashScreen({ children }: PropsWithChildren) {
 	const styles = useStyles();
 	const colorScheme = useColorScheme();
 
-	const [isVisible, setIsVisible] = useState(true);
+	const [isVisible, setIsVisible] = useState(false);
 
 	//
 	// B. Handle actions

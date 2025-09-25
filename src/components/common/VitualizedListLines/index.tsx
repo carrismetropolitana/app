@@ -31,7 +31,7 @@ export function VirtualizedListingLines({ data, icon, itemClick, items = 10, mun
 		},
 	});
 
-	// B. Render Components
+	// B. Render components
 
 	const renderItem = useCallback(({ item }) => (
 		<MemoizedLineItem

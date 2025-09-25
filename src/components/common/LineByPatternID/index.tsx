@@ -59,7 +59,7 @@ export default function LineByPatternID({ patternId }: Props) {
 	}, [patternId]);
 
 	//
-	// C. Render Components
+	// C. Render components
 
 	if (!patternData) {
 		return (

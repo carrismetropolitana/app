@@ -59,7 +59,7 @@ export function StopsSelectionListMain({ addToRecentsOnPress, onPress, replaceCh
 	]);
 
 	//
-	// C. Handle Actions
+	// C. Handle actions
 
 	const handlePress = (item: Stop) => {
 		if (addToRecentsOnPress) stopsListContext.actions.addToRecent(item);

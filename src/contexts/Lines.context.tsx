@@ -2,7 +2,7 @@
 
 import { Dates } from '@/core-replica';
 import { getServiceUrl } from '@/settings/service-urls';
-import { type Line, type Pattern, type Route } from '@carrismetropolitana/api-types/network';
+import { type Line, type Pattern, type Route, type Shape } from '@carrismetropolitana/api-types/network';
 import { type OperationalDate } from '@tmlmobilidade/types';
 import { createContext, type PropsWithChildren, useContext, useMemo, useState } from 'react';
 import useSWR from 'swr';
@@ -15,12 +15,14 @@ interface LinesContextState {
 		getPatternDataById: (patternId: string) => Promise<Pattern[] | undefined>
 		getPatternVersionById: (patternId: string, version: string) => Promise<Pattern | undefined>
 		getRouteDataById: (routeId: string) => Route | undefined
+		getShapeDataById: (shapeId: string) => Promise<Shape | undefined>
 		getValidPatternVersionForOperationalDate: (patternId: string, operationalDate?: OperationalDate) => Promise<Pattern | undefined>
 	}
 	data: {
 		lines: Line[]
 		patterns_cache: Record<string, Pattern[]>
 		routes: Route[]
+		shapes_cache: Record<string, Shape>
 	}
 	flags: {
 		loading: boolean
@@ -47,6 +49,7 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 	// A. Setup variables
 
 	const [patternsCache, setPatternsCache] = useState<Record<string, Pattern[]>>({});
+	const [shapesCache, setShapesCache] = useState<Record<string, Shape>>({});
 
 	//
 	// B. Fetch data
@@ -120,6 +123,19 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 		}
 	};
 
+	async function getShapeDataById(shapeId: string): Promise<Shape | undefined> {
+		// Check if shape is in cache
+		if (shapesCache[shapeId]) return shapesCache[shapeId];
+		// If not, fetch shape data
+		const response = await fetch(`${getServiceUrl('api')}/v2/shapes/${shapeId}`);
+		const responseData = await response.json();
+		if (!responseData) return;
+		// Save shape to cache
+		setShapesCache(prev => ({ ...prev, [shapeId]: responseData }));
+		// Return shape data
+		return responseData;
+	};
+
 	//
 	// D. Define context value
 
@@ -129,12 +145,14 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 			getPatternDataById,
 			getPatternVersionById,
 			getRouteDataById,
+			getShapeDataById,
 			getValidPatternVersionForOperationalDate,
 		},
 		data: {
 			lines: allLinesData ?? [],
 			patterns_cache: patternsCache,
 			routes: allRoutesData ?? [],
+			shapes_cache: shapesCache,
 		},
 		flags: {
 			loading: allLinesLoading || allRoutesLoading,

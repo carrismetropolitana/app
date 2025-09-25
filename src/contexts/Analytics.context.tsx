@@ -36,14 +36,14 @@ export const AnalyticsContextProvider = ({ children }: { children: React.ReactNo
 	//
 	// A. Setup variables
 
-	// B. Transform Data
+	// B. Transform data
 
 	useEffect(() => {
 		Amplitude.init(AMPLITUDE_API_KEY || '', undefined, { disableCookies: true, serverZone: 'EU' });
 	}, []);
 
 	//
-	// C. Handle Actions
+	// C. Handle actions
 
 	const getDefaultProps = () => ({
 		app_version: 'pjson.version',
@@ -78,7 +78,7 @@ export const AnalyticsContextProvider = ({ children }: { children: React.ReactNo
 	};
 
 	//
-	// E. Render Components
+	// E. Render components
 
 	return (
 		<AnalyticsContext.Provider value={contextValue}>

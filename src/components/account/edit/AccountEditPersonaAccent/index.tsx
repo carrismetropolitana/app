@@ -32,7 +32,7 @@ export function AccountEditPersonaAccent() {
 	const { t } = useTranslation('translation', { keyPrefix: 'account.AccountEditPersonaAccent' });
 
 	//
-	// B. Render Components
+	// B. Render components
 
 	return (
 		<View aria-label={t('label')} role="radiogroup" style={styles.container}>

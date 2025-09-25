@@ -41,7 +41,7 @@ export function Surface({ children, forceOverflow, fullHeight, style, variant }:
 	];
 
 	//
-	// B. Render Components
+	// B. Render components
 
 	return (
 		<View style={[containerStyles, style && style]}>

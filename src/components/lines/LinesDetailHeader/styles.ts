@@ -21,7 +21,7 @@ export const styles = () => {
 		? theming.colorSystemText100
 		: theming.colorSystemText300;
 	//
-	// B. Render Components
+	// B. Render components
 
 	return StyleSheet.create({
 		headingFirstSection: {

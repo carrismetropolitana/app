@@ -30,7 +30,7 @@ const Carousel = memo(({ slides }: { slides: SimplifiedAlert[] }) => {
 	const { width } = Dimensions.get('window');
 
 	//
-	// C. Render Components
+	// C. Render components
 
 	return (
 		<FlatList

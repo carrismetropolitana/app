@@ -57,7 +57,7 @@ export function LinesScreen() {
 	});
 
 	//
-	// B. Handle Actions
+	// B. Handle actions
 
 	const handlePress = (item: Line) => {
 		profileContext.actions.addRecentLines(item);
@@ -68,7 +68,7 @@ export function LinesScreen() {
 	}, []);
 
 	//
-	// C. Transform Data
+	// C. Transform data
 
 	const keyExtractor = useCallback((item: any) => item.id, []);
 

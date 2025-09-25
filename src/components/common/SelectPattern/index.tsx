@@ -87,7 +87,7 @@ export function SelectPattern() {
 	}, [selectedVersionId, linesDetailContext.data.line?.id]);
 
 	//
-	// B. Render Components
+	// B. Render components
 
 	return (
 		<View style={styles.container}>

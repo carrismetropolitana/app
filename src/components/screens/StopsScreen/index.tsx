@@ -113,7 +113,7 @@ export function StopsScreen() {
 	}, [selectedStop, operationalDayContext.data.selected_date]);
 
 	//
-	// C. Handle Actions
+	// C. Handle actions
 	const handleCenterStop = (stop: Stop) => {
 		setCameraState({ center: [stop.lon, stop.lat - 0.0003], zoom: 18 });
 	};
@@ -141,7 +141,7 @@ export function StopsScreen() {
 	};
 
 	//
-	// D. Render Components
+	// D. Render components
 
 	return (
 		<>

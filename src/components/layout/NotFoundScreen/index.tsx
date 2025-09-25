@@ -18,7 +18,7 @@ export function NotFoundScreen() {
 	const pathname = usePathname();
 
 	//
-	// B. Render Components
+	// B. Render components
 
 	return (
 		<View style={styles.container}>

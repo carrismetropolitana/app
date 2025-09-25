@@ -7,7 +7,7 @@ export const styles = () => {
 	//
 
 	//
-	// A. Render Components
+	// A. Render components
 
 	return StyleSheet.create({
 		icon: {

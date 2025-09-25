@@ -26,7 +26,7 @@ export function NoDataLabel({ text }: NoDataLabelProps) {
 	const localeContext = useLocaleContext();
 
 	//
-	// B. Render Components
+	// B. Render components
 
 	return (
 		<Text

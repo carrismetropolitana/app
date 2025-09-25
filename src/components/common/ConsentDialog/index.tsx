@@ -76,7 +76,7 @@ export function ConsentPopup() {
 	};
 
 	//
-	// C. Render Components
+	// C. Render components
 
 	return (
 		<Dialog backdropStyle={{ opacity: 0.55 }} isVisible={isPopupOpen} onBackdropPress={() => setIsPopupOpen(false)} overlayStyle={consentModalStyles.contentOverride}>

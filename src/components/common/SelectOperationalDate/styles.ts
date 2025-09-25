@@ -21,7 +21,7 @@ export const styles = () => {
 		? theming.colorSystemText300
 		: theming.colorSystemText200;
 	//
-	// B. Render Components
+	// B. Render components
 
 	return StyleSheet.create({
 		buttonSelected: {

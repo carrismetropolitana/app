@@ -16,7 +16,7 @@ export function AlertsCarousel({ alerts }: Props) {
 	//
 
 	//
-	// A. Render Components
+	// A. Render components
 	return (
 		<Carousel slides={alerts} />
 	);

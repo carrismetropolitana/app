@@ -126,7 +126,7 @@ export function AccountEditForm() {
 	}, [interestTopics]);
 
 	//
-	// D. Render Components
+	// D. Render components
 
 	return (
 		<>

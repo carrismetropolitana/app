@@ -29,7 +29,7 @@ export default function Counter({ quantity, type }: Props) {
 	const localeContext = useLocaleContext();
 
 	//
-	// B. Render Components
+	// B. Render components
 
 	return (
 		<>

@@ -31,7 +31,7 @@ export const styles = () => {
 	} as const;
 
 	//
-	// B. Render Components
+	// B. Render components
 
 	return StyleSheet.create({
 		/* * */

@@ -81,7 +81,7 @@ export default function FavoriteItemComponent({ data, isActive }: FavoriteItemPr
 	}, [fetchStopName, isStop, isSmart]);
 
 	//
-	// C. Transform Data
+	// C. Transform data
 
 	if (isLine && typeof patternId === 'string') {
 		const favoriteLineWidgetID = data.settings?.display_order;
@@ -101,7 +101,7 @@ export default function FavoriteItemComponent({ data, isActive }: FavoriteItemPr
 	const subLabel = isLine ? t('favoriteLineListItemSubtitle') : (isStop ? t('favoriteStopListItemSubtitle') : t('smartNotificationListItemSubtitle'));
 
 	//
-	// D. Render Components
+	// D. Render components
 
 	return (
 		<View style={favoriteItemStyles.wrapper}>

@@ -34,7 +34,7 @@ export function WidgetStopConfig({ widgetId }: WidgetStopConfigProps) {
 	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetStopConfig' });
 
 	//
-	// B. Handle Actions
+	// B. Handle actions
 
 	const handleSave = () => {
 		widgetStopConfigContext.actions.saveWidget();
@@ -47,7 +47,7 @@ export function WidgetStopConfig({ widgetId }: WidgetStopConfigProps) {
 	};
 
 	//
-	// C. Render Components
+	// C. Render components
 
 	return (
 		<Container>

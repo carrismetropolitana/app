@@ -4,6 +4,9 @@ import React, { createContext, useRef } from 'react';
 
 export const MapContext = createContext<{ mapInstance: React.MutableRefObject<MapViewRef | null> }>({ mapInstance: { current: null } });
 
+/**
+ * @deprecated Use MapView directly instead
+ */
 export function MapProvider({ children }: { children: React.ReactNode }) {
 	const mapRef = useRef<MapViewRef | null>(null);
 

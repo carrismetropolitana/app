@@ -24,7 +24,7 @@ export const styles = () => {
 		paddingRight: theming.sizeSpacing20,
 	};
 	//
-	// B. Render Components
+	// B. Render components
 
 	return StyleSheet.create({
 		container: {

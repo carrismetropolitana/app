@@ -82,7 +82,7 @@ export function MapView({ camera, children, fitBoundsCoords, mapStyle, onPress, 
 		: mapDefaultConfig.styles[mapOptionsContext.data.style === 'satellite' ? 'satellite' : 'map'];
 
 	//
-	// B. Handle Actions
+	// B. Handle actions
 
 	useEffect(() => {
 		if (camera?.centerCoordinate && camera.zoomLevel != null) {
@@ -140,7 +140,7 @@ export function MapView({ camera, children, fitBoundsCoords, mapStyle, onPress, 
 	}, [onRegionDidChange]);
 
 	//
-	// C. Render Components
+	// C. Render components
 
 	return (
 		<View style={styles.container}>

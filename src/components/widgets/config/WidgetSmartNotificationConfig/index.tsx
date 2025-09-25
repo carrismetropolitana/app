@@ -40,7 +40,7 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetSmartNotificationConfig' });
 
 	//
-	// B. Handle Actions
+	// B. Handle actions
 
 	const handleSave = () => {
 		widgetSmartNotificationConfigContext.actions.saveWidget();
@@ -53,7 +53,7 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 	};
 
 	//
-	// C. Render Components
+	// C. Render components
 
 	return (
 		<Container>

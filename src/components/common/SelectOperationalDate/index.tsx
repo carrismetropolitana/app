@@ -89,7 +89,7 @@ export function SelectOperationalDate() {
 	]);
 
 	//
-	// C . Handle Actions
+	// C . Handle actions
 	const handlePress = (i: number) => {
 		setSelectedIndex(i);
 		if (i === 2) {

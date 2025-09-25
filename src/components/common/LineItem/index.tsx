@@ -16,7 +16,7 @@ export function LineItem({ icon, lineData, municipality, onPress, size }: LineIt
 	//
 
 	//
-	// B. Render Components
+	// B. Render components
 
 	return (
 		<ListItem containerStyle={{ height: 'auto' }} onPress={onPress} bottomDivider topDivider>

@@ -3,6 +3,7 @@
 import { getServiceUrl } from '@/settings/service-urls';
 import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
 import { type Vehicle } from '@carrismetropolitana/api-types/vehicles';
+import { Feature, type FeatureCollection, type Point } from 'geojson';
 import { DateTime } from 'luxon';
 import { createContext, type PropsWithChildren, useContext, useMemo } from 'react';
 import useSWR from 'swr';
@@ -12,15 +13,15 @@ import useSWR from 'swr';
 interface VehiclesContextState {
 	actions: {
 		getAllVehicles: () => undefined | Vehicle[]
-		getAllVehiclesGeoJsonFC: () => GeoJSON.FeatureCollection | undefined
+		getAllVehiclesGeoJsonFC: () => FeatureCollection | undefined
 		getVehicleById: (vehicleId: string) => undefined | Vehicle
-		getVehicleByIdGeoJsonFC: (vehicleId: string) => GeoJSON.FeatureCollection | undefined
+		getVehicleByIdGeoJsonFC: (vehicleId: string) => FeatureCollection<Point> | undefined
 		getVehiclesByLineId: (lineId: string) => Vehicle[]
-		getVehiclesByLineIdGeoJsonFC: (lineId: string) => GeoJSON.FeatureCollection | undefined
+		getVehiclesByLineIdGeoJsonFC: (lineId: string) => FeatureCollection | undefined
 		getVehiclesByPatternId: (patternId: string) => Vehicle[]
-		getVehiclesByPatternIdGeoJsonFC: (patternId: string) => GeoJSON.FeatureCollection | undefined
+		getVehiclesByPatternIdGeoJsonFC: (patternId: string) => FeatureCollection | undefined
 		getVehiclesByTripId: (tripId: string) => Vehicle[]
-		getVehiclesByTripIdGeoJsonFC: (tripId: string) => GeoJSON.FeatureCollection | undefined
+		getVehiclesByTripIdGeoJsonFC: (tripId: string) => FeatureCollection | undefined
 	}
 	data: {
 		vehicles: Vehicle[]
@@ -68,7 +69,7 @@ export const VehiclesContextProvider = ({ children }: PropsWithChildren) => {
 		return allVehiclesData?.find(vehicle => vehicle.id === vehicleId);
 	};
 
-	const getVehicleByIdGeoJsonFC = (vehicleId: string): GeoJSON.FeatureCollection | undefined => {
+	const getVehicleByIdGeoJsonFC = (vehicleId: string): FeatureCollection<Point> | undefined => {
 		const vehicle = getVehicleById(vehicleId);
 		if (!vehicle) return;
 		const collection = getBaseGeoJsonFeatureCollection();
@@ -80,7 +81,7 @@ export const VehiclesContextProvider = ({ children }: PropsWithChildren) => {
 		return allVehiclesData;
 	};
 
-	const getAllVehiclesGeoJsonFC = (): GeoJSON.FeatureCollection | undefined => {
+	const getAllVehiclesGeoJsonFC = (): FeatureCollection | undefined => {
 		const collection = getBaseGeoJsonFeatureCollection();
 		filteredVehiclesData.forEach(vehicle => collection.features.push(transformVehicleDataIntoGeoJsonFeature(vehicle)));
 		return collection;
@@ -90,7 +91,7 @@ export const VehiclesContextProvider = ({ children }: PropsWithChildren) => {
 		return filteredVehiclesData?.filter(vehicle => vehicle.line_id === lineId) || [];
 	};
 
-	const getVehiclesByLineIdGeoJsonFC = (lineId: string): GeoJSON.FeatureCollection | undefined => {
+	const getVehiclesByLineIdGeoJsonFC = (lineId: string): FeatureCollection | undefined => {
 		const vehicles = getVehiclesByLineId(lineId);
 		if (!vehicles) return;
 		const collection = getBaseGeoJsonFeatureCollection();
@@ -102,7 +103,7 @@ export const VehiclesContextProvider = ({ children }: PropsWithChildren) => {
 		return filteredVehiclesData?.filter(vehicle => vehicle.pattern_id === patternId) || [];
 	};
 
-	const getVehiclesByPatternIdGeoJsonFC = (patternId: string): GeoJSON.FeatureCollection | undefined => {
+	const getVehiclesByPatternIdGeoJsonFC = (patternId: string): FeatureCollection | undefined => {
 		const vehicles = getVehiclesByPatternId(patternId);
 		if (!vehicles) return;
 		const collection = getBaseGeoJsonFeatureCollection();
@@ -114,7 +115,7 @@ export const VehiclesContextProvider = ({ children }: PropsWithChildren) => {
 		return filteredVehiclesData?.filter(vehicle => vehicle.trip_id === tripId) || [];
 	};
 
-	const getVehiclesByTripIdGeoJsonFC = (tripId: string): GeoJSON.FeatureCollection | undefined => {
+	const getVehiclesByTripIdGeoJsonFC = (tripId: string): FeatureCollection | undefined => {
 		const vehicles = getVehiclesByTripId(tripId);
 		if (!vehicles) return;
 		const collection = getBaseGeoJsonFeatureCollection();
@@ -163,7 +164,7 @@ export const VehiclesContextProvider = ({ children }: PropsWithChildren) => {
 
 /* * */
 
-export function transformVehicleDataIntoGeoJsonFeature(vehicleData: Vehicle): GeoJSON.Feature<GeoJSON.Point> {
+export function transformVehicleDataIntoGeoJsonFeature(vehicleData: Vehicle): Feature<Point> {
 	return {
 		geometry: {
 			coordinates: [vehicleData.lon || 0, vehicleData.lat || 0],

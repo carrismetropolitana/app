@@ -62,7 +62,7 @@ export function LinesSelectionListMain({ addToRecentsOnPress, onPress, replaceCh
 	]);
 
 	//
-	// C. Handle Actions
+	// C. Handle actions
 
 	const handlePress = (item: Line) => {
 		if (addToRecentsOnPress) linesListContext.actions.addToRecent(item);

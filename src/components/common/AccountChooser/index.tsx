@@ -27,7 +27,7 @@ function ProfileDetails({ bgColor, label, profile }: { bgColor: string, label: s
 	//
 
 	//
-	// A. Render Components
+	// A. Render components
 
 	return (
 		<ScrollView contentContainerStyle={{ alignItems: 'center', padding: 8 }} style={{ backgroundColor: bgColor, flex: 1, marginHorizontal: 4, maxHeight: 400 }}>

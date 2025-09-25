@@ -49,7 +49,7 @@ export function SelectNotificationControl({ selectedSelector }: Props) {
 	}, [selectedIndex]);
 
 	//
-	// C . Handle Actions
+	// C . Handle actions
 	const handlePress = (i: number) => {
 		setSelectedIndex(i);
 	};

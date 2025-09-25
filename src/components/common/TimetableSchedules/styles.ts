@@ -22,7 +22,7 @@ export const styles = () => {
 		? theming.colorSystemText200
 		: theming.colorSystemText300;
 	//
-	// B. Render Components
+	// B. Render components
 
 	return StyleSheet.create({
 		column: {

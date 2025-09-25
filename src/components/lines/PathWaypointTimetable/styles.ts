@@ -17,7 +17,7 @@ export const styles = () => {
 		: theming.colorSystemText300;
 
 	//
-	// B. Render Components
+	// B. Render components
 
 	return StyleSheet.create({
 		container: {

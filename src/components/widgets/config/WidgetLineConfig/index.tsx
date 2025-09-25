@@ -33,7 +33,7 @@ export function WidgetLineConfig({ widgetId }: WidgetLineConfigProps) {
 	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetLineConfig' });
 
 	//
-	// B. Handle Actions
+	// B. Handle actions
 
 	const handleSave = () => {
 		widgetLineConfigContext.actions.saveWidget();
@@ -46,7 +46,7 @@ export function WidgetLineConfig({ widgetId }: WidgetLineConfigProps) {
 	};
 
 	//
-	// C. Render Components
+	// C. Render components
 
 	return (
 		<Container>
