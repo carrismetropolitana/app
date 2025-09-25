@@ -6,6 +6,7 @@ import 'expo-dev-client';
 
 /* * */
 
+import { AppSplashScreen } from '@/components/layout/AppSplashScreen';
 import { OfflineScreen } from '@/components/layout/OfflineScreen';
 import { AllProviders } from '@/providers/all-providers';
 import { useSystemVariables } from '@/theme/global';
@@ -32,23 +33,25 @@ export default function RootLayout() {
 	}
 
 	return (
-		<AllProviders>
-			<Stack screenOptions={{
-				contentStyle: { backgroundColor: systemVariables.background[200] },
-				headerShown: false,
-				headerStyle: { backgroundColor: systemVariables.background[100] },
-				headerTitleStyle: { color: systemVariables.text[100] },
-			}}
-			>
-				<Stack.Screen
-					name="vehicles/[vehicle_id]"
-					options={{
-						headerShown: true,
-						presentation: 'modal',
-					}}
-				/>
-			</Stack>
-		</AllProviders>
+		<AppSplashScreen>
+			<AllProviders>
+				<Stack screenOptions={{
+					contentStyle: { backgroundColor: systemVariables.background[200] },
+					headerShown: false,
+					headerStyle: { backgroundColor: systemVariables.background[100] },
+					headerTitleStyle: { color: systemVariables.text[100] },
+				}}
+				>
+					<Stack.Screen
+						name="vehicles/[vehicle_id]"
+						options={{
+							headerShown: true,
+							presentation: 'modal',
+						}}
+					/>
+				</Stack>
+			</AllProviders>
+		</AppSplashScreen>
 	);
 
 	//

@@ -1,5 +1,6 @@
 /* * */
 
+import { HomeScreenCustomizeHero } from '@/components/home/HomeScreenCustomizeHero';
 import { View } from 'react-native';
 
 import { useStyles } from './styles';
@@ -19,7 +20,7 @@ export function HomeScreenListEmpty() {
 
 	return (
 		<View style={styles.container}>
-			{/* <HomeScreenTopBar /> */}
+			<HomeScreenCustomizeHero />
 		</View>
 	);
 

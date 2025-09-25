@@ -1,6 +1,6 @@
 {
 	"name": "@carrismetropolitana/app",
-	"version": "20250925.1159.01",
+	"version": "20250925.1224.56",
 	"private": true,
 	"main": "expo-router/entry",
 	"imports": {
@@ -64,7 +64,7 @@
 		"react": "19.1.1",
 		"react-i18next": "15.7.3",
 		"react-native": "0.81.4",
-		"react-native-draglist": "3.9.9",
+		"react-native-draglist": "3.10.0",
 		"react-native-element-dropdown": "2.12.4",
 		"react-native-gesture-handler": "2.28.0",
 		"react-native-modal-datetime-picker": "18.0.0",

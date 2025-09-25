@@ -9,9 +9,12 @@ export const useStyles = () => {
 		container: {
 			alignItems: 'center',
 			display: 'flex',
-			flexDirection: 'column',
-			justifyContent: 'flex-start',
-			padding: 20,
+			justifyContent: 'center',
+		},
+		splashImage: {
+			aspectRatio: 1,
+			height: '100%',
+			resizeMode: 'cover',
 		},
 	});
 };

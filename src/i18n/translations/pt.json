@@ -404,6 +404,10 @@
 		"HomeScreenCustomizeButton": {
 			"label": "Personalizar"
 		},
+		"HomeScreenCustomizeHero": {
+			"description": "Adicione as suas linhas e paragens favoritas e configure notificações inteligentes para as suas viagens diárias.",
+			"title": "Personalize a sua experiência"
+		},
 		"HomeScreenGeneralStatusItem": {
 			"label": "Aviso Geral"
 		},

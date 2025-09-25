@@ -303,6 +303,10 @@
 		"HomeScreenCustomizeButton": {
 			"label": "Customize"
 		},
+		"HomeScreenCustomizeHero": {
+			"description": "Add your favorite lines and stops and set up smart notifications for your daily trips.",
+			"title": "Personalize your experience"
+		},
 		"HomeScreenGeneralStatusItem": {
 			"label": "General Alert"
 		},
