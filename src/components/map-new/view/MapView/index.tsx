@@ -43,14 +43,13 @@ export function MapView({ children }: PropsWithChildren<MapViewProps>) {
 
 	const handleCenterMap = () => {
 		if (initialMove) return;
-		// Center map on default location
 		if (!mapViewRef.current || !cameraRef.current) return;
+		// Center map on default location
 		cameraRef.current.setCamera({
 			animationDuration: 1000,
 			centerCoordinate: MAP_VIEWPORT.center,
 			zoomLevel: MAP_VIEWPORT.zoom,
 		});
-		console.log('Map centered on:', MAP_VIEWPORT.center);
 		setInitialMove(true);
 	};
 
