@@ -129,14 +129,6 @@ const config: ExpoConfig = {
 			],
 		}],
 
-		/**
-		 * Configures the app to use static assets.
-		 * @see https://docs.expo.dev/versions/latest/sdk/asset/#configurable-properties
-		 */
-		['expo-asset', {
-			assets: ['./assets'],
-		}],
-
 	],
 
 };

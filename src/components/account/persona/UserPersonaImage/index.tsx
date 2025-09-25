@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
+
 /* * */
 
 import { useAccountContext } from '@/contexts/Account.context';
 import { getServiceUrl } from '@/settings/service-urls';
 import { useMemo } from 'react';
-import { Image, View } from 'react-native';
+import { Image, useColorScheme, View } from 'react-native';
 
 import { useStyles } from './styles';
 
@@ -22,6 +24,7 @@ export function UserPersonaImage({ size = 'md' }: UserPersonaImageProps) {
 	// A. Setup variables
 
 	const styles = useStyles();
+	const colorScheme = useColorScheme();
 
 	const accountContext = useAccountContext();
 
@@ -48,7 +51,7 @@ export function UserPersonaImage({ size = 'md' }: UserPersonaImageProps) {
 	}, [size]);
 
 	//
-	// C. Render Components
+	// C. Render components
 
 	if (imageUrl) {
 		return (
@@ -65,11 +68,11 @@ export function UserPersonaImage({ size = 'md' }: UserPersonaImageProps) {
 	}
 
 	return (
-		<Image
-			resizeMode="contain"
-			source={{ uri: 'images/no-persona-image' }}
-			style={{ height: containerSize, width: containerSize }}
-		/>
+		<View style={[styles.container, { borderWidth: borderWidth }]}>
+			{colorScheme === 'light'
+				? <Image resizeMode="contain" source={require('#/persona/anonymous-light.png')} style={{ height: containerSize, width: containerSize }} />
+				: <Image resizeMode="contain" source={require('#/persona/anonymous-dark.png')} style={{ height: containerSize, width: containerSize }} />}
+		</View>
 	);
 
 	//

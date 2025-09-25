@@ -1,15 +1,10 @@
 /* * */
 
-import { useSystemVariables } from '@/theme/global';
 import { StyleSheet } from 'react-native';
 
 /* * */
 
 export const useStyles = () => {
-	//
-
-	const systemVariables = useSystemVariables();
-
 	return StyleSheet.create({
 		activityIndicator: {
 			position: 'absolute',
@@ -23,7 +18,7 @@ export const useStyles = () => {
 		},
 		container: {
 			alignItems: 'center',
-			backgroundColor: systemVariables.background[100],
+			borderColor: 'transparent',
 			borderRadius: 999,
 			display: 'flex',
 			justifyContent: 'center',
