@@ -1,6 +1,6 @@
 {
 	"name": "@carrismetropolitana/app",
-	"version": "20250925.1224.56",
+	"version": "20250925.1607.47",
 	"private": true,
 	"main": "expo-router/entry",
 	"imports": {

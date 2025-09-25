@@ -50,17 +50,24 @@ const config: ExpoConfig = {
 	/* * */
 
 	android: {
+
 		adaptiveIcon: {
 			backgroundColor: '#ffffff',
 			foregroundImage: './assets/app/icon-light.png',
 		},
+
 		googleServicesFile: './environments/production/secrets/google-services.json',
+
 		package: 'pt.carrismetropolitana.mobile',
+
 	},
 
 	ios: {
+
 		appleTeamId: 'QGATT2W97P',
+
 		bundleIdentifier: 'pt.carrismetropolitana.app',
+
 		infoPlist: {
 
 			/**
@@ -71,6 +78,14 @@ const config: ExpoConfig = {
 			ITSAppUsesNonExemptEncryption: false,
 
 		},
+
+		/**
+		 * This property must be true as the previous versions supported iPads.
+		 * Apple does not allow changing this property back to false once the app is published.
+		 * @see https://stackoverflow.com/a/35747810
+		 */
+		supportsTablet: true,
+
 	},
 
 	/* * */
