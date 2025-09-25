@@ -56,10 +56,6 @@ const config: ExpoConfig = {
 		},
 		googleServicesFile: './environments/production/secrets/google-services.json',
 		package: 'pt.carrismetropolitana.mobile',
-		permissions: [
-			'android.permission.ACCESS_COARSE_LOCATION',
-			'android.permission.ACCESS_FINE_LOCATION',
-		],
 	},
 
 	ios: {
@@ -74,13 +70,6 @@ const config: ExpoConfig = {
 			 */
 			ITSAppUsesNonExemptEncryption: false,
 
-			/**
-			 * A description of the reason the app accesses the user's location data.
-			 * This key is required if the app uses location services.
-			 * @see https://developer.apple.com/documentation/bundleresources/information-property-list/nslocationwheninuseusagedescription
-			 */
-			NSLocationWhenInUseUsageDescription: 'This app uses your location to show nearby stops and routes.',
-
 		},
 	},
 
@@ -92,27 +81,47 @@ const config: ExpoConfig = {
 
 		'expo-router',
 
-		'expo-location',
-
 		'expo-localization',
 
 		'expo-audio',
 
-		['expo-notifications', {
-			enableBackgroundRemoteNotifications: true,
+		/**
+		 * Configures location permissions for the app.
+		 * @see https://docs.expo.dev/versions/latest/sdk/location/#configurable-properties
+		 */
+		['expo-location', {
+			locationWhenInUsePermission: 'Allow $(PRODUCT_NAME) to use your location.',
 		}],
 
+		/**
+		 * Configures push notifications for the app.
+		 * @see https://docs.expo.dev/versions/latest/sdk/notifications/#app-config
+		 */
+		['expo-notifications', {
+			color: '#FFDD00',
+			enableBackgroundRemoteNotifications: true,
+			icon: './assets/app/icon-notification.png',
+		}],
+
+		/**
+		 * Configures the splash screen for the app.
+		 * @see https://docs.expo.dev/versions/latest/sdk/splash-screen/#configurable-properties
+		 */
 		['expo-splash-screen', {
-			backgroundColor: '#ffffff',
+			backgroundColor: '#FFDD00',
 			dark: {
 				backgroundColor: '#1e1e28',
-				image: './assets/app/icon-dark.png',
+				image: './assets/app/splash-dark.png',
 			},
-			image: './assets/app/icon-light.png',
-			imageWidth: 200,
-			resizeMode: 'contain',
+			image: './assets/app/splash-light.png',
+			imageWidth: '100%',
+			resizeMode: 'cover',
 		}],
 
+		/**
+		 * Configures the app to use custom fonts.
+		 * @see https://docs.expo.dev/versions/latest/sdk/font/#configurable-properties
+		 */
 		['expo-font', {
 			fonts: [
 				'./assets/fonts/inter-variable.ttf',
@@ -120,6 +129,10 @@ const config: ExpoConfig = {
 			],
 		}],
 
+		/**
+		 * Configures the app to use static assets.
+		 * @see https://docs.expo.dev/versions/latest/sdk/asset/#configurable-properties
+		 */
 		['expo-asset', {
 			assets: ['./assets'],
 		}],
