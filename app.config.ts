@@ -16,7 +16,7 @@ const config: ExpoConfig = {
 
 	/* * */
 
-	icon: './assets/images/Logos/CM_Logo _Symbol_LightMode.png',
+	icon: './assets/app/icon-light.png',
 
 	orientation: 'portrait',
 
@@ -52,7 +52,7 @@ const config: ExpoConfig = {
 	android: {
 		adaptiveIcon: {
 			backgroundColor: '#ffffff',
-			foregroundImage: './assets/images/Logos/CM_Logo _Symbol_LightMode.png',
+			foregroundImage: './assets/app/icon-light.png',
 		},
 		googleServicesFile: './environments/production/secrets/google-services.json',
 		package: 'pt.carrismetropolitana.mobile',
@@ -81,12 +81,6 @@ const config: ExpoConfig = {
 			 */
 			NSLocationWhenInUseUsageDescription: 'This app uses your location to show nearby stops and routes.',
 
-			/**
-			 * List of background mode entitlements the app requires.
-			 * @see https://developer.apple.com/documentation/bundleresources/information-property-list/uibackgroundmodes
-			 */
-			UIBackgroundModes: ['remote-notification'],
-
 		},
 	},
 
@@ -112,24 +106,22 @@ const config: ExpoConfig = {
 			backgroundColor: '#ffffff',
 			dark: {
 				backgroundColor: '#1e1e28',
-				image: './assets/images/Logos/CM_Logo_DarkMode.png',
+				image: './assets/app/icon-dark.png',
 			},
-			image: './assets/images/Logos/CM_Logo_LightMode.png',
+			image: './assets/app/icon-light.png',
 			imageWidth: 200,
 			resizeMode: 'contain',
 		}],
 
 		['expo-font', {
 			fonts: [
-				'./assets/clean/fonts/inter-variable.ttf',
-				'./assets/clean/fonts/space-mono-regular.ttf',
+				'./assets/fonts/inter-variable.ttf',
+				'./assets/fonts/space-mono-regular.ttf',
 			],
 		}],
 
 		['expo-asset', {
-			assets: [
-				'./assets/clean',
-			],
+			assets: ['./assets'],
 		}],
 
 	],
