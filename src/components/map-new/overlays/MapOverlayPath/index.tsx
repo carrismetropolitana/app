@@ -12,14 +12,14 @@ export const mapOverlayPath_InteractiveLayerIds = [mapOverlayPath_TopLayerId];
 /* * */
 
 export interface MapOverlayPathProps {
-	belowLayerID?: string
+	belowLayerId?: string
 	shapeData?: FeatureCollection<LineString>
 	waypointsData?: FeatureCollection<Point>
 }
 
 /* * */
 
-export function MapOverlayPath({ belowLayerID, shapeData, waypointsData }: MapOverlayPathProps) {
+export function MapOverlayPath({ belowLayerId, shapeData, waypointsData }: MapOverlayPathProps) {
 	//
 
 	//
@@ -91,7 +91,7 @@ export function MapOverlayPath({ belowLayerID, shapeData, waypointsData }: MapOv
 
 			<ShapeSource id="path-waypoints-source" shape={waypointsData ?? baseWaypointsFC}>
 				<CircleLayer
-					belowLayerID={belowLayerID}
+					belowLayerID={belowLayerId}
 					id={mapOverlayPath_TopLayerId}
 					style={{
 						circleColor: ['get', 'text_color'],

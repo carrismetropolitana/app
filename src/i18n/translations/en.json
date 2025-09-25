@@ -443,7 +443,7 @@
 			},
 			"items": {
 				"accessibility_hint": "Line Number: {short_name}",
-				"accessibility_label": "{ordinal}nd: {tts_name}"
+				"accessibility_label": "{index}nd: {tts_name}"
 			},
 			"recent": {
 				"title": "Recent Lines"
@@ -674,7 +674,7 @@
 			"stopDisplayNameAccessibilityHint": "This element represents the name of the stop",
 			"stopDisplayNameAccessibilityLabel": "Stop name  {stopName}"
 		},
-		"StopsSelectionListMain": {
+		"StopsSelectionMainList": {
 			"all": {
 				"title": "All Stops"
 			},
@@ -686,7 +686,7 @@
 			},
 			"items": {
 				"accessibility_hint": "Stop code: {id}",
-				"accessibility_label": "{ordinal}nd: {tts_name}"
+				"accessibility_label": "{index}nd: {tts_name}"
 			},
 			"recent": {
 				"title": "Recent Stops"
@@ -697,9 +697,6 @@
 					"singular": "Found 1 stop"
 				}
 			}
-		},
-		"StopsSelectionListSearch": {
-			"placeholder": "Search..."
 		},
 		"noDataFound": "No data found for this stop"
 	},

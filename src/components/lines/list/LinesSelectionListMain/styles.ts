@@ -20,5 +20,8 @@ export const useStyles = () => {
 			minHeight: '100%',
 			paddingBottom: 50,
 		},
+		headerContainer: {
+			padding: 15,
+		},
 	});
 };

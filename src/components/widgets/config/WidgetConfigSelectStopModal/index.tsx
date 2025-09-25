@@ -1,6 +1,6 @@
 /* * */
 
-import { StopsSelectionList } from '@/components/stops/list/StopsSelectionList';
+import { StopsSelection } from '@/components/stops/selection/StopsSelection';
 import { useSystemVariables } from '@/theme/global';
 import { type Stop } from '@carrismetropolitana/api-types/network';
 import { IconCirclePlusFilled } from '@tabler/icons-react-native';
@@ -52,9 +52,10 @@ export function WidgetConfigSelectStopModal({ isVisible, onClose, onSelectStop }
 				<Button onPress={onClose} title={t('close_button')} />
 			</View>
 			<View style={styles.content}>
-				<StopsSelectionList
+				<StopsSelection
 					onPress={handleStopClick}
 					replaceChevron={<IconCirclePlusFilled color={systemVariables.status.ok} size={24} />}
+					withSearchAutoFocus
 				/>
 			</View>
 		</Modal>

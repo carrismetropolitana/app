@@ -2,22 +2,26 @@
 
 import { useAccountContext } from '@/contexts/Account.context';
 import { useFavoritesContext } from '@/contexts/Favorites.context';
-import { useStopsContext } from '@/contexts/Stops.context';
+import { transformStopDataIntoGeoJsonFeature, useStopsContext } from '@/contexts/Stops.context';
+import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import createDocCollection from '@/hooks/useOtheSearch';
 import { type Stop } from '@carrismetropolitana/api-types/network';
+import { type FeatureCollection, type Point } from 'geojson';
 import { createContext, type PropsWithChildren, useContext, useMemo, useState } from 'react';
 
 /* * */
 
-interface StopsListContextState {
+interface StopsSelectionContextState {
 	actions: {
 		addToRecent: (item: Stop) => void
+		toggleViewMode: (mode?: 'list' | 'map') => void
 		updateFilterBySearch: (value: string) => void
 	}
 	data: {
-		all: Stop[]
 		favorites: Stop[]
+		favorites_fc: FeatureCollection<Point, Stop> | undefined
 		filtered: Stop[]
+		filtered_fc: FeatureCollection<Point, Stop> | undefined
 		recent: Stop[]
 	}
 	filters: {
@@ -25,24 +29,25 @@ interface StopsListContextState {
 	}
 	flags: {
 		loading: boolean
+		view_mode: 'list' | 'map'
 	}
 }
 
 /* * */
 
-const StopsListContext = createContext<StopsListContextState | undefined>(undefined);
+const StopsSelectionContext = createContext<StopsSelectionContextState | undefined>(undefined);
 
-export function useStopsListContext() {
-	const context = useContext(StopsListContext);
+export function useStopsSelectionContext() {
+	const context = useContext(StopsSelectionContext);
 	if (!context) {
-		throw new Error('useStopsListContext must be used within a StopsListContextProvider');
+		throw new Error('useStopsSelectionContext must be used within a StopsSelectionContextProvider');
 	}
 	return context;
 }
 
 /* * */
 
-export const StopsListContextProvider = ({ children }: PropsWithChildren) => {
+export const StopsSelectionContextProvider = ({ children }: PropsWithChildren) => {
 	//
 
 	//
@@ -52,7 +57,9 @@ export const StopsListContextProvider = ({ children }: PropsWithChildren) => {
 	const accountContext = useAccountContext();
 	const favoritesContext = useFavoritesContext();
 
-	const [filterBySearchState, setFilterBySearchState] = useState<StopsListContextState['filters']['by_search']>('');
+	const [filterBySearchState, setFilterBySearchState] = useState<StopsSelectionContextState['filters']['by_search']>('');
+
+	const [flagViewModeState, setFlagViewModeState] = useState<StopsSelectionContextState['flags']['view_mode']>('map');
 
 	//
 	// B. Transform data
@@ -72,9 +79,16 @@ export const StopsListContextProvider = ({ children }: PropsWithChildren) => {
 		return stopsContext.data.stops.filter(stop => currentFavorites.has(stop.id));
 	}, [stopsContext.data.stops, favoritesContext.data.stop_ids]);
 
+	const favoriteStopsDataFC = useMemo(() => {
+		if (!favoriteStopsData) return;
+		const collection = getBaseGeoJsonFeatureCollection<Point, Stop>();
+		collection.features = favoriteStopsData.map(stop => transformStopDataIntoGeoJsonFeature(stop));
+		return collection;
+	}, [favoriteStopsData]);
+
 	const filteredStopsData = useMemo(() => {
 		// Skip if no filters are applied
-		if (!filterBySearchState) return [];
+		if (!filterBySearchState) return stopsContext.data.stops;
 		// Give extra weight to favorite stops
 		const boostedData = stopsContext.data.stops.map(stop => ({ ...stop, boost: accountContext.data.account?.favorites.stop_ids.includes(stop.id) ? true : false }));
 		const searchHook = createDocCollection(boostedData, {
@@ -84,6 +98,13 @@ export const StopsListContextProvider = ({ children }: PropsWithChildren) => {
 		});
 		return searchHook.search(filterBySearchState);
 	}, [stopsContext.data.stops, filterBySearchState]);
+
+	const filteredStopsDataFC = useMemo(() => {
+		if (!filteredStopsData) return;
+		const collection = getBaseGeoJsonFeatureCollection<Point, Stop>();
+		collection.features = filteredStopsData.map(stop => transformStopDataIntoGeoJsonFeature(stop));
+		return collection;
+	}, [filteredStopsData]);
 
 	//
 	// D. Handle actions
@@ -105,18 +126,25 @@ export const StopsListContextProvider = ({ children }: PropsWithChildren) => {
 		setFilterBySearchState(value);
 	};
 
+	const toggleViewMode = (mode?: 'list' | 'map') => {
+		if (mode) setFlagViewModeState(mode);
+		else setFlagViewModeState(prev => prev === 'list' ? 'map' : 'list');
+	};
+
 	//
 	// E. Define context value
 
-	const contextValue: StopsListContextState = useMemo(() => ({
+	const contextValue: StopsSelectionContextState = useMemo(() => ({
 		actions: {
 			addToRecent,
+			toggleViewMode,
 			updateFilterBySearch,
 		},
 		data: {
-			all: stopsContext.data.stops,
 			favorites: favoriteStopsData,
+			favorites_fc: favoriteStopsDataFC,
 			filtered: filteredStopsData,
+			filtered_fc: filteredStopsDataFC,
 			recent: recentStopsData,
 		},
 		filters: {
@@ -124,23 +152,26 @@ export const StopsListContextProvider = ({ children }: PropsWithChildren) => {
 		},
 		flags: {
 			loading: stopsContext.flags.loading,
+			view_mode: flagViewModeState,
 		},
 	}), [
-		recentStopsData,
 		favoriteStopsData,
-		filteredStopsData,
+		favoriteStopsDataFC,
 		filterBySearchState,
-		stopsContext.data.stops,
+		filteredStopsData,
+		filteredStopsDataFC,
+		recentStopsData,
 		stopsContext.flags.loading,
+		flagViewModeState,
 	]);
 
 	//
 	// F. Render components
 
 	return (
-		<StopsListContext.Provider value={contextValue}>
+		<StopsSelectionContext.Provider value={contextValue}>
 			{children}
-		</StopsListContext.Provider>
+		</StopsSelectionContext.Provider>
 	);
 
 	//

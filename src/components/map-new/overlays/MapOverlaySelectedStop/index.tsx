@@ -1,21 +1,14 @@
-import type { CircleLayerStyle } from '@maplibre/maplibre-react-native';
+/* * */
 
-import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
+import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
+import { type CircleLayerStyle } from '@maplibre/maplibre-react-native';
 import { CircleLayer, ShapeSource, SymbolLayer } from '@maplibre/maplibre-react-native';
-import React from 'react';
+import { GeoJsonProperties, Point } from 'geojson';
+
+/* * */
 
 export const MapViewStyleStopsPrimaryLayerId = 'default-layer-stops-all';
 export const MapViewStyleStopsInteractiveLayerId = 'default-layer-stops-all-muted';
-
-interface Props {
-	flaggedStopId?: string
-	onStopPress?: (stopId: string) => void
-	presentBeforeId?: string
-	stopsData?: GeoJSON.FeatureCollection
-	style?: 'muted' | 'primary'
-}
-
-const baseGeoJsonFeatureCollection = getBaseGeoJsonFeatureCollection();
 
 const primaryPaint = {
 	circleColor: ['match', ['get', 'current_status'], 'inactive', '#e6e6e6', '#ffdd01'] as const,
@@ -65,13 +58,36 @@ const mutedPaint = {
 	] as const,
 } satisfies CircleLayerStyle;
 
-export function MapViewStyleStops({ flaggedStopId, onStopPress, stopsData = baseGeoJsonFeatureCollection, style = 'primary' }: Props) {
+/* * */
+
+interface MapOverlaySelectedStopProps {
+	flaggedStopId?: string
+	onStopPress?: (stopId: string) => void
+	presentBeforeId?: string
+	stopsData?: GeoJSON.FeatureCollection
+	style?: 'muted' | 'primary'
+}
+
+/* * */
+
+export function MapOverlaySelectedStop({ flaggedStopId, onStopPress, stopsData, style = 'primary' }: MapOverlaySelectedStopProps) {
+	//
+
+	//
+	// A. Setup variables
+
+	const baseStopsFC = getBaseGeoJsonFeatureCollection<Point, GeoJsonProperties>();
+
 	const layerId = style === 'primary' ? MapViewStyleStopsPrimaryLayerId : MapViewStyleStopsInteractiveLayerId;
 	const paintStyle = style === 'primary' ? primaryPaint : mutedPaint;
 	const flaggedFeature = flaggedStopId && stopsData.features ? stopsData.features.find(f => f.properties && f.properties.id == flaggedStopId) : undefined;
 	const flaggedGeoJson = flaggedFeature
 		? { features: [flaggedFeature], type: 'FeatureCollection' as const }
 		: null;
+
+	//
+	// B. Return view
+
 	return (
 		<>
 			<ShapeSource

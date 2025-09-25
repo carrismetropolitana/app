@@ -42,7 +42,6 @@ export function ListSectionItem({ accessibilityHint, accessibilityLabel, accessi
 	// B. Handle actions
 
 	const handlePress = () => {
-		console.log('isDisabled', disabled);
 		if (disabled) return;
 		if (link) router.push(link);
 		else if (onPress) onPress();

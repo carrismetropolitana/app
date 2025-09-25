@@ -10,13 +10,16 @@ import { useStyles } from './styles';
 /* * */
 
 interface SearchBarProps {
+	autoFocus?: boolean
+	onBlur?: () => void
 	onChange?: (text: string) => void
+	onFocus?: () => void
 	value?: string
 }
 
 /* * */
 
-export function SearchBar({ onChange, value }: SearchBarProps) {
+export function SearchBar({ autoFocus, onBlur, onChange, onFocus, value }: SearchBarProps) {
 	//
 
 	//
@@ -32,19 +35,21 @@ export function SearchBar({ onChange, value }: SearchBarProps) {
 
 	return (
 		<View style={styles.container}>
-			<View style={styles.inputWrapper}>
+			<View style={styles.iconWrapper}>
 				<IconSearch color={systemVariables.text[300]} size={28} />
-				<TextInput
-					accessibilityRole="search"
-					clearButtonMode="always"
-					onChangeText={onChange}
-					placeholder={t('placeholder')}
-					placeholderTextColor={systemVariables.text[400]}
-					style={styles.input}
-					value={value || ''}
-					autoFocus
-				/>
 			</View>
+			<TextInput
+				accessibilityRole="search"
+				autoFocus={autoFocus}
+				clearButtonMode="always"
+				onBlur={onBlur}
+				onChangeText={onChange}
+				onFocus={onFocus}
+				placeholder={t('placeholder')}
+				placeholderTextColor={systemVariables.text[400]}
+				style={styles.input}
+				value={value || ''}
+			/>
 		</View>
 	);
 

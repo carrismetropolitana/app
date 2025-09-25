@@ -59,6 +59,7 @@ export function MapView({ children }: PropsWithChildren<MapViewProps>) {
 	return (
 		<RNMapView
 			ref={mapViewRef}
+			compassViewPosition={2}
 			mapStyle={mapStyleData.value}
 			onDidFinishLoadingMap={handleCenterMap}
 			style={{ flex: 1 }}

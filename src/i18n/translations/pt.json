@@ -549,7 +549,7 @@
 			},
 			"items": {
 				"accessibility_hint": "Número da Linha: {short_name}",
-				"accessibility_label": "{ordinal}º: {tts_name}"
+				"accessibility_label": "{index}º: {tts_name}"
 			},
 			"recent": {
 				"title": "Recentes"
@@ -751,7 +751,7 @@
 			"stopDisplayNameAccessibilityHint": "Este elemento representa o nome da paragem",
 			"stopDisplayNameAccessibilityLabel": "Nome da paragem {stopName}"
 		},
-		"StopsSelectionListMain": {
+		"StopsSelectionMainList": {
 			"all": {
 				"title": "Todas as Paragens"
 			},
@@ -763,7 +763,7 @@
 			},
 			"items": {
 				"accessibility_hint": "Código da paragem: {id}",
-				"accessibility_label": "{ordinal}º: {tts_name}"
+				"accessibility_label": "{index}º: {tts_name}"
 			},
 			"recent": {
 				"title": "Recentes"
@@ -774,9 +774,6 @@
 					"singular": "Encontrada 1 paragem"
 				}
 			}
-		},
-		"StopsSelectionListSearch": {
-			"placeholder": "Pesquisar..."
 		},
 		"noDataFound": "Nenhum dado encontrado para esta paragem"
 	},

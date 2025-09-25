@@ -1,11 +1,8 @@
 /* * */
 
-import { StopsSelectionList } from '@/components/stops/list/StopsSelectionList';
+import { StopsSelection } from '@/components/stops/selection/StopsSelection';
 import { type Stop } from '@carrismetropolitana/api-types/network';
 import { router } from 'expo-router';
-import { View } from 'react-native';
-
-import { useStyles } from './styles';
 
 /* * */
 
@@ -13,27 +10,21 @@ export function StopsList() {
 	//
 
 	//
-	// A. Setup variables
-
-	const styles = useStyles();
-
-	//
-	// B. Handle actions
+	// A. Handle actions
 
 	const handlePress = (item: Stop) => {
 		router.push(`/stops/${item.id}`);
 	};
 
 	//
-	// C. Render components
+	// B. Render components
 
 	return (
-		<View style={styles.container}>
-			<StopsSelectionList
-				onPress={handlePress}
-				addToRecentsOnPress
-			/>
-		</View>
+		<StopsSelection
+			onPress={handlePress}
+			addToRecentsOnPress
+			withSafeArea
+		/>
 	);
 
 	//
