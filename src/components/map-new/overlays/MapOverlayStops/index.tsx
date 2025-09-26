@@ -1,9 +1,9 @@
 /* * */
 
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
-import { Stop } from '@carrismetropolitana/api-types/network';
+import { type Stop } from '@carrismetropolitana/api-types/network';
 import { CircleLayer, type OnPressEvent, ShapeSource } from '@maplibre/maplibre-react-native';
-import { Feature, type FeatureCollection, type Point } from 'geojson';
+import { type Feature, type FeatureCollection, type Point } from 'geojson';
 
 /* * */
 
@@ -12,10 +12,16 @@ export const mapOverlayStops_InteractiveLayerIds = [mapOverlayStops_TopLayerId];
 
 /* * */
 
+export interface MapOverlayStopsGeoJsonProperties {
+	_type: 'stop'
+	id: string
+}
+/* * */
+
 interface MapOverlayStopsProps {
 	belowLayerId?: string
-	onSelectStop?: (stop: Stop) => void
-	stopsData?: FeatureCollection<Point, Stop>
+	onSelectStop?: (stop: MapOverlayStopsGeoJsonProperties) => void
+	stopsData?: FeatureCollection<Point, MapOverlayStopsGeoJsonProperties>
 }
 
 /* * */
@@ -26,7 +32,7 @@ export function MapOverlayStops({ belowLayerId, onSelectStop, stopsData }: MapOv
 	//
 	// A. Setup variables
 
-	const baseStopsFC = getBaseGeoJsonFeatureCollection<Point, Stop>();
+	const baseStopsFC = getBaseGeoJsonFeatureCollection<Point, MapOverlayStopsGeoJsonProperties>();
 
 	//
 	// B. Handle actions
@@ -35,7 +41,7 @@ export function MapOverlayStops({ belowLayerId, onSelectStop, stopsData }: MapOv
 		// Skip if no callback
 		if (!onSelectStop) return;
 		// Get feature and call callback
-		const matchingFeature = event.features.find(f => f.properties?.id) as Feature<Point, Stop> | undefined;
+		const matchingFeature = event.features.find(f => f.properties?.id) as Feature<Point, MapOverlayStopsGeoJsonProperties> | undefined;
 		if (matchingFeature) onSelectStop(matchingFeature.properties);
 	};
 
@@ -86,4 +92,20 @@ export function MapOverlayStops({ belowLayerId, onSelectStop, stopsData }: MapOv
 	);
 
 	//
+}
+
+/* * */
+
+export function transformStopDataIntoGeoJsonFeature(stopData: Stop): Feature<Point, MapOverlayStopsGeoJsonProperties> {
+	return {
+		geometry: {
+			coordinates: [stopData.lon, stopData.lat],
+			type: 'Point',
+		},
+		properties: {
+			_type: 'stop',
+			id: stopData.id,
+		},
+		type: 'Feature',
+	};
 }

@@ -1,8 +1,9 @@
 /* * */
 
+import { type MapOverlayStopsGeoJsonProperties, transformStopDataIntoGeoJsonFeature } from '@/components/map-new/overlays/MapOverlayStops';
 import { useAccountContext } from '@/contexts/Account.context';
 import { useFavoritesContext } from '@/contexts/Favorites.context';
-import { transformStopDataIntoGeoJsonFeature, useStopsContext } from '@/contexts/Stops.context';
+import { useStopsContext } from '@/contexts/Stops.context';
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import createDocCollection from '@/hooks/useOtheSearch';
 import { type Stop } from '@carrismetropolitana/api-types/network';
@@ -19,9 +20,9 @@ interface StopsSelectionContextState {
 	}
 	data: {
 		favorites: Stop[]
-		favorites_fc: FeatureCollection<Point, Stop> | undefined
+		favorites_fc: FeatureCollection<Point, MapOverlayStopsGeoJsonProperties> | undefined
 		filtered: Stop[]
-		filtered_fc: FeatureCollection<Point, Stop> | undefined
+		filtered_fc: FeatureCollection<Point, MapOverlayStopsGeoJsonProperties> | undefined
 		recent: Stop[]
 	}
 	filters: {
@@ -81,8 +82,8 @@ export const StopsSelectionContextProvider = ({ children }: PropsWithChildren) =
 
 	const favoriteStopsDataFC = useMemo(() => {
 		if (!favoriteStopsData) return;
-		const collection = getBaseGeoJsonFeatureCollection<Point, Stop>();
-		collection.features = favoriteStopsData.map(stop => transformStopDataIntoGeoJsonFeature(stop));
+		const collection = getBaseGeoJsonFeatureCollection<Point, MapOverlayStopsGeoJsonProperties>();
+		collection.features = favoriteStopsData.map(transformStopDataIntoGeoJsonFeature);
 		return collection;
 	}, [favoriteStopsData]);
 
@@ -101,8 +102,8 @@ export const StopsSelectionContextProvider = ({ children }: PropsWithChildren) =
 
 	const filteredStopsDataFC = useMemo(() => {
 		if (!filteredStopsData) return;
-		const collection = getBaseGeoJsonFeatureCollection<Point, Stop>();
-		collection.features = filteredStopsData.map(stop => transformStopDataIntoGeoJsonFeature(stop));
+		const collection = getBaseGeoJsonFeatureCollection<Point, MapOverlayStopsGeoJsonProperties>();
+		collection.features = filteredStopsData.map(transformStopDataIntoGeoJsonFeature);
 		return collection;
 	}, [filteredStopsData]);
 

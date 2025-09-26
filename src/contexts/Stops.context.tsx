@@ -1,9 +1,10 @@
 /* * */
 
+import { type MapOverlayStopsGeoJsonProperties, transformStopDataIntoGeoJsonFeature } from '@/components/map-new/overlays/MapOverlayStops';
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import { getServiceUrl } from '@/settings/service-urls';
 import { type Stop } from '@carrismetropolitana/api-types/network';
-import { Feature, type FeatureCollection, type Point } from 'geojson';
+import { type FeatureCollection, type Point } from 'geojson';
 import { createContext, type PropsWithChildren, useContext, useMemo } from 'react';
 import useSWR from 'swr';
 
@@ -12,10 +13,9 @@ import useSWR from 'swr';
 interface StopsContextState {
 	actions: {
 		getStopById: (stopId: string) => Stop | undefined
-		getStopByIdGeoJsonFC: (stopId: string) => FeatureCollection<Point, Stop> | undefined
+		getStopByIdGeoJsonFC: (stopId: string) => FeatureCollection<Point, MapOverlayStopsGeoJsonProperties> | undefined
 	}
 	data: {
-		geojson: FeatureCollection<Point, Stop>
 		stops: Stop[]
 	}
 	flags: {
@@ -46,34 +46,24 @@ export const StopsContextProvider = ({ children }: PropsWithChildren) => {
 	const { data: allStopsData, isLoading: allStopsLoading } = useSWR<Stop[], Error>(`${getServiceUrl('api')}/v2/stops`);
 
 	//
-	// B. Transform data
-
-	const allStopsGeoJson = useMemo(() => {
-		const base = getBaseGeoJsonFeatureCollection<Point, Stop>();
-		if (!allStopsData) return base;
-		base.features = allStopsData.map(stop => transformStopDataIntoGeoJsonFeature(stop));
-		return base;
-	}, [allStopsData]);
-
-	//
-	// C. Handle actions
+	// B. Handle actions
 
 	const getStopById = (stopId: string): Stop | undefined => {
 		if (!allStopsData) return;
 		return allStopsData.find(stop => stop.id === stopId);
 	};
 
-	const getStopByIdGeoJsonFC = (stopId: string): FeatureCollection<Point, Stop> | undefined => {
+	const getStopByIdGeoJsonFC = (stopId: string): FeatureCollection<Point, MapOverlayStopsGeoJsonProperties> | undefined => {
 		const foundStop = getStopById(stopId);
 		if (!foundStop) return;
-		const base = getBaseGeoJsonFeatureCollection<Point, Stop>();
+		const base = getBaseGeoJsonFeatureCollection<Point, MapOverlayStopsGeoJsonProperties>();
 		const stopFC = transformStopDataIntoGeoJsonFeature(foundStop);
 		base.features.push(stopFC);
 		return base;
 	};
 
 	//
-	// D. Define context value
+	// C. Define context value
 
 	const contextValue: StopsContextState = useMemo(() => ({
 		actions: {
@@ -81,20 +71,18 @@ export const StopsContextProvider = ({ children }: PropsWithChildren) => {
 			getStopByIdGeoJsonFC,
 		},
 		data: {
-			geojson: allStopsGeoJson,
 			stops: allStopsData ?? [],
 		},
 		flags: {
 			loading: allStopsLoading,
 		},
 	}), [
-		allStopsGeoJson,
 		allStopsData,
 		allStopsLoading,
 	]);
 
 	//
-	// E. Render components
+	// D. Render components
 
 	return (
 		<StopsContext.Provider value={contextValue}>
@@ -104,16 +92,3 @@ export const StopsContextProvider = ({ children }: PropsWithChildren) => {
 
 	//
 };
-
-/* * */
-
-export function transformStopDataIntoGeoJsonFeature(stopData: Stop): Feature<Point, Stop> {
-	return {
-		geometry: {
-			coordinates: [stopData.lon, stopData.lat],
-			type: 'Point',
-		},
-		properties: stopData,
-		type: 'Feature',
-	};
-}
