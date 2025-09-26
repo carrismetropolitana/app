@@ -35,7 +35,7 @@ jobs:
     steps:
       # # #
     - name: Checkout repository
-      uses: actions/checkout@main
+      uses: actions/checkout@v5
       # # #
     - name: Setup Node
       uses: actions/setup-node@v4
@@ -56,6 +56,12 @@ jobs:
       # # #
     - name: Bump package version
       run: npm version --no-git-tag-version ${{ needs.version-number.outputs.version_number }}
+      # # #
+    - name: Decode google-services.json
+      run: |
+        printf "%s" "$GOOGLE_SERVICES_JSON_BASE64" | base64 --decode > ./environments/${{ github.ref_name }}/secrets/google-services.json
+      env:
+        GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
       # # #
     - name: Build app
       run: |
@@ -80,7 +86,7 @@ jobs:
     steps:
       # # #
     - name: Checkout repository
-      uses: actions/checkout@main
+      uses: actions/checkout@v5
       # # #
     - name: Setup Node
       uses: actions/setup-node@v4
