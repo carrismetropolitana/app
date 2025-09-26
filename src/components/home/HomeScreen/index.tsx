@@ -8,7 +8,7 @@ import { useAccountContext } from '@/contexts/Account.context';
 import { type Widget } from '@/schemas/widgets';
 import * as Haptics from 'expo-haptics';
 import { useMemo } from 'react';
-import { View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import DragList, { type DragListRenderItemInfo } from 'react-native-draglist';
 
 import { useStyles } from './styles';
@@ -64,6 +64,14 @@ export function HomeScreen() {
 					onDragEnd={onDragEnd}
 					onDragStart={onDragStart}
 				/>
+			</View>
+		);
+	}
+
+	if (accountContext.flags.loading) {
+		return (
+			<View style={styles.loading}>
+				<ActivityIndicator size="large" />
 			</View>
 		);
 	}

@@ -1,6 +1,7 @@
 /* * */
 
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
+import { useSystemVariables } from '@/theme/global';
 import { type Stop } from '@carrismetropolitana/api-types/network';
 import { CircleLayer, type OnPressEvent, ShapeSource } from '@maplibre/maplibre-react-native';
 import { type Feature, type FeatureCollection, type Point } from 'geojson';
@@ -32,6 +33,8 @@ export function MapOverlayStops({ belowLayerId, onSelectStop, stopsData }: MapOv
 	//
 	// A. Setup variables
 
+	const systemVariables = useSystemVariables();
+
 	const baseStopsFC = getBaseGeoJsonFeatureCollection<Point, MapOverlayStopsGeoJsonProperties>();
 
 	//
@@ -57,7 +60,7 @@ export function MapOverlayStops({ belowLayerId, onSelectStop, stopsData }: MapOv
 					circleColor: [
 						'match',
 						['get', 'current_status'],
-						'inactive', '#e6e6e6', '#ffdd01',
+						'inactive', '#e6e6e6', systemVariables.brand.cm,
 					],
 					circlePitchAlignment: 'map',
 					circleRadius: [
@@ -65,7 +68,7 @@ export function MapOverlayStops({ belowLayerId, onSelectStop, stopsData }: MapOv
 						['linear'],
 						['zoom'],
 						9, // min zoom level
-						1, // min radius
+						2, // min radius
 						26, // max zoom level
 						22, // max radius
 					],
@@ -81,9 +84,9 @@ export function MapOverlayStops({ belowLayerId, onSelectStop, stopsData }: MapOv
 						['linear'],
 						['zoom'],
 						9, // min zoom level
-						0.01, // min width
+						1, // min width
 						26, // max zoom level
-						4, // max width
+						8, // max width
 					],
 					visibility: stopsData ? 'visible' : 'none',
 				}}

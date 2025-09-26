@@ -23,6 +23,12 @@ export const useStyles = () => {
 			marginHorizontal: 20,
 			marginTop: 20,
 		},
+		loading: {
+			alignItems: 'center',
+			display: 'flex',
+			height: '100%',
+			justifyContent: 'center',
+		},
 	});
 
 	//
