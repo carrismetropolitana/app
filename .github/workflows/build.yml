@@ -74,9 +74,15 @@ jobs:
           --output=./app-build \
           --platform=ios \
           --profile=${{ github.ref_name }}
+      env:
+        EXPO_APPLE_ID: ${{ secrets.APPLE_ID }}
+        EXPO_APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
 
     - name: 🚢 Submit
       run: |
         eas submit -p ios \
           --profile ${{ github.ref_name }} \
           --path app-build
+      env:
+        EXPO_APPLE_ID: ${{ secrets.APPLE_ID }}
+        EXPO_APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
