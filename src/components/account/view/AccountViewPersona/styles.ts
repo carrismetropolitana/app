@@ -19,16 +19,15 @@ export const useStyles = () => {
 		button: {
 			backgroundColor: systemVariables.background[200],
 			borderRadius: 999,
+			color: systemVariables.text[200],
 			flexDirection: 'row',
-		},
-		buttonContainer: {
-			backgroundColor: systemVariables.background[100],
+			fontSize: 12,
+			fontWeight: '700',
 			marginTop: 15,
-		},
-		buttonTitle: {
-			color: systemVariables.text[100],
-			fontSize: 14,
-			fontWeight: '600',
+			paddingHorizontal: 20,
+			paddingVertical: 10,
+			textAlign: 'center',
+			textTransform: 'uppercase',
 		},
 		container: {
 			alignItems: 'center',

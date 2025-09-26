@@ -18,26 +18,6 @@ export function AccountView() {
 
 	const notificationsContext = useNotificationsContext();
 
-	// async function sendPushNotification(expoPushToken: string) {
-	// 	const message = {
-	// 		body: 'And here is the body!',
-	// 		data: { someData: 'goes here' },
-	// 		sound: 'default',
-	// 		title: 'Original Title',
-	// 		to: expoPushToken,
-	// 	};
-
-	// 	await fetch('https://exp.host/--/api/v2/push/send', {
-	// 		body: JSON.stringify(message),
-	// 		headers: {
-	// 			'Accept': 'application/json',
-	// 			'Accept-encoding': 'gzip, deflate',
-	// 			'Content-Type': 'application/json',
-	// 		},
-	// 		method: 'POST',
-	// 	});
-	// }
-
 	//
 	// B. Handle actions
 
