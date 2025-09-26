@@ -118,6 +118,11 @@
 			"title": "Adicionar Novo Widget"
 		},
 		"AccountViewWidgetsList": {
+			"description": {
+				"line": "Linha",
+				"smart_notification": "Notificação Inteligente",
+				"stop": "Paragem"
+			},
 			"no_data": "Nenhum widget adicionado ainda",
 			"title": "Os teus Widgets"
 		},
