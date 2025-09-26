@@ -77,6 +77,6 @@ jobs:
 
     - name: 🚢 Submit
       run: |
-        eas submit -p ios
-          --profile ${{ github.ref_name }}
+        eas submit -p ios \
+          --profile ${{ github.ref_name }} \
           --path app-build
