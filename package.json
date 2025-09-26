@@ -36,7 +36,6 @@
 		"@tabler/icons-react-native": "3.35.0",
 		"@tmlmobilidade/utils": "20250924.1708.22",
 		"@turf/turf": "7.2.0",
-		"@vricosti/react-native-country-picker-modal": "2.0.1",
 		"dayjs": "1.11.18",
 		"expo": "54.0.10",
 		"expo-audio": "1.0.13",
