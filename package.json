@@ -1,6 +1,6 @@
 {
 	"name": "@carrismetropolitana/app",
-	"version": "20250925.1904.40",
+	"version": "20250926.0152.03",
 	"private": true,
 	"main": "expo-router/entry",
 	"imports": {
@@ -8,8 +8,8 @@
 	},
 	"scripts": {
 		"android": "expo run:android",
-		"build:android": "npm run bump && eas build --local --platform android",
-		"build:ios": "npm run bump && eas build --local --platform ios",
+		"build:android": "npm run bump && eas build --local --platform android --profile production",
+		"build:ios": "npm run bump && eas build --local --platform ios --profile production",
 		"bump": "npx --yes @helperkits/bumper ./package.json",
 		"dev": "expo start --dev-client",
 		"dev:android": "expo run:android --device",
