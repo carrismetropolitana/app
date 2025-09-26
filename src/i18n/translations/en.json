@@ -83,6 +83,19 @@
 		}
 	},
 	"account": {
+		"AccountEditProfileBasicInfo": {
+			"fields": {
+				"first_name": {
+					"label": "Nome",
+					"placeholder": "Introduza o seu nome..."
+				},
+				"last_name": {
+					"label": "Apelido",
+					"placeholder": "Introduza o seu apelido..."
+				}
+			},
+			"title": "Informações Pessoais"
+		},
 		"AccountViewInfo": {
 			"copied": "Identifier Copied"
 		},

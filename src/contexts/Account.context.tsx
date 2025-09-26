@@ -98,22 +98,23 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		setIsInit(false);
 	}, [accountError]);
 
-	async function update(path: DotPath<Account>, value: PathValue<Account, DotPath<Account>>) {
-		if (!accountData || !deviceId) return;
-		// Update local copy of the data
-		const updatedAccountData = setValueAtPath(Object.assign({}, accountData), path, value);
-		// Update local SWR data immediately (optimistic update)
-		accountMutate(updatedAccountData, { revalidate: false });
-		// Send updated data to the server
+	async function updateAccountApi(updatedAccountData: Account): Promise<Account> {
 		const response = await fetchData<Account>(
 			`${getServiceUrl('accounts')}/accounts`,
 			'PUT',
 			updatedAccountData,
 			{ 'Authorization': `Bearer ${deviceId}`, 'Content-Type': 'application/json' },
 		);
-		if (!response.data) return;
-		// Revalidate SWR data
-		accountMutate(response.data);
+		if (response.data) return response.data;
+		else throw new Error('No data returned from API');
+	};
+
+	async function update(path: DotPath<Account>, value: PathValue<Account, DotPath<Account>>) {
+		if (!accountData || !deviceId) return;
+		// Update local copy of the data
+		const updatedAccountData = setValueAtPath(Object.assign({}, accountData), path, value);
+		// Update local SWR data immediately (optimistic update)
+		accountMutate(updateAccountApi(updatedAccountData), { optimisticData: updatedAccountData, populateCache: true, revalidate: false });
 	};
 
 	useEffect(() => {
@@ -146,14 +147,13 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 			device_id: deviceId,
 		},
 		flags: {
-			init: isInit,
 			loading: !isInit || accountLoading,
 		},
 	}), [
-		isInit,
-		deviceId,
 		accountData,
 		accountLoading,
+		deviceId,
+		isInit,
 	]);
 
 	//
