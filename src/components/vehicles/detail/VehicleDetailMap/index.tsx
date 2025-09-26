@@ -27,7 +27,7 @@ export function VehicleDetailMap() {
 		<View style={styles.container}>
 			<MapView>
 				<MapOverlayPath
-					belowLayerID={mapOverlayVehicles_TopLayerId}
+					belowLayerId={mapOverlayVehicles_TopLayerId}
 					shapeData={vehicleDetailContext.data.shape_fc}
 				/>
 				<MapOverlayVehicles
