@@ -1,9 +1,10 @@
 /* * */
 
+import { type MapOverlayVehiclesGeoJsonProperties, transformVehicleDataIntoGeoJsonFeature } from '@/components/map-new/overlays/MapOverlayVehicles';
+import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import { getServiceUrl } from '@/settings/service-urls';
-import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
 import { type Vehicle } from '@carrismetropolitana/api-types/vehicles';
-import { Feature, type FeatureCollection, type Point } from 'geojson';
+import { type FeatureCollection, type Point } from 'geojson';
 import { DateTime } from 'luxon';
 import { createContext, type PropsWithChildren, useContext, useMemo } from 'react';
 import useSWR from 'swr';
@@ -13,15 +14,15 @@ import useSWR from 'swr';
 interface VehiclesContextState {
 	actions: {
 		getAllVehicles: () => undefined | Vehicle[]
-		getAllVehiclesGeoJsonFC: () => FeatureCollection | undefined
+		getAllVehiclesGeoJsonFC: () => FeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties> | undefined
 		getVehicleById: (vehicleId: string) => undefined | Vehicle
-		getVehicleByIdGeoJsonFC: (vehicleId: string) => FeatureCollection<Point> | undefined
+		getVehicleByIdGeoJsonFC: (vehicleId: string) => FeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties> | undefined
 		getVehiclesByLineId: (lineId: string) => Vehicle[]
-		getVehiclesByLineIdGeoJsonFC: (lineId: string) => FeatureCollection | undefined
+		getVehiclesByLineIdGeoJsonFC: (lineId: string) => FeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties> | undefined
 		getVehiclesByPatternId: (patternId: string) => Vehicle[]
-		getVehiclesByPatternIdGeoJsonFC: (patternId: string) => FeatureCollection | undefined
+		getVehiclesByPatternIdGeoJsonFC: (patternId: string) => FeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties> | undefined
 		getVehiclesByTripId: (tripId: string) => Vehicle[]
-		getVehiclesByTripIdGeoJsonFC: (tripId: string) => FeatureCollection | undefined
+		getVehiclesByTripIdGeoJsonFC: (tripId: string) => FeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties> | undefined
 	}
 	data: {
 		vehicles: Vehicle[]
@@ -69,11 +70,12 @@ export const VehiclesContextProvider = ({ children }: PropsWithChildren) => {
 		return allVehiclesData?.find(vehicle => vehicle.id === vehicleId);
 	};
 
-	const getVehicleByIdGeoJsonFC = (vehicleId: string): FeatureCollection<Point> | undefined => {
+	const getVehicleByIdGeoJsonFC = (vehicleId: string): FeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties> | undefined => {
 		const vehicle = getVehicleById(vehicleId);
 		if (!vehicle) return;
-		const collection = getBaseGeoJsonFeatureCollection();
-		collection.features.push(transformVehicleDataIntoGeoJsonFeature(vehicle));
+		const collection = getBaseGeoJsonFeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties>();
+		const feature = transformVehicleDataIntoGeoJsonFeature(vehicle);
+		if (feature) collection.features.push(feature);
 		return collection;
 	};
 
@@ -81,9 +83,10 @@ export const VehiclesContextProvider = ({ children }: PropsWithChildren) => {
 		return allVehiclesData;
 	};
 
-	const getAllVehiclesGeoJsonFC = (): FeatureCollection | undefined => {
-		const collection = getBaseGeoJsonFeatureCollection();
-		filteredVehiclesData.forEach(vehicle => collection.features.push(transformVehicleDataIntoGeoJsonFeature(vehicle)));
+	const getAllVehiclesGeoJsonFC = () => {
+		if (!allVehiclesData) return;
+		const collection = getBaseGeoJsonFeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties>();
+		collection.features = allVehiclesData.map(transformVehicleDataIntoGeoJsonFeature).filter(i => !!i);
 		return collection;
 	};
 
@@ -91,11 +94,11 @@ export const VehiclesContextProvider = ({ children }: PropsWithChildren) => {
 		return filteredVehiclesData?.filter(vehicle => vehicle.line_id === lineId) || [];
 	};
 
-	const getVehiclesByLineIdGeoJsonFC = (lineId: string): FeatureCollection | undefined => {
-		const vehicles = getVehiclesByLineId(lineId);
-		if (!vehicles) return;
-		const collection = getBaseGeoJsonFeatureCollection();
-		vehicles.forEach(vehicle => collection.features.push(transformVehicleDataIntoGeoJsonFeature(vehicle)));
+	const getVehiclesByLineIdGeoJsonFC = (lineId: string) => {
+		const foundVehicles = getVehiclesByLineId(lineId);
+		if (!foundVehicles) return;
+		const collection = getBaseGeoJsonFeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties>();
+		collection.features = foundVehicles.map(transformVehicleDataIntoGeoJsonFeature).filter(i => !!i);
 		return collection;
 	};
 
@@ -103,11 +106,11 @@ export const VehiclesContextProvider = ({ children }: PropsWithChildren) => {
 		return filteredVehiclesData?.filter(vehicle => vehicle.pattern_id === patternId) || [];
 	};
 
-	const getVehiclesByPatternIdGeoJsonFC = (patternId: string): FeatureCollection | undefined => {
-		const vehicles = getVehiclesByPatternId(patternId);
-		if (!vehicles) return;
-		const collection = getBaseGeoJsonFeatureCollection();
-		vehicles.forEach(vehicle => collection.features.push(transformVehicleDataIntoGeoJsonFeature(vehicle)));
+	const getVehiclesByPatternIdGeoJsonFC = (patternId: string) => {
+		const foundVehicles = getVehiclesByPatternId(patternId);
+		if (!foundVehicles) return;
+		const collection = getBaseGeoJsonFeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties>();
+		collection.features = foundVehicles.map(transformVehicleDataIntoGeoJsonFeature).filter(i => !!i);
 		return collection;
 	};
 
@@ -115,11 +118,11 @@ export const VehiclesContextProvider = ({ children }: PropsWithChildren) => {
 		return filteredVehiclesData?.filter(vehicle => vehicle.trip_id === tripId) || [];
 	};
 
-	const getVehiclesByTripIdGeoJsonFC = (tripId: string): FeatureCollection | undefined => {
-		const vehicles = getVehiclesByTripId(tripId);
-		if (!vehicles) return;
-		const collection = getBaseGeoJsonFeatureCollection();
-		vehicles.forEach(vehicle => collection.features.push(transformVehicleDataIntoGeoJsonFeature(vehicle)));
+	const getVehiclesByTripIdGeoJsonFC = (tripId: string) => {
+		const foundVehicles = getVehiclesByTripId(tripId);
+		if (!foundVehicles) return;
+		const collection = getBaseGeoJsonFeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties>();
+		collection.features = foundVehicles.map(transformVehicleDataIntoGeoJsonFeature).filter(i => !!i);
 		return collection;
 	};
 
@@ -161,32 +164,3 @@ export const VehiclesContextProvider = ({ children }: PropsWithChildren) => {
 
 	//
 };
-
-/* * */
-
-export function transformVehicleDataIntoGeoJsonFeature(vehicleData: Vehicle): Feature<Point> {
-	return {
-		geometry: {
-			coordinates: [vehicleData.lon || 0, vehicleData.lat || 0],
-			type: 'Point',
-		},
-		properties: {
-			bearing: vehicleData.bearing,
-			block_id: vehicleData.block_id,
-			current_status: vehicleData.current_status,
-			delay: Math.floor(Date.now() / 1000) - (vehicleData.timestamp || 0),
-			id: vehicleData.id,
-			line_id: vehicleData.line_id,
-			pattern_id: vehicleData.id,
-			route_id: vehicleData.route_id,
-			schedule_relationship: vehicleData.schedule_relationship,
-			shift_id: vehicleData.shift_id,
-			speed: vehicleData.speed,
-			stop_id: vehicleData.stop_id,
-			timestamp: vehicleData.timestamp,
-			timeString: new Date((vehicleData.timestamp || 0) * 1000).toLocaleString(),
-			trip_id: vehicleData.trip_id,
-		},
-		type: 'Feature',
-	};
-}

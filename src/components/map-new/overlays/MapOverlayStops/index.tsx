@@ -17,6 +17,7 @@ export interface MapOverlayStopsGeoJsonProperties {
 	_type: 'stop'
 	id: string
 }
+
 /* * */
 
 interface MapOverlayStopsProps {
@@ -99,7 +100,11 @@ export function MapOverlayStops({ belowLayerId, onSelectStop, stopsData }: MapOv
 
 /* * */
 
-export function transformStopDataIntoGeoJsonFeature(stopData: Stop): Feature<Point, MapOverlayStopsGeoJsonProperties> {
+export function transformStopDataIntoGeoJsonFeature(stopData: Stop): Feature<Point, MapOverlayStopsGeoJsonProperties> | undefined {
+	// Validate input
+	if (!stopData.lon) return;
+	if (!stopData.lat) return;
+	// Transform and return
 	return {
 		geometry: {
 			coordinates: [stopData.lon, stopData.lat],

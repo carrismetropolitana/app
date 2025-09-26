@@ -1,8 +1,9 @@
 /* * */
 
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
+import { Vehicle } from '@carrismetropolitana/api-types/vehicles';
 import { OnPressEvent, ShapeSource, SymbolLayer } from '@maplibre/maplibre-react-native';
-import { type FeatureCollection, type GeoJsonProperties, type Point } from 'geojson';
+import { type Feature, type FeatureCollection, type Point } from 'geojson';
 
 /* * */
 
@@ -11,10 +12,19 @@ export const mapOverlayVehicles_InteractiveLayerIds = [mapOverlayVehicles_TopLay
 
 /* * */
 
+export interface MapOverlayVehiclesGeoJsonProperties {
+	_type: 'vehicle'
+	bearing?: number
+	delay?: number
+	id: string
+}
+
+/* * */
+
 interface MapOverlayVehiclesProps {
 	belowLayerId?: string
 	onVehiclePress?: (id: string) => void
-	vehiclesDataFC?: FeatureCollection<Point, GeoJsonProperties>
+	vehiclesDataFC?: FeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties>
 }
 
 /* * */
@@ -25,7 +35,7 @@ export function MapOverlayVehicles({ belowLayerId, onVehiclePress, vehiclesDataF
 	//
 	// A. Transform data
 
-	const baseVehiclesFC = getBaseGeoJsonFeatureCollection<Point, GeoJsonProperties>();
+	const baseVehiclesFC = getBaseGeoJsonFeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties>();
 
 	//
 	// A. Handle actions
@@ -104,4 +114,26 @@ export function MapOverlayVehicles({ belowLayerId, onVehiclePress, vehiclesDataF
 	);
 
 	//
+}
+
+/* * */
+
+export function transformVehicleDataIntoGeoJsonFeature(vehicleData: Vehicle): Feature<Point, MapOverlayVehiclesGeoJsonProperties> | undefined {
+	// Validate input
+	if (!vehicleData.lon) return;
+	if (!vehicleData.lat) return;
+	// Transform and return
+	return {
+		geometry: {
+			coordinates: [vehicleData.lon, vehicleData.lat],
+			type: 'Point',
+		},
+		properties: {
+			_type: 'vehicle',
+			bearing: vehicleData.bearing,
+			delay: Math.floor(Date.now() / 1000) - (vehicleData.timestamp || 0),
+			id: vehicleData.id,
+		},
+		type: 'Feature',
+	};
 }

@@ -1,8 +1,9 @@
 /* * */
 
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
+import { type Shape, type Stop, type Waypoint } from '@carrismetropolitana/api-types/network';
 import { CircleLayer, LineLayer, ShapeSource, SymbolLayer } from '@maplibre/maplibre-react-native';
-import { type FeatureCollection, type GeoJsonProperties, type LineString, type Point } from 'geojson';
+import { type Feature, type FeatureCollection, type LineString, type Point } from 'geojson';
 
 /* * */
 
@@ -11,10 +12,26 @@ export const mapOverlayPath_InteractiveLayerIds = [mapOverlayPath_TopLayerId];
 
 /* * */
 
+export interface MapOverlayPathShapeGeoJsonProperties {
+	_type: 'path:shape'
+	color?: string
+	id: string
+	text_color?: string
+}
+
+export interface MapOverlayPathWaypointGeoJsonProperties {
+	_type: 'path:waypoint'
+	color?: string
+	id: string
+	text_color?: string
+}
+
+/* * */
+
 export interface MapOverlayPathProps {
 	belowLayerId?: string
-	shapeData?: FeatureCollection<LineString>
-	waypointsData?: FeatureCollection<Point>
+	shapeData?: FeatureCollection<LineString, MapOverlayPathShapeGeoJsonProperties>
+	waypointsData?: FeatureCollection<Point, MapOverlayPathWaypointGeoJsonProperties>
 }
 
 /* * */
@@ -25,8 +42,8 @@ export function MapOverlayPath({ belowLayerId, shapeData, waypointsData }: MapOv
 	//
 	// A. Transform data
 
-	const baseShapeFC = getBaseGeoJsonFeatureCollection<LineString, GeoJsonProperties>();
-	const baseWaypointsFC = getBaseGeoJsonFeatureCollection<Point, GeoJsonProperties>();
+	const baseShapeFC = getBaseGeoJsonFeatureCollection<LineString, MapOverlayPathShapeGeoJsonProperties>();
+	const baseWaypointsFC = getBaseGeoJsonFeatureCollection<Point, MapOverlayPathWaypointGeoJsonProperties>();
 
 	//
 	// B. Render components
@@ -108,4 +125,44 @@ export function MapOverlayPath({ belowLayerId, shapeData, waypointsData }: MapOv
 	);
 
 	//
+}
+
+/* * */
+
+export function transformShapeDataIntoGeoJsonFeature(shapeData: Shape, color?: string, textColor?: string): Feature<LineString, MapOverlayPathShapeGeoJsonProperties> | undefined {
+	// Validate input
+	if (!shapeData.geojson) return;
+	// Transform and return
+	return {
+		...shapeData.geojson,
+		properties: {
+			_type: 'path:shape',
+			color: color,
+			id: shapeData.shape_id,
+			text_color: textColor,
+		},
+		type: 'Feature',
+	};
+}
+
+export function transformWaypointDataIntoGeoJsonFeature(waypointData: undefined | Waypoint, stopData: Stop | undefined, color?: string, textColor?: string): Feature<Point, MapOverlayPathWaypointGeoJsonProperties> | undefined {
+	// Validate input
+	if (!waypointData) return;
+	if (!stopData) return;
+	if (!stopData.lon) return;
+	if (!stopData.lat) return;
+	// Transform and return
+	return {
+		geometry: {
+			coordinates: [stopData.lon, stopData.lat],
+			type: 'Point',
+		},
+		properties: {
+			_type: 'path:waypoint',
+			color: color,
+			id: waypointData.stop_id,
+			text_color: textColor,
+		},
+		type: 'Feature',
+	};
 }

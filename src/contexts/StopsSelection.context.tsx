@@ -83,7 +83,7 @@ export const StopsSelectionContextProvider = ({ children }: PropsWithChildren) =
 	const favoriteStopsDataFC = useMemo(() => {
 		if (!favoriteStopsData) return;
 		const collection = getBaseGeoJsonFeatureCollection<Point, MapOverlayStopsGeoJsonProperties>();
-		collection.features = favoriteStopsData.map(transformStopDataIntoGeoJsonFeature);
+		collection.features = favoriteStopsData.map(transformStopDataIntoGeoJsonFeature).filter(i => !!i);
 		return collection;
 	}, [favoriteStopsData]);
 
@@ -103,7 +103,7 @@ export const StopsSelectionContextProvider = ({ children }: PropsWithChildren) =
 	const filteredStopsDataFC = useMemo(() => {
 		if (!filteredStopsData) return;
 		const collection = getBaseGeoJsonFeatureCollection<Point, MapOverlayStopsGeoJsonProperties>();
-		collection.features = filteredStopsData.map(transformStopDataIntoGeoJsonFeature);
+		collection.features = filteredStopsData.map(transformStopDataIntoGeoJsonFeature).filter(i => !!i);
 		return collection;
 	}, [filteredStopsData]);
 

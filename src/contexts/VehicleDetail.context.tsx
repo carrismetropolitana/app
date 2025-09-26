@@ -1,22 +1,26 @@
 /* * */
 
+import { type MapOverlayPathShapeGeoJsonProperties, MapOverlayPathWaypointGeoJsonProperties, transformShapeDataIntoGeoJsonFeature, transformWaypointDataIntoGeoJsonFeature } from '@/components/map-new/overlays/MapOverlayPath';
+import { type MapOverlayVehiclesGeoJsonProperties } from '@/components/map-new/overlays/MapOverlayVehicles';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useVehiclesContext } from '@/contexts/Vehicles.context';
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
-import { type Pattern, Shape } from '@carrismetropolitana/api-types/network';
+import { type Pattern, type Shape } from '@carrismetropolitana/api-types/network';
 import { type Vehicle } from '@carrismetropolitana/api-types/vehicles';
-import { type FeatureCollection, GeoJsonProperties, LineString, type Point } from 'geojson';
+import { type FeatureCollection, type LineString, type Point } from 'geojson';
 import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
+
+import { useStopsContext } from './Stops.context';
 
 /* * */
 
 interface VehicleDetailContextState {
 	data: {
-		path_fc: FeatureCollection<Point> | undefined
 		pattern: Pattern | undefined
-		shape_fc: FeatureCollection<LineString> | undefined
+		shape_fc: FeatureCollection<LineString, MapOverlayPathShapeGeoJsonProperties> | undefined
 		vehicle: undefined | Vehicle
-		vehicle_fc: FeatureCollection<Point> | undefined
+		vehicle_fc: FeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties> | undefined
+		waypoints_fc: FeatureCollection<Point, MapOverlayPathWaypointGeoJsonProperties> | undefined
 	}
 	flags: {
 		loading: boolean
@@ -44,6 +48,7 @@ export const VehicleDetailContextProvider = ({ children, vehicleId }: PropsWithC
 	// A. Setup variables
 
 	const linesContext = useLinesContext();
+	const stopsContext = useStopsContext();
 	const vehiclesContext = useVehiclesContext();
 
 	const [isLoading, setIsLoading] = useState(true);
@@ -91,8 +96,21 @@ export const VehicleDetailContextProvider = ({ children, vehicleId }: PropsWithC
 
 	const shapeDataFC = useMemo(() => {
 		if (!currentShapeData?.geojson) return;
-		const collection = getBaseGeoJsonFeatureCollection<LineString, GeoJsonProperties>();
-		collection.features.push({ ...currentShapeData.geojson, properties: { color: currentPatternData?.color } });
+		const collection = getBaseGeoJsonFeatureCollection<LineString, MapOverlayPathShapeGeoJsonProperties>();
+		const feature = transformShapeDataIntoGeoJsonFeature(currentShapeData, currentPatternData?.color, currentPatternData?.text_color);
+		if (feature) collection.features.push(feature);
+		return collection;
+	}, [currentShapeData]);
+
+	const waypointsDataFC = useMemo(() => {
+		if (!currentPatternData?.path) return;
+		const collection = getBaseGeoJsonFeatureCollection<Point, MapOverlayPathWaypointGeoJsonProperties>();
+		collection.features = currentPatternData.path
+			.map((item) => {
+				const stopData = stopsContext.actions.getStopById(item.stop_id);
+				return transformWaypointDataIntoGeoJsonFeature(item, stopData, currentPatternData?.color, currentPatternData?.text_color);
+			})
+			.filter(i => !!i);
 		return collection;
 	}, [currentShapeData]);
 
@@ -101,11 +119,11 @@ export const VehicleDetailContextProvider = ({ children, vehicleId }: PropsWithC
 
 	const contextValue: VehicleDetailContextState = useMemo(() => ({
 		data: {
-			path_fc: undefined,
 			pattern: currentPatternData,
 			shape_fc: shapeDataFC,
 			vehicle: vehicleData,
 			vehicle_fc: vehicleDataFC,
+			waypoints_fc: waypointsDataFC,
 		},
 		flags: {
 			loading: vehiclesContext.flags.loading || isLoading,
