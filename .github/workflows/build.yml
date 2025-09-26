@@ -27,21 +27,34 @@ on:
         description: Whether to perform the submit step
         required: true
         default: false
+  push:
+    branches:
+      - production
+      - staging
+
+# # #
+
 jobs:
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
   build:
-    runs-on: ${{ github.event.inputs.os }}
-    strategy:
-      matrix:
-        node: [18.x]
+    runs-on: macos-latest
+    permissions:
+      contents: read
+      packages: write
+
     steps:
-    - name: 🏗 Setup repo
-      uses: actions/checkout@v2
+
+    - name: Checkout repository
+      uses: actions/checkout@main
 
     - name: 🏗 Setup Node
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node }}
-        cache: yarn
+        node-version: 20
+        cache: npm
 
     - name: 🏗 Setup Expo and EAS
       uses: expo/expo-github-action@v7
@@ -49,21 +62,21 @@ jobs:
         token: ${{ secrets.EXPO_TOKEN }}
         expo-version: latest
         eas-version: latest
+        packager: npm
 
     - name: 📦 Install dependencies
-      run: yarn
-
-    - name: 📋 Test project
-      run: yarn test
+      run: npm install
 
     - name: 👷 Build app
       run: |
         eas build --local \
           --non-interactive \
           --output=./app-build \
-          --platform=${{ github.event.inputs.platform }} \
-          --profile=${{ github.event.inputs.profile }}
+          --platform=ios \
+          --profile=${{ github.ref_name }}
 
     - name: 🚢 Submit
-      if: ${{ github.event.inputs.should_submit }}
-      run: eas submit -p ${{ github.event.inputs.platform }} --profile ${{ github.event.inputs.profile }} --path app-build
+      run: |
+        eas submit -p ios
+          --profile ${{ github.ref_name }}
+          --path app-build
