@@ -24,6 +24,7 @@
 	},
 	"dependencies": {
 		"@amplitude/analytics-react-native": "1.5.12",
+		"@expo/metro-runtime": "~6.1.2",
 		"@gorhom/bottom-sheet": "5.2.6",
 		"@maplibre/maplibre-react-native": "10.2.1",
 		"@react-native-async-storage/async-storage": "2.2.0",
@@ -73,6 +74,7 @@
 		"react-native-screens": "4.16.0",
 		"react-native-svg": "15.13.0",
 		"react-native-webview": "13.16.0",
+		"react-native-worklets": "0.5.1",
 		"swr": "2.3.6",
 		"ukkonen": "2.2.0",
 		"zod": "3.25.76"
