@@ -1,9 +1,13 @@
 /* * */
 
+import { VehiclesCounter } from '@/components/common/VehiclesCounter';
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import { Vehicle } from '@carrismetropolitana/api-types/vehicles';
 import { OnPressEvent, ShapeSource, SymbolLayer } from '@maplibre/maplibre-react-native';
 import { type Feature, type FeatureCollection, type Point } from 'geojson';
+import { View } from 'react-native';
+
+import { useStyles } from './styles';
 
 /* * */
 
@@ -25,15 +29,18 @@ interface MapOverlayVehiclesProps {
 	belowLayerId?: string
 	onVehiclePress?: (id: string) => void
 	vehiclesDataFC?: FeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties>
+	withVehiclesCounter?: boolean
 }
 
 /* * */
 
-export function MapOverlayVehicles({ belowLayerId, onVehiclePress, vehiclesDataFC }: MapOverlayVehiclesProps) {
+export function MapOverlayVehicles({ belowLayerId, onVehiclePress, vehiclesDataFC, withVehiclesCounter }: MapOverlayVehiclesProps) {
 	//
 
 	//
 	// A. Transform data
+
+	const styles = useStyles();
 
 	const baseVehiclesFC = getBaseGeoJsonFeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties>();
 
@@ -50,67 +57,77 @@ export function MapOverlayVehicles({ belowLayerId, onVehiclePress, vehiclesDataF
 	// B. Render components
 
 	return (
-		<ShapeSource
-			id="source-vehicles"
-			onPress={handlePress}
-			shape={vehiclesDataFC ?? baseVehiclesFC}
-		>
-			<SymbolLayer
-				belowLayerID={mapOverlayVehicles_TopLayerId}
-				id="layer-vehicles-delay"
-				style={{
-					iconAllowOverlap: true,
-					iconAnchor: 'center',
-					iconIgnorePlacement: true,
-					iconImage: 'bus-delay',
-					iconOffset: [0, 0],
-					iconOpacity: [
-						'interpolate',
-						['linear'],
-						['coalesce', ['get', 'delay'], 0],
-						20,
-						0,
-						40,
-						1,
-					],
-					iconRotate: ['coalesce', ['get', 'bearing'], 0],
-					iconRotationAlignment: 'map',
-					iconSize: [
-						'interpolate',
-						['linear'],
-						['zoom'],
-						10,
-						0.07,
-						20,
-						0.15,
-					],
-					symbolPlacement: 'point',
-				}}
-			/>
-			<SymbolLayer
-				belowLayerID={belowLayerId}
-				id={mapOverlayVehicles_TopLayerId}
-				style={{
-					iconAllowOverlap: true,
-					iconAnchor: 'center',
-					iconIgnorePlacement: true,
-					iconImage: 'bus-regular',
-					iconOffset: [0, 0],
-					iconRotate: ['coalesce', ['get', 'bearing'], 0],
-					iconRotationAlignment: 'map',
-					iconSize: [
-						'interpolate',
-						['linear'],
-						['zoom'],
-						10,
-						0.07,
-						20,
-						0.15,
-					],
-					symbolPlacement: 'point',
-				}}
-			/>
-		</ShapeSource>
+		<>
+
+			<ShapeSource
+				id="source-vehicles"
+				onPress={handlePress}
+				shape={vehiclesDataFC ?? baseVehiclesFC}
+			>
+				<SymbolLayer
+					belowLayerID={mapOverlayVehicles_TopLayerId}
+					id="layer-vehicles-delay"
+					style={{
+						iconAllowOverlap: true,
+						iconAnchor: 'center',
+						iconIgnorePlacement: true,
+						iconImage: 'bus-delay',
+						iconOffset: [0, 0],
+						iconOpacity: [
+							'interpolate',
+							['linear'],
+							['coalesce', ['get', 'delay'], 0],
+							20,
+							0,
+							40,
+							1,
+						],
+						iconRotate: ['coalesce', ['get', 'bearing'], 0],
+						iconRotationAlignment: 'map',
+						iconSize: [
+							'interpolate',
+							['linear'],
+							['zoom'],
+							10,
+							0.07,
+							20,
+							0.15,
+						],
+						symbolPlacement: 'point',
+					}}
+				/>
+				<SymbolLayer
+					belowLayerID={belowLayerId}
+					id={mapOverlayVehicles_TopLayerId}
+					style={{
+						iconAllowOverlap: true,
+						iconAnchor: 'center',
+						iconIgnorePlacement: true,
+						iconImage: 'bus-regular',
+						iconOffset: [0, 0],
+						iconRotate: ['coalesce', ['get', 'bearing'], 0],
+						iconRotationAlignment: 'map',
+						iconSize: [
+							'interpolate',
+							['linear'],
+							['zoom'],
+							10,
+							0.07,
+							20,
+							0.15,
+						],
+						symbolPlacement: 'point',
+					}}
+				/>
+			</ShapeSource>
+
+			{withVehiclesCounter && (
+				<View style={styles.counterWrapper}>
+					<VehiclesCounter qty={vehiclesDataFC?.features.length} visibleIfZero />
+				</View>
+			)}
+
+		</>
 	);
 
 	//

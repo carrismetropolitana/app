@@ -117,6 +117,7 @@ export function WidgetCardLineBody({ data }: WidgetCardLineBodyProps) {
 				/>
 				<MapOverlayVehicles
 					vehiclesDataFC={availableVehiclesDataFC}
+					withVehiclesCounter
 				/>
 			</MapView>
 		</View>

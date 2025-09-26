@@ -69,9 +69,10 @@ export function LiveIcon({ status = 'active' }: LiveIconProps) {
 	if (status === 'inactive') {
 		return (
 			<View style={styles.container}>
-				<View style={[styles.ripple, {
+				<Animated.View style={[styles.ripple, {
 					backgroundColor: systemVariables.text[300],
-					opacity: 0.5,
+					opacity: opacity.current,
+					transform: [{ scale: scale.current }],
 				}]}
 				/>
 				<View style={[styles.dot, { backgroundColor: systemVariables.text[300] }]} />

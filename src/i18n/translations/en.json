@@ -242,6 +242,13 @@
 			"hours": "Time",
 			"minutes": "Min."
 		},
+		"VehiclesCounter": {
+			"label": {
+				"plural": "{count} active vehicles",
+				"single": "1 active vehicle",
+				"zero": "No active vehicles"
+			}
+		},
 		"cancelButtonAccessibilityHint": "This button cancels all the changes made",
 		"cancelButtonAccessibilityLabel": "Button to cancel changes",
 		"closeButton": "Close",

@@ -348,6 +348,13 @@
 			"timetableSchedulesHoursAccessibilityHint": "Indica as horas em que o autocarro passa na paragem selecionada",
 			"timetableSchedulesHoursAccessibilityLabel": "Viagem às {hour} horas .        e           . {minutes} minutos"
 		},
+		"VehiclesCounter": {
+			"label": {
+				"plural": "{count} veículos ativos",
+				"single": "1 veículo ativo",
+				"zero": "Nenhum veículo ativo"
+			}
+		},
 		"cancelButtonAccessibilityHint": "Este botão cancela todas as alterações efetuadas",
 		"cancelButtonAccessibilityLabel": "Botão para cancelar alterações",
 		"closeButton": "Fechar",

@@ -33,6 +33,7 @@ export function VehicleDetailMap() {
 				/>
 				<MapOverlayVehicles
 					vehiclesDataFC={vehicleDetailContext.data.vehicle_fc}
+					withVehiclesCounter
 				/>
 			</MapView>
 		</View>
