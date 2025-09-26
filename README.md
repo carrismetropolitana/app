@@ -12,5 +12,5 @@
 
 #### Building and Submission
 
-1. Run `npm run build` (or `npm run build:ios` / `npm run build:android`) to generate compiled binaries for each platform.
+1. Run `npm run build:ios` or `npm run build:android` to generate compiled binaries for each platform.
 2. Run `npm run publish:ios` or `npm run publish:android` to push those binaries to the stores using Expo EAS service.
