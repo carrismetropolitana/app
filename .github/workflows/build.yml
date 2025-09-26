@@ -55,7 +55,6 @@ jobs:
       run: npm install
       # # #
     - name: Bump package version
-      working-directory: packages/connectors
       run: npm version --no-git-tag-version ${{ needs.version-number.outputs.version_number }}
       # # #
     - name: Build app
@@ -101,7 +100,6 @@ jobs:
       run: npm install
       # # #
     - name: Bump package version
-      working-directory: packages/connectors
       run: npm version --no-git-tag-version ${{ needs.version-number.outputs.version_number }}
       # # #
     - name: Build app
