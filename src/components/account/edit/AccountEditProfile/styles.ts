@@ -9,6 +9,7 @@ export const useStyles = () => {
 		container: {
 			display: 'flex',
 			flexDirection: 'column',
+			gap: 20,
 		},
 	});
 };

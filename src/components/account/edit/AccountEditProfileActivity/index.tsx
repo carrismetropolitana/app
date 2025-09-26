@@ -1,0 +1,41 @@
+/* * */
+
+import { TextInputField } from '@/components/common/TextInputField';
+import { ListTitle } from '@/components/list/ListTitle';
+import { useAccountContext } from '@/contexts/Account.context';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
+
+/* * */
+
+export function AccountEditProfileActivity() {
+	//
+
+	//
+	// A. Setup variables
+
+	const accountContext = useAccountContext();
+
+	const { t } = useTranslation('translation', { keyPrefix: 'account.AccountEditProfileActivity' });
+
+	const [selectedActivity, setSelectedActivity] = useState<string>(accountContext.data.account?.profile.activity || '');
+
+	//
+	// B. Handle actions
+
+	useEffect(() => {
+		accountContext.actions.update('profile.activity', selectedActivity);
+	}, [selectedActivity]);
+
+	//
+	// C. Render components
+
+	return (
+		<View>
+			<ListTitle title={t('title')} />
+		</View>
+	);
+
+	//
+}

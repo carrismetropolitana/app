@@ -27,8 +27,11 @@ export function AccountEditProfileBasicInfo() {
 
 	useEffect(() => {
 		accountContext.actions.update('profile.first_name', firstName);
+	}, [firstName]);
+
+	useEffect(() => {
 		accountContext.actions.update('profile.last_name', lastName);
-	}, [firstName, lastName]);
+	}, [lastName]);
 
 	//
 	// C. Render components

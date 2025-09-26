@@ -13,22 +13,6 @@ export type ProfileActivity = z.infer<typeof ProfileActivitySchema>;
 
 /* * */
 
-export const PROFILE_GENDER_VALUES = ['female', 'male', 'other'] as const;
-
-export const ProfileGenderSchema = z.enum(PROFILE_GENDER_VALUES);
-
-export type ProfileGender = z.infer<typeof ProfileGenderSchema>;
-
-/* * */
-
-export const PROFILE_INTERESTS_VALUES = ['network changes', 'events and news', 'carris metropolitana'] as const;
-
-export const ProfileInterestsSchema = z.enum(PROFILE_INTERESTS_VALUES);
-
-export type ProfileInterests = z.infer<typeof ProfileInterestsSchema>;
-
-/* * */
-
 const PROFILE_UTILIZATION_TYPE_VALUES = ['frequent', 'occasional'] as const;
 
 export const ProfileUtilizationTypeSchema = z.enum(PROFILE_UTILIZATION_TYPE_VALUES);
@@ -50,8 +34,6 @@ export const ProfileSchema = z.object({
 	birthdate: operationalDateSchema.nullable().default(null),
 	email: z.string().email().nullable().default(null),
 	first_name: z.string().nullable().default(null),
-	gender: ProfileGenderSchema.nullable().default(null),
-	interests: z.array(ProfileInterestsSchema).default([]),
 	last_name: z.string().nullable().default(null),
 	phone: z.string().regex(/^\+[1-9]\d{1,14}$/).nullable().default(null),
 	utilization_type: ProfileUtilizationTypeSchema.nullable().default(null),

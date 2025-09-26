@@ -83,18 +83,77 @@
 		}
 	},
 	"account": {
+		"AccountEditProfileActivity": {
+			"fields": {
+				"activity": {
+					"label": "Activity"
+				}
+			},
+			"title": "Activity Profile"
+		},
 		"AccountEditProfileBasicInfo": {
 			"fields": {
 				"first_name": {
-					"label": "Nome",
-					"placeholder": "Introduza o seu nome..."
+					"label": "Name",
+					"placeholder": "Enter your name..."
 				},
 				"last_name": {
-					"label": "Apelido",
-					"placeholder": "Introduza o seu apelido..."
+					"label": "Surname",
+					"placeholder": "Enter your surname..."
 				}
 			},
-			"title": "Informações Pessoais"
+			"title": "Personal Information"
+		},
+		"AccountEditProfileBirthdate": {
+			"fields": {
+				"birthdate": {
+					"label": "Date of Birth",
+					"placeholder": "Enter your date of birth..."
+				}
+			}
+		},
+		"AccountEditProfileContacts": {
+			"fields": {
+				"email": {
+					"label": "Email",
+					"placeholder": "Enter your email..."
+				},
+				"phone": {
+					"label": "Phone Number",
+					"placeholder": "Enter your phone number..."
+				}
+			},
+			"title": "Contact Information"
+		},
+		"AccountEditProfileNotifications": {
+			"fields": {
+				"agency": {
+					"label": "Agency"
+				},
+				"events": {
+					"label": "Events"
+				},
+				"network": {
+					"label": "Network"
+				}
+			},
+			"title": "Notifications"
+		},
+		"AccountEditProfileUtilizationType": {
+			"fields": {
+				"utilization_type": {
+					"label": "Utilization Type"
+				}
+			},
+			"title": "Utilization Type"
+		},
+		"AccountEditProfileWorkSetting": {
+			"fields": {
+				"work_setting": {
+					"label": "Work Setting"
+				}
+			},
+			"title": "Work Setting"
 		},
 		"AccountViewInfo": {
 			"copied": "Identifier Copied"

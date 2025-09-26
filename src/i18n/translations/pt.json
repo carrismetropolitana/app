@@ -97,6 +97,78 @@
 			},
 			"label": "Definir cor principal"
 		},
+		"AccountEditProfileActivity": {
+			"fields": {
+				"activity": {
+					"label": "Atividade"
+				}
+			},
+			"title": "Perfil de Atividade"
+		},
+		"AccountEditProfileBasicInfo": {
+			"fields": {
+				"first_name": {
+					"label": "Nome",
+					"placeholder": "Introduza o seu nome..."
+				},
+				"last_name": {
+					"label": "Apelido",
+					"placeholder": "Introduza o seu apelido..."
+				}
+			},
+			"title": "Informações Pessoais"
+		},
+		"AccountEditProfileBirthdate": {
+			"fields": {
+				"birthdate": {
+					"label": "Data de Nascimento",
+					"placeholder": "Introduza a sua data de nascimento..."
+				}
+			}
+		},
+		"AccountEditProfileContacts": {
+			"fields": {
+				"email": {
+					"label": "Email",
+					"placeholder": "Introduza o seu email..."
+				},
+				"phone": {
+					"label": "Número de Telemóvel",
+					"placeholder": "Introduza o seu número de telemóvel..."
+				}
+			},
+			"title": "Dados de Contacto"
+		},
+		"AccountEditProfileNotifications": {
+			"fields": {
+				"agency": {
+					"label": "Agência"
+				},
+				"events": {
+					"label": "Eventos"
+				},
+				"network": {
+					"label": "Rede"
+				}
+			},
+			"title": "Notificações"
+		},
+		"AccountEditProfileUtilizationType": {
+			"fields": {
+				"utilization_type": {
+					"label": "Tipo de Utilização"
+				}
+			},
+			"title": "Tipo de Utilização"
+		},
+		"AccountEditProfileWorkSetting": {
+			"fields": {
+				"work_setting": {
+					"label": "Estilo de Trabalho"
+				}
+			},
+			"title": "Estilo de Trabalho"
+		},
 		"AccountViewInfo": {
 			"copied": "Identificador Copiado"
 		},
