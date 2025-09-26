@@ -6,6 +6,9 @@ import { StopsSelectionMainMap } from '@/components/stops/selection/StopsSelecti
 import { StopsSelectionMainToolbar } from '@/components/stops/selection/StopsSelectionMainToolbar';
 import { useStopsSelectionContext } from '@/contexts/StopsSelection.context';
 import { type Stop } from '@carrismetropolitana/api-types/network';
+import { View } from 'react-native';
+
+import { useStyles } from './styles';
 
 /* * */
 
@@ -14,6 +17,8 @@ export function StopsSelectionMain({ addToRecentsOnPress, onPress, withSafeArea,
 
 	//
 	// A. Setup variables
+
+	const styles = useStyles();
 
 	const stopsSelectionContext = useStopsSelectionContext();
 
@@ -30,9 +35,17 @@ export function StopsSelectionMain({ addToRecentsOnPress, onPress, withSafeArea,
 
 	return (
 		<>
+
 			<StopsSelectionMainToolbar withSafeArea={withSafeArea} withSearchAutoFocus={withSearchAutoFocus} />
-			{stopsSelectionContext.flags.view_mode === 'list' && <StopsSelectionMainList onPress={handlePress} {...props} />}
-			{stopsSelectionContext.flags.view_mode === 'map' && <StopsSelectionMainMap onPress={handlePress} {...props} />}
+
+			<View style={stopsSelectionContext.flags.view_mode === 'list' ? styles.visible : styles.hidden}>
+				<StopsSelectionMainList onPress={handlePress} {...props} />
+			</View>
+
+			<View style={stopsSelectionContext.flags.view_mode === 'map' ? styles.visible : styles.hidden}>
+				<StopsSelectionMainMap onPress={handlePress} {...props} />
+			</View>
+
 		</>
 	);
 
