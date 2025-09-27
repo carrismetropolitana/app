@@ -54,6 +54,7 @@ export function WidgetSmartNotificationConfigScheduleTimeInput({ onChange, title
 		<View style={styles.container}>
 			<Text style={styles.text}>{title}</Text>
 			<RNDateTimePicker
+				accessibilityLabel={title}
 				locale="pt-PT"
 				minuteInterval={5}
 				mode="time"

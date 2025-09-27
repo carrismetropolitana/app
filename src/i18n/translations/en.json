@@ -876,7 +876,10 @@
 				"title": "When a bus from the line"
 			},
 			"step_2": {
-				"no_data": "Select a line to continue",
+				"no_data": {
+					"accessibility_hint": "You need to select a line on the previous step to then be able to choose a destination here.",
+					"label": "Select a line to continue"
+				},
 				"title": "with destination to"
 			},
 			"step_3": {

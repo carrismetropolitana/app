@@ -1,42 +1,38 @@
 /* * */
 
-import { useLocaleContext } from '@/contexts/Locale.context';
 import { useTranslation } from 'react-i18next';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 
-import { styles } from './styles';
+import { useStyles } from './styles';
 
 /* * */
 
 interface NoDataLabelProps {
-	fill?: boolean
+	accessibilityHint?: string
+	accessibilityLabel?: string
 	text?: string
-	withMinHeight?: boolean
 }
 
 /* * */
-export function NoDataLabel({ text }: NoDataLabelProps) {
+export function NoDataLabel({ accessibilityHint, accessibilityLabel, text }: NoDataLabelProps) {
 	//
 
 	//
 	// A. Setup variables
 
+	const styles = useStyles();
+
 	const { t } = useTranslation('translation', { keyPrefix: 'layout.NoDataLabel' });
-	const noDataLabelStyles = styles();
-	const localeContext = useLocaleContext();
 
 	//
 	// B. Render components
 
 	return (
-		<Text
-			accessibilityHint={t('noDataAccessibilityHint')}
-			accessibilityLabel={t('noDataAccessibilityLabel')}
-			accessibilityLanguage={localeContext.data.locale}
-			style={noDataLabelStyles.text}
-		>
-			{text || t('default')}
-		</Text>
+		<View accessibilityHint={accessibilityHint} accessibilityLabel={accessibilityLabel} accessible>
+			<Text style={styles.text}>
+				{text || t('default')}
+			</Text>
+		</View>
 	);
 
 	//

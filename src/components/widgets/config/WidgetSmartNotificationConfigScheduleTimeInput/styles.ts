@@ -23,10 +23,9 @@ export const useStyles = () => {
 		},
 		text: {
 			color: systemVariables.text[200],
-			fontSize: 16,
+			fontSize: 17,
 			fontWeight: '600',
 			justifyContent: 'center',
-			textAlign: 'center',
 		},
 	});
 };
