@@ -114,7 +114,10 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 			<Text style={styles.text}>{t('step_4.title')}</Text>
 
 			{!widgetSmartNotificationConfigContext.data.selected_pattern_id && (
-				<NoDataLabel text={t('step_4.no_data')} />
+				<NoDataLabel
+					accessibilityHint={t('step_4.no_data.accessibility_hint')}
+					text={t('step_4.no_data.label')}
+				/>
 			)}
 
 			{widgetSmartNotificationConfigContext.data.selected_pattern_id && (

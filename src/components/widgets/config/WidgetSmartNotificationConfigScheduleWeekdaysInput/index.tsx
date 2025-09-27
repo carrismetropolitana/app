@@ -39,10 +39,13 @@ export function WidgetSmartNotificationConfigScheduleWeekdaysInput({ onToggleWee
 				{availableWeekdays.map(item => (
 					<TouchableOpacity
 						key={item}
+						accessibilityLabel={t(`weekdays.long.${item}`)}
+						accessibilityRole="togglebutton"
+						accessibilityState={{ checked: selectedWeekdays.includes(item) }}
 						onPress={() => onToggleWeekday(item)}
 					>
 						<Text style={[styles.weekday, selectedWeekdays.includes(item) && styles.weekdaySelected]}>
-							{t(`weekdays.${item}`)}
+							{t(`weekdays.short.${item}`)}
 						</Text>
 					</TouchableOpacity>
 				))}

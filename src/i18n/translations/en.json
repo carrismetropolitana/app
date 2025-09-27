@@ -816,8 +816,11 @@
 		"virtualizedListAccessibilityLabel": "Stops list"
 	},
 	"widgets": {
-		"WidgetConfigSelectWaypoint": {
-
+		"WidgetCard": {
+			"accessibility_hint": {
+				"collapsed": "Double tap to expand",
+				"expanded": "Double tap to collapse"
+			}
 		},
 		"WidgetCardSmartNotificationHeader": {
 			"title": "Next {weekday}, at {start_time}"
@@ -856,6 +859,9 @@
 		"WidgetConfigSelectStopModal": {
 			"close_button": "Close"
 		},
+		"WidgetConfigSelectWaypoint": {
+
+		},
 		"WidgetLineConfig": {
 			"actions": {
 				"cancel": "Cancel",
@@ -874,6 +880,11 @@
 			"title": "Line Widget"
 		},
 		"WidgetSmartNotificationConfig": {
+			"actions": {
+				"cancel": "Cancel",
+				"delete": "Delete",
+				"save": "Save"
+			},
 			"description": "Get notified when a bus is approaching your stop, so you never miss it. You can customize the notification based on your daily routine.",
 			"step_1": {
 				"title": "When a bus from the line"
@@ -889,7 +900,10 @@
 				"title": "is at"
 			},
 			"step_4": {
-				"no_data": "Select a destination to continue",
+				"no_data": {
+					"accessibility_hint": "You need to select a destination on the previous step to then be able to choose a stop here.",
+					"label": "Select a destination to continue"
+				},
 				"title": "from the stop"
 			},
 			"step_5": {
@@ -908,13 +922,24 @@
 		},
 		"WidgetSmartNotificationConfigScheduleWeekdaysInput": {
 			"weekdays": {
-				"friday": "Fri",
-				"monday": "Mon",
-				"saturday": "Sat",
-				"sunday": "Sun",
-				"thursday": "Thu",
-				"tuesday": "Tue",
-				"wednesday": "Wed"
+				"long": {
+					"friday": "Fridays",
+					"monday": "Mondays",
+					"saturday": "Saturdays",
+					"sunday": "Sundays",
+					"thursday": "Thursdays",
+					"tuesday": "Tuesdays",
+					"wednesday": "Wednesdays"
+				},
+				"short": {
+					"friday": "Fri",
+					"monday": "Mon",
+					"saturday": "Sat",
+					"sunday": "Sun",
+					"thursday": "Thu",
+					"tuesday": "Tue",
+					"wednesday": "Wed"
+				}
 			}
 		},
 		"WidgetSmartNotificationConfigWarning": {

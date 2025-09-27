@@ -10,6 +10,7 @@ import { WidgetCardStopHeader } from '@/components/widgets/cards/WidgetCardStopH
 import { useAccountContext } from '@/contexts/Account.context';
 import { type Widget } from '@/schemas/widgets';
 import * as Haptics from 'expo-haptics';
+import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 
 import { useStyles } from './styles';
@@ -35,6 +36,8 @@ export function WidgetCard({ data, isDragging, onDragEnd, onDragStart }: WidgetC
 
 	const accountContext = useAccountContext();
 
+	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetCard' });
+
 	//
 	// B. Handle actions
 
@@ -57,6 +60,8 @@ export function WidgetCard({ data, isDragging, onDragEnd, onDragStart }: WidgetC
 		<View style={[styles.container, isDragging && styles.containerIsDragging]}>
 
 			<TouchableOpacity
+				accessibilityHint={data.settings.is_open ? t('accessibility_hint.expanded') : t('accessibility_hint.collapsed')}
+				accessibilityState={{ expanded: data.settings.is_open }}
 				onLongPress={handleDragStart}
 				onPress={handleToggleOpen}
 				onPressOut={onDragEnd}

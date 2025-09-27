@@ -35,6 +35,7 @@ export function TabBar() {
 				headerShown: false,
 				sceneStyle: { backgroundColor: systemVariables.background[200] },
 				tabBarActiveTintColor: systemVariables.text[100],
+				tabBarItemStyle: styles.item,
 				tabBarShowLabel: false,
 				tabBarStyle: styles.container,
 			}}

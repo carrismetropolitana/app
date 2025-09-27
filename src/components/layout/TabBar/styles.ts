@@ -30,6 +30,9 @@ export const useStyles = () => {
 			paddingBottom: Platform.OS === 'ios' ? 68 : 100,
 			paddingTop: 20,
 		},
+		item: {
+			minHeight: 45,
+		},
 	});
 
 	//
