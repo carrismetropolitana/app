@@ -1,5 +1,6 @@
 /* * */
 
+import { AccessibilityContextProvider } from '@/contexts/Accessibility.context';
 import { DebugContextProvider } from '@/contexts/Debug.context';
 import { LocaleContextProvider } from '@/contexts/Locale.context';
 import { type PropsWithChildren } from 'react';
@@ -39,9 +40,11 @@ export function ConfigProviders({ children }: PropsWithChildren) {
 	return (
 		<SWRConfig value={swrSettings}>
 			<LocaleContextProvider>
-				<DebugContextProvider>
-					{children}
-				</DebugContextProvider>
+				<AccessibilityContextProvider>
+					<DebugContextProvider>
+						{children}
+					</DebugContextProvider>
+				</AccessibilityContextProvider>
 			</LocaleContextProvider>
 		</SWRConfig>
 	);
