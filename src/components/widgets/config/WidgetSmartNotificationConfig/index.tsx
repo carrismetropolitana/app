@@ -120,9 +120,8 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 			{widgetSmartNotificationConfigContext.data.selected_pattern_id && (
 				<WidgetConfigSelectWaypoint
 					availableWaypoints={widgetSmartNotificationConfigContext.data.available_waypoints}
-					onToggleWaypoint={widgetSmartNotificationConfigContext.actions.selectWaypoint}
+					onSelectWaypoint={widgetSmartNotificationConfigContext.actions.selectWaypoint}
 					selectedWaypoint={widgetSmartNotificationConfigContext.data.selected_waypoint}
-					disableFirst
 				/>
 			)}
 

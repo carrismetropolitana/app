@@ -816,6 +816,9 @@
 		"virtualizedListAccessibilityLabel": "Stops list"
 	},
 	"widgets": {
+		"WidgetConfigSelectWaypoint": {
+
+		},
 		"WidgetCardSmartNotificationHeader": {
 			"title": "Next {weekday}, at {start_time}"
 		},

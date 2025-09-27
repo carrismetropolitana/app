@@ -48,7 +48,7 @@ export function AccountViewInfo() {
 	}
 
 	return (
-		<View style={styles.container}>
+		<View accessible={false} style={styles.container}>
 			<TouchableOpacity onPress={handlePressAccountId}>
 				<Text style={styles.accountIdentifier}>{accountIdentifier}</Text>
 			</TouchableOpacity>

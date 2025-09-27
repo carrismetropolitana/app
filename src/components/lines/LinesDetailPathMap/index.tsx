@@ -1,12 +1,13 @@
 /* * */
 
 import Counter from '@/components/common/Counter';
+import { transformStopDataIntoGeoJsonFeature } from '@/components/map-new/overlays/MapOverlayStops';
 import { MapView } from '@/components/map/MapView';
 import { MapViewStyleActiveStops } from '@/components/map/MapViewStyleActiveStops';
 import { MapViewStylePath } from '@/components/map/MapViewStylePath';
 import { MapViewStyleVehicles } from '@/components/map/MapViewStyleVehicles';
 import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
-import { transformStopDataIntoGeoJsonFeature, useStopsContext } from '@/contexts/Stops.context';
+import { useStopsContext } from '@/contexts/Stops.context';
 import { useVehiclesContext } from '@/contexts/Vehicles.context';
 import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
 import { getCenterAndZoom } from '@/utils/map.utils';
@@ -48,6 +49,7 @@ export function LinesDetailPathMap({ hasToolbar = false }: Props) {
 			const stop = stopsContext.actions.getStopById(p.stop_id);
 			if (!stop) return;
 			const feat = transformStopDataIntoGeoJsonFeature(stop);
+			if (!feat) return;
 			feat.properties = {
 				...feat.properties,
 				color: pat.color,

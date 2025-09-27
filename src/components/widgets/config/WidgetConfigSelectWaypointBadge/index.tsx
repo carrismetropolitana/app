@@ -6,13 +6,13 @@ import { useStyles } from './styles';
 
 /* * */
 
-interface WidgetConfigSelectWaypointSequenceProps {
+interface WidgetConfigSelectWaypointBadgeProps {
 	sequence: number
 }
 
 /* * */
 
-export function WidgetConfigSelectWaypointSequence({ sequence }: WidgetConfigSelectWaypointSequenceProps) {
+export function WidgetConfigSelectWaypointBadge({ sequence }: WidgetConfigSelectWaypointBadgeProps) {
 	//
 
 	//
