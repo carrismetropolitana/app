@@ -81,20 +81,20 @@ export function WidgetLineConfig({ widgetId }: WidgetLineConfigProps) {
 			<View style={styles.buttonContainer}>
 				<LargeButton
 					disabled={!widgetLineConfigContext.flags.can_save}
-					label="Save"
+					label={t('actions.save')}
 					onPress={handleSave}
 					type="primary"
 				/>
 				{!widgetId && (
 					<LargeButton
-						label="Cancelar"
+						label={t('actions.cancel')}
 						onPress={router.back}
 						type="secondary"
 					/>
 				)}
 				{widgetId && (
 					<LargeButton
-						label="Eliminar"
+						label={t('actions.delete')}
 						onPress={handleDelete}
 						type="danger"
 					/>

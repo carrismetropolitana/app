@@ -871,7 +871,7 @@
 			"title": "Line Widget"
 		},
 		"WidgetSmartNotificationConfig": {
-			"description": "Add your home or work stop as a favorite. This way, whenever you need it, just open the app to see the next arrivals.",
+			"description": "Get notified when a bus is approaching your stop, so you never miss it. You can customize the notification based on your daily routine.",
 			"step_1": {
 				"title": "When a bus from the line"
 			},
@@ -880,7 +880,7 @@
 					"accessibility_hint": "You need to select a line on the previous step to then be able to choose a destination here.",
 					"label": "Select a line to continue"
 				},
-				"title": "with destination to"
+				"title": "headed to"
 			},
 			"step_3": {
 				"title": "is at"
@@ -916,7 +916,6 @@
 		},
 		"WidgetSmartNotificationConfigWarning": {
 			"disclaimer": "Please test this feature before fully relying on it. You may need to adjust the distance to ensure timely alerts. Notifications are sent based on real-time bus locations, and occasional discrepancies may occur.",
-			"disclaimer_pt": "Por favor teste esta funcionalidade antes de a utilizar com confiança. Poderá ser necessário ajustar a distância para garantir um aviso com atencedência. As notificações são enviadas com base na localização em tempo real dos autocarros, e podem ocorrer discrepâncias ocasionais.",
 			"summary": "You are about to configure a smart notification for {weekdays} between {start_time} and {end_time}. You will be notified when a bus from line\u00A0{line_short_name} is at {distance}\u00A0meters from the stop \"{stop_name}\".",
 			"title": "Summary",
 			"weekdays": {

@@ -172,20 +172,20 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 			<View style={styles.buttonContainer}>
 				<LargeButton
 					disabled={!widgetSmartNotificationConfigContext.flags.can_save}
-					label="Save"
+					label={t('actions.save')}
 					onPress={handleSave}
 					type="primary"
 				/>
 				{!widgetId && (
 					<LargeButton
-						label="Cancelar"
+						label={t('actions.cancel')}
 						onPress={router.back}
 						type="secondary"
 					/>
 				)}
 				{widgetId && (
 					<LargeButton
-						label="Eliminar"
+						label={t('actions.delete')}
 						onPress={handleDelete}
 						type="danger"
 					/>

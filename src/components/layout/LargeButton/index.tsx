@@ -24,7 +24,7 @@ export function LargeButton({ disabled, label, onPress, type = 'primary' }: Larg
 	const styles = useStyles();
 
 	//
-	// A. Handle actions
+	// B. Handle actions
 
 	const handlePress = () => {
 		if (disabled) return;
@@ -32,7 +32,7 @@ export function LargeButton({ disabled, label, onPress, type = 'primary' }: Larg
 	};
 
 	//
-	// B. Render components
+	// C. Render components
 
 	if (type === 'secondary') {
 		return (

@@ -936,39 +936,39 @@
 		},
 		"WidgetLineConfig": {
 			"actions": {
-				"cancel": "Cancel",
-				"delete": "Delete",
-				"save": "Save"
+				"cancel": "Cancelar",
+				"delete": "Eliminar",
+				"save": "Guardar"
 			},
-			"description": "Add your home or work stop as a favorite. This way, whenever you need it, just open the app to see the next arrivals.",
+			"description": "Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas.",
 			"step_1": {
-				"description": "Pick a stop to display on the main page",
-				"title": "Select a stop"
+				"description": "Escolha uma paragem para exibir na página principal",
+				"title": "Selecione uma paragem"
 			},
 			"step_2": {
-				"description": "You can choose any number of destinations starting from this stop.",
-				"title": "Select a destination"
+				"description": "Pode escolher qualquer número de destinos a partir desta paragem.",
+				"title": "Selecione um destino"
 			},
 			"title": "Line Widget"
 		},
 		"WidgetSmartNotificationConfig": {
-			"description": "Add your home or work stop as a favorite. This way, whenever you need it, just open the app to see the next arrivals.",
+			"description": "Receba uma notificação quando um autocarro estiver a chegar à sua paragem. Ajuste a distância e o horário para corresponder à sua rotina diária.",
 			"step_1": {
-				"title": "When a bus from the line"
+				"title": "Quando um autocarro da linha"
 			},
 			"step_2": {
-				"no_data": "Select a line to continue",
-				"title": "with destination to"
+				"no_data": "Selecione uma linha para continuar",
+				"title": "com destino a"
 			},
 			"step_3": {
-				"title": "is at"
+				"title": "está a"
 			},
 			"step_4": {
-				"no_data": "Select a destination to continue",
-				"title": "from the stop"
+				"no_data": "Selecione um destino para continuar",
+				"title": "da paragem"
 			},
 			"step_5": {
-				"title": "in the interval"
+				"title": "no intervalo"
 			},
 			"title": "Smart Notification Widget"
 		},
@@ -977,13 +977,13 @@
 		},
 		"WidgetSmartNotificationConfigScheduleWeekdaysInput": {
 			"weekdays": {
-				"friday": "Fri",
-				"monday": "Mon",
-				"saturday": "Sat",
-				"sunday": "Sun",
-				"thursday": "Thu",
-				"tuesday": "Tue",
-				"wednesday": "Wed"
+				"friday": "Sex",
+				"monday": "Seg",
+				"saturday": "Sáb",
+				"sunday": "Dom",
+				"thursday": "Qui",
+				"tuesday": "Ter",
+				"wednesday": "Qua"
 			}
 		},
 		"WidgetSmartNotificationConfigWarning": {
@@ -1005,9 +1005,9 @@
 		},
 		"WidgetStopConfig": {
 			"actions": {
-				"cancel": "Cancel",
-				"delete": "Delete",
-				"save": "Save"
+				"cancel": "Cancelar",
+				"delete": "Eliminar",
+				"save": "Guardar"
 			},
 			"description": "Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas.",
 			"step_1": {
