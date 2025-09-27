@@ -2,7 +2,7 @@
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DateTime } from 'luxon';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, type PropsWithChildren, useContext, useEffect, useState } from 'react';
 
 /* * */
 
@@ -50,7 +50,7 @@ export function useConsentContext() {
 
 /* * */
 
-export const ConsentContextProvider = ({ children }) => {
+export const ConsentContextProvider = ({ children }: PropsWithChildren) => {
 	//
 
 	//
