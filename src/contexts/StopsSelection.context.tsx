@@ -1,6 +1,7 @@
 /* * */
 
 import { type MapOverlayStopsGeoJsonProperties, transformStopDataIntoGeoJsonFeature } from '@/components/map-new/overlays/MapOverlayStops';
+import { useAccessibilityContext } from '@/contexts/Accessibility.context';
 import { useAccountContext } from '@/contexts/Account.context';
 import { useFavoritesContext } from '@/contexts/Favorites.context';
 import { useStopsContext } from '@/contexts/Stops.context';
@@ -57,10 +58,11 @@ export const StopsSelectionContextProvider = ({ children }: PropsWithChildren) =
 	const stopsContext = useStopsContext();
 	const accountContext = useAccountContext();
 	const favoritesContext = useFavoritesContext();
+	const accessibilityContext = useAccessibilityContext();
 
 	const [filterBySearchState, setFilterBySearchState] = useState<StopsSelectionContextState['filters']['by_search']>('');
 
-	const [flagViewModeState, setFlagViewModeState] = useState<StopsSelectionContextState['flags']['view_mode']>('map');
+	const [flagViewModeState, setFlagViewModeState] = useState<StopsSelectionContextState['flags']['view_mode']>(accessibilityContext.flags.screen_reader ? 'list' : 'map');
 
 	//
 	// B. Transform data
