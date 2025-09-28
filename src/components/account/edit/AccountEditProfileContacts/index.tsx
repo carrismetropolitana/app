@@ -19,8 +19,8 @@ export function AccountEditProfileContacts() {
 
 	const { t } = useTranslation('translation', { keyPrefix: 'account.AccountEditProfileContacts' });
 
-	const [emailAddress, setEmailAddress] = useState<string>(accountContext.data.account?.profile.email || '');
-	const [phoneNumber, setPhoneNumber] = useState<string>(accountContext.data.account?.profile.phone || '');
+	const [emailAddress, setEmailAddress] = useState<null | string>(accountContext.data.account?.profile.email || null);
+	const [phoneNumber, setPhoneNumber] = useState<null | string>(accountContext.data.account?.profile.phone || null);
 
 	//
 	// B. Handle actions

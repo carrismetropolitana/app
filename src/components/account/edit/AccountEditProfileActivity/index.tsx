@@ -1,6 +1,5 @@
 /* * */
 
-import { TextInputField } from '@/components/common/TextInputField';
 import { ListTitle } from '@/components/list/ListTitle';
 import { useAccountContext } from '@/contexts/Account.context';
 import { useEffect, useState } from 'react';
@@ -19,7 +18,7 @@ export function AccountEditProfileActivity() {
 
 	const { t } = useTranslation('translation', { keyPrefix: 'account.AccountEditProfileActivity' });
 
-	const [selectedActivity, setSelectedActivity] = useState<string>(accountContext.data.account?.profile.activity || '');
+	const [selectedActivity, setSelectedActivity] = useState<null | string>(accountContext.data.account?.profile.activity ?? null);
 
 	//
 	// B. Handle actions

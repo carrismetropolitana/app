@@ -1,6 +1,5 @@
 /* * */
 
-import { TextInputField } from '@/components/common/TextInputField';
 import { ListTitle } from '@/components/list/ListTitle';
 import { useAccountContext } from '@/contexts/Account.context';
 import { useEffect, useState } from 'react';
@@ -19,7 +18,7 @@ export function AccountEditProfileWorkSetting() {
 
 	const { t } = useTranslation('translation', { keyPrefix: 'account.AccountEditProfileWorkSetting' });
 
-	const [selectedWorkSetting, setSelectedWorkSetting] = useState<string>(accountContext.data.account?.profile.work_setting || '');
+	const [selectedWorkSetting, setSelectedWorkSetting] = useState<null | string>(accountContext.data.account?.profile.work_setting || null);
 
 	//
 	// B. Handle actions
