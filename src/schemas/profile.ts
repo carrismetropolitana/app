@@ -1,6 +1,5 @@
 /* * */
 
-import { operationalDateSchema } from '@tmlmobilidade/types';
 import { z } from 'zod';
 
 /* * */
@@ -31,7 +30,6 @@ export type ProfileWorkSetting = z.infer<typeof ProfileWorkSettingSchema>;
 
 export const ProfileSchema = z.object({
 	activity: ProfileActivitySchema.nullable().default(null),
-	birthdate: operationalDateSchema.nullable().default(null),
 	email: z.string().email().nullable().default(null),
 	first_name: z.string().nullable().default(null),
 	last_name: z.string().nullable().default(null),

@@ -22,6 +22,7 @@ const LOCAL_STORAGE_KEYS = {
 
 interface AccountContextState {
 	actions: {
+		createAccount: () => Promise<void>
 		update: (path: DotPath<Account>, value: PathValue<Account, DotPath<Account>>) => Promise<void>
 	}
 	data: {
@@ -29,6 +30,8 @@ interface AccountContextState {
 		device_id: string | undefined
 	}
 	flags: {
+		anonymous: boolean
+		init: boolean
 		loading: boolean
 	}
 }
@@ -66,6 +69,15 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 	//
 	// C. Handle actions
 
+	const fetchNewAccount = async () => {
+		// ...or else fetch a new one from the server
+		const newAccount = await fetchData<{ device_id: string }>(`${getServiceUrl('accounts')}/accounts/new`);
+		if (!newAccount.data?.device_id) return;
+		await AsyncStorage.setItem(LOCAL_STORAGE_KEYS.device_id, newAccount.data.device_id);
+		setDeviceId(newAccount.data.device_id);
+		setIsInit(true);
+	};
+
 	useEffect(() => {
 		(async () => {
 			// Skip if already initialized
@@ -73,16 +85,8 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 			// Try to get Device ID from local storage
 			const foundDeviceId = await AsyncStorage.getItem(LOCAL_STORAGE_KEYS.device_id);
 			// Set Device ID if found...
-			if (foundDeviceId) {
-				setDeviceId(foundDeviceId);
-				setIsInit(true);
-				return;
-			}
-			// ...or else fetch a new one from the server
-			const newAccount = await fetchData<{ device_id: string }>(`${getServiceUrl('accounts')}/accounts/new`);
-			if (!newAccount.data?.device_id) return;
-			await AsyncStorage.setItem(LOCAL_STORAGE_KEYS.device_id, newAccount.data.device_id);
-			setDeviceId(newAccount.data.device_id);
+			if (foundDeviceId) setDeviceId(foundDeviceId);
+			// Update state to initialized
 			setIsInit(true);
 		})();
 	}, [isInit]);
@@ -106,7 +110,7 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 			{ 'Authorization': `Bearer ${deviceId}`, 'Content-Type': 'application/json' },
 		);
 		if (response.data) return response.data;
-		else throw new Error('No data returned from API');
+		else throw new Error(response.error || 'Failed to update account');
 	};
 
 	async function update(path: DotPath<Account>, value: PathValue<Account, DotPath<Account>>) {
@@ -135,11 +139,17 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		})();
 	}, [deviceId, notificationsContext.data.token, Device.brand, Device.deviceName]);
 
+	const createAccount = async () => {
+		if (!isInit || deviceId) return;
+		await fetchNewAccount();
+	};
+
 	//
 	// D. Context value
 
 	const contextValue: AccountContextState = useMemo(() => ({
 		actions: {
+			createAccount,
 			update,
 		},
 		data: {
@@ -147,6 +157,8 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 			device_id: deviceId,
 		},
 		flags: {
+			anonymous: isInit && !deviceId,
+			init: isInit,
 			loading: !isInit || accountLoading,
 		},
 	}), [

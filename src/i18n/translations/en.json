@@ -155,6 +155,9 @@
 			},
 			"title": "Work Setting"
 		},
+		"AccountViewAnonymous": {
+			"create_account": "Create New Account"
+		},
 		"AccountViewInfo": {
 			"copied": "Identifier Copied"
 		},

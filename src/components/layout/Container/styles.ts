@@ -21,5 +21,8 @@ export const useStyles = () => {
 		safeTop: {
 			paddingTop: safeAreaInsets.top,
 		},
+		scrollView: {
+			height: '100%',
+		},
 	});
 };

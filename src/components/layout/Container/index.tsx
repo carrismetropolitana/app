@@ -27,8 +27,13 @@ export function Container({ children, safeBottom = true, safeTop }: PropsWithChi
 
 	return (
 		<KeyboardAvoidingView behavior="position">
-			<ScrollView>
-				<View style={[styles.container, safeTop && styles.safeTop, safeBottom && styles.safeBottom]}>
+			<ScrollView style={styles.scrollView}>
+				<View style={[
+					styles.container,
+					safeTop && styles.safeTop,
+					safeBottom && styles.safeBottom,
+				]}
+				>
 					{children}
 				</View>
 			</ScrollView>
