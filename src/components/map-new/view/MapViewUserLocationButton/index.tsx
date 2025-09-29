@@ -30,11 +30,11 @@ export function MapViewUserLocationButton({ cameraRef }: MapViewUserLocationButt
 	//
 	// B. Handle actions
 
-	const handleCenterMap = () => {
+	const handleCenterMap = async () => {
 		// Skip if no camera
 		if (!cameraRef) return;
 		// Request location permission if not granted
-		userLocationContext.actions.requestPermission();
+		await userLocationContext.actions.requestPermission();
 		// Skip if no location
 		if (!userLocationContext.data.location?.coords.longitude) return;
 		if (!userLocationContext.data.location?.coords.latitude) return;
