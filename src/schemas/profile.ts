@@ -36,6 +36,6 @@ export const ProfileSchema = z.object({
 	phone: z.string().regex(/^\+[1-9]\d{1,14}$/).nullable().default(null),
 	utilization_type: ProfileUtilizationTypeSchema.nullable().default(null),
 	work_setting: ProfileWorkSettingSchema.nullable().default(null),
-}).strict();
+});
 
 export type Profile = z.infer<typeof ProfileSchema>;

@@ -122,23 +122,30 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		accountMutate(updateAccountApi(updatedAccountData), { optimisticData: updatedAccountData, populateCache: true, revalidate: false });
 	};
 
-	useEffect(() => {
-		(async () => {
+	const updateDeviceDetails = async () => {
 		// Skip if no account data
-			if (!accountData) return;
-			// Get the current device
-			const currentDevice = accountData.devices.find(d => d.device_id === deviceId);
-			const currentDeviceIndex = accountData.devices.findIndex(d => d.device_id === deviceId);
-			if (!currentDevice || currentDeviceIndex === -1) return;
-			// Update device with latest information
-			currentDevice.app_version = Constants.expoConfig?.version || null;
-			currentDevice.brand = Device.brand;
-			currentDevice.name = Device.deviceName || null;
-			currentDevice.push_token = notificationsContext.data.token || null;
-			// Find the current device index and update it in the array
-			await update(`devices.${currentDeviceIndex}`, currentDevice);
-		})();
-	}, [deviceId, notificationsContext.data.token, Device.brand, Device.deviceName]);
+		if (!accountData) return;
+		// Get the current device
+		const currentDevice = accountData.devices.find(d => d.device_id === deviceId);
+		const currentDeviceIndex = accountData.devices.findIndex(d => d.device_id === deviceId);
+		if (!currentDevice || currentDeviceIndex === -1) return;
+		// Update device with latest information
+		const updatedDevice = {
+			...accountData.devices[currentDeviceIndex],
+			app_version: Constants.expoConfig?.version || null,
+			brand: Device.brand,
+			name: Device.deviceName || null,
+			push_token: notificationsContext.data.token || null,
+		};
+		// Update the account with the updated device info
+		await update(`devices.${currentDeviceIndex}`, updatedDevice);
+	};
+
+	useEffect(() => {
+		updateDeviceDetails();
+		const interval = setInterval(updateDeviceDetails, 60_000); // Every minute
+		return () => clearInterval(interval);
+	}, [deviceId, notificationsContext.data.token]);
 
 	const createAccount = async () => {
 		if (!isInit || deviceId) return;

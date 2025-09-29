@@ -1,6 +1,6 @@
 /* * */
 
-import { ProcessingStatusSchema } from '@/core-replica';
+import { ProcessingStatusSchema } from '@tmlmobilidade/types';
 import { z } from 'zod';
 
 /* * */

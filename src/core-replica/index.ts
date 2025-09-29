@@ -1,5 +1,4 @@
 export * from '@/core-replica/dates';
-export * from '@/core-replica/document';
 export * from '@/core-replica/environment';
 export * from '@/core-replica/generate-random-number';
 export * from '@/core-replica/generate-random-string';
@@ -7,6 +6,4 @@ export * from '@/core-replica/generate-random-token';
 export * from '@/core-replica/geojson-collections';
 export * from '@/core-replica/http-exception';
 export * from '@/core-replica/http-status';
-export * from '@/core-replica/processing-status';
 export * from '@/core-replica/set-value-at-path';
-export * from '@/core-replica/unix-timestamp';
