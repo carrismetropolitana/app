@@ -31,6 +31,7 @@ interface AccountContextState {
 	}
 	flags: {
 		anonymous: boolean
+		error: boolean
 		init: boolean
 		loading: boolean
 	}
@@ -158,11 +159,13 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		},
 		flags: {
 			anonymous: isInit && !deviceId,
+			error: !!accountError,
 			init: isInit,
 			loading: !isInit || accountLoading,
 		},
 	}), [
 		accountData,
+		accountError,
 		accountLoading,
 		deviceId,
 		isInit,
