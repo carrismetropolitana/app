@@ -169,6 +169,9 @@
 			},
 			"title": "Estilo de Trabalho"
 		},
+		"AccountViewAnonymous": {
+			"create_account": "Criar Nova Conta"
+		},
 		"AccountViewInfo": {
 			"copied": "Identificador Copiado"
 		},

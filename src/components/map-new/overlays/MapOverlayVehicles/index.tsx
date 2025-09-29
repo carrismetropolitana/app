@@ -6,6 +6,7 @@ import { Vehicle } from '@carrismetropolitana/api-types/vehicles';
 import { OnPressEvent, ShapeSource, SymbolLayer } from '@maplibre/maplibre-react-native';
 import { type Feature, type FeatureCollection, type Point } from 'geojson';
 import { View } from 'react-native';
+import { Platform } from 'react-native';
 
 import { useStyles } from './styles';
 
@@ -121,7 +122,11 @@ export function MapOverlayVehicles({ belowLayerId, onVehiclePress, vehiclesDataF
 				/>
 			</ShapeSource>
 
-			{withVehiclesCounter && (
+			{/* * */}
+			{/* Children views not supported on Android. */}
+			{/* See: https://github.com/maplibre/maplibre-react-native/issues/967 */}
+
+			{withVehiclesCounter && Platform.OS === 'ios' && (
 				<View style={styles.counterWrapper}>
 					<VehiclesCounter qty={vehiclesDataFC?.features.length} visibleIfZero />
 				</View>

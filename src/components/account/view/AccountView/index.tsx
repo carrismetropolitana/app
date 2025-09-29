@@ -40,18 +40,18 @@ export function AccountView() {
 		);
 	}
 
-	if (accountContext.flags.error) {
-		return (
-			<Container>
-				<Text>Error fetching account</Text>
-			</Container>
-		);
-	}
-
 	if (accountContext.flags.anonymous) {
 		return (
 			<Container>
 				<AccountViewAnonymous />
+			</Container>
+		);
+	}
+
+	if (accountContext.flags.error) {
+		return (
+			<Container>
+				<Text>Error fetching account</Text>
 			</Container>
 		);
 	}
