@@ -25,7 +25,10 @@ export function VehicleDetailMap() {
 
 	return (
 		<View style={styles.container}>
-			<MapView>
+			<MapView
+				vehiclesCounterQty={vehicleDetailContext.data.vehicle_fc?.features.length ?? 0}
+				withUserLocation
+			>
 				<MapOverlayPath
 					belowLayerId={mapOverlayVehicles_TopLayerId}
 					shapeData={vehicleDetailContext.data.shape_fc}
@@ -33,7 +36,6 @@ export function VehicleDetailMap() {
 				/>
 				<MapOverlayVehicles
 					vehiclesDataFC={vehicleDetailContext.data.vehicle_fc}
-					withVehiclesCounter
 				/>
 			</MapView>
 		</View>

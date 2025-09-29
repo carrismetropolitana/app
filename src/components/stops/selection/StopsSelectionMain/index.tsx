@@ -1,5 +1,6 @@
 /* * */
 
+import { type MapOverlayStopsGeoJsonProperties } from '@/components/map-new/overlays/MapOverlayStops';
 import { type StopsSelectionProps } from '@/components/stops/selection/StopsSelection';
 import { StopsSelectionMainList } from '@/components/stops/selection/StopsSelectionMainList';
 import { StopsSelectionMainMap } from '@/components/stops/selection/StopsSelectionMainMap';
@@ -25,8 +26,8 @@ export function StopsSelectionMain({ addToRecentsOnPress, onPress, withSafeArea,
 	//
 	// B. Handle actions
 
-	const handlePress = (item: Stop) => {
-		if (addToRecentsOnPress) stopsSelectionContext.actions.addToRecent(item);
+	const handlePress = (item: MapOverlayStopsGeoJsonProperties | Stop) => {
+		if (addToRecentsOnPress) stopsSelectionContext.actions.addToRecent(item.id);
 		if (onPress) onPress(item);
 	};
 

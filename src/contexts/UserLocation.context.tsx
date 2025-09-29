@@ -54,9 +54,9 @@ export const UserLocationContextProvider = ({ children }: PropsWithChildren) => 
 			// Skip if permission not granted
 			if (!permissionGrantedState) return;
 			// Update current location
-			const location = await getCurrentPositionAsync();
+			const location = await getCurrentPositionAsync({ accuracy: 6 });
 			setCurrentLocationState(location);
-		}, 10_000);
+		}, 5_000);
 		return () => clearInterval(interval);
 	}, [permissionGrantedState]);
 

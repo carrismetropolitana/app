@@ -15,7 +15,7 @@ import { createContext, type PropsWithChildren, useContext, useMemo, useState } 
 
 interface StopsSelectionContextState {
 	actions: {
-		addToRecent: (item: Stop) => void
+		addToRecent: (stopId: string) => void
 		toggleViewMode: (mode?: 'list' | 'map') => void
 		updateFilterBySearch: (value: string) => void
 	}
@@ -112,13 +112,13 @@ export const StopsSelectionContextProvider = ({ children }: PropsWithChildren) =
 	//
 	// D. Handle actions
 
-	const addToRecent = (item: Stop) => {
+	const addToRecent = (stopId: string) => {
 		// Get current recent stops from user preferences
 		const currentRecentStops = new Set(accountContext.data.account?.preferences?.recent_stop_ids || []);
 		// If the item is already in recent, remove it (to re-add it at the top)
-		if (currentRecentStops.has(item.id)) currentRecentStops.delete(item.id);
+		if (currentRecentStops.has(stopId)) currentRecentStops.delete(stopId);
 		// Add the new item
-		currentRecentStops.add(item.id);
+		currentRecentStops.add(stopId);
 		// Limit to the last 3 items
 		const limitedRecentStops = Array.from(currentRecentStops).slice(-3);
 		// Update user preferences

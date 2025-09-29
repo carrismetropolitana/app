@@ -1,10 +1,9 @@
 /* * */
 
-import { MapOverlayStops } from '@/components/map-new/overlays/MapOverlayStops';
+import { MapOverlayStops, MapOverlayStopsGeoJsonProperties } from '@/components/map-new/overlays/MapOverlayStops';
 import { MapView } from '@/components/map-new/view/MapView';
 import { type StopsSelectionProps } from '@/components/stops/selection/StopsSelection';
 import { useStopsSelectionContext } from '@/contexts/StopsSelection.context';
-import { Stop } from '@carrismetropolitana/api-types/network';
 import * as Haptics from 'expo-haptics';
 import { View } from 'react-native';
 
@@ -25,9 +24,9 @@ export function StopsSelectionMainMap({ onPress }: StopsSelectionProps) {
 	//
 	// B. Handle actions
 
-	const handleSelectStop = (stop: Stop) => {
+	const handleSelectStop = (item: MapOverlayStopsGeoJsonProperties) => {
 		if (!onPress) return;
-		onPress(stop);
+		onPress(item);
 		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 	};
 
@@ -36,7 +35,7 @@ export function StopsSelectionMainMap({ onPress }: StopsSelectionProps) {
 
 	return (
 		<View style={styles.container}>
-			<MapView>
+			<MapView withUserLocation>
 				<MapOverlayStops
 					onSelectStop={handleSelectStop}
 					stopsData={stopsSelectionContext.data.filtered_fc}

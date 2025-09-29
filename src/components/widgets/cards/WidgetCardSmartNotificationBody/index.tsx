@@ -110,7 +110,7 @@ export function WidgetCardSmartNotificationBody({ data }: WidgetCardSmartNotific
 
 	return (
 		<View style={styles.container}>
-			<MapView>
+			<MapView vehiclesCounterQty={availableVehiclesDataFC?.features.length ?? 0}>
 				<MapOverlayPath
 					belowLayerId={mapOverlayGeofence_TopLayerId}
 					shapeData={shapeDataFC}
@@ -122,7 +122,6 @@ export function WidgetCardSmartNotificationBody({ data }: WidgetCardSmartNotific
 				/>
 				<MapOverlayVehicles
 					vehiclesDataFC={availableVehiclesDataFC}
-					withVehiclesCounter
 				/>
 			</MapView>
 		</View>

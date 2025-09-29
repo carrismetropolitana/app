@@ -1,6 +1,6 @@
 /* * */
 
-import { MapOverlayPath, type MapOverlayPathShapeGeoJsonProperties, MapOverlayPathWaypointGeoJsonProperties, transformShapeDataIntoGeoJsonFeature, transformWaypointDataIntoGeoJsonFeature } from '@/components/map-new/overlays/MapOverlayPath';
+import { MapOverlayPath, type MapOverlayPathShapeGeoJsonProperties, type MapOverlayPathWaypointGeoJsonProperties, transformShapeDataIntoGeoJsonFeature, transformWaypointDataIntoGeoJsonFeature } from '@/components/map-new/overlays/MapOverlayPath';
 import { MapOverlayVehicles, mapOverlayVehicles_TopLayerId } from '@/components/map-new/overlays/MapOverlayVehicles';
 import { MapView } from '@/components/map-new/view/MapView';
 import { useLinesContext } from '@/contexts/Lines.context';
@@ -9,7 +9,7 @@ import { useVehiclesContext } from '@/contexts/Vehicles.context';
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import { type WidgetLine } from '@/schemas/widgets';
 import { type Pattern, type Shape } from '@carrismetropolitana/api-types/network';
-import { LineString, Point } from 'geojson';
+import { type LineString, type Point } from 'geojson';
 import { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
@@ -109,7 +109,7 @@ export function WidgetCardLineBody({ data }: WidgetCardLineBodyProps) {
 
 	return (
 		<View style={styles.container}>
-			<MapView>
+			<MapView vehiclesCounterQty={availableVehiclesDataFC?.features.length ?? 0}>
 				<MapOverlayPath
 					belowLayerId={mapOverlayVehicles_TopLayerId}
 					shapeData={shapeDataFC}
@@ -117,7 +117,6 @@ export function WidgetCardLineBody({ data }: WidgetCardLineBodyProps) {
 				/>
 				<MapOverlayVehicles
 					vehiclesDataFC={availableVehiclesDataFC}
-					withVehiclesCounter
 				/>
 			</MapView>
 		</View>
