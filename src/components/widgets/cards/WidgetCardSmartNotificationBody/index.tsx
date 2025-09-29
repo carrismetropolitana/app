@@ -1,6 +1,6 @@
 /* * */
 
-import { MapOverlayGeofence } from '@/components/map-new/overlays/MapOverlayGeofence';
+import { MapOverlayGeofence, mapOverlayGeofence_TopLayerId } from '@/components/map-new/overlays/MapOverlayGeofence';
 import { MapOverlayPath, MapOverlayPathShapeGeoJsonProperties, MapOverlayPathWaypointGeoJsonProperties, transformShapeDataIntoGeoJsonFeature, transformWaypointDataIntoGeoJsonFeature } from '@/components/map-new/overlays/MapOverlayPath';
 import { MapOverlayVehicles, mapOverlayVehicles_TopLayerId } from '@/components/map-new/overlays/MapOverlayVehicles';
 import { MapView } from '@/components/map-new/view/MapView';
@@ -111,13 +111,14 @@ export function WidgetCardSmartNotificationBody({ data }: WidgetCardSmartNotific
 	return (
 		<View style={styles.container}>
 			<MapView>
-				<MapOverlayGeofence
-					geofenceData={data.properties.geojson}
-				/>
 				<MapOverlayPath
-					belowLayerId={mapOverlayVehicles_TopLayerId}
+					belowLayerId={mapOverlayGeofence_TopLayerId}
 					shapeData={shapeDataFC}
 					waypointsData={waypointsDataFC}
+				/>
+				<MapOverlayGeofence
+					belowLayerId={mapOverlayVehicles_TopLayerId}
+					geofenceData={data.properties.geojson}
 				/>
 				<MapOverlayVehicles
 					vehiclesDataFC={availableVehiclesDataFC}

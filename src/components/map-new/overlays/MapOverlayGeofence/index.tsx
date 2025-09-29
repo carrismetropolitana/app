@@ -2,7 +2,7 @@
 
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import { FillLayer, LineLayer, ShapeSource } from '@maplibre/maplibre-react-native';
-import { type Feature, type FeatureCollection, type Polygon } from 'geojson';
+import { type Feature, type Polygon } from 'geojson';
 
 /* * */
 
@@ -20,7 +20,7 @@ export interface MapOverlayGeofenceShapeGeoJsonProperties {
 
 export interface MapOverlayGeofenceProps {
 	belowLayerId?: string
-	geofenceData?: FeatureCollection<Polygon, MapOverlayGeofenceShapeGeoJsonProperties>
+	geofenceData?: Feature<Polygon, MapOverlayGeofenceShapeGeoJsonProperties>
 }
 
 /* * */
@@ -31,18 +31,19 @@ export function MapOverlayGeofence({ belowLayerId, geofenceData }: MapOverlayGeo
 	//
 	// A. Transform data
 
-	const baseShapeFC = getBaseGeoJsonFeatureCollection<Polygon, MapOverlayGeofenceShapeGeoJsonProperties>();
+	const baseGeofenceFC = getBaseGeoJsonFeatureCollection<Polygon, MapOverlayGeofenceShapeGeoJsonProperties>();
 
 	//
 	// B. Render components
 
 	return (
-		<ShapeSource id="geofence-source" shape={geofenceData ?? baseShapeFC}>
+		<ShapeSource id="geofence-source" shape={geofenceData ?? baseGeofenceFC}>
 			<FillLayer
 				belowLayerID={mapOverlayGeofence_TopLayerId}
 				id="geofence-fill-layer"
 				style={{
-					fillColor: '#000000',
+					fillColor: '#ff0000',
+					fillOpacity: 0.15,
 					visibility: geofenceData ? 'visible' : 'none',
 				}}
 			/>
@@ -51,9 +52,9 @@ export function MapOverlayGeofence({ belowLayerId, geofenceData }: MapOverlayGeo
 				id={mapOverlayGeofence_TopLayerId}
 				style={{
 					lineCap: 'round',
-					lineColor: '#FFFFFF',
+					lineColor: '#ff0000',
 					lineJoin: 'round',
-					lineWidth: ['interpolate', ['linear'], ['zoom'], 10, 4, 20, 26],
+					lineWidth: ['interpolate', ['linear'], ['zoom'], 10, 4, 20, 1],
 					visibility: geofenceData ? 'visible' : 'none',
 				}}
 			/>
