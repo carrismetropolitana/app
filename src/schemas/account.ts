@@ -21,6 +21,7 @@ export type AccountRole = z.infer<typeof AccountRoleSchema>;
 /* * */
 
 export const AccountSchema = DocumentSchema.extend({
+	_version: z.literal('1.0').default('1.0'),
 	devices: z.array(DeviceSchema).default([]),
 	favorites: FavoritesSchema.default({}),
 	notifications: NotificationsSchema.default({}),
