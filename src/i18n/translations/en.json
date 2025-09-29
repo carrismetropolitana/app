@@ -826,7 +826,7 @@
 			}
 		},
 		"WidgetCardSmartNotificationHeader": {
-			"title": "Next {weekday}, at {start_time}"
+			"title": "{weekday} @ {start_time}"
 		},
 		"WidgetCardStopBodyArrivals": {
 			"no_data": "No upcoming arrivals"
