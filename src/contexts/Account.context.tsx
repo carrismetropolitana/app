@@ -1,7 +1,7 @@
 /* * */
 
 import { useNotificationsContext } from '@/contexts/Notifications.context';
-import { type DotPath, HttpException, type PathValue, setValueAtPath } from '@/core-replica';
+import { Dates, type DotPath, HttpException, type PathValue, setValueAtPath } from '@/core-replica';
 import { type Account } from '@/schemas/account';
 import { getServiceUrl } from '@/settings/service-urls';
 import { fetchData } from '@/utils/fetchData';
@@ -130,12 +130,13 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		const currentDeviceIndex = accountData.devices.findIndex(d => d.device_id === deviceId);
 		if (!currentDevice || currentDeviceIndex === -1) return;
 		// Update device with latest information
-		const updatedDevice = {
+		const updatedDevice: Account['devices'][number] = {
 			...accountData.devices[currentDeviceIndex],
 			app_version: Constants.expoConfig?.version || null,
 			brand: Device.brand,
 			name: Device.deviceName || null,
 			push_token: notificationsContext.data.token || null,
+			seen_last_at: Dates.now('Europe/Lisbon').unix_timestamp,
 		};
 		// Update the account with the updated device info
 		await update(`devices.${currentDeviceIndex}`, updatedDevice);
