@@ -138,8 +138,10 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 			push_token: notificationsContext.data.token || null,
 			seen_last_at: Dates.now('Europe/Lisbon').unix_timestamp,
 		};
+		// Update the device from the account data
+		const updatedAccountDevices = accountData.devices.map(device => currentDevice.device_id === device.device_id ? updatedDevice : device);
 		// Update the account with the updated device info
-		await update(`devices.${currentDeviceIndex}`, updatedDevice);
+		await update('devices', updatedAccountDevices);
 	};
 
 	useEffect(() => {
