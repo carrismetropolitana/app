@@ -1,20 +1,19 @@
 /* * */
 
-import { getCurrentPositionAsync, type LocationObject, requestForegroundPermissionsAsync } from 'expo-location';
+import * as Location from 'expo-location';
 import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
 /* * */
 
 interface UserLocationContextState {
 	actions: {
-		requestPermission: () => Promise<void>
+		requestPermission: () => Promise<Location.LocationPermissionResponse>
 	}
 	data: {
-		location: LocationObject | null
+		location: Location.LocationObject | null
 	}
 	flags: {
 		enabled: boolean
-		loading: boolean
 	}
 }
 
@@ -38,41 +37,37 @@ export const UserLocationContextProvider = ({ children }: PropsWithChildren) => 
 	//
 	// A. Setup variables
 
-	const [isInit, setIsInit] = useState<boolean>(true);
+	const [permissionStatus, requestPermission] = Location.useForegroundPermissions();
 
-	const [permissionGrantedState, setPermissionGrantedState] = useState<boolean>(false);
-	const [currentLocationState, setCurrentLocationState] = useState<LocationObject | null>(null);
+	const [currentLocationState, setCurrentLocationState] = useState<Location.LocationObject | null>(null);
 
 	//
-	// B. Handle actions
+	// B. Transform data
+
+	const isPermissionGranted = useMemo(() => {
+		if (!permissionStatus) return false;
+		return permissionStatus.status === 'granted';
+	}, [permissionStatus]);
+
+	//
+	// C. Handle actions
 
 	useEffect(() => {
-		// Update user location every 30 seconds
-		const interval = setInterval(async function () {
-			// Skip if not initialized
-			if (!isInit) return;
-			// Skip if permission not granted
-			if (!permissionGrantedState) return;
-			// Update current location
-			const location = await getCurrentPositionAsync({ accuracy: 6 });
-			setCurrentLocationState(location);
-		}, 5_000);
-		return () => clearInterval(interval);
-	}, [permissionGrantedState]);
-
-	async function requestPermission() {
-		// Get current location permission
-		const foregroundPermissions = await requestForegroundPermissionsAsync();
-		// If not granted, set permission state and exit
-		if (foregroundPermissions.status !== 'granted') {
-			setPermissionGrantedState(false);
-			setIsInit(true);
-			return;
-		}
-		// If granted update states
-		setPermissionGrantedState(true);
-		setIsInit(true);
-	}
+		// Skip if no permission
+		if (!isPermissionGranted) return;
+		// Subscribe to location updates
+		const options = {
+			accuracy: Location.Accuracy.Balanced,
+			distanceInterval: 10,
+			timeInterval: 10_000,
+		};
+		// Setup the watcher
+		const watch = Location.watchPositionAsync(options, location => setCurrentLocationState(location));
+		// Cleanup the watcher
+		return () => {
+			watch.then(subscription => subscription.remove());
+		};
+	}, [isPermissionGranted]);
 
 	//
 	// D. Context value
@@ -85,13 +80,11 @@ export const UserLocationContextProvider = ({ children }: PropsWithChildren) => 
 			location: currentLocationState,
 		},
 		flags: {
-			enabled: isInit && permissionGrantedState,
-			loading: !isInit,
+			enabled: isPermissionGranted,
 		},
 	}), [
-		isInit,
+		isPermissionGranted,
 		currentLocationState,
-		permissionGrantedState,
 	]);
 
 	//

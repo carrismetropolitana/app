@@ -20,5 +20,8 @@ export const useStyles = () => {
 			justifyContent: 'center',
 			padding: 14,
 		},
+		containerActive: {
+			backgroundColor: systemVariables.status.active,
+		},
 	});
 };

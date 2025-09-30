@@ -10,7 +10,7 @@
 		"android": "expo run:android",
 		"build:android": "eas build --local --platform android --profile production",
 		"build:ios": "eas build --local --platform ios --profile production",
-		"dev": "expo start --dev-client",
+		"dev": "expo start --dev-client --lan",
 		"dev:android": "expo run:android --device",
 		"dev:ios": "expo run:ios --device",
 		"ios": "expo run:ios",

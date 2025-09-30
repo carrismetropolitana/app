@@ -7,7 +7,7 @@ import { MAP_STYLES } from '@/components/map-new/configs/map-styles';
 import { MAP_VIEWPORT } from '@/components/map-new/configs/map-viewport';
 import { MapViewUserLocationButton } from '@/components/map-new/view/MapViewUserLocationButton';
 import { useMapGlobalContext } from '@/contexts/MapGlobal.context';
-import { Camera, type CameraRef, Images, type MapViewRef, MapView as RNMapView, UserLocation } from '@maplibre/maplibre-react-native';
+import { Camera, type CameraRef, Images, type MapViewRef, MapView as RNMapView, UserLocation, UserTrackingMode } from '@maplibre/maplibre-react-native';
 import { type PropsWithChildren, useMemo, useRef, useState } from 'react';
 import { View } from 'react-native';
 
@@ -38,6 +38,7 @@ export function MapView({ children, vehiclesCounterQty, withUserLocation }: Prop
 	const mapGlobalContext = useMapGlobalContext();
 
 	const [initialMove, setInitialMove] = useState(false);
+	const [isFollowingUser, setIsFollowingUser] = useState(false);
 
 	//
 	// B. Transform data
@@ -84,14 +85,17 @@ export function MapView({ children, vehiclesCounterQty, withUserLocation }: Prop
 				<Camera
 					ref={cameraRef}
 					animationMode="easeTo"
-					followUserLocation={false}
+					followUserLocation={isFollowingUser}
+					followUserMode={UserTrackingMode.FollowWithHeading}
 					maxZoomLevel={mapStyleData.max_zoom}
 					minZoomLevel={mapStyleData.min_zoom}
+					onUserTrackingModeChange={({ nativeEvent }) => setIsFollowingUser(nativeEvent.payload.followUserMode === UserTrackingMode.FollowWithHeading)}
 				/>
 				<UserLocation
 					renderMode="native"
 					animated
 					showsUserHeadingIndicator
+					visible
 				/>
 				{children}
 			</RNMapView>
@@ -104,7 +108,11 @@ export function MapView({ children, vehiclesCounterQty, withUserLocation }: Prop
 
 			{withUserLocation && (
 				<View style={styles.userLocationButtonWrapper}>
-					<MapViewUserLocationButton cameraRef={cameraRef.current} />
+					<MapViewUserLocationButton
+						cameraRef={cameraRef}
+						isFollowingUser={isFollowingUser}
+						onToggleFollowUser={setIsFollowingUser}
+					/>
 				</View>
 			)}
 
