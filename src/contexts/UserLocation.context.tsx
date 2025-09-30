@@ -7,13 +7,14 @@ import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, 
 
 interface UserLocationContextState {
 	actions: {
-		requestPermission: () => Promise<Location.LocationPermissionResponse>
+		requestPermission: () => Promise<void>
 	}
 	data: {
 		location: Location.LocationObject | null
 	}
 	flags: {
-		enabled: boolean
+		can_request: boolean
+		has_permission: boolean
 	}
 }
 
@@ -37,24 +38,37 @@ export const UserLocationContextProvider = ({ children }: PropsWithChildren) => 
 	//
 	// A. Setup variables
 
-	const [permissionStatus, requestPermission] = Location.useForegroundPermissions();
-
+	const [canRequest, setCanRequest] = useState(false);
+	const [hasPermission, setHasPermission] = useState(false);
 	const [currentLocationState, setCurrentLocationState] = useState<Location.LocationObject | null>(null);
 
 	//
-	// B. Transform data
+	// B. Handle actions
 
-	const isPermissionGranted = useMemo(() => {
-		if (!permissionStatus) return false;
-		return permissionStatus.status === 'granted';
-	}, [permissionStatus]);
+	const requestPermission = async () => {
+		const response = await Location.requestForegroundPermissionsAsync();
+		setCanRequest(response.canAskAgain);
+		setHasPermission(response.granted);
+	};
+
+	const checkPermissionStatus = async () => {
+		const response = await Location.getForegroundPermissionsAsync();
+		setCanRequest(response.canAskAgain);
+		setHasPermission(response.granted);
+	};
+
+	useEffect(() => {
+		checkPermissionStatus();
+		const interval = setInterval(checkPermissionStatus, 10_000);
+		return () => clearInterval(interval);
+	}, []);
 
 	//
 	// C. Handle actions
 
 	useEffect(() => {
 		// Skip if no permission
-		if (!isPermissionGranted) return;
+		if (!hasPermission) return;
 		// Subscribe to location updates
 		const options = {
 			accuracy: Location.Accuracy.Balanced,
@@ -67,7 +81,7 @@ export const UserLocationContextProvider = ({ children }: PropsWithChildren) => 
 		return () => {
 			watch.then(subscription => subscription.remove());
 		};
-	}, [isPermissionGranted]);
+	}, [hasPermission]);
 
 	//
 	// D. Context value
@@ -80,10 +94,12 @@ export const UserLocationContextProvider = ({ children }: PropsWithChildren) => 
 			location: currentLocationState,
 		},
 		flags: {
-			enabled: isPermissionGranted,
+			can_request: canRequest,
+			has_permission: hasPermission,
 		},
 	}), [
-		isPermissionGranted,
+		canRequest,
+		hasPermission,
 		currentLocationState,
 	]);
 

@@ -3,9 +3,9 @@
 import { useUserLocationContext } from '@/contexts/UserLocation.context';
 import { useSystemVariables } from '@/theme/global';
 import { type CameraRef } from '@maplibre/maplibre-react-native';
-import { IconCurrentLocationFilled, IconCurrentLocationOff, IconNavigationTop } from '@tabler/icons-react-native';
+import { IconCurrentLocation, IconCurrentLocationFilled, IconCurrentLocationOff, IconNavigationTop } from '@tabler/icons-react-native';
 import { type RefObject } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 
 import { useStyles } from './styles';
 
@@ -33,28 +33,14 @@ export function MapViewUserLocationButton({ cameraRef, isFollowingUser, onToggle
 	//
 	// B. Handle actions
 
-	const handleCenterMap = () => {
+	const handleCenterMap = async () => {
 		// Skip if no camera
 		if (!cameraRef?.current) return;
 		// Request location permission if not granted
-		if (!userLocationContext.flags.enabled) {
-			userLocationContext.actions.requestPermission();
+		if (!userLocationContext.flags.has_permission && userLocationContext.flags.can_request) {
+			await userLocationContext.actions.requestPermission();
+			return;
 		}
-		// Skip if no location
-		if (!userLocationContext.data.location?.coords.longitude) return;
-		if (!userLocationContext.data.location?.coords.latitude) return;
-		// Reset camera first
-		cameraRef.current.setCamera({});
-		// Center map on user location
-		cameraRef.current.setCamera({
-			animationDuration: 2000,
-			animationMode: 'flyTo',
-			centerCoordinate: [
-				userLocationContext.data.location.coords.longitude,
-				userLocationContext.data.location.coords.latitude,
-			],
-			zoomLevel: 16,
-		});
 		// Trigger follow user action
 		if (onToggleFollowUser) onToggleFollowUser(true);
 	};
@@ -62,10 +48,18 @@ export function MapViewUserLocationButton({ cameraRef, isFollowingUser, onToggle
 	//
 	// C. Render components
 
-	if (!userLocationContext.flags.enabled) {
+	if (!userLocationContext.flags.can_request) {
+		return (
+			<View style={styles.container}>
+				<IconCurrentLocationOff color={systemVariables.text[400]} size={32} />
+			</View>
+		);
+	}
+
+	if (!userLocationContext.flags.has_permission) {
 		return (
 			<TouchableOpacity onPress={handleCenterMap} style={styles.container}>
-				<IconCurrentLocationOff color={systemVariables.text[100]} size={32} />
+				<IconCurrentLocation color={systemVariables.text[100]} size={32} />
 			</TouchableOpacity>
 		);
 	}
