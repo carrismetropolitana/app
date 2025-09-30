@@ -135,8 +135,14 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 			updatedAccountData.devices[currentDeviceIndex].name = Device.deviceName || null;
 			updatedAccountData.devices[currentDeviceIndex].push_token = notificationsContext.data.token || null;
 			updatedAccountData.devices[currentDeviceIndex].seen_last_at = Dates.now('Europe/Lisbon').unix_timestamp;
-			// Send the updated data to the server
-			return await updateAccountApi(updatedAccountData);
+			// Send the updated data to the server.
+			// We don't await this to keep the update fast.
+			// Any errors will be handled by SWR revalidation.
+			// If the server returns updated data, it will replace our optimistic update.
+			updateAccountApi(updatedAccountData);
+			// Return the updated data immediately for optimistic update.
+			// The UI will update immediately and then revalidate in the background.
+			return updatedAccountData;
 		}, {
 			populateCache: true,
 			revalidate: false,
