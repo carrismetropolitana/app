@@ -41,10 +41,10 @@ export function LinesSelectionListMain({ addToRecentsOnPress, onPress, replaceCh
 	const listSections = useMemo(() => {
 		// Setup a final variable to add the sections
 		const regularSections = [
-			{ data: linesListContext.data.favorites, title: t('favorites.title') },
-			{ data: linesListContext.data.around, title: t('around.title') },
 			{ data: linesListContext.data.recent, title: t('recent.title') },
-			{ data: linesListContext.data.all, title: t('all.title') },
+			{ data: linesListContext.data.favorites, title: t('favorites.title') },
+			{ data: linesListContext.data.nearby, title: t('nearby.title') },
+			{ data: linesListContext.data.filtered, title: t('all.title') },
 		];
 		// Filter out empty sections
 		const searchResultsSection = [
@@ -56,7 +56,7 @@ export function LinesSelectionListMain({ addToRecentsOnPress, onPress, replaceCh
 		return regularSections.filter(section => section.data.length > 0);
 	}, [
 		linesListContext.data.favorites,
-		linesListContext.data.around,
+		linesListContext.data.nearby,
 		linesListContext.data.recent,
 		linesListContext.data.filtered,
 	]);

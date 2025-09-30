@@ -6,9 +6,9 @@ import { useLinesContext } from '@/contexts/Lines.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useUserLocationContext } from '@/contexts/UserLocation.context';
 import createDocCollection from '@/hooks/useOtheSearch';
-import { type Line, type Stop } from '@carrismetropolitana/api-types/network';
-import { getDistance } from 'geolib';
-import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
+import { type Line } from '@carrismetropolitana/api-types/network';
+import { distance } from '@turf/turf';
+import { createContext, type PropsWithChildren, useContext, useMemo, useState } from 'react';
 
 /* * */
 
@@ -18,10 +18,9 @@ interface LinesListContextState {
 		updateFilterBySearch: (value: string) => void
 	}
 	data: {
-		all: Line[]
-		around: Line[]
 		favorites: Line[]
 		filtered: Line[]
+		nearby: Line[]
 		recent: Line[]
 	}
 	filters: {
@@ -58,14 +57,12 @@ export const LinesListContextProvider = ({ children }: PropsWithChildren) => {
 	const favoritesContext = useFavoritesContext();
 	const userLocationContext = useUserLocationContext();
 
-	const [dataAroundState, setDataAroundState] = useState<Line[]>([]);
-
 	const [filterBySearchState, setFilterBySearchState] = useState<LinesListContextState['filters']['by_search']>('');
 
 	//
 	// B. Transform data
 
-	const recentLinesData = useMemo(() => {
+	const recentLinesData: Line[] = useMemo(() => {
 		// Get recent line IDs from user preferences
 		const recentLineIds = new Set(accountContext.data.account?.preferences?.recent_line_ids || []);
 		// Map IDs to line data
@@ -75,14 +72,37 @@ export const LinesListContextProvider = ({ children }: PropsWithChildren) => {
 			.sort((a, b) => a.id.localeCompare(b.id));
 	}, [accountContext.data.account?.preferences?.recent_line_ids, linesContext.data.lines]);
 
-	const favoriteLinesData = useMemo(() => {
+	const favoriteLinesData: Line[] = useMemo(() => {
 		const currentFavorites = new Set(favoritesContext.data.line_ids || []);
 		return linesContext.data.lines.filter(line => currentFavorites.has(line.id));
 	}, [linesContext.data.lines, favoritesContext.data.line_ids]);
 
-	const filteredLinesData = useMemo(() => {
+	const nearbyLinesData: Line[] = useMemo(() => {
+		// Skip if no stops are available
+		if (!stopsContext.data.stops.length) return [];
+		// Get user location
+		const userLocation = userLocationContext.data.location?.coords;
+		if (!userLocation) return [];
+		// Filter stops by radius using turf
+		const stopsWithinRadius = stopsContext.data.stops.filter((stop) => {
+			const meters = distance(
+				{ coordinates: [userLocation.longitude, userLocation.latitude], type: 'Point' },
+				{ coordinates: [stop.lon, stop.lat], type: 'Point' },
+				{ units: 'meters' },
+			);
+			return meters <= 500;
+		});
+		// Get unique line IDs from nearby stops
+		return Array
+			.from(new Set(stopsWithinRadius.flatMap(stop => stop.line_ids)))
+			.map(id => linesContext.data.lines.find(line => line.id === id))
+			.filter((l): l is Line => Boolean(l))
+			.slice(0, 5); // Limit to 5 items
+	}, [stopsContext.data.stops, userLocationContext.data.location, linesContext.data.lines]);
+
+	const filteredLinesData: Line[] = useMemo(() => {
 		// Skip if no filters are applied
-		if (!filterBySearchState) return [];
+		if (!filterBySearchState) return linesContext.data.lines;
 		// Give extra weight to favorite lines
 		const boostedData = linesContext.data.lines.map(line => ({ ...line, boost: accountContext.data.account?.favorites.line_ids.includes(line.id) ? true : false }));
 		const searchHook = createDocCollection(boostedData, {
@@ -115,32 +135,6 @@ export const LinesListContextProvider = ({ children }: PropsWithChildren) => {
 		setFilterBySearchState(value);
 	};
 
-	const filterStopsByRadius = (stops: Stop[], center: { latitude: number, longitude: number }, radiusMeters: number) =>
-		stops.filter(stop =>
-			getDistance(
-				{ latitude: center.latitude, longitude: center.longitude },
-				{ latitude: stop.lat, longitude: stop.lon },
-			) <= radiusMeters,
-		);
-
-	const getLinesAroundLocation = async (): Promise<Line[]> => {
-		const center = userLocationContext.data.location?.coords;
-		if (!center) return [];
-		const nearbyStops = filterStopsByRadius(stopsContext.data.stops, center, 500);
-		const uniqueIds = Array.from(new Set(nearbyStops.flatMap(stop => stop.line_ids)));
-		const nearbyLines = uniqueIds
-			.map(id => linesContext.data.lines.find(line => line.id === id))
-			.filter((l): l is Line => Boolean(l));
-		setDataAroundState(nearbyLines);
-		return nearbyLines;
-	};
-
-	useEffect(() => {
-		if (stopsContext.data.stops.length > 0 && linesContext.data.lines.length > 0 && userLocationContext.data.location?.coords.latitude !== 0 && userLocationContext.data.location?.coords.longitude !== 0) {
-			getLinesAroundLocation();
-		}
-	}, [stopsContext.data.stops, linesContext.data.lines, userLocationContext.data.location?.coords]);
-
 	//
 	// E. Define context value
 
@@ -150,10 +144,9 @@ export const LinesListContextProvider = ({ children }: PropsWithChildren) => {
 			updateFilterBySearch,
 		},
 		data: {
-			all: linesContext.data.lines,
-			around: dataAroundState,
 			favorites: favoriteLinesData,
 			filtered: filteredLinesData,
+			nearby: nearbyLinesData,
 			recent: recentLinesData,
 		},
 		filters: {
@@ -165,10 +158,9 @@ export const LinesListContextProvider = ({ children }: PropsWithChildren) => {
 	}), [
 		recentLinesData,
 		favoriteLinesData,
-		dataAroundState,
+		nearbyLinesData,
 		filteredLinesData,
 		filterBySearchState,
-		linesContext.data.lines,
 		linesContext.flags.loading,
 	]);
 

@@ -517,7 +517,7 @@
 			"all": {
 				"title": "All Lines"
 			},
-			"around": {
+			"nearby": {
 				"title": "Lines Around Me"
 			},
 			"favorites": {
@@ -760,7 +760,7 @@
 			"all": {
 				"title": "All Stops"
 			},
-			"around": {
+			"nearby": {
 				"title": "Stops Around Me"
 			},
 			"favorites": {

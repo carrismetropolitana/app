@@ -8,8 +8,11 @@ import { useStopsContext } from '@/contexts/Stops.context';
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import createDocCollection from '@/hooks/useOtheSearch';
 import { type Stop } from '@carrismetropolitana/api-types/network';
+import { distance } from '@turf/turf';
 import { type FeatureCollection, type Point } from 'geojson';
 import { createContext, type PropsWithChildren, useContext, useMemo, useState } from 'react';
+
+import { useUserLocationContext } from './UserLocation.context';
 
 /* * */
 
@@ -24,6 +27,7 @@ interface StopsSelectionContextState {
 		favorites_fc: FeatureCollection<Point, MapOverlayStopsGeoJsonProperties> | undefined
 		filtered: Stop[]
 		filtered_fc: FeatureCollection<Point, MapOverlayStopsGeoJsonProperties> | undefined
+		nearby: Stop[]
 		recent: Stop[]
 	}
 	filters: {
@@ -58,6 +62,7 @@ export const StopsSelectionContextProvider = ({ children }: PropsWithChildren) =
 	const stopsContext = useStopsContext();
 	const accountContext = useAccountContext();
 	const favoritesContext = useFavoritesContext();
+	const userLocationContext = useUserLocationContext();
 	const accessibilityContext = useAccessibilityContext();
 
 	const [filterBySearchState, setFilterBySearchState] = useState<StopsSelectionContextState['filters']['by_search']>('');
@@ -67,7 +72,7 @@ export const StopsSelectionContextProvider = ({ children }: PropsWithChildren) =
 	//
 	// B. Transform data
 
-	const recentStopsData = useMemo(() => {
+	const recentStopsData: Stop[] = useMemo(() => {
 		// Get recent stop IDs from user preferences
 		const recentStopIds = new Set(accountContext.data.account?.preferences?.recent_stop_ids || []);
 		// Map IDs to stop data
@@ -77,7 +82,7 @@ export const StopsSelectionContextProvider = ({ children }: PropsWithChildren) =
 			.sort((a, b) => a.id.localeCompare(b.id));
 	}, [accountContext.data.account?.preferences?.recent_stop_ids, stopsContext.data.stops]);
 
-	const favoriteStopsData = useMemo(() => {
+	const favoriteStopsData: Stop[] = useMemo(() => {
 		const currentFavorites = new Set(favoritesContext.data.stop_ids || []);
 		return stopsContext.data.stops.filter(stop => currentFavorites.has(stop.id));
 	}, [stopsContext.data.stops, favoritesContext.data.stop_ids]);
@@ -89,7 +94,26 @@ export const StopsSelectionContextProvider = ({ children }: PropsWithChildren) =
 		return collection;
 	}, [favoriteStopsData]);
 
-	const filteredStopsData = useMemo(() => {
+	const nearbyStopsData: Stop[] = useMemo(() => {
+		// Skip if no stops are available
+		if (!stopsContext.data.stops.length) return [];
+		// Get user location
+		const userLocation = userLocationContext.data.location?.coords;
+		if (!userLocation) return [];
+		// Filter stops by radius using turf
+		const stopsWithinRadius = stopsContext.data.stops.filter((stop) => {
+			const meters = distance(
+				{ coordinates: [userLocation.longitude, userLocation.latitude], type: 'Point' },
+				{ coordinates: [stop.lon, stop.lat], type: 'Point' },
+				{ units: 'meters' },
+			);
+			return meters <= 500;
+		});
+		// Get unique line IDs from nearby stops
+		return stopsWithinRadius.slice(0, 5); // Limit to 5 items
+	}, [stopsContext.data.stops, userLocationContext.data.location]);
+
+	const filteredStopsData: Stop[] = useMemo(() => {
 		// Skip if no filters are applied
 		if (!filterBySearchState) return stopsContext.data.stops;
 		// Give extra weight to favorite stops
@@ -148,6 +172,7 @@ export const StopsSelectionContextProvider = ({ children }: PropsWithChildren) =
 			favorites_fc: favoriteStopsDataFC,
 			filtered: filteredStopsData,
 			filtered_fc: filteredStopsDataFC,
+			nearby: nearbyStopsData,
 			recent: recentStopsData,
 		},
 		filters: {
@@ -162,6 +187,7 @@ export const StopsSelectionContextProvider = ({ children }: PropsWithChildren) =
 		favoriteStopsDataFC,
 		filterBySearchState,
 		filteredStopsData,
+		nearbyStopsData,
 		filteredStopsDataFC,
 		recentStopsData,
 		stopsContext.flags.loading,

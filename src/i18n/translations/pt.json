@@ -628,7 +628,7 @@
 			"all": {
 				"title": "Todas as Linhas"
 			},
-			"around": {
+			"nearby": {
 				"title": "À Minha Volta"
 			},
 			"favorites": {
@@ -842,7 +842,7 @@
 			"all": {
 				"title": "Todas as Paragens"
 			},
-			"around": {
+			"nearby": {
 				"title": "À Minha Volta"
 			},
 			"favorites": {

@@ -31,8 +31,9 @@ export function StopsSelectionMainList({ onPress, replaceChevron }: StopsSelecti
 	const listSections = useMemo(() => {
 		// Setup a final variable to add the sections
 		const regularSections = [
-			{ data: stopsSelectionContext.data.favorites, title: t('favorites.title') },
 			{ data: stopsSelectionContext.data.recent, title: t('recent.title') },
+			{ data: stopsSelectionContext.data.favorites, title: t('favorites.title') },
+			{ data: stopsSelectionContext.data.nearby, title: t('nearby.title') },
 			{ data: stopsSelectionContext.data.filtered, title: t('all.title') },
 		];
 		// Filter out empty sections
@@ -47,6 +48,7 @@ export function StopsSelectionMainList({ onPress, replaceChevron }: StopsSelecti
 		stopsSelectionContext.data.favorites,
 		stopsSelectionContext.data.recent,
 		stopsSelectionContext.data.filtered,
+		stopsSelectionContext.data.nearby,
 		stopsSelectionContext.filters.by_search,
 	]);
 
