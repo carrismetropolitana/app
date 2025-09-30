@@ -109,8 +109,8 @@ export const StopsSelectionContextProvider = ({ children }: PropsWithChildren) =
 			);
 			return meters <= 500;
 		});
-		// Get unique line IDs from nearby stops
-		return stopsWithinRadius.slice(0, 5); // Limit to 5 items
+		// Limit to 25 stops
+		return stopsWithinRadius.slice(0, 25);
 	}, [stopsContext.data.stops, userLocationContext.data.location]);
 
 	const filteredStopsData: Stop[] = useMemo(() => {
