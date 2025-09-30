@@ -115,40 +115,33 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 	};
 
 	async function update(path: DotPath<Account>, value: PathValue<Account, DotPath<Account>>) {
-		if (!accountData || !deviceId) return;
-		// Update local copy of the data
-		const updatedAccountData = setValueAtPath(Object.assign({}, accountData), path, value);
-		// Update local SWR data immediately (optimistic update)
-		accountMutate(updateAccountApi(updatedAccountData), { optimisticData: updatedAccountData, populateCache: true, revalidate: false });
+		// Skip if no device ID
+		if (!deviceId) return;
+		// Use SWR mutate to optimistically update the account data.
+		// SWR accepts a function that receives the most up-to-date data
+		// and returns the updated data to avoid stale data issues when
+		// mutating with React state.
+		accountMutate(async (current) => {
+			// Skip if no current data
+			if (!current) return current;
+			// Update local copy of the data
+			const updatedAccountData = setValueAtPath(Object.assign({}, current), path, value);
+			// Get the current device index
+			const currentDeviceIndex = current.devices.findIndex(d => d.device_id === deviceId);
+			if (currentDeviceIndex === -1) return;
+			// Update device details on every update
+			updatedAccountData.devices[currentDeviceIndex].app_version = Constants.expoConfig?.version || null;
+			updatedAccountData.devices[currentDeviceIndex].brand = Device.brand;
+			updatedAccountData.devices[currentDeviceIndex].name = Device.deviceName || null;
+			updatedAccountData.devices[currentDeviceIndex].push_token = notificationsContext.data.token || null;
+			updatedAccountData.devices[currentDeviceIndex].seen_last_at = Dates.now('Europe/Lisbon').unix_timestamp;
+			// Send the updated data to the server
+			return await updateAccountApi(updatedAccountData);
+		}, {
+			populateCache: true,
+			revalidate: false,
+		});
 	};
-
-	const updateDeviceDetails = async () => {
-		// Skip if no account data
-		if (!accountData) return;
-		// Get the current device
-		const currentDevice = accountData.devices.find(d => d.device_id === deviceId);
-		const currentDeviceIndex = accountData.devices.findIndex(d => d.device_id === deviceId);
-		if (!currentDevice || currentDeviceIndex === -1) return;
-		// Update device with latest information
-		const updatedDevice: Account['devices'][number] = {
-			...accountData.devices[currentDeviceIndex],
-			app_version: Constants.expoConfig?.version || null,
-			brand: Device.brand,
-			name: Device.deviceName || null,
-			push_token: notificationsContext.data.token || null,
-			seen_last_at: Dates.now('Europe/Lisbon').unix_timestamp,
-		};
-		// Update the device from the account data
-		const updatedAccountDevices = accountData.devices.map(device => currentDevice.device_id === device.device_id ? updatedDevice : device);
-		// Update the account with the updated device info
-		await update('devices', updatedAccountDevices);
-	};
-
-	useEffect(() => {
-		updateDeviceDetails();
-		const interval = setInterval(updateDeviceDetails, 60_000); // Every minute
-		return () => clearInterval(interval);
-	}, [deviceId, notificationsContext.data.token]);
 
 	const createAccount = async () => {
 		if (!isInit || deviceId) return;
