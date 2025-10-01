@@ -16,6 +16,7 @@ import useSWR from 'swr';
 
 const LOCAL_STORAGE_KEYS = {
 	device_id: 'device_id',
+	legacy_token: 'token',
 };
 
 /* * */
@@ -85,8 +86,22 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 			if (isInit) return;
 			// Try to get Device ID from local storage
 			const foundDeviceId = await AsyncStorage.getItem(LOCAL_STORAGE_KEYS.device_id);
+			const foundLegacyToken = await AsyncStorage.getItem(LOCAL_STORAGE_KEYS.legacy_token);
 			// Set Device ID if found...
-			if (foundDeviceId) setDeviceId(foundDeviceId);
+			if (foundDeviceId) {
+				setDeviceId(foundDeviceId);
+				setIsInit(true);
+				return;
+			}
+			if (foundLegacyToken) {
+				// If we have a legacy token, we need to clear it
+				// and create a new account
+				await AsyncStorage.setItem(LOCAL_STORAGE_KEYS.device_id, foundLegacyToken);
+				await AsyncStorage.removeItem(LOCAL_STORAGE_KEYS.legacy_token);
+				setDeviceId(foundLegacyToken);
+				setIsInit(true);
+				return;
+			}
 			// Update state to initialized
 			setIsInit(true);
 		})();
