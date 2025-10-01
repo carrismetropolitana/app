@@ -831,7 +831,7 @@
 				"description": "Pode escolher qualquer número de destinos a partir desta paragem.",
 				"title": "Selecione um destino"
 			},
-			"title": "Line Widget"
+			"title": "Widget de Linha"
 		},
 		"WidgetSmartNotificationConfig": {
 			"actions": {
@@ -863,7 +863,7 @@
 			"step_5": {
 				"title": "no intervalo"
 			},
-			"title": "Smart Notification Widget"
+			"title": "Notificação Inteligente"
 		},
 		"WidgetSmartNotificationConfigDistanceInput": {
 			"unit": "metros"
