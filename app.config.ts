@@ -52,7 +52,7 @@ const config: ExpoConfig = {
 
 		adaptiveIcon: {
 			backgroundColor: '#ffffff',
-			foregroundImage: './assets/app/icon-light.png',
+			foregroundImage: './assets/app/icon-adaptive.png',
 		},
 
 		googleServicesFile: './environments/production/secrets/google-services.json',
@@ -66,6 +66,11 @@ const config: ExpoConfig = {
 		appleTeamId: 'QGATT2W97P',
 
 		bundleIdentifier: 'pt.carrismetropolitana.app',
+
+		icon: {
+			dark: './assets/app/icon-dark.png',
+			light: './assets/app/icon-light.png',
+		},
 
 		infoPlist: {
 
