@@ -1,8 +1,7 @@
 /* * */
 
-import RNDateTimePicker, { type DateTimePickerEvent } from '@react-native-community/datetimepicker';
-import { useMemo } from 'react';
-import { Text, View } from 'react-native';
+import { useMemo, useState } from 'react';
+import { Text, TextInput, View } from 'react-native';
 
 import { useStyles } from './styles';
 
@@ -24,6 +23,9 @@ export function WidgetSmartNotificationConfigScheduleTimeInput({ onChange, title
 
 	const styles = useStyles();
 
+	const [hours, setHours] = useState('12');
+	const [minutes, setMinutes] = useState('00');
+
 	//
 	// B. Transform data
 
@@ -38,14 +40,35 @@ export function WidgetSmartNotificationConfigScheduleTimeInput({ onChange, title
 	//
 	// C. Handle actions
 
-	const handleChange = (event: DateTimePickerEvent, date: Date | undefined) => {
-		// From a Date object, get the hours
-		// and minutes and convert to seconds
-		const hours = date?.getHours() ?? 12;
-		const minutes = date?.getMinutes() ?? 0;
-		const totalSeconds = hours * 3600 + minutes * 60;
-		onChange(totalSeconds);
+	const handleChangeMinutes = (text: string) => {
+		// Only keep digits
+		text = text.replace(/\D/g, '');
+		if (text.length === 0) {
+			setMinutes('00');
+			return;
+		}
+		// Take at most 2 digits (minutes are 0–59)
+		if (text.length > 2) {
+			text = text.slice(-2); // keep last 2 digits typed
+		}
+		let num = parseInt(text, 10);
+		// Clamp to 0–59
+		if (num > 59) {
+			num = 59;
+		}
+		// Pad with leading zero if < 10
+		const newMinutes = num.toString().padStart(2, '0');
+		setMinutes(newMinutes);
 	};
+
+	// const handleChange = (event) => {
+	// From a Date object, get the hours
+	// and minutes and convert to seconds
+	// const hours = date?.getHours() ?? 12;
+	// const minutes = date?.getMinutes() ?? 0;
+	// const totalSeconds = hours * 3600 + minutes * 60;
+	// onChange(totalSeconds);
+	// };
 
 	//
 	// D. Render components
@@ -53,14 +76,23 @@ export function WidgetSmartNotificationConfigScheduleTimeInput({ onChange, title
 	return (
 		<View style={styles.container}>
 			<Text style={styles.text}>{title}</Text>
-			<RNDateTimePicker
-				accessibilityLabel={title}
-				locale="pt-PT"
-				minuteInterval={5}
-				mode="time"
-				onChange={handleChange}
-				value={parsedDateValue}
-			/>
+			<View style={styles.wrapper}>
+				<TextInput
+					keyboardType="number-pad"
+					onChange={event => setHours(event.nativeEvent.text)}
+					returnKeyType="done"
+					style={styles.input}
+					value={hours}
+				/>
+				<Text style={styles.divider}>:</Text>
+				<TextInput
+					keyboardType="number-pad"
+					onChange={event => handleChangeMinutes(event.nativeEvent.text)}
+					returnKeyType="done"
+					style={styles.input}
+					value={minutes}
+				/>
+			</View>
 		</View>
 	);
 

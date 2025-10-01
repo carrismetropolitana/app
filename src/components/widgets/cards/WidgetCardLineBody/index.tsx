@@ -9,6 +9,8 @@ import { useVehiclesContext } from '@/contexts/Vehicles.context';
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import { type WidgetLine } from '@/schemas/widgets';
 import { type Pattern, type Shape } from '@carrismetropolitana/api-types/network';
+import { type CameraRef } from '@maplibre/maplibre-react-native';
+import { bbox } from '@turf/turf';
 import { type LineString, type Point } from 'geojson';
 import { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
@@ -41,7 +43,7 @@ export function WidgetCardLineBody({ data }: WidgetCardLineBodyProps) {
 	const [currentShapeData, setCurrentShapeData] = useState<Shape | undefined>(undefined);
 
 	//
-	// C. Fetch data
+	// B. Fetch data
 
 	useEffect(() => {
 		(async () => {
@@ -97,7 +99,27 @@ export function WidgetCardLineBody({ data }: WidgetCardLineBodyProps) {
 	}, [currentShapeData]);
 
 	//
-	// C. Render components
+	// D. Handle actions
+
+	const handleDidFinishLoadingMap = (cameraRef: CameraRef) => {
+		// Skip if no shape data
+		if (!shapeDataFC) return false;
+		// Calculate feature bounds
+		const featureBounds = bbox(shapeDataFC);
+		// Fit map to bounds
+		cameraRef.fitBounds(
+			[featureBounds[2], featureBounds[3]],
+			[featureBounds[0], featureBounds[1]],
+			50, // padding around bounds
+			0, // animation duration in ms
+		);
+		// Return true to indicate success
+		// and avoid further attempts
+		return true;
+	};
+
+	//
+	// E. Render components
 
 	if (isLoading) {
 		return (
@@ -109,7 +131,10 @@ export function WidgetCardLineBody({ data }: WidgetCardLineBodyProps) {
 
 	return (
 		<View style={styles.container}>
-			<MapView vehiclesCounterQty={availableVehiclesDataFC?.features.length ?? 0}>
+			<MapView
+				onDidFinishLoadingMap={handleDidFinishLoadingMap}
+				vehiclesCounterQty={availableVehiclesDataFC?.features.length ?? 0}
+			>
 				<MapOverlayPath
 					belowLayerId={mapOverlayVehicles_TopLayerId}
 					shapeData={shapeDataFC}

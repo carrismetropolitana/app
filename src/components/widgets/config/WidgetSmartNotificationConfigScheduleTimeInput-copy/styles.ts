@@ -21,31 +21,10 @@ export const useStyles = () => {
 			padding: 15,
 			width: '100%',
 		},
-		divider: {
-			color: systemVariables.text[200],
-			fontSize: 18,
-			fontWeight: 700,
-		},
-		input: {
-			backgroundColor: systemVariables.background[200],
-			borderRadius: 8,
-			color: systemVariables.text[100],
-			fontSize: 18,
-			fontWeight: 600,
-			paddingVertical: 8,
-			textAlign: 'center',
-			width: 50,
-		},
 		text: {
 			color: systemVariables.text[200],
 			fontSize: 17,
-			fontWeight: 600,
-		},
-		wrapper: {
-			alignItems: 'center',
-			display: 'flex',
-			flexDirection: 'row',
-			gap: 5,
+			fontWeight: '600',
 			justifyContent: 'center',
 		},
 	});

@@ -7,6 +7,7 @@ import { MAP_STYLES } from '@/components/map-new/configs/map-styles';
 import { MAP_VIEWPORT } from '@/components/map-new/configs/map-viewport';
 import { MapViewUserLocationButton } from '@/components/map-new/view/MapViewUserLocationButton';
 import { useMapGlobalContext } from '@/contexts/MapGlobal.context';
+import { useInterval } from '@/hooks/useInterval';
 import { Camera, type CameraRef, Images, type MapViewRef, MapView as RNMapView, UserLocation, UserTrackingMode } from '@maplibre/maplibre-react-native';
 import { type PropsWithChildren, useMemo, useRef, useState } from 'react';
 import { View } from 'react-native';
@@ -18,13 +19,35 @@ import { useStyles } from './styles';
 export type MapStyle = 'map' | 'satellite';
 
 interface MapViewProps {
+
+	/**
+	 * Callback fired when the map has finished loading.
+	 * Use this to fit the map to your data bounds.
+	 * The function keeps track of the camera ref for you,
+	 * and you can supply a boolean return to indicate if
+	 * the operation was successful or not.
+	 * @param cameraRef The camera ref of the map
+	 * @returns Return true if the operation was successful, false otherwise
+	 */
+	onDidFinishLoadingMap?: (cameraRef: CameraRef) => boolean
+
+	/**
+	 * Number of vehicles to display in the vehicles counter.
+	 * If undefined, the counter will not be displayed.
+	 */
 	vehiclesCounterQty?: number
+
+	/**
+	 * Whether to show the user location button.
+	 * Defaults to false.
+	 */
 	withUserLocation?: boolean
+
 }
 
 /* * */
 
-export function MapView({ children, vehiclesCounterQty, withUserLocation }: PropsWithChildren<MapViewProps>) {
+export function MapView({ children, onDidFinishLoadingMap, vehiclesCounterQty, withUserLocation }: PropsWithChildren<MapViewProps>) {
 	//
 
 	//
@@ -50,17 +73,30 @@ export function MapView({ children, vehiclesCounterQty, withUserLocation }: Prop
 	//
 	// C. Handle actions
 
-	const handleCenterMap = () => {
+	useInterval(() => {
+		// Skip if already moved
 		if (initialMove) return;
-		if (!cameraRef.current) return;
+		// Skip if no camera ref
+		if (!cameraRef?.current) return;
 		// Center map on default location
 		cameraRef.current.setCamera({
 			animationDuration: 1000,
 			centerCoordinate: MAP_VIEWPORT.center,
 			zoomLevel: MAP_VIEWPORT.zoom,
 		});
-		setInitialMove(true);
-	};
+		// Run provided callback if available
+		if (onDidFinishLoadingMap) {
+			// Run the callback and store the result
+			const result = onDidFinishLoadingMap(cameraRef.current);
+			// If result is true, mark as moved
+			if (result === true) setInitialMove(true);
+			// If result is false, skip marking as moved
+			// as the function will be retried on the next interval
+			else if (result === false) return;
+		}
+		// Mark as moved if no callback provided
+		else setInitialMove(true);
+	}, 1000);
 
 	//
 	// D. Render components
@@ -72,7 +108,6 @@ export function MapView({ children, vehiclesCounterQty, withUserLocation }: Prop
 				ref={mapViewRef}
 				attributionEnabled={false}
 				mapStyle={mapStyleData.value}
-				onDidFinishLoadingMap={handleCenterMap}
 				style={{ flex: 1 }}
 			>
 				<Images images={{

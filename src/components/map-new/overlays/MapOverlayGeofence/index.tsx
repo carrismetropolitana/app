@@ -1,6 +1,7 @@
 /* * */
 
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
+import { useSystemVariables } from '@/theme/global';
 import { FillLayer, LineLayer, ShapeSource } from '@maplibre/maplibre-react-native';
 import { type Feature, type Polygon } from 'geojson';
 
@@ -31,6 +32,8 @@ export function MapOverlayGeofence({ belowLayerId, geofenceData }: MapOverlayGeo
 	//
 	// A. Transform data
 
+	const systemVariables = useSystemVariables();
+
 	const baseGeofenceFC = getBaseGeoJsonFeatureCollection<Polygon, MapOverlayGeofenceShapeGeoJsonProperties>();
 
 	//
@@ -42,8 +45,8 @@ export function MapOverlayGeofence({ belowLayerId, geofenceData }: MapOverlayGeo
 				belowLayerID={mapOverlayGeofence_TopLayerId}
 				id="geofence-fill-layer"
 				style={{
-					fillColor: '#ff0000',
-					fillOpacity: 0.15,
+					fillColor: systemVariables.status.active,
+					fillOpacity: 0.25,
 					visibility: geofenceData ? 'visible' : 'none',
 				}}
 			/>
@@ -52,9 +55,9 @@ export function MapOverlayGeofence({ belowLayerId, geofenceData }: MapOverlayGeo
 				id={mapOverlayGeofence_TopLayerId}
 				style={{
 					lineCap: 'round',
-					lineColor: '#ff0000',
+					lineColor: systemVariables.status.active,
 					lineJoin: 'round',
-					lineWidth: ['interpolate', ['linear'], ['zoom'], 10, 4, 20, 1],
+					lineWidth: ['interpolate', ['linear'], ['zoom'], 10, 1, 20, 10],
 					visibility: geofenceData ? 'visible' : 'none',
 				}}
 			/>

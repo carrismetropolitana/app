@@ -1,7 +1,7 @@
 /* * */
 
 import { MapOverlayGeofence, mapOverlayGeofence_TopLayerId } from '@/components/map-new/overlays/MapOverlayGeofence';
-import { MapOverlayPath, MapOverlayPathShapeGeoJsonProperties, MapOverlayPathWaypointGeoJsonProperties, transformShapeDataIntoGeoJsonFeature, transformWaypointDataIntoGeoJsonFeature } from '@/components/map-new/overlays/MapOverlayPath';
+import { MapOverlayPath, type MapOverlayPathShapeGeoJsonProperties, type MapOverlayPathWaypointGeoJsonProperties, transformShapeDataIntoGeoJsonFeature, transformWaypointDataIntoGeoJsonFeature } from '@/components/map-new/overlays/MapOverlayPath';
 import { MapOverlayVehicles, mapOverlayVehicles_TopLayerId } from '@/components/map-new/overlays/MapOverlayVehicles';
 import { MapView } from '@/components/map-new/view/MapView';
 import { useLinesContext } from '@/contexts/Lines.context';
@@ -9,8 +9,10 @@ import { useStopsContext } from '@/contexts/Stops.context';
 import { useVehiclesContext } from '@/contexts/Vehicles.context';
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import { type WidgetSmartNotification } from '@/schemas/widgets';
-import { Pattern, Shape } from '@carrismetropolitana/api-types/network';
-import { LineString, Point } from 'geojson';
+import { type Pattern, type Shape } from '@carrismetropolitana/api-types/network';
+import { type CameraRef } from '@maplibre/maplibre-react-native';
+import { bbox } from '@turf/turf';
+import { type LineString, type Point } from 'geojson';
 import { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
@@ -98,6 +100,26 @@ export function WidgetCardSmartNotificationBody({ data }: WidgetCardSmartNotific
 	}, [currentShapeData]);
 
 	//
+	// C. Handle actions
+
+	const handleDidFinishLoadingMap = (cameraRef: CameraRef) => {
+		// Skip if no geojson data
+		if (!data.properties.geojson) return false;
+		// Calculate feature bounds
+		const featureBounds = bbox(data.properties.geojson);
+		// Fit map to data.properties.geojson
+		cameraRef.fitBounds(
+			[featureBounds[2], featureBounds[3]],
+			[featureBounds[0], featureBounds[1]],
+			50, // padding around bounds
+			0, // animation duration in ms
+		);
+		// Return true to indicate success
+		// and avoid further attempts
+		return true;
+	};
+
+	//
 	// C. Render components
 
 	if (isLoading) {
@@ -110,7 +132,10 @@ export function WidgetCardSmartNotificationBody({ data }: WidgetCardSmartNotific
 
 	return (
 		<View style={styles.container}>
-			<MapView vehiclesCounterQty={availableVehiclesDataFC?.features.length ?? 0}>
+			<MapView
+				onDidFinishLoadingMap={handleDidFinishLoadingMap}
+				vehiclesCounterQty={availableVehiclesDataFC?.features.length ?? 0}
+			>
 				<MapOverlayPath
 					belowLayerId={mapOverlayGeofence_TopLayerId}
 					shapeData={shapeDataFC}
