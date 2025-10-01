@@ -127,9 +127,9 @@ const config: ExpoConfig = {
 		 * @see https://docs.expo.dev/versions/latest/sdk/splash-screen/#configurable-properties
 		 */
 		['expo-splash-screen', {
-			backgroundColor: '#FFDD00',
+			backgroundColor: '#ffffff',
 			dark: {
-				backgroundColor: '#1e1e28',
+				backgroundColor: '#282832',
 				image: './assets/app/splash-dark.png',
 			},
 			image: './assets/app/splash-light.png',
