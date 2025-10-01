@@ -50,11 +50,6 @@ const config: ExpoConfig = {
 
 	android: {
 
-		adaptiveIcon: {
-			backgroundColor: '#ffffff',
-			foregroundImage: './assets/app/icon-adaptive.png',
-		},
-
 		googleServicesFile: './environments/production/secrets/google-services.json',
 
 		package: 'pt.carrismetropolitana.mobile',
