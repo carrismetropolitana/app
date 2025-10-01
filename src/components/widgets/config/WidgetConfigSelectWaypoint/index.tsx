@@ -97,6 +97,7 @@ export function WidgetConfigSelectWaypoint({ availableWaypoints, description, on
 				onClose={() => setModalVisible(false)}
 				onSelectWaypoint={handleSelectWaypoint}
 				selectedWaypoint={selectedWaypoint}
+				disableFirst
 			/>
 
 		</>
