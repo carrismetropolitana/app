@@ -811,7 +811,11 @@
 			"close_button": "Fechar"
 		},
 		"WidgetConfigSelectWaypoint": {
-			"label": "Selecionar paragem..."
+			"label": "Selecionar paragem...",
+			"selected": {
+				"accessibility_hint": "Toque duplo para alterar",
+				"accessibility_label": "Paragem selecionada: {tts_name}"
+			}
 		},
 		"WidgetConfigSelectWaypointModal": {
 			"close_button": "Fechar",

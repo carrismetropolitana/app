@@ -79,6 +79,8 @@ export function WidgetConfigSelectWaypoint({ availableWaypoints, description, on
 					description={description}
 					title={title}
 					items={[{
+						accessibilityHint: t('selected.accessibility_hint'),
+						accessibilityLabel: t('selected.accessibility_label', { tts_name: stopData?.tts_name }),
 						icon: <WidgetConfigSelectWaypointBadge sequence={selectedWaypoint.stop_sequence} />,
 						key: 'selected-waypoint',
 						label: stopData?.long_name || selectedWaypoint.stop_id,

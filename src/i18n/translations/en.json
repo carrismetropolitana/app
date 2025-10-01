@@ -820,7 +820,11 @@
 			"close_button": "Close"
 		},
 		"WidgetConfigSelectWaypoint": {
-			"label": "Select a stop..."
+			"label": "Select a stop...",
+			"selected": {
+				"accessibility_hint": "Double tap to change",
+				"accessibility_label": "Selected stop: {tts_name}"
+			}
 		},
 		"WidgetConfigSelectWaypointModal": {
 			"close_button": "Close",
