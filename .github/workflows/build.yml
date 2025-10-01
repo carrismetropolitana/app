@@ -63,6 +63,10 @@ jobs:
       env:
         GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
       # # #
+    - name: Set environment
+      run: |
+        export ENVIRONMENT=${{ github.ref_name }}
+      # # #
     - name: Build app
       run: |
         eas build --local \
@@ -107,6 +111,10 @@ jobs:
       # # #
     - name: Bump package version
       run: npm version --no-git-tag-version ${{ needs.version-number.outputs.version_number }}
+      # # #
+    - name: Set environment
+      run: |
+        export ENVIRONMENT=${{ github.ref_name }}
       # # #
     - name: Build app
       run: |
