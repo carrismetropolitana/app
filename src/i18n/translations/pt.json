@@ -3,7 +3,7 @@
 		"name": "Carris Metropolitana",
 		"sitemap": {
 			"(tabs)/home": {
-				"title": "Home"
+				"title": "Início"
 			},
 			"(tabs)/home/account": {
 				"title": "Conta"
@@ -66,7 +66,7 @@
 				"title": "Contactos"
 			},
 			"(tabs)/more/support/faq": {
-				"title": "F.A.Q."
+				"title": "Perguntas Frequentes"
 			},
 			"(tabs)/more/support/lost-and-found": {
 				"title": "Perdidos e Achados"
@@ -206,139 +206,6 @@
 			"randomize": "Gerar uma persona aleatória"
 		}
 	},
-	"addfavoriteline": {
-		"changeLineAccessibilityHint": "Este elemento é um botão para selecionar uma linha",
-		"changeLineAccessibilityLabel": "Selecione uma linha ",
-		"changeLineLabel": "Alterar Linha Selecionada",
-		"deselectLineHint": "Pressione este botão para desselecionar a Linha {line}",
-		"deselectLineLabel": "Desselecionar Linha {line}",
-		"firstSectionSubtitle": "Escolha uma linha para visualizar na página principal",
-		"firstSectionTitle": "1. Selecionar Linha ",
-		"headerTitle": "Linha Favorita",
-		"iconCheckedPatternAccessibilityHint": "Indica que este destino de linha foi selecionado",
-		"iconCheckedPatternAccessibilityLabel": "Destino selecionado",
-		"iconUncheckedPatternAccessibilityHint": "Indica que este destino de linha não está selecionado",
-		"iconUncheckedPatternAccessibilityLabel": "Destino não selecionado",
-		"linesLongnameAccessibilityHint": "Linha {line}",
-		"linesLongnameAccessibilityLabel": "Linha {line}",
-		"secondSectionSubtitle": "Pode escolher apenas os destinos que lhe interessam a partir desta linha. Personalize o seu painel de informação único.",
-		"secondSectionTitle": "2. Escolher destinos ",
-		"selectLineAccessibilityHint": "Clique neste input para selecionar linha",
-		"selectLineAccessibilityLabel": "Selecione uma linha",
-		"selectLineLabel": "Selecione uma linha para ver o seu destino",
-		"selectPatternAccessibilityHint": "Este bloco serve para selecionar um destino relacionado com a linha selecionada",
-		"selectPatternAccessibilityLabel": "Selecionar destino",
-		"subheading": "Adicione a linha da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas.",
-		"thirdSectionSubtitle": "Pode escolher receber uma notificação sempre que existir um alerta para a linha e para os destinos que selecionou.",
-		"thirdSectionTitle": "3. Notificações ",
-		"title": "Linha Favorita"
-	},
-	"addfavoritestop": {
-		"addFavoriteStopAccessibilityHint": "Este elemento é um texto que indica a paragem selecionada",
-		"addFavoriteStopAccessibilityLabel": "Linha selecionada {line}",
-		"changeStopAccessibilityHint": "Este elemento é um botão para selecionar uma paragem",
-		"changeStopAccessibilityLabel": "Selecione uma paragem",
-		"changeStopLabel": "Alterar Paragem Selecionada",
-		"firstSectionSubtitle": "Escolha uma paragem para visualizar na página principal",
-		"firstSectionTitle": "1. Selecionar Paragem ",
-		"secondSectionSubtitle": "Pode escolher apenas os destinos que lhe interessam a partir desta paragem. Personalize o seu painel de informação único.",
-		"secondSectionTitle": "2. Selecionar destino ",
-		"selectPatternAccessibilityHint": "Este bloco serve para selecionar um destino relacionado com a paragem selecionada",
-		"selectPatternAccessibilityLabel": "Selecionar destino",
-		"selectStopAccessibilityHint": "Este elemento é um botão para selecionar uma paragem",
-		"selectStopAccessibilityLabel": "Selecione uma paragem",
-		"selectStopLabel": "Selecione uma paragem para ver o seu destino"
-	},
-	"addsmartnotifications": {
-		"DaysSelector": {
-			"dayButtonAccessibilityHint": "Pressione este botão para selecionar ou desselecionar o dia {day}",
-			"dayButtonAccessibilityLabel": "Botão para selecionar o dia {day}",
-			"friday": "Sex",
-			"monday": "Seg",
-			"saturday": "Sáb",
-			"sunday": "Dom",
-			"thursday": "Qui",
-			"tuesday": "Ter",
-			"wednesday": "Qua",
-			"weekDaysTitle": "Dias da Semana"
-		},
-		"IntervalInputs": {
-			"endingTime": "Hora de fim",
-			"endingTimePickerAccessibilityHint": "Este elemento é um seletor de hora de fim",
-			"endingTimePickerAccessibilityLabel": "Seletor de hora de fim",
-			"startingTime": "Hora de Início",
-			"startingTimePickerAccessibilityHint": "Este elemento é um seletor de hora de início",
-			"startingTimePickerAccessibilityLabel": "Seletor de hora de início"
-		},
-		"StopSelector": {
-			"functionalityNotAvailable": "Esta funcionalidade não está disponível na primeira paragem do percurso, pois não é possível prever a chegada à primeira paragem.",
-			"showLess": "Mostrar menos",
-			"showMore": "Mostrar mais",
-			"stopSelectorAccessibilityHint": "Este bloco serve para selecionar uma paragem ",
-			"stopSelectorStopIDAccessibilityHint": "Este elemento é um texto que indica o id da paragem",
-			"stopSelectorStopIDAccessibilityLabel": "ID da paragem {id}",
-			"stopSelectorStopLocalityAccessibilityHint": "Este elemento é um texto que indica a localidade da paragem",
-			"stopSelectorStopLocalityAccessibilityLabel": "Localidade da paragem é {locality}",
-			"stopSelectorStopNameAccessibilityHint": "Este elemento é um texto que indica o nome da paragem",
-			"stopSelectorStopNameAccessibilityLabel": "Nome da paragem {name}",
-			"stopSelectorStopSequenceAccessibilityHint": "Este id {number} representa o numero de ordem da paragem ",
-			"stopSelectorStopSequenceAccessibilityLabel": "Número de ordem da paragem {number}",
-			"stopSelectorStopShowLessAccessibilityHint": "Este botão colapsa a lista de paragens",
-			"stopSelectorStopShowLessAccessibilityLabel": "Colapsar a lista de paragens",
-			"stopSelectorStopShowMoreAccessibilityHint": "Este botão expande a lista de paragens",
-			"stopSelectorStopShowMoreAccessibilityLabel": "Expandir a lista de paragens",
-			"stopSelectorTitle": "da paragem",
-			"stopSelectorTitleAccessibilityHint": "Este elemento é um cabeçalho para selecionar uma paragem",
-			"stopSelectorTitleAccessibilityLabel": "Secção de selecção de paragem",
-			"stops": "paragens",
-			"title": "Selecione uma linha para ver as suas paragens"
-		},
-		"Toolbar": {
-			"friday": "S",
-			"monday": "S",
-			"saturday": "S",
-			"sunday": "D",
-			"thursday": "Q",
-			"tuesday": "T",
-			"wednesday": "Q"
-		},
-		"changeLineLabel": "Alterar Linha Selecionada",
-		"chooseLineChangeLineAccessibilityHint": "Pressione este botão para alterar a linha selecionada",
-		"chooseLineChangeLineAccessibilityLabel": "Botão para alterar linha selecionada",
-		"chooseLineCheckedAccessibilityHint": "Indica que a linha {line} está selecionada",
-		"chooseLineCheckedAccessibilityLabel": "Linha {line}selecionada",
-		"chooseLineLongNameAccessibilityHint": "O Nome da Linha é {line}",
-		"chooseLineLongNameAccessibilityLabel": "Linha {line}",
-		"chooseLinePatternNameAccessibilityHint": "O Destino a que a linha se dirige é {pattern}",
-		"chooseLinePatternNameAccessibilityLabel": "Destino {pattern}",
-		"chooseLinePeriodAccessibilityHint": "Indica o período em que pretende receber a notificação",
-		"chooseLinePeriodAccessibilityLabel": "Período para o qual pretende receber a notificação",
-		"chooseLineRadiusAccessibilityHint": "Indica a distância em metros para a qual pretende receber a notificação",
-		"chooseLineRadiusAccessibilityLabel": "Distância para a qual pretende receber a notificação",
-		"chooseLineRadiusValueAccessibilityHint": "A distância em metros para a qual pretende receber a notificação",
-		"chooseLineRadiusValueAccessibilityLabel": "{value} metros",
-		"chooseLineTitle": "Notificar-me quando um autocarro da linha",
-		"chooseLineTitleAccessibilityHint": "Selecione uma linha para receber notificações inteligentes",
-		"chooseLineTitleAccessibilityLabel": "Selecione uma linha para receber notificações inteligentes",
-		"chooseLineUncheckedAccessibilityHint": "Indica que a linha {line} não está selecionada",
-		"chooseLineUncheckedAccessibilityLabel": "Linha {line} não selecionada",
-		"friday": "Sex",
-		"heading": "Notificações Inteligentes",
-		"monday": "Seg",
-		"noDestination": "Sem destino",
-		"noLineSelected": "Nenhuma linha selecionada",
-		"periodSelectorTitle": "no período",
-		"radiusAt": "estiver a",
-		"radiusMeters": "metros",
-		"radiusTime": "minutos",
-		"saturday": "Sáb",
-		"subheading": "Utiliza todos os dias a mesma linha? Gostava de saber exatamente quando sair de casa, ou quando acabar de tomar o café, para ir para a paragem?",
-		"sunday": "Dom",
-		"thursday": "Qui",
-		"tuesday": "Ter",
-		"valuePlaceholder": "Valor",
-		"wednesday": "Qua"
-	},
 	"alerts": {
 		"AlertActivePeriod": {
 			"end": "Fim: <parsedDate>{{parsedDate}}</parsedDate>",
@@ -369,7 +236,7 @@
 				"accessibility_label": "Tempo Real"
 			},
 			"scheduled": {
-				"accessibility_label": "Pleneado"
+				"accessibility_label": "Planeado"
 			}
 		}
 	},
@@ -628,15 +495,15 @@
 			"all": {
 				"title": "Todas as Linhas"
 			},
-			"nearby": {
-				"title": "À Minha Volta"
-			},
 			"favorites": {
 				"title": "Favoritas"
 			},
 			"items": {
 				"accessibility_hint": "Número da Linha: {short_name}",
 				"accessibility_label": "{index}º: {tts_name}"
+			},
+			"nearby": {
+				"title": "À Minha Volta"
 			},
 			"recent": {
 				"title": "Recentes"
@@ -842,15 +709,15 @@
 			"all": {
 				"title": "Todas as Paragens"
 			},
-			"nearby": {
-				"title": "À Minha Volta"
-			},
 			"favorites": {
 				"title": "Favoritas"
 			},
 			"items": {
 				"accessibility_hint": "Código da paragem: {id}",
 				"accessibility_label": "{index}º: {tts_name}"
+			},
+			"nearby": {
+				"title": "À Minha Volta"
 			},
 			"recent": {
 				"title": "Recentes"
@@ -900,8 +767,14 @@
 		"virtualizedListAccessibilityLabel": "Lista de Paragens"
 	},
 	"widgets": {
+		"WidgetCard": {
+			"accessibility_hint": {
+				"collapsed": "Toque duplo para expandir",
+				"expanded": "Toque duplo para colapsar"
+			}
+		},
 		"WidgetCardSmartNotificationHeader": {
-			"title": "Próximo {weekday}, às {start_time}"
+			"title": "{weekday} @ {start_time}"
 		},
 		"WidgetCardStopBodyArrivals": {
 			"no_data": "Nenhuma passagem prevista para hoje"
@@ -924,8 +797,8 @@
 			"close_button": "Fechar"
 		},
 		"WidgetConfigSelectPattern": {
-			"deselect_all": "Desmarcar todas",
-			"select_all": "Selecionar todas"
+			"deselect_all": "Desmarcar todos",
+			"select_all": "Selecionar todos"
 		},
 		"WidgetConfigSelectStop": {
 			"label": "Procurar paragem...",
@@ -936,6 +809,9 @@
 		},
 		"WidgetConfigSelectStopModal": {
 			"close_button": "Fechar"
+		},
+		"WidgetConfigSelectWaypoint": {
+			"label": "Selecionar um destino..."
 		},
 		"WidgetLineConfig": {
 			"actions": {
@@ -955,19 +831,30 @@
 			"title": "Line Widget"
 		},
 		"WidgetSmartNotificationConfig": {
+			"actions": {
+				"cancel": "Cancelar",
+				"delete": "Eliminar",
+				"save": "Guardar"
+			},
 			"description": "Receba uma notificação quando um autocarro estiver a chegar à sua paragem. Ajuste a distância e o horário para corresponder à sua rotina diária.",
 			"step_1": {
 				"title": "Quando um autocarro da linha"
 			},
 			"step_2": {
-				"no_data": "Selecione uma linha para continuar",
+				"no_data": {
+					"accessibility_hint": "É necessário selecionar uma linha na etapa anterior para poder escolher um destino aqui.",
+					"label": "Selecione uma linha para continuar"
+				},
 				"title": "com destino a"
 			},
 			"step_3": {
 				"title": "está a"
 			},
 			"step_4": {
-				"no_data": "Selecione um destino para continuar",
+				"no_data": {
+					"accessibility_hint": "É necessário selecionar um destino na etapa anterior para poder escolher uma paragem aqui.",
+					"label": "Selecione um destino para continuar"
+				},
 				"title": "da paragem"
 			},
 			"step_5": {
@@ -978,15 +865,31 @@
 		"WidgetSmartNotificationConfigDistanceInput": {
 			"unit": "metros"
 		},
+		"WidgetSmartNotificationConfigSchedule": {
+			"end_time_title": "Até às",
+			"start_time_title": "Desde as",
+			"weekdays_title": "Nos seguintes dias da semana"
+		},
 		"WidgetSmartNotificationConfigScheduleWeekdaysInput": {
 			"weekdays": {
-				"friday": "Sex",
-				"monday": "Seg",
-				"saturday": "Sáb",
-				"sunday": "Dom",
-				"thursday": "Qui",
-				"tuesday": "Ter",
-				"wednesday": "Qua"
+				"long": {
+					"friday": "Sextas",
+					"monday": "Segundas",
+					"saturday": "Sábados",
+					"sunday": "Domingos",
+					"thursday": "Quintas",
+					"tuesday": "Terças",
+					"wednesday": "Quartas"
+				},
+				"short": {
+					"friday": "Sex",
+					"monday": "Seg",
+					"saturday": "Sáb",
+					"sunday": "Dom",
+					"thursday": "Qui",
+					"tuesday": "Ter",
+					"wednesday": "Qua"
+				}
 			}
 		},
 		"WidgetSmartNotificationConfigWarning": {

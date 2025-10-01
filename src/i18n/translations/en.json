@@ -78,7 +78,7 @@
 				"title": "Stops"
 			},
 			"vehicles/[vehicle_id]": {
-				"title": "Vehicle Detail"
+				"title": "Vehicle"
 			}
 		}
 	},
@@ -191,49 +191,6 @@
 			"go_back": "Go back to the previous persona",
 			"randomize": "Generate a random persona"
 		}
-	},
-	"addfavoriteline": {
-		"changeLineAccessibilityHint": "This element is a button to select a line",
-		"changeLineAccessibilityLabel": "Select a line",
-		"changeLineLabel": "Change selected line",
-		"deselectLineHint": "Click this button to desselect a line {line}",
-		"deselectLineLabel": "Desselect line {line}",
-		"firstSectionSubtitle": "Choose a line to display on the main page",
-		"firstSectionTitle": "1. Select a line ",
-		"headerTitle": "Favorite Line",
-		"iconCheckedPatternAccessibilityHint": "Indicates which destination has been selected",
-		"iconCheckedPatternAccessibilityLabel": "Select Destination",
-		"iconUncheckedPatternAccessibilityHint": "Indicates that this destination for this line is not selected",
-		"iconUncheckedPatternAccessibilityLabel": "Destination not selected",
-		"linesLongnameAccessibilityHint": "Line {line}",
-		"linesLongnameAccessibilityLabel": "Line {line}",
-		"secondSectionSubtitle": "You can only choose the destinations that interest you from this stop. Customize your unique information panel.",
-		"secondSectionTitle": "2. Select destinations ",
-		"selectLineAccessibilityHint": "Click this input to select a line",
-		"selectLineAccessibilityLabel": "Select a line",
-		"selectLineLabel": "Select a line to see its destination",
-		"selectPatternAccessibilityHint": "This block's purpose is for you to select a destination related to the selected line",
-		"selectPatternAccessibilityLabel": "Select a destiny",
-		"subheading": "Add your home or work stop as a favorite. This way, whenever you need it, just open the app to see the next arrivals.",
-		"thirdSectionSubtitle": "You can choose to receive a notification whenever there is an alert for the stop and for the destinations you selected.",
-		"thirdSectionTitle": "3. Notifications ",
-		"title": "Favorite Line"
-	},
-	"addfavoritestop": {
-		"addFavoriteStopAccessibilityHint": "This element indicates the selected stop",
-		"addFavoriteStopAccessibilityLabel": "Selected line {line}",
-		"changeStopAccessibilityHint": "This element is a button to select a stop",
-		"changeStopAccessibilityLabel": "Select a stop",
-		"changeStopLabel": "Change selected stop",
-		"firstSectionSubtitle": "Choose a stop to display on the main page",
-		"firstSectionTitle": "1. Select a stop ",
-		"secondSectionSubtitle": "You can only choose the destinations that interest you from this stop. Customize your unique information panel.",
-		"secondSectionTitle": "2. Select destination ",
-		"selectPatternAccessibilityHint": "This block's purpose is for you to select a destination related to the selected stop",
-		"selectPatternAccessibilityLabel": "Select destination",
-		"selectStopAccessibilityHint": "This element is a button to select a stop",
-		"selectStopAccessibilityLabel": "Select a stop",
-		"selectStopLabel": "Select a stop to see its destination"
 	},
 	"alerts": {
 		"AlertActivePeriod": {
@@ -517,15 +474,15 @@
 			"all": {
 				"title": "All Lines"
 			},
-			"nearby": {
-				"title": "Lines Around Me"
-			},
 			"favorites": {
 				"title": "Favorite Lines"
 			},
 			"items": {
 				"accessibility_hint": "Line Number: {short_name}",
 				"accessibility_label": "{index}nd: {tts_name}"
+			},
+			"nearby": {
+				"title": "Lines Around Me"
 			},
 			"recent": {
 				"title": "Recent Lines"
@@ -760,15 +717,15 @@
 			"all": {
 				"title": "All Stops"
 			},
-			"nearby": {
-				"title": "Stops Around Me"
-			},
 			"favorites": {
 				"title": "Favorite Stops"
 			},
 			"items": {
 				"accessibility_hint": "Stop code: {id}",
 				"accessibility_label": "{index}nd: {tts_name}"
+			},
+			"nearby": {
+				"title": "Stops Around Me"
 			},
 			"recent": {
 				"title": "Recent Stops"
@@ -829,13 +786,13 @@
 			"title": "{weekday} @ {start_time}"
 		},
 		"WidgetCardStopBodyArrivals": {
-			"no_data": "No upcoming arrivals"
+			"no_data": "No upcoming arrivals for today"
 		},
 		"WidgetCardStopHeader": {
 			"no_name": "Stop Name Unavailable"
 		},
 		"WidgetConfigHeader": {
-			"video_label": "Watch Explainer Video"
+			"video_label": "Watch explainer video"
 		},
 		"WidgetConfigLabelInput": {
 			"accessibility_label": "Widget Label",
@@ -863,7 +820,7 @@
 			"close_button": "Close"
 		},
 		"WidgetConfigSelectWaypoint": {
-
+			"label": "Select a destination..."
 		},
 		"WidgetLineConfig": {
 			"actions": {
@@ -921,7 +878,6 @@
 			"end_time_title": "Ending at",
 			"start_time_title": "Starting from",
 			"weekdays_title": "On the following weekdays"
-
 		},
 		"WidgetSmartNotificationConfigScheduleWeekdaysInput": {
 			"weekdays": {
