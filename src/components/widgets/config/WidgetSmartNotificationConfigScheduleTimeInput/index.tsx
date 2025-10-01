@@ -1,6 +1,6 @@
 /* * */
 
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Text, TextInput, View } from 'react-native';
 
 import { useStyles } from './styles';
@@ -23,55 +23,95 @@ export function WidgetSmartNotificationConfigScheduleTimeInput({ onChange, title
 
 	const styles = useStyles();
 
-	const [hours, setHours] = useState('12');
-	const [minutes, setMinutes] = useState('00');
+	const [hoursString, setHoursString] = useState('12');
+	const [minutesString, setMinutesString] = useState('00');
 
 	//
 	// B. Transform data
 
-	const parsedDateValue = useMemo(() => {
-		// From 0 to 86400 seconds (24h), create a new Date object
-		if (value < 0 || value > 86400) return new Date('2025-01-01T12:00:00');
-		const hours = Math.floor(value / 3600);
-		const minutes = Math.floor((value % 3600) / 60);
-		return new Date(`2025-01-01T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:00`);
-	}, [value]);
+	const convertSecondsToString = (seconds: number) => {
+		// From 0 to 86400 seconds (24h),
+		// create hours and minutes strings
+		if (seconds < 0 || seconds > 86400) return;
+		const hours = Math.floor(seconds / 3600);
+		const minutes = Math.floor((seconds % 3600) / 60);
+		const formattedHours = hours.toString().padStart(2, '0');
+		const formattedMinutes = minutes.toString().padStart(2, '0');
+		return { hours: formattedHours, minutes: formattedMinutes };
+	};
+
+	const convertStringToSeconds = (h: string, m: string) => {
+		// Transform hours and minutes strings
+		// back into total seconds and call onChange callback
+		if (h.length === 0 || m.length === 0) return;
+		// Parse to integers
+		const hoursInt = parseInt(h, 10);
+		const minutesInt = parseInt(m, 10);
+		// Guard against NaN
+		if (isNaN(hoursInt) || isNaN(minutesInt)) return;
+		// Calculate total seconds
+		return hoursInt * 3600 + minutesInt * 60;
+	};
 
 	//
 	// C. Handle actions
 
-	const handleChangeMinutes = (text: string) => {
-		// Only keep digits
+	useEffect(() => {
+		// Update local hours and minutes state
+		const result = convertSecondsToString(value);
+		// Skip if conversion failed
+		if (!result) return;
+		// Update state
+		setHoursString(result.hours ?? '12');
+		setMinutesString(result.minutes ?? '00');
+	}, [value]);
+
+	const handleChangeHours = (text: string) => {
+		// Remove non-digit characters
 		text = text.replace(/\D/g, '');
+		// If empty, reset to '00'
 		if (text.length === 0) {
-			setMinutes('00');
+			setHoursString('');
 			return;
 		}
-		// Take at most 2 digits (minutes are 0–59)
-		if (text.length > 2) {
-			text = text.slice(-2); // keep last 2 digits typed
-		}
+		// keep only the last 2 digits typed
+		if (text.length > 2) text = text.slice(-2);
+		// Parse to integer and clamp to 0-23
 		let num = parseInt(text, 10);
-		// Clamp to 0–59
-		if (num > 59) {
-			num = 59;
-		}
+		if (num > 23) num = 23;
 		// Pad with leading zero if < 10
-		const newMinutes = num.toString().padStart(2, '0');
-		setMinutes(newMinutes);
+		const newValue = num.toString().padStart(2, '0');
+		// Update state with formatted value
+		setHoursString(newValue);
+		// Call onChange with new total seconds
+		const totalSeconds = convertStringToSeconds(newValue, minutesString);
+		if (totalSeconds !== undefined) onChange(totalSeconds);
 	};
 
-	// const handleChange = (event) => {
-	// From a Date object, get the hours
-	// and minutes and convert to seconds
-	// const hours = date?.getHours() ?? 12;
-	// const minutes = date?.getMinutes() ?? 0;
-	// const totalSeconds = hours * 3600 + minutes * 60;
-	// onChange(totalSeconds);
-	// };
+	const handleChangeMinutes = (text: string) => {
+		// Remove non-digit characters
+		text = text.replace(/\D/g, '');
+		// If empty, reset to '00'
+		if (text.length === 0) {
+			setMinutesString('');
+			return;
+		}
+		// keep only the last 2 digits typed
+		if (text.length > 2) text = text.slice(-2);
+		// Parse to integer and clamp to 0-59
+		let num = parseInt(text, 10);
+		if (num > 59) num = 59;
+		// Pad with leading zero if < 10
+		const newValue = num.toString().padStart(2, '0');
+		// Update state with formatted value
+		setMinutesString(newValue);
+		// Call onChange with new total seconds
+		const totalSeconds = convertStringToSeconds(hoursString, newValue);
+		if (totalSeconds !== undefined) onChange(totalSeconds);
+	};
 
 	//
-	// D. Render components
+	// C. Render components
 
 	return (
 		<View style={styles.container}>
@@ -79,18 +119,20 @@ export function WidgetSmartNotificationConfigScheduleTimeInput({ onChange, title
 			<View style={styles.wrapper}>
 				<TextInput
 					keyboardType="number-pad"
-					onChange={event => setHours(event.nativeEvent.text)}
+					onChange={event => handleChangeHours(event.nativeEvent.text)}
+					onFocus={() => setHoursString('')}
 					returnKeyType="done"
 					style={styles.input}
-					value={hours}
+					value={hoursString}
 				/>
 				<Text style={styles.divider}>:</Text>
 				<TextInput
 					keyboardType="number-pad"
 					onChange={event => handleChangeMinutes(event.nativeEvent.text)}
+					onFocus={() => setMinutesString('')}
 					returnKeyType="done"
 					style={styles.input}
-					value={minutes}
+					value={minutesString}
 				/>
 			</View>
 		</View>

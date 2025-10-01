@@ -20,6 +20,14 @@ export const useStyles = () => {
 			justifyContent: 'center',
 			paddingVertical: 1,
 		},
+		error: {
+			backgroundColor: systemVariables.background[100],
+			color: systemVariables.status.danger,
+			fontWeight: 600,
+			padding: 15,
+			textAlign: 'center',
+			width: '100%',
+		},
 		title: {
 			alignItems: 'center',
 		},

@@ -4,7 +4,7 @@ import { WidgetSmartNotificationConfigScheduleTimeInput } from '@/components/wid
 import { WidgetSmartNotificationConfigScheduleWeekdaysInput } from '@/components/widgets/config/WidgetSmartNotificationConfigScheduleWeekdaysInput';
 import { WidgetSmartNotification } from '@/schemas/widgets';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { useStyles } from './styles';
 
@@ -36,6 +36,7 @@ export function WidgetSmartNotificationConfigSchedule({ endTime, onEndTimeChange
 
 	return (
 		<View style={styles.container}>
+
 			<WidgetSmartNotificationConfigScheduleTimeInput
 				onChange={onStartTimeChange}
 				title={t('start_time_title')}
@@ -46,11 +47,19 @@ export function WidgetSmartNotificationConfigSchedule({ endTime, onEndTimeChange
 				title={t('end_time_title')}
 				value={endTime}
 			/>
+
+			{startTime >= endTime && (
+				<Text style={styles.error}>
+					{t('invalid_time_range')}
+				</Text>
+			)}
+
 			<WidgetSmartNotificationConfigScheduleWeekdaysInput
 				onToggleWeekday={onToggleWeekday}
 				selectedWeekdays={selectedWeekdays}
 				title={t('weekdays_title')}
 			/>
+
 		</View>
 	);
 

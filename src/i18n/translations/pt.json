@@ -811,7 +811,10 @@
 			"close_button": "Fechar"
 		},
 		"WidgetConfigSelectWaypoint": {
-			"label": "Selecionar um destino..."
+			"label": "Selecionar paragem..."
+		},
+		"WidgetConfigSelectWaypointModal": {
+			"close_button": "Fechar"
 		},
 		"WidgetLineConfig": {
 			"actions": {
@@ -867,6 +870,7 @@
 		},
 		"WidgetSmartNotificationConfigSchedule": {
 			"end_time_title": "Até às",
+			"invalid_time_range": "A hora de início deve ser anterior à hora de fim, e ambas devem ser diferentes.",
 			"start_time_title": "Desde as",
 			"weekdays_title": "Nos seguintes dias da semana"
 		},

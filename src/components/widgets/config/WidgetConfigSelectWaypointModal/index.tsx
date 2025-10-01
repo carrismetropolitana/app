@@ -39,7 +39,7 @@ export function WidgetConfigSelectWaypointModal({ availableWaypoints, descriptio
 
 	const stopsContext = useStopsContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'stops.StopsSelectionMainList' });
+	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetConfigSelectWaypointModal' });
 
 	//
 	// B. Transform data
