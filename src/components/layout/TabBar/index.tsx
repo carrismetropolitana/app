@@ -4,6 +4,7 @@ import { useSystemVariables } from '@/theme/global';
 import { IconArrowLoopRight, IconDots, IconMap, IconUserCircle } from '@tabler/icons-react-native';
 import * as Haptics from 'expo-haptics';
 import { Tabs } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import { useStyles } from './styles';
@@ -18,6 +19,8 @@ export function TabBar() {
 
 	const styles = useStyles();
 	const systemVariables = useSystemVariables();
+
+	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap' });
 
 	//
 	// B. Handle actions
@@ -48,6 +51,7 @@ export function TabBar() {
 							<IconUserCircle color={focused ? 'black' : color} size={30} />
 						</View>
 					),
+					tabBarLabel: t('(tabs)/home.title'),
 				}}
 			/>
 			<Tabs.Screen
@@ -58,6 +62,7 @@ export function TabBar() {
 							<IconArrowLoopRight color={focused ? 'black' : color} size={30} />
 						</View>
 					),
+					tabBarLabel: t('(tabs)/lines.title'),
 				}}
 			/>
 			<Tabs.Screen
@@ -68,6 +73,7 @@ export function TabBar() {
 							<IconMap color={focused ? 'black' : color} size={30} />
 						</View>
 					),
+					tabBarLabel: t('(tabs)/stops.title'),
 				}}
 			/>
 			<Tabs.Screen
@@ -78,6 +84,7 @@ export function TabBar() {
 							<IconDots color={focused ? 'black' : color} size={30} />
 						</View>
 					),
+					tabBarLabel: t('(tabs)/more.title'),
 				}}
 			/>
 		</Tabs>
