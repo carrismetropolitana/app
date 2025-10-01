@@ -72,7 +72,7 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children, widgetI
 	const [selectedDistance, setSelectedDistance] = useState<number>(500);
 	const [selectedWeekdays, setSelectedWeekdays] = useState<WidgetSmartNotification['properties']['weekdays'][number][]>([]);
 	const [selectedStartTime, setSelectedStartTime] = useState<number>(0);
-	const [selectedEndTime, setSelectedEndTime] = useState<number>(86400);
+	const [selectedEndTime, setSelectedEndTime] = useState<number>(86399);
 	const [selectedLabel, setSelectedLabel] = useState<string>('');
 
 	const [availablePatternsData, setAvailablePatternsData] = useState<Pattern[]>([]);
@@ -146,10 +146,7 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children, widgetI
 			setSelectedWeekdays(existingWidget.properties.weekdays);
 			setSelectedLabel(existingWidget.settings.label || '');
 			// Set existing waypoint
-			const foundWaypoint = foundPatternData.path.find(waypoint => (
-				waypoint.stop_id === existingWidget.properties.stop_id
-				&& waypoint.stop_sequence === existingWidget.properties.stop_sequence
-			));
+			const foundWaypoint = foundPatternData.path.find(waypoint => waypoint.stop_id === existingWidget.properties.stop_id);
 			if (foundWaypoint) setSelectedWaypoint(foundWaypoint);
 		});
 	}, [widgetId]);
