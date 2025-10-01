@@ -67,10 +67,16 @@ const config: ExpoConfig = {
 
 		bundleIdentifier: 'pt.carrismetropolitana.app',
 
-		icon: {
-			dark: './assets/app/icon-dark.png',
-			light: './assets/app/icon-light.png',
-		},
+		/**
+		 * There is a known issue with Expo not properly setting the app icon for iOS when using
+		 * a dark mode icon. As a workaround, we set the icon to the light mode icon.
+		 * This might be due to Expo expecting a Icon-composer-built icon set.
+		 * @see https://github.com/expo/expo/issues/39782
+		 */
+		// icon: {
+		// 	dark: './assets/app/icon-dark.png',
+		// 	light: './assets/app/icon-light.png',
+		// },
 
 		infoPlist: {
 
