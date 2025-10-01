@@ -814,7 +814,10 @@
 			"label": "Selecionar paragem..."
 		},
 		"WidgetConfigSelectWaypointModal": {
-			"close_button": "Fechar"
+			"close_button": "Fechar",
+			"items": {
+				"accessibility_label": "{index}º: {tts_name}"
+			}
 		},
 		"WidgetLineConfig": {
 			"actions": {

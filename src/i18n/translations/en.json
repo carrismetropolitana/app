@@ -823,7 +823,10 @@
 			"label": "Select a stop..."
 		},
 		"WidgetConfigSelectWaypointModal": {
-			"close_button": "Close"
+			"close_button": "Close",
+			"items": {
+				"accessibility_label": "{index}nd: {tts_name}"
+			}
 		},
 		"WidgetLineConfig": {
 			"actions": {
