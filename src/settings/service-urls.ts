@@ -8,8 +8,8 @@ const SERVICE_URLS = Object.freeze({
 
 	accounts: {
 		development: 'localhost:3000',
-		production: 'https://accounts.carrismetropolitana.pt',
-		staging: 'https://staging.accounts.carrismetropolitana.pt',
+		production: 'https://accounts.carrismetropolitana.pt/v1',
+		staging: 'https://staging.accounts.carrismetropolitana.pt/v1',
 	},
 
 	api: {
