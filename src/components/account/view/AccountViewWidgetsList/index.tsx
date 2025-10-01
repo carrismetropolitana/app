@@ -4,6 +4,8 @@ import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { ListSection } from '@/components/list/ListSection';
 import { type ListSectionItemProps } from '@/components/list/ListSectionItem';
 import { useAccountContext } from '@/contexts/Account.context';
+import { useLinesContext } from '@/contexts/Lines.context';
+import { useStopsContext } from '@/contexts/Stops.context';
 import { IconArrowLoopRight, IconBellRinging, IconBusStop } from '@tabler/icons-react-native';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +18,8 @@ export function AccountViewWidgetsList() {
 	//
 	// A. Setup variables
 
+	const linesContext = useLinesContext();
+	const stopsContext = useStopsContext();
 	const accountContext = useAccountContext();
 
 	const { t } = useTranslation('translation', { keyPrefix: 'account.AccountViewWidgetsList' });
@@ -31,38 +35,40 @@ export function AccountViewWidgetsList() {
 			return (a.settings.display_order ?? 0) - (b.settings.display_order ?? 0);
 		});
 		// Map to list items
-		return sortedWidgets.map((widget) => {
-			// Choose icon, label and description based on widget type
-			let icon: React.ReactNode;
-			let label: string;
-			let description: string;
-			switch (widget.type) {
-				case 'smart_notification':
-					icon = <IconBellRinging color="#0C807E" size={30} />;
-					label = widget.settings.label || widget.properties.stop_id;
-					description = t('description.smart_notification');
-					break;
-				case 'stop':
-					icon = <IconBusStop color="#FF6900" size={30} />;
-					label = widget.settings.label || widget.properties.stop_id;
-					description = t('description.stop');
-					break;
-				case 'line':
-				default:
-					icon = <IconArrowLoopRight color="#C61D23" size={30} />;
-					label = widget.settings.label || widget.properties.pattern_id;
-					description = t('description.line');
-					break;
-			}
-			// Return the list item
-			return {
-				description: description,
-				icon: icon,
-				key: widget._id,
-				label: label,
-				link: `/account/widgets/${widget.type}?widget_id=${widget._id}`,
-			};
-		});
+		return sortedWidgets
+			.map((widget) => {
+				if (widget.type === 'stop') {
+					const stopData = stopsContext.actions.getStopById(widget.properties.stop_id);
+					return {
+						description: t('description.stop'),
+						icon: <IconBusStop color="#FF6900" size={30} />,
+						key: widget._id,
+						label: widget.settings.label || stopData?.long_name || widget.properties.stop_id,
+						link: `/account/widgets/stop?widget_id=${widget._id}`,
+					};
+				}
+				if (widget.type === 'line') {
+					const lineData = linesContext.actions.getLineDataById(widget.properties.pattern_id.slice(0, 4));
+					return {
+						description: t('description.line'),
+						icon: <IconArrowLoopRight color="#C61D23" size={30} />,
+						key: widget._id,
+						label: widget.settings.label || lineData?.long_name || widget.properties.pattern_id,
+						link: `/account/widgets/line?widget_id=${widget._id}`,
+					};
+				}
+				if (widget.type === 'smart_notification') {
+					const stopData = stopsContext.actions.getStopById(widget.properties.stop_id);
+					return {
+						description: t('description.smart_notification'),
+						icon: <IconBellRinging color="#0C807E" size={30} />,
+						key: widget._id,
+						label: widget.settings.label || stopData?.long_name || widget.properties.stop_id,
+						link: `/account/widgets/line?widget_id=${widget._id}`,
+					};
+				}
+			})
+			.filter(item => !!item);
 	}, [accountContext.data.account?.widgets]);
 
 	//
