@@ -60,7 +60,6 @@ export const WidgetSmartNotificationSchema = WidgetBaseSchema.extend({
 		pattern_id: z.string(),
 		start_time: z.number().gte(0).lt(86400),
 		stop_id: z.string(),
-		stop_sequence: z.number(),
 		weekdays: z.array(z.enum(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'])).nonempty(),
 	}),
 	type: z.literal('smart_notification'),
