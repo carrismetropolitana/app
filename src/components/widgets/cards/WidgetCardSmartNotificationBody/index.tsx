@@ -2,6 +2,7 @@
 
 import { MapOverlayGeofence, mapOverlayGeofence_TopLayerId } from '@/components/map-new/overlays/MapOverlayGeofence';
 import { MapOverlayPath, type MapOverlayPathShapeGeoJsonProperties, type MapOverlayPathWaypointGeoJsonProperties, transformShapeDataIntoGeoJsonFeature, transformWaypointDataIntoGeoJsonFeature } from '@/components/map-new/overlays/MapOverlayPath';
+import { MapOverlaySelectedStops, mapOverlaySelectedStops_TopLayerId, type MapOverlaySelectedStopsGeoJsonProperties, transformSelectedStopDataIntoGeoJsonFeature } from '@/components/map-new/overlays/MapOverlaySelectedStops';
 import { MapOverlayVehicles, mapOverlayVehicles_TopLayerId } from '@/components/map-new/overlays/MapOverlayVehicles';
 import { MapView } from '@/components/map-new/view/MapView';
 import { useLinesContext } from '@/contexts/Lines.context';
@@ -99,6 +100,17 @@ export function WidgetCardSmartNotificationBody({ data }: WidgetCardSmartNotific
 		return collection;
 	}, [currentShapeData]);
 
+	const selectedStopDataFC = useMemo(() => {
+		if (!currentPatternData?.path) return;
+		const collection = getBaseGeoJsonFeatureCollection<Point, MapOverlaySelectedStopsGeoJsonProperties>();
+		const selectedStopData = stopsContext.actions.getStopById(data.properties.stop_id);
+		if (!selectedStopData) return collection;
+		const feature = transformSelectedStopDataIntoGeoJsonFeature(selectedStopData);
+		if (!feature) return collection;
+		collection.features.push(feature);
+		return collection;
+	}, [currentShapeData]);
+
 	//
 	// C. Handle actions
 
@@ -142,8 +154,12 @@ export function WidgetCardSmartNotificationBody({ data }: WidgetCardSmartNotific
 					waypointsData={waypointsDataFC}
 				/>
 				<MapOverlayGeofence
-					belowLayerId={mapOverlayVehicles_TopLayerId}
+					belowLayerId={mapOverlaySelectedStops_TopLayerId}
 					geofenceData={data.properties.geojson}
+				/>
+				<MapOverlaySelectedStops
+					belowLayerId={mapOverlayVehicles_TopLayerId}
+					selectedStopsData={selectedStopDataFC}
 				/>
 				<MapOverlayVehicles
 					vehiclesDataFC={availableVehiclesDataFC}

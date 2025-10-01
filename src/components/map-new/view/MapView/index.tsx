@@ -115,6 +115,7 @@ export function MapView({ children, onDidFinishLoadingMap, vehiclesCounterQty, w
 					'bus-error': require('#/map/bus-error.png'),
 					'bus-regular': require('#/map/bus-regular.png'),
 					'shape-direction': require('#/map/shape-direction.png'),
+					'stop-pole': require('#/map/stop-pole.png'),
 				}}
 				/>
 				<Camera
