@@ -4,19 +4,19 @@
 			"developmentClient": true,
 			"distribution": "internal",
 			"env": {
-				"ENVIRONMENT": "development"
+				"APP_VARIANT": "development"
 			}
 		},
 		"production": {
 			"autoIncrement": true,
 			"env": {
-				"ENVIRONMENT": "production"
+				"APP_VARIANT": "production"
 			}
 		},
 		"staging": {
 			"distribution": "internal",
 			"env": {
-				"ENVIRONMENT": "staging"
+				"APP_VARIANT": "staging"
 			}
 		}
 	},
