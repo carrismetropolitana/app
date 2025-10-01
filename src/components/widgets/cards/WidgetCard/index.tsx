@@ -20,13 +20,12 @@ import { useStyles } from './styles';
 interface WidgetCardProps {
 	data: Widget
 	isDragging?: boolean
-	onDragEnd: () => void
 	onDragStart: () => void
 }
 
 /* * */
 
-export function WidgetCard({ data, isDragging, onDragEnd, onDragStart }: WidgetCardProps) {
+export function WidgetCard({ data, isDragging, onDragStart }: WidgetCardProps) {
 	//
 
 	//
@@ -64,7 +63,6 @@ export function WidgetCard({ data, isDragging, onDragEnd, onDragStart }: WidgetC
 				accessibilityState={{ expanded: data.settings.is_open }}
 				onLongPress={handleDragStart}
 				onPress={handleToggleOpen}
-				onPressOut={onDragEnd}
 				style={[styles.headerWrapper, data.settings.is_open && styles.headerWrapperIsOpen]}
 			>
 				{data.type === 'stop' && <WidgetCardStopHeader label={data.settings.label} stopId={data.properties.stop_id} /> }

@@ -9,7 +9,7 @@ import { type Widget } from '@/schemas/widgets';
 import * as Haptics from 'expo-haptics';
 import { useMemo } from 'react';
 import { ActivityIndicator, View } from 'react-native';
-import DragList, { type DragListRenderItemInfo } from 'react-native-draglist';
+import DraggableFlatList, { type DragEndParams, type RenderItemParams } from 'react-native-draggable-flatlist';
 
 import { useStyles } from './styles';
 
@@ -36,33 +36,33 @@ export function HomeScreen() {
 	//
 	// C. Handle actions
 
-	async function onReordered(fromIndex: number, toIndex: number) {
-		// Provide haptic feedback on reorder
-		await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+	function handlePlaceholderIndexChange() {
+		// Provide haptic feedback on reorder event
+		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+	}
+
+	function handleDragEnd({ data }: DragEndParams<Widget>) {
+		// Provide haptic feedback on ending reorder
+		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 		// Create a copy of the current widgets list
-		// as to not mutate the React state directly
-		const localCopyOfList = [...sortedWidgetsList];
-		// Splice out the item being moved
-		const listSegment = localCopyOfList.splice(fromIndex, 1);
-		// Insert the moved item at its new position
-		localCopyOfList.splice(toIndex, 0, listSegment[0]);
-		// Reset the display order property based on the new array order
-		localCopyOfList.forEach((widget, index) => widget.settings.display_order = index);
+		const updatedList = data.map((widget, index) => {
+			widget.settings.display_order = index;
+			return widget;
+		});
 		// Update the account to re-render the list
-		await accountContext.actions.update('widgets', localCopyOfList);
+		accountContext.actions.update('widgets', updatedList);
 	}
 
 	//
 	// D. Render components
 
-	function renderItem({ isActive, item, onDragEnd, onDragStart }: DragListRenderItemInfo<Widget>) {
+	function renderItem({ drag, isActive, item }: RenderItemParams<Widget>) {
 		return (
 			<View key={item._id} style={styles.listItem}>
 				<WidgetCard
 					data={item}
 					isDragging={isActive}
-					onDragEnd={onDragEnd}
-					onDragStart={onDragStart}
+					onDragStart={drag}
 				/>
 			</View>
 		);
@@ -77,14 +77,15 @@ export function HomeScreen() {
 	}
 
 	return (
-		<DragList
+		<DraggableFlatList
 			contentContainerStyle={styles.contentContainer}
 			data={sortedWidgetsList}
 			keyExtractor={item => item._id}
 			ListEmptyComponent={<HomeScreenListEmpty />}
 			ListFooterComponent={<HomeScreenListFooter />}
 			ListHeaderComponent={<HomeScreenListHeader />}
-			onReordered={onReordered}
+			onDragEnd={handleDragEnd}
+			onPlaceholderIndexChange={handlePlaceholderIndexChange}
 			renderItem={renderItem}
 			stickyHeaderIndices={[0]}
 			style={styles.container}

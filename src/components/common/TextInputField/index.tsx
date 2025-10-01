@@ -43,6 +43,7 @@ export function TextInputField({ accessibilityLabel, description, label, onChang
 				accessibilityLabel={accessibilityLabel}
 				onChangeText={onChange}
 				placeholder={placeholder}
+				returnKeyType="done"
 				style={styles.input}
 				value={value ?? ''}
 			/>
