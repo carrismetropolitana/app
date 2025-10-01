@@ -17,6 +17,8 @@ export function getCurrentEnvironment(): Environment {
 	if (process.env.ENVIRONMENT) return process.env.ENVIRONMENT as Environment;
 	// Fallback to client-side environment variable
 	if (process.env.NEXT_PUBLIC_ENVIRONMENT) return process.env.NEXT_PUBLIC_ENVIRONMENT as Environment;
+	// Fallback to client-side environment variable for EAS Builds
+	// if (process.env.APP_VARIANT) return process.env.APP_VARIANT as Environment;
 	// Fallback to development
 	return 'development' as Environment;
 }
