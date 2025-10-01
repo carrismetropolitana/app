@@ -110,6 +110,8 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children, widgetI
 		if (!selectedWaypoint) return false;
 		if (!selectedDistance || selectedDistance < 500) return false;
 		if (selectedWeekdays.length === 0) return false;
+		if (selectedStartTime < 0 || selectedStartTime > 86399) return false;
+		if (selectedEndTime < 0 || selectedEndTime > 86399) return false;
 		if (selectedStartTime >= selectedEndTime) return false;
 		// All good, we can save
 		return true;
