@@ -66,7 +66,7 @@ export const NotificationsContextProvider = ({ children }: PropsWithChildren) =>
 		// (channels are required for Android 8.0 and above)
 		registerForPushNotificationsAsync()
 			.then(token => setExpoPushToken(token ?? ''))
-			.catch(error => alert(`${error}`));
+			.catch(error => console.log(`${error}`));
 		// This listener is fired whenever a notification is received while the app is foregrounded
 		// (when the app is open and in use). You can use this to update your UI in response
 		// to the notification (for example, by showing an in-app banner or updating a notifications list).
@@ -118,23 +118,23 @@ export const NotificationsContextProvider = ({ children }: PropsWithChildren) =>
 			setPermissionStatus(finalStatus);
 			// If no permission, exit the function
 			if (finalStatus !== 'granted') {
-				alert('Permission not granted to get push token for push notification!');
+				console.log('Permission not granted to get push token for push notification!');
 				return;
 			}
 			// Get the token that identifies this device for push notifications
 			// This requires the project ID from EAS or Expo Go
 			const projectId = Constants?.expoConfig?.extra?.eas?.projectId ?? Constants?.easConfig?.projectId;
-			if (!projectId) alert('Project ID not found');
+			if (!projectId) console.log('Project ID not found');
 			try {
 				const expoPushToken = await Notifications.getExpoPushTokenAsync({ projectId });
 				return expoPushToken.data;
 			}
 			catch (e: unknown) {
-				alert(`${e}`);
+				console.log(`${e}`);
 			}
 		}
 		else {
-			alert('Must use physical device for push notifications');
+			console.log('Must use physical device for push notifications');
 		}
 	}
 
