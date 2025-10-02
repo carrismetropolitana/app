@@ -33,7 +33,7 @@ export function UserPersonaImage({ size = 'md' }: UserPersonaImageProps) {
 
 	const imageUrl = useMemo(() => {
 		if (!accountContext.data.account?.persona.image_id) return null;
-		return `${getServiceUrl('accounts')}/personas/${accountContext.data.account.persona.image_id}`;
+		return `${getServiceUrl('assets')}/personas/${accountContext.data.account.persona.image_id}.png`;
 	}, [accountContext.data.account?.persona.image_id]);
 
 	const accentColor = useMemo(() => {
