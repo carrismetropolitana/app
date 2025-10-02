@@ -78,7 +78,21 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 			// Try to get Device ID from local storage
 			const foundDeviceId = await AsyncStorage.getItem(LOCAL_STORAGE_KEYS.device_id);
 			const foundLegacyToken = await AsyncStorage.getItem(LOCAL_STORAGE_KEYS.legacy_token);
-			// Set Device ID if found...
+			// Handle "reset" case when ID is invalid
+			if (foundDeviceId && foundDeviceId === 'newDeviceId') {
+				await AsyncStorage.removeItem(LOCAL_STORAGE_KEYS.device_id);
+				setDeviceId(undefined);
+				setIsInit(true);
+				return;
+			}
+			// Handle "reset" case when ID is invalid
+			if (foundLegacyToken && foundLegacyToken === 'newDeviceId') {
+				await AsyncStorage.removeItem(LOCAL_STORAGE_KEYS.legacy_token);
+				setDeviceId(undefined);
+				setIsInit(true);
+				return;
+			}
+			// Set Device ID if found
 			if (foundDeviceId) {
 				setDeviceId(foundDeviceId);
 				setIsInit(true);
