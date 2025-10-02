@@ -13,7 +13,6 @@ export type Environment = 'development' | 'production' | 'staging';
  * @returns The current environment value.
  */
 export function getCurrentEnvironment(): Environment {
-	return 'production';
 	// Prefer server-side environment variable
 	if (process.env.ENVIRONMENT) return process.env.ENVIRONMENT as Environment;
 	// Fallback to client-side environment variable
