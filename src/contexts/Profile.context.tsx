@@ -199,7 +199,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			widgets: [],
 		};
 		setLocalProfile(newProfile);
-		AsyncStorage.setItem(LOCAL_STORAGE_KEYS.token, 'newDeviceId');
+		AsyncStorage.setItem(`LOCAL_STORAGE_KEYS.token_2`, 'newDeviceId');
 
 		try {
 			await fetchData<Account>(`${Routes.API_ACCOUNTS}`, 'POST', newProfile, { Authorization: `Bearer ${'newDeviceId'}` });
