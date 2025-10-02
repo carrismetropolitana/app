@@ -110,7 +110,7 @@ const config: ExpoConfig = {
 		 * @see https://docs.expo.dev/versions/latest/sdk/location/#configurable-properties
 		 */
 		['expo-location', {
-			locationWhenInUsePermission: 'Allow $(PRODUCT_NAME) to use your location.',
+			locationWhenInUsePermission: 'Utilizamos a sua localização apenas para mostrar as linhas e paragens mais próximos de si.',
 		}],
 
 		/**
