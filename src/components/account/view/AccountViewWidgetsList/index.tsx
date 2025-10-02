@@ -64,7 +64,7 @@ export function AccountViewWidgetsList() {
 						icon: <IconBellRinging color="#0C807E" size={30} />,
 						key: widget._id,
 						label: widget.settings.label || stopData?.long_name || widget.properties.stop_id,
-						link: `/account/widgets/line?widget_id=${widget._id}`,
+						link: `/account/widgets/smart_notification?widget_id=${widget._id}`,
 					};
 				}
 			})
