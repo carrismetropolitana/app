@@ -7,49 +7,49 @@ import { type Environment, getCurrentEnvironment } from '@/core-replica';
 const SERVICE_URLS = Object.freeze({
 
 	accounts: {
-		development: 'localhost:3000',
+		development: 'https://accounts.carrismetropolitana.pt/v1',
 		production: 'https://accounts.carrismetropolitana.pt/v1',
 		staging: 'https://staging.accounts.carrismetropolitana.pt/v1',
 	},
 
 	api: {
-		development: 'localhost:3000',
+		development: 'https://api.carrismetropolitana.pt',
 		production: 'https://api.carrismetropolitana.pt',
 		staging: 'https://api.carrismetropolitana.pt',
 	},
 
 	app_view: {
-		development: 'localhost:3000',
+		development: 'https://carrismetropolitana.pt/app-view',
 		production: 'https://carrismetropolitana.pt/app-view',
 		staging: 'https://carrismetropolitana.pt/app-view',
 	},
 
 	assets: {
-		development: 'localhost:3000',
-		production: 'https://storage.carrismetropolitana.pt/static',
-		staging: 'https://storage.carrismetropolitana.pt/static',
+		development: 'https://storage.carrismetropolitana.pt/static/app/assets',
+		production: 'https://storage.carrismetropolitana.pt/static/app/assets',
+		staging: 'https://storage.carrismetropolitana.pt/static/app/assets',
 	},
 
 	backoffice: {
-		development: 'localhost:3000',
+		development: 'https://carrismetropolitana.pt/admin',
 		production: 'https://carrismetropolitana.pt/admin',
 		staging: 'https://carrismetropolitana.pt/admin',
 	},
 
 	tap_and_ride: {
-		development: 'localhost:3000',
+		development: 'https://tap-and-ride.carrismetropolitana.pt',
 		production: 'https://tap-and-ride.carrismetropolitana.pt',
 		staging: 'https://tap-and-ride.carrismetropolitana.pt',
 	},
 
 	tts: {
-		development: 'localhost:3000',
+		development: 'https://storage.carrismetropolitana.pt/static',
 		production: 'https://storage.carrismetropolitana.pt/static',
 		staging: 'https://storage.carrismetropolitana.pt/static',
 	},
 
 	website: {
-		development: 'localhost:3000',
+		development: 'https://carrismetropolitana.pt',
 		production: 'https://carrismetropolitana.pt',
 		staging: 'https://carrismetropolitana.pt',
 	},
