@@ -71,15 +71,6 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 	//
 	// C. Handle actions
 
-	const fetchNewAccount = async () => {
-		// ...or else fetch a new one from the server
-		const newAccount = await fetchData<{ device_id: string }>(`${getServiceUrl('accounts')}/accounts/new`);
-		if (!newAccount.data?.device_id) return;
-		await AsyncStorage.setItem(LOCAL_STORAGE_KEYS.device_id, newAccount.data.device_id);
-		setDeviceId(newAccount.data.device_id);
-		setIsInit(true);
-	};
-
 	useEffect(() => {
 		(async () => {
 			// Skip if already initialized
@@ -97,7 +88,7 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 				// If we have a legacy token, we need to clear it
 				// and create a new account
 				await AsyncStorage.setItem(LOCAL_STORAGE_KEYS.device_id, foundLegacyToken);
-				await AsyncStorage.removeItem(LOCAL_STORAGE_KEYS.legacy_token);
+				// await AsyncStorage.removeItem(LOCAL_STORAGE_KEYS.legacy_token);
 				setDeviceId(foundLegacyToken);
 				setIsInit(true);
 				return;
@@ -151,13 +142,8 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 			updatedAccountData.devices[currentDeviceIndex].push_token = notificationsContext.data.token || null;
 			updatedAccountData.devices[currentDeviceIndex].seen_last_at = Dates.now('Europe/Lisbon').unix_timestamp;
 			// Send the updated data to the server.
-			// We don't await this to keep the update fast.
 			// Any errors will be handled by SWR revalidation.
-			// If the server returns updated data, it will replace our optimistic update.
-			updateAccountApi(updatedAccountData);
-			// Return the updated data immediately for optimistic update.
-			// The UI will update immediately and then revalidate in the background.
-			return updatedAccountData;
+			return await updateAccountApi(updatedAccountData);
 		}, {
 			populateCache: true,
 			revalidate: false,
@@ -165,8 +151,17 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 	};
 
 	const createAccount = async () => {
+		// Skip if already initialized
+		// or we have a Device ID
 		if (!isInit || deviceId) return;
-		await fetchNewAccount();
+		// Fetch a new account from the server
+		const newAccount = await fetchData<{ device_id: string }>(`${getServiceUrl('accounts')}/accounts/new`);
+		if (!newAccount.data?.device_id) return;
+		// Store the new Device ID in local storage
+		await AsyncStorage.setItem(LOCAL_STORAGE_KEYS.device_id, newAccount.data.device_id);
+		// Update state
+		setDeviceId(newAccount.data.device_id);
+		setIsInit(true);
 	};
 
 	//
