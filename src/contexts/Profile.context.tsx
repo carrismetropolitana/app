@@ -119,30 +119,30 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 
 	useEffect(() => {
 		if (localProfile) {
-			AsyncStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(localProfile));
+			// AsyncStorage.setItem(LOCAL_STORAGE_KEYS.profile, JSON.stringify(localProfile));
 		}
 	}, [localProfile]);
 
 	useEffect(() => {
-		AsyncStorage.setItem(LOCAL_STORAGE_KEYS.accent_color, accentColor);
+		// AsyncStorage.setItem(LOCAL_STORAGE_KEYS.accent_color, accentColor);
 	}, [accentColor]);
 
 	useEffect(() => {
-		AsyncStorage.setItem(LOCAL_STORAGE_KEYS.interests, JSON.stringify(interests));
+		// AsyncStorage.setItem(LOCAL_STORAGE_KEYS.interests, JSON.stringify(interests));
 	}, [interests]);
 
 	useEffect(() => {
 		if (personaImage) {
-			AsyncStorage.setItem(LOCAL_STORAGE_KEYS.persona_image, personaImage);
+			// AsyncStorage.setItem(LOCAL_STORAGE_KEYS.persona_image, personaImage);
 		}
 	}, [personaImage]);
 
 	useEffect(() => {
-		AsyncStorage.setItem(LOCAL_STORAGE_KEYS.persona_history, JSON.stringify(personaHistory));
+		// AsyncStorage.setItem(LOCAL_STORAGE_KEYS.persona_history, JSON.stringify(personaHistory));
 	}, [personaHistory]);
 
 	useEffect(() => {
-		AsyncStorage.setItem(LOCAL_STORAGE_KEYS.recent_lines, JSON.stringify(recentLines));
+		// AsyncStorage.setItem(LOCAL_STORAGE_KEYS.recent_lines, JSON.stringify(recentLines));
 	}, [recentLines]);
 
 	const loadLocalData = async () => {
@@ -199,7 +199,7 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 			widgets: [],
 		};
 		setLocalProfile(newProfile);
-		AsyncStorage.setItem(`LOCAL_STORAGE_KEYS.token_2`, 'newDeviceId');
+		// AsyncStorage.setItem(`LOCAL_STORAGE_KEYS.token_2`, 'newDeviceId');
 
 		try {
 			await fetchData<Account>(`${Routes.API_ACCOUNTS}`, 'POST', newProfile, { Authorization: `Bearer ${'newDeviceId'}` });
@@ -367,17 +367,17 @@ export const ProfileContextProvider = ({ children }: { children: ReactNode }) =>
 		const filtered = recentLines.filter(l => l.id !== line.id);
 		const updated = [line, ...filtered].slice(0, 6);
 		setRecentLines(updated);
-		AsyncStorage.setItem(LOCAL_STORAGE_KEYS.recent_lines, JSON.stringify(updated));
+		// AsyncStorage.setItem(LOCAL_STORAGE_KEYS.recent_lines, JSON.stringify(updated));
 	};
 
 	const handleSetAccentColor = (color: string) => {
 		setAccentColor(color);
-		AsyncStorage.setItem(LOCAL_STORAGE_KEYS.accent_color, color);
+		// AsyncStorage.setItem(LOCAL_STORAGE_KEYS.accent_color, color);
 	};
 
 	const handleSetInterests = (topics: string[]) => {
 		setInterests(topics);
-		AsyncStorage.setItem(LOCAL_STORAGE_KEYS.interests, JSON.stringify(topics));
+		// AsyncStorage.setItem(LOCAL_STORAGE_KEYS.interests, JSON.stringify(topics));
 	};
 
 	const handleSetSelectedLine = (line: string) => {
