@@ -101,9 +101,9 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 	useEffect(() => {
 		// Skip if no error
 		if (!accountError) return;
-		// Skip if error is 404 (Not Found)
-		if (accountError.statusCode !== 404) return;
-		// This means the Device ID is invalid, so we need to clear it
+		// Skip if error is not ACCOUNT_NOT_FOUND
+		if (accountError.statusCode !== 404 || accountError.message !== 'ACCOUNT_NOT_FOUND') return;
+		// This means the Device ID was not found, so we need to clear it
 		AsyncStorage.removeItem(LOCAL_STORAGE_KEYS.device_id);
 		setDeviceId(undefined);
 		setIsInit(false);
