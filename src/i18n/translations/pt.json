@@ -129,11 +129,11 @@
 		"AccountEditProfileContacts": {
 			"fields": {
 				"email": {
-					"label": "Email",
+					"label": "Email (opcional)",
 					"placeholder": "Introduza o seu email..."
 				},
 				"phone": {
-					"label": "Número de Telemóvel",
+					"label": "Telemóvel (opcional)",
 					"placeholder": "Introduza o seu número de telemóvel..."
 				}
 			},

@@ -115,11 +115,11 @@
 		"AccountEditProfileContacts": {
 			"fields": {
 				"email": {
-					"label": "Email",
+					"label": "Email (optional)",
 					"placeholder": "Enter your email..."
 				},
 				"phone": {
-					"label": "Phone Number",
+					"label": "Phone Number (optional)",
 					"placeholder": "Enter your phone number..."
 				}
 			},

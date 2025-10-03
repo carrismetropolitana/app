@@ -2,7 +2,7 @@
 
 // import { AccountEditProfileActivity } from '@/components/account/edit/AccountEditProfileActivity';
 import { AccountEditProfileBasicInfo } from '@/components/account/edit/AccountEditProfileBasicInfo';
-// import { AccountEditProfileContacts } from '@/components/account/edit/AccountEditProfileContacts';
+import { AccountEditProfileContacts } from '@/components/account/edit/AccountEditProfileContacts';
 // import { AccountEditProfileNotifications } from '@/components/account/edit/AccountEditProfileNotifications';
 // import { AccountEditProfileUtilizationType } from '@/components/account/edit/AccountEditProfileUtilizationType';
 // import { AccountEditProfileWorkSetting } from '@/components/account/edit/AccountEditProfileWorkSetting';
@@ -26,7 +26,7 @@ export function AccountEditProfile() {
 	return (
 		<View style={styles.container}>
 			<AccountEditProfileBasicInfo />
-			{/* <AccountEditProfileContacts /> */}
+			<AccountEditProfileContacts />
 			{/* <AccountEditProfileActivity /> */}
 			{/* <AccountEditProfileUtilizationType /> */}
 			{/* <AccountEditProfileWorkSetting /> */}
