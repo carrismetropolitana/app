@@ -1,18 +1,18 @@
 /* * */
 
-import { AccountEditProfileActivity } from '@/components/account/edit/AccountEditProfileActivity';
+// import { AccountEditProfileActivity } from '@/components/account/edit/AccountEditProfileActivity';
 import { AccountEditProfileBasicInfo } from '@/components/account/edit/AccountEditProfileBasicInfo';
-import { AccountEditProfileContacts } from '@/components/account/edit/AccountEditProfileContacts';
-import { AccountEditProfileNotifications } from '@/components/account/edit/AccountEditProfileNotifications';
-import { AccountEditProfileUtilizationType } from '@/components/account/edit/AccountEditProfileUtilizationType';
-import { AccountEditProfileWorkSetting } from '@/components/account/edit/AccountEditProfileWorkSetting';
+// import { AccountEditProfileContacts } from '@/components/account/edit/AccountEditProfileContacts';
+// import { AccountEditProfileNotifications } from '@/components/account/edit/AccountEditProfileNotifications';
+// import { AccountEditProfileUtilizationType } from '@/components/account/edit/AccountEditProfileUtilizationType';
+// import { AccountEditProfileWorkSetting } from '@/components/account/edit/AccountEditProfileWorkSetting';
 import { View } from 'react-native';
 
 import { useStyles } from './styles';
 
 /* * */
 
-export function AccountEditForm() {
+export function AccountEditProfile() {
 	//
 
 	//
@@ -26,11 +26,11 @@ export function AccountEditForm() {
 	return (
 		<View style={styles.container}>
 			<AccountEditProfileBasicInfo />
-			<AccountEditProfileContacts />
-			<AccountEditProfileActivity />
-			<AccountEditProfileUtilizationType />
-			<AccountEditProfileWorkSetting />
-			<AccountEditProfileNotifications />
+			{/* <AccountEditProfileContacts /> */}
+			{/* <AccountEditProfileActivity /> */}
+			{/* <AccountEditProfileUtilizationType /> */}
+			{/* <AccountEditProfileWorkSetting /> */}
+			{/* <AccountEditProfileNotifications /> */}
 		</View>
 	);
 
