@@ -6,7 +6,7 @@ import { PathWaypointHeader } from '@/components/lines/PathWaypointHeader';
 import { PathWaypointNextArrivals } from '@/components/lines/PathWaypointNextArrivals';
 import { PathWaypointSpine } from '@/components/lines/PathWaypointSpine';
 import { PathWaypointTimetable } from '@/components/lines/PathWaypointTimetable';
-import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { theming } from '@/theme/Variables';
 import { TouchableOpacity, View } from 'react-native';
@@ -40,13 +40,13 @@ export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isInfoSelec
 
 	const now = Date.now();
 
-	const linesDetailContext = useLinesDetailContext();
+	const lineDetailContext = useLineDetailContext();
 	const operationalDayContext = useOperationalDateContext();
 
 	const pathWaypointStyles = styles();
 
-	const backgroundColor = hasBeenPassed && trackProgress && !selectionEnabled ? theming.colorSystemText400 : linesDetailContext.data.active_pattern?.color;
-	const foregroundColor = hasBeenPassed && trackProgress && !selectionEnabled ? theming.colorSystemText300 : linesDetailContext.data.active_pattern?.text_color;
+	const backgroundColor = hasBeenPassed && trackProgress && !selectionEnabled ? theming.colorSystemText400 : lineDetailContext.data.active_pattern?.color;
+	const foregroundColor = hasBeenPassed && trackProgress && !selectionEnabled ? theming.colorSystemText300 : lineDetailContext.data.active_pattern?.text_color;
 
 	//
 	// B. Transform data
@@ -59,7 +59,7 @@ export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isInfoSelec
 	// C. Handle actions
 
 	const handleToggleStop = () => {
-		linesDetailContext.actions.setActiveWaypoint(waypointData.stop_id, waypointData.stop_sequence);
+		lineDetailContext.actions.setActiveWaypoint(waypointData.stop_id, waypointData.stop_sequence);
 	};
 
 	//

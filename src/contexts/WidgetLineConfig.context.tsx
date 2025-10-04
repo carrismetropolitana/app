@@ -62,7 +62,7 @@ export const WidgetLineConfigContextProvider = ({ children, widgetId }: PropsWit
 	// B. Transform data
 
 	const selectedLineData = useMemo(() => {
-		if (!selectedLineId) return undefined;
+		if (!selectedLineId) return;
 		return linesContext.actions.getLineDataById(selectedLineId);
 	}, [selectedLineId]);
 

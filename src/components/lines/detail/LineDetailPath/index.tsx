@@ -2,16 +2,15 @@
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { Surface } from '@/components/common/layout/Surface';
+import { LineDetailPathList } from '@/components/lines/detail/LineDetailPathList';
+import { LineDetailPathMap } from '@/components/lines/detail/LineDetailPathMap';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { View } from 'react-native';
 
-import { VehiclesDetailPathMap } from '../VechilesDetailPathMap';
-import { VehiclesDetailPathList } from '../VehiclesDetailPathList';
-
 /* * */
 
-export function VehiclesDetailPath() {
+export function LineDetailPath() {
 	//
 
 	//
@@ -35,8 +34,8 @@ export function VehiclesDetailPath() {
 
 	return (
 		<View>
-			<VehiclesDetailPathMap hasToolbar={false} />
-			<VehiclesDetailPathList />
+			<LineDetailPathMap />
+			<LineDetailPathList />
 		</View>
 
 	);

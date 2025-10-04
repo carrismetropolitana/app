@@ -2,7 +2,7 @@
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { PathWaypoint } from '@/components/lines/PathWaypoint';
-import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { NextArrival } from '@/types/timetables.types';
 import { PatternRealtime } from '@/types/types';
 import { Routes } from '@/utils/routes';
@@ -21,15 +21,15 @@ export function VehiclesDetailPathList() {
 	//
 	// A. Setup variables
 
-	const linesDetailContext = useLinesDetailContext();
+	const lineDetailContext = useLineDetailContext();
 	const [showAllPassed, setShowAllPassed] = useState(false);
 	// Info selection state for future stops
 	const [infoSelectedStopId, setInfoSelectedStopId] = useState<null | string>(null);
 	const [infoSelectedStopSequence, setInfoSelectedStopSequence] = useState<null | number>(null);
 	const sortedStops = useMemo(() => {
-		return linesDetailContext.data.active_pattern?.path?.slice().sort((a, b) => a.stop_sequence - b.stop_sequence) || [];
-	}, [linesDetailContext.data.active_pattern?.path]);
-	const currentVehicleStopSequence = linesDetailContext.data.active_waypoint?.stop_sequence;
+		return lineDetailContext.data.active_pattern?.path?.slice().sort((a, b) => a.stop_sequence - b.stop_sequence) || [];
+	}, [lineDetailContext.data.active_pattern?.path]);
+	const currentVehicleStopSequence = lineDetailContext.data.active_waypoint?.stop_sequence;
 	const passedStops = sortedStops.filter(
 		waypoint => currentVehicleStopSequence !== undefined && waypoint.stop_sequence < currentVehicleStopSequence,
 	);
@@ -42,19 +42,19 @@ export function VehiclesDetailPathList() {
 	const showCollapseButton = totalPassed > (topCount + bottomCount);
 	const topPassedStops = passedStops.slice(0, topCount);
 	const bottomPassedStops = passedStops.slice(totalPassed - bottomCount, totalPassed);
-	const LinesDetailPathListStyles = styles();
+	const LineDetailPathListStyles = styles();
 	const scrollViewRef = useRef<ScrollView>(null);
 	//
 	// B. Fetch data
 
-	const { data: patternRealtimeData } = useSWR<PatternRealtime[]>(linesDetailContext.data.active_pattern?.id && `${Routes.API}/arrivals/by_pattern/${linesDetailContext.data.active_pattern.id}`, { refreshInterval: 30_000 });
+	const { data: patternRealtimeData } = useSWR<PatternRealtime[]>(lineDetailContext.data.active_pattern?.id && `${Routes.API}/arrivals/by_pattern/${lineDetailContext.data.active_pattern.id}`, { refreshInterval: 30_000 });
 
 	//
 	// C. Transform data
 
 	const preparedRealtimeData = useMemo<Map<string, NextArrival[]> | undefined>(() => {
 		if (!patternRealtimeData) return;
-		const arrivalsForCurrentPattern = patternRealtimeData?.filter(arrivalData => arrivalData.pattern_id === linesDetailContext.data.active_pattern?.id) || [];
+		const arrivalsForCurrentPattern = patternRealtimeData?.filter(arrivalData => arrivalData.pattern_id === lineDetailContext.data.active_pattern?.id) || [];
 		const result = new Map<string, NextArrival[]>();
 		arrivalsForCurrentPattern.forEach((arrivalData) => {
 			const objectKey = `${arrivalData.stop_id}-${arrivalData.stop_sequence}`;
@@ -70,29 +70,29 @@ export function VehiclesDetailPathList() {
 			result.get(key)?.sort((a, b) => a.unixTs - b.unixTs);
 		}
 		return result;
-	}, [patternRealtimeData, linesDetailContext.data.active_pattern?.id]);
+	}, [patternRealtimeData, lineDetailContext.data.active_pattern?.id]);
 
 	//
 	// D. Handle actions
 
 	const selectedIndex = sortedStops?.findIndex(
-		waypoint => linesDetailContext.data.active_waypoint?.stop_id === waypoint.stop_id && linesDetailContext.data.active_waypoint?.stop_sequence === waypoint.stop_sequence);
+		waypoint => lineDetailContext.data.active_waypoint?.stop_id === waypoint.stop_id && lineDetailContext.data.active_waypoint?.stop_sequence === waypoint.stop_sequence);
 
 	useEffect(() => {
 		if (selectedIndex !== undefined && selectedIndex !== -1 && scrollViewRef.current) {
 			scrollViewRef.current.scrollTo({ animated: true, y: selectedIndex * 80 });
 		}
-	}, [selectedIndex, linesDetailContext.data.active_waypoint]);
+	}, [selectedIndex, lineDetailContext.data.active_waypoint]);
 
 	//
 	// E. Render components
 
-	if (!sortedStops?.length || !linesDetailContext.data.active_pattern) {
+	if (!sortedStops?.length || !lineDetailContext.data.active_pattern) {
 		return <NoDataLabel />;
 	}
 
 	return (
-		<View style={LinesDetailPathListStyles.container}>
+		<View style={LineDetailPathListStyles.container}>
 			{!showAllPassed && showCollapseButton && (
 				<>
 					{topPassedStops.map((waypoint, idx) => {

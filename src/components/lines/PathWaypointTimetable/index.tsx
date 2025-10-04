@@ -1,7 +1,7 @@
 /* * */
 
 import Timetable from '@/components/common/Timetable';
-import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import createTimetable from '@/utils/createTimetable';
@@ -17,17 +17,17 @@ import { styles } from './styles';
 export function PathWaypointTimetable() {
 	const { t } = useTranslation('translation', { keyPrefix: 'lines.PathWaypointTimetable' });
 	const localeContext = useLocaleContext();
-	const linesDetailContext = useLinesDetailContext();
+	const lineDetailContext = useLineDetailContext();
 	const operationalDayContext = useOperationalDateContext();
 	const timeTableStyles = styles();
 	const showVariantsOnTimetable = true;
 
 	const timetableData = useMemo(() => {
-		const activePatternGroup = linesDetailContext.data.active_pattern;
-		const secondaryPatternGroups = linesDetailContext.data.valid_patterns?.filter(patternGroup => patternGroup.version_id !== activePatternGroup?.version_id) || [];
-		const mentionedRoutes = linesDetailContext.data.routes;
-		const selectedStopId = linesDetailContext.data.active_waypoint?.stop_id;
-		const selectedStopSequence = linesDetailContext.data.active_waypoint?.stop_sequence;
+		const activePatternGroup = lineDetailContext.data.active_pattern;
+		const secondaryPatternGroups = lineDetailContext.data.valid_patterns?.filter(patternGroup => patternGroup.version_id !== activePatternGroup?.version_id) || [];
+		const mentionedRoutes = lineDetailContext.data.routes;
+		const selectedStopId = lineDetailContext.data.active_waypoint?.stop_id;
+		const selectedStopSequence = lineDetailContext.data.active_waypoint?.stop_sequence;
 		const selectedOperationalDate = operationalDayContext.data.selected_date?.operational_date;
 		if (!activePatternGroup || !mentionedRoutes || !selectedStopId || selectedStopSequence === undefined || !selectedOperationalDate) {
 			return null;
@@ -44,7 +44,7 @@ export function PathWaypointTimetable() {
 		else {
 			return createTimetable(activePatternGroup, [], [], selectedStopId, selectedStopSequence, selectedOperationalDate);
 		}
-	}, [linesDetailContext.data.active_pattern, linesDetailContext.data.valid_patterns, linesDetailContext.data.active_waypoint, operationalDayContext.data.selected_date]);
+	}, [lineDetailContext.data.active_pattern, lineDetailContext.data.valid_patterns, lineDetailContext.data.active_waypoint, operationalDayContext.data.selected_date]);
 
 	function handleNextDateClick(date: Date) {
 		operationalDayContext.actions.updateSelectedDateFromJsDate(date);

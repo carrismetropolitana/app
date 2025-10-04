@@ -2,7 +2,7 @@
 
 import type { Minute, Timetable } from '@/types/timetables.types';
 
-import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { useTranslation } from 'react-i18next';
 import { Pressable, Text, View } from 'react-native';
@@ -34,7 +34,7 @@ export default function TimetableSchedules({ selectedExceptionIds, setSelectedEx
 	// A. Setup variables
 
 	const { t } = useTranslation('translation', { keyPrefix: 'common.TimetableSchedules' });
-	const linesDetailContext = useLinesDetailContext();
+	const lineDetailContext = useLineDetailContext();
 	const timeteableShcedulesStyles = styles();
 	const localeContext = useLocaleContext();
 
@@ -67,13 +67,13 @@ export default function TimetableSchedules({ selectedExceptionIds, setSelectedEx
 							<TimetableSchedulesMinute
 								key={minuteData.minute_value}
 								minuteData={minuteData}
-								onClick={() => linesDetailContext.actions.setHighlightedTripIds(minuteData.trip_ids)}
+								onClick={() => lineDetailContext.actions.setHighlightedTripIds(minuteData.trip_ids)}
 								selectedExceptionIds={selectedExceptionIds}
 								setSelectedExceptionIds={setSelectedExceptionIds}
 								isHighlighted={Boolean(
-									linesDetailContext.data.highlighted_trip_ids
+									lineDetailContext.data.highlighted_trip_ids
 									&& minuteData.trip_ids.some(tripId =>
-										linesDetailContext.data.highlighted_trip_ids?.includes(tripId),
+										lineDetailContext.data.highlighted_trip_ids?.includes(tripId),
 									),
 								)}
 							/>

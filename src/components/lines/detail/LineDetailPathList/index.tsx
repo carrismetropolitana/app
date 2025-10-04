@@ -2,7 +2,7 @@
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { PathWaypoint } from '@/components/lines/PathWaypoint';
-import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { NextArrival } from '@/types/timetables.types';
 import { PatternRealtime } from '@/types/types';
 import { Routes } from '@/utils/routes';
@@ -16,21 +16,21 @@ import { styles } from './styles';
 
 /* * */
 
-export function LinesDetailPathList() {
+export function LineDetailPathList() {
 	//
 
 	//
 	// A. Setup variables
 
-	const linesDetailContext = useLinesDetailContext();
-	const LinesDetailPathListStyles = styles();
+	const lineDetailContext = useLineDetailContext();
+	const LineDetailPathListStyles = styles();
 	const scrollViewRef = useRef<ScrollView>(null);
 	// const analyticsContext = useAnalyticsContext();
 
 	//
 	// B. Fetch data
 
-	const { data: patternRealtimeData } = useSWR<PatternRealtime[]>(linesDetailContext.data.active_pattern?.id && `${Routes.API}/arrivals/by_pattern/${linesDetailContext.data.active_pattern.id}`, { refreshInterval: 30_000 });
+	const { data: patternRealtimeData } = useSWR<PatternRealtime[]>(lineDetailContext.data.active_pattern?.id && `${Routes.API}/arrivals/by_pattern/${lineDetailContext.data.active_pattern.id}`, { refreshInterval: 30_000 });
 
 	//
 	// C. Transform data
@@ -39,7 +39,7 @@ export function LinesDetailPathList() {
 		// Return early if there is no patternRealtimeData
 		if (!patternRealtimeData) return;
 		// Filter arrrivals for the current pattern
-		const arrivalsForCurrentPattern = patternRealtimeData?.filter(arrivalData => arrivalData.pattern_id === linesDetailContext.data.active_pattern?.id) || [];
+		const arrivalsForCurrentPattern = patternRealtimeData?.filter(arrivalData => arrivalData.pattern_id === lineDetailContext.data.active_pattern?.id) || [];
 		// Organize arrivals by Stop ID
 		const result = new Map<string, NextArrival[]>();
 		arrivalsForCurrentPattern.forEach((arrivalData) => {
@@ -56,19 +56,19 @@ export function LinesDetailPathList() {
 			result.get(key)?.sort((a, b) => a.unixTs - b.unixTs);
 		}
 		return result;
-	}, [patternRealtimeData, linesDetailContext.data.active_pattern?.id]);
+	}, [patternRealtimeData, lineDetailContext.data.active_pattern?.id]);
 
 	const sortedStops = useMemo(() => {
-		return linesDetailContext.data.active_pattern?.path.sort((a, b) => a.stop_sequence - b.stop_sequence);
-	}, [linesDetailContext.data.active_pattern?.path]);
+		return lineDetailContext.data.active_pattern?.path.sort((a, b) => a.stop_sequence - b.stop_sequence);
+	}, [lineDetailContext.data.active_pattern?.path]);
 
 	//
 	// D. Handle actions
 
 	const selectedIndex = sortedStops?.findIndex(
 		waypoint =>
-			linesDetailContext.data.active_waypoint?.stop_id === waypoint.stop_id
-			&& linesDetailContext.data.active_waypoint?.stop_sequence === waypoint.stop_sequence,
+			lineDetailContext.data.active_waypoint?.stop_id === waypoint.stop_id
+			&& lineDetailContext.data.active_waypoint?.stop_sequence === waypoint.stop_sequence,
 	);
 
 	useEffect(() => {
@@ -82,19 +82,19 @@ export function LinesDetailPathList() {
 				y: selectedIndex * 80,
 			});
 		}
-	}, [selectedIndex, linesDetailContext.data.active_waypoint]);
+	}, [selectedIndex, lineDetailContext.data.active_waypoint]);
 
 	//
 	// E. Render components
 
-	if (!sortedStops?.length || !linesDetailContext.data.active_pattern) {
+	if (!sortedStops?.length || !lineDetailContext.data.active_pattern) {
 		return <NoDataLabel fill />;
 	}
 
 	return (
-		<View style={LinesDetailPathListStyles.container}>
+		<View style={LineDetailPathListStyles.container}>
 			{sortedStops.map((waypoint, index) => {
-				const currentVehicleStopSequence = linesDetailContext.data.active_waypoint?.stop_sequence;
+				const currentVehicleStopSequence = lineDetailContext.data.active_waypoint?.stop_sequence;
 				const thisStopSequence = waypoint.stop_sequence;
 				const hasBeenPassed = currentVehicleStopSequence !== undefined && thisStopSequence < currentVehicleStopSequence;
 
@@ -106,7 +106,7 @@ export function LinesDetailPathList() {
 						id={`waypoint-${waypoint.stop_id}-${waypoint.stop_sequence}`}
 						isFirstStop={index === 0}
 						isLastStop={index === sortedStops.length - 1}
-						isSelected={linesDetailContext.data.active_waypoint?.stop_id === waypoint.stop_id && linesDetailContext.data.active_waypoint?.stop_sequence === waypoint.stop_sequence}
+						isSelected={lineDetailContext.data.active_waypoint?.stop_id === waypoint.stop_id && lineDetailContext.data.active_waypoint?.stop_sequence === waypoint.stop_sequence}
 						selectionEnabled={true}
 						trackProgress={false}
 						waypointData={waypoint}

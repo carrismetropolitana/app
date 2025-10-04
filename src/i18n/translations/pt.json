@@ -17,6 +17,9 @@
 			"(tabs)/lines": {
 				"title": "Linhas"
 			},
+			"(tabs)/lines/[line_id]": {
+				"title": "Detalhes da Linha"
+			},
 			"(tabs)/more": {
 				"title": "Mais"
 			},
@@ -405,7 +408,7 @@
 		"AlertsCarousel": {
 			"heading": "Alertas de Serviço"
 		},
-		"LinesDetail": {
+		"LineDetail": {
 			"heading": "Pesquisar Linhas",
 			"lineDetailsHeader": {
 				"add": "Adicionar",
@@ -421,10 +424,10 @@
 			},
 			"toggle_favorite_error": "Erro ao adicionar a linha aos favoritos. {error}"
 		},
-		"LinesDetailAlerts": {
+		"LineDetailAlerts": {
 			"heading": "Alertas ativos para esta linha"
 		},
-		"LinesDetailMetricsDemand": {
+		"LineDetailMetricsDemand": {
 			"big_number": "{value, number}",
 			"chart": {
 				"series": {
@@ -440,7 +443,7 @@
 			"footnote": "O valor de passageiros transportados é atualizado de 5 em 5 minutos, sendo que pode demorar até 30 minutos para refletir a realidade.",
 			"title": "passageiros transportados nesta linha nos últimos 15 dias"
 		},
-		"LinesDetailMetricsService": {
+		"LineDetailMetricsService": {
 			"big_number": "{value, number, percentage}",
 			"chart": {
 				"series": {
@@ -462,7 +465,7 @@
 			"footnote": "A fórmula utilizada para calcular a taxa de execução aqui apresentada reflete apenas parte do conjunto de indicadores definidos contratualmente para a avaliação do desempenho e qualidade do serviço prestado pelos Operadores.",
 			"title": "das {total_trip_count, number} viagens planeadas para os últimos 15 dias, {pass_trip_count, number} foram realizadas"
 		},
-		"LinesDetailPath": {
+		"LineDetailPath": {
 			"no_data": "Selecione um Percurso / Destino",
 			"summary": "Linha <lineNumber>{line_number}</lineNumber> com destino a <destinationName>{destination_name}</destinationName> no dia <dayName>{day_name, date, long}</dayName>. <changeDay>Alterar dia ›</changeDay>"
 		},

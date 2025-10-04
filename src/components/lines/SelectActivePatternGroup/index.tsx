@@ -1,7 +1,7 @@
 /* * */
 
 import { SelectPattern } from '@/components/common/SelectPattern';
-import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useMemo } from 'react';
 
 /* * */
@@ -11,15 +11,15 @@ export function SelectActivePatternGroup() {
 
 	//
 	// A. Setup variables
-	const linesDetailContext = useLinesDetailContext();
+	const lineDetailContext = useLineDetailContext();
 
 	//
 	// B. Transform data
 
 	const validPatternGroupsSelectOptions = useMemo(() => {
-		if (!linesDetailContext.data.valid_patterns) return [];
-		return linesDetailContext.data.valid_patterns;
-	}, [linesDetailContext.data.valid_patterns]);
+		if (!lineDetailContext.data.valid_patterns) return [];
+		return lineDetailContext.data.valid_patterns;
+	}, [lineDetailContext.data.valid_patterns]);
 
 	//
 	// C. Render components

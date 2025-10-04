@@ -25,7 +25,7 @@ export function LineDisplayTts({ patternId }: Props) {
 	// A. Setup variables
 
 	const localeContext = useLocaleContext();
-	const { t } = useTranslation('lines.LinesDetail.lineDetailsHeader');
+	const { t } = useTranslation('lines.LineDetail.lineDetailsHeader');
 	const [isPlaying, setIsPlaying] = useState(false);
 	// const [sound, setSound] = useState<AudioPlayer | null>(null);
 	const ttsStyles = styles();

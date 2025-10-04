@@ -1,8 +1,7 @@
 /* * */
 
-import { LinesDetail } from '@/components/lines/LinesDetail';
-import { LinesDetailContextProvider } from '@/contexts/LinesDetail.context';
-import { StopsDetailContextProvider } from '@/contexts/StopsDetail.context';
+import { LineDetail } from '@/components/lines/detail/LineDetail';
+import { LineDetailContextProvider } from '@/contexts/LineDetail.context';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -19,14 +18,14 @@ export default function Page() {
 
 	const { line_id } = useLocalSearchParams<{ line_id: string }>();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'layout' });
+	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.(tabs)/lines/[line_id]' });
 
 	//
-	// B. Fetch Data
+	// B. Fetch data
 
 	useEffect(() => {
 		navigation.setOptions({
-			headerTitle: `${t('linePageHeaderTitle')} ${line_id}`,
+			headerTitle: `${t('title')}`,
 		});
 	}, [navigation]);
 
@@ -34,11 +33,9 @@ export default function Page() {
 	// C. Render components
 
 	return (
-		<StopsDetailContextProvider>
-			<LinesDetailContextProvider lineIdParams={line_id}>
-				<LinesDetail />
-			</LinesDetailContextProvider>
-		</StopsDetailContextProvider>
+		<LineDetailContextProvider lineId={line_id}>
+			<LineDetail />
+		</LineDetailContextProvider>
 	);
 
 	//

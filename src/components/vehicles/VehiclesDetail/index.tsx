@@ -1,7 +1,7 @@
 /* * */
 
 import { VehiclesDetailHeader } from '@/components/vehicles/detail/VehiclesDetailOverview';
-import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { useVehiclesContext } from '@/contexts/Vehicles.context';
 import { Vehicle } from '@carrismetropolitana/api-types/vehicles';
@@ -27,7 +27,7 @@ export function VehiclesDetail({ id }: VehiclesDetailProps) {
 
 	const themeContext = useThemeContext();
 	const vehiclesContext = useVehiclesContext();
-	const lineDetailContext = useLinesDetailContext();
+	const lineDetailContext = useLineDetailContext();
 
 	const [lineId, setLineID] = useState<null | string>();
 	const [vehicleData, setVehicleData] = useState<null | Vehicle>();

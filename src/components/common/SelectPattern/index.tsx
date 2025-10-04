@@ -1,7 +1,7 @@
 /* * */
 
 import { useLinesContext } from '@/contexts/Lines.context';
-import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
@@ -21,7 +21,7 @@ export function SelectPattern() {
 
 	const linesContext = useLinesContext();
 	const operationalDateContext = useOperationalDateContext();
-	const linesDetailContext = useLinesDetailContext();
+	const lineDetailContext = useLineDetailContext();
 
 	const { theme } = useThemeContext();
 	const [selectedPatternId, setSelectedPatternId] = useState<null | string>(null);
@@ -67,24 +67,24 @@ export function SelectPattern() {
 
 	useEffect(() => {
 		(async () => {
-			if (!linesDetailContext.data.line?.pattern_ids) return;
+			if (!lineDetailContext.data.line?.pattern_ids) return;
 			const fetchResult: Pattern[] = [];
-			for (const patternId of linesDetailContext.data.line.pattern_ids) {
+			for (const patternId of lineDetailContext.data.line.pattern_ids) {
 				const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(patternId, operationalDateContext.data.selected_date?.operational_date || operationalDateContext.data.today.operational_date);
 				if (validPatternData) fetchResult.push(validPatternData);
 			}
 			setAvailablePatternsData(fetchResult);
 		})();
-	}, [linesDetailContext.data.line?.pattern_ids]);
+	}, [lineDetailContext.data.line?.pattern_ids]);
 
 	useEffect(() => {
 		if (selectedVersionId) {
-			linesDetailContext.actions.setActivePattern(selectedVersionId);
+			lineDetailContext.actions.setActivePattern(selectedVersionId);
 		}
 		else {
-			linesDetailContext.actions.resetActivePattern();
+			lineDetailContext.actions.resetActivePattern();
 		}
-	}, [selectedVersionId, linesDetailContext.data.line?.id]);
+	}, [selectedVersionId, lineDetailContext.data.line?.id]);
 
 	//
 	// B. Render components

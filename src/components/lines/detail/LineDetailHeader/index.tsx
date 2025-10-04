@@ -9,40 +9,40 @@ import { LineDebugDetail } from '@/components/lines/LineDebugDetail';
 import { SelectActivePatternGroup } from '@/components/lines/SelectActivePatternGroup';
 import { useAnalyticsContext } from '@/contexts/Analytics.context';
 import { useDebugContext } from '@/contexts/Debug.context';
-import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { useProfileContext } from '@/contexts/Profile.context';
 import { Text } from '@rn-vui/themed';
 import { useTranslation } from 'react-i18next';
 import { Platform, View } from 'react-native';
 
-import { LineDisplayTts } from '../LineDisplayTts';
+import { LineDisplayTts } from '../../LineDisplayTts';
 import { styles } from './styles';
 
 /* * */
 
-export function LinesDetailHeader() {
+export function LineDetailHeader() {
 	//
 
 	//
 	// A. Setup variables
 
 	const profileContext = useProfileContext();
-	const linesDetailContext = useLinesDetailContext();
+	const lineDetailContext = useLineDetailContext();
 	const localeContext = useLocaleContext();
 	const debugContext = useDebugContext();
 	const analyticsContext = useAnalyticsContext();
 	const lineDetailsHeaderStyles = styles();
-	const { t } = useTranslation('lines.LinesDetail.lineDetailsHeader');
+	const { t } = useTranslation('lines.LineDetail.lineDetailsHeader');
 
 	//
 	// B. Handle actions
 
 	const handleToggleFavorite = async () => {
-		if (!linesDetailContext.data.line) return;
+		if (!lineDetailContext.data.line) return;
 		try {
-			analyticsContext.actions.capture('Favorite Line Added', { line_id: linesDetailContext.data.line?.id || '', platform: Platform.OS });
-			await profileContext.actions.toggleFavoriteItem('lines', linesDetailContext.data.line.id);
+			analyticsContext.actions.capture('Favorite Line Added', { line_id: lineDetailContext.data.line?.id || '', platform: Platform.OS });
+			await profileContext.actions.toggleFavoriteItem('lines', lineDetailContext.data.line.id);
 		}
 		catch (error) {
 			alert(error);
@@ -52,7 +52,7 @@ export function LinesDetailHeader() {
 	//
 	// C. Render components
 
-	if (!linesDetailContext.data.line) {
+	if (!lineDetailContext.data.line) {
 		return null;
 	}
 
@@ -69,17 +69,17 @@ export function LinesDetailHeader() {
 					>
 						<View style={lineDetailsHeaderStyles.headingSectionRow}>
 							<View style={lineDetailsHeaderStyles.headingFirstSection}>
-								<LineBadge lineData={linesDetailContext.data.line} size="lg" />
-								<FavoriteToggle color={linesDetailContext.data.line.color} isActive={linesDetailContext.flags.is_favorite} onToggle={handleToggleFavorite} type="lines" />
-								<LineDisplayTts patternId={linesDetailContext.data.active_pattern?.id} />
+								<LineBadge lineData={lineDetailContext.data.line} size="lg" />
+								<FavoriteToggle color={lineDetailContext.data.line.color} isActive={lineDetailContext.flags.is_favorite} onToggle={handleToggleFavorite} type="lines" />
+								<LineDisplayTts patternId={lineDetailContext.data.active_pattern?.id} />
 							</View>
 							<Text
-								accessibilityHint={t('lineDetailsFavToggleAccessibilityHint', { destination: linesDetailContext.data.line.long_name, line: linesDetailContext.data.lineId })}
-								accessibilityLabel={t('lineDetailsFavToggleAccessibilityLabel', { destination: linesDetailContext.data.line.long_name, line: linesDetailContext.data.lineId })}
+								accessibilityHint={t('lineDetailsFavToggleAccessibilityHint', { destination: lineDetailContext.data.line.long_name, line: lineDetailContext.data.lineId })}
+								accessibilityLabel={t('lineDetailsFavToggleAccessibilityLabel', { destination: lineDetailContext.data.line.long_name, line: lineDetailContext.data.lineId })}
 								accessibilityLanguage={localeContext.data.locale}
 								accessibilityRole="text"
 								style={lineDetailsHeaderStyles.lineName}
-							>{linesDetailContext.data.line.long_name}
+							>{lineDetailContext.data.line.long_name}
 							</Text>
 						</View>
 					</Section>
@@ -95,9 +95,9 @@ export function LinesDetailHeader() {
 				<Surface variant="debug">
 					<Section withPadding>
 						<LineDebugDetail
-							activePattern={linesDetailContext.data.active_pattern}
-							lineColor={linesDetailContext.data.line.color}
-							totalStops={linesDetailContext.data.active_pattern?.path.length}
+							activePattern={lineDetailContext.data.active_pattern}
+							lineColor={lineDetailContext.data.line.color}
+							totalStops={lineDetailContext.data.active_pattern?.path.length}
 						/>
 					</Section>
 				</Surface>

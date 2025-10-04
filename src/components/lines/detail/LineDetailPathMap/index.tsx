@@ -6,7 +6,7 @@ import { MapView } from '@/components/map/MapView';
 import { MapViewStyleActiveStops } from '@/components/map/MapViewStyleActiveStops';
 import { MapViewStylePath } from '@/components/map/MapViewStylePath';
 import { MapViewStyleVehicles } from '@/components/map/MapViewStyleVehicles';
-import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useVehiclesContext } from '@/contexts/Vehicles.context';
 import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
@@ -22,27 +22,27 @@ interface Props {
 }
 
 /* * */
-export function LinesDetailPathMap({ hasToolbar = false }: Props) {
+export function LineDetailPathMap({ hasToolbar = false }: Props) {
 	//
 
 	//
 	// A. Setup variables
 
 	const vehiclesContext = useVehiclesContext();
-	const linesDetailContext = useLinesDetailContext();
+	const lineDetailContext = useLineDetailContext();
 	const stopsContext = useStopsContext();
 
 	//
 	// B. Fetch data
 
 	const activeVehiclesFC = useMemo(() => {
-		const patternId = linesDetailContext.data.active_pattern?.id;
+		const patternId = lineDetailContext.data.active_pattern?.id;
 		if (!patternId) return null;
 		return vehiclesContext.actions.getVehiclesByPatternIdGeoJsonFC(patternId);
-	}, [vehiclesContext.data.vehicles, linesDetailContext.data.active_pattern]);
+	}, [vehiclesContext.data.vehicles, lineDetailContext.data.active_pattern]);
 
 	const activePathFC = useMemo(() => {
-		const pat = linesDetailContext.data.active_pattern;
+		const pat = lineDetailContext.data.active_pattern;
 		if (!pat?.path) return null;
 		const coll = getBaseGeoJsonFeatureCollection();
 		pat.path.forEach((p) => {
@@ -60,11 +60,11 @@ export function LinesDetailPathMap({ hasToolbar = false }: Props) {
 			coll.features.push(feat);
 		});
 		return coll;
-	}, [linesDetailContext.data.active_pattern]);
+	}, [lineDetailContext.data.active_pattern]);
 
 	const activeStopFC = useMemo(() => {
-		const wp = linesDetailContext.data.active_waypoint;
-		const pat = linesDetailContext.data.active_pattern;
+		const wp = lineDetailContext.data.active_waypoint;
+		const pat = lineDetailContext.data.active_pattern;
 
 		if (!wp || !pat) return null;
 		const stop = stopsContext.actions.getStopById(wp.stop_id);
@@ -77,7 +77,7 @@ export function LinesDetailPathMap({ hasToolbar = false }: Props) {
 		const coll = getBaseGeoJsonFeatureCollection();
 		coll.features.push(feat);
 		return coll;
-	}, [linesDetailContext.data.active_waypoint, linesDetailContext.data.active_pattern]);
+	}, [lineDetailContext.data.active_waypoint, lineDetailContext.data.active_pattern]);
 
 	const fitPath = useMemo(() => {
 		if (activePathFC?.features?.length) {
@@ -108,7 +108,7 @@ export function LinesDetailPathMap({ hasToolbar = false }: Props) {
 		<View style={{ height: 360, width: '100%' }}>
 			<MapView camera={camera} mapStyle="map" toolbar={hasToolbar}>
 				<MapViewStylePath
-					shapeData={linesDetailContext.data.active_shape?.geojson || getBaseGeoJsonFeatureCollection()}
+					shapeData={lineDetailContext.data.active_shape?.geojson || getBaseGeoJsonFeatureCollection()}
 					waypointsData={activePathFC || getBaseGeoJsonFeatureCollection()}
 				/>
 				<MapViewStyleActiveStops stopsData={activeStopFC || getBaseGeoJsonFeatureCollection()} />

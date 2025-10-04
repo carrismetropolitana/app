@@ -2,7 +2,7 @@
 
 import type { Exception } from '@/types/timetables.types';
 
-import { useLinesDetailContext } from '@/contexts/LinesDetail.context';
+import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { IconArrowUpRight } from '@tabler/icons-react-native';
 import { Pressable, Text } from 'react-native';
 
@@ -28,7 +28,7 @@ export function TimetableExceptionsLink({
 	//
 	// A. Setup variables
 
-	const linesDetailContext = useLinesDetailContext();
+	const lineDetailContext = useLineDetailContext();
 
 	//
 	// B. Transform data
@@ -41,7 +41,7 @@ export function TimetableExceptionsLink({
 
 	const handlePressIn = () => setSelectedExceptionIds([exceptionData.exception_id]);
 	const handlePressOut = () => setSelectedExceptionIds([]);
-	const handleExceptionClick = () => linesDetailContext.actions.setActivePattern(exceptionData.pattern_version_id);
+	const handleExceptionClick = () => lineDetailContext.actions.setActivePattern(exceptionData.pattern_version_id);
 
 	//
 	// D. Render components
