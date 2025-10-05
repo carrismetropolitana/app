@@ -24,6 +24,7 @@ const LOCAL_STORAGE_KEYS = {
 interface AccountContextState {
 	actions: {
 		createAccount: () => Promise<void>
+		deleteAccount: () => Promise<void>
 		update: (path: DotPath<Account>, value: PathValue<Account, DotPath<Account>>) => Promise<void>
 	}
 	data: {
@@ -178,12 +179,32 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		setIsInit(true);
 	};
 
+	const deleteAccount = async () => {
+		// Skip if no device ID
+		if (!deviceId) return;
+		// Send delete request to the server
+		await fetchData(
+			`${getServiceUrl('accounts')}/accounts`,
+			'DELETE',
+			null,
+			{ Authorization: `Bearer ${deviceId}` },
+		);
+		// Clear local state
+		setDeviceId(undefined);
+		await AsyncStorage.removeItem(LOCAL_STORAGE_KEYS.device_id);
+		await AsyncStorage.removeItem(LOCAL_STORAGE_KEYS.legacy_token);
+		await accountMutate(undefined, { revalidate: false });
+		// Reset initialization state
+		setIsInit(false);
+	};
+
 	//
 	// D. Context value
 
 	const contextValue: AccountContextState = useMemo(() => ({
 		actions: {
 			createAccount,
+			deleteAccount,
 			update,
 		},
 		data: {
