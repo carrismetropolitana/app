@@ -13,22 +13,10 @@ export const useStyles = () => {
 	return StyleSheet.create({
 		container: {
 			backgroundColor: systemVariables.background[100],
+			borderTopColor: systemVariables.border[100],
+			borderTopWidth: 1,
 			display: 'flex',
-			flexDirection: 'column',
-			gap: 10,
 			padding: 20,
-		},
-		lineLongName: {
-			color: systemVariables.text[100],
-			fontSize: 20,
-			fontWeight: '700',
-		},
-		row: {
-			alignItems: 'center',
-			display: 'flex',
-			flexDirection: 'row',
-			gap: 10,
-			justifyContent: 'flex-start',
 		},
 	});
 };

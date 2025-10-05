@@ -44,7 +44,7 @@ export function StopsScreen() {
 	const stopDetailContext = useStopsDetailContext();
 	const locationsContext = useLocationsContext();
 	const mapOptionsContext = useMapOptionsContext();
-	const operationalDayContext = useOperationalDateContext();
+	const operationalDateContext = useOperationalDateContext();
 	const themeContext = useThemeContext();
 	const insets = useSafeAreaInsets();
 	const stopMapDetailStyles = styles();
@@ -110,7 +110,7 @@ export function StopsScreen() {
 			setStopData(stopData);
 			bottomSheetModalRef.current?.present();
 		}
-	}, [selectedStop, operationalDayContext.data.selected_date]);
+	}, [selectedStop, operationalDateContext.data.selected_date]);
 
 	//
 	// C. Handle actions

@@ -18,7 +18,7 @@ export function PathWaypointTimetable() {
 	const { t } = useTranslation('translation', { keyPrefix: 'lines.PathWaypointTimetable' });
 	const localeContext = useLocaleContext();
 	const lineDetailContext = useLineDetailContext();
-	const operationalDayContext = useOperationalDateContext();
+	const operationalDateContext = useOperationalDateContext();
 	const timeTableStyles = styles();
 	const showVariantsOnTimetable = true;
 
@@ -28,7 +28,7 @@ export function PathWaypointTimetable() {
 		const mentionedRoutes = lineDetailContext.data.routes;
 		const selectedStopId = lineDetailContext.data.active_waypoint?.stop_id;
 		const selectedStopSequence = lineDetailContext.data.active_waypoint?.stop_sequence;
-		const selectedOperationalDate = operationalDayContext.data.selected_date?.operational_date;
+		const selectedOperationalDate = operationalDateContext.data.selected_date?.operational_date;
 		if (!activePatternGroup || !mentionedRoutes || !selectedStopId || selectedStopSequence === undefined || !selectedOperationalDate) {
 			return null;
 		}
@@ -44,10 +44,10 @@ export function PathWaypointTimetable() {
 		else {
 			return createTimetable(activePatternGroup, [], [], selectedStopId, selectedStopSequence, selectedOperationalDate);
 		}
-	}, [lineDetailContext.data.active_pattern, lineDetailContext.data.valid_patterns, lineDetailContext.data.active_waypoint, operationalDayContext.data.selected_date]);
+	}, [lineDetailContext.data.active_pattern, lineDetailContext.data.valid_patterns, lineDetailContext.data.active_waypoint, operationalDateContext.data.selected_date]);
 
 	function handleNextDateClick(date: Date) {
-		operationalDayContext.actions.updateSelectedDateFromJsDate(date);
+		operationalDateContext.actions.updateSelectedDateFromJsDate(date);
 	}
 
 	if (!timetableData || typeof timetableData === 'string') {

@@ -21,7 +21,7 @@ export default function Page() {
 	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.(tabs)/lines/[line_id]' });
 
 	//
-	// B. Fetch data
+	// B. Handle actions
 
 	useEffect(() => {
 		navigation.setOptions({

@@ -41,7 +41,7 @@ export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isInfoSelec
 	const now = Date.now();
 
 	const lineDetailContext = useLineDetailContext();
-	const operationalDayContext = useOperationalDateContext();
+	const operationalDateContext = useOperationalDateContext();
 
 	const pathWaypointStyles = styles();
 
@@ -105,7 +105,7 @@ export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isInfoSelec
 						waypointData={waypointData}
 					/>
 
-					{isSelected && operationalDayContext.flags.is_today_selected && (
+					{isSelected && operationalDateContext.flags.today && (
 						<PathWaypointNextArrivals
 							realtimeArrivals={realtimeArrivals}
 							scheduledArrivals={scheduledArrivals}

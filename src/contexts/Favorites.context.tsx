@@ -11,6 +11,8 @@ interface FavoritesContextState {
 		addFavoriteStopId: (stopId: string) => void
 		removeFavoriteLineId: (lineId: string) => void
 		removeFavoriteStopId: (stopId: string) => void
+		toggleFavoriteLineId: (lineId: string) => void
+		toggleFavoriteStopId: (stopId: string) => void
 	}
 	data: {
 		line_ids: string[]
@@ -44,14 +46,14 @@ export const FavoritesContextProvider = ({ children }: PropsWithChildren) => {
 	// B. Transform data
 
 	const favoriteLineIds = useMemo(() => {
-		if (!accountContext.data.account?.favorites) return [];
+		if (!accountContext.data.account?.favorites?.line_ids) return [];
 		return accountContext.data.account.favorites.line_ids;
-	}, [accountContext.data.account]);
+	}, [accountContext.data.account?.favorites?.line_ids]);
 
 	const favoriteStopIds = useMemo(() => {
-		if (!accountContext.data.account?.favorites) return [];
+		if (!accountContext.data.account?.favorites?.stop_ids) return [];
 		return accountContext.data.account.favorites.stop_ids;
-	}, [accountContext.data.account]);
+	}, [accountContext.data.account?.favorites?.stop_ids]);
 
 	//
 	// C. Handle actions
@@ -80,6 +82,20 @@ export const FavoritesContextProvider = ({ children }: PropsWithChildren) => {
 		accountContext.actions.update('favorites.stop_ids', Array.from(currentStopIds));
 	}
 
+	function toggleFavoriteLineId(lineId: string) {
+		const currentLineIds = new Set(favoriteLineIds);
+		if (currentLineIds.has(lineId)) currentLineIds.delete(lineId);
+		else currentLineIds.add(lineId);
+		accountContext.actions.update('favorites.line_ids', Array.from(currentLineIds));
+	}
+
+	function toggleFavoriteStopId(stopId: string) {
+		const currentStopIds = new Set(favoriteStopIds);
+		if (currentStopIds.has(stopId)) currentStopIds.delete(stopId);
+		else currentStopIds.add(stopId);
+		accountContext.actions.update('favorites.stop_ids', Array.from(currentStopIds));
+	}
+
 	//
 	// D. Context value
 
@@ -89,6 +105,8 @@ export const FavoritesContextProvider = ({ children }: PropsWithChildren) => {
 			addFavoriteStopId,
 			removeFavoriteLineId,
 			removeFavoriteStopId,
+			toggleFavoriteLineId,
+			toggleFavoriteStopId,
 		},
 		data: {
 			line_ids: favoriteLineIds,

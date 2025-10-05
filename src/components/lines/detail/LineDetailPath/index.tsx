@@ -19,12 +19,12 @@ export function LineDetailPath() {
 	// const t = useTranslations('lines.LineDetailPath');
 
 	const lineDetailContext = useLineDetailContext();
-	const operationalDayContext = useOperationalDateContext();
+	const operationalDateContext = useOperationalDateContext();
 
 	//
 	// B. Render components
 
-	if (!lineDetailContext.data.active_pattern || !operationalDayContext.data.selected_date?.js_date) {
+	if (!lineDetailContext.data.active_pattern || !operationalDateContext.data.selected_date?.js_date) {
 		return (
 			<Surface>
 				<NoDataLabel text="Sem dados" />

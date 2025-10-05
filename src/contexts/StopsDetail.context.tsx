@@ -59,7 +59,7 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 	const linesContext = useLinesContext();
 	const alertsContext = useAlertsContext();
 	const profileContext = useProfileContext();
-	const operationalDayContext = useOperationalDateContext();
+	const operationalDateContext = useOperationalDateContext();
 	const [dataStopState, setDataStopState] = useState<Stop | undefined>(undefined);
 	const [dataActiveStopIdState, setDataActiveStopIdState] = useState<string>(stopId || '');
 	const [dataLinesState, setDataLinesState] = useState<Line[] | undefined>(undefined);
@@ -202,20 +202,20 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 	}, [dataTimetableRealtimeState]);
 
 	useEffect(() => {
-		if (!operationalDayContext.data.selected_date || !dataValidPatternsState) return;
+		if (!operationalDateContext.data.selected_date || !dataValidPatternsState) return;
 		const validScheduledTrips: Arrival[] = [];
 		for (const patternGroup of dataValidPatternsState || []) {
 			const lastStopSequence = patternGroup.path
 				.sort((a, b) => a.stop_sequence - b.stop_sequence)
 				.slice(-1)[0]?.stop_sequence;
 			for (const trip of patternGroup.trips) {
-				if (!trip.valid_on.includes(operationalDayContext.data.selected_date.operational_date)) continue;
+				if (!trip.valid_on.includes(operationalDateContext.data.selected_date.operational_date)) continue;
 				for (const stopTime of trip.schedule) {
 					if (stopTime.stop_id !== dataActiveStopIdState) continue;
 					if (stopTime.stop_sequence === lastStopSequence) continue;
 					const [arrivalHours, arrivalMinutes, arrivalSeconds] = stopTime.arrival_time.split(':').map(Number);
 					const arrivalUnixTimestamp = DateTime
-						.fromFormat(operationalDayContext.data.selected_date.operational_date, 'yyyyMMdd')
+						.fromFormat(operationalDateContext.data.selected_date.operational_date, 'yyyyMMdd')
 						.set({ hour: 0, minute: 0, second: 0 })
 						.plus({ hours: arrivalHours, minute: arrivalMinutes, second: arrivalSeconds })
 						.toUnixInteger();
@@ -239,20 +239,20 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 		}
 		validScheduledTrips.sort((a, b) => (a.scheduled_arrival_unix - b.scheduled_arrival_unix));
 		setDataTimetableScheduleState(validScheduledTrips);
-	}, [operationalDayContext.data.selected_date, dataValidPatternsState, dataActiveStopIdState]);
+	}, [operationalDateContext.data.selected_date, dataValidPatternsState, dataActiveStopIdState]);
 
 	useEffect(() => {
-		if (!dataPatternsState || !operationalDayContext.data.selected_date) return;
+		if (!dataPatternsState || !operationalDateContext.data.selected_date) return;
 		const activePatterns: Pattern[] = [];
 		for (const pattern of dataPatternsState) {
 			for (const patternGroup of pattern) {
-				if (patternGroup.valid_on.includes(operationalDayContext.data.selected_date.operational_date)) {
+				if (patternGroup.valid_on.includes(operationalDateContext.data.selected_date.operational_date)) {
 					activePatterns.push(patternGroup);
 				}
 			}
 		}
 		setDataValidPatternsState(activePatterns);
-	}, [dataPatternsState, operationalDayContext.data.selected_date]);
+	}, [dataPatternsState, operationalDateContext.data.selected_date]);
 
 	useEffect(() => {
 		if (!alertsContext.data.simplified) return;

@@ -18,13 +18,14 @@ interface OperationalDateContextState {
 		updateSelectedDateToTomorrow: () => void
 	}
 	data: {
-		selected_date: Dates | null
+		selected_date: Dates | undefined
+		selected_date_display: string | undefined
 		today: Dates
 		tomorrow: Dates
 	}
 	flags: {
-		is_today_selected: boolean
-		is_tomorrow_selected: boolean
+		today: boolean
+		tomorrow: boolean
 	}
 }
 
@@ -131,12 +132,13 @@ export const OperationalDateContextProvider = ({ children }: PropsWithChildren) 
 		},
 		data: {
 			selected_date: selectedDate,
+			selected_date_display: selectedDate?.toFormat('d LLL'),
 			today: todayDate,
 			tomorrow: tomorrowDate,
 		},
 		flags: {
-			is_today_selected: selectedDate?.operational_date === todayDate.operational_date,
-			is_tomorrow_selected: selectedDate?.operational_date === tomorrowDate.operational_date,
+			today: selectedDate?.operational_date === todayDate.operational_date,
+			tomorrow: selectedDate?.operational_date === tomorrowDate.operational_date,
 		},
 	}), [
 		todayDate,

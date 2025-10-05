@@ -1,64 +1,52 @@
 /* * */
 
-import { useThemeContext } from '@/contexts/Theme.context';
-import { theming } from '@/theme/Variables';
+import { useSystemVariables } from '@/theme/global';
 import { StyleSheet } from 'react-native';
 
 /* * */
 
-export const styles = () => {
+export const useStyles = () => {
 	//
 
-	//
-	// A. Setup variables
-
-	const { theme } = useThemeContext();
-	const isLight = theme.mode === 'light';
-	const backgroundColor = isLight
-		? theming.colorSystemBackgroundLight200
-		: theming.colorSystemBackgroundDark200;
-	const fontColor = isLight
-		? theming.colorSystemText300
-		: theming.colorSystemText200;
-	//
-	// B. Render components
+	const systemVariables = useSystemVariables();
 
 	return StyleSheet.create({
-		buttonSelected: {
-			backgroundColor: theme.mode === 'light'
-				? theming.colorSystemBackgroundLight100
-				: theming.colorSystemBackgroundDark100,
-			borderRadius: 3,
+		button: {
+			alignItems: 'center',
+			borderRadius: 5,
 			boxShadow: '0 0 5 0 rgba(0, 0, 0, 0.1)',
-			marginBottom: 5,
-			marginLeft: 5,
-			marginRight: 5,
-			marginTop: 5,
-
-		},
-		container: {
-			alignSelf: 'stretch',
-			borderRadius: 3,
+			display: 'flex',
+			flexDirection: 'row',
+			flexShrink: 1,
+			gap: 5,
+			height: '100%',
+			justifyContent: 'center',
+			padding: 15,
 			width: '100%',
 		},
-		operationalDayContainer: {
+		buttonIsSelected: {
+			backgroundColor: systemVariables.background[100],
+			boxShadow: '0 2px 5px 0 rgba(0, 0, 0, 0.08)',
+		},
+		container: {
 			alignItems: 'center',
-			backgroundColor: backgroundColor,
-			borderWidth: 0,
-			height: 60,
-			justifyContent: 'space-around',
+			backgroundColor: systemVariables.background[300],
+			borderRadius: 8,
+			display: 'flex',
+			flexDirection: 'row',
+			justifyContent: 'center',
+			padding: 5,
+			width: '100%',
 		},
-		text: {
-			color: fontColor,
-			fontSize: 12,
-			fontWeight: '400',
+		label: {
+			color: systemVariables.text[200],
+			fontSize: 16,
+			fontWeight: '500',
+			textAlign: 'center',
 		},
-		textSelected: {
-			color: theming.colorSystemText200,
-			fontSize: 14,
-			fontWeight: '400',
+		labelIsSelected: {
+			color: systemVariables.text[100],
+			fontWeight: '600',
 		},
 	});
-
-	//
 };

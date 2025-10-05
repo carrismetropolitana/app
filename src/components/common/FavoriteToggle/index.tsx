@@ -1,95 +1,54 @@
 /* * */
 
-import { Loader } from '@/components/common/Loader';
-// import { useConsentContext } from '@/contexts/Consent.context';
-import { useLocaleContext } from '@/contexts/Locale.context';
-import { useProfileContext } from '@/contexts/Profile.context';
-import { theming } from '@/theme/Variables';
+import { useSystemVariables } from '@/theme/global';
 import { IconHeart, IconHeartFilled } from '@tabler/icons-react-native';
-import { useTranslation } from 'react-i18next';
-import { TouchableOpacity, View } from 'react-native';
+import * as Haptics from 'expo-haptics';
+import { TouchableOpacity } from 'react-native';
 
-import { favoriteToggleStyles } from './styles';
+import { useStyles } from './styles';
 
 /* * */
 
-interface Props {
-	classNames?: string
-	color: string
+interface FavoriteToggleProps {
+	color?: string
 	isActive: boolean | null
 	onToggle: () => void
-	type: 'lines' | 'stops'
 }
+
 /* * */
 
-export function FavoriteToggle({ color, isActive, onToggle, type }: Props) {
+export function FavoriteToggle({ color, isActive, onToggle }: FavoriteToggleProps) {
 	//
 
 	//
 	// A. Setup variables
 
-	const profileContext = useProfileContext();
-	const localeContext = useLocaleContext();
-	const { t } = useTranslation('common.favoriteToggle');
-
-	// const consentContext = useConsentContext();
+	const styles = useStyles();
+	const systemVariables = useSystemVariables();
 
 	//
 	// B. Handle actions
 
-	// const handleRequestConsent = () => {
-	// 	consentContext.actions.ask();
-	// };
+	const handlePressIn = () => {
+		if (!onToggle) return;
+		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+		onToggle();
+	};
 
 	//
 	// C. Render components
 
-	if (profileContext.flags.is_loading) {
-		return (
-			<View style={favoriteToggleStyles.container}>
-				<Loader visible />
-			</View>
-		);
-	}
-
-	// if (!profileContext.flags.is_enabled) {
-	// 	return (
-	// 		<TouchableOpacity onPress={handleRequestConsent} style={favoriteToggleStyles.container}>
-	// 			<View style={[favoriteToggleStyles.container, favoriteToggleStyles.disabled]}>
-	// 				<IconHeartX />
-	// 			</View>
-	// 		</TouchableOpacity>
-	// 	);
-	// }
-
 	if (isActive) {
 		return (
-			<TouchableOpacity onPress={onToggle}>
-				<View style={favoriteToggleStyles.container}>
-					<IconHeartFilled
-						accessibilityHint={`${t('filledAccessibilityHint')} ${type}`}
-						accessibilityLabel={`${t('filledAccessibilityLabel')} ${type}`}
-						accessibilityLanguage={localeContext.data.locale}
-						accessibilityRole="button"
-						color={theming.colorBrand}
-						fill={color}
-					/>
-				</View>
+			<TouchableOpacity onPressIn={handlePressIn} style={styles.container}>
+				<IconHeartFilled color={color} size={28} />
 			</TouchableOpacity>
 		);
 	}
 
 	return (
-		<TouchableOpacity onPress={onToggle}>
-			<View style={favoriteToggleStyles.container}>
-				<IconHeart
-					accessibilityHint={`${t('unfilledAccessibilityHint')} ${type}`}
-					accessibilityLabel={`${t('unfilledAccessibilityLabel')} ${type}`}
-					accessibilityLanguage={localeContext.data.locale}
-					accessibilityRole="button"
-					color={theming.colorSystemText300}
-				/>
-			</View>
+		<TouchableOpacity onPressIn={handlePressIn} style={styles.container}>
+			<IconHeart color={systemVariables.text[300]} size={28} />
 		</TouchableOpacity>
 	);
 

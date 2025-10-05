@@ -16,7 +16,7 @@ interface LineDetailContextState {
 	data: {
 		available_patterns: Pattern[]
 		selected_line: Line | undefined
-		selected_lineId: string | undefined
+		selected_line_id: string | undefined
 		selected_pattern_id: string | undefined
 		selected_shape: Shape | undefined
 		selected_waypoint: undefined | Waypoint
@@ -125,7 +125,7 @@ export const LineDetailContextProvider = ({ children, lineId }: PropsWithChildre
 		data: {
 			available_patterns: availablePatternsData,
 			selected_line: selectedLineData,
-			selected_lineId: lineId,
+			selected_line_id: lineId,
 			selected_pattern_id: selectedPatternId,
 			selected_shape: selectedShape,
 			selected_waypoint: selectedWaypoint,

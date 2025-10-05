@@ -1,18 +1,15 @@
 /* * */
 
-import { useLocaleContext } from '@/contexts/Locale.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
-import { ButtonGroup, Text } from '@rn-vui/themed';
+import { useSystemVariables } from '@/theme/global';
 import { IconCalendar } from '@tabler/icons-react-native';
-import { DateTime } from 'luxon';
-import React, { useEffect, useState } from 'react';
+import * as Haptics from 'expo-haptics';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
-/* * */
-
-import { styles } from './styles';
+import { useStyles } from './styles';
 
 /* * */
 
@@ -22,113 +19,84 @@ export function SelectOperationalDate() {
 	//
 	// A. Setup variables
 
+	const styles = useStyles();
+	const systemVariables = useSystemVariables();
+
+	const operationalDateContext = useOperationalDateContext();
+
 	const { t } = useTranslation('translation', { keyPrefix: 'common.SelectOperationalDate' });
-	const localeContext = useLocaleContext();
-	const operationalDayContext = useOperationalDateContext();
 
-	const [selectedIndex, setSelectedIndex] = useState(0);
-	const [showPicker, setShowPicker] = useState(false);
-
-	const selectStyles = styles();
-
-	const buttons = [
-		{ element: () => (
-			<Text
-				accessibilityHint={t('todayAccessibilityHint')}
-				accessibilityLabel={t('todayAccessibilityLabel')}
-				accessibilityLanguage={localeContext.data.locale}
-				accessibilityRole="button"
-				accessibilityState={{ selected: selectedIndex === 0 }}
-				style={selectedIndex === 0 ? selectStyles.textSelected : selectStyles.text}
-			>{t('today')}
-			</Text>
-		) },
-		{ element: () => (
-			<Text
-				accessibilityHint={t('tomorrowAccessibilityHint')}
-				accessibilityLabel={t('tomorrowAccessibilityLabel')}
-				accessibilityLanguage={localeContext.data.locale}
-				accessibilityRole="button"
-				accessibilityState={{ selected: selectedIndex === 1 }}
-				style={selectedIndex === 1 ? selectStyles.textSelected : selectStyles.text}
-			>{t('tomorrow')}
-			</Text>
-		) },
-		{ element: () => (
-			<View style={{ alignItems: 'center', flexDirection: 'row' }}>
-				<IconCalendar size={16} />
-				<Text
-					accessibilityHint={t('customDayAccessibilityHint')}
-					accessibilityLabel={t('customDayAccessibilityLabel')}
-					accessibilityLanguage={localeContext.data.locale}
-					accessibilityRole="button"
-					accessibilityState={{ selected: selectedIndex === 2 }}
-					style={selectedIndex === 2 ? selectStyles.textSelected : selectStyles.text}
-				>
-					{operationalDayContext.data.selected_date?.js_date
-						? DateTime.fromJSDate(operationalDayContext.data.selected_date.js_date).setLocale(localeContext.data.locale).toLocaleString(DateTime.DATE_MED).replaceAll('de', '').replaceAll('.', '').toLocaleUpperCase()
-						: DateTime.now().setLocale(localeContext.data.locale).toLocaleString(DateTime.DATE_MED)}
-				</Text>
-			</View>
-		),
-		},
-	];
+	const [showDatePicker, setShowDatePicker] = useState(false);
 
 	//
-	// B. Fetch Data
+	// B. Transform data
 
-	useEffect(() => {
-		if (selectedIndex === 0) {
-			operationalDayContext.actions.updateSelectedDateToToday();
-		}
-		else if (selectedIndex === 1) {
-			operationalDayContext.actions.updateSelectedDateToTomorrow();
-		}
-	}, [
-		selectedIndex,
-	]);
+	const isToday = operationalDateContext.flags.today;
+	const isTomorrow = operationalDateContext.flags.tomorrow;
+	const isOtherDate = !isToday && !isTomorrow;
 
 	//
-	// C . Handle actions
-	const handlePress = (i: number) => {
-		setSelectedIndex(i);
-		if (i === 2) {
-			setShowPicker(true);
-		}
+	// C. Handle actions
+
+	const handleSelectToday = () => {
+		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+		operationalDateContext.actions.updateSelectedDateToToday();
 	};
-	const handleConfirm = (picked: Date) => {
-		setShowPicker(false);
-		setSelectedIndex(2);
-		operationalDayContext.actions.updateSelectedDateFromJsDate(picked);
+
+	const handleSelectTomorrow = () => {
+		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+		operationalDateContext.actions.updateSelectedDateToTomorrow();
 	};
-	const handleCancel = () => setShowPicker(false);
+
+	const handleConfirm = (value: Date) => {
+		setShowDatePicker(false);
+		operationalDateContext.actions.updateSelectedDateFromJsDate(value);
+	};
 
 	//
+	// D. Render components
 
 	return (
-		<View style={selectStyles.container}>
-			<ButtonGroup
-				buttons={buttons}
-				containerStyle={selectStyles.operationalDayContainer}
-				innerBorderStyle={{ width: 0 }}
-				onPress={handlePress}
-				selectedButtonStyle={selectStyles.buttonSelected}
-				selectedIndex={selectedIndex}
-			/>
+		<>
+
+			<View style={styles.container}>
+
+				<TouchableOpacity onPress={handleSelectToday} style={[styles.button, isToday && styles.buttonIsSelected]}>
+					<Text style={[styles.label, isToday && styles.labelIsSelected]}>
+						{t('today')}
+					</Text>
+				</TouchableOpacity>
+
+				<TouchableOpacity onPress={handleSelectTomorrow} style={[styles.button, isTomorrow && styles.buttonIsSelected]}>
+					<Text style={[styles.label, isTomorrow && styles.labelIsSelected]}>
+						{t('tomorrow')}
+					</Text>
+				</TouchableOpacity>
+
+				<TouchableOpacity
+					onPress={() => setShowDatePicker(true)}
+					style={[styles.button, isOtherDate && styles.buttonIsSelected]}
+				>
+					<IconCalendar color={isOtherDate ? systemVariables.text[100] : systemVariables.text[200]} size={18} />
+					<Text numberOfLines={1} style={[styles.label, isOtherDate && styles.labelIsSelected]}>
+						{operationalDateContext.data.selected_date_display}
+					</Text>
+				</TouchableOpacity>
+
+			</View>
+
 			<DateTimePickerModal
-				accessibilityHint={t('datePickerAccessibilityHint')}
-				accessibilityLabel={t('datePickerAccessibilityLabel', { date: operationalDayContext.data.selected_date })}
-				accessibilityLanguage={localeContext.data.locale}
-				accessibilityRole="button"
-				accessibilityState={{ expanded: showPicker }}
-				date={operationalDayContext.data.selected_date?.js_date ?? undefined}
-				isVisible={showPicker}
-				locale={localeContext.data.locale}
+				date={operationalDateContext.data.selected_date?.js_date}
+				isVisible={showDatePicker}
+				locale="pt"
 				mode="date"
-				onCancel={handleCancel}
+				onCancel={() => setShowDatePicker(false)}
 				onConfirm={handleConfirm}
 				pickerStyleIOS={{ alignItems: 'center' }}
 			/>
-		</View>
+
+		</>
 	);
+
+	//
 }

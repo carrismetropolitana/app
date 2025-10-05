@@ -60,7 +60,7 @@ export function SelectNotificationControl({ selectedSelector }: Props) {
 		<View style={selectStyles.container}>
 			<ButtonGroup
 				buttons={buttons}
-				containerStyle={selectStyles.operationalDayContainer}
+				containerStyle={selectStyles.operationalDateContainer}
 				innerBorderStyle={{ width: 0 }}
 				onPress={handlePress}
 				selectedButtonStyle={selectStyles.buttonSelected}

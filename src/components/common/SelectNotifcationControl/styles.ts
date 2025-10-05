@@ -41,7 +41,7 @@ export const styles = () => {
 			borderRadius: 3,
 			width: '40%',
 		},
-		operationalDayContainer: {
+		operationalDateContainer: {
 			alignItems: 'center',
 			backgroundColor: backgroundColor,
 			borderWidth: 0,
