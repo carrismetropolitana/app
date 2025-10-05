@@ -6,7 +6,7 @@ import { WidgetConfigSelectWaypointModal } from '@/components/widgets/config/Wid
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useSystemVariables } from '@/theme/global';
 import { type Waypoint } from '@carrismetropolitana/api-types/network';
-import { IconArrowLoopRight, IconArrowsLeftRight } from '@tabler/icons-react-native';
+import { IconArrowLoopRight, IconArrowsRightLeft } from '@tabler/icons-react-native';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -85,7 +85,7 @@ export function WidgetConfigSelectWaypoint({ availableWaypoints, description, on
 						key: 'selected-waypoint',
 						label: stopData?.long_name || selectedWaypoint.stop_id,
 						onPress: () => setModalVisible(true),
-						replaceChevron: <IconArrowsLeftRight color={systemVariables.text[100]} />,
+						replaceChevron: <IconArrowsRightLeft color={systemVariables.text[100]} />,
 						size: 'sm',
 					}]}
 				/>

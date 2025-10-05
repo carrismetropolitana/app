@@ -5,7 +5,7 @@ import { ListSection } from '@/components/list/ListSection';
 import { WidgetConfigSelectLineModal } from '@/components/widgets/config/WidgetConfigSelectLineModal';
 import { useSystemVariables } from '@/theme/global';
 import { type Line } from '@carrismetropolitana/api-types/network';
-import { IconArrowLoopRight, IconArrowsLeftRight } from '@tabler/icons-react-native';
+import { IconArrowLoopRight, IconArrowsRightLeft } from '@tabler/icons-react-native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -68,7 +68,7 @@ export function WidgetConfigSelectLine({ description, onSelectLineId, selectedLi
 						key: 'selected-line',
 						label: selectedLine.long_name,
 						onPress: () => setModalVisible(true),
-						replaceChevron: <IconArrowsLeftRight color={systemVariables.text[100]} />,
+						replaceChevron: <IconArrowsRightLeft color={systemVariables.text[100]} />,
 						size: 'sm',
 					}]}
 				/>

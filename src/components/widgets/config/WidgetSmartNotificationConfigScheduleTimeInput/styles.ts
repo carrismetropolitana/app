@@ -1,5 +1,6 @@
 /* * */
 
+import { useAccessibilityContext } from '@/contexts/Accessibility.context';
 import { useSystemVariables } from '@/theme/global';
 import { StyleSheet } from 'react-native';
 
@@ -9,6 +10,7 @@ export const useStyles = () => {
 	//
 
 	const systemVariables = useSystemVariables();
+	const acessibilityContext = useAccessibilityContext();
 
 	return StyleSheet.create({
 		container: {
@@ -38,7 +40,7 @@ export const useStyles = () => {
 		},
 		text: {
 			color: systemVariables.text[200],
-			fontSize: 17,
+			fontSize: acessibilityContext.flags.screen_reader ? 20 : 18,
 			fontWeight: 600,
 		},
 		wrapper: {

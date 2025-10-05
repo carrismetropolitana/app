@@ -21,8 +21,8 @@ export const useStyles = () => {
 			width: '100%',
 		},
 		title: {
-			color: systemVariables.text[100],
-			fontSize: 14,
+			color: systemVariables.text[200],
+			fontSize: 18,
 			fontWeight: 600,
 		},
 		weekday: {
@@ -32,7 +32,7 @@ export const useStyles = () => {
 			fontWeight: '600',
 			paddingVertical: 10,
 			textAlign: 'center',
-			width: Math.ceil(Dimensions.get('screen').width / 7) - 5,
+			width: Math.ceil(Dimensions.get('screen').width / 7) - 6,
 		},
 		weekdaySelected: {
 			backgroundColor: systemVariables.status.ok,

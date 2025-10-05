@@ -5,14 +5,14 @@ import { useAccessibilityContext } from '@/contexts/Accessibility.context';
 import { useAccountContext } from '@/contexts/Account.context';
 import { useFavoritesContext } from '@/contexts/Favorites.context';
 import { useStopsContext } from '@/contexts/Stops.context';
+import { useUserLocationContext } from '@/contexts/UserLocation.context';
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import createDocCollection from '@/hooks/useOtheSearch';
+import { type StopWithDistance } from '@/schemas/stop-with-distance';
 import { type Stop } from '@carrismetropolitana/api-types/network';
 import { distance } from '@turf/turf';
 import { type FeatureCollection, type Point } from 'geojson';
 import { createContext, type PropsWithChildren, useContext, useMemo, useState } from 'react';
-
-import { useUserLocationContext } from './UserLocation.context';
 
 /* * */
 
@@ -27,7 +27,7 @@ interface StopsSelectionContextState {
 		favorites_fc: FeatureCollection<Point, MapOverlayStopsGeoJsonProperties> | undefined
 		filtered: Stop[]
 		filtered_fc: FeatureCollection<Point, MapOverlayStopsGeoJsonProperties> | undefined
-		nearby: Stop[]
+		nearby: StopWithDistance[]
 		recent: Stop[]
 	}
 	filters: {
@@ -94,21 +94,24 @@ export const StopsSelectionContextProvider = ({ children }: PropsWithChildren) =
 		return collection;
 	}, [favoriteStopsData]);
 
-	const nearbyStopsData: Stop[] = useMemo(() => {
+	const nearbyStopsData: StopWithDistance[] = useMemo(() => {
 		// Skip if no stops are available
 		if (!stopsContext.data.stops.length) return [];
 		// Get user location
 		const userLocation = userLocationContext.data.location?.coords;
 		if (!userLocation) return [];
 		// Filter stops by radius using turf
-		const stopsWithinRadius = stopsContext.data.stops.filter((stop) => {
-			const meters = distance(
-				{ coordinates: [userLocation.longitude, userLocation.latitude], type: 'Point' },
-				{ coordinates: [stop.lon, stop.lat], type: 'Point' },
-				{ units: 'meters' },
-			);
-			return meters <= 500;
-		});
+		const stopsWithinRadius = stopsContext.data.stops
+			.map((stop) => {
+				const meters = distance(
+					{ coordinates: [userLocation.longitude, userLocation.latitude], type: 'Point' },
+					{ coordinates: [stop.lon, stop.lat], type: 'Point' },
+					{ units: 'meters' },
+				);
+				return { ...stop, distance: meters };
+			})
+			.filter(extendedStop => extendedStop.distance <= 500)
+			.sort((a, b) => a.distance - b.distance);
 		// Limit to 25 stops
 		return stopsWithinRadius.slice(0, 25);
 	}, [stopsContext.data.stops, userLocationContext.data.location]);
