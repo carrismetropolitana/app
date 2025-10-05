@@ -6,7 +6,7 @@ import { useLinesContext } from '@/contexts/Lines.context';
 import { type Line } from '@carrismetropolitana/api-types/network';
 import { router } from 'expo-router';
 import { useMemo } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { useStyles } from './styles';
@@ -51,19 +51,21 @@ export function HomeScreenFavoriteLinesBar() {
 	}
 
 	return (
-		<ScrollView style={styles.container} horizontal>
-			{favoriteLinesData.map(item => (
-				<TouchableOpacity key={item.id} onPress={() => handlePress(item.id)}>
-					<LineBadge
-						color={item.color}
-						lineId={item.id}
-						shortName={item.short_name}
-						size="lg"
-						textColor={item.text_color}
-						withAlertIcon={true}
-					/>
-				</TouchableOpacity>
-			))}
+		<ScrollView horizontal>
+			<View style={styles.container}>
+				{favoriteLinesData.map(item => (
+					<TouchableOpacity key={item.id} onPress={() => handlePress(item.id)}>
+						<LineBadge
+							color={item.color}
+							lineId={item.id}
+							shortName={item.short_name}
+							size="lg"
+							textColor={item.text_color}
+							withAlertIcon={true}
+						/>
+					</TouchableOpacity>
+				))}
+			</View>
 		</ScrollView>
 	);
 

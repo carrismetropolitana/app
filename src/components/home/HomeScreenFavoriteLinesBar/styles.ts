@@ -12,11 +12,13 @@ export const useStyles = () => {
 
 	return StyleSheet.create({
 		container: {
+			backgroundColor: systemVariables.background[200],
 			borderBottomColor: systemVariables.border[100],
 			borderBottomWidth: 1,
 			display: 'flex',
 			flexDirection: 'row',
-			gap: 10,
+			gap: 15,
+			minWidth: '100%',
 			padding: 20,
 			width: '100%',
 		},
