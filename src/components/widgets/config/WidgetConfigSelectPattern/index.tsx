@@ -40,7 +40,7 @@ export function WidgetConfigSelectPattern({ availablePatterns, description, onTo
 		if (!availablePatterns?.length) return [];
 		// Prepare patterns list
 		const preparedPatterns = availablePatterns.map(item => ({
-			icon: <LineBadge lineId={item.id} withAlertIcon />,
+			icon: <LineBadge lineId={item.line_id} withAlertIcon />,
 			key: item.id,
 			label: item.headsign,
 			onPress: () => onTogglePatternId(item.id),
