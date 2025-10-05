@@ -42,7 +42,7 @@ export function SelectOperationalDate() {
 		return Dates
 			.fromOperationalDate(operationalDateContext.data.today.operational_date, 'Europe/Lisbon')
 			.js_date;
-	}, []);
+	}, [operationalDateContext.data.today]);
 
 	//
 	// C. Handle actions
