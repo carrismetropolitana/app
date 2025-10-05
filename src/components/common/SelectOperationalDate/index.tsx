@@ -1,10 +1,12 @@
 /* * */
 
+import { useLocaleContext } from '@/contexts/Locale.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
+import { Dates } from '@/core-replica';
 import { useSystemVariables } from '@/theme/global';
 import { IconCalendar } from '@tabler/icons-react-native';
 import * as Haptics from 'expo-haptics';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, TouchableOpacity, View } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -22,6 +24,7 @@ export function SelectOperationalDate() {
 	const styles = useStyles();
 	const systemVariables = useSystemVariables();
 
+	const localeContext = useLocaleContext();
 	const operationalDateContext = useOperationalDateContext();
 
 	const { t } = useTranslation('translation', { keyPrefix: 'common.SelectOperationalDate' });
@@ -34,6 +37,12 @@ export function SelectOperationalDate() {
 	const isToday = operationalDateContext.flags.today;
 	const isTomorrow = operationalDateContext.flags.tomorrow;
 	const isOtherDate = !isToday && !isTomorrow;
+
+	const minDate = useMemo(() => {
+		return Dates
+			.fromOperationalDate(operationalDateContext.data.today.operational_date, 'Europe/Lisbon')
+			.js_date;
+	}, []);
 
 	//
 	// C. Handle actions
@@ -88,7 +97,8 @@ export function SelectOperationalDate() {
 			<DateTimePickerModal
 				date={operationalDateContext.data.selected_date?.js_date}
 				isVisible={showDatePicker}
-				locale="pt"
+				locale={localeContext.data.locale}
+				minimumDate={minDate}
 				mode="date"
 				onCancel={() => setShowDatePicker(false)}
 				onConfirm={handleConfirm}

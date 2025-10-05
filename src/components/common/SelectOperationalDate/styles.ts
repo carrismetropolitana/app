@@ -21,7 +21,8 @@ export const useStyles = () => {
 			gap: 5,
 			height: '100%',
 			justifyContent: 'center',
-			padding: 15,
+			paddingHorizontal: 5,
+			paddingVertical: 15,
 			width: '100%',
 		},
 		buttonIsSelected: {
