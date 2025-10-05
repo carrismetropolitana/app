@@ -48,10 +48,8 @@ export function WidgetCardLineHeader({ patternId }: WidgetCardLineHeaderProps) {
 	return (
 		<View style={styles.container}>
 			<LineBadge
-				color={patternData?.color}
-				shortName={patternData?.short_name}
+				lineId={patternData?.line_id}
 				size="md"
-				textColor={patternData?.text_color}
 			/>
 			<Text style={styles.title}>
 				{patternData?.headsign}

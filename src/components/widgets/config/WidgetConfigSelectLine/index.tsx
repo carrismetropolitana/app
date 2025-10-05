@@ -64,7 +64,7 @@ export function WidgetConfigSelectLine({ description, onSelectLineId, selectedLi
 					description={description}
 					title={title}
 					items={[{
-						icon: <LineBadge color={selectedLine.color} shortName={selectedLine.short_name} textColor={selectedLine.text_color} />,
+						icon: <LineBadge lineId={selectedLine.id} withAlertIcon />,
 						key: 'selected-line',
 						label: selectedLine.long_name,
 						onPress: () => setModalVisible(true),

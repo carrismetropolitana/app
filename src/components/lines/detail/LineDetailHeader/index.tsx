@@ -49,10 +49,8 @@ export function LineDetailHeader() {
 		<View style={styles.container}>
 			<View style={styles.row}>
 				<LineBadge
-					color={lineDetailContext.data.selected_line.color}
-					shortName={lineDetailContext.data.selected_line.short_name}
+					lineId={lineDetailContext.data.selected_line.id}
 					size="lg"
-					textColor={lineDetailContext.data.selected_line.text_color}
 				/>
 				<FavoriteToggle
 					color={lineDetailContext.data.selected_line.color}

@@ -76,7 +76,7 @@ export default function LineByPatternID({ patternId }: Props) {
 	return (
 		<View style={{ flex: 1, width: '100%' }}>
 			<ListItem>
-				<LineBadge color={patternData[0].color} lineId={patternData[0].short_name} size="lg" withAlertIcon />
+				<LineBadge lineId={patternData[0].line_id} size="lg" withAlertIcon />
 				<ListItem.Content>
 					<ListItem.Title style={addFavoriteStopStyles.listTitle}>
 						{patternData[0].headsign ? patternData[0].headsign : 'Sem destino'}

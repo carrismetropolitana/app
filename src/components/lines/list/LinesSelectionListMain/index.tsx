@@ -97,7 +97,7 @@ export function LinesSelectionListMain({ addToRecentsOnPress, onPress, replaceCh
 					key={item.id}
 					accessibilityHint={t('items.accessibility_hint', { short_name: item.short_name })}
 					accessibilityLabel={t('items.accessibility_label', { index: String(index + 1), tts_name: item.tts_name })}
-					icon={<LineBadge color={item.color} shortName={item.short_name} textColor={item.text_color} />}
+					icon={<LineBadge lineId={item.id} withAlertIcon />}
 					label={item.long_name}
 					onPress={() => handlePress(item)}
 					replaceChevron={replaceChevron}

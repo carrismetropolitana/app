@@ -31,7 +31,7 @@ export function VehiclesDetailOverviewPattern({ patternData }: VehiclesDetailOve
 
 	return (
 		<View style={styles.container}>
-			<LineBadge color={patternData.color} shortName={patternData.short_name} size="lg" textColor={patternData.text_color} />
+			<LineBadge lineId={patternData.line_id} size="lg" />
 			<Text style={styles.headsign}>{patternData.headsign}</Text>
 		</View>
 	);

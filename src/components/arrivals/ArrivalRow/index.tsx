@@ -59,7 +59,7 @@ export function ArrivalRow({ data }: ArrivalRowProps) {
 	if (data.status === 'realtime') {
 		return (
 			<TouchableOpacity onPress={handlePress} style={styles.container}>
-				<LineBadge lineData={lineData} size="sm" />
+				<LineBadge lineId={lineData?.id} size="sm" />
 				<Text numberOfLines={1} style={styles.title}>{data.headsign}</Text>
 				<ArrivalTime status="realtime" time={data.estimated_arrival_unix} />
 				<IconChevronRight color={systemVariables.text[400]} size={24} />
@@ -70,7 +70,7 @@ export function ArrivalRow({ data }: ArrivalRowProps) {
 	if (data.status === 'scheduled') {
 		return (
 			<TouchableOpacity activeOpacity={1} onPress={() => null} style={styles.container}>
-				<LineBadge lineData={lineData} size="sm" />
+				<LineBadge lineId={lineData?.id} size="sm" />
 				<Text numberOfLines={1} style={styles.title}>{data.headsign}</Text>
 				<ArrivalTime status="scheduled" time={data.scheduled_arrival_unix} />
 			</TouchableOpacity>

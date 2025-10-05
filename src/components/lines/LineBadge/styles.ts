@@ -1,61 +1,68 @@
+/* * */
+
 import { StyleSheet } from 'react-native';
 
-const container = {
-	alignItems: 'center',
-	backgroundColor: '#5a5a64',
-	borderRadius: 999,
-	color: '#fff',
-	fontWeight: 800,
-	justifyContent: 'center',
-	textAlign: 'center',
-} as const;
+/* * */
 
-export const lineBadgeStyles = StyleSheet.create({
-	alertIcon: {
-		alignItems: 'center',
-		backgroundColor: 'red',
-		borderRadius: 999,
-		display: 'flex',
-		height: 20,
-		justifyContent: 'center',
-		padding: 10,
-		position: 'absolute',
-		right: -10,
-		top: -10,
-		width: 20,
-
-	},
-	clickable: {
-		backgroundColor: '#5a5a64',
-	},
-	default: {
-		...container,
-	},
-	sizeLg: {
-		...container,
-		fontSize: 20,
-		maxHeight: 50,
-		maxWidth: 70,
-		minHeight: 30,
-		minWidth: 70,
-		padding: 2,
-	},
-	sizeMd: {
-		...container,
-		fontSize: 14,
-		maxHeight: 26,
-		maxWidth: 65,
-		minHeight: 26,
-		minWidth: 65,
-		padding: 3,
-	},
-	sizeSm: {
-		...container,
-		fontSize: 12,
-		maxHeight: 22,
-		maxWidth: 55,
-		minHeight: 22,
-		minWidth: 55,
-		padding: 2,
-	},
-});
+export const useStyles = () => {
+	return StyleSheet.create({
+		alert: {
+			alignItems: 'center',
+			borderRadius: 999,
+			borderWidth: 2,
+			display: 'flex',
+			justifyContent: 'center',
+			position: 'absolute',
+		},
+		alertSizeLg: {
+			height: 30,
+			right: -12,
+			top: -12,
+			width: 30,
+		},
+		alertSizeMd: {
+			height: 26,
+			right: -10,
+			top: -10,
+			width: 26,
+		},
+		alertSizeSm: {
+			height: 20,
+			right: -9,
+			top: -9,
+			width: 20,
+		},
+		container: {
+			alignItems: 'center',
+			borderRadius: 999,
+			display: 'flex',
+			justifyContent: 'center',
+			padding: 3,
+		},
+		containerSizeLg: {
+			height: 38,
+			width: 95,
+		},
+		containerSizeMd: {
+			height: 30,
+			width: 75,
+		},
+		containerSizeSm: {
+			height: 24,
+			width: 54,
+		},
+		label: {
+			fontWeight: '800',
+			textAlign: 'center',
+		},
+		labelSizeLg: {
+			fontSize: 24,
+		},
+		labelSizeMd: {
+			fontSize: 18,
+		},
+		labelSizeSm: {
+			fontSize: 14,
+		},
+	});
+};
