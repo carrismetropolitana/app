@@ -113,6 +113,10 @@ jobs:
         eas-version: latest
         packager: npm
       # # #
+    - name: List Xcode Versions
+      run: |
+        ls -la ~/Applications
+      # # #
     - name: Install dependencies
       run: npm install
       # # #
