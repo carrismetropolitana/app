@@ -56,7 +56,15 @@ const config: ExpoConfig = {
 
 		package: 'pt.carrismetropolitana.mobile',
 
-		versionCode: Number(process.env.EXPO_PUBLIC_APP_VERSION_CODE || 1),
+		/**
+		 * The version code is an integer value that represents the version of the application code.
+		 * The maximum value is the MAX_INT=2147483647, which is greater than the usual format of our versioning scheme.
+		 * This means that a simpler integer should be used for versioning. Keep only the initial digits of the version,
+		 * e.g. for version 20250101.1023.34 use versionCode 2025010110 (date + hour).
+		 * @see https://stackoverflow.com/a/24246191
+		 * @see https://developer.android.com/studio/publish/versioning
+		 */
+		versionCode: Number(process.env.EXPO_PUBLIC_APP_ANDROID_VERSION_CODE || 1),
 
 	},
 
@@ -64,7 +72,7 @@ const config: ExpoConfig = {
 
 		appleTeamId: 'QGATT2W97P',
 
-		buildNumber: `${process.env.EXPO_PUBLIC_APP_VERSION_CODE || 1}`,
+		buildNumber: `${process.env.EXPO_PUBLIC_APP_IOS_BUILD_NUMBER || 1}`,
 
 		bundleIdentifier: 'pt.carrismetropolitana.app',
 
