@@ -22,6 +22,8 @@ jobs:
         run: |
           echo version_string=npx @tmlmobilidade/repo-version --output=console >> "$GITHUB_OUTPUT"
           echo version_code=npx @tmlmobilidade/repo-version --output=console --format=code >> "$GITHUB_OUTPUT"
+          echo version_string
+          echo version_code
         # run: |
         #   version="$(date +%Y%m%d).$(date +%H%M).$(date +%S)"
         #   echo "Generated version: $version"
@@ -59,7 +61,7 @@ jobs:
       run: npm install
       # # #
     - name: Bump package version
-      run: npm version --no-git-tag-version ${{ needs.version-number.outputs.version_number }}
+      run: npm version --no-git-tag-version ${{ needs.version-number.outputs.version_string }}
       # # #
     - name: Decode google-services.json
       run: |
@@ -110,7 +112,7 @@ jobs:
       run: npm install
       # # #
     - name: Bump package version
-      run: npm version --no-git-tag-version ${{ needs.version-number.outputs.version_number }}
+      run: npm version --no-git-tag-version ${{ needs.version-number.outputs.version_string }}
       # # #
     - name: Build app
       run: |
