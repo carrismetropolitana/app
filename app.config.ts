@@ -62,7 +62,7 @@ const config: ExpoConfig = {
 
 		appleTeamId: 'QGATT2W97P',
 
-		buildNumber: process.env.EXPO_PUBLIC_APP_VERSION_CODE ?? 1,
+		buildNumber: `${process.env.EXPO_PUBLIC_APP_VERSION_CODE ?? 1}`,
 
 		bundleIdentifier: 'pt.carrismetropolitana.app',
 
