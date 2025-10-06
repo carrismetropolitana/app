@@ -54,6 +54,7 @@ const config: ExpoConfig = {
 
 		package: 'pt.carrismetropolitana.mobile',
 
+		version: process.env.EXPO_PUBLIC_APP_VERSION ?? '1.0.0',
 		versionCode: Number(process.env.EXPO_PUBLIC_APP_VERSION_CODE ?? 1),
 
 	},
