@@ -26,10 +26,6 @@ jobs:
           echo "version_code=$vcode" >> "$GITHUB_OUTPUT"
           echo "version_string: $vstring"
           echo "version_code: $vcode"
-        # run: |
-        #   version="$(date +%Y%m%d).$(date +%H%M).$(date +%S)"
-        #   echo "Generated version: $version"
-        #   echo "version_number=$version" >> "$GITHUB_OUTPUT"
     outputs:
       version_string: ${{ steps.generate-version-number.outputs.version_string }}
       version_code: ${{ steps.generate-version-number.outputs.version_code }}
@@ -78,6 +74,9 @@ jobs:
           --output=./app-build \
           --platform=android \
           --profile=${{ github.ref_name }}
+      env:
+        EXPO_PUBLIC_APP_VERSION: ${{ needs.version-number.outputs.version_string }}
+        EXPO_PUBLIC_APP_VERSION_CODE: ${{ needs.version-number.outputs.version_code }}
       # # #
     - name: Submit to Google Play
       run: |
@@ -123,6 +122,9 @@ jobs:
           --output=./app-build \
           --platform=ios \
           --profile=${{ github.ref_name }}
+      env:
+        EXPO_PUBLIC_APP_VERSION: ${{ needs.version-number.outputs.version_string }}
+        EXPO_PUBLIC_APP_VERSION_CODE: ${{ needs.version-number.outputs.version_code }}
       # # #
     - name: Submit to Apple
       run: |
