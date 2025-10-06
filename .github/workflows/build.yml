@@ -113,9 +113,9 @@ jobs:
         eas-version: latest
         packager: npm
       # # #
-    - name: List Xcode Versions
+    - name: Set Xcode Version
       run: |
-        ls -la /Applications
+        sudo xcode-select -s /Applications/Xcode_26.0.1.app
       # # #
     - name: Install dependencies
       run: npm install
