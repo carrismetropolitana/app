@@ -80,10 +80,7 @@ const config: ExpoConfig = {
 		 * This might be due to Expo expecting a Icon-composer-built icon set.
 		 * @see https://github.com/expo/expo/issues/39782
 		 */
-		// icon: {
-		// 	dark: './assets/app/icon-dark.png',
-		// 	light: './assets/app/icon-light.png',
-		// },
+		icon: './assets/app/ios-icon.icon',
 
 		infoPlist: {
 
