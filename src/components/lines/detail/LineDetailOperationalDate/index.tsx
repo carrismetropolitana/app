@@ -7,7 +7,7 @@ import { useStyles } from './styles';
 
 /* * */
 
-export function LineDetailToolbar() {
+export function LineDetailOperationalDate() {
 	//
 
 	//
