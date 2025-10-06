@@ -8,7 +8,7 @@
 			}
 		},
 		"production": {
-			"autoIncrement": true,
+			"autoIncrement": false,
 			"env": {
 				"EXPO_PUBLIC_ENVIRONMENT": "production"
 			}
@@ -21,7 +21,7 @@
 		}
 	},
 	"cli": {
-		"appVersionSource": "remote",
+		"appVersionSource": "local",
 		"version": ">= 16.19.3"
 	},
 	"submit": {
