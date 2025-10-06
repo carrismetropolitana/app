@@ -749,6 +749,10 @@
 				}
 			}
 		},
+		"StopsSelectionMainToolbar": {
+			"toggle_to_list": "Mudar para vista de lista",
+			"toggle_to_map": "Mudar para vista de mapa"
+		},
 		"noDataFound": "Nenhum dado encontrado para esta paragem"
 	},
 	"userdetails": {

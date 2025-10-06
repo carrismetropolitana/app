@@ -757,6 +757,10 @@
 				}
 			}
 		},
+		"StopsSelectionMainToolbar": {
+			"toggle_to_list": "Switch to list view",
+			"toggle_to_map": "Switch to map view"
+		},
 		"noDataFound": "No data found for this stop"
 	},
 	"userdetails": {
