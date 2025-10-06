@@ -4,6 +4,8 @@ import { type ExpoConfig } from 'expo/config';
 
 /* * */
 
+console.log(Number(process.env.EXPO_PUBLIC_APP_VERSION_CODE ?? 1));
+
 const config: ExpoConfig = {
 
 	name: 'Carris Metropolitana',
@@ -54,8 +56,7 @@ const config: ExpoConfig = {
 
 		package: 'pt.carrismetropolitana.mobile',
 
-		version: process.env.EXPO_PUBLIC_APP_VERSION ?? '1.0.0',
-		versionCode: Number(process.env.EXPO_PUBLIC_APP_VERSION_CODE ?? 1),
+		versionCode: Number(process.env.EXPO_PUBLIC_APP_VERSION_CODE || 1),
 
 	},
 
@@ -63,7 +64,7 @@ const config: ExpoConfig = {
 
 		appleTeamId: 'QGATT2W97P',
 
-		buildNumber: `${process.env.EXPO_PUBLIC_APP_VERSION_CODE ?? 1}`,
+		buildNumber: `${process.env.EXPO_PUBLIC_APP_VERSION_CODE || 1}`,
 
 		bundleIdentifier: 'pt.carrismetropolitana.app',
 
