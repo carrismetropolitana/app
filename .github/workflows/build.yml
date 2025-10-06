@@ -20,13 +20,15 @@ jobs:
       - name: Generate Version Number
         id: generate-version-number
         run: |
-          npx @tmlmobilidade/repo-version --output=console --format=code >> "$GITHUB_OUTPUT"
+          echo version_string=npx @tmlmobilidade/repo-version --output=console >> "$GITHUB_OUTPUT"
+          echo version_code=npx @tmlmobilidade/repo-version --output=console --format=code >> "$GITHUB_OUTPUT"
         # run: |
         #   version="$(date +%Y%m%d).$(date +%H%M).$(date +%S)"
         #   echo "Generated version: $version"
         #   echo "version_number=$version" >> "$GITHUB_OUTPUT"
     outputs:
-      version_number: ${{ steps.generate-version-number.outputs.version_number }}
+      version_string: ${{ steps.generate-version-number.outputs.version_string }}
+      version_code: ${{ steps.generate-version-number.outputs.version_code }}
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
