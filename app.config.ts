@@ -4,8 +4,6 @@ import { type ExpoConfig } from 'expo/config';
 
 /* * */
 
-console.log(Number(process.env.EXPO_PUBLIC_APP_VERSION_CODE ?? 1));
-
 const config: ExpoConfig = {
 
 	name: 'Carris Metropolitana',
