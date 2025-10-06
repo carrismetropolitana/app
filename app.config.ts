@@ -14,8 +14,6 @@ const config: ExpoConfig = {
 
 	slug: 'app',
 
-	version: process.env.EXPO_PUBLIC_APP_VERSION ?? '1.0.0',
-
 	/* * */
 
 	icon: './assets/app/icon-light.png',
