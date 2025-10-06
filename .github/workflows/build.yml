@@ -20,12 +20,12 @@ jobs:
       - name: Generate Version Number
         id: generate-version-number
         run: |
-          vstring=npx @tmlmobilidade/repo-version repo-version --output=console
-          vcode=npx @tmlmobilidade/repo-version repo-version --output=console --format=code
+          vstring=$(npx @tmlmobilidade/repo-version repo-version --output=console)
+          vcode=$(npx @tmlmobilidade/repo-version repo-version --output=console --format=code)
           echo "version_string=$vstring" >> "$GITHUB_OUTPUT"
           echo "version_code=$vcode" >> "$GITHUB_OUTPUT"
-          echo "version_string: $version_string"
-          echo "version_code: $version_code"
+          echo "version_string: $vstring"
+          echo "version_code: $vcode"
         # run: |
         #   version="$(date +%Y%m%d).$(date +%H%M).$(date +%S)"
         #   echo "Generated version: $version"
