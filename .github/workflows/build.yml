@@ -115,7 +115,7 @@ jobs:
       # # #
     - name: List Xcode Versions
       run: |
-        ls -la ~/Applications
+        ls -la /Applications
       # # #
     - name: Install dependencies
       run: npm install
