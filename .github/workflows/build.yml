@@ -75,7 +75,6 @@ jobs:
           --platform=android \
           --profile=${{ github.ref_name }}
       env:
-        EXPO_PUBLIC_APP_VERSION: ${{ needs.version-number.outputs.version_string }}
         EXPO_PUBLIC_APP_VERSION_CODE: ${{ needs.version-number.outputs.version_code }}
       # # #
     - name: Submit to Google Play
@@ -123,7 +122,6 @@ jobs:
           --platform=ios \
           --profile=${{ github.ref_name }}
       env:
-        EXPO_PUBLIC_APP_VERSION: ${{ needs.version-number.outputs.version_string }}
         EXPO_PUBLIC_APP_VERSION_CODE: ${{ needs.version-number.outputs.version_code }}
       # # #
     - name: Submit to Apple
