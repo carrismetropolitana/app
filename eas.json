@@ -8,7 +8,7 @@
 			}
 		},
 		"production": {
-			"autoIncrement": true,
+			"autoIncrement": false,
 			"env": {
 				"EXPO_PUBLIC_ENVIRONMENT": "production"
 			}
