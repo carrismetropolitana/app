@@ -23,7 +23,7 @@ export function CloseButton({ onPress }: CloseButtonProps) {
 	const { t } = useTranslation('translation', { keyPrefix: 'common.CloseButton' });
 
 	//
-	// A. Setup variables
+	// B. Render components
 
 	return (
 		<Button

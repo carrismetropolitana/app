@@ -2,8 +2,8 @@
 
 import { Container } from '@/components/layout/Container';
 import { LargeButton } from '@/components/layout/LargeButton';
+import { LineSelectionTrigger } from '@/components/selection/line/LineSelectionTrigger';
 import { WidgetConfigHeader } from '@/components/widgets/config/WidgetConfigHeader';
-import { WidgetConfigSelectLine } from '@/components/widgets/config/WidgetConfigSelectLine';
 import { WidgetConfigSelectPattern } from '@/components/widgets/config/WidgetConfigSelectPattern';
 import { useWidgetLineConfigContext } from '@/contexts/WidgetLineConfig.context';
 import { router } from 'expo-router';
@@ -59,10 +59,10 @@ export function WidgetLineConfig({ widgetId }: WidgetLineConfigProps) {
 
 			{/* * */}
 
-			<WidgetConfigSelectLine
+			<LineSelectionTrigger
 				description={t('step_1.description')}
-				onSelectLineId={widgetLineConfigContext.actions.selectLineId}
-				selectedLine={widgetLineConfigContext.data.selected_line}
+				onSelect={widgetLineConfigContext.actions.selectLineId}
+				selectedLineId={widgetLineConfigContext.data.selected_line?.id}
 				title={t('step_1.title')}
 			/>
 

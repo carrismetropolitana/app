@@ -41,15 +41,7 @@ export default function RootLayout() {
 					headerStyle: { backgroundColor: systemVariables.background[100] },
 					headerTitleStyle: { color: systemVariables.text[100] },
 				}}
-				>
-					<Stack.Screen
-						name="vehicles/[vehicle_id]"
-						options={{
-							headerShown: true,
-							presentation: 'modal',
-						}}
-					/>
-				</Stack>
+				/>
 			</AllProviders>
 		</AppSplashScreen>
 	);

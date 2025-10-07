@@ -490,7 +490,7 @@
 		"LinesListViewFavorites": {
 			"no_favorites": "No favorite lines yet"
 		},
-		"LinesSelectionListMain": {
+		"LineSelectionListMain": {
 			"all": {
 				"title": "All Lines"
 			},
@@ -513,6 +513,9 @@
 					"singular": "Found 1 line"
 				}
 			}
+		},
+		"LineSelectionTrigger": {
+			"label": "Search for a line..."
 		},
 		"PathStopNextArrivals": {
 			"arriving": "Arriving",
@@ -733,7 +736,7 @@
 			"stopDisplayNameAccessibilityHint": "This element represents the name of the stop",
 			"stopDisplayNameAccessibilityLabel": "Stop name  {stopName}"
 		},
-		"StopsSelectionMainList": {
+		"StopSelectionMainList": {
 			"all": {
 				"title": "All Stops"
 			},
@@ -757,9 +760,16 @@
 				}
 			}
 		},
-		"StopsSelectionMainToolbar": {
+		"StopSelectionMainToolbar": {
 			"toggle_to_list": "Switch to list view",
 			"toggle_to_map": "Switch to map view"
+		},
+		"StopSelectionTrigger": {
+			"label": "Search for a stop...",
+			"selected": {
+				"accessibility_hint": "Double tap to change",
+				"accessibility_label": "Selected stop: {tts_name}"
+			}
 		},
 		"noDataFound": "No data found for this stop"
 	},
@@ -823,25 +833,9 @@
 			"label": "Label",
 			"placeholder": "Home, Work..."
 		},
-		"WidgetConfigSelectLine": {
-			"label": "Search for a line..."
-		},
-		"WidgetConfigSelectLineModal": {
-			"close_button": "Close"
-		},
 		"WidgetConfigSelectPattern": {
 			"deselect_all": "Deselect all",
 			"select_all": "Select all"
-		},
-		"WidgetConfigSelectStop": {
-			"label": "Search for a stop...",
-			"selected": {
-				"accessibility_hint": "Double tap to change",
-				"accessibility_label": "Selected stop: {tts_name}"
-			}
-		},
-		"WidgetConfigSelectStopModal": {
-			"close_button": "Close"
 		},
 		"WidgetConfigSelectWaypoint": {
 			"label": "Select a stop...",

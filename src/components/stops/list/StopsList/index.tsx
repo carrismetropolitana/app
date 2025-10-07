@@ -1,7 +1,6 @@
 /* * */
 
-import { StopsSelection } from '@/components/stops/selection/StopsSelection';
-import { type Stop } from '@carrismetropolitana/api-types/network';
+import { StopSelection } from '@/components/selection/stop/StopSelection';
 import { router } from 'expo-router';
 
 /* * */
@@ -12,16 +11,16 @@ export function StopsList() {
 	//
 	// A. Handle actions
 
-	const handlePress = (item: Stop) => {
-		router.push(`/stops/${item.id}`);
+	const handleSelect = (stopId: string) => {
+		router.push(`/stops/${stopId}`);
 	};
 
 	//
 	// B. Render components
 
 	return (
-		<StopsSelection
-			onPress={handlePress}
+		<StopSelection
+			onSelect={handleSelect}
 			addToRecentsOnPress
 			withSafeArea
 		/>

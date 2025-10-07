@@ -3,9 +3,9 @@
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { Container } from '@/components/layout/Container';
 import { LargeButton } from '@/components/layout/LargeButton';
+import { LineSelectionTrigger } from '@/components/selection/line/LineSelectionTrigger';
 import { WidgetConfigHeader } from '@/components/widgets/config/WidgetConfigHeader';
 import { WidgetConfigLabelInput } from '@/components/widgets/config/WidgetConfigLabelInput';
-import { WidgetConfigSelectLine } from '@/components/widgets/config/WidgetConfigSelectLine';
 import { WidgetConfigSelectPattern } from '@/components/widgets/config/WidgetConfigSelectPattern';
 import { WidgetConfigSelectWaypoint } from '@/components/widgets/config/WidgetConfigSelectWaypoint';
 import { WidgetSmartNotificationConfigDistanceInput } from '@/components/widgets/config/WidgetSmartNotificationConfigDistanceInput';
@@ -70,9 +70,9 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 
 			<Text style={styles.text}>{t('step_1.title')}</Text>
 
-			<WidgetConfigSelectLine
-				onSelectLineId={widgetSmartNotificationConfigContext.actions.selectLineId}
-				selectedLine={widgetSmartNotificationConfigContext.data.selected_line}
+			<LineSelectionTrigger
+				onSelect={widgetSmartNotificationConfigContext.actions.selectLineId}
+				selectedLineId={widgetSmartNotificationConfigContext.data.selected_line?.id}
 			/>
 
 			{/* * */}

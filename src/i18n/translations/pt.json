@@ -511,7 +511,7 @@
 			"linesAroundMe": "A minha volta",
 			"recentLines": "Linhas Recentes"
 		},
-		"LinesSelectionListMain": {
+		"LineSelectionListMain": {
 			"all": {
 				"title": "Todas as Linhas"
 			},
@@ -534,6 +534,9 @@
 					"singular": "Encontrada 1 linha"
 				}
 			}
+		},
+		"LineSelectionTrigger": {
+			"label": "Procurar linha..."
 		},
 		"PathStopNextArrivals": {
 			"arriving": "A chegar",
@@ -725,7 +728,7 @@
 			"stopDisplayNameAccessibilityHint": "Este elemento representa o nome da paragem",
 			"stopDisplayNameAccessibilityLabel": "Nome da paragem {stopName}"
 		},
-		"StopsSelectionMainList": {
+		"StopSelectionMainList": {
 			"all": {
 				"title": "Todas as Paragens"
 			},
@@ -749,9 +752,16 @@
 				}
 			}
 		},
-		"StopsSelectionMainToolbar": {
+		"StopSelectionMainToolbar": {
 			"toggle_to_list": "Mudar para vista de lista",
 			"toggle_to_map": "Mudar para vista de mapa"
+		},
+		"StopSelectionTrigger": {
+			"label": "Procurar paragem...",
+			"selected": {
+				"accessibility_hint": "Toque duplo para alterar",
+				"accessibility_label": "Paragem selecionada: {tts_name}"
+			}
 		},
 		"noDataFound": "Nenhum dado encontrado para esta paragem"
 	},
@@ -814,25 +824,9 @@
 			"label": "Etiqueta",
 			"placeholder": "Casa, Trabalho..."
 		},
-		"WidgetConfigSelectLine": {
-			"label": "Procurar linha..."
-		},
-		"WidgetConfigSelectLineModal": {
-			"close_button": "Fechar"
-		},
 		"WidgetConfigSelectPattern": {
 			"deselect_all": "Desmarcar todos",
 			"select_all": "Selecionar todos"
-		},
-		"WidgetConfigSelectStop": {
-			"label": "Procurar paragem...",
-			"selected": {
-				"accessibility_hint": "Toque duplo para alterar",
-				"accessibility_label": "Paragem selecionada: {tts_name}"
-			}
-		},
-		"WidgetConfigSelectStopModal": {
-			"close_button": "Fechar"
 		},
 		"WidgetConfigSelectWaypoint": {
 			"label": "Selecionar paragem...",

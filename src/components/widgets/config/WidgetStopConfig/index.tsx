@@ -2,10 +2,10 @@
 
 import { Container } from '@/components/layout/Container';
 import { LargeButton } from '@/components/layout/LargeButton';
+import { StopSelectionTrigger } from '@/components/selection/stop/StopSelectionTrigger';
 import { WidgetConfigHeader } from '@/components/widgets/config/WidgetConfigHeader';
 import { WidgetConfigLabelInput } from '@/components/widgets/config/WidgetConfigLabelInput';
 import { WidgetConfigSelectPattern } from '@/components/widgets/config/WidgetConfigSelectPattern';
-import { WidgetConfigSelectStop } from '@/components/widgets/config/WidgetConfigSelectStop';
 import { useWidgetStopConfigContext } from '@/contexts/WidgetStopConfig.context';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -60,10 +60,10 @@ export function WidgetStopConfig({ widgetId }: WidgetStopConfigProps) {
 
 			{/* * */}
 
-			<WidgetConfigSelectStop
+			<StopSelectionTrigger
 				description={t('step_1.description')}
-				onSelectStopId={widgetStopConfigContext.actions.selectStopId}
-				selectedStop={widgetStopConfigContext.data.selected_stop}
+				onSelect={widgetStopConfigContext.actions.selectStopId}
+				selectedStopId={widgetStopConfigContext.data.selected_stop?.id}
 				title={t('step_1.title')}
 			/>
 

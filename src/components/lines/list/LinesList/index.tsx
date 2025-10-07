@@ -1,11 +1,7 @@
 /* * */
 
-import { LinesSelectionList } from '@/components/lines/list/LinesSelectionList';
-import { type Line } from '@carrismetropolitana/api-types/network';
+import { LineSelection } from '@/components/selection/line/LineSelection';
 import { router } from 'expo-router';
-import { View } from 'react-native';
-
-import { useStyles } from './styles';
 
 /* * */
 
@@ -13,27 +9,21 @@ export function LinesList() {
 	//
 
 	//
-	// A. Setup variables
+	// A. Handle actions
 
-	const styles = useStyles();
-
-	//
-	// B. Handle actions
-
-	const handlePress = (item: Line) => {
-		router.push(`/lines/${item.id}`);
+	const handleSelect = (lineId: string) => {
+		router.push(`/lines/${lineId}`);
 	};
 
 	//
-	// C. Render components
+	// B. Render components
 
 	return (
-		<View style={styles.container}>
-			<LinesSelectionList
-				onPress={handlePress}
-				addToRecentsOnPress
-			/>
-		</View>
+		<LineSelection
+			onSelect={handleSelect}
+			addToRecentsOnPress
+			withSafeArea
+		/>
 	);
 
 	//
