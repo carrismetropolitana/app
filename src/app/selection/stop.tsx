@@ -28,7 +28,7 @@ export default function Page() {
 		});
 	}, [navigation]);
 
-	const handlePress = (stopId: string) => {
+	const handleSelect = (stopId: string) => {
 		router.dismissTo({
 			params: { stop_id: stopId },
 			pathname: localSearchParams.return_to,
@@ -40,7 +40,7 @@ export default function Page() {
 
 	return (
 		<StopSelection
-			onSelect={handlePress}
+			onSelect={handleSelect}
 			addToRecentsOnPress
 		/>
 	);

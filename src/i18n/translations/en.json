@@ -490,33 +490,6 @@
 		"LinesListViewFavorites": {
 			"no_favorites": "No favorite lines yet"
 		},
-		"LineSelectionListMain": {
-			"all": {
-				"title": "All Lines"
-			},
-			"favorites": {
-				"title": "Favorite Lines"
-			},
-			"items": {
-				"accessibility_hint": "Line Number: {short_name}",
-				"accessibility_label": "{index}nd: {tts_name}"
-			},
-			"nearby": {
-				"title": "Lines Around Me"
-			},
-			"recent": {
-				"title": "Recent Lines"
-			},
-			"search_results": {
-				"title": {
-					"plural": "Found {count} lines",
-					"singular": "Found 1 line"
-				}
-			}
-		},
-		"LineSelectionTrigger": {
-			"label": "Search for a line..."
-		},
 		"PathStopNextArrivals": {
 			"arriving": "Arriving",
 			"nextArrivalsRealtimeAccessibilityHint": "Next trip in real time",
@@ -684,6 +657,81 @@
 		"accessibilityHint": "Persona for your profile is {profileImageDescription}",
 		"accessibilityLabel": "This image represents the persona of your profile"
 	},
+	"selection": {
+		"LineSelectionMainList": {
+			"all": {
+				"title": "All lines"
+			},
+			"favorites": {
+				"title": "Favorite lines"
+			},
+			"items": {
+				"accessibility_hint": "Line Number: {short_name}",
+				"accessibility_label": "{index}nd: {tts_name}"
+			},
+			"nearby": {
+				"title": "Lines around me"
+			},
+			"recent": {
+				"title": "Recently searched lines"
+			},
+			"search_results": {
+				"title": {
+					"plural": "Found {count} lines",
+					"singular": "Found 1 line"
+				}
+			}
+		},
+		"LineSelectionTrigger": {
+			"label": "Search for a line...",
+			"selected": {
+				"accessibility_hint": "Double tap to change",
+				"accessibility_label": "Selected line: {tts_name}"
+			}
+		},
+		"PatternSelectionTrigger": {
+			"label": "Pick a pattern...",
+			"selected": {
+				"accessibility_hint": "Double tap to change",
+				"accessibility_label": "Selected pattern: {tts_headsign}"
+			}
+		},
+		"StopSelectionMainList": {
+			"all": {
+				"title": "All Stops"
+			},
+			"favorites": {
+				"title": "Favorite Stops"
+			},
+			"items": {
+				"accessibility_hint": "Stop code: {id}",
+				"accessibility_label": "{index}nd: {tts_name}"
+			},
+			"nearby": {
+				"title": "Stops around me"
+			},
+			"recent": {
+				"title": "Recent stops"
+			},
+			"search_results": {
+				"title": {
+					"plural": "Found {count} stops",
+					"singular": "Found 1 stop"
+				}
+			}
+		},
+		"StopSelectionMainToolbar": {
+			"toggle_to_list": "Switch to list view",
+			"toggle_to_map": "Switch to map view"
+		},
+		"StopSelectionTrigger": {
+			"label": "Search for a stop...",
+			"selected": {
+				"accessibility_hint": "Double tap to change",
+				"accessibility_label": "Selected stop: {tts_name}"
+			}
+		}
+	},
 	"stopWidgetCard": {
 		"stopWidgetCardAccessibilityHint": "this widget is relative to a stop",
 		"stopWidgetCardAccessibilityLabel": "Stop widget",
@@ -735,41 +783,6 @@
 			"stopDisplayMunicipalityAccessibilityLabel": "The stop {stopName} is located in the municipality of {municipalityName}",
 			"stopDisplayNameAccessibilityHint": "This element represents the name of the stop",
 			"stopDisplayNameAccessibilityLabel": "Stop name  {stopName}"
-		},
-		"StopSelectionMainList": {
-			"all": {
-				"title": "All Stops"
-			},
-			"favorites": {
-				"title": "Favorite Stops"
-			},
-			"items": {
-				"accessibility_hint": "Stop code: {id}",
-				"accessibility_label": "{index}nd: {tts_name}"
-			},
-			"nearby": {
-				"title": "Stops Around Me"
-			},
-			"recent": {
-				"title": "Recent Stops"
-			},
-			"search_results": {
-				"title": {
-					"plural": "Found {count} stops",
-					"singular": "Found 1 stop"
-				}
-			}
-		},
-		"StopSelectionMainToolbar": {
-			"toggle_to_list": "Switch to list view",
-			"toggle_to_map": "Switch to map view"
-		},
-		"StopSelectionTrigger": {
-			"label": "Search for a stop...",
-			"selected": {
-				"accessibility_hint": "Double tap to change",
-				"accessibility_label": "Selected stop: {tts_name}"
-			}
 		},
 		"noDataFound": "No data found for this stop"
 	},

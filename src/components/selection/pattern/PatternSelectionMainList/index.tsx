@@ -5,7 +5,8 @@ import { ListSectionItem } from '@/components/list/ListSectionItem';
 import { ListTitle } from '@/components/list/ListTitle';
 import { usePatternSelectionContext } from '@/components/selection/pattern/context/PatternSelection.context';
 import { type PatternSelectionProps } from '@/components/selection/pattern/PatternSelection';
-import { type Line } from '@carrismetropolitana/api-types/network';
+import { useLinesContext } from '@/contexts/Lines.context';
+import { type Pattern } from '@carrismetropolitana/api-types/network';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SectionList, View } from 'react-native';
@@ -22,6 +23,7 @@ export function PatternSelectionMainList({ onSelect, replaceChevron }: PatternSe
 
 	const styles = useStyles();
 
+	const linesContext = useLinesContext();
 	const patternSelectionContext = usePatternSelectionContext();
 
 	const { t } = useTranslation('translation', { keyPrefix: 'lines.PatternSelectionMainList' });
@@ -30,40 +32,44 @@ export function PatternSelectionMainList({ onSelect, replaceChevron }: PatternSe
 	// B. Transform data
 
 	const listSections = useMemo(() => {
+		// Separate available patterns into different sections
+		// based on their given route_id
+		const sectionsByRouteId: Record<string, Pattern[]> = {};
+		patternSelectionContext.data.available.forEach((pattern) => {
+			if (!sectionsByRouteId[pattern.route_id]) {
+				sectionsByRouteId[pattern.route_id] = [];
+			}
+			sectionsByRouteId[pattern.route_id].push(pattern);
+		});
 		// Setup a final variable to add the sections
-		const regularSections = [
-			{ data: patternSelectionContext.data.recent, key: 'recent', title: t('recent.title') },
-			{ data: patternSelectionContext.data.favorites, key: 'favorites', title: t('favorites.title') },
-			{ data: patternSelectionContext.data.nearby, key: 'nearby', title: t('nearby.title') },
-			{ data: patternSelectionContext.data.filtered, key: 'filtered', title: t('all.title') },
-		];
-		// Filter out empty sections
-		const searchResultsSection = [
-			{ data: patternSelectionContext.data.filtered, key: 'search_results', title: patternSelectionContext.data.filtered.length === 1 ? t('search_results.title.singular') : t('search_results.title.plural', { count: patternSelectionContext.data.filtered.length || 0 }) },
-		];
-		// If search is active, show only the search results section
-		if (patternSelectionContext.filters.by_search) return searchResultsSection;
-		// Otherwise, return only sections with data
-		return regularSections.filter(section => section.data.length > 0);
+		return Object
+			.entries(sectionsByRouteId)
+			.filter(([routeId, patterns]) => routeId && patterns.length > 0)
+			.sort(([routeIdA], [routeIdB]) => routeIdA.localeCompare(routeIdB))
+			.map(([routeId, patterns]) => {
+				const routeData = linesContext.actions.getRouteDataById(routeId);
+				return {
+					data: patterns.sort((a, b) => a.id.localeCompare(b.id)),
+					key: routeId,
+					title: routeData ? routeData.long_name : routeId,
+				};
+			});
 	}, [
-		patternSelectionContext.data.favorites,
-		patternSelectionContext.data.recent,
-		patternSelectionContext.data.filtered,
-		patternSelectionContext.data.nearby,
-		patternSelectionContext.filters.by_search,
+		patternSelectionContext.data.available,
+		linesContext.data.routes,
 	]);
 
 	//
 	// C. Render components
 
-	const renderSectionItem = ({ index, item }: { index: number, item: Line }) => {
+	const renderSectionItem = ({ index, item }: { index: number, item: Pattern }) => {
 		return (
 			<ListSectionItem
 				key={item.id}
 				accessibilityHint={t('items.accessibility_hint', { id: item.id })}
-				accessibilityLabel={t('items.accessibility_label', { index: index + 1, tts_name: item.tts_name })}
+				accessibilityLabel={t('items.accessibility_label', { index: index + 1, tts_headsign: item.tts_headsign })}
 				description={item.id}
-				label={item.long_name}
+				label={item.headsign}
 				onPress={() => onSelect(item.id)}
 				replaceChevron={replaceChevron}
 			/>

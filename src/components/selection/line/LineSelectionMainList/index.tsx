@@ -1,10 +1,11 @@
 /* * */
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
-import { type LineSelectionProps } from '@/components/selection/line/LineSelection';
+import { LineBadge } from '@/components/lines/LineBadge';
 import { ListSectionItem } from '@/components/list/ListSectionItem';
 import { ListTitle } from '@/components/list/ListTitle';
 import { useLineSelectionContext } from '@/components/selection/line/context/LineSelection.context';
+import { type LineSelectionProps } from '@/components/selection/line/LineSelection';
 import { type Line } from '@carrismetropolitana/api-types/network';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -24,7 +25,7 @@ export function LineSelectionMainList({ onSelect, replaceChevron }: LineSelectio
 
 	const lineSelectionContext = useLineSelectionContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'lines.LineSelectionMainList' });
+	const { t } = useTranslation('translation', { keyPrefix: 'selection.LineSelectionMainList' });
 
 	//
 	// B. Transform data
@@ -62,10 +63,11 @@ export function LineSelectionMainList({ onSelect, replaceChevron }: LineSelectio
 				key={item.id}
 				accessibilityHint={t('items.accessibility_hint', { id: item.id })}
 				accessibilityLabel={t('items.accessibility_label', { index: index + 1, tts_name: item.tts_name })}
-				description={item.id}
+				icon={<LineBadge lineId={item.id} withAlertIcon />}
 				label={item.long_name}
 				onPress={() => onSelect(item.id)}
 				replaceChevron={replaceChevron}
+				size="sm"
 			/>
 		);
 	};

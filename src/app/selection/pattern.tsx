@@ -2,6 +2,7 @@
 
 import { CloseButton } from '@/components/common/CloseButton';
 import { PatternSelection } from '@/components/selection/pattern/PatternSelection';
+import { type OperationalDate } from '@tmlmobilidade/types';
 import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 
@@ -14,7 +15,7 @@ export default function Page() {
 	// A. Setup variables
 
 	const navigation = useNavigation();
-	const localSearchParams = useLocalSearchParams<{ return_to: string }>();
+	const localSearchParams = useLocalSearchParams<{ line_id: string, operational_date: OperationalDate, pattern_id: string, return_to: string }>();
 
 	//
 	// B. Handle actions
@@ -28,9 +29,9 @@ export default function Page() {
 		});
 	}, [navigation]);
 
-	const handlePress = (stopId: string) => {
+	const handleSelect = (patternId: string) => {
 		router.dismissTo({
-			params: { stop_id: stopId },
+			params: { pattern_id: patternId },
 			pathname: localSearchParams.return_to,
 		});
 	};
@@ -40,8 +41,10 @@ export default function Page() {
 
 	return (
 		<PatternSelection
-			onSelect={handlePress}
-			addToRecentsOnPress
+			onSelect={handleSelect}
+			selectedLineId={localSearchParams.line_id}
+			selectedOperationalDate={localSearchParams.operational_date}
+			selectedPatternId={localSearchParams.pattern_id}
 		/>
 	);
 

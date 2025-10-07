@@ -3,23 +3,27 @@
 import { ListSection } from '@/components/list/ListSection';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useSystemVariables } from '@/theme/global';
-import { IconArrowsRightLeft, IconBusStop } from '@tabler/icons-react-native';
+import { Pattern } from '@carrismetropolitana/api-types/network';
+import { IconArrowBarToRight, IconArrowsRightLeft } from '@tabler/icons-react-native';
+import { type OperationalDate } from '@tmlmobilidade/types';
 import { router, useLocalSearchParams, usePathname } from 'expo-router';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 /* * */
 
 interface PatternSelectionTriggerProps {
 	description?: string
-	onSelect?: (lineId: string) => void
+	onSelect?: (patternId: string) => void
+	selectedLineId?: string
+	selectedOperationalDate?: OperationalDate
 	selectedPatternId?: string
 	title?: string
 }
 
 /* * */
 
-export function PatternSelectionTrigger({ description, onSelect, selectedPatternId, title }: PatternSelectionTriggerProps) {
+export function PatternSelectionTrigger({ description, onSelect, selectedLineId, selectedOperationalDate, selectedPatternId, title }: PatternSelectionTriggerProps) {
 	//
 
 	//
@@ -30,17 +34,23 @@ export function PatternSelectionTrigger({ description, onSelect, selectedPattern
 	const linesContext = useLinesContext();
 
 	const pathname = usePathname();
-	const localSearchParams = useLocalSearchParams<{ line_id: string }>();
+	const localSearchParams = useLocalSearchParams<{ pattern_id: string }>();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'lines.PatternSelectionTrigger' });
+	const [selectedPatternData, setSelectedPatternData] = useState<Pattern>();
+
+	const { t } = useTranslation('translation', { keyPrefix: 'selection.PatternSelectionTrigger' });
 
 	//
 	// B. Transform data
 
-	const selectedPatternData = useMemo(() => {
-		if (!localSearchParams.line_id) return;
-		return linesContext.actions.getLineDataById(localSearchParams.line_id);
-	}, [localSearchParams.line_id]);
+	useEffect(() => {
+		(async () => {
+			if (!localSearchParams.pattern_id) return;
+			const foundPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(localSearchParams.pattern_id, selectedOperationalDate);
+			if (!foundPatternData) return;
+			setSelectedPatternData(foundPatternData);
+		})();
+	}, [localSearchParams.pattern_id]);
 
 	//
 	// C. Handle actions
@@ -49,21 +59,25 @@ export function PatternSelectionTrigger({ description, onSelect, selectedPattern
 		// Skip if no pattern is selected or if
 		// the selected pattern is the same as the param value
 		if (!selectedPatternId) return;
-		if (selectedPatternId === localSearchParams.line_id) return;
+		if (selectedPatternId === localSearchParams.pattern_id) return;
 		// Update the URL param to match the selected pattern
-		router.setParams({ line_id: selectedPatternId });
+		router.setParams({ pattern_id: selectedPatternId });
 	}, [selectedPatternId]);
 
 	useEffect(() => {
 		// Skip if no stop was selected
-		if (!localSearchParams.line_id) return;
+		if (!localSearchParams.pattern_id) return;
 		// Trigger the onSelect callback with the selected stop ID
-		if (onSelect) onSelect(localSearchParams.line_id);
-	}, [localSearchParams.line_id]);
+		if (onSelect) onSelect(localSearchParams.pattern_id);
+	}, [localSearchParams.pattern_id]);
 
 	const handleShowList = () => {
 		router.navigate({
-			params: { return_to: pathname },
+			params: {
+				line_id: selectedLineId,
+				operational_date: selectedOperationalDate,
+				return_to: pathname,
+			},
 			pathname: '/selection/pattern',
 		});
 	};
@@ -79,8 +93,8 @@ export function PatternSelectionTrigger({ description, onSelect, selectedPattern
 					description={description}
 					title={title}
 					items={[{
-						icon: <IconBusStop color="#FF6900" />,
-						key: 'select-line',
+						icon: <IconArrowBarToRight color={systemVariables.text[100]} />,
+						key: 'select-pattern',
 						label: t('label'),
 						onPress: handleShowList,
 					}]}
@@ -93,10 +107,10 @@ export function PatternSelectionTrigger({ description, onSelect, selectedPattern
 					title={title}
 					items={[{
 						accessibilityHint: t('selected.accessibility_hint'),
-						accessibilityLabel: t('selected.accessibility_label', { tts_name: selectedPatternData.tts_name }),
+						accessibilityLabel: t('selected.accessibility_label', { tts_headsign: selectedPatternData.tts_headsign }),
 						description: selectedPatternData.id,
-						key: 'selected-line',
-						label: selectedPatternData.long_name,
+						key: 'selected-pattern',
+						label: selectedPatternData.headsign,
 						onPress: handleShowList,
 						replaceChevron: <IconArrowsRightLeft color={systemVariables.text[100]} />,
 					}]}

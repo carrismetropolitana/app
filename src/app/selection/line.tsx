@@ -28,7 +28,7 @@ export default function Page() {
 		});
 	}, [navigation]);
 
-	const handlePress = (lineId: string) => {
+	const handleSelect = (lineId: string) => {
 		router.dismissTo({
 			params: { line_id: lineId },
 			pathname: localSearchParams.return_to,
@@ -40,7 +40,7 @@ export default function Page() {
 
 	return (
 		<LineSelection
-			onSelect={handlePress}
+			onSelect={handleSelect}
 			addToRecentsOnPress
 		/>
 	);

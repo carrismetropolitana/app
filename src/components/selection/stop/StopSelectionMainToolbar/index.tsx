@@ -30,7 +30,7 @@ export function StopSelectionMainToolbar({ withSafeArea, withSearchAutoFocus }: 
 
 	const stopsSelectionContext = useStopSelectionContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'stops.StopSelectionMainToolbar' });
+	const { t } = useTranslation('translation', { keyPrefix: 'selection.StopSelectionMainToolbar' });
 
 	//
 	// B. Handle actions

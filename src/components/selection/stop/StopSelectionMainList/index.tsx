@@ -3,8 +3,8 @@
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { ListSectionItem } from '@/components/list/ListSectionItem';
 import { ListTitle } from '@/components/list/ListTitle';
-import { type StopSelectionProps } from '@/components/selection/stop/StopSelection';
 import { useStopSelectionContext } from '@/components/selection/stop/context/StopSelection.context';
+import { type StopSelectionProps } from '@/components/selection/stop/StopSelection';
 import { type StopWithDistance } from '@/schemas/stop-with-distance';
 import { type Stop } from '@carrismetropolitana/api-types/network';
 import { useMemo } from 'react';
@@ -25,7 +25,7 @@ export function StopSelectionMainList({ onSelect, replaceChevron }: StopSelectio
 
 	const stopsSelectionContext = useStopSelectionContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'stops.StopSelectionMainList' });
+	const { t } = useTranslation('translation', { keyPrefix: 'selection.StopSelectionMainList' });
 
 	//
 	// B. Transform data

@@ -32,7 +32,7 @@ export function StopSelectionTrigger({ description, onSelect, selectedStopId, ti
 	const pathname = usePathname();
 	const localSearchParams = useLocalSearchParams<{ stop_id: string }>();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'stops.StopSelectionTrigger' });
+	const { t } = useTranslation('translation', { keyPrefix: 'selection.StopSelectionTrigger' });
 
 	//
 	// B. Transform data

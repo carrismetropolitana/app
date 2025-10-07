@@ -511,33 +511,6 @@
 			"linesAroundMe": "A minha volta",
 			"recentLines": "Linhas Recentes"
 		},
-		"LineSelectionListMain": {
-			"all": {
-				"title": "Todas as Linhas"
-			},
-			"favorites": {
-				"title": "Favoritas"
-			},
-			"items": {
-				"accessibility_hint": "Número da Linha: {short_name}",
-				"accessibility_label": "{index}º: {tts_name}"
-			},
-			"nearby": {
-				"title": "À Minha Volta"
-			},
-			"recent": {
-				"title": "Recentes"
-			},
-			"search_results": {
-				"title": {
-					"plural": "Encontradas {count} linhas",
-					"singular": "Encontrada 1 linha"
-				}
-			}
-		},
-		"LineSelectionTrigger": {
-			"label": "Procurar linha..."
-		},
 		"PathStopNextArrivals": {
 			"arriving": "A chegar",
 			"nextArrivalsRealtimeAccessibilityHint": "Próxima passagem em tempo real",
@@ -676,6 +649,74 @@
 		"accessibilityHint": "Persona do seu perfil é {profileImageDescription}",
 		"accessibilityLabel": "Esta imagem representa a persona do seu perfil"
 	},
+	"selection": {
+		"LineSelectionMainList": {
+			"all": {
+				"title": "Todas as linhas"
+			},
+			"favorites": {
+				"title": "Favoritas"
+			},
+			"items": {
+				"accessibility_hint": "Número da Linha: {short_name}",
+				"accessibility_label": "{index}º: {tts_name}"
+			},
+			"nearby": {
+				"title": "À minha volta"
+			},
+			"recent": {
+				"title": "Pesquisadas recentemente"
+			},
+			"search_results": {
+				"title": {
+					"plural": "Encontradas {count} linhas",
+					"singular": "Encontrada 1 linha"
+				}
+			}
+		},
+		"LineSelectionTrigger": {
+			"label": "Procurar linha...",
+			"selected": {
+				"accessibility_hint": "Toque duplo para alterar",
+				"accessibility_label": "Linha selecionada: {tts_name}"
+			}
+		},
+		"StopSelectionMainList": {
+			"all": {
+				"title": "Todas as Paragens"
+			},
+			"favorites": {
+				"title": "Favoritas"
+			},
+			"items": {
+				"accessibility_hint": "Código da paragem: {id}",
+				"accessibility_label": "{index}º: {tts_name}"
+			},
+			"nearby": {
+				"title": "À Minha Volta"
+			},
+			"recent": {
+				"title": "Recentes"
+			},
+			"search_results": {
+				"title": {
+					"plural": "Encontradas {count} paragens",
+					"singular": "Encontrada 1 paragem"
+				}
+			}
+		},
+		"StopSelectionMainToolbar": {
+			"toggle_to_list": "Mudar para vista de lista",
+			"toggle_to_map": "Mudar para vista de mapa"
+		},
+		"StopSelectionTrigger": {
+			"label": "Procurar paragem...",
+			"selected": {
+				"accessibility_hint": "Toque duplo para alterar",
+				"accessibility_label": "Paragem selecionada: {tts_name}"
+			}
+		}
+	},
 	"stopWidgetCard": {
 		"stopWidgetCardAccessibilityHint": "Este widget é relativo a uma paragem",
 		"stopWidgetCardAccessibilityLabel": "Widget de paragem",
@@ -727,41 +768,6 @@
 			"stopDisplayMunicipalityAccessibilityLabel": "A paragem {stopName} está localizada no município {municipalityName}",
 			"stopDisplayNameAccessibilityHint": "Este elemento representa o nome da paragem",
 			"stopDisplayNameAccessibilityLabel": "Nome da paragem {stopName}"
-		},
-		"StopSelectionMainList": {
-			"all": {
-				"title": "Todas as Paragens"
-			},
-			"favorites": {
-				"title": "Favoritas"
-			},
-			"items": {
-				"accessibility_hint": "Código da paragem: {id}",
-				"accessibility_label": "{index}º: {tts_name}"
-			},
-			"nearby": {
-				"title": "À Minha Volta"
-			},
-			"recent": {
-				"title": "Recentes"
-			},
-			"search_results": {
-				"title": {
-					"plural": "Encontradas {count} paragens",
-					"singular": "Encontrada 1 paragem"
-				}
-			}
-		},
-		"StopSelectionMainToolbar": {
-			"toggle_to_list": "Mudar para vista de lista",
-			"toggle_to_map": "Mudar para vista de mapa"
-		},
-		"StopSelectionTrigger": {
-			"label": "Procurar paragem...",
-			"selected": {
-				"accessibility_hint": "Toque duplo para alterar",
-				"accessibility_label": "Paragem selecionada: {tts_name}"
-			}
 		},
 		"noDataFound": "Nenhum dado encontrado para esta paragem"
 	},

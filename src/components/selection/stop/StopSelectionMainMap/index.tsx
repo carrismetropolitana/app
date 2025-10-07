@@ -2,8 +2,8 @@
 
 import { MapOverlayStops, type MapOverlayStopsGeoJsonProperties } from '@/components/map-new/overlays/MapOverlayStops';
 import { MapView } from '@/components/map-new/view/MapView';
-import { type StopSelectionProps } from '@/components/selection/stop/StopSelection';
 import { useStopSelectionContext } from '@/components/selection/stop/context/StopSelection.context';
+import { type StopSelectionProps } from '@/components/selection/stop/StopSelection';
 import { type CameraRef } from '@maplibre/maplibre-react-native';
 import { bbox } from '@turf/turf';
 import * as Haptics from 'expo-haptics';

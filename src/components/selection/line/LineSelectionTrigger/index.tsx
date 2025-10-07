@@ -1,9 +1,10 @@
 /* * */
 
+import { LineBadge } from '@/components/lines/LineBadge';
 import { ListSection } from '@/components/list/ListSection';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useSystemVariables } from '@/theme/global';
-import { IconArrowsRightLeft, IconBusStop } from '@tabler/icons-react-native';
+import { IconArrowLoopRight, IconArrowsRightLeft } from '@tabler/icons-react-native';
 import { router, useLocalSearchParams, usePathname } from 'expo-router';
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -32,7 +33,7 @@ export function LineSelectionTrigger({ description, onSelect, selectedLineId, ti
 	const pathname = usePathname();
 	const localSearchParams = useLocalSearchParams<{ line_id: string }>();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'lines.LineSelectionTrigger' });
+	const { t } = useTranslation('translation', { keyPrefix: 'selection.LineSelectionTrigger' });
 
 	//
 	// B. Transform data
@@ -79,7 +80,7 @@ export function LineSelectionTrigger({ description, onSelect, selectedLineId, ti
 					description={description}
 					title={title}
 					items={[{
-						icon: <IconBusStop color="#FF6900" />,
+						icon: <IconArrowLoopRight color="#C61D23" size={30} />,
 						key: 'select-line',
 						label: t('label'),
 						onPress: handleShowList,
@@ -94,7 +95,7 @@ export function LineSelectionTrigger({ description, onSelect, selectedLineId, ti
 					items={[{
 						accessibilityHint: t('selected.accessibility_hint'),
 						accessibilityLabel: t('selected.accessibility_label', { tts_name: selectedLineData.tts_name }),
-						description: selectedLineData.id,
+						icon: <LineBadge lineId={selectedLineData.id} withAlertIcon />,
 						key: 'selected-line',
 						label: selectedLineData.long_name,
 						onPress: handleShowList,

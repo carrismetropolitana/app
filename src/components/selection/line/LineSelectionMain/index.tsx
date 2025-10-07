@@ -1,9 +1,9 @@
 /* * */
 
+import { useLineSelectionContext } from '@/components/selection/line/context/LineSelection.context';
 import { type LineSelectionProps } from '@/components/selection/line/LineSelection';
 import { LineSelectionMainList } from '@/components/selection/line/LineSelectionMainList';
 import { LineSelectionMainToolbar } from '@/components/selection/line/LineSelectionMainToolbar';
-import { useLineSelectionContext } from '@/components/selection/line/context/LineSelection.context';
 
 /* * */
 

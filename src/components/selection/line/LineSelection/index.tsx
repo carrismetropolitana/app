@@ -1,7 +1,7 @@
 /* * */
 
-import { LineSelectionMain } from '@/components/selection/line/LineSelectionMain';
 import { LineSelectionContextProvider } from '@/components/selection/line/context/LineSelection.context';
+import { LineSelectionMain } from '@/components/selection/line/LineSelectionMain';
 
 /* * */
 
