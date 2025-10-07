@@ -45,7 +45,15 @@ export const useStyles = () => {
 			fontSize: 14,
 			fontWeight: 600,
 		},
-		title: {
+		row: {
+			alignItems: 'center',
+			display: 'flex',
+			flexDirection: 'row',
+			flexShrink: 1,
+			gap: 4,
+			justifyContent: 'flex-start',
+		},
+		text: {
 			color: systemVariables.text[100],
 			fontSize: 14,
 			fontWeight: 700,

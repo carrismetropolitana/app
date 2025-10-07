@@ -830,7 +830,28 @@
 			}
 		},
 		"WidgetCardSmartNotificationHeader": {
-			"title": "{weekday} @ {start_time}"
+			"title": "Every {weekdays} from {start_time} to {end_time}",
+			"weekdays": {
+				"business_day": "business day",
+				"everyday": "day",
+				"friday": "Friday",
+				"monday": "Monday",
+				"saturday": "Saturday",
+				"sunday": "Sunday",
+				"thursday": "Thursday",
+				"tuesday": "Tuesday",
+				"wednesday": "Wednesday",
+				"weekend": "weekend"
+			},
+			"weekdays_short": {
+				"friday": "Fri",
+				"monday": "Mon",
+				"saturday": "Sat",
+				"sunday": "Sun",
+				"thursday": "Thu",
+				"tuesday": "Tue",
+				"wednesday": "Wed"
+			}
 		},
 		"WidgetCardStopBodyArrivals": {
 			"no_data": "No upcoming arrivals for today"

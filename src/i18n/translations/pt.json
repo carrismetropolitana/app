@@ -814,7 +814,28 @@
 			}
 		},
 		"WidgetCardSmartNotificationHeader": {
-			"title": "{weekday} @ {start_time}"
+			"title": "{weekdays} das {start_time} às {end_time}",
+			"weekdays": {
+				"business_day": "Aos dias úteis",
+				"everyday": "Todos os dias",
+				"friday": "Sextas",
+				"monday": "Segundas",
+				"saturday": "Sábados",
+				"sunday": "Domingos",
+				"thursday": "Quintas",
+				"tuesday": "Terças",
+				"wednesday": "Quartas",
+				"weekend": "Aos fins de semana"
+			},
+			"weekdays_short": {
+				"friday": "Sex",
+				"monday": "Seg",
+				"saturday": "Sáb",
+				"sunday": "Dom",
+				"thursday": "Qui",
+				"tuesday": "Ter",
+				"wednesday": "Qua"
+			}
 		},
 		"WidgetCardStopBodyArrivals": {
 			"no_data": "Nenhuma passagem prevista para hoje"

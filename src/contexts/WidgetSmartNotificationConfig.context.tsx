@@ -151,7 +151,7 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children, widgetI
 			const foundWaypoint = foundPatternData.path.find(waypoint => waypoint.stop_id === existingWidget.properties.stop_id);
 			if (foundWaypoint) setSelectedWaypoint(foundWaypoint);
 		});
-	}, [widgetId]);
+	}, [widgetId, availablePatternsData, accountContext.data.account?.widgets]);
 
 	const selectLineId = (lineId: string) => {
 		setSelectedLineId(lineId);
