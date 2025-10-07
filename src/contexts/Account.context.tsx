@@ -9,7 +9,7 @@ import { swrFetcher } from '@/utils/swr-fetcher';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 import * as Device from 'expo-device';
-import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import useSWR from 'swr';
 
 /* * */
@@ -64,13 +64,24 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 	const [isInit, setIsInit] = useState<boolean>(false);
 	const [deviceId, setDeviceId] = useState<string | undefined>();
 
+	const accountRef = useRef<Account | undefined>(undefined);
+	const [accountData, setAccountData] = useState<Account>();
+
 	//
 	// B. Fetch data
 
-	const { data: accountData, error: accountError, isLoading: accountLoading, mutate: accountMutate } = useSWR<Account, HttpException>({ device_id: deviceId, url: `${getServiceUrl('accounts')}/accounts` }, swrFetcher, { refreshInterval: 10_000 });
+	const { data: fetchedAccountData, error: accountError, isLoading: accountLoading, mutate: accountMutate } = useSWR<Account, HttpException>({ device_id: deviceId, url: `${getServiceUrl('accounts')}/accounts` }, swrFetcher, { refreshInterval: 10_000 });
 
 	//
 	// C. Handle actions
+
+	useEffect(() => {
+		// Skip if no fetched data
+		if (!fetchedAccountData) return;
+		// Update refs and state
+		accountRef.current = fetchedAccountData;
+		setAccountData(fetchedAccountData);
+	}, [fetchedAccountData]);
 
 	useEffect(() => {
 		(async () => {
@@ -156,6 +167,9 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 			updatedAccountData.devices[currentDeviceIndex].name = Device.deviceName || null;
 			updatedAccountData.devices[currentDeviceIndex].push_token = notificationsContext.data.token || null;
 			updatedAccountData.devices[currentDeviceIndex].seen_last_at = Dates.now('Europe/Lisbon').unix_timestamp;
+			// Update refs and state immediately
+			accountRef.current = updatedAccountData;
+			setAccountData(updatedAccountData);
 			// Send the updated data to the server.
 			// Any errors will be handled by SWR revalidation.
 			return await updateAccountApi(updatedAccountData);
