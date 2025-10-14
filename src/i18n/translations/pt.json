@@ -80,6 +80,15 @@
 			"(tabs)/stops": {
 				"title": "Paragens"
 			},
+			"selection/line": {
+				"title": "Escolha uma Linha"
+			},
+			"selection/pattern": {
+				"title": "Escolha um destino"
+			},
+			"selection/stop": {
+				"title": "Escolha uma Paragem"
+			},
 			"vehicles/[vehicle_id]": {
 				"title": "Veículo"
 			}
@@ -483,8 +492,7 @@
 			"title": "das {total_trip_count, number} viagens planeadas para os últimos 15 dias, {pass_trip_count, number} foram realizadas"
 		},
 		"LineDetailPath": {
-			"no_data": "Selecione um Percurso / Destino",
-			"summary": "Linha <lineNumber>{line_number}</lineNumber> com destino a <destinationName>{destination_name}</destinationName> no dia <dayName>{day_name, date, long}</dayName>. <changeDay>Alterar dia ›</changeDay>"
+			"no_data": "Selecione um destino"
 		},
 		"LinesListToolbar": {
 			"by_current_view": {

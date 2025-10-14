@@ -91,7 +91,7 @@ export const LineDetailContextProvider = ({ children, lineId }: PropsWithChildre
 		if (!availablePatternsData || !availablePatternsData.length) return;
 		// Preselect the first pattern of the valid patterns if there is no filter value
 		if (!selectedPatternId) {
-			setSelectedPatternId(availablePatternsData[0].version_id);
+			setSelectedPatternId(availablePatternsData[0].id);
 		}
 	}, [availablePatternsData, selectedPatternId]);
 

@@ -99,7 +99,7 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 		if (!operationalDate) operationalDate = Dates.now('Europe/Lisbon').operational_date;
 		// Get pattern data
 		const patternData = await getPatternDataById(patternId);
-		if (!patternData) return;
+		if (!patternData?.length) return;
 		const activePatterns: Pattern[] = [];
 		let closestDateSoFar: null | string = null;
 		let patternGroupWithClosestDate: null | Pattern = null;

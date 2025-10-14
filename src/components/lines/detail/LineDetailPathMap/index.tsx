@@ -1,123 +1,148 @@
 /* * */
 
-import Counter from '@/components/common/Counter';
-import { transformStopDataIntoGeoJsonFeature } from '@/components/map-new/overlays/MapOverlayStops';
-import { MapView } from '@/components/map/MapView';
-import { MapViewStyleActiveStops } from '@/components/map/MapViewStyleActiveStops';
-import { MapViewStylePath } from '@/components/map/MapViewStylePath';
-import { MapViewStyleVehicles } from '@/components/map/MapViewStyleVehicles';
+import { MapOverlayPath, type MapOverlayPathShapeGeoJsonProperties, type MapOverlayPathWaypointGeoJsonProperties, transformShapeDataIntoGeoJsonFeature, transformWaypointDataIntoGeoJsonFeature } from '@/components/map-new/overlays/MapOverlayPath';
+import { MapOverlayVehicles, mapOverlayVehicles_TopLayerId } from '@/components/map-new/overlays/MapOverlayVehicles';
+import { MapView } from '@/components/map-new/view/MapView';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
+import { useLinesContext } from '@/contexts/Lines.context';
+import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useVehiclesContext } from '@/contexts/Vehicles.context';
-import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
-import { getCenterAndZoom } from '@/utils/map.utils';
-import { router } from 'expo-router';
+import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
+import { type Pattern, type Shape } from '@carrismetropolitana/api-types/network';
+import { type CameraRef } from '@maplibre/maplibre-react-native';
+import { bbox } from '@turf/turf';
+import { type LineString, type Point } from 'geojson';
 import { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
-/* * */
-
-interface Props {
-	hasToolbar?: boolean
-}
+import { useStyles } from './styles';
 
 /* * */
-export function LineDetailPathMap({ hasToolbar = false }: Props) {
+
+export function LineDetailPathMap() {
 	//
 
 	//
 	// A. Setup variables
 
+	const styles = useStyles();
+
+	const linesContext = useLinesContext();
+	const stopsContext = useStopsContext();
 	const vehiclesContext = useVehiclesContext();
 	const lineDetailContext = useLineDetailContext();
-	const stopsContext = useStopsContext();
+	const operationalDateContext = useOperationalDateContext();
+
+	const [isLoading, setIsLoading] = useState(true);
+
+	const [currentPatternData, setCurrentPatternData] = useState<Pattern | undefined>();
+	const [currentShapeData, setCurrentShapeData] = useState<Shape | undefined>();
 
 	//
 	// B. Fetch data
 
-	const activeVehiclesFC = useMemo(() => {
-		const patternId = lineDetailContext.data.active_pattern?.id;
-		if (!patternId) return null;
-		return vehiclesContext.actions.getVehiclesByPatternIdGeoJsonFC(patternId);
-	}, [vehiclesContext.data.vehicles, lineDetailContext.data.active_pattern]);
-
-	const activePathFC = useMemo(() => {
-		const pat = lineDetailContext.data.active_pattern;
-		if (!pat?.path) return null;
-		const coll = getBaseGeoJsonFeatureCollection();
-		pat.path.forEach((p) => {
-			const stop = stopsContext.actions.getStopById(p.stop_id);
-			if (!stop) return;
-			const feat = transformStopDataIntoGeoJsonFeature(stop);
-			if (!feat) return;
-			feat.properties = {
-				...feat.properties,
-				color: pat.color,
-				sequence: p.stop_sequence,
-				stop_id: p.stop_id,
-				text_color: pat.text_color,
-			};
-			coll.features.push(feat);
-		});
-		return coll;
-	}, [lineDetailContext.data.active_pattern]);
-
-	const activeStopFC = useMemo(() => {
-		const wp = lineDetailContext.data.active_waypoint;
-		const pat = lineDetailContext.data.active_pattern;
-
-		if (!wp || !pat) return null;
-		const stop = stopsContext.actions.getStopById(wp.stop_id);
-
-		if (!stop) return null;
-
-		const feat = transformStopDataIntoGeoJsonFeature(stop);
-		feat.properties = { ...feat.properties, color: pat.color, stop_id: wp.stop_id, text_color: pat.text_color };
-
-		const coll = getBaseGeoJsonFeatureCollection();
-		coll.features.push(feat);
-		return coll;
-	}, [lineDetailContext.data.active_waypoint, lineDetailContext.data.active_pattern]);
-
-	const fitPath = useMemo(() => {
-		if (activePathFC?.features?.length) {
-			return getCenterAndZoom(activePathFC.features, 2);
-		}
-		return null;
-	}, [activePathFC]);
-
-	const [camera, setCamera] = useState({
-		centerCoordinate: fitPath?.center ?? [0, 0],
-		zoomLevel: fitPath?.zoom ?? 10,
-	});
-
 	useEffect(() => {
-		if (fitPath) setCamera({ centerCoordinate: fitPath.center, zoomLevel: fitPath.zoom });
-	}, [fitPath]);
+		(async () => {
+			try {
+				// Skip if no vehicle data or pattern id
+				if (!lineDetailContext.data.selected_pattern_id || !operationalDateContext.data.selected_date) return;
+				// Get current pattern version for today
+				const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(lineDetailContext.data.selected_pattern_id, operationalDateContext.data.selected_date.operational_date);
+				if (!validPatternData) return;
+				setCurrentPatternData(validPatternData);
+				// Skip if no shape id
+				if (!validPatternData.shape_id) return;
+				// Fetch shape data
+				const shapeData = await linesContext.actions.getShapeDataById(validPatternData.shape_id);
+				if (!shapeData) return console.log('No shape data found for shape ID', validPatternData.shape_id);
+				setCurrentShapeData(shapeData);
+			}
+			catch (err) {
+				console.error(err);
+			}
+			finally {
+				setIsLoading(false);
+			}
+		})();
+	}, [lineDetailContext.data.selected_pattern_id, operationalDateContext.data.selected_date]);
 
 	//
-	// C. Render components
+	// C. Transform data
 
-	if (!fitPath) {
+	const availableVehiclesDataFC = useMemo(() => {
+		if (!lineDetailContext.data.selected_pattern_id) return;
+		return vehiclesContext.actions.getVehiclesByPatternIdGeoJsonFC(lineDetailContext.data.selected_pattern_id);
+	}, [lineDetailContext.data.selected_pattern_id, vehiclesContext.data.vehicles]);
+
+	const shapeDataFC = useMemo(() => {
+		if (!currentShapeData?.geojson) return;
+		const collection = getBaseGeoJsonFeatureCollection<LineString, MapOverlayPathShapeGeoJsonProperties>();
+		const feature = transformShapeDataIntoGeoJsonFeature(currentShapeData, currentPatternData?.color, currentPatternData?.text_color);
+		if (feature) collection.features.push(feature);
+		return collection;
+	}, [currentShapeData]);
+
+	const waypointsDataFC = useMemo(() => {
+		if (!currentPatternData?.path) return;
+		const collection = getBaseGeoJsonFeatureCollection<Point, MapOverlayPathWaypointGeoJsonProperties>();
+		collection.features = currentPatternData.path
+			.map((item) => {
+				const stopData = stopsContext.actions.getStopById(item.stop_id);
+				return transformWaypointDataIntoGeoJsonFeature(item, stopData, currentPatternData?.color, currentPatternData?.text_color);
+			})
+			.filter(i => !!i);
+		return collection;
+	}, [currentShapeData]);
+
+	//
+	// D. Handle actions
+
+	const handleDidFinishLoadingMap = (cameraRef: CameraRef) => {
+		// Skip if no shape data
+		if (!shapeDataFC) return false;
+		// Calculate feature bounds
+		const featureBounds = bbox(shapeDataFC);
+		// Fit map to bounds
+		cameraRef.fitBounds(
+			[featureBounds[2], featureBounds[3]],
+			[featureBounds[0], featureBounds[1]],
+			50, // padding around bounds
+			0, // animation duration in ms
+		);
+		// Return true to indicate success
+		// and avoid further attempts
+		return true;
+	};
+
+	//
+	// E. Render components
+
+	if (isLoading) {
 		return (
-			<View style={{ alignItems: 'center', height: 360, justifyContent: 'center', width: '100%' }}><ActivityIndicator /></View>
+			<View style={[styles.container, styles.loading]}>
+				<ActivityIndicator size="large" />
+			</View>
 		);
 	}
 
 	return (
-		<View style={{ height: 360, width: '100%' }}>
-			<MapView camera={camera} mapStyle="map" toolbar={hasToolbar}>
-				<MapViewStylePath
-					shapeData={lineDetailContext.data.active_shape?.geojson || getBaseGeoJsonFeatureCollection()}
-					waypointsData={activePathFC || getBaseGeoJsonFeatureCollection()}
+		<View style={styles.container}>
+			<MapView
+				onDidFinishLoadingMap={handleDidFinishLoadingMap}
+				vehiclesCounterQty={availableVehiclesDataFC?.features.length ?? 0}
+			>
+				<MapOverlayPath
+					belowLayerId={mapOverlayVehicles_TopLayerId}
+					shapeData={shapeDataFC}
+					waypointsData={waypointsDataFC}
 				/>
-				<MapViewStyleActiveStops stopsData={activeStopFC || getBaseGeoJsonFeatureCollection()} />
-				<MapViewStyleVehicles
-					onVehiclePress={(id) => { router.push(`/vehicles/${id}`); }}
-					vehiclesData={activeVehiclesFC ?? getBaseGeoJsonFeatureCollection()}
+				<MapOverlayVehicles
+					vehiclesDataFC={availableVehiclesDataFC}
 				/>
 			</MapView>
-			<Counter quantity={activeVehiclesFC?.features ? activeVehiclesFC.features.length : undefined} type="vehicles" />
 		</View>
 	);
+
+	//
 }

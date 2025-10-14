@@ -1,63 +1,26 @@
-import { theming } from '@/theme/Variables';
+/* * */
+
+import { useSystemVariables } from '@/theme/global';
 import { StyleSheet } from 'react-native';
 
 /* * */
 
-export const styles = () => {
+export const useStyles = () => {
 	//
 
-	//
-	// A. Render components
+	const systemVariables = useSystemVariables();
 
 	return StyleSheet.create({
-		text: {
-			color: theming.colorRealtime100,
+		container: {
+			backgroundColor: systemVariables.background[100],
+			display: 'flex',
+			flex: 1,
+			height: 300,
+			width: '100%',
 		},
-		textMuted: {
-			color: theming.colorSystemText200,
-		},
-		vehiclesCounter: {
+		loading: {
 			alignItems: 'center',
-			backgroundColor: '#FFFFFF',
-			borderRadius: 999,
-			bottom: 0,
-			color: theming.colorRealtime100,
-			flexDirection: 'row',
-			fontSize: 10,
-			fontWeight: '600',
-			gap: 20,
-			height: 32,
-			marginBottom: 12,
-			marginLeft: 10,
-			minWidth: 50,
-			paddingHorizontal: 16,
-			paddingVertical: 4,
-			position: 'absolute',
-
-		},
-		zeroCount: {
-			alignItems: 'center',
-			alignSelf: 'flex-start',
-			backgroundColor: '#FFFFFF',
-			borderRadius: 999,
-			bottom: 0,
-			color: theming.colorRealtime100,
-			flexDirection: 'row',
-			fontSize: 10,
-			fontWeight: '600',
-			gap: 20,
-			height: 32,
 			justifyContent: 'center',
-			left: 0,
-			marginBottom: 12,
-			marginLeft: 10,
-			minWidth: 50,
-			paddingHorizontal: 16,
-			paddingVertical: 4,
-			position: 'absolute',
 		},
-		/* * */
 	});
-
-	//
 };

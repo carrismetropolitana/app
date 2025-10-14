@@ -80,6 +80,15 @@
 			"(tabs)/stops": {
 				"title": "Stops"
 			},
+			"selection/line": {
+				"title": "Select a Line"
+			},
+			"selection/pattern": {
+				"title": "Select a destination"
+			},
+			"selection/stop": {
+				"title": "Select a Stop"
+			},
 			"vehicles/[vehicle_id]": {
 				"title": "Vehicle"
 			}
@@ -467,8 +476,7 @@
 			"title": "das {total_trip_count, number} viagens planeadas para os últimos 15 dias, {pass_trip_count, number} foram corretamente realizadas"
 		},
 		"LineDetailPath": {
-			"no_data": "Select a Path / Destination",
-			"summary": "Line <lineNumber>{line_number}</lineNumber> headed towards <destinationName>{destination_name}</destinationName> on <dayName>{day_name, date, long}</dayName>. <changeDay>Change day ›</changeDay>"
+			"no_data": "Select a destination"
 		},
 		"LinesListToolbar": {
 			"by_current_view": {

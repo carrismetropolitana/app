@@ -20,12 +20,11 @@ export function LineDetailSelectPattern() {
 
 	return (
 		<PatternSelectionTrigger
-			description="Selecione um padrão"
-			onSelect={() => console.log('Pattern selected')}
+			onSelect={lineDetailContext.actions.selectPattern}
 			selectedLineId={lineDetailContext.data.selected_line_id}
 			selectedOperationalDate={operationalDateContext.data.selected_date?.operational_date}
-			selectedPatternId={undefined}
-			title="Selecione um destino"
+			selectedPatternId={lineDetailContext.data.selected_pattern_id}
+			// title="Selecione um destino"
 		/>
 	);
 

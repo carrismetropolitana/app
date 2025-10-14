@@ -5,6 +5,7 @@ import { PatternSelection } from '@/components/selection/pattern/PatternSelectio
 import { type OperationalDate } from '@tmlmobilidade/types';
 import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 /* * */
 
@@ -17,6 +18,8 @@ export default function Page() {
 	const navigation = useNavigation();
 	const localSearchParams = useLocalSearchParams<{ line_id: string, operational_date: OperationalDate, pattern_id: string, return_to: string }>();
 
+	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.selection/pattern' });
+
 	//
 	// B. Handle actions
 
@@ -24,7 +27,7 @@ export default function Page() {
 		navigation.setOptions({
 			headerRight: () => <CloseButton />,
 			headerShown: true,
-			headerTitle: 'teste',
+			headerTitle: t('title'),
 			presentation: 'modal',
 		});
 	}, [navigation]);

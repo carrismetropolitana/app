@@ -4,6 +4,7 @@ import { CloseButton } from '@/components/common/CloseButton';
 import { LineSelection } from '@/components/selection/line/LineSelection';
 import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 /* * */
 
@@ -16,6 +17,8 @@ export default function Page() {
 	const navigation = useNavigation();
 	const localSearchParams = useLocalSearchParams<{ return_to: string }>();
 
+	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.selection/line' });
+
 	//
 	// B. Handle actions
 
@@ -23,7 +26,7 @@ export default function Page() {
 		navigation.setOptions({
 			headerRight: () => <CloseButton />,
 			headerShown: true,
-			headerTitle: 'teste',
+			headerTitle: t('title'),
 			presentation: 'modal',
 		});
 	}, [navigation]);
