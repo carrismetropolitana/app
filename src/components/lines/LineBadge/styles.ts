@@ -48,7 +48,7 @@ export const useStyles = () => {
 			width: 75,
 		},
 		containerSizeSm: {
-			height: 24,
+			height: 20,
 			width: 54,
 		},
 		label: {
@@ -57,12 +57,15 @@ export const useStyles = () => {
 		},
 		labelSizeLg: {
 			fontSize: 24,
+			lineHeight: 28,
 		},
 		labelSizeMd: {
 			fontSize: 18,
+			lineHeight: 20,
 		},
 		labelSizeSm: {
 			fontSize: 14,
+			lineHeight: 15,
 		},
 	});
 };

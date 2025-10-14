@@ -1,5 +1,6 @@
 /* * */
 
+import { LineBadge } from '@/components/lines/LineBadge';
 import { WidgetSmartNotification } from '@/schemas/widgets';
 import { IconBellRinging } from '@tabler/icons-react-native';
 import { useMemo } from 'react';
@@ -76,19 +77,11 @@ export function WidgetCardSmartNotificationHeader({ label, selectedEndTime, sele
 		<View style={styles.container}>
 			<IconBellRinging color="#0C807E" size={30} />
 			<View style={styles.column}>
-				{label && <Text style={styles.label}>{label}</Text>}
-				<Text style={styles.text}>{t('title', { end_time: endTimeDisplay, start_time: startTimeDisplay, weekdays: weekdaysDisplay })}</Text>
-				{/* <Text style={styles.text}>Every {weekdaysDisplay} from {startTimeDisplay} to {endTimeDisplay}</Text> */}
-				{/* <View style={styles.row}>
-					<IconBoltFilled color={systemVariables.text[200]} size={16} />
-					{weekdaysDisplay && <Text style={styles.text}>{weekdaysDisplay}</Text>}
-				</View>
 				<View style={styles.row}>
-					<IconClock color={systemVariables.text[200]} size={16} />
-					{startTimeDisplay && <Text style={styles.text}>{startTimeDisplay}</Text>}
-					<IconArrowRight color={systemVariables.text[200]} size={16} />
-					{endTimeDisplay && <Text style={styles.text}>{endTimeDisplay}</Text>}
-				</View> */}
+					{label && <Text style={styles.label}>{label}</Text>}
+					<LineBadge lineId="1234" size="sm" />
+				</View>
+				<Text style={styles.text}>{t('title', { end_time: endTimeDisplay, start_time: startTimeDisplay, weekdays: weekdaysDisplay })}</Text>
 			</View>
 		</View>
 	);

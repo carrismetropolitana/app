@@ -35,7 +35,6 @@ export const useStyles = () => {
 			color: systemVariables.text[100],
 			fontSize: 10,
 			fontWeight: 800,
-			marginBottom: 4,
 			paddingHorizontal: 4,
 			paddingVertical: 2,
 			textTransform: 'uppercase',
@@ -50,8 +49,8 @@ export const useStyles = () => {
 			display: 'flex',
 			flexDirection: 'row',
 			flexShrink: 1,
-			gap: 4,
-			justifyContent: 'flex-start',
+			gap: 10,
+			justifyContent: 'center',
 		},
 		text: {
 			color: systemVariables.text[100],
