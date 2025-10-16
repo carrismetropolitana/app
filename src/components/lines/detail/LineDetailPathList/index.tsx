@@ -7,9 +7,7 @@ import { NextArrival } from '@/types/timetables.types';
 import { PatternRealtime } from '@/types/types';
 import { Routes } from '@/utils/routes';
 import { useMemo } from 'react';
-import { useEffect, useRef } from 'react';
 import { View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
 import useSWR from 'swr';
 
 import { styles } from './styles';

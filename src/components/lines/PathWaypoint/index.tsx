@@ -8,7 +8,6 @@ import { PathWaypointSpine } from '@/components/lines/PathWaypointSpine';
 import { PathWaypointTimetable } from '@/components/lines/PathWaypointTimetable';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
-import { theming } from '@/theme/Variables';
 import { TouchableOpacity, View } from 'react-native';
 
 import { styles } from './styles';
@@ -32,7 +31,7 @@ interface Props {
 
 /* * */
 
-export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isInfoSelected, isLastStop, isNextStop, isSelected, onInfoSelect, selectionEnabled, trackProgress, waypointData }: Props) {
+export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isInfoSelected, isLastStop, isNextStop, isSelected, trackProgress, waypointData }: Props) {
 	//
 
 	//
@@ -45,9 +44,6 @@ export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isInfoSelec
 
 	const pathWaypointStyles = styles();
 
-	const backgroundColor = hasBeenPassed && trackProgress && !selectionEnabled ? theming.colorSystemText400 : lineDetailContext.data.active_pattern?.color;
-	const foregroundColor = hasBeenPassed && trackProgress && !selectionEnabled ? theming.colorSystemText300 : lineDetailContext.data.active_pattern?.text_color;
-
 	//
 	// B. Transform data
 
@@ -59,25 +55,14 @@ export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isInfoSelec
 	// C. Handle actions
 
 	const handleToggleStop = () => {
-		lineDetailContext.actions.setActiveWaypoint(waypointData.stop_id, waypointData.stop_sequence);
+		lineDetailContext.actions.selectWaypointId(waypointData.stop_id, waypointData.stop_sequence);
 	};
 
 	//
 	// D. Render components
 
-	// Only allow info selection for future stops, keep vehicle selection logic for vehicle
-	const handlePress = () => {
-		if (selectionEnabled && onInfoSelect) {
-			onInfoSelect();
-		}
-
-		if (!onInfoSelect && selectionEnabled) {
-			handleToggleStop();
-		}
-	};
-
 	return (
-		<TouchableOpacity onPress={handlePress}>
+		<TouchableOpacity onPress={handleToggleStop}>
 			<View
 				style={[
 					pathWaypointStyles.container,
@@ -87,8 +72,8 @@ export function PathWaypoint({ arrivals, hasBeenPassed, isFirstStop, isInfoSelec
 				]}
 			>
 				<PathWaypointSpine
-					backgroundColor={backgroundColor}
-					foregroundColor={foregroundColor}
+					backgroundColor={lineDetailContext.data.selected_pattern?.color}
+					foregroundColor={lineDetailContext.data.selected_pattern?.text_color}
 					isDisabled={hasBeenPassed && !trackProgress}
 					isFirstStop={isFirstStop}
 					isLastStop={isLastStop}

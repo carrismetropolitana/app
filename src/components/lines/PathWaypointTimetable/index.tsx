@@ -23,11 +23,11 @@ export function PathWaypointTimetable() {
 	const showVariantsOnTimetable = true;
 
 	const timetableData = useMemo(() => {
-		const activePatternGroup = lineDetailContext.data.active_pattern;
-		const secondaryPatternGroups = lineDetailContext.data.valid_patterns?.filter(patternGroup => patternGroup.version_id !== activePatternGroup?.version_id) || [];
-		const mentionedRoutes = lineDetailContext.data.routes;
-		const selectedStopId = lineDetailContext.data.active_waypoint?.stop_id;
-		const selectedStopSequence = lineDetailContext.data.active_waypoint?.stop_sequence;
+		const activePatternGroup = lineDetailContext.data.selected_pattern;
+		const secondaryPatternGroups = lineDetailContext.data.available_patterns?.filter(patternGroup => patternGroup.version_id !== activePatternGroup?.version_id) || [];
+		const mentionedRoutes = lineDetailContext.data.available_routes;
+		const selectedStopId = lineDetailContext.data.selected_waypoint?.stop_id;
+		const selectedStopSequence = lineDetailContext.data.selected_waypoint?.stop_sequence;
 		const selectedOperationalDate = operationalDateContext.data.selected_date?.operational_date;
 		if (!activePatternGroup || !mentionedRoutes || !selectedStopId || selectedStopSequence === undefined || !selectedOperationalDate) {
 			return null;
@@ -44,7 +44,7 @@ export function PathWaypointTimetable() {
 		else {
 			return createTimetable(activePatternGroup, [], [], selectedStopId, selectedStopSequence, selectedOperationalDate);
 		}
-	}, [lineDetailContext.data.active_pattern, lineDetailContext.data.valid_patterns, lineDetailContext.data.active_waypoint, operationalDateContext.data.selected_date]);
+	}, [lineDetailContext.data.selected_pattern, lineDetailContext.data.available_routes, lineDetailContext.data.available_patterns, lineDetailContext.data.selected_waypoint, operationalDateContext.data.selected_date]);
 
 	function handleNextDateClick(date: Date) {
 		operationalDateContext.actions.updateSelectedDateFromJsDate(date);

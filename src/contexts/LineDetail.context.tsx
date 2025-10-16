@@ -2,7 +2,7 @@
 
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
-import { type Line, type Pattern, type Shape, type Waypoint } from '@carrismetropolitana/api-types/network';
+import { type Line, type Pattern, Route, type Shape, type Waypoint } from '@carrismetropolitana/api-types/network';
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
 /* * */
@@ -15,6 +15,7 @@ interface LineDetailContextState {
 	}
 	data: {
 		available_patterns: Pattern[]
+		available_routes: Route[]
 		selected_line: Line | undefined
 		selected_line_id: string | undefined
 		selected_pattern: Pattern | undefined
@@ -68,6 +69,11 @@ export const LineDetailContextProvider = ({ children, lineId }: PropsWithChildre
 		if (!lineId) return;
 		return linesContext.actions.getLineDataById(lineId);
 	}, [lineId]);
+
+	const availableRoutesData = useMemo(() => {
+		if (!selectedLineData) return [];
+		return linesContext.data?.routes.filter(route => selectedLineData.route_ids.includes(route.id)) ?? [];
+	}, [selectedLineData]);
 
 	useEffect(() => {
 		(async () => {
@@ -149,6 +155,7 @@ export const LineDetailContextProvider = ({ children, lineId }: PropsWithChildre
 		},
 		data: {
 			available_patterns: availablePatternsData,
+			available_routes: availableRoutesData,
 			selected_line: selectedLineData,
 			selected_line_id: lineId,
 			selected_pattern: selectedPatternData,
@@ -161,9 +168,11 @@ export const LineDetailContextProvider = ({ children, lineId }: PropsWithChildre
 		},
 	}), [
 		lineId,
+		isLoading,
 		selectedLineData,
 		selectedShapeData,
 		selectedPatternId,
+		availableRoutesData,
 		selectedPatternData,
 		selectedWaypointData,
 		availablePatternsData,
