@@ -12,9 +12,6 @@ export const styles = () => {
 
 	const { theme } = useThemeContext();
 	const isLight = theme.mode === 'light';
-	const backgroundColor = isLight
-		? theming.colorSystemBackgroundLight200
-		: theming.colorSystemBackgroundDark200;
 	const fontColor = isLight
 		? theming.colorSystemText300
 		: theming.colorSystemText400;
@@ -119,10 +116,6 @@ export const styles = () => {
 		},
 		isLastStop: {
 			paddingBottom: theming.sizeSpacing20,
-		},
-		isSelected: {
-			backgroundColor,
-
 		},
 	});
 

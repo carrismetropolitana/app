@@ -14,10 +14,9 @@ export const useStyles = () => {
 		column: {
 			display: 'flex',
 			flexDirection: 'column',
-			gap: 4,
+			gap: 7,
 		},
 		container: {
-			alignItems: 'flex-start',
 			flexDirection: 'row',
 			flexWrap: 'wrap',
 			rowGap: 15,
@@ -30,6 +29,7 @@ export const useStyles = () => {
 			paddingHorizontal: 4,
 			paddingVertical: 5,
 			textAlign: 'center',
+			width: '100%',
 		},
 		hourFirst: {
 			borderBottomLeftRadius: 999,
@@ -44,9 +44,31 @@ export const useStyles = () => {
 		minuteBase: {
 			color: systemVariables.text[100],
 			fontSize: 14,
+			fontWeight: 700,
+			paddingHorizontal: 4,
+			textAlign: 'center',
+		},
+		minuteContainer: {
+			paddingHorizontal: 4,
+			position: 'relative',
+		},
+		minuteException: {
+			color: systemVariables.text[300],
 			fontWeight: 500,
-			paddingHorizontal: 0,
-			textAlign: 'right',
+		},
+		minuteExceptionIndex: {
+			color: systemVariables.text[300],
+			fontSize: 10,
+			fontWeight: 500,
+			marginLeft: 4,
+			position: 'absolute',
+			right: -1,
+			top: 0,
+		},
+		minuteLast: {
+			borderBottomRightRadius: 999,
+			borderTopRightRadius: 999,
+			paddingRight: 15,
 		},
 	});
 

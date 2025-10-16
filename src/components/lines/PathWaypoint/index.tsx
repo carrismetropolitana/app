@@ -1,16 +1,15 @@
 /* * */
 
-import type { Waypoint } from '@carrismetropolitana/api-types/network';
-
 import { PathWaypointHeader } from '@/components/lines/PathWaypointHeader';
 import { PathWaypointNextArrivals } from '@/components/lines/PathWaypointNextArrivals';
 import { PathWaypointSpine } from '@/components/lines/PathWaypointSpine';
 import { PathWaypointTimetable } from '@/components/lines/PathWaypointTimetable';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
+import { type Waypoint } from '@carrismetropolitana/api-types/network';
 import { TouchableOpacity, View } from 'react-native';
 
-import { styles } from './styles';
+import { useStyles } from './styles';
 
 /* * */
 
@@ -36,7 +35,7 @@ export function PathWaypoint({ arrivals, isFirstStop, isLastStop, isNextStop, is
 	const lineDetailContext = useLineDetailContext();
 	const operationalDateContext = useOperationalDateContext();
 
-	const pathWaypointStyles = styles();
+	const styles = useStyles();
 
 	//
 	// B. Transform data
@@ -49,7 +48,6 @@ export function PathWaypoint({ arrivals, isFirstStop, isLastStop, isNextStop, is
 	// C. Handle actions
 
 	const handleToggleStop = () => {
-		console.log('Selecting stop', waypointData.stop_id, waypointData.stop_sequence);
 		lineDetailContext.actions.selectWaypointId(waypointData.stop_id, waypointData.stop_sequence);
 	};
 
@@ -57,13 +55,13 @@ export function PathWaypoint({ arrivals, isFirstStop, isLastStop, isNextStop, is
 	// D. Render components
 
 	return (
-		<TouchableOpacity onPress={handleToggleStop}>
+		<TouchableOpacity activeOpacity={0.6} disabled={isSelected} onPress={handleToggleStop}>
 			<View
 				style={[
-					pathWaypointStyles.container,
-					isFirstStop && pathWaypointStyles.isFirstStop,
-					isLastStop && pathWaypointStyles.isLastStop,
-					isSelected && pathWaypointStyles.isSelected,
+					styles.container,
+					isFirstStop && styles.isFirstStop,
+					isLastStop && styles.isLastStop,
+					isSelected && styles.isSelected,
 				]}
 			>
 				<PathWaypointSpine
@@ -76,7 +74,7 @@ export function PathWaypoint({ arrivals, isFirstStop, isLastStop, isNextStop, is
 					stopId={waypointData.stop_id}
 					stopSequence={waypointData.stop_sequence}
 				/>
-				<View style={pathWaypointStyles.detailsWrapper}>
+				<View style={styles.detailsWrapper}>
 
 					<PathWaypointHeader
 						isFirstStop={isFirstStop}

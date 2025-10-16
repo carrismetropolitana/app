@@ -1,9 +1,8 @@
 /* * */
 
-import { TimetableSchedulesMinute } from '@/components/lines/timetable/TimetableSchedulesMinutes';
 import { type Timetable } from '@/types/timetables.types';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 import { useStyles } from './styles';
 
@@ -42,19 +41,33 @@ export function TimetableSchedules({ onSelectExceptionId, onSelectTripIds, selec
 
 			{timetableData.hours.map((hourData, index) => (
 				<View key={hourData.hour_value} style={styles.column}>
-					<Text style={[styles.hourBase, index === timetableData.hours.length - 1 && styles.hourLast]}>
+
+					<Text style={[
+						styles.hourBase,
+						index === timetableData.hours.length - 1 && styles.hourLast,
+					]}
+					>
 						{hourData.hour_label}
 					</Text>
+
 					{hourData.minutes.map(minuteData => (
-						<TimetableSchedulesMinute
-							key={minuteData.minute_value}
-							isHighlighted={selectedTripIds && minuteData.trip_ids.some(tripId => selectedTripIds.includes(tripId))}
-							minuteData={minuteData}
-							onClick={() => onSelectTripIds(minuteData.trip_ids)}
-							// selectedExceptionId={selectedExceptionId}
-							// onSelectExceptionId={onSelectExceptionId}
-						/>
+						<Pressable key={minuteData.minute_value} onPress={() => onSelectTripIds(minuteData.trip_ids)} style={styles.minuteContainer}>
+							<Text style={[
+								styles.minuteBase,
+								index === timetableData.hours.length - 1 && styles.minuteLast,
+								minuteData.exception_ids?.length > 0 && styles.minuteException,
+							]}
+							>
+								{minuteData.minute_label}
+							</Text>
+							{minuteData.exception_ids?.length > 0 && minuteData.exception_ids.map(exceptionId => (
+								<Text key={exceptionId} style={styles.minuteExceptionIndex}>
+									{exceptionId}
+								</Text>
+							))}
+						</Pressable>
 					))}
+
 				</View>
 			))}
 
