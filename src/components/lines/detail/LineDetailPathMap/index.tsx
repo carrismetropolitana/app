@@ -4,16 +4,13 @@ import { MapOverlayPath, type MapOverlayPathShapeGeoJsonProperties, type MapOver
 import { MapOverlayVehicles, mapOverlayVehicles_TopLayerId } from '@/components/map-new/overlays/MapOverlayVehicles';
 import { MapView } from '@/components/map-new/view/MapView';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
-import { useLinesContext } from '@/contexts/Lines.context';
-import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useVehiclesContext } from '@/contexts/Vehicles.context';
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
-import { type Pattern, type Shape } from '@carrismetropolitana/api-types/network';
 import { type CameraRef } from '@maplibre/maplibre-react-native';
 import { bbox } from '@turf/turf';
 import { type LineString, type Point } from 'geojson';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
 import { useStyles } from './styles';
@@ -28,47 +25,12 @@ export function LineDetailPathMap() {
 
 	const styles = useStyles();
 
-	const linesContext = useLinesContext();
 	const stopsContext = useStopsContext();
 	const vehiclesContext = useVehiclesContext();
 	const lineDetailContext = useLineDetailContext();
-	const operationalDateContext = useOperationalDateContext();
-
-	const [isLoading, setIsLoading] = useState(true);
-
-	const [currentPatternData, setCurrentPatternData] = useState<Pattern | undefined>();
-	const [currentShapeData, setCurrentShapeData] = useState<Shape | undefined>();
 
 	//
-	// B. Fetch data
-
-	useEffect(() => {
-		(async () => {
-			try {
-				// Skip if no vehicle data or pattern id
-				if (!lineDetailContext.data.selected_pattern_id || !operationalDateContext.data.selected_date) return;
-				// Get current pattern version for today
-				const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(lineDetailContext.data.selected_pattern_id, operationalDateContext.data.selected_date.operational_date);
-				if (!validPatternData) return;
-				setCurrentPatternData(validPatternData);
-				// Skip if no shape id
-				if (!validPatternData.shape_id) return;
-				// Fetch shape data
-				const shapeData = await linesContext.actions.getShapeDataById(validPatternData.shape_id);
-				if (!shapeData) return console.log('No shape data found for shape ID', validPatternData.shape_id);
-				setCurrentShapeData(shapeData);
-			}
-			catch (err) {
-				console.error(err);
-			}
-			finally {
-				setIsLoading(false);
-			}
-		})();
-	}, [lineDetailContext.data.selected_pattern_id, operationalDateContext.data.selected_date]);
-
-	//
-	// C. Transform data
+	// B. Transform data
 
 	const availableVehiclesDataFC = useMemo(() => {
 		if (!lineDetailContext.data.selected_pattern_id) return;
@@ -76,27 +38,27 @@ export function LineDetailPathMap() {
 	}, [lineDetailContext.data.selected_pattern_id, vehiclesContext.data.vehicles]);
 
 	const shapeDataFC = useMemo(() => {
-		if (!currentShapeData?.geojson) return;
+		if (!lineDetailContext.data.selected_shape?.geojson) return;
 		const collection = getBaseGeoJsonFeatureCollection<LineString, MapOverlayPathShapeGeoJsonProperties>();
-		const feature = transformShapeDataIntoGeoJsonFeature(currentShapeData, currentPatternData?.color, currentPatternData?.text_color);
+		const feature = transformShapeDataIntoGeoJsonFeature(lineDetailContext.data.selected_shape, lineDetailContext.data.selected_pattern?.color, lineDetailContext.data.selected_pattern?.text_color);
 		if (feature) collection.features.push(feature);
 		return collection;
-	}, [currentShapeData]);
+	}, [lineDetailContext.data.selected_shape]);
 
 	const waypointsDataFC = useMemo(() => {
-		if (!currentPatternData?.path) return;
+		if (!lineDetailContext.data.selected_pattern?.path) return;
 		const collection = getBaseGeoJsonFeatureCollection<Point, MapOverlayPathWaypointGeoJsonProperties>();
-		collection.features = currentPatternData.path
+		collection.features = lineDetailContext.data.selected_pattern.path
 			.map((item) => {
 				const stopData = stopsContext.actions.getStopById(item.stop_id);
-				return transformWaypointDataIntoGeoJsonFeature(item, stopData, currentPatternData?.color, currentPatternData?.text_color);
+				return transformWaypointDataIntoGeoJsonFeature(item, stopData, lineDetailContext.data.selected_pattern?.color, lineDetailContext.data.selected_pattern?.text_color);
 			})
 			.filter(i => !!i);
 		return collection;
-	}, [currentShapeData]);
+	}, [lineDetailContext.data.selected_pattern]);
 
 	//
-	// D. Handle actions
+	// C. Handle actions
 
 	const handleDidFinishLoadingMap = (cameraRef: CameraRef) => {
 		// Skip if no shape data
@@ -116,9 +78,9 @@ export function LineDetailPathMap() {
 	};
 
 	//
-	// E. Render components
+	// D. Render components
 
-	if (isLoading) {
+	if (lineDetailContext.flags.loading) {
 		return (
 			<View style={[styles.container, styles.loading]}>
 				<ActivityIndicator size="large" />

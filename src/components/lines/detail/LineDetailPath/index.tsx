@@ -1,11 +1,11 @@
 /* * */
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
-// import { LineDetailPathList } from '@/components/lines/detail/LineDetailPathList';
+import { LineDetailPathList } from '@/components/lines/detail/LineDetailPathList';
 import { LineDetailPathMap } from '@/components/lines/detail/LineDetailPathMap';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 
 /* * */
 
@@ -22,6 +22,14 @@ export function LineDetailPath() {
 	//
 	// B. Render components
 
+	if (lineDetailContext.flags.loading) {
+		return (
+			<View>
+				<ActivityIndicator size="large" />
+			</View>
+		);
+	}
+
 	if (!lineDetailContext.data.selected_pattern_id) {
 		return (
 			<View>
@@ -33,7 +41,7 @@ export function LineDetailPath() {
 	return (
 		<View>
 			<LineDetailPathMap />
-			{/* <LineDetailPathList /> */}
+			<LineDetailPathList />
 		</View>
 
 	);

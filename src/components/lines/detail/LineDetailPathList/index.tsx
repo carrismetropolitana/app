@@ -24,13 +24,11 @@ export function LineDetailPathList() {
 
 	const lineDetailContext = useLineDetailContext();
 	const LineDetailPathListStyles = styles();
-	const scrollViewRef = useRef<ScrollView>(null);
-	// const analyticsContext = useAnalyticsContext();
 
 	//
 	// B. Fetch data
 
-	const { data: patternRealtimeData } = useSWR<PatternRealtime[]>(lineDetailContext.data.active_pattern?.id && `${Routes.API}/arrivals/by_pattern/${lineDetailContext.data.active_pattern.id}`, { refreshInterval: 30_000 });
+	const { data: patternRealtimeData } = useSWR<PatternRealtime[]>(lineDetailContext.data.selected_pattern_id && `${Routes.API}/arrivals/by_pattern/${lineDetailContext.data.selected_pattern_id}`, { refreshInterval: 30_000 });
 
 	//
 	// C. Transform data
@@ -39,7 +37,7 @@ export function LineDetailPathList() {
 		// Return early if there is no patternRealtimeData
 		if (!patternRealtimeData) return;
 		// Filter arrrivals for the current pattern
-		const arrivalsForCurrentPattern = patternRealtimeData?.filter(arrivalData => arrivalData.pattern_id === lineDetailContext.data.active_pattern?.id) || [];
+		const arrivalsForCurrentPattern = patternRealtimeData?.filter(arrivalData => arrivalData.pattern_id === lineDetailContext.data.selected_pattern_id) || [];
 		// Organize arrivals by Stop ID
 		const result = new Map<string, NextArrival[]>();
 		arrivalsForCurrentPattern.forEach((arrivalData) => {
@@ -56,63 +54,34 @@ export function LineDetailPathList() {
 			result.get(key)?.sort((a, b) => a.unixTs - b.unixTs);
 		}
 		return result;
-	}, [patternRealtimeData, lineDetailContext.data.active_pattern?.id]);
+	}, [patternRealtimeData, lineDetailContext.data.selected_pattern_id]);
 
 	const sortedStops = useMemo(() => {
-		return lineDetailContext.data.active_pattern?.path.sort((a, b) => a.stop_sequence - b.stop_sequence);
-	}, [lineDetailContext.data.active_pattern?.path]);
+		return lineDetailContext.data.selected_pattern?.path.sort((a, b) => a.stop_sequence - b.stop_sequence) ?? [];
+	}, [lineDetailContext.data.selected_pattern?.path]);
 
 	//
-	// D. Handle actions
+	// D. Render components
 
-	const selectedIndex = sortedStops?.findIndex(
-		waypoint =>
-			lineDetailContext.data.active_waypoint?.stop_id === waypoint.stop_id
-			&& lineDetailContext.data.active_waypoint?.stop_sequence === waypoint.stop_sequence,
-	);
-
-	useEffect(() => {
-		if (
-			selectedIndex !== undefined
-			&& selectedIndex !== -1
-			&& scrollViewRef.current
-		) {
-			scrollViewRef.current.scrollTo({
-				animated: true,
-				y: selectedIndex * 80,
-			});
-		}
-	}, [selectedIndex, lineDetailContext.data.active_waypoint]);
-
-	//
-	// E. Render components
-
-	if (!sortedStops?.length || !lineDetailContext.data.active_pattern) {
-		return <NoDataLabel fill />;
+	if (!sortedStops.length) {
+		return <NoDataLabel />;
 	}
 
 	return (
 		<View style={LineDetailPathListStyles.container}>
-			{sortedStops.map((waypoint, index) => {
-				const currentVehicleStopSequence = lineDetailContext.data.active_waypoint?.stop_sequence;
-				const thisStopSequence = waypoint.stop_sequence;
-				const hasBeenPassed = currentVehicleStopSequence !== undefined && thisStopSequence < currentVehicleStopSequence;
-
-				return (
-					<PathWaypoint
-						key={`${waypoint.stop_id}-${waypoint.stop_sequence}`}
-						arrivals={preparedRealtimeData?.get(`${waypoint.stop_id}-${waypoint.stop_sequence}`) || []}
-						hasBeenPassed={hasBeenPassed}
-						id={`waypoint-${waypoint.stop_id}-${waypoint.stop_sequence}`}
-						isFirstStop={index === 0}
-						isLastStop={index === sortedStops.length - 1}
-						isSelected={lineDetailContext.data.active_waypoint?.stop_id === waypoint.stop_id && lineDetailContext.data.active_waypoint?.stop_sequence === waypoint.stop_sequence}
-						selectionEnabled={true}
-						trackProgress={false}
-						waypointData={waypoint}
-					/>
-				);
-			})}
+			{sortedStops.map((waypoint, index) => (
+				<PathWaypoint
+					key={`${waypoint.stop_id}-${waypoint.stop_sequence}`}
+					arrivals={preparedRealtimeData?.get(`${waypoint.stop_id}-${waypoint.stop_sequence}`) || []}
+					id={`waypoint-${waypoint.stop_id}-${waypoint.stop_sequence}`}
+					isFirstStop={index === 0}
+					isLastStop={index === sortedStops.length - 1}
+					isSelected={lineDetailContext.data.selected_waypoint?.stop_id === waypoint.stop_id && lineDetailContext.data.selected_waypoint?.stop_sequence === waypoint.stop_sequence}
+					selectionEnabled={true}
+					trackProgress={false}
+					waypointData={waypoint}
+				/>
+			))}
 		</View>
 	);
 

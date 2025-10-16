@@ -9,14 +9,15 @@ import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useSt
 
 interface LineDetailContextState {
 	actions: {
-		selectPattern: (patternId: string) => void
-		selectTrip: (tripId: string) => void
-		selectWaypoint: (stopId: string, stopSequence: number) => void
+		selectPatternId: (patternId: string) => void
+		selectTripId: (tripId: string) => void
+		selectWaypointId: (stopId: string, stopSequence: number) => void
 	}
 	data: {
 		available_patterns: Pattern[]
 		selected_line: Line | undefined
 		selected_line_id: string | undefined
+		selected_pattern: Pattern | undefined
 		selected_pattern_id: string | undefined
 		selected_shape: Shape | undefined
 		selected_waypoint: undefined | Waypoint
@@ -49,14 +50,16 @@ export const LineDetailContextProvider = ({ children, lineId }: PropsWithChildre
 	const linesContext = useLinesContext();
 	const operationalDateContext = useOperationalDateContext();
 
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+
 	const [availablePatternsData, setAvailablePatternsData] = useState<Pattern[]>([]);
 
 	const [selectedPatternId, setSelectedPatternId] = useState<string | undefined>();
 	const [selectedTripId, setSelectedTripId] = useState<string | undefined>();
 
-	const [selectedPatternVersion, setSelectedPatternVersion] = useState<Pattern | undefined>();
-	const [selectedWaypoint, setSelectedWaypoint] = useState<undefined | Waypoint>();
-	const [selectedShape, setSelectedShape] = useState<Shape | undefined>();
+	const [selectedPatternData, setSelectedPatternData] = useState<Pattern | undefined>();
+	const [selectedWaypointData, setSelectedWaypointData] = useState<undefined | Waypoint>();
+	const [selectedShapeData, setSelectedShapeData] = useState<Shape | undefined>();
 
 	//
 	// B. Transform data
@@ -70,47 +73,69 @@ export const LineDetailContextProvider = ({ children, lineId }: PropsWithChildre
 		(async () => {
 			if (!selectedLineData) return;
 			if (!operationalDateContext.data.selected_date) return;
+			setIsLoading(true);
 			const fetchResult: Pattern[] = [];
 			for (const patternId of selectedLineData.pattern_ids) {
 				const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(patternId, operationalDateContext.data.selected_date.operational_date);
 				if (validPatternData) fetchResult.push(validPatternData);
 			}
 			setAvailablePatternsData(fetchResult);
+			setIsLoading(false);
 		})();
 	}, [lineId, selectedLineData]);
+
+	useEffect(() => {
+		(async () => {
+			try {
+				setIsLoading(true);
+				// Skip if no pattern id or no operational date
+				if (!selectedPatternId || !operationalDateContext.data.selected_date) return;
+				// Get current pattern version for today
+				const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(selectedPatternId, operationalDateContext.data.selected_date.operational_date);
+				if (!validPatternData) return;
+				setSelectedPatternData(validPatternData);
+				// Skip if no shape id
+				if (!validPatternData.shape_id) return;
+				// Fetch shape data
+				const shapeData = await linesContext.actions.getShapeDataById(validPatternData.shape_id);
+				if (!shapeData) return console.log('No shape data found for shape ID', validPatternData.shape_id);
+				setSelectedShapeData(shapeData);
+			}
+			catch (err) {
+				console.error(err);
+			}
+			finally {
+				setIsLoading(false);
+			}
+		})();
+	}, [selectedPatternId, operationalDateContext.data.selected_date]);
 
 	//
 	// D. Handle actions
 
-	/**
-	 * Preselect a Pattern if there is no filter value.
-	 * Return otherwise.
-	 */
 	useEffect(() => {
 		// Return early if no patterns are available
 		if (!availablePatternsData || !availablePatternsData.length) return;
-		// Preselect the first pattern of the valid patterns if there is no filter value
-		if (!selectedPatternId) {
-			setSelectedPatternId(availablePatternsData[0].id);
-		}
+		// Pre-select the first pattern of the valid patterns if there is no filter value
+		if (!selectedPatternId) setSelectedPatternId(availablePatternsData[0].id);
 	}, [availablePatternsData, selectedPatternId]);
 
-	const selectPattern = (patternId: string) => {
+	const selectPatternId = (patternId: string) => {
 		setSelectedPatternId(patternId);
 	};
 
-	const selectTrip = (tripId: string) => {
+	const selectTripId = (tripId: string) => {
 		if (tripId === selectedTripId) setSelectedTripId(undefined);
 		else setSelectedTripId(tripId);
 	};
 
-	const selectWaypoint = (stopId: string, stopSequence: number) => {
+	const selectWaypointId = (stopId: string, stopSequence: number) => {
 		// Return early if active waypoint is already selected
-		if (selectedWaypoint?.stop_id === stopId && selectedWaypoint?.stop_sequence === stopSequence) return;
+		if (selectedWaypointData?.stop_id === stopId && selectedWaypointData?.stop_sequence === stopSequence) return;
 		// Find the waypoint in the active pattern that matches the stop id and stop sequence
-		const foundWaypoint = selectedPatternVersion?.path.find(waypoint => waypoint.stop_id === stopId && waypoint.stop_sequence === stopSequence);
+		const foundWaypoint = selectedPatternData?.path.find(waypoint => waypoint.stop_id === stopId && waypoint.stop_sequence === stopSequence);
 		// Update the state
-		if (foundWaypoint) setSelectedWaypoint(foundWaypoint);
+		if (foundWaypoint) setSelectedWaypointData(foundWaypoint);
 	};
 
 	//
@@ -118,28 +143,30 @@ export const LineDetailContextProvider = ({ children, lineId }: PropsWithChildre
 
 	const contextValue: LineDetailContextState = useMemo(() => ({
 		actions: {
-			selectPattern,
-			selectTrip,
-			selectWaypoint,
+			selectPatternId,
+			selectTripId,
+			selectWaypointId,
 		},
 		data: {
 			available_patterns: availablePatternsData,
 			selected_line: selectedLineData,
 			selected_line_id: lineId,
+			selected_pattern: selectedPatternData,
 			selected_pattern_id: selectedPatternId,
-			selected_shape: selectedShape,
-			selected_waypoint: selectedWaypoint,
+			selected_shape: selectedShapeData,
+			selected_waypoint: selectedWaypointData,
 		},
 		flags: {
-			loading: false,
+			loading: isLoading,
 		},
 	}), [
-		availablePatternsData,
 		lineId,
 		selectedLineData,
+		selectedShapeData,
 		selectedPatternId,
-		selectedShape,
-		selectedWaypoint,
+		selectedPatternData,
+		selectedWaypointData,
+		availablePatternsData,
 	]);
 
 	//
