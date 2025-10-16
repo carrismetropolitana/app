@@ -1,8 +1,7 @@
 /* * */
 
-import Timetable from '@/components/common/Timetable';
+import { Timetable } from '@/components/timetable/Timetable';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
-import { useLocaleContext } from '@/contexts/Locale.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import createTimetable from '@/utils/createTimetable';
 import { DateTime } from 'luxon';
@@ -15,8 +14,9 @@ import { styles } from './styles';
 /* * */
 
 export function PathWaypointTimetable() {
+	//
+
 	const { t } = useTranslation('translation', { keyPrefix: 'lines.PathWaypointTimetable' });
-	const localeContext = useLocaleContext();
 	const lineDetailContext = useLineDetailContext();
 	const operationalDateContext = useOperationalDateContext();
 	const timeTableStyles = styles();
@@ -54,24 +54,10 @@ export function PathWaypointTimetable() {
 		const nextDate = timetableData && DateTime.fromFormat(timetableData, 'yyyyMMdd').toJSDate();
 		return (
 			<View style={timeTableStyles.container}>
-				<Text
-					accessibilityHint={t('noDataAccessibilityHint')}
-					accessibilityLabel={t('noDataAccessibilityLabel')}
-					accessibilityLanguage={localeContext.data.locale}
-					accessibilityRole="text"
-					style={timeTableStyles.noData}
-				>{t('no_data')}
-				</Text>
+				<Text style={timeTableStyles.noData}>{t('no_data')}</Text>
 				{nextDate && (
 					<Pressable onPress={() => handleNextDateClick(nextDate)} style={({ pressed }) => [{ opacity: pressed ? 0.8 : 1 }]}>
-						<Text
-							accessibilityHint={t('nextDateAccessibilityHint')}
-							accessibilityLabel={t('nextDateAccessibilityLabel', { value: nextDate })}
-							accessibilityLanguage={localeContext.data.locale}
-							accessibilityRole="text"
-							style={timeTableStyles.nextDate}
-						>{t('next_date', { value: nextDate })}
-						</Text>
+						<Text style={timeTableStyles.nextDate}>{t('next_date', { value: nextDate })}</Text>
 					</Pressable>
 				)}
 			</View>
@@ -80,14 +66,7 @@ export function PathWaypointTimetable() {
 
 	return (
 		<View style={timeTableStyles.container}>
-			<Text
-				accessibilityHint={t('timetableAccessibilityHint')}
-				accessibilityLabel={t('timetableAccessibilityLabel')}
-				accessibilityLanguage={localeContext.data.locale}
-				accessibilityRole="text"
-				style={timeTableStyles.title}
-			>{t('title')}
-			</Text>
+			<Text style={timeTableStyles.title}>{t('title')}</Text>
 			<Timetable timetableData={timetableData} />
 		</View>
 	);

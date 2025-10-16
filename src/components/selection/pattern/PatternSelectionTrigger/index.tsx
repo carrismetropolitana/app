@@ -108,7 +108,7 @@ export function PatternSelectionTrigger({ description, onSelect, selectedLineId,
 					items={[{
 						accessibilityHint: t('selected.accessibility_hint'),
 						accessibilityLabel: t('selected.accessibility_label', { tts_headsign: selectedPatternData.tts_headsign }),
-						description: selectedPatternData.id,
+						description: selectedPatternData.version_id,
 						key: 'selected-pattern',
 						label: selectedPatternData.headsign,
 						onPress: handleShowList,

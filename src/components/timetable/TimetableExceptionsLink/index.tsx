@@ -33,15 +33,15 @@ export function TimetableExceptionsLink({
 	//
 	// B. Transform data
 
-	const isSelected = selectedExceptionIds.includes(exceptionData.exception_id);
-	const isOthersSelected = !isSelected && selectedExceptionIds.length > 0;
+	const isSelected = selectedExceptionIds?.includes(exceptionData.exception_id);
+	const isOthersSelected = !isSelected && selectedExceptionIds?.length > 0;
 
 	//
 	// C. Handle actions
 
 	const handlePressIn = () => setSelectedExceptionIds([exceptionData.exception_id]);
 	const handlePressOut = () => setSelectedExceptionIds([]);
-	const handleExceptionClick = () => lineDetailContext.actions.setActivePattern(exceptionData.pattern_version_id);
+	const handleExceptionClick = () => lineDetailContext.actions.selectPatternId(exceptionData.pattern_version_id);
 
 	//
 	// D. Render components

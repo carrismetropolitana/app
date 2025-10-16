@@ -10,7 +10,7 @@ import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useSt
 interface LineDetailContextState {
 	actions: {
 		selectPatternId: (patternId: string) => void
-		selectTripId: (tripId: string) => void
+		selectTripIds: (tripIds: string[] | undefined) => void
 		selectWaypointId: (stopId: string, stopSequence: number) => void
 	}
 	data: {
@@ -21,6 +21,7 @@ interface LineDetailContextState {
 		selected_pattern: Pattern | undefined
 		selected_pattern_id: string | undefined
 		selected_shape: Shape | undefined
+		selected_trip_ids: string[] | undefined
 		selected_waypoint: undefined | Waypoint
 	}
 	flags: {
@@ -56,7 +57,7 @@ export const LineDetailContextProvider = ({ children, lineId }: PropsWithChildre
 	const [availablePatternsData, setAvailablePatternsData] = useState<Pattern[]>([]);
 
 	const [selectedPatternId, setSelectedPatternId] = useState<string | undefined>();
-	const [selectedTripId, setSelectedTripId] = useState<string | undefined>();
+	const [selectedTripIds, setSelectedTripIds] = useState<string[] | undefined>();
 
 	const [selectedPatternData, setSelectedPatternData] = useState<Pattern | undefined>();
 	const [selectedWaypointData, setSelectedWaypointData] = useState<undefined | Waypoint>();
@@ -93,10 +94,9 @@ export const LineDetailContextProvider = ({ children, lineId }: PropsWithChildre
 	useEffect(() => {
 		(async () => {
 			try {
-				setIsLoading(true);
 				// Skip if no pattern id or no operational date
-				if (!selectedPatternId || !operationalDateContext.data.selected_date) return;
-				// Get current pattern version for today
+				if (!selectedPatternId || !operationalDateContext.data.selected_date?.operational_date) return;
+				// Get current pattern version for the selected operational date
 				const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(selectedPatternId, operationalDateContext.data.selected_date.operational_date);
 				if (!validPatternData) return;
 				setSelectedPatternData(validPatternData);
@@ -110,11 +110,8 @@ export const LineDetailContextProvider = ({ children, lineId }: PropsWithChildre
 			catch (err) {
 				console.error(err);
 			}
-			finally {
-				setIsLoading(false);
-			}
 		})();
-	}, [selectedPatternId, operationalDateContext.data.selected_date]);
+	}, [selectedPatternId, operationalDateContext.data.selected_date?.operational_date]);
 
 	//
 	// D. Handle actions
@@ -130,9 +127,8 @@ export const LineDetailContextProvider = ({ children, lineId }: PropsWithChildre
 		setSelectedPatternId(patternId);
 	};
 
-	const selectTripId = (tripId: string) => {
-		if (tripId === selectedTripId) setSelectedTripId(undefined);
-		else setSelectedTripId(tripId);
+	const selectTripIds = (tripIds: string[] | undefined) => {
+		setSelectedTripIds(tripIds);
 	};
 
 	const selectWaypointId = (stopId: string, stopSequence: number) => {
@@ -150,7 +146,7 @@ export const LineDetailContextProvider = ({ children, lineId }: PropsWithChildre
 	const contextValue: LineDetailContextState = useMemo(() => ({
 		actions: {
 			selectPatternId,
-			selectTripId,
+			selectTripIds,
 			selectWaypointId,
 		},
 		data: {
@@ -161,6 +157,7 @@ export const LineDetailContextProvider = ({ children, lineId }: PropsWithChildre
 			selected_pattern: selectedPatternData,
 			selected_pattern_id: selectedPatternId,
 			selected_shape: selectedShapeData,
+			selected_trip_ids: selectedTripIds,
 			selected_waypoint: selectedWaypointData,
 		},
 		flags: {
@@ -169,6 +166,7 @@ export const LineDetailContextProvider = ({ children, lineId }: PropsWithChildre
 	}), [
 		lineId,
 		isLoading,
+		selectedTripIds,
 		selectedLineData,
 		selectedShapeData,
 		selectedPatternId,

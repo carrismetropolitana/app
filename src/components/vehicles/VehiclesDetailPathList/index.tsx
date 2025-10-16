@@ -42,7 +42,7 @@ export function VehiclesDetailPathList() {
 	const showCollapseButton = totalPassed > (topCount + bottomCount);
 	const topPassedStops = passedStops.slice(0, topCount);
 	const bottomPassedStops = passedStops.slice(totalPassed - bottomCount, totalPassed);
-	const LineDetailPathListStyles = styles();
+	const LineDetailPathStyles = styles();
 	const scrollViewRef = useRef<ScrollView>(null);
 	//
 	// B. Fetch data
@@ -92,7 +92,7 @@ export function VehiclesDetailPathList() {
 	}
 
 	return (
-		<View style={LineDetailPathListStyles.container}>
+		<View style={LineDetailPathStyles.container}>
 			{!showAllPassed && showCollapseButton && (
 				<>
 					{topPassedStops.map((waypoint, idx) => {

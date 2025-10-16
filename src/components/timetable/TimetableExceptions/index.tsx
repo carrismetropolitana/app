@@ -1,6 +1,6 @@
 import type { Timetable } from '@/types/timetables.types';
 
-import { TimetableExceptionsLink } from '@/components/common/TimetableExceptionsLink';
+import { TimetableExceptionsLink } from '@/components/timetable/TimetableExceptionsLink';
 import { View } from 'react-native';
 
 import { styles } from './styles';

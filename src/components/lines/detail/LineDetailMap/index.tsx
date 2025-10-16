@@ -17,7 +17,7 @@ import { useStyles } from './styles';
 
 /* * */
 
-export function LineDetailPathMap() {
+export function LineDetailMap() {
 	//
 
 	//
