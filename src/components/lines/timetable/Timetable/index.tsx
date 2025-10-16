@@ -1,7 +1,7 @@
 /* * */
 
-// import TimetableExceptions from '@/components/timetable/TimetableExceptions';
-import { TimetableSchedules } from '@/components/timetable/TimetableSchedules';
+// import TimetableExceptions from '@/components/lines/timetable/TimetableExceptions';
+import { TimetableSchedules } from '@/components/lines/timetable/TimetableSchedules';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { type Timetable } from '@/types/timetables.types';
 import { useState } from 'react';

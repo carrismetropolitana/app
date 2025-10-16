@@ -1,6 +1,6 @@
 /* * */
 
-import { TimetableSchedulesMinute } from '@/components/timetable/TimetableSchedulesMinutes';
+import { TimetableSchedulesMinute } from '@/components/lines/timetable/TimetableSchedulesMinutes';
 import { type Timetable } from '@/types/timetables.types';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';

@@ -1,9 +1,12 @@
-import type { Timetable } from '@/types/timetables.types';
+/* * */
 
-import { TimetableExceptionsLink } from '@/components/timetable/TimetableExceptionsLink';
+import { TimetableExceptionsLink } from '@/components/lines/timetable/TimetableExceptionsLink';
+import { type Timetable } from '@/types/timetables.types';
 import { View } from 'react-native';
 
 import { styles } from './styles';
+
+/* * */
 
 interface Props {
 	selectedExceptionIds: string[]

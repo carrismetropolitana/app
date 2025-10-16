@@ -1,6 +1,6 @@
 /* * */
 
-import { Timetable } from '@/components/timetable/Timetable';
+import { Timetable } from '@/components/lines/timetable/Timetable';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import createTimetable from '@/utils/createTimetable';
