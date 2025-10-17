@@ -1,9 +1,9 @@
 /* * */
 
-import { PathWaypointHeader } from '@/components/lines/PathWaypointHeader';
-import { PathWaypointNextArrivals } from '@/components/lines/PathWaypointNextArrivals';
-import { PathWaypointSpine } from '@/components/lines/PathWaypointSpine';
-import { PathWaypointTimetable } from '@/components/lines/PathWaypointTimetable';
+import { PathWaypointHeader } from '@/components/lines/waypoints/PathWaypointHeader';
+import { PathWaypointNextArrivals } from '@/components/lines/waypoints/PathWaypointNextArrivals';
+import { PathWaypointSpine } from '@/components/lines/waypoints/PathWaypointSpine';
+import { PathWaypointTimetable } from '@/components/lines/waypoints/PathWaypointTimetable';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { type Waypoint } from '@carrismetropolitana/api-types/network';
@@ -69,31 +69,25 @@ export function PathWaypoint({ arrivals, isFirstStop, isLastStop, isNextStop, is
 					foregroundColor={lineDetailContext.data.selected_pattern?.text_color}
 					isFirstStop={isFirstStop}
 					isLastStop={isLastStop}
-					isNextStop={isNextStop}
-					isSelected={isSelected || false}
 					stopId={waypointData.stop_id}
 					stopSequence={waypointData.stop_sequence}
 				/>
 				<View style={styles.detailsWrapper}>
-
 					<PathWaypointHeader
 						isFirstStop={isFirstStop}
 						isLastStop={isLastStop}
 						isSelected={isSelected || false}
 						waypointData={waypointData}
 					/>
-
 					{isSelected && operationalDateContext.flags.today && (
 						<PathWaypointNextArrivals
 							realtimeArrivals={realtimeArrivals}
 							scheduledArrivals={scheduledArrivals}
 						/>
 					)}
-
 					{isSelected && (
 						<PathWaypointTimetable />
 					)}
-
 				</View>
 			</View>
 		</TouchableOpacity>

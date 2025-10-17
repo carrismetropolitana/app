@@ -1,38 +1,34 @@
 /* * */
 
 import { TimetableExceptionsLink } from '@/components/lines/timetable/TimetableExceptionsLink';
-import { type Timetable } from '@/types/timetables.types';
+import { type Exception } from '@/types/timetables.types';
 import { View } from 'react-native';
 
 import { styles } from './styles';
 
 /* * */
 
-interface Props {
-	selectedExceptionIds: string[]
-	setSelectedExceptionIds: (values: string[]) => void
-	timetableData: Timetable
+interface TimetableExceptionsProps {
+	data: Exception[]
 }
 
-export default function TimetableExceptions({
-	selectedExceptionIds,
-	setSelectedExceptionIds,
-	timetableData,
-}: Props) {
-	if (!timetableData.exceptions.length) {
+export function TimetableExceptions({ data }: TimetableExceptionsProps) {
+	//
+
+	if (!data?.length) {
 		return null;
 	}
 
 	return (
 		<View style={styles.container}>
-			{timetableData.exceptions.map(exceptionData => (
+			{data.map(item => (
 				<TimetableExceptionsLink
-					key={exceptionData.exception_id}
-					exceptionData={exceptionData}
-					selectedExceptionIds={selectedExceptionIds}
-					setSelectedExceptionIds={setSelectedExceptionIds}
+					key={item.exception_id}
+					exceptionData={item}
 				/>
 			))}
 		</View>
 	);
+
+	//
 }

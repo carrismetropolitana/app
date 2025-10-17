@@ -551,8 +551,10 @@
 		"SelectActivePatternGroupExplainer": {
 			"toggle": "O que é o percurso/destino de uma linha?"
 		},
-		"collapse_filters": "Esconder Filtros",
-		"expand_filters": "Expandir Filtros"
+		"TimetableExceptionsLink": {
+			"direction_label": "para",
+			"route_label": "Rota"
+		}
 	},
 	"more": {
 		"AboutCMList": {

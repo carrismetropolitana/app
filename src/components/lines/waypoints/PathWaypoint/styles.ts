@@ -12,9 +12,11 @@ export const useStyles = () => {
 
 	return StyleSheet.create({
 		container: {
+			alignItems: 'flex-start',
 			flex: 1,
 			flexDirection: 'row',
 			gap: 10,
+			justifyContent: 'flex-start',
 			paddingLeft: 15,
 			paddingRight: 20,
 		},

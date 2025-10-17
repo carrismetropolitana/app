@@ -1,31 +1,27 @@
-import { theming } from '@/theme/Variables';
+/* * */
+
+import { useSystemVariables } from '@/theme/global';
 import { StyleSheet } from 'react-native';
 
-export const styles = StyleSheet.create({
-	container: {
-		color: theming.colorSystemText300,
-		fontSize: 14,
-		fontWeight: theming.fontWeightMedium as 'medium',
-	},
-	containerIsOthersSelected: {
-		color: theming.colorSystemText400,
-	},
-	containerIsSelected: {
-		color: theming.colorStatusInfoText,
-	},
-	exceptionId: {
-		fontWeight: theming.fontWeightBold as 'bold',
-	},
-	icon: {
-		height: 14,
-		marginLeft: 2,
-		width: 14,
-	},
-	patternHeadsign: {
-		fontWeight: theming.fontWeightSemibold as 'semibold',
-		textDecorationLine: 'underline',
-	},
-	routeLongName: {
-		fontWeight: theming.fontWeightSemibold as 'semibold',
-	},
-});
+/* * */
+
+export const useStyles = () => {
+	//
+
+	const systemVariables = useSystemVariables();
+
+	return StyleSheet.create({
+		id: {
+			fontWeight: 700,
+		},
+		text: {
+			color: systemVariables.text[300],
+			fontSize: 14,
+			fontWeight: 500,
+			lineHeight: 20,
+		},
+		value: {
+			fontWeight: 600,
+		},
+	});
+};

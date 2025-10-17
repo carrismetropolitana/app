@@ -530,8 +530,10 @@
 		"SelectActivePatternGroupExplainer": {
 			"toggle": "What is the path/destination of a line?"
 		},
-		"collapse_filters": "Hide Filters",
-		"expand_filters": "Expand Filters"
+		"TimetableExceptionsLink": {
+			"direction_label": "to",
+			"route_label": "Route"
+		}
 	},
 	"more": {
 		"AboutCMList": {

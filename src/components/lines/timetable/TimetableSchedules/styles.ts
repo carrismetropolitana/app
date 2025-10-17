@@ -52,6 +52,10 @@ export const useStyles = () => {
 			paddingHorizontal: 4,
 			position: 'relative',
 		},
+		minuteContainerIsSelected: {
+			paddingHorizontal: 4,
+			position: 'relative',
+		},
 		minuteException: {
 			color: systemVariables.text[300],
 			fontWeight: 500,

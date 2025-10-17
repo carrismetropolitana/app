@@ -9,16 +9,14 @@ import { useStyles } from './styles';
 /* * */
 
 interface TimetableSchedulesProps {
-	onSelectExceptionId: (value: string | undefined) => void
+	data: Timetable
 	onSelectTripIds: (tripIds: string[] | undefined) => void
-	selectedExceptionId: string | undefined
 	selectedTripIds: string[] | undefined
-	timetableData: Timetable
 }
 
 /* * */
 
-export function TimetableSchedules({ onSelectExceptionId, onSelectTripIds, selectedExceptionId, selectedTripIds, timetableData }: TimetableSchedulesProps) {
+export function TimetableSchedules({ data, onSelectTripIds, selectedTripIds }: TimetableSchedulesProps) {
 	//
 
 	//
@@ -39,22 +37,29 @@ export function TimetableSchedules({ onSelectExceptionId, onSelectTripIds, selec
 				<Text style={styles.minuteBase}>{t('minutes')}</Text>
 			</View>
 
-			{timetableData.hours.map((hourData, index) => (
+			{data.hours.map((hourData, index) => (
 				<View key={hourData.hour_value} style={styles.column}>
 
 					<Text style={[
 						styles.hourBase,
-						index === timetableData.hours.length - 1 && styles.hourLast,
+						index === data.hours.length - 1 && styles.hourLast,
 					]}
 					>
 						{hourData.hour_label}
 					</Text>
 
 					{hourData.minutes.map(minuteData => (
-						<Pressable key={minuteData.minute_value} onPress={() => onSelectTripIds(minuteData.trip_ids)} style={styles.minuteContainer}>
+						<Pressable
+							key={minuteData.minute_value}
+							onPress={() => onSelectTripIds(minuteData.trip_ids)}
+							style={[
+								styles.minuteContainer,
+								selectedTripIds && selectedTripIds.length > 0 && minuteData.trip_ids?.some(tripId => selectedTripIds.includes(tripId)) && styles.minuteContainerIsSelected,
+							]}
+						>
 							<Text style={[
 								styles.minuteBase,
-								index === timetableData.hours.length - 1 && styles.minuteLast,
+								index === data.hours.length - 1 && styles.minuteLast,
 								minuteData.exception_ids?.length > 0 && styles.minuteException,
 							]}
 							>

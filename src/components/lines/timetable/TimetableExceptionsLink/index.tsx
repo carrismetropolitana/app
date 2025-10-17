@@ -1,69 +1,56 @@
 /* * */
 
-import type { Exception } from '@/types/timetables.types';
-
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
-import { IconArrowUpRight } from '@tabler/icons-react-native';
-import { Pressable, Text } from 'react-native';
+import { type Exception } from '@/types/timetables.types';
+import { useTranslation } from 'react-i18next';
+import { Text, TouchableOpacity } from 'react-native';
 
-import { styles } from './styles';
+import { useStyles } from './styles';
 
 /* * */
 
-interface Props {
+interface TimetableExceptionsLinkProps {
 	exceptionData: Exception
-	selectedExceptionIds: string[]
-	setSelectedExceptionIds: (values: string[]) => void
 }
 
 /* * */
 
-export function TimetableExceptionsLink({
-	exceptionData,
-	selectedExceptionIds,
-	setSelectedExceptionIds,
-}: Props) {
+export function TimetableExceptionsLink({ exceptionData }: TimetableExceptionsLinkProps) {
 	//
 
 	//
 	// A. Setup variables
 
+	const styles = useStyles();
+
 	const lineDetailContext = useLineDetailContext();
 
-	//
-	// B. Transform data
-
-	const isSelected = selectedExceptionIds?.includes(exceptionData.exception_id);
-	const isOthersSelected = !isSelected && selectedExceptionIds?.length > 0;
+	const { t } = useTranslation('translation', { keyPrefix: 'lines.TimetableExceptionsLink' });
 
 	//
-	// C. Handle actions
+	// B. Handle actions
 
-	const handlePressIn = () => setSelectedExceptionIds([exceptionData.exception_id]);
-	const handlePressOut = () => setSelectedExceptionIds([]);
-	const handleExceptionClick = () => lineDetailContext.actions.selectPatternId(exceptionData.pattern_version_id);
+	const handleExceptionClick = () => {
+		lineDetailContext.actions.selectPatternId(exceptionData.pattern_id);
+	};
 
 	//
-	// D. Render components
+	// C. Render components
 
 	return (
-		<Pressable
-			onPress={handleExceptionClick}
-			onPressIn={handlePressIn}
-			onPressOut={handlePressOut}
-		>
-			<Text style={[
-				styles.container,
-				isSelected && styles.containerIsSelected,
-				isOthersSelected && styles.containerIsOthersSelected,
-			]}
-			>
-				<Text style={styles.exceptionId}>{exceptionData.exception_id}) </Text>
-				<Text style={styles.patternHeadsign}>{exceptionData.pattern_headsign}</Text>
-				<Text style={styles.routeLongName}>{exceptionData.route_long_name}</Text>
-				<IconArrowUpRight style={styles.icon} />
+		<TouchableOpacity onPress={handleExceptionClick}>
+			<Text style={styles.text}>
+				<Text style={styles.id}>{exceptionData.exception_id + ')'}</Text>
+				<Text> </Text>
+				<Text>{t('route_label')}</Text>
+				<Text> </Text>
+				<Text style={styles.value}>{exceptionData.route_long_name}</Text>
+				<Text> </Text>
+				<Text>{t('direction_label')}</Text>
+				<Text> </Text>
+				<Text style={[styles.value, { textDecorationLine: 'underline' }]}>{exceptionData.pattern_headsign}</Text>
 			</Text>
-		</Pressable>
+		</TouchableOpacity>
 	);
 
 	//
