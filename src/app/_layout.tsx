@@ -28,7 +28,7 @@ export default function RootLayout() {
 	//
 	// B. Render components
 
-	if (netInfo.isConnected === false) {
+	if (!netInfo.isConnected) {
 		return <OfflineScreen />;
 	}
 

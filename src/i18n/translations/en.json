@@ -375,6 +375,9 @@
 			"description": "Add your favorite lines and stops and set up smart notifications for your daily trips.",
 			"title": "Personalize your experience"
 		},
+		"HomeScreenFavoriteLinesBar": {
+			"list": "Favorite Lines ({count} items)"
+		},
 		"HomeScreenGeneralStatusItem": {
 			"label": "General Alert"
 		},
@@ -405,18 +408,14 @@
 		"linelistChooserAccessibilityLabel": "Select a line",
 		"searchByNamePlaceholder": "Search by name"
 	},
-	"lineWidgetCard": {
-		"lineAcessibilityHint": "Widget in the home page of the app for the line {lineId} headed to {title}",
-		"lineAcessibilityLabel": "Widget of the line {{lineId}} headed to {title}"
-	},
-	"linebadge": {
-		"lineAccessibilityHint": "Button to the to go the details of the line",
-		"lineAccessibilityLabel": "Line",
-		"linesAccessibilityWithAlerts": "Has Alerts"
-	},
 	"lines": {
 		"AlertsCarousel": {
 			"heading": "Service Alerts"
+		},
+		"LineBadge": {
+			"accessibility_hint": "Double tap to open this line's timetable",
+			"label": "Line {lineName}",
+			"with_alert": "Line {lineName}. Has alerts."
 		},
 		"LineDetail": {
 			"heading": "Search by Lines",
@@ -513,6 +512,16 @@
 			"no_data": "Timetables unavailable for this date.",
 			"title": "Scheduled times at this stop:"
 		},
+		"SelectActivePatternGroup": {
+			"placeholder": "Select route/destination..."
+		},
+		"SelectActivePatternGroupExplainer": {
+			"toggle": "What is the path/destination of a line?"
+		},
+		"TimetableExceptionsLink": {
+			"direction_label": "to",
+			"route_label": "Route"
+		},
 		"WaypointTimetable": {
 			"nextDateAccessibilityHint": "This element is a text that indicates the next available trips ",
 			"nextDateAccessibilityLabel": "Next trips available from  {value, date, dayShort}",
@@ -523,16 +532,6 @@
 			"timetableAccessibilityHint": "This element is a block with planned trips ",
 			"timetableAccessibilityLabel": "Planned trips",
 			"title": "Scheduled arrivals at this stop: "
-		},
-		"SelectActivePatternGroup": {
-			"placeholder": "Select route/destination..."
-		},
-		"SelectActivePatternGroupExplainer": {
-			"toggle": "What is the path/destination of a line?"
-		},
-		"TimetableExceptionsLink": {
-			"direction_label": "to",
-			"route_label": "Route"
 		}
 	},
 	"more": {

@@ -37,9 +37,13 @@ export const AccessibilityContextProvider = ({ children }: PropsWithChildren) =>
 	// B. Handle actions
 
 	useEffect(() => {
+		// Set initial state
+		AccessibilityInfo.isScreenReaderEnabled().then(enabled => setScreenReaderEnabled(enabled));
+		// Subscribe to changes
 		const subscription = AccessibilityInfo.addEventListener('screenReaderChanged', (state) => {
 			setScreenReaderEnabled(state);
 		});
+		// Cleanup subscription on unmount
 		return () => subscription.remove();
 	}, []);
 
@@ -50,7 +54,9 @@ export const AccessibilityContextProvider = ({ children }: PropsWithChildren) =>
 		flags: {
 			screen_reader: screenReaderEnabled,
 		},
-	}), [screenReaderEnabled]);
+	}), [
+		screenReaderEnabled,
+	]);
 
 	//
 	// D. Render components

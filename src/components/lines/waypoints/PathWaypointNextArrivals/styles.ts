@@ -1,108 +1,69 @@
-import { useThemeContext } from '@/contexts/Theme.context';
-import { theming } from '@/theme/Variables';
+/* * */
+
+import { useSystemVariables } from '@/theme/global';
 import { StyleSheet } from 'react-native';
 
 /* * */
 
-export const styles = () => {
+export const useStyles = () => {
 	//
 
-	//
-	// A. Setup variables
-
-	const { theme } = useThemeContext();
-	const isLight = theme.mode === 'light';
-	const fontColor = isLight ? theming.colorSystemText100 : theming.colorSystemText300;
-
-	/* * */
-	/* CONTAINER */
-
-	const container = {
-		display: 'flex',
-		flexDirection: 'column',
-		gap: theming.sizeSpacing5,
-	} as const;
-
-	//
-	// B. Render components
+	const systemVariables = useSystemVariables();
 
 	return StyleSheet.create({
-		/* * */
-		/* CONTAINER */
-
-		container: {
-			...container,
-		},
-
-		/* * */
-		/* TITLE */
-
-		title: {
-			color: fontColor,
-			fontSize: 12,
-			fontStyle: 'italic',
-			fontWeight: theming.fontWeightMedium as 'medium',
-		},
-
-		/* * */
-		/* ARRIVALS WRAPPER */
-
 		arrivalsWrapper: {
 			display: 'flex',
 			flexDirection: 'row',
-			gap: theming.sizeSpacing20,
+			gap: 20,
 		},
-
+		container: {
+			display: 'flex',
+			flexDirection: 'column',
+			gap: 5,
+		},
+		realtimeArrival: {
+			color: systemVariables.status.live,
+			fontSize: 16,
+			fontWeight: 600,
+		},
 		realtimeArrivalsList: {
 			alignItems: 'center',
 			display: 'flex',
 			flexDirection: 'row',
-			gap: theming.sizeSpacing10,
+			gap: 10,
 			justifyContent: 'flex-start',
 		},
-
 		realtimeArrivalsWrapper: {
 			alignItems: 'center',
 			display: 'flex',
 			flexDirection: 'row',
-			gap: theming.sizeSpacing5,
+			gap: 5,
 			justifyContent: 'flex-start',
 		},
-
+		scheduledArrival: {
+			color: systemVariables.text[100],
+			fontSize: 16,
+			fontWeight: 600,
+		},
 		scheduledArrivalsList: {
 			alignItems: 'center',
 			display: 'flex',
 			flexDirection: 'row',
-			gap: theming.sizeSpacing10,
+			gap: 10,
 			justifyContent: 'flex-start',
 		},
 		scheduledArrivalsWrapper: {
 			alignItems: 'center',
 			display: 'flex',
 			flexDirection: 'row',
-			gap: theming.sizeSpacing5,
+			gap: 5,
 			justifyContent: 'flex-start',
 		},
-
-		/* * */
-		/* REALTIME ARRIVAL */
-
-		realtimeArrival: {
-			color: theming.colorRealtime100,
-			fontSize: 16,
-			fontWeight: theming.fontWeightBold as 'semibold',
+		title: {
+			color: systemVariables.text[100],
+			fontSize: 12,
+			fontStyle: 'italic',
+			fontWeight: 500,
 		},
-
-		/* * */
-		/* SCHEDULED ARRIVAL */
-
-		scheduledArrival: {
-			color: fontColor,
-			fontSize: 16,
-			fontWeight: theming.fontWeightSemibold as 'semibold',
-		},
-
 	});
-
-	//
 };

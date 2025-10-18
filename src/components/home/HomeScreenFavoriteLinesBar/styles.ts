@@ -12,6 +12,7 @@ export const useStyles = () => {
 
 	return StyleSheet.create({
 		container: {
+			alignItems: 'center',
 			backgroundColor: systemVariables.background[200],
 			borderBottomColor: systemVariables.border[100],
 			borderBottomWidth: 1,
@@ -21,6 +22,9 @@ export const useStyles = () => {
 			minWidth: '100%',
 			padding: 20,
 			width: '100%',
+		},
+		screenReaderText: {
+			color: systemVariables.text[200],
 		},
 	});
 };

@@ -391,6 +391,9 @@
 			"description": "Adicione as suas linhas e paragens favoritas e configure notificações inteligentes para as suas viagens diárias.",
 			"title": "Personalize a sua experiência"
 		},
+		"HomeScreenFavoriteLinesBar": {
+			"list": "Linhas Favoritas ({count} itens)"
+		},
 		"HomeScreenGeneralStatusItem": {
 			"label": "Aviso Geral"
 		},
@@ -433,6 +436,11 @@
 	"lines": {
 		"AlertsCarousel": {
 			"heading": "Alertas de Serviço"
+		},
+		"LineBadge": {
+			"accessibility_hint": "Duplo toque para abrir o horário desta linha",
+			"label": "Linha {lineName}",
+			"with_alert": "Linha {lineName}. Tem alertas."
 		},
 		"LineDetail": {
 			"heading": "Pesquisar Linhas",
@@ -534,6 +542,16 @@
 			"no_data": "Horários indisponíveis para esta data.",
 			"title": "Horários planeados nesta paragem:"
 		},
+		"SelectActivePatternGroup": {
+			"placeholder": "Selecionar percurso/destino..."
+		},
+		"SelectActivePatternGroupExplainer": {
+			"toggle": "O que é o percurso/destino de uma linha?"
+		},
+		"TimetableExceptionsLink": {
+			"direction_label": "para",
+			"route_label": "Rota"
+		},
 		"WaypointTimetable": {
 			"nextDateAccessibilityHint": "Este elemento é um texto que indica os próximos horários disponíveis",
 			"nextDateAccessibilityLabel": "Próximos horários disponíveis a partir de {value, date, dayShort}",
@@ -544,16 +562,6 @@
 			"timetableAccessibilityHint": "Este elemento é um bloco de horários planeados",
 			"timetableAccessibilityLabel": "Horários planeados",
 			"title": "Horários planeados: "
-		},
-		"SelectActivePatternGroup": {
-			"placeholder": "Selecionar percurso/destino..."
-		},
-		"SelectActivePatternGroupExplainer": {
-			"toggle": "O que é o percurso/destino de uma linha?"
-		},
-		"TimetableExceptionsLink": {
-			"direction_label": "para",
-			"route_label": "Rota"
 		}
 	},
 	"more": {

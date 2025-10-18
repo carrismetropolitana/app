@@ -1,12 +1,14 @@
 /* * */
 
 import { LineBadge } from '@/components/lines/LineBadge';
+import { useAccessibilityContext } from '@/contexts/Accessibility.context';
 import { useFavoritesContext } from '@/contexts/Favorites.context';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { type Line } from '@carrismetropolitana/api-types/network';
 import { router } from 'expo-router';
 import { useMemo } from 'react';
-import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { useStyles } from './styles';
@@ -23,6 +25,9 @@ export function HomeScreenFavoriteLinesBar() {
 
 	const linesContext = useLinesContext();
 	const favoritesContext = useFavoritesContext();
+	const accessibilityContext = useAccessibilityContext();
+
+	const { t } = useTranslation('translation', { keyPrefix: 'home.HomeScreenFavoriteLinesBar' });
 
 	//
 	// B. Transform data
@@ -53,6 +58,11 @@ export function HomeScreenFavoriteLinesBar() {
 	return (
 		<ScrollView horizontal>
 			<View style={styles.container}>
+
+				{accessibilityContext.flags.screen_reader && (
+					<Text style={styles.screenReaderText}>{t('list', { count: favoriteLinesData.length })}</Text>
+				)}
+
 				{favoriteLinesData.map(item => (
 					<LineBadge
 						key={item.id}

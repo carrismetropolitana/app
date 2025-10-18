@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
-import { styles } from './styles';
+import { useStyles } from './styles';
 
 /* * */
 
@@ -24,11 +24,13 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 	//
 	// A. Setup variables
 
-	const { t } = useTranslation('translation', { keyPrefix: 'lines.PathStopNextArrivals' });
+	const styles = useStyles();
+
 	const localeContext = useLocaleContext();
 
 	const now = Date.now();
-	const pathWaypointNextArrivalsStyles = styles();
+
+	const { t } = useTranslation('translation', { keyPrefix: 'lines.PathStopNextArrivals' });
 
 	//
 	// B. Transform data
@@ -60,21 +62,21 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 	}
 
 	return (
-		<View style={pathWaypointNextArrivalsStyles.container}>
+		<View style={styles.container}>
 			<Text
 				accessibilityHint={t('nextArrivalsTitleAccessibilityHint')}
 				accessibilityLabel={t('nextArrivalsTitleAccessibilityLabel')}
 				accessibilityLanguage={localeContext.data.locale}
 				accessibilityRole="header"
-				style={pathWaypointNextArrivalsStyles.title}
+				style={styles.title}
 			>
 				{t('title')}
 			</Text>
-			<View style={pathWaypointNextArrivalsStyles.arrivalsWrapper}>
+			<View style={styles.arrivalsWrapper}>
 				{realtimeArrivals.length > 0 && (
-					<View style={pathWaypointNextArrivalsStyles.realtimeArrivalsWrapper}>
+					<View style={styles.realtimeArrivalsWrapper}>
 						<LiveIcon />
-						<View style={pathWaypointNextArrivalsStyles.realtimeArrivalsList}>
+						<View style={styles.realtimeArrivalsList}>
 							{realtimeArrivals.map(realtimeArrival => realtimeArrival != undefined && (
 								<View key={realtimeArrival.unixTs}>
 									<Text
@@ -82,7 +84,7 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 										accessibilityLabel={t('nextArrivalsRealtimeAccessibilityLabel', formatDelta(realtimeArrival.unixTs - now))}
 										accessibilityLanguage={localeContext.data.locale}
 										accessibilityRole="text"
-										style={pathWaypointNextArrivalsStyles.realtimeArrival}
+										style={styles.realtimeArrival}
 									>
 										{formatDelta(realtimeArrival.unixTs - now)}
 									</Text>
@@ -93,9 +95,9 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 				)}
 
 				{scheduledArrivals.length > 0 && (
-					<View style={pathWaypointNextArrivalsStyles.scheduledArrivalsWrapper}>
+					<View style={styles.scheduledArrivalsWrapper}>
 						<IconClockHour9 size={14} />
-						<View style={pathWaypointNextArrivalsStyles.scheduledArrivalsList}>
+						<View style={styles.scheduledArrivalsList}>
 							{scheduledArrivals.slice(0, realtimeArrivals.length > 0 ? 3 : 4).map(scheduledArrival => scheduledArrival != undefined && (
 								<View key={scheduledArrival.unixTs}>
 									<Text
@@ -103,7 +105,7 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 										accessibilityLabel={t('nextArrivalsRealtimeAccessibilityLabel', dayjs(scheduledArrival.unixTs).format('HH:mm'))}
 										accessibilityLanguage={localeContext.data.locale}
 										accessibilityRole="text"
-										style={pathWaypointNextArrivalsStyles.scheduledArrival}
+										style={styles.scheduledArrival}
 									>
 										{dayjs(scheduledArrival.unixTs).format('HH:mm')}
 									</Text>
