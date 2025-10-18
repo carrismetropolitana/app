@@ -257,6 +257,18 @@
 				"confirm": "Create new Account",
 				"description": "To be able to add favorites you need to create an account. Do you want to create a new account now? No password is required.",
 				"title": "Account required"
+			},
+			"anonymous": {
+				"accessibility_hint": "An account is required to favorite this line. Double tap to create an account.",
+				"accessibility_label": "Favorite. Disabled."
+			},
+			"disabled": {
+				"accessibility_hint": "Double tap to add this line to Favorites",
+				"accessibility_label": "Favorite"
+			},
+			"enabled": {
+				"accessibility_hint": "Double tap to remove this line from Favorites",
+				"accessibility_label": "Favorite"
 			}
 		},
 		"LineSearchBar": {

@@ -271,6 +271,18 @@
 				"confirm": "Criar nova conta",
 				"description": "Para poder adicionar favoritos, precisa de criar uma conta. Deseja criar uma nova conta agora? Não é necessária palavra-passe.",
 				"title": "Conta necessária"
+			},
+			"anonymous": {
+				"accessibility_hint": "Uma conta é necessária para adicionar esta linha aos favoritos. Duplo toque para criar uma conta.",
+				"accessibility_label": "Favorito. Desativado."
+			},
+			"disabled": {
+				"accessibility_hint": "Duplo toque para adicionar esta linha aos favoritos",
+				"accessibility_label": "Favorito"
+			},
+			"enabled": {
+				"accessibility_hint": "Duplo toque para remover esta linha dos favoritos",
+				"accessibility_label": "Favorito"
 			}
 		},
 		"LineSearchBar": {

@@ -61,7 +61,13 @@ export function FavoriteToggle({ color, isActive, onToggle }: FavoriteToggleProp
 
 	if (accountContext.flags.anonymous) {
 		return (
-			<TouchableOpacity onPressIn={handleSetupAccount} style={styles.container}>
+			<TouchableOpacity
+				accessibilityHint={t('anonymous.accessibility_hint')}
+				accessibilityLabel={t('anonymous.accessibility_label')}
+				accessibilityRole="togglebutton"
+				onPressIn={handleSetupAccount}
+				style={styles.container}
+			>
 				<IconHeartOff color={systemVariables.text[400]} size={28} />
 			</TouchableOpacity>
 		);
@@ -69,14 +75,28 @@ export function FavoriteToggle({ color, isActive, onToggle }: FavoriteToggleProp
 
 	if (isActive) {
 		return (
-			<TouchableOpacity onPressIn={handleToggle} style={styles.container}>
+			<TouchableOpacity
+				accessibilityHint={t('enabled.accessibility_hint')}
+				accessibilityLabel={t('enabled.accessibility_label')}
+				accessibilityRole="togglebutton"
+				accessibilityState={{ checked: true }}
+				onPressIn={handleToggle}
+				style={styles.container}
+			>
 				<IconHeartFilled color={color} size={28} />
 			</TouchableOpacity>
 		);
 	}
 
 	return (
-		<TouchableOpacity onPressIn={handleToggle} style={styles.container}>
+		<TouchableOpacity
+			accessibilityHint={t('disabled.accessibility_hint')}
+			accessibilityLabel={t('disabled.accessibility_label')}
+			accessibilityRole="togglebutton"
+			accessibilityState={{ checked: false }}
+			onPressIn={handleToggle}
+			style={styles.container}
+		>
 			<IconHeart color={systemVariables.text[300]} size={28} />
 		</TouchableOpacity>
 	);
