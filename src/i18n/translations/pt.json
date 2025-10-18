@@ -534,7 +534,7 @@
 			"no_data": "Horários indisponíveis para esta data.",
 			"title": "Horários planeados nesta paragem:"
 		},
-		"PathWaypointTimetable": {
+		"WaypointTimetable": {
 			"nextDateAccessibilityHint": "Este elemento é um texto que indica os próximos horários disponíveis",
 			"nextDateAccessibilityLabel": "Próximos horários disponíveis a partir de {value, date, dayShort}",
 			"next_date": "Próximos horários disponíveis a partir de {value, date, dayShort}",

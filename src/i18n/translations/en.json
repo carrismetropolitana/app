@@ -513,7 +513,7 @@
 			"no_data": "Timetables unavailable for this date.",
 			"title": "Scheduled times at this stop:"
 		},
-		"PathWaypointTimetable": {
+		"WaypointTimetable": {
 			"nextDateAccessibilityHint": "This element is a text that indicates the next available trips ",
 			"nextDateAccessibilityLabel": "Next trips available from  {value, date, dayShort}",
 			"next_date": "Next trips available from {value, date, dayShort}",

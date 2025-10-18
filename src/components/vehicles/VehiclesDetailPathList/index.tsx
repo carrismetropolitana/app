@@ -1,7 +1,7 @@
 /* * */
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
-import { PathWaypoint } from '@/components/lines/waypoints/PathWaypoint';
+import { PathWaypoint } from '@/components/lines/waypoints/Waypoint';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { NextArrival } from '@/types/timetables.types';
 import { PatternRealtime } from '@/types/types';

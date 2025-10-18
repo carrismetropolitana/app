@@ -7,7 +7,7 @@ import { useStyles } from './styles';
 
 /* * */
 
-interface PathWaypointSpineMarkerProps {
+interface WaypointSpineMarkerProps {
 	foregroundColor?: string
 	isDebug?: boolean
 	isFavorite?: boolean
@@ -19,7 +19,7 @@ interface PathWaypointSpineMarkerProps {
 
 /* * */
 
-export function PathWaypointSpineMarker({ foregroundColor, isDebug, isFavorite, isFirstStop, stopSequence }: PathWaypointSpineMarkerProps) {
+export function WaypointSpineMarker({ foregroundColor, isDebug, isFavorite, isFirstStop, stopSequence }: WaypointSpineMarkerProps) {
 	//
 
 	//

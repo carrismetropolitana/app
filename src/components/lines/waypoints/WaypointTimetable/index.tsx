@@ -13,10 +13,10 @@ import { styles } from './styles';
 
 /* * */
 
-export function PathWaypointTimetable() {
+export function WaypointTimetable() {
 	//
 
-	const { t } = useTranslation('translation', { keyPrefix: 'lines.PathWaypointTimetable' });
+	const { t } = useTranslation('translation', { keyPrefix: 'lines.WaypointTimetable' });
 	const lineDetailContext = useLineDetailContext();
 	const operationalDateContext = useOperationalDateContext();
 	const timeTableStyles = styles();

@@ -1,9 +1,10 @@
 /* * */
 
-import { PathWaypointHeader } from '@/components/lines/waypoints/PathWaypointHeader';
 import { PathWaypointNextArrivals } from '@/components/lines/waypoints/PathWaypointNextArrivals';
-import { PathWaypointSpine } from '@/components/lines/waypoints/PathWaypointSpine';
-import { PathWaypointTimetable } from '@/components/lines/waypoints/PathWaypointTimetable';
+import { WaypointFacilities } from '@/components/lines/waypoints/WaypointFacilities';
+import { WaypointHeader } from '@/components/lines/waypoints/WaypointHeader';
+import { WaypointSpine } from '@/components/lines/waypoints/WaypointSpine';
+import { WaypointTimetable } from '@/components/lines/waypoints/WaypointTimetable';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { type Waypoint } from '@carrismetropolitana/api-types/network';
@@ -13,7 +14,7 @@ import { useStyles } from './styles';
 
 /* * */
 
-interface PathWaypointProps {
+interface WaypointProps {
 	arrivals: { type: 'realtime' | 'scheduled', unixTs: number }[]
 	isFirstStop?: boolean
 	isLastStop?: boolean
@@ -24,7 +25,7 @@ interface PathWaypointProps {
 
 /* * */
 
-export function PathWaypoint({ arrivals, isFirstStop, isLastStop, isNextStop, isSelected, waypointData }: PathWaypointProps) {
+export function Waypoint({ arrivals, isFirstStop, isLastStop, isSelected, waypointData }: WaypointProps) {
 	//
 
 	//
@@ -59,12 +60,12 @@ export function PathWaypoint({ arrivals, isFirstStop, isLastStop, isNextStop, is
 			<View
 				style={[
 					styles.container,
-					isFirstStop && styles.isFirstStop,
-					isLastStop && styles.isLastStop,
-					isSelected && styles.isSelected,
+					isFirstStop && styles.containerIsFirstStop,
+					isLastStop && styles.containerIsLastStop,
+					isSelected && styles.containerIsSelected,
 				]}
 			>
-				<PathWaypointSpine
+				<WaypointSpine
 					backgroundColor={lineDetailContext.data.selected_pattern?.color}
 					foregroundColor={lineDetailContext.data.selected_pattern?.text_color}
 					isFirstStop={isFirstStop}
@@ -72,22 +73,21 @@ export function PathWaypoint({ arrivals, isFirstStop, isLastStop, isNextStop, is
 					stopId={waypointData.stop_id}
 					stopSequence={waypointData.stop_sequence}
 				/>
-				<View style={styles.detailsWrapper}>
-					<PathWaypointHeader
-						isFirstStop={isFirstStop}
-						isLastStop={isLastStop}
-						isSelected={isSelected || false}
-						waypointData={waypointData}
-					/>
+				<View style={[
+					styles.details,
+					isFirstStop && styles.detailsIsFirstStop,
+					isLastStop && styles.detailsIsLastStop,
+				]}
+				>
+					<WaypointHeader stopId={waypointData.stop_id} />
+					{isSelected && <WaypointFacilities stopId={waypointData.stop_id} />}
 					{isSelected && operationalDateContext.flags.today && (
 						<PathWaypointNextArrivals
 							realtimeArrivals={realtimeArrivals}
 							scheduledArrivals={scheduledArrivals}
 						/>
 					)}
-					{isSelected && (
-						<PathWaypointTimetable />
-					)}
+					{isSelected && <WaypointTimetable />}
 				</View>
 			</View>
 		</TouchableOpacity>

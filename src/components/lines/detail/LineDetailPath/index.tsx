@@ -1,7 +1,7 @@
 /* * */
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
-import { PathWaypoint } from '@/components/lines/waypoints/PathWaypoint';
+import { Waypoint } from '@/components/lines/waypoints/Waypoint';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { NextArrival } from '@/types/timetables.types';
 import { PatternRealtime } from '@/types/types';
@@ -68,7 +68,7 @@ export function LineDetailPath() {
 	return (
 		<View style={LineDetailPathStyles.container}>
 			{sortedStops.map((waypoint, index) => (
-				<PathWaypoint
+				<Waypoint
 					key={`${waypoint.stop_id}-${waypoint.stop_sequence}`}
 					arrivals={preparedRealtimeData[`${waypoint.stop_id}-${waypoint.stop_sequence}`] || []}
 					isFirstStop={index === 0}

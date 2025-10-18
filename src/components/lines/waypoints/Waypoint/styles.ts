@@ -20,22 +20,30 @@ export const useStyles = () => {
 			paddingLeft: 15,
 			paddingRight: 20,
 		},
-		detailsWrapper: {
-			flex: 1,
-			flexDirection: 'column',
-			gap: 15,
-			paddingBottom: 15,
+		containerIsFirstStop: {
 			paddingTop: 20,
 		},
-		isFirstStop: {
-			paddingTop: 20,
-		},
-		isLastStop: {
+		containerIsLastStop: {
 			paddingBottom: 20,
 		},
-		isSelected: {
+		containerIsSelected: {
 			backgroundColor: systemVariables.background[100],
 			boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.05)',
+			elevation: 5,
+			zIndex: 5,
+		},
+		details: {
+			display: 'flex',
+			flexDirection: 'column',
+			gap: 15,
+			paddingBottom: 30,
+			paddingTop: 18,
+		},
+		detailsIsFirstStop: {
+			paddingTop: 0,
+		},
+		detailsIsLastStop: {
+			paddingBottom: 0,
 		},
 	});
 

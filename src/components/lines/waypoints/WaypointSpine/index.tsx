@@ -1,15 +1,15 @@
 /* * */
 
+import { WaypointSpineMarker } from '@/components/lines/waypoints/WaypointSpineMarker';
 import { useDebugContext } from '@/contexts/Debug.context';
 import { useFavoritesContext } from '@/contexts/Favorites.context';
 import { View } from 'react-native';
 
-import { PathWaypointSpineMarker } from '../PathWaypointSpineMarker';
 import { useStyles } from './styles';
 
 /* * */
 
-interface PathWaypointSpineProps {
+interface WaypointSpineProps {
 	backgroundColor?: string
 	foregroundColor?: string
 	isDisabled?: boolean
@@ -22,7 +22,7 @@ interface PathWaypointSpineProps {
 
 /* * */
 
-export function PathWaypointSpine({ backgroundColor, foregroundColor, isFirstStop, isLastStop, stopId, stopSequence }: PathWaypointSpineProps) {
+export function WaypointSpine({ backgroundColor, foregroundColor, isFirstStop, isLastStop, stopId, stopSequence }: WaypointSpineProps) {
 	//
 
 	//
@@ -50,7 +50,7 @@ export function PathWaypointSpine({ backgroundColor, foregroundColor, isFirstSto
 				backgroundColor && { backgroundColor },
 			]}
 		>
-			<PathWaypointSpineMarker
+			<WaypointSpineMarker
 				foregroundColor={foregroundColor}
 				isDebug={debugContext.flags.is_debug_mode}
 				isFavorite={isFavoriteStop}

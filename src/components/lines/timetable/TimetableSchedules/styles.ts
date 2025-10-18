@@ -19,6 +19,7 @@ export const useStyles = () => {
 		container: {
 			flexDirection: 'row',
 			flexWrap: 'wrap',
+			paddingRight: 5,
 			rowGap: 15,
 		},
 		hourBase: {
@@ -39,7 +40,7 @@ export const useStyles = () => {
 		hourLast: {
 			borderBottomRightRadius: 999,
 			borderTopRightRadius: 999,
-			paddingRight: 15,
+			paddingRight: 10,
 		},
 		minuteBase: {
 			color: systemVariables.text[100],
@@ -72,7 +73,7 @@ export const useStyles = () => {
 		minuteLast: {
 			borderBottomRightRadius: 999,
 			borderTopRightRadius: 999,
-			paddingRight: 15,
+			paddingRight: 10,
 		},
 	});
 

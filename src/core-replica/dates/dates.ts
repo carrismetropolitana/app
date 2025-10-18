@@ -27,7 +27,7 @@ export class Dates {
 
 	static get FORMATS() { return Formats; }
 	static get TIMEZONE_LIST() { return timezoneList; }
-	static get TIMEZONE_LIST_VALUES() { return timezoneListSchema._zod.values; }
+	static get TIMEZONE_LIST_VALUES() { return timezoneListSchema.Values; }
 
 	//
 	// Instance properties
