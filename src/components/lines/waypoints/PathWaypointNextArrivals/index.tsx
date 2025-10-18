@@ -11,7 +11,14 @@ import { styles } from './styles';
 
 /* * */
 
-export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }: { realtimeArrivals: { type: 'realtime' | 'scheduled', unixTs: number }[], scheduledArrivals: { type: 'realtime' | 'scheduled', unixTs: number }[] }) {
+interface PathWaypointNextArrivalsProps {
+	realtimeArrivals: { type: 'realtime' | 'scheduled', unixTs: number }[]
+	scheduledArrivals: { type: 'realtime' | 'scheduled', unixTs: number }[]
+}
+
+/* * */
+
+export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }: PathWaypointNextArrivalsProps) {
 	//
 
 	//
@@ -25,8 +32,6 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 
 	//
 	// B. Transform data
-
-	/* * */
 
 	const formatDelta = (ms: number) => {
 		let toReturn = '';

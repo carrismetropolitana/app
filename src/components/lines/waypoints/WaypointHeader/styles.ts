@@ -14,14 +14,10 @@ export const useStyles = () => {
 		container: {
 			display: 'flex',
 			flexDirection: 'column',
+			gap: 5,
 		},
 		divider: {
 			color: systemVariables.text[300],
-		},
-		facilitiesWrapper: {
-			flex: 1,
-			flexDirection: 'row',
-			gap: 10,
 		},
 		stopName: {
 			color: systemVariables.text[100],

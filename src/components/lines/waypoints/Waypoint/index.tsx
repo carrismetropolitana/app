@@ -48,7 +48,7 @@ export function Waypoint({ arrivals, isFirstStop, isLastStop, isSelected, waypoi
 	//
 	// C. Handle actions
 
-	const handleToggleStop = () => {
+	const handleToggleWaypoint = () => {
 		lineDetailContext.actions.selectWaypointId(waypointData.stop_id, waypointData.stop_sequence);
 	};
 
@@ -56,7 +56,7 @@ export function Waypoint({ arrivals, isFirstStop, isLastStop, isSelected, waypoi
 	// D. Render components
 
 	return (
-		<TouchableOpacity activeOpacity={0.6} disabled={isSelected} onPress={handleToggleStop}>
+		<TouchableOpacity activeOpacity={0.6} disabled={isSelected} onPress={handleToggleWaypoint}>
 			<View
 				style={[
 					styles.container,
