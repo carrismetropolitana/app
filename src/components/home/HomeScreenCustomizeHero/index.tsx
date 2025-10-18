@@ -25,7 +25,11 @@ export function HomeScreenCustomizeHero() {
 	// B. Render components
 
 	return (
-		<TouchableOpacity onPress={() => router.push('/account')} style={styles.container}>
+		<TouchableOpacity
+			accessibilityHint={t('accessibility_hint')}
+			onPress={() => router.push('/account')}
+			style={styles.container}
+		>
 
 			{colorScheme === 'light'
 				? <Image resizeMode="contain" source={require('#/home/customize-hero-light.png')} style={styles.image} width={1000} />

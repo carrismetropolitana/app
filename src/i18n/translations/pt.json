@@ -388,7 +388,8 @@
 			"label": "Personalizar"
 		},
 		"HomeScreenCustomizeHero": {
-			"description": "Adicione as suas linhas e paragens favoritas e configure notificações inteligentes para as suas viagens diárias.",
+			"accessibility_hint": "Os uidjêts são elementos interativos que fornecem acesso rápido a informações sobre as linhas e paragens que desejar, bem como notificações inteligentes adaptadas às suas preferências de viagem diretamente no seu ecrã inicial. Pode gerir os seus uidjêts no seu perfil.",
+			"description": "Adicione as suas linhas e paragens mais frequentes e configure notificações inteligentes para as suas viagens diárias.",
 			"title": "Personalize a sua experiência"
 		},
 		"HomeScreenFavoriteLinesBar": {
@@ -396,6 +397,9 @@
 		},
 		"HomeScreenGeneralStatusItem": {
 			"label": "Aviso Geral"
+		},
+		"HomeScreenListHeader": {
+			"accessibility_label": "Secção de Uidjêts ({count} itens)"
 		},
 		"HomeScreenTopBar": {
 			"aria_label": "Perfil"

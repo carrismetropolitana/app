@@ -372,7 +372,8 @@
 			"label": "Customize"
 		},
 		"HomeScreenCustomizeHero": {
-			"description": "Add your favorite lines and stops and set up smart notifications for your daily trips.",
+			"accessibility_hint": "Widgets are interactive elements that provide quick access to information about your frequently used lines and stops, as well as smart notifications tailored to your travel preferences directly on your home screen. You can manage your widgets in your profile section.",
+			"description": "Add your frequently used lines and stops and set up smart notifications for your daily trips.",
 			"title": "Personalize your experience"
 		},
 		"HomeScreenFavoriteLinesBar": {
@@ -380,6 +381,9 @@
 		},
 		"HomeScreenGeneralStatusItem": {
 			"label": "General Alert"
+		},
+		"HomeScreenListHeader": {
+			"accessibility_label": "Widgets Section ({count} items)"
 		},
 		"HomeScreenTopBar": {
 			"aria_label": "Profile"
