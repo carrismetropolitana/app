@@ -58,7 +58,9 @@ const config: ExpoConfig = {
 		 * This allows us to have multiple versions of the app installed on the same device for testing purposes.
 		 * @see https://developer.android.com/studio/build/application-id
 		 */
-		package: process.env.EXPO_PUBLIC_ENVIRONMENT === 'production' || process.env.EXPO_PUBLIC_ENVIRONMENT === 'staging' ? 'pt.carrismetropolitana.mobile' : 'pt.carrismetropolitana.mobile.dev',
+		package: process.env.EXPO_PUBLIC_ENVIRONMENT === 'production' || process.env.EXPO_PUBLIC_ENVIRONMENT === 'staging'
+			? 'pt.carrismetropolitana.mobile'
+			: 'pt.carrismetropolitana.mobile.dev',
 
 		/**
 		 * The version code is an integer value that represents the version of the application code.
@@ -84,7 +86,9 @@ const config: ExpoConfig = {
 		 * This allows us to have multiple versions of the app installed on the same device for testing purposes.
 		 * @see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleidentifier
 		 */
-		bundleIdentifier: process.env.EXPO_PUBLIC_ENVIRONMENT === 'production' || process.env.EXPO_PUBLIC_ENVIRONMENT === 'staging' ? 'pt.carrismetropolitana.app' : 'pt.carrismetropolitana.app.dev',
+		bundleIdentifier: process.env.EXPO_PUBLIC_ENVIRONMENT === 'production' || process.env.EXPO_PUBLIC_ENVIRONMENT === 'staging'
+			? 'pt.carrismetropolitana.app'
+			: 'pt.carrismetropolitana.app.dev',
 
 		/**
 		 * There is a known issue with Expo not properly setting the app icon for iOS when using
