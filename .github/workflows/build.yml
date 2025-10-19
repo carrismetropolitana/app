@@ -79,6 +79,7 @@ jobs:
           --platform=android \
           --profile=${{ github.ref_name }}
       env:
+        EXPO_PUBLIC_ENVIRONMENT: ${{ github.ref_name }}
         EXPO_PUBLIC_APP_IOS_BUILD_NUMBER: ${{ needs.version-number.outputs.ios_build_number }}
         EXPO_PUBLIC_APP_ANDROID_VERSION_CODE: ${{ needs.version-number.outputs.android_version_code }}
       # # #
@@ -131,6 +132,7 @@ jobs:
           --platform=ios \
           --profile=${{ github.ref_name }}
       env:
+        EXPO_PUBLIC_ENVIRONMENT: ${{ github.ref_name }}
         EXPO_PUBLIC_APP_IOS_BUILD_NUMBER: ${{ needs.version-number.outputs.ios_build_number }}
         EXPO_PUBLIC_APP_ANDROID_VERSION_CODE: ${{ needs.version-number.outputs.android_version_code }}
       # # #
