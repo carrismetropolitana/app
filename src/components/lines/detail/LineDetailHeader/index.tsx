@@ -26,16 +26,16 @@ export function LineDetailHeader() {
 	// B. Transform data
 
 	const isFavoriteLine = useMemo(() => {
-		if (!lineDetailContext.data.selected_line) return false;
-		return accountContext.data.account?.favorites.line_ids.includes(lineDetailContext.data.selected_line.id) ?? false;
-	}, [accountContext.data.account?.favorites.line_ids, lineDetailContext.data.selected_line]);
+		if (!lineDetailContext.data.selected_line) return;
+		return accountContext.data.ref.current?.favorites.line_ids.includes(lineDetailContext.data.selected_line.id);
+	}, [accountContext.data.ref.current?.favorites.line_ids, lineDetailContext.data.selected_line]);
 
 	//
 	// C. Handle actions
 
-	const handleToggleFavorite = () => {
+	const handleToggleFavorite = (value: boolean) => {
 		if (!lineDetailContext.data.selected_line) return;
-		accountContext.actions.favoriteLineId('toggle', lineDetailContext.data.selected_line.id);
+		accountContext.actions.favoriteLineId(value ? 'add' : 'remove', lineDetailContext.data.selected_line.id);
 	};
 
 	//

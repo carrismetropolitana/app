@@ -9,7 +9,7 @@ import { swrFetcher } from '@/utils/swr-fetcher';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 import * as Device from 'expo-device';
-import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { createContext, type PropsWithChildren, RefObject, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import useSWR from 'swr';
 
 /* * */
@@ -32,6 +32,7 @@ interface AccountContextState {
 	data: {
 		account: Account | undefined
 		device_id: string | undefined
+		ref: RefObject<Account | undefined>
 	}
 	flags: {
 		anonymous: boolean
@@ -166,22 +167,20 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		// Update refs and state immediately
 		accountRef.current = updatedAccountData;
 		setAccountData(updatedAccountData);
-		//
-		// updateAccountApi(updatedAccountData);
 		// Use SWR mutate to optimistically update the account data.
 		// SWR accepts a function that receives the most up-to-date data
 		// and returns the updated data to avoid stale data issues when
 		// mutating with React state.
-		// accountMutate(async (current) => {
-		// 	// Skip if no current data
-		// 	if (!current) return current;
-		// 	// Send the updated data to the server.
-		// 	// Any errors will be handled by SWR revalidation.
-		// 	return await updateAccountApi(updatedAccountData);
-		// }, {
-		// 	populateCache: true,
-		// 	revalidate: false,
-		// });
+		accountMutate(async (current) => {
+			// Skip if no current data
+			if (!current) return current;
+			// Send the updated data to the server.
+			// Any errors will be handled by SWR revalidation.
+			return await updateAccountApi(updatedAccountData);
+		}, {
+			populateCache: true,
+			revalidate: false,
+		});
 	};
 
 	const createAccount = async () => {
@@ -281,8 +280,9 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 			update,
 		},
 		data: {
-			account: accountRef.current,
+			account: accountData,
 			device_id: deviceId,
+			ref: accountRef,
 		},
 		flags: {
 			anonymous: isInit && !deviceId,

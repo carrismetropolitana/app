@@ -4,6 +4,7 @@ import { useAccountContext } from '@/contexts/Account.context';
 import { useSystemVariables } from '@/theme/global';
 import { IconHeart, IconHeartFilled, IconHeartOff } from '@tabler/icons-react-native';
 import * as Haptics from 'expo-haptics';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, TouchableOpacity } from 'react-native';
 
@@ -13,8 +14,8 @@ import { useStyles } from './styles';
 
 interface FavoriteToggleProps {
 	color?: string
-	isActive: boolean | null
-	onToggle: () => void
+	isActive?: boolean | null
+	onToggle: (value: boolean) => void
 }
 
 /* * */
@@ -32,8 +33,22 @@ export function FavoriteToggle({ color, isActive, onToggle }: FavoriteToggleProp
 
 	const { t } = useTranslation('translation', { keyPrefix: 'common.FavoriteToggle' });
 
+	const [localState, setLocalState] = useState(isActive ? true : false);
+
 	//
 	// B. Handle actions
+
+	useEffect(() => {
+		// Update local state when isActive prop changes
+		setLocalState(isActive ? true : false);
+	}, [isActive]);
+
+	useEffect(() => {
+		// Notify parent component of state change
+		// Local state is required otherwise the component
+		// would be rerendered multiple times and cause issues with Accessibility.
+		onToggle(localState);
+	}, [localState]);
 
 	const handleSetupAccount = () => {
 		Alert.alert(
@@ -53,7 +68,7 @@ export function FavoriteToggle({ color, isActive, onToggle }: FavoriteToggleProp
 
 	const handleToggle = () => {
 		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-		onToggle();
+		setLocalState(prev => !prev);
 	};
 
 	//
@@ -73,8 +88,7 @@ export function FavoriteToggle({ color, isActive, onToggle }: FavoriteToggleProp
 		);
 	}
 
-	if (isActive) {
-		console.log('Rerender Favorite Toggle - Active');
+	if (localState) {
 		return (
 			<TouchableOpacity
 				accessibilityHint={t('enabled.accessibility_hint')}
@@ -88,9 +102,6 @@ export function FavoriteToggle({ color, isActive, onToggle }: FavoriteToggleProp
 			</TouchableOpacity>
 		);
 	}
-
-	console.log('--------------------------------');
-	console.log('Rerender Favorite Toggle - Inactive');
 
 	return (
 		<TouchableOpacity
