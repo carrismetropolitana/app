@@ -52,6 +52,12 @@ const config: ExpoConfig = {
 
 		googleServicesFile: './environments/production/secrets/google-services.json',
 
+		/**
+		 * The package name is a unique identifier for your app on the Google Play Store.
+		 * Based on the environment, we set different package names for production/staging and development.
+		 * This allows us to have multiple versions of the app installed on the same device for testing purposes.
+		 * @see https://developer.android.com/studio/build/application-id
+		 */
 		package: process.env.EXPO_PUBLIC_ENVIRONMENT === 'production' || process.env.EXPO_PUBLIC_ENVIRONMENT === 'staging' ? 'pt.carrismetropolitana.mobile' : 'pt.carrismetropolitana.mobile.dev',
 
 		/**
@@ -72,6 +78,12 @@ const config: ExpoConfig = {
 
 		buildNumber: `${process.env.EXPO_PUBLIC_APP_IOS_BUILD_NUMBER || 1}`,
 
+		/**
+		 * The bundle identifier is a unique identifier for your app in the Apple ecosystem.
+		 * Based on the environment, we set different bundle identifiers for production/staging and development.
+		 * This allows us to have multiple versions of the app installed on the same device for testing purposes.
+		 * @see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleidentifier
+		 */
 		bundleIdentifier: process.env.EXPO_PUBLIC_ENVIRONMENT === 'production' || process.env.EXPO_PUBLIC_ENVIRONMENT === 'staging' ? 'pt.carrismetropolitana.app' : 'pt.carrismetropolitana.app.dev',
 
 		/**
