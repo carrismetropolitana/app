@@ -1,6 +1,7 @@
 /* * */
 
 import { Container } from '@/components/layout/Container';
+import { LineDetailAlerts } from '@/components/lines/detail/LineDetailAlerts';
 import { LineDetailHeader } from '@/components/lines/detail/LineDetailHeader';
 import { LineDetailMap } from '@/components/lines/detail/LineDetailMap';
 import { LineDetailPath } from '@/components/lines/detail/LineDetailPath';
@@ -9,7 +10,6 @@ import { LineDetailSelectPattern } from '@/components/lines/detail/LineDetailSel
 import { useAccessibilityContext } from '@/contexts/Accessibility.context';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { ActivityIndicator } from 'react-native';
-// import { LineDetailAlerts } from '@/components/lines/detail/LineDetailAlerts';
 
 /* * */
 
@@ -38,7 +38,7 @@ export function LineDetail() {
 			<LineDetailHeader />
 			<LineDetailSelectOperationalDate />
 			<LineDetailSelectPattern />
-			{/* <LineDetailAlerts /> */}
+			<LineDetailAlerts />
 			{!accessibilityContext.flags.screen_reader && <LineDetailMap />}
 			<LineDetailPath />
 		</Container>

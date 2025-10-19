@@ -4,6 +4,7 @@ import { Timetable } from '@/components/lines/timetable/Timetable';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import createTimetable from '@/utils/createTimetable';
+import { OPERATIONAL_DATE_FORMAT } from '@tmlmobilidade/types';
 import { DateTime } from 'luxon';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -46,8 +47,8 @@ export function WaypointTimetable() {
 		}
 	}, [lineDetailContext.data.selected_pattern, lineDetailContext.data.available_routes, lineDetailContext.data.available_patterns, lineDetailContext.data.selected_waypoint, operationalDateContext.data.selected_date]);
 
-	function handleNextDateClick(date: Date) {
-		operationalDateContext.actions.updateSelectedDateFromJsDate(date);
+	function handleNextDateClick(date: string) {
+		operationalDateContext.actions.updateSelectedDateFromFormat(date, OPERATIONAL_DATE_FORMAT);
 	}
 
 	if (!timetableData || typeof timetableData === 'string') {
@@ -56,7 +57,7 @@ export function WaypointTimetable() {
 			<View style={timeTableStyles.container}>
 				<Text style={timeTableStyles.noData}>{t('no_data')}</Text>
 				{nextDate && (
-					<Pressable onPress={() => handleNextDateClick(nextDate)} style={({ pressed }) => [{ opacity: pressed ? 0.8 : 1 }]}>
+					<Pressable onPress={() => handleNextDateClick(timetableData)} style={({ pressed }) => [{ opacity: pressed ? 0.8 : 1 }]}>
 						<Text style={timeTableStyles.nextDate}>{t('next_date', { value: nextDate })}</Text>
 					</Pressable>
 				)}

@@ -4,13 +4,13 @@ import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { Waypoint } from '@/components/lines/waypoints/Waypoint';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { NextArrival } from '@/types/timetables.types';
-import { PatternRealtime } from '@/types/types';
+import { type PatternRealtime } from '@/types/types';
 import { Routes } from '@/utils/routes';
 import { useMemo } from 'react';
 import { View } from 'react-native';
 import useSWR from 'swr';
 
-import { styles } from './styles';
+import { useStyles } from './styles';
 
 /* * */
 
@@ -20,8 +20,9 @@ export function LineDetailPath() {
 	//
 	// A. Setup variables
 
+	const styles = useStyles();
+
 	const lineDetailContext = useLineDetailContext();
-	const LineDetailPathStyles = styles();
 
 	//
 	// B. Fetch data
@@ -66,7 +67,7 @@ export function LineDetailPath() {
 	}
 
 	return (
-		<View style={LineDetailPathStyles.container}>
+		<View style={styles.container}>
 			{sortedStops.map((waypoint, index) => (
 				<Waypoint
 					key={`${waypoint.stop_id}-${waypoint.stop_sequence}`}

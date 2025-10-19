@@ -47,9 +47,6 @@
 			"(tabs)/more/alerts": {
 				"title": "Service Alerts"
 			},
-			"(tabs)/more/alerts/[alert_id]": {
-				"title": "Service Alert"
-			},
 			"(tabs)/more/fares/cards": {
 				"title": "Monthly Pass"
 			},
@@ -79,6 +76,9 @@
 			},
 			"(tabs)/stops": {
 				"title": "Stops"
+			},
+			"alerts/[alert_id]": {
+				"title": "Service Alert"
 			},
 			"selection/line": {
 				"title": "Select a Line"
@@ -452,7 +452,7 @@
 			"toggle_favorite_error": "Error adding line to favorites. {error}"
 		},
 		"LineDetailAlerts": {
-			"heading": "Active alerts for this line"
+			"heading": "Active alerts for this line:"
 		},
 		"LineDetailMetricsDemand": {
 			"big_number": "{value, number}",

@@ -1,23 +1,14 @@
-import { theming } from '@/theme/Variables';
+/* * */
+
 import { StyleSheet } from 'react-native';
 
 /* * */
 
-export const styles = () => {
+export const useStyles = () => {
 	return StyleSheet.create({
-		/* * */
-		/* CONTAINER */
-
 		container: {
-			borderBottomLeftRadius: theming.borderRadiusLg,
-			borderTopLeftRadius: theming.borderRadiusLg,
-			flex: 1,
+			display: 'flex',
 			flexDirection: 'column',
-			overflow: 'hidden',
 		},
-
-		/* * */
 	});
-
-	//
 };

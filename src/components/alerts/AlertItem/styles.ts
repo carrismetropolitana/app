@@ -11,23 +11,22 @@ export const useStyles = () => {
 	const systemVariables = useSystemVariables();
 
 	return StyleSheet.create({
-		alertsList: {
-			display: 'flex',
-			flexDirection: 'row',
-			gap: 15,
-			paddingHorizontal: 15,
-		},
 		container: {
+			backgroundColor: systemVariables.background[100],
+			borderColor: systemVariables.status.info,
+			borderRadius: 6,
+			borderWidth: 2,
 			display: 'flex',
 			flexDirection: 'column',
-			gap: 10,
-			paddingVertical: 20,
+			gap: 5,
+			maxWidth: 300,
+			padding: 15,
+			width: '100%',
 		},
 		title: {
 			color: systemVariables.status.info,
 			fontSize: 14,
 			fontWeight: 600,
-			paddingHorizontal: 20,
 		},
 	});
 };

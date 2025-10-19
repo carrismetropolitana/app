@@ -47,9 +47,6 @@
 			"(tabs)/more/alerts": {
 				"title": "Alertas de Serviço"
 			},
-			"(tabs)/more/alerts/[alert_id]": {
-				"title": "Alerta de Serviço"
-			},
 			"(tabs)/more/fares/cards": {
 				"title": "Passe Mensal"
 			},
@@ -79,6 +76,9 @@
 			},
 			"(tabs)/stops": {
 				"title": "Paragens"
+			},
+			"alerts/[alert_id]": {
+				"title": "Alerta de Serviço"
 			},
 			"selection/line": {
 				"title": "Escolha uma Linha"
@@ -480,7 +480,7 @@
 			"toggle_favorite_error": "Erro ao adicionar a linha aos favoritos. {error}"
 		},
 		"LineDetailAlerts": {
-			"heading": "Alertas ativos para esta linha"
+			"heading": "Alertas ativos para esta linha:"
 		},
 		"LineDetailMetricsDemand": {
 			"big_number": "{value, number}",

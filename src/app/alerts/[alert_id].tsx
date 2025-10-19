@@ -17,7 +17,7 @@ export default function Page() {
 	const navigation = useNavigation();
 	const searchParams = useLocalSearchParams();
 
-	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.(tabs)/more/alerts/[alert_id]' });
+	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.alerts/[alert_id]' });
 
 	//
 	// B. Transform data
