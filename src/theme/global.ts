@@ -30,7 +30,7 @@ export const useSystemVariables = () => {
 		status: {
 			active: colorScheme === 'light' ? '#006EFF' : '#006EFF',
 			danger: colorScheme === 'light' ? '#E64B23' : '#E64B23',
-			info: colorScheme === 'light' ? '#054B8C' : '#054B8C',
+			info: colorScheme === 'light' ? '#054B8C' : '#5a9bd7',
 			live: colorScheme === 'light' ? '#00CD32' : '#00CD32',
 			ok: colorScheme === 'light' ? '#3CB43C' : '#19C864',
 			warning: colorScheme === 'light' ? '#F09600' : '#F09600',

@@ -2,12 +2,13 @@
 
 import { ListSection } from '@/components/list/ListSection';
 import { useLinesContext } from '@/contexts/Lines.context';
+import { useStopsContext } from '@/contexts/Stops.context';
 import { useSystemVariables } from '@/theme/global';
-import { Pattern } from '@carrismetropolitana/api-types/network';
+import { type Pattern } from '@carrismetropolitana/api-types/network';
 import { IconArrowBarToRight, IconArrowsRightLeft } from '@tabler/icons-react-native';
 import { type OperationalDate } from '@tmlmobilidade/types';
 import { router, useLocalSearchParams, usePathname } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 /* * */
@@ -32,6 +33,7 @@ export function PatternSelectionTrigger({ description, onSelect, selectedLineId,
 	const systemVariables = useSystemVariables();
 
 	const linesContext = useLinesContext();
+	const stopsContext = useStopsContext();
 
 	const pathname = usePathname();
 	const localSearchParams = useLocalSearchParams<{ pattern_id: string }>();
@@ -51,6 +53,15 @@ export function PatternSelectionTrigger({ description, onSelect, selectedLineId,
 			setSelectedPatternData(foundPatternData);
 		})();
 	}, [localSearchParams.pattern_id]);
+
+	const selectedPatternInitialStopName = useMemo(() => {
+		if (!selectedPatternData) return;
+		const sortedStops = selectedPatternData.path.sort((a, b) => a.stop_sequence - b.stop_sequence);
+		if (!sortedStops || sortedStops.length === 0) return;
+		const stopData = stopsContext.actions.getStopById(sortedStops[0].stop_id);
+		if (!stopData) return;
+		return stopData.long_name;
+	}, [selectedPatternData, stopsContext.data.stops]);
 
 	//
 	// C. Handle actions
@@ -108,7 +119,8 @@ export function PatternSelectionTrigger({ description, onSelect, selectedLineId,
 					items={[{
 						accessibilityHint: t('selected.accessibility_hint'),
 						accessibilityLabel: t('selected.accessibility_label', { tts_headsign: selectedPatternData.tts_headsign }),
-						description: selectedPatternData.version_id,
+						description: t('selected.description', { stop_name: selectedPatternInitialStopName }),
+						icon: <IconArrowBarToRight color={systemVariables.text[100]} />,
 						key: 'selected-pattern',
 						label: selectedPatternData.headsign,
 						onPress: handleShowList,

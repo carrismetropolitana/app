@@ -739,6 +739,19 @@
 				"accessibility_label": "Linha selecionada: {tts_name}"
 			}
 		},
+		"PatternSelectionMainListItem": {
+			"accessibility_hint": "Duplo toque para selecionar",
+			"accessibility_label": "Destino: {tts_headsign}",
+			"description": "Início em: {stop_name}"
+		},
+		"PatternSelectionTrigger": {
+			"label": "Escolha um destino...",
+			"selected": {
+				"accessibility_hint": "Duplo toque para alterar destino",
+				"accessibility_label": "Percurso selecionado: {tts_headsign}",
+				"description": "Início em: {stop_name}"
+			}
+		},
 		"StopSelectionMainList": {
 			"all": {
 				"title": "Todas as Paragens"

@@ -1,14 +1,13 @@
 /* * */
 
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
-import { ListSectionItem } from '@/components/list/ListSectionItem';
 import { ListTitle } from '@/components/list/ListTitle';
 import { usePatternSelectionContext } from '@/components/selection/pattern/context/PatternSelection.context';
 import { type PatternSelectionProps } from '@/components/selection/pattern/PatternSelection';
+import { PatternSelectionMainListItem } from '@/components/selection/pattern/PatternSelectionMainListItem';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { type Pattern } from '@carrismetropolitana/api-types/network';
 import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { SectionList, View } from 'react-native';
 
 import { useStyles } from './styles';
@@ -25,8 +24,6 @@ export function PatternSelectionMainList({ onSelect, replaceChevron }: PatternSe
 
 	const linesContext = useLinesContext();
 	const patternSelectionContext = usePatternSelectionContext();
-
-	const { t } = useTranslation('translation', { keyPrefix: 'lines.PatternSelectionMainList' });
 
 	//
 	// B. Transform data
@@ -62,15 +59,12 @@ export function PatternSelectionMainList({ onSelect, replaceChevron }: PatternSe
 	//
 	// C. Render components
 
-	const renderSectionItem = ({ index, item }: { index: number, item: Pattern }) => {
+	const renderSectionItem = ({ item }: { item: Pattern }) => {
 		return (
-			<ListSectionItem
+			<PatternSelectionMainListItem
 				key={item.id}
-				accessibilityHint={t('items.accessibility_hint', { id: item.id })}
-				accessibilityLabel={t('items.accessibility_label', { index: index + 1, tts_headsign: item.tts_headsign })}
-				description={item.id}
-				label={item.headsign}
-				onPress={() => onSelect(item.id)}
+				item={item}
+				onSelect={onSelect}
 				replaceChevron={replaceChevron}
 			/>
 		);
