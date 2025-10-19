@@ -35,7 +35,7 @@ export function HomeScreenListHeader() {
 			<HomeScreenFavoriteLinesBar />
 
 			{accessibilityContext.flags.screen_reader && (
-				<Text style={styles.screenReaderText}>
+				<Text style={styles.title}>
 					{t('accessibility_label', { count: accountContext.data.account?.widgets.length || 0 })}
 				</Text>
 			)}

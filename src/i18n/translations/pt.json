@@ -301,16 +301,18 @@
 			"meters": "Metros"
 		},
 		"SelectOperationalDate": {
-			"customDayAccessibilityHint": "Este botão permite selecionar um dia a sua escolha ",
-			"customDayAccessibilityLabel": "Botão para selecionar um dia a sua escolha, atualmente selecionado {date}",
-			"datePickerAccessibilityHint": "Este elemento é um seletor de data",
-			"datePickerAccessibilityLabel": "Seletor de data",
-			"today": "Hoje",
-			"todayAccessibilityHint": "Este botão seleciona o dia de hoje",
-			"todayAccessibilityLabel": "Botão para selecionar o dia de hoje",
-			"tomorrow": "Amanhã",
-			"tomorrowAccessibilityHint": "Este botão seleciona o dia de amanhã",
-			"tomorrowAccessibilityLabel": "Botão para selecionar o dia de amanhã"
+			"other_date": {
+				"accessibility_hint": "Duplo toque para abrir o seletor de datas para selecionar outra data.",
+				"accessibility_label": "Data selecionada: {date}"
+			},
+			"today": {
+				"accessibility_hint": "Este botão seleciona automaticamente a data de hoje",
+				"label": "Hoje"
+			},
+			"tomorrow": {
+				"accessibility_hint": "Este botão seleciona automaticamente a data de amanhã",
+				"label": "Amanhã"
+			}
 		},
 		"SelectPattern": {
 			"dropdownAccessibilityHint": "Este elemento é um menu dropdown para selecionar  um destino",
@@ -326,10 +328,13 @@
 			"stopSearchBarAcessibilityLabel": "Barra de pesquisa de paragens"
 		},
 		"TimetableSchedules": {
+			"accessibility_hint": "Indica as horas aproximadas em que o autocarro passa nesta paragem. Deslize para a esquerda ou para a direita para ver mais horas.",
+			"accessibility_label": {
+				"exception": "Variante: {hour} horas e {minute} minutos. Atenção: em vez do percurso selecionado, neste horário o autocarro tem como destino {destination} na variante {route_long_name}.",
+				"primary": "{hour} horas e {minute} minutos"
+			},
 			"hours": "Hora",
-			"minutes": "Min.",
-			"timetableSchedulesHoursAccessibilityHint": "Indica as horas em que o autocarro passa na paragem selecionada",
-			"timetableSchedulesHoursAccessibilityLabel": "Viagem às {hour} horas .        e           . {minutes} minutos"
+			"minutes": "Min."
 		},
 		"VehiclesCounter": {
 			"label": {
@@ -518,6 +523,9 @@
 		"LineDetailPath": {
 			"no_data": "Selecione um destino"
 		},
+		"LineDetailSelectOperationalDate": {
+			"title": "Selecionar Data para o horário:"
+		},
 		"LinesListToolbar": {
 			"by_current_view": {
 				"all": "Todas as Linhas",
@@ -565,8 +573,24 @@
 			"toggle": "O que é o percurso/destino de uma linha?"
 		},
 		"TimetableExceptionsLink": {
+			"accessibility_hint": "Duplo toque para alterar o destino para mostrar esta variante.",
+			"accessibility_label": "Alínea ({index}): Variante {route_long_name} para {destination}",
 			"direction_label": "para",
-			"route_label": "Rota"
+			"route_label": "Variante"
+		},
+		"Waypoint": {
+			"active": {
+				"accessibility_hint": "Duplo toque para colapsar.",
+				"accessibility_label": "Paragem Selecionada: {stopName}"
+			},
+			"idle": {
+				"accessibility_hint": "Duplo toque para expandir o horário nesta paragem para o dia selecionado.",
+				"accessibility_label": {
+					"first_stop": "Início da Linha. Paragem {stopSequence} de {stopCount}: {stopName}. Colapsada.",
+					"last_stop": "Destino da Linha. Última Paragem: {stopName}. Colapsada.",
+					"other": "Paragem {stopSequence} de {stopCount}: {stopName}. Colapsada."
+				}
+			}
 		},
 		"WaypointTimetable": {
 			"nextDateAccessibilityHint": "Este elemento é um texto que indica os próximos horários disponíveis",
@@ -724,7 +748,10 @@
 			},
 			"items": {
 				"accessibility_hint": "Código da paragem: {id}",
-				"accessibility_label": "{index}º: {tts_name}"
+				"accessibility_label": {
+					"default": "{index}º: {tts_name}",
+					"nearby": "{index}º: a {distance} metros: {tts_name}"
+				}
 			},
 			"nearby": {
 				"title": "À Minha Volta"

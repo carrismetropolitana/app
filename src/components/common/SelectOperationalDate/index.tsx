@@ -1,6 +1,5 @@
 /* * */
 
-import { useLocaleContext } from '@/contexts/Locale.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { Dates } from '@/core-replica';
 import { useSystemVariables } from '@/theme/global';
@@ -24,7 +23,6 @@ export function SelectOperationalDate() {
 	const styles = useStyles();
 	const systemVariables = useSystemVariables();
 
-	const localeContext = useLocaleContext();
 	const operationalDateContext = useOperationalDateContext();
 
 	const { t } = useTranslation('translation', { keyPrefix: 'common.SelectOperationalDate' });
@@ -70,19 +68,31 @@ export function SelectOperationalDate() {
 
 			<View style={styles.container}>
 
-				<TouchableOpacity onPress={handleSelectToday} style={[styles.button, isToday && styles.buttonIsSelected]}>
+				<TouchableOpacity
+					accessibilityHint={t('today.accessibility_hint')}
+					accessibilityState={{ checked: isToday ? true : false }}
+					onPress={handleSelectToday}
+					style={[styles.button, isToday && styles.buttonIsSelected]}
+				>
 					<Text style={[styles.label, isToday && styles.labelIsSelected]}>
-						{t('today')}
-					</Text>
-				</TouchableOpacity>
-
-				<TouchableOpacity onPress={handleSelectTomorrow} style={[styles.button, isTomorrow && styles.buttonIsSelected]}>
-					<Text style={[styles.label, isTomorrow && styles.labelIsSelected]}>
-						{t('tomorrow')}
+						{t('today.label')}
 					</Text>
 				</TouchableOpacity>
 
 				<TouchableOpacity
+					accessibilityHint={t('tomorrow.accessibility_hint')}
+					accessibilityState={{ checked: isTomorrow ? true : false }}
+					onPress={handleSelectTomorrow}
+					style={[styles.button, isTomorrow && styles.buttonIsSelected]}
+				>
+					<Text style={[styles.label, isTomorrow && styles.labelIsSelected]}>
+						{t('tomorrow.label')}
+					</Text>
+				</TouchableOpacity>
+
+				<TouchableOpacity
+					accessibilityHint={t('other_date.accessibility_hint')}
+					accessibilityLabel={t('other_date.accessibility_label', { date: operationalDateContext.data.selected_date_display })}
 					onPress={() => setShowDatePicker(true)}
 					style={[styles.button, isOtherDate && styles.buttonIsSelected]}
 				>
@@ -97,7 +107,6 @@ export function SelectOperationalDate() {
 			<DateTimePickerModal
 				date={operationalDateContext.data.selected_date?.js_date}
 				isVisible={showDatePicker}
-				locale={localeContext.data.locale}
 				minimumDate={minDate}
 				mode="date"
 				onCancel={() => setShowDatePicker(false)}

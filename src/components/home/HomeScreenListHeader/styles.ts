@@ -15,7 +15,7 @@ export const useStyles = () => {
 			display: 'flex',
 			flexDirection: 'column',
 		},
-		screenReaderText: {
+		title: {
 			color: systemVariables.text[200],
 			padding: 20,
 		},

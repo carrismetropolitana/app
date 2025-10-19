@@ -64,7 +64,7 @@ export function StopSelectionMainList({ onSelect, replaceChevron }: StopSelectio
 				<ListSectionItem
 					key={item.id}
 					accessibilityHint={t('items.accessibility_hint', { id: item.id })}
-					accessibilityLabel={t('items.accessibility_label', { index: index + 1, tts_name: item.tts_name })}
+					accessibilityLabel={t('items.accessibility_label.nearby', { distance: nearbyItem.distance?.toFixed(0), index: index + 1, tts_name: item.tts_name })}
 					description={`${nearbyItem.distance?.toFixed(0)} m • ${item.id}`}
 					label={item.long_name}
 					onPress={() => onSelect(item.id)}
@@ -76,7 +76,7 @@ export function StopSelectionMainList({ onSelect, replaceChevron }: StopSelectio
 			<ListSectionItem
 				key={item.id}
 				accessibilityHint={t('items.accessibility_hint', { id: item.id })}
-				accessibilityLabel={t('items.accessibility_label', { index: index + 1, tts_name: item.tts_name })}
+				accessibilityLabel={t('items.accessibility_label.default', { index: index + 1, tts_name: item.tts_name })}
 				description={item.id}
 				label={item.long_name}
 				onPress={() => onSelect(item.id)}

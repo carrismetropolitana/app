@@ -60,7 +60,7 @@ export function HomeScreenFavoriteLinesBar() {
 			<View style={styles.container}>
 
 				{accessibilityContext.flags.screen_reader && (
-					<Text style={styles.screenReaderText}>{t('list', { count: favoriteLinesData.length })}</Text>
+					<Text style={styles.title}>{t('list', { count: favoriteLinesData.length })}</Text>
 				)}
 
 				{favoriteLinesData.map(item => (

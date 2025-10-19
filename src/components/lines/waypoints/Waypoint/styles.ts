@@ -18,7 +18,7 @@ export const useStyles = () => {
 			gap: 10,
 			justifyContent: 'flex-start',
 			paddingLeft: 15,
-			paddingRight: 20,
+			paddingRight: 30,
 		},
 		containerIsFirstStop: {
 			paddingTop: 20,

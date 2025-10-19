@@ -1,21 +1,21 @@
 /* * */
 
-import { useStopsContext } from '@/contexts/Stops.context';
-import { Text } from '@rn-vui/themed';
-import { useMemo } from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { useStyles } from './styles';
 
 /* * */
 
 interface WaypointHeaderProps {
-	stopId: string
+	id: string
+	location?: string
+	name: string
+	ttsName?: string
 }
 
 /* * */
 
-export function WaypointHeader({ stopId }: WaypointHeaderProps) {
+export function WaypointHeader({ id, location, name, ttsName }: WaypointHeaderProps) {
 	//
 
 	//
@@ -23,34 +23,21 @@ export function WaypointHeader({ stopId }: WaypointHeaderProps) {
 
 	const styles = useStyles();
 
-	const stopsContext = useStopsContext();
-
 	//
-	// B. Transform data
-
-	const stopName = useMemo(() => {
-		const stopData = stopsContext.actions.getStopById(stopId);
-		return stopData ? stopData.long_name : '-';
-	}, [stopsContext.data.stops, stopId]);
-
-	const stopLocation = useMemo(() => {
-		return stopsContext.actions.getStopLocationById(stopId);
-	}, [stopsContext.data.stops, stopId]);
-
-	//
-	// C. Render components
+	// B. Render components
 
 	return (
-		<View style={styles.container}>
-
-			<Text style={styles.stopName}>{stopName}</Text>
-
+		<View
+			accessibilityLabel={ttsName}
+			accessible={true}
+			style={styles.container}
+		>
+			<Text style={styles.stopName}>{name}</Text>
 			<Text style={styles.subHeader}>
-				{stopLocation}
+				{location}
 				<Text style={styles.divider}> • </Text>
-				#{stopId}
+				#{id}
 			</Text>
-
 		</View>
 	);
 

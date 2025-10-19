@@ -23,7 +23,7 @@ export const useStyles = () => {
 			padding: 20,
 			width: '100%',
 		},
-		screenReaderText: {
+		title: {
 			color: systemVariables.text[200],
 		},
 	});

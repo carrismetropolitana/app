@@ -2,11 +2,9 @@
 
 import { LineBadge } from '@/components/lines/LineBadge';
 import { useLinesContext } from '@/contexts/Lines.context';
-import { Dates } from '@/core-replica';
-import { Pattern } from '@carrismetropolitana/api-types/network';
+import { type Pattern } from '@carrismetropolitana/api-types/network';
 import { useEffect, useState } from 'react';
-import { View } from 'react-native';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { useStyles } from './styles';
 
@@ -35,8 +33,7 @@ export function WidgetCardLineHeader({ patternId }: WidgetCardLineHeaderProps) {
 
 	useEffect(() => {
 		if (patternData?.id === patternId) return;
-		const today = Dates.now('Europe/Lisbon').operational_date;
-		linesContext.actions.getValidPatternVersionForOperationalDate(patternId, today).then((data) => {
+		linesContext.actions.getValidPatternVersionForOperationalDate(patternId).then((data) => {
 			if (!data) return setPatternData(undefined);
 			setPatternData(data);
 		});

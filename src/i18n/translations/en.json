@@ -287,16 +287,18 @@
 			"meters": "Meters"
 		},
 		"SelectOperationalDate": {
-			"customDayAccessibilityHint": "This button allows you to select a date of your choice",
-			"customDayAccessibilityLabel": "Button to select a day of your choise, the date selected is {date}",
-			"datePickerAccessibilityHint": "This element is a date selector",
-			"datePickerAccessibilityLabel": "Date Selector",
-			"today": "Today",
-			"todayAccessibilityHint": "This buttons selects today's date",
-			"todayAccessibilityLabel": "Button to select today's date",
-			"tomorrow": "Tomorrow",
-			"tomorrowAccessibilityHint": "This button selects tomorrow's date",
-			"tomorrowAccessibilityLabel": "Button to select tomorrow's date"
+			"other_date": {
+				"accessibility_hint": "Double tap to open the date picker to select another date.",
+				"accessibility_label": "Selected date: {date}"
+			},
+			"today": {
+				"accessibility_hint": "This button selects automatically today's date",
+				"label": "Today"
+			},
+			"tomorrow": {
+				"accessibility_hint": "This button selects automatically tomorrow's date",
+				"label": "Tomorrow"
+			}
 		},
 		"SelectPattern": {
 			"dropdownAccessibilityHint": "This element is a dropdown menu to select a destination",
@@ -493,6 +495,9 @@
 		"LineDetailPath": {
 			"no_data": "Select a destination"
 		},
+		"LineDetailSelectOperationalDate": {
+			"title": "Select Date for schedule:"
+		},
 		"LinesListToolbar": {
 			"by_current_view": {
 				"all": "All Lines",
@@ -537,6 +542,20 @@
 		"TimetableExceptionsLink": {
 			"direction_label": "to",
 			"route_label": "Route"
+		},
+		"Waypoint": {
+			"active": {
+				"accessibility_hint": "Double tap to collapse.",
+				"accessibility_label": "Selected Stop: {stopName}"
+			},
+			"idle": {
+				"accessibility_hint": "Double tap to expand the stop schedule",
+				"accessibility_label": {
+					"first_stop": "Start of Line. Stop {stopSequence} of {stopCount}: {stopName}. Collapsed.",
+					"last_stop": "End of Line. Last Stop: {stopName}. Collapsed.",
+					"other": "Stop {stopSequence} of {stopCount}: {stopName}. Collapsed."
+				}
+			}
 		},
 		"WaypointTimetable": {
 			"nextDateAccessibilityHint": "This element is a text that indicates the next available trips ",
@@ -730,7 +749,10 @@
 			},
 			"items": {
 				"accessibility_hint": "Stop code: {id}",
-				"accessibility_label": "{index}nd: {tts_name}"
+				"accessibility_label": {
+					"default": "{index}nd: {tts_name}",
+					"nearby": "{index}nd: {distance} meters away: {tts_name}"
+				}
 			},
 			"nearby": {
 				"title": "Stops around me"

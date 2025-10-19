@@ -42,7 +42,7 @@ export function LineBadge({ lineId, onPress, size = 'md', withAlertIcon }: LineB
 	}, [lineId, linesContext.data.lines]);
 
 	const hasAlert = useMemo(() => {
-		if (!lineId) return false;
+		if (!lineId || !withAlertIcon) return false;
 		return alertsContext.actions.getSimplifiedAlertsByLineId(lineId).length > 0;
 	}, [alertsContext.data.alerts, lineData, lineId]);
 

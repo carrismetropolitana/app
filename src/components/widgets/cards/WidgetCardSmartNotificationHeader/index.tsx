@@ -1,9 +1,11 @@
 /* * */
 
 import { LineBadge } from '@/components/lines/LineBadge';
+import { useLinesContext } from '@/contexts/Lines.context';
 import { WidgetSmartNotification } from '@/schemas/widgets';
+import { type Pattern } from '@carrismetropolitana/api-types/network';
 import { IconBellRinging } from '@tabler/icons-react-native';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
@@ -13,6 +15,7 @@ import { useStyles } from './styles';
 
 interface WidgetCardSmartNotificationHeaderProps {
 	label?: null | string
+	patternId: string
 	selectedEndTime: number
 	selectedStartTime: number
 	selectedWeekdays: WidgetSmartNotification['properties']['weekdays'][number][]
@@ -20,7 +23,7 @@ interface WidgetCardSmartNotificationHeaderProps {
 
 /* * */
 
-export function WidgetCardSmartNotificationHeader({ label, selectedEndTime, selectedStartTime, selectedWeekdays }: WidgetCardSmartNotificationHeaderProps) {
+export function WidgetCardSmartNotificationHeader({ label, patternId, selectedEndTime, selectedStartTime, selectedWeekdays }: WidgetCardSmartNotificationHeaderProps) {
 	//
 
 	//
@@ -28,10 +31,22 @@ export function WidgetCardSmartNotificationHeader({ label, selectedEndTime, sele
 
 	const styles = useStyles();
 
+	const linesContext = useLinesContext();
+
 	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetCardSmartNotificationHeader' });
+
+	const [patternData, setPatternData] = useState<Pattern | undefined>(linesContext.data.patterns_cache[patternId]?.[0]);
 
 	//
 	// B. Transform data
+
+	useEffect(() => {
+		if (patternData?.id === patternId) return;
+		linesContext.actions.getValidPatternVersionForOperationalDate(patternId).then((data) => {
+			if (!data) return setPatternData(undefined);
+			setPatternData(data);
+		});
+	}, [patternId, patternData]);
 
 	const startTimeDisplay = useMemo(() => {
 		// Convert seconds (0-86399) to HH:MM format
@@ -79,7 +94,7 @@ export function WidgetCardSmartNotificationHeader({ label, selectedEndTime, sele
 			<View style={styles.column}>
 				<View style={styles.row}>
 					{label && <Text style={styles.label}>{label}</Text>}
-					<LineBadge lineId="1234" size="sm" />
+					<LineBadge lineId={patternData?.line_id} size="sm" />
 				</View>
 				<Text style={styles.text}>{t('title', { end_time: endTimeDisplay, start_time: startTimeDisplay, weekdays: weekdaysDisplay })}</Text>
 			</View>

@@ -38,7 +38,15 @@ export function TimetableExceptionsLink({ exceptionData }: TimetableExceptionsLi
 	// C. Render components
 
 	return (
-		<TouchableOpacity onPress={handleExceptionClick}>
+		<TouchableOpacity
+			accessibilityHint={t('accessibility_hint')}
+			onPress={handleExceptionClick}
+			accessibilityLabel={t('accessibility_label', {
+				destination: exceptionData.pattern_headsign,
+				index: exceptionData.exception_id.toUpperCase(),
+				route_long_name: exceptionData.route_long_name,
+			})}
+		>
 			<Text style={styles.text}>
 				<Text style={styles.id}>{exceptionData.exception_id + ')'}</Text>
 				<Text> </Text>

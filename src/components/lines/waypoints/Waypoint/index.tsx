@@ -7,7 +7,10 @@ import { WaypointSpine } from '@/components/lines/waypoints/WaypointSpine';
 import { WaypointTimetable } from '@/components/lines/waypoints/WaypointTimetable';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
+import { useStopsContext } from '@/contexts/Stops.context';
 import { type Waypoint } from '@carrismetropolitana/api-types/network';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 
 import { useStyles } from './styles';
@@ -20,12 +23,13 @@ interface WaypointProps {
 	isLastStop?: boolean
 	isNextStop?: boolean
 	isSelected?: boolean
+	stopCount?: number
 	waypointData: Waypoint
 }
 
 /* * */
 
-export function Waypoint({ arrivals, isFirstStop, isLastStop, isSelected, waypointData }: WaypointProps) {
+export function Waypoint({ arrivals, isFirstStop, isLastStop, isSelected, stopCount, waypointData }: WaypointProps) {
 	//
 
 	//
@@ -33,13 +37,42 @@ export function Waypoint({ arrivals, isFirstStop, isLastStop, isSelected, waypoi
 
 	const now = Date.now();
 
+	const styles = useStyles();
+
+	const stopsContext = useStopsContext();
 	const lineDetailContext = useLineDetailContext();
 	const operationalDateContext = useOperationalDateContext();
 
-	const styles = useStyles();
+	const { t } = useTranslation('translation', { keyPrefix: 'lines.Waypoint' });
 
 	//
 	// B. Transform data
+
+	const stopData = useMemo(() => {
+		return stopsContext.actions.getStopById(waypointData.stop_id);
+	}, [stopsContext.data.stops, waypointData.stop_id]);
+
+	const stopLocation = useMemo(() => {
+		return stopsContext.actions.getStopLocationById(waypointData.stop_id);
+	}, [waypointData.stop_id]);
+
+	const accessibilityLabel = useMemo(() => {
+		if (isFirstStop) return t('idle.accessibility_label.first_stop', {
+			stopCount: stopCount,
+			stopName: stopData?.tts_name || stopData?.long_name,
+			stopSequence: waypointData.stop_sequence,
+		});
+		if (isLastStop) return t('idle.accessibility_label.last_stop', {
+			stopCount: stopCount,
+			stopName: stopData?.tts_name || stopData?.long_name,
+			stopSequence: waypointData.stop_sequence,
+		});
+		return t('idle.accessibility_label.other', {
+			stopCount: stopCount,
+			stopName: stopData?.tts_name || stopData?.long_name,
+			stopSequence: waypointData.stop_sequence,
+		});
+	}, [stopCount, stopData, waypointData.stop_sequence]);
 
 	const nextArrivals = arrivals?.filter(arrival => arrival.unixTs > now) || [];
 	const realtimeArrivals = nextArrivals.filter(arrival => arrival.type === 'realtime');
@@ -55,42 +88,96 @@ export function Waypoint({ arrivals, isFirstStop, isLastStop, isSelected, waypoi
 	//
 	// D. Render components
 
-	return (
-		<TouchableOpacity activeOpacity={0.6} disabled={isSelected} onPress={handleToggleWaypoint}>
-			<View
-				style={[
-					styles.container,
-					isFirstStop && styles.containerIsFirstStop,
-					isLastStop && styles.containerIsLastStop,
-					isSelected && styles.containerIsSelected,
-				]}
+	if (!stopData) {
+		return null;
+	}
+
+	if (!isSelected) {
+		return (
+			<TouchableOpacity
+				accessibilityHint={t('idle.accessibility_hint')}
+				accessibilityLabel={accessibilityLabel}
+				activeOpacity={0.6}
+				onPress={handleToggleWaypoint}
 			>
-				<WaypointSpine
-					backgroundColor={lineDetailContext.data.selected_pattern?.color}
-					foregroundColor={lineDetailContext.data.selected_pattern?.text_color}
-					isFirstStop={isFirstStop}
-					isLastStop={isLastStop}
-					stopId={waypointData.stop_id}
-					stopSequence={waypointData.stop_sequence}
-				/>
-				<View style={[
-					styles.details,
-					isFirstStop && styles.detailsIsFirstStop,
-					isLastStop && styles.detailsIsLastStop,
-				]}
+				<View
+					style={[
+						styles.container,
+						isFirstStop && styles.containerIsFirstStop,
+						isLastStop && styles.containerIsLastStop,
+					]}
 				>
-					<WaypointHeader stopId={waypointData.stop_id} />
-					{isSelected && <WaypointFacilities stopId={waypointData.stop_id} />}
-					{isSelected && operationalDateContext.flags.today && (
-						<PathWaypointNextArrivals
-							realtimeArrivals={realtimeArrivals}
-							scheduledArrivals={scheduledArrivals}
+					<WaypointSpine
+						backgroundColor={lineDetailContext.data.selected_pattern?.color}
+						foregroundColor={lineDetailContext.data.selected_pattern?.text_color}
+						isFirstStop={isFirstStop}
+						isLastStop={isLastStop}
+						stopId={waypointData.stop_id}
+						stopSequence={waypointData.stop_sequence}
+					/>
+					<View style={[
+						styles.details,
+						isFirstStop && styles.detailsIsFirstStop,
+						isLastStop && styles.detailsIsLastStop,
+					]}
+					>
+						<WaypointHeader
+							id={waypointData.stop_id}
+							location={stopLocation}
+							name={stopData.long_name || '-'}
 						/>
-					)}
-					{isSelected && <WaypointTimetable />}
+					</View>
 				</View>
+			</TouchableOpacity>
+		);
+	}
+
+	return (
+		<View
+			style={[
+				styles.container,
+				isFirstStop && styles.containerIsFirstStop,
+				isLastStop && styles.containerIsLastStop,
+				isSelected && styles.containerIsSelected,
+			]}
+		>
+			<WaypointSpine
+				backgroundColor={lineDetailContext.data.selected_pattern?.color}
+				foregroundColor={lineDetailContext.data.selected_pattern?.text_color}
+				isFirstStop={isFirstStop}
+				isLastStop={isLastStop}
+				stopId={waypointData.stop_id}
+				stopSequence={waypointData.stop_sequence}
+			/>
+			<View style={[
+				styles.details,
+				isFirstStop && styles.detailsIsFirstStop,
+				isLastStop && styles.detailsIsLastStop,
+			]}
+			>
+				<TouchableOpacity
+					accessibilityHint={t('active.accessibility_hint')}
+					accessibilityLabel={t('active.accessibility_label', { stopName: stopData?.tts_name || stopData?.long_name })}
+					activeOpacity={0.6}
+					onPress={handleToggleWaypoint}
+				>
+					<WaypointHeader
+						id={waypointData.stop_id}
+						location={stopLocation}
+						name={stopData.long_name || '-'}
+						ttsName={stopData.tts_name || '-'}
+					/>
+				</TouchableOpacity>
+				<WaypointFacilities stopId={waypointData.stop_id} />
+				{operationalDateContext.flags.today && (
+					<PathWaypointNextArrivals
+						realtimeArrivals={realtimeArrivals}
+						scheduledArrivals={scheduledArrivals}
+					/>
+				)}
+				<WaypointTimetable />
 			</View>
-		</TouchableOpacity>
+		</View>
 	);
 
 	//

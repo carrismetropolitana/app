@@ -11,7 +11,7 @@ interface LineDetailContextState {
 	actions: {
 		selectPatternId: (patternId: string) => void
 		selectTripIds: (tripIds: string[] | undefined) => void
-		selectWaypointId: (stopId: string, stopSequence: number) => void
+		selectWaypointId: (stopId?: string, stopSequence?: number) => void
 	}
 	data: {
 		available_patterns: Pattern[]
@@ -131,9 +131,9 @@ export const LineDetailContextProvider = ({ children, lineId }: PropsWithChildre
 		setSelectedTripIds(tripIds);
 	};
 
-	const selectWaypointId = (stopId: string, stopSequence: number) => {
+	const selectWaypointId = (stopId?: string, stopSequence?: number) => {
 		// Return early if active waypoint is already selected
-		if (selectedWaypointData?.stop_id === stopId && selectedWaypointData?.stop_sequence === stopSequence) return;
+		if (selectedWaypointData?.stop_id === stopId && selectedWaypointData?.stop_sequence === stopSequence) return setSelectedWaypointData(undefined);
 		// Find the waypoint in the active pattern that matches the stop id and stop sequence
 		const foundWaypoint = selectedPatternData?.path.find(waypoint => waypoint.stop_id === stopId && waypoint.stop_sequence === stopSequence);
 		// Update the state

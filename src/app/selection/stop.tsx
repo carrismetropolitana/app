@@ -45,6 +45,7 @@ export default function Page() {
 		<StopSelection
 			onSelect={handleSelect}
 			addToRecentsOnPress
+			withSearchAutoFocus
 		/>
 	);
 

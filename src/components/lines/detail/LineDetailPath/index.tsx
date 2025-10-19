@@ -74,6 +74,7 @@ export function LineDetailPath() {
 					isFirstStop={index === 0}
 					isLastStop={index === sortedStops.length - 1}
 					isSelected={lineDetailContext.data.selected_waypoint?.stop_id === waypoint.stop_id && lineDetailContext.data.selected_waypoint?.stop_sequence === waypoint.stop_sequence}
+					stopCount={sortedStops.length}
 					waypointData={waypoint}
 				/>
 			))}
