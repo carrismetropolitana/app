@@ -2,7 +2,7 @@
 
 import { FavoriteToggle } from '@/components/common/FavoriteToggle';
 import { LineBadge } from '@/components/lines/LineBadge';
-import { useFavoritesContext } from '@/contexts/Favorites.context';
+import { useAccountContext } from '@/contexts/Account.context';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useMemo } from 'react';
 import { Text, View } from 'react-native';
@@ -19,7 +19,7 @@ export function LineDetailHeader() {
 
 	const styles = useStyles();
 
-	const favoritesContext = useFavoritesContext();
+	const accountContext = useAccountContext();
 	const lineDetailContext = useLineDetailContext();
 
 	//
@@ -27,15 +27,15 @@ export function LineDetailHeader() {
 
 	const isFavoriteLine = useMemo(() => {
 		if (!lineDetailContext.data.selected_line) return false;
-		return favoritesContext.data.line_ids.includes(lineDetailContext.data.selected_line.id);
-	}, [favoritesContext.data.line_ids, lineDetailContext.data.selected_line]);
+		return accountContext.data.account?.favorites.line_ids.includes(lineDetailContext.data.selected_line.id) ?? false;
+	}, [accountContext.data.account?.favorites.line_ids, lineDetailContext.data.selected_line]);
 
 	//
 	// C. Handle actions
 
 	const handleToggleFavorite = () => {
 		if (!lineDetailContext.data.selected_line) return;
-		favoritesContext.actions.toggleFavoriteLineId(lineDetailContext.data.selected_line.id);
+		accountContext.actions.favoriteLineId('toggle', lineDetailContext.data.selected_line.id);
 	};
 
 	//

@@ -52,7 +52,7 @@ const config: ExpoConfig = {
 
 		googleServicesFile: './environments/production/secrets/google-services.json',
 
-		package: 'pt.carrismetropolitana.mobile',
+		package: process.env.EXPO_PUBLIC_ENVIRONMENT === 'production' || process.env.EXPO_PUBLIC_ENVIRONMENT === 'staging' ? 'pt.carrismetropolitana.mobile' : 'pt.carrismetropolitana.mobile.dev',
 
 		/**
 		 * The version code is an integer value that represents the version of the application code.
@@ -72,7 +72,7 @@ const config: ExpoConfig = {
 
 		buildNumber: `${process.env.EXPO_PUBLIC_APP_IOS_BUILD_NUMBER || 1}`,
 
-		bundleIdentifier: 'pt.carrismetropolitana.app',
+		bundleIdentifier: process.env.EXPO_PUBLIC_ENVIRONMENT === 'production' || process.env.EXPO_PUBLIC_ENVIRONMENT === 'staging' ? 'pt.carrismetropolitana.app' : 'pt.carrismetropolitana.app.dev',
 
 		/**
 		 * There is a known issue with Expo not properly setting the app icon for iOS when using

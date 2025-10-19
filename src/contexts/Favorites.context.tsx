@@ -48,12 +48,12 @@ export const FavoritesContextProvider = ({ children }: PropsWithChildren) => {
 	const favoriteLineIds = useMemo(() => {
 		if (!accountContext.data.account?.favorites?.line_ids) return [];
 		return accountContext.data.account.favorites.line_ids;
-	}, [accountContext.data.account?.favorites?.line_ids]);
+	}, [accountContext.data.account]);
 
 	const favoriteStopIds = useMemo(() => {
 		if (!accountContext.data.account?.favorites?.stop_ids) return [];
 		return accountContext.data.account.favorites.stop_ids;
-	}, [accountContext.data.account?.favorites?.stop_ids]);
+	}, [accountContext.data.account]);
 
 	//
 	// C. Handle actions
@@ -70,6 +70,13 @@ export const FavoritesContextProvider = ({ children }: PropsWithChildren) => {
 		accountContext.actions.update('favorites.line_ids', Array.from(currentLineIds));
 	};
 
+	function toggleFavoriteLineId(lineId: string) {
+		const currentLineIds = new Set(favoriteLineIds);
+		if (currentLineIds.has(lineId)) currentLineIds.delete(lineId);
+		else currentLineIds.add(lineId);
+		accountContext.actions.update('favorites.line_ids', Array.from(currentLineIds));
+	}
+
 	function addFavoriteStopId(stopId: string) {
 		const currentStopIds = new Set(favoriteStopIds);
 		currentStopIds.add(stopId);
@@ -80,13 +87,6 @@ export const FavoritesContextProvider = ({ children }: PropsWithChildren) => {
 		const currentStopIds = new Set(favoriteStopIds);
 		currentStopIds.delete(stopId);
 		accountContext.actions.update('favorites.stop_ids', Array.from(currentStopIds));
-	}
-
-	function toggleFavoriteLineId(lineId: string) {
-		const currentLineIds = new Set(favoriteLineIds);
-		if (currentLineIds.has(lineId)) currentLineIds.delete(lineId);
-		else currentLineIds.add(lineId);
-		accountContext.actions.update('favorites.line_ids', Array.from(currentLineIds));
 	}
 
 	function toggleFavoriteStopId(stopId: string) {

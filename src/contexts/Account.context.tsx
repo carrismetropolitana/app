@@ -25,7 +25,9 @@ interface AccountContextState {
 	actions: {
 		createAccount: () => Promise<void>
 		deleteAccount: () => Promise<void>
-		update: (path: DotPath<Account>, value: PathValue<Account, DotPath<Account>>) => Promise<void>
+		favoriteLineId: (operation: 'add' | 'remove' | 'toggle', lineId: string) => void
+		favoriteStopId: (operation: 'add' | 'remove' | 'toggle', stopId: string) => void
+		update: (path: DotPath<Account>, value: PathValue<Account, DotPath<Account>>) => void
 	}
 	data: {
 		account: Account | undefined
@@ -111,8 +113,7 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 				return;
 			}
 			if (foundLegacyToken) {
-				// If we have a legacy token, we need to clear it
-				// and create a new account
+				// If we have a legacy token, migrate it to device ID
 				await AsyncStorage.setItem(LOCAL_STORAGE_KEYS.device_id, foundLegacyToken);
 				// await AsyncStorage.removeItem(LOCAL_STORAGE_KEYS.legacy_token);
 				setDeviceId(foundLegacyToken);
@@ -146,37 +147,41 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		else throw new Error(response.error || 'Failed to update account');
 	};
 
-	async function update(path: DotPath<Account>, value: PathValue<Account, DotPath<Account>>) {
+	function update(path: DotPath<Account>, value: PathValue<Account, DotPath<Account>>) {
 		// Skip if no device ID
 		if (!deviceId) return;
+		// Skip if no account data
+		if (!accountRef.current) return;
+		// Transform the account data with the updated value
+		const updatedAccountData = setValueAtPath(Object.assign({}, accountRef.current), path, value);
+		// Get the current device index
+		const currentDeviceIndex = accountRef.current.devices.findIndex(d => d.device_id === deviceId);
+		if (currentDeviceIndex === -1) return;
+		// Update device details on every update
+		updatedAccountData.devices[currentDeviceIndex].app_version = Constants.expoConfig?.version || null;
+		updatedAccountData.devices[currentDeviceIndex].brand = Device.brand;
+		updatedAccountData.devices[currentDeviceIndex].name = Device.deviceName || null;
+		updatedAccountData.devices[currentDeviceIndex].push_token = notificationsContext.data.token || null;
+		updatedAccountData.devices[currentDeviceIndex].seen_last_at = Dates.now('Europe/Lisbon').unix_timestamp;
+		// Update refs and state immediately
+		accountRef.current = updatedAccountData;
+		setAccountData(updatedAccountData);
+		//
+		// updateAccountApi(updatedAccountData);
 		// Use SWR mutate to optimistically update the account data.
 		// SWR accepts a function that receives the most up-to-date data
 		// and returns the updated data to avoid stale data issues when
 		// mutating with React state.
-		accountMutate(async (current) => {
-			// Skip if no current data
-			if (!current) return current;
-			// Update local copy of the data
-			const updatedAccountData = setValueAtPath(Object.assign({}, current), path, value);
-			// Get the current device index
-			const currentDeviceIndex = current.devices.findIndex(d => d.device_id === deviceId);
-			if (currentDeviceIndex === -1) return;
-			// Update device details on every update
-			updatedAccountData.devices[currentDeviceIndex].app_version = Constants.expoConfig?.version || null;
-			updatedAccountData.devices[currentDeviceIndex].brand = Device.brand;
-			updatedAccountData.devices[currentDeviceIndex].name = Device.deviceName || null;
-			updatedAccountData.devices[currentDeviceIndex].push_token = notificationsContext.data.token || null;
-			updatedAccountData.devices[currentDeviceIndex].seen_last_at = Dates.now('Europe/Lisbon').unix_timestamp;
-			// Update refs and state immediately
-			accountRef.current = updatedAccountData;
-			setAccountData(updatedAccountData);
-			// Send the updated data to the server.
-			// Any errors will be handled by SWR revalidation.
-			return await updateAccountApi(updatedAccountData);
-		}, {
-			populateCache: true,
-			revalidate: false,
-		});
+		// accountMutate(async (current) => {
+		// 	// Skip if no current data
+		// 	if (!current) return current;
+		// 	// Send the updated data to the server.
+		// 	// Any errors will be handled by SWR revalidation.
+		// 	return await updateAccountApi(updatedAccountData);
+		// }, {
+		// 	populateCache: true,
+		// 	revalidate: false,
+		// });
 	};
 
 	const createAccount = async () => {
@@ -212,6 +217,58 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		setIsInit(false);
 	};
 
+	const favoriteLineId = (operation: 'add' | 'remove' | 'toggle', lineId: string) => {
+		// Skip if no line ID
+		if (!lineId) return;
+		// Skip if no account data
+		if (!accountRef.current?.favorites.line_ids) return;
+		// Add a favorite line ID
+		if (operation === 'add') {
+			const currentLineIds = new Set(accountRef.current.favorites.line_ids || []);
+			currentLineIds.add(lineId);
+			update('favorites.line_ids', Array.from(currentLineIds));
+		}
+		// Remove a favorite line ID
+		if (operation === 'remove') {
+			const currentLineIds = new Set(accountRef.current.favorites.line_ids || []);
+			currentLineIds.delete(lineId);
+			update('favorites.line_ids', Array.from(currentLineIds));
+		}
+		// Toggle a favorite line ID
+		if (operation === 'toggle') {
+			const currentLineIds = new Set(accountRef.current.favorites.line_ids || []);
+			if (currentLineIds.has(lineId)) currentLineIds.delete(lineId);
+			else currentLineIds.add(lineId);
+			update('favorites.line_ids', Array.from(currentLineIds));
+		}
+	};
+
+	const favoriteStopId = (operation: 'add' | 'remove' | 'toggle', stopId: string) => {
+		// Skip if no stop ID
+		if (!stopId) return;
+		// Skip if no account data
+		if (!accountRef.current?.favorites.stop_ids) return;
+		// Add a favorite stop ID
+		if (operation === 'add') {
+			const currentStopIds = new Set(accountRef.current.favorites.stop_ids || []);
+			currentStopIds.add(stopId);
+			update('favorites.stop_ids', Array.from(currentStopIds));
+		}
+		// Remove a favorite stop ID
+		if (operation === 'remove') {
+			const currentStopIds = new Set(accountRef.current.favorites.stop_ids || []);
+			currentStopIds.delete(stopId);
+			update('favorites.stop_ids', Array.from(currentStopIds));
+		}
+		// Toggle a favorite stop ID
+		if (operation === 'toggle') {
+			const currentStopIds = new Set(accountRef.current.favorites.stop_ids || []);
+			if (currentStopIds.has(stopId)) currentStopIds.delete(stopId);
+			else currentStopIds.add(stopId);
+			update('favorites.stop_ids', Array.from(currentStopIds));
+		}
+	};
+
 	//
 	// D. Context value
 
@@ -219,10 +276,12 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		actions: {
 			createAccount,
 			deleteAccount,
+			favoriteLineId,
+			favoriteStopId,
 			update,
 		},
 		data: {
-			account: accountData,
+			account: accountRef.current,
 			device_id: deviceId,
 		},
 		flags: {

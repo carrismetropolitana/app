@@ -74,6 +74,7 @@ export function FavoriteToggle({ color, isActive, onToggle }: FavoriteToggleProp
 	}
 
 	if (isActive) {
+		console.log('Rerender Favorite Toggle - Active');
 		return (
 			<TouchableOpacity
 				accessibilityHint={t('enabled.accessibility_hint')}
@@ -87,6 +88,9 @@ export function FavoriteToggle({ color, isActive, onToggle }: FavoriteToggleProp
 			</TouchableOpacity>
 		);
 	}
+
+	console.log('--------------------------------');
+	console.log('Rerender Favorite Toggle - Inactive');
 
 	return (
 		<TouchableOpacity
