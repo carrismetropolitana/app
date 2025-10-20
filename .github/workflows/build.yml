@@ -88,6 +88,8 @@ jobs:
         eas submit -p android \
           --profile ${{ github.ref_name }} \
           --path app-build
+      env:
+        EXPO_PUBLIC_ENVIRONMENT: ${{ github.ref_name }}
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
@@ -141,3 +143,5 @@ jobs:
         eas submit -p ios \
           --profile ${{ github.ref_name }} \
           --path app-build
+      env:
+        EXPO_PUBLIC_ENVIRONMENT: ${{ github.ref_name }}
