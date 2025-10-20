@@ -741,7 +741,7 @@
 		},
 		"PatternSelectionMainListItem": {
 			"accessibility_hint": "Duplo toque para selecionar",
-			"accessibility_label": "Destino: {tts_headsign}",
+			"accessibility_label": "Destino: {tts_headsign}. Início em: {stop_name}",
 			"description": "Início em: {stop_name}"
 		},
 		"PatternSelectionTrigger": {

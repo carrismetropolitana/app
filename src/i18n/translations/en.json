@@ -734,14 +734,14 @@
 			}
 		},
 		"PatternSelectionMainListItem": {
-			"accessibility_hint": "Destination: {headsign}",
-			"accessibility_label": "Destination: {headsign}",
+			"accessibility_hint": "Double tap to select",
+			"accessibility_label": "Destination: {tts_headsign}. Starts at: {stop_name}",
 			"description": "Starts at: {stop_name}"
 		},
 		"PatternSelectionTrigger": {
 			"label": "Pick a pattern...",
 			"selected": {
-				"accessibility_hint": "Double tap to select",
+				"accessibility_hint": "Double tap to change",
 				"accessibility_label": "Destination: {tts_headsign}",
 				"description": "Starts at: {stop_name}"
 			}

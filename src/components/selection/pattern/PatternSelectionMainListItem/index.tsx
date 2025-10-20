@@ -28,13 +28,11 @@ export function PatternSelectionMainListItem({ item, onSelect, replaceChevron }:
 	//
 	// B. Transform data
 
-	const selectedPatternInitialStopName = useMemo(() => {
+	const selectedPatternInitialStopData = useMemo(() => {
 		if (!item.id) return;
 		const sortedStops = item.path.sort((a, b) => a.stop_sequence - b.stop_sequence);
 		if (!sortedStops || sortedStops.length === 0) return;
-		const stopData = stopsContext.actions.getStopById(sortedStops[0].stop_id);
-		if (!stopData) return;
-		return stopData.long_name;
+		return stopsContext.actions.getStopById(sortedStops[0].stop_id);
 	}, [item, stopsContext.data.stops]);
 
 	//
@@ -44,8 +42,8 @@ export function PatternSelectionMainListItem({ item, onSelect, replaceChevron }:
 		<ListSectionItem
 			key={item.id}
 			accessibilityHint={t('accessibility_hint')}
-			accessibilityLabel={t('accessibility_label', { tts_headsign: item.tts_headsign })}
-			description={t('description', { stop_name: selectedPatternInitialStopName })}
+			accessibilityLabel={t('accessibility_label', { stop_name: selectedPatternInitialStopData?.tts_name ?? '-', tts_headsign: item.tts_headsign })}
+			description={t('description', { stop_name: selectedPatternInitialStopData?.long_name ?? '-' })}
 			label={item.headsign}
 			onPress={() => onSelect(item.id)}
 			replaceChevron={replaceChevron}
