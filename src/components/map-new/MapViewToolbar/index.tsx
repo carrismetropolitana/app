@@ -1,6 +1,6 @@
 import { MapContext } from '@/contexts/Map.context';
 import { useMapOptionsContext } from '@/contexts/MapOptions.context';
-import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
+import { useStopDetailContext } from '@/contexts/StopDetail.context';
 import { useThemeContext } from '@/contexts/Theme.context';
 import { theming } from '@/theme/Variables';
 import { Button } from '@rn-vui/themed';
@@ -26,7 +26,7 @@ export function MapViewToolbar({ cameraCenter, onCenterMap }: Props) {
 	const { t } = useTranslation('map.toolbar');
 	const themeContext = useThemeContext();
 	const mapOptionsContext = useMapOptionsContext();
-	const stopDetailsContext = useStopsDetailContext();
+	const stopDetailsContext = useStopDetailContext();
 	const [stopLat, setStopLat] = useState(stopDetailsContext.data.stop?.lat);
 	const [stopLon, setStopLon] = useState(stopDetailsContext.data.stop?.lon);
 	const backgroundColor = themeContext.theme.mode === 'light' ? theming.colorSystemBackgroundLight100 : theming.colorSystemBackgroundDark100;

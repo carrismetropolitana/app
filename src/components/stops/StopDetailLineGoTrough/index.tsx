@@ -1,7 +1,7 @@
 /* * */
 
 import LineByPatternID from '@/components/common/LineByPatternID';
-import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
+import { useStopDetailContext } from '@/contexts/StopDetail.context';
 import { Link } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
@@ -17,13 +17,13 @@ export default function StopDetailLineGoTrough() {
 	// A. Setup variables
 	const { t } = useTranslation('translation', { keyPrefix: 'stops.StopDetails' });
 	const stopDetailLineGoTroughStyles = styles();
-	const stopsDetailContext = useStopsDetailContext();
+	const stopDetailContext = useStopDetailContext();
 
-	if (!stopsDetailContext.data.stop) {
+	if (!stopDetailContext.data.stop) {
 		return null;
 	}
 
-	const patternIds = stopsDetailContext.data.stop.pattern_ids || [];
+	const patternIds = stopDetailContext.data.stop.pattern_ids || [];
 	const groupedByLineId: Record<string, string[]> = {};
 
 	patternIds.forEach((patternId) => {

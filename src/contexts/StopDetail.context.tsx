@@ -1,23 +1,19 @@
-import type { SimplifiedAlert } from '@/types/alerts.types';
-import type { Arrival } from '@/types/stops.types';
-import type { Line, Pattern, Shape, Stop } from '@carrismetropolitana/api-types/network';
+/* * */
 
 import { useAlertsContext } from '@/contexts/Alerts.context';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
-import { useProfileContext } from '@/contexts/Profile.context';
 import { useStopsContext } from '@/contexts/Stops.context';
+import { type SimplifiedAlert } from '@/types/alerts.types';
+import { type Arrival } from '@/types/stops.types';
 import { Routes } from '@/utils/routes';
+import { type Line, type Pattern, type Shape, type Stop } from '@carrismetropolitana/api-types/network';
 import { DateTime } from 'luxon';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
-interface StopsDetailContextState {
-	actions: {
-		resetActiveStopId: () => void
-		resetActiveTripId: () => void
-		setActiveStopId: (stopId: string) => void
-		setActiveTripId: (tripId: string, stopSequence: number) => void
-	}
+/* * */
+
+interface StopDetailContextState {
 	data: {
 		active_alerts: SimplifiedAlert[] | undefined
 		active_pattern_group: Pattern | undefined
@@ -27,6 +23,8 @@ interface StopsDetailContextState {
 		active_trip_id: string | undefined
 		lines: Line[] | undefined
 		patterns: Pattern[][] | undefined
+		selected_stop: Stop | undefined
+		selected_stop_id: string | undefined
 		stop: Stop | undefined
 		timetable_realtime: Arrival[] | undefined
 		timetable_realtime_future: Arrival[] | undefined
@@ -34,32 +32,54 @@ interface StopsDetailContextState {
 		timetable_schedule: Arrival[] | undefined
 		valid_pattern_groups: Pattern[] | undefined
 	}
-	filters: {
-		none: string | undefined
-	}
 	flags: {
-		is_favorite: boolean
-		is_loading: boolean
-		is_loading_timetable: boolean
+		loading: boolean
 	}
 }
 
-const StopsDetailContext = createContext<StopsDetailContextState | undefined>(undefined);
+/* * */
 
-export function useStopsDetailContext() {
-	const context = useContext(StopsDetailContext);
+const StopDetailContext = createContext<StopDetailContextState | undefined>(undefined);
+
+export function useStopDetailContext() {
+	const context = useContext(StopDetailContext);
 	if (!context) {
-		throw new Error('useStopsDetailContext must be used within a StopsDetailContextProvider');
+		throw new Error('useStopDetailContext must be used within a StopDetailContextProvider');
 	}
 	return context;
 }
 
-export const StopsDetailContextProvider = ({ children, stopId }: { children: React.ReactNode, stopId?: string }) => {
+/* * */
+
+export const StopDetailContextProvider = ({ children, stopId }: PropsWithChildren<{ stopId: string }>) => {
+	//
+
+	//
+	// A. Setup variables
+
 	const stopsContext = useStopsContext();
 	const linesContext = useLinesContext();
 	const alertsContext = useAlertsContext();
-	const profileContext = useProfileContext();
 	const operationalDateContext = useOperationalDateContext();
+
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+
+	//
+	// B. Transform data
+
+	const selectedStopData = useMemo(() => {
+		if (!stopId) return;
+		return stopsContext.actions.getStopById(stopId);
+	}, [stopId]);
+
+	/* * */
+	/* * */
+	/* * */
+	/* * */
+	/* * */
+	/* * */
+	/* * */
+
 	const [dataStopState, setDataStopState] = useState<Stop | undefined>(undefined);
 	const [dataActiveStopIdState, setDataActiveStopIdState] = useState<string>(stopId || '');
 	const [dataLinesState, setDataLinesState] = useState<Line[] | undefined>(undefined);
@@ -74,7 +94,9 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 	const [dataActiveAlertsState, setDataActiveAlertsState] = useState<SimplifiedAlert[] | undefined>(undefined);
 	const [dataActiveTripIdState, setDataActiveTripIdState] = useState<string | undefined>(undefined);
 	const [dataActiveStopSequenceState, setDataActiveStopSequenceState] = useState<number | undefined>(undefined);
-	const [flagIsFavoriteState, setFlagIsFavoriteState] = useState<boolean>(false);
+
+	//
+	// B. Transform data
 
 	useEffect(() => {
 		if (!dataActiveStopIdState || !stopsContext.data.stops || !stopsContext.data.stops.length) return;
@@ -150,10 +172,6 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 			}
 		})();
 	}, [dataActivePatternState]);
-
-	useEffect(() => {
-		setFlagIsFavoriteState(profileContext.data.favorite_stops?.includes(stopId) ? true : false);
-	}, [profileContext.data.favorite_stops, stopId]);
 
 	useEffect(() => {
 		const prepareTimetableRealtimeData = () => {
@@ -268,39 +286,10 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 		setDataActiveAlertsState(activeAlerts);
 	}, [alertsContext.data.simplified, dataStopState, dataActiveStopIdState]);
 
-	const setActiveStopId = (stopId: string) => {
-		resetActiveTripId();
-		setDataActiveStopIdState(stopId);
-	};
+	//
+	// E. Define context value
 
-	const setActiveTripId = (tripId: string, stopSequence: number) => {
-		const activePattern = dataValidPatternsState?.find(patternGroup => patternGroup.trips.find(trip => trip.trip_ids.includes(tripId)));
-		if (activePattern) {
-			setDataActivePatternState(activePattern);
-		}
-		setDataActiveTripIdState(tripId);
-		setDataActiveStopSequenceState(stopSequence);
-	};
-
-	const resetActiveTripId = () => {
-		setDataActivePatternState(undefined);
-		setDataActiveTripIdState(undefined);
-		setDataShapeState(undefined);
-		setDataActiveStopSequenceState(undefined);
-	};
-
-	const resetActiveStopId = () => {
-		setActiveStopId('');
-		setDataStopState(undefined);
-	};
-
-	const contextValue: StopsDetailContextState = {
-		actions: {
-			resetActiveStopId,
-			resetActiveTripId,
-			setActiveStopId,
-			setActiveTripId,
-		},
+	const contextValue: StopDetailContextState = useMemo(() => ({
 		data: {
 			active_alerts: dataActiveAlertsState,
 			active_pattern_group: dataActivePatternState,
@@ -310,6 +299,8 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 			active_trip_id: dataActiveTripIdState,
 			lines: dataLinesState,
 			patterns: dataPatternsState,
+			selected_stop: selectedStopData,
+			selected_stop_id: dataActiveStopIdState,
 			stop: dataStopState,
 			timetable_realtime: dataTimetableRealtimeState,
 			timetable_realtime_future: dataTimetableRealtimeFutureState,
@@ -317,19 +308,22 @@ export const StopsDetailContextProvider = ({ children, stopId }: { children: Rea
 			timetable_schedule: dataTimetableScheduleState,
 			valid_pattern_groups: dataValidPatternsState,
 		},
-		filters: {
-			none: undefined,
-		},
 		flags: {
-			is_favorite: flagIsFavoriteState,
-			is_loading: dataPatternsState === undefined,
-			is_loading_timetable: dataPatternsState === undefined || dataTimetableRealtimeState === undefined,
+			loading: isLoading,
 		},
-	};
+	}), [
+		isLoading,
+		selectedStopData,
+	]);
+
+	//
+	// F. Render components
 
 	return (
-		<StopsDetailContext.Provider value={contextValue}>
+		<StopDetailContext.Provider value={contextValue}>
 			{children}
-		</StopsDetailContext.Provider>
+		</StopDetailContext.Provider>
 	);
+
+	//
 };

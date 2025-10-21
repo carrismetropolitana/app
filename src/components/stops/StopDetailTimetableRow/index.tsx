@@ -2,7 +2,7 @@
 
 import { LineDisplay } from '@/components/lines/LineDisplay';
 import { useLocationsContext } from '@/contexts/Locations.context';
-import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
+import { useStopDetailContext } from '@/contexts/StopDetail.context';
 import { Arrival, ArrivalStatus } from '@/types/stops.types';
 import { Text } from '@rn-vui/themed';
 import { useCallback, useMemo } from 'react';
@@ -28,31 +28,31 @@ export function StopsDetailContentTimetableRow({ arrivalData, status }: Props) {
 	// A. Setup variables
 
 	// const t = useTranslation('stops.StopsDetailContentTimetableRow');
-	const stopsDetailContext = useStopsDetailContext();
+	const stopDetailContext = useStopDetailContext();
 	const locationsContext = useLocationsContext();
 
 	//
 	// B. Transform data
 
 	const isSelected = useMemo(() => {
-		const isSameTripId = stopsDetailContext.data.active_trip_id === arrivalData.trip_id;
-		const isSameStopSequence = stopsDetailContext.data.active_stop_sequence === arrivalData.stop_sequence;
+		const isSameTripId = stopDetailContext.data.active_trip_id === arrivalData.trip_id;
+		const isSameStopSequence = stopDetailContext.data.active_stop_sequence === arrivalData.stop_sequence;
 		return isSameTripId && isSameStopSequence;
-	}, [stopsDetailContext.data.active_trip_id, stopsDetailContext.data.active_stop_sequence, arrivalData.trip_id, arrivalData.stop_sequence]);
+	}, [stopDetailContext.data.active_trip_id, stopDetailContext.data.active_stop_sequence, arrivalData.trip_id, arrivalData.stop_sequence]);
 
 	// This is needed to avoid rerendering the component when the time changes
-	const thisPattern = stopsDetailContext.data.valid_pattern_groups?.find(pattern => pattern.id === arrivalData.pattern_id);
+	const thisPattern = stopDetailContext.data.valid_pattern_groups?.find(pattern => pattern.id === arrivalData.pattern_id);
 
 	//
 	// C. Handle actions
 
 	const handleSelectTrip = useCallback(() => {
 		if (isSelected) {
-			stopsDetailContext.actions.resetActiveTripId();
+			stopDetailContext.actions.resetActiveTripId();
 			return;
 		}
-		stopsDetailContext.actions.setActiveTripId(arrivalData.trip_id, arrivalData.stop_sequence);
-	}, [arrivalData.trip_id, arrivalData.stop_sequence, stopsDetailContext.actions.setActiveTripId]);
+		stopDetailContext.actions.setActiveTripId(arrivalData.trip_id, arrivalData.stop_sequence);
+	}, [arrivalData.trip_id, arrivalData.stop_sequence, stopDetailContext.actions.setActiveTripId]);
 
 	//
 	// D. Render components

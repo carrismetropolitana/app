@@ -4,7 +4,7 @@
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { LiveIcon } from '@/components/common/LiveIcon';
 import { LineBadge } from '@/components/lines/LineBadge';
-import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
+import { useStopDetailContext } from '@/contexts/StopDetail.context';
 import { theming } from '@/theme/Variables';
 import { NextArrivalStop } from '@/types/timetables.types';
 import { ListItem, Text } from '@rn-vui/themed';
@@ -38,9 +38,9 @@ export default function StopDetailNextArrivals({ description, descriptionEnabled
 	const { t } = useTranslation('translation', { keyPrefix: 'stops.StopDetails' });
 
 	const stopDetailNextArrivals = styles();
-	const stopsDetailContext = useStopsDetailContext();
+	const stopDetailContext = useStopDetailContext();
 
-	const timetable = stopsDetailContext.data.timetable_realtime_future ?? [];
+	const timetable = stopDetailContext.data.timetable_realtime_future ?? [];
 
 	//
 	// B. Transform data

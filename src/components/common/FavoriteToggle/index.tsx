@@ -98,7 +98,7 @@ export function FavoriteToggle({ color, isActive, onToggle }: FavoriteToggleProp
 				onPressIn={handleToggle}
 				style={styles.container}
 			>
-				<IconHeartFilled color={color} size={28} />
+				<IconHeartFilled color={color || systemVariables.brand.cm} size={28} />
 			</TouchableOpacity>
 		);
 	}

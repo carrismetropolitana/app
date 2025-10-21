@@ -3,7 +3,7 @@
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { StopArrivalRow } from '@/components/stops/StopArrivalRow';
 import { useLocaleContext } from '@/contexts/Locale.context';
-import { useStopsDetailContext } from '@/contexts/StopsDetail.context';
+import { useStopDetailContext } from '@/contexts/StopDetail.context';
 import { NextArrivalStop } from '@/types/timetables.types';
 import { ListItem, Text } from '@rn-vui/themed';
 import { Link } from 'expo-router';
@@ -35,10 +35,10 @@ export default function StopDetailNextArrivalsByPatternID({ description, descrip
 	const { t } = useTranslation('translation', { keyPrefix: 'stops.StopDetails' });
 
 	const stopDetailNextArrivals = styles();
-	const stopsDetailContext = useStopsDetailContext();
+	const stopDetailContext = useStopDetailContext();
 	const localeContext = useLocaleContext();
 
-	const timetable = stopsDetailContext.data.timetable_realtime_future ?? [];
+	const timetable = stopDetailContext.data.timetable_realtime_future ?? [];
 
 	//
 	// B. Transform data
