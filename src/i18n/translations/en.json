@@ -803,34 +803,9 @@
 		}
 	},
 	"stops": {
-		"StopDetails": {
-			"NextArrivals": {
-				"arriving": "Now",
-				"hours": "h",
-				"minutes": "min",
-				"see_less": "See less arrivals",
-				"see_more": "See more arrivals"
-			},
-			"description": "The passage times are estimated and may be subject to changes due to traffic, roadworks or other unforeseen events. Check the vehicle's position on the map to always obtain the most reliable information.",
-			"description_accessibility_hint": "This description provides a warning about the next arrivals schedules",
-			"description_accessibility_label": "Warning about the next arrival schedules",
-			"end_of_day": "End of day",
-			"heading": "Next Circulations",
-			"hint": "No trip for this stop today ",
-			"nextArrivalsLabel": "Next Arrivals",
-			"next_arrivals_accessibility_label": "List of arrivals for this stop",
-			"next_arrivals_realtime_hint": "This arrival is in real time",
-			"next_arrivals_realtime_label": "This list item of the next arrivals list is in real time",
-			"next_arrivals_scheduled_hint": "This stop is in real time ",
-			"next_arrivals_scheduled_label": "List of arrivals for this stop ",
-			"no_data_accessibility_hint": "There aren't any schedules and trips scheduled for this stop",
-			"no_data_accessibility_label": "No trips planned for this stop today",
-			"second_heading": "Lines that pass in this stop",
-			"show_hide_all_nextArrivals_accessibility_hint": "Click this button to show or hide more stops ",
-			"show_hide_all_nextArrivals_accessibility_label": "Click this to show or hide extra arrivals",
-			"third_heading": "Caracterization",
-			"title_accessibility_hint": "This component represents the next arrivals for this stop",
-			"title_accessibility_label": "Next arrivals for this stop"
+		"StopDetailArrivals": {
+			"footnote": "Arrival times are estimated and may be subject to change due to traffic, construction, or other unforeseen circumstances. Check the vehicle's position on the map for the most reliable information.",
+			"title": "Next arrivals at this stop"
 		},
 		"StopDisplay": {
 			"stopDisplayLocalityAccessibilityHint": "This element represents the locality of a stop",

@@ -10,7 +10,7 @@ import { TouchableOpacity, View } from 'react-native';
 
 import styles from './styles.module.css';
 
-import StopDetailNextArrivals from '../StopDetailNextArrivals';
+import StopDetailArrivals from '../detail/StopDetailArrivals';
 
 /* * */
 
@@ -71,7 +71,7 @@ export function StopsDetailContentTimetableRow({ arrivalData, status }: Props) {
 						shortName={thisPattern.line_id}
 						textColor={thisPattern.text_color}
 					/>
-					<StopDetailNextArrivals
+					<StopDetailArrivals
 						href={`/lines/${arrivalData.line_id}`}
 						title={arrivalData.headsign}
 					/>

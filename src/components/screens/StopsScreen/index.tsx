@@ -8,7 +8,7 @@ import StopSearchBar from '@/components/common/StopSearchBar';
 import { MapStyle, MapView } from '@/components/map/MapView';
 import { MapViewStylePath } from '@/components/map/MapViewStylePath';
 import { MapViewStyleStops } from '@/components/map/MapViewStyleStops';
-import StopDetailNextArrivals from '@/components/stops/StopDetailNextArrivals';
+import StopDetailArrivals from '@/components/stops/detail/StopDetailArrivals';
 import { useLocationsContext } from '@/contexts/Locations.context';
 import { useMapOptionsContext } from '@/contexts/MapOptions.context';
 import { useStopsListContext } from '@/contexts/OldStopsList.context';
@@ -205,7 +205,7 @@ export function StopsScreen() {
 							</ListItem>
 							<View style={stopMapDetailStyles.nextArrivalsContainer}>
 								<Text style={stopMapDetailStyles.nextArrivalsLabel}>{t('StopDetails.nextArrivalsLabel')}</Text>
-								<StopDetailNextArrivals href={`/stops/${selectedStop}`} />
+								<StopDetailArrivals href={`/stops/${selectedStop}`} />
 							</View>
 						</>
 					)}

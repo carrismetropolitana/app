@@ -25,7 +25,7 @@ interface Props {
 }
 
 /* * */
-export default function StopDetailNextArrivalsByPatternID({ description, descriptionEnabled, href, patternIds, title }: Props) {
+export default function StopDetailArrivalsByPatternID({ description, descriptionEnabled, href, patternIds, title }: Props) {
 	//
 
 	//

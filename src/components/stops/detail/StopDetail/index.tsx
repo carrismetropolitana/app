@@ -1,6 +1,7 @@
 /* * */
 
 import { Container } from '@/components/layout/Container';
+import { StopDetailArrivals } from '@/components/stops/detail/StopDetailArrivals';
 import { StopDetailHeader } from '@/components/stops/detail/StopDetailHeader';
 
 /* * */
@@ -9,10 +10,8 @@ export function StopDetail() {
 	return (
 		<Container>
 			<StopDetailHeader />
-			{/* <View style={{ marginTop: 16 }}>
-				<StopDetailNextArrivals title="Próximas Passagens" />
-			</View>
-			<StopDetailLineGoTrough /> */}
+			<StopDetailArrivals />
+			{/* <StopDetailLineGoTrough /> */}
 		</Container>
 	);
 }
