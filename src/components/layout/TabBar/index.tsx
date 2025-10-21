@@ -56,7 +56,7 @@ export function TabBar() {
 				}}
 			/>
 			<Tabs.Screen
-				name="lines"
+				name="(lines)"
 				options={{
 					tabBarAccessibilityLabel: t('(tabs)/lines.title'),
 					tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
@@ -68,7 +68,7 @@ export function TabBar() {
 				}}
 			/>
 			<Tabs.Screen
-				name="stops"
+				name="(stops)"
 				options={{
 					tabBarAccessibilityLabel: t('(tabs)/stops.title'),
 					tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
