@@ -26,6 +26,7 @@ const config: ExpoConfig = {
 
 	experiments: {
 		reactCanary: true,
+		typedRoutes: true,
 	},
 
 	/* * */
