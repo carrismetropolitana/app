@@ -1,0 +1,53 @@
+/* * */
+
+import { LineBadge } from '@/components/lines/LineBadge';
+import { ListSection } from '@/components/list/ListSection';
+import { ListSectionItemProps } from '@/components/list/ListSectionItem';
+import { useStopDetailContext } from '@/contexts/StopDetail.context';
+import { router } from 'expo-router';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+
+/* * */
+
+export function StopDetailLines() {
+	//
+
+	//
+	// A. Setup variables
+
+	const stopDetailContext = useStopDetailContext();
+
+	const { t } = useTranslation('translation', { keyPrefix: 'stops.StopDetailLines' });
+
+	//
+	// B. Transform data
+
+	const availablePatternsList: ListSectionItemProps[] = useMemo(() => {
+		// Skip if no patterns are available
+		if (!stopDetailContext.data.available_patterns?.length) return [];
+		// Prepare patterns list
+		return stopDetailContext.data.available_patterns.map(item => ({
+			icon: <LineBadge lineId={item.line_id} withAlertIcon />,
+			key: item.id,
+			label: item.headsign,
+			onPress: () => router.navigate(`/lines/${item.line_id}`, { withAnchor: true }),
+		}));
+	}, [stopDetailContext.data.available_patterns]);
+
+	//
+	// C. Render components
+
+	if (!availablePatternsList.length) {
+		return null;
+	}
+
+	return (
+		<ListSection
+			items={availablePatternsList}
+			title={t('title')}
+		/>
+	);
+
+	//
+}

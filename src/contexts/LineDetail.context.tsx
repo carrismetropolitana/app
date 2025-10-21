@@ -89,7 +89,7 @@ export const LineDetailContextProvider = ({ children, lineId }: PropsWithChildre
 			setAvailablePatternsData(fetchResult);
 			setIsLoading(false);
 		})();
-	}, [lineId, selectedLineData]);
+	}, [selectedLineData]);
 
 	useEffect(() => {
 		(async () => {
