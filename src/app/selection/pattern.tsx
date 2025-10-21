@@ -3,7 +3,7 @@
 import { CloseButton } from '@/components/common/CloseButton';
 import { PatternSelection } from '@/components/selection/pattern/PatternSelection';
 import { type OperationalDate } from '@tmlmobilidade/types';
-import { router, useLocalSearchParams, useNavigation } from 'expo-router';
+import { type Route, router, useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -16,7 +16,7 @@ export default function Page() {
 	// A. Setup variables
 
 	const navigation = useNavigation();
-	const localSearchParams = useLocalSearchParams<{ line_id: string, operational_date: OperationalDate, pattern_id: string, return_to: string }>();
+	const localSearchParams = useLocalSearchParams<{ line_id: string, operational_date: OperationalDate, pattern_id: string, return_to: Route }>();
 
 	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.selection/pattern' });
 
@@ -36,7 +36,7 @@ export default function Page() {
 		router.dismissTo({
 			params: { pattern_id: patternId },
 			pathname: localSearchParams.return_to,
-		});
+		} as unknown as Route); // FIXME: TypeScript issue
 	};
 
 	//

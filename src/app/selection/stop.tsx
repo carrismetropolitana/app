@@ -2,7 +2,7 @@
 
 import { CloseButton } from '@/components/common/CloseButton';
 import { StopSelection } from '@/components/selection/stop/StopSelection';
-import { router, useLocalSearchParams, useNavigation } from 'expo-router';
+import { type Route, router, useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -15,7 +15,7 @@ export default function Page() {
 	// A. Setup variables
 
 	const navigation = useNavigation();
-	const localSearchParams = useLocalSearchParams<{ return_to: string }>();
+	const localSearchParams = useLocalSearchParams<{ return_to: Route }>();
 
 	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.selection/stop' });
 
@@ -35,7 +35,7 @@ export default function Page() {
 		router.dismissTo({
 			params: { stop_id: stopId },
 			pathname: localSearchParams.return_to,
-		});
+		} as unknown as Route); // FIXME: TypeScript issue
 	};
 
 	//
