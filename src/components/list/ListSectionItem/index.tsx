@@ -2,7 +2,7 @@
 
 import { useSystemVariables } from '@/theme/global';
 import { IconChevronRight } from '@tabler/icons-react-native';
-import { useRouter } from 'expo-router';
+import { type Route, useRouter } from 'expo-router';
 import { type ReactNode } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
@@ -19,7 +19,7 @@ export interface ListSectionItemProps {
 	icon?: ReactNode
 	key: string
 	label: string
-	link?: string
+	link?: Route
 	onPress?: () => void
 	replaceChevron?: ReactNode
 	size?: 'md' | 'sm'

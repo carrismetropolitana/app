@@ -45,7 +45,7 @@ export function HomeScreenFavoriteLinesBar() {
 	// C. Handle actions
 
 	const handlePress = (lineId: string) => {
-		router.push(`/lines/${lineId}`, { withAnchor: true });
+		router.push(`/lines/${lineId}`);
 	};
 
 	//

@@ -31,7 +31,7 @@ export function StopDetailLines() {
 			icon: <LineBadge lineId={item.line_id} withAlertIcon />,
 			key: item.id,
 			label: item.headsign,
-			onPress: () => router.navigate(`/lines/${item.line_id}`, { withAnchor: true }),
+			onPress: () => router.navigate(`/lines/${item.line_id}`),
 		}));
 	}, [stopDetailContext.data.available_patterns]);
 
