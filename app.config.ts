@@ -16,7 +16,9 @@ const config: ExpoConfig = {
 
 	/* * */
 
-	icon: './assets/app/icon-light.png',
+	icon: process.env.EXPO_PUBLIC_ENVIRONMENT === 'production' || process.env.EXPO_PUBLIC_ENVIRONMENT === 'staging'
+		? './assets/app/icon-light.png'
+		: './assets/app/icon-light-dev.png',
 
 	orientation: 'portrait',
 
@@ -97,7 +99,9 @@ const config: ExpoConfig = {
 		 * This might be due to Expo expecting a Icon-composer-built icon set.
 		 * @see https://github.com/expo/expo/issues/39782
 		 */
-		icon: './assets/app/ios-icon.icon',
+		icon: process.env.EXPO_PUBLIC_ENVIRONMENT === 'production' || process.env.EXPO_PUBLIC_ENVIRONMENT === 'staging'
+			? './assets/app/ios-icon.icon'
+			: './assets/app/ios-icon-dev.icon',
 
 		infoPlist: {
 
