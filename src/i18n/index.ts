@@ -1,10 +1,16 @@
+/* * */
+
 import * as Localization from 'expo-localization';
-import i18n from 'i18next';
+import i18next from 'i18next';
 import ICU from 'i18next-icu';
 import { initReactI18next } from 'react-i18next';
 
+/* * */
+
 import en from './translations/en.json';
 import pt from './translations/pt.json';
+
+/* * */
 
 const resources = {
 	en: { translation: en },
@@ -14,10 +20,14 @@ const resources = {
 const locales = Localization.getLocales();
 const matchedLocale = locales[0].languageCode?.startsWith('pt') ? 'pt' : 'en';
 
-i18n.use(ICU).use(initReactI18next).init({
+/* * */
+
+i18next.use(ICU).use(initReactI18next).init({
 	fallbackLng: 'pt',
 	lng: matchedLocale,
 	resources,
 });
 
-export default i18n;
+/* * */
+
+export default i18next;
