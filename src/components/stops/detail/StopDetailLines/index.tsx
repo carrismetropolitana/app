@@ -1,5 +1,6 @@
 /* * */
 
+import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { LineBadge } from '@/components/lines/LineBadge';
 import { ListSection } from '@/components/list/ListSection';
 import { ListSectionItemProps } from '@/components/list/ListSectionItem';
@@ -18,7 +19,7 @@ export function StopDetailLines() {
 
 	const stopDetailContext = useStopDetailContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'stops.StopDetailLines' });
+	const { t } = useTranslation();
 
 	//
 	// B. Transform data
@@ -39,13 +40,13 @@ export function StopDetailLines() {
 	// C. Render components
 
 	if (!availablePatternsList.length) {
-		return null;
+		return <NoDataLabel text={t('stops.StopDetailLines.no_data')} />;
 	}
 
 	return (
 		<ListSection
 			items={availablePatternsList}
-			title={t('title')}
+			title={t('stops.StopDetailLines.title')}
 		/>
 	);
 
