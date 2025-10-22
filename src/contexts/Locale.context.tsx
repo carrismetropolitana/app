@@ -1,21 +1,12 @@
 /* * */
 
-import i18n from '@/i18n';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
-
-/* * */
-
-const LOCAL_STORAGE_KEYS = {
-	locale: 'locale',
-};
+import * as Localization from 'expo-localization';
+import i18next from 'i18next';
+import { createContext, type PropsWithChildren, useContext, useEffect, useMemo } from 'react';
 
 /* * */
 
 interface LocaleContextState {
-	actions: {
-		changeLanguage: (lang: string) => void
-	}
 	data: {
 		locale: string
 	}
@@ -41,39 +32,28 @@ export const LocaleContextProvider = ({ children }: PropsWithChildren) => {
 	//
 	// A. Setup variables
 
-	const [currentLocale, setCurrentLocale] = useState<string>(i18n.language);
+	const locales = Localization.useLocales();
 
 	//
-	// B. Fetch data
+	// B. Transform data
 
-	useEffect(() => {
-		(async () => {
-			const foundLocale = await AsyncStorage.getItem(LOCAL_STORAGE_KEYS.locale);
-			if (foundLocale) setCurrentLocale(foundLocale);
-		})();
-	}, []);
+	const currentLocale = useMemo(() => {
+		if (!locales || locales.length === 0) return 'pt';
+		if (!locales[0].languageCode) return 'pt';
+		return locales[0].languageCode;
+	}, [locales]);
 
 	//
 	// C. Handle actions
 
 	useEffect(() => {
-		(async () => {
-			i18n.changeLanguage(currentLocale);
-			await AsyncStorage.setItem(LOCAL_STORAGE_KEYS.locale, currentLocale);
-		})();
+		i18next.changeLanguage(currentLocale);
 	}, [currentLocale]);
-
-	const changeLanguage = (lang: string) => {
-		setCurrentLocale(lang);
-	};
 
 	//
 	// D. Context value
 
 	const contextValue: LocaleContextState = useMemo(() => ({
-		actions: {
-			changeLanguage,
-		},
 		data: {
 			locale: currentLocale,
 		},

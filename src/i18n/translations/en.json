@@ -623,6 +623,12 @@
 				"tickets": "Occasional Tickets"
 			}
 		},
+		"MoreSectionSettings": {
+			"heading": "Settings",
+			"items": {
+				"locale": "Change Language"
+			}
+		},
 		"MoreSectionSupport": {
 			"heading": "Support",
 			"items": {
@@ -803,11 +809,12 @@
 		}
 	},
 	"stops": {
-		"StopDetailArrivals": {
+		"StopDetailArrivalsList": {
 			"footnote": "Arrival times are estimated and may be subject to change due to traffic, construction, or other unforeseen circumstances. Check the vehicle's position on the map for the most reliable information.",
 			"title": "Next arrivals at this stop"
 		},
 		"StopDetailLines": {
+			"no_data": "No service available for this stop",
 			"title": "Destinations from this stop"
 		}
 	},

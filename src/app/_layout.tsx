@@ -1,8 +1,8 @@
 /* * */
 
 import '@/i18n';
-import 'react-native-reanimated';
 import 'expo-dev-client';
+import 'react-native-reanimated';
 
 /* * */
 
