@@ -2,8 +2,8 @@
 
 import { LiveIcon } from '@/components/common/LiveIcon';
 import { useLocaleContext } from '@/contexts/Locale.context';
+import { Dates } from '@/core-replica';
 import { IconClockHour9 } from '@tabler/icons-react-native';
-import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
@@ -102,12 +102,12 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 								<View key={scheduledArrival.unixTs}>
 									<Text
 										accessibilityHint={t('nextArrivalsRealtimeAccessibilityHint')}
-										accessibilityLabel={t('nextArrivalsRealtimeAccessibilityLabel', dayjs(scheduledArrival.unixTs).format('HH:mm'))}
+										accessibilityLabel={t('nextArrivalsRealtimeAccessibilityLabel', Dates.fromUnixTimestamp(scheduledArrival.unixTs).toFormat('HH:mm'))}
 										accessibilityLanguage={localeContext.data.locale}
 										accessibilityRole="text"
 										style={styles.scheduledArrival}
 									>
-										{dayjs(scheduledArrival.unixTs).format('HH:mm')}
+										{Dates.fromUnixTimestamp(scheduledArrival.unixTs).toFormat('HH:mm')}
 									</Text>
 								</View>
 							))}

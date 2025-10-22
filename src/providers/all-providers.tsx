@@ -6,7 +6,6 @@ import { DataProviders } from '@/providers/data-providers';
 import { MapProviders } from '@/providers/map-providers';
 import { NativeProviders } from '@/providers/native-providers';
 import { PrivacyProviders } from '@/providers/privacy-providers';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { type PropsWithChildren } from 'react';
 
 /* * */
@@ -18,11 +17,9 @@ export function AllProviders({ children }: PropsWithChildren) {
 				<DataProviders>
 					<AccountProviders>
 						<MapProviders>
-							<BottomSheetModalProvider>
-								<ThemeProvider>
-									{children}
-								</ThemeProvider>
-							</BottomSheetModalProvider>
+							<ThemeProvider>
+								{children}
+							</ThemeProvider>
 						</MapProviders>
 					</AccountProviders>
 				</DataProviders>
