@@ -131,9 +131,18 @@ const config: ExpoConfig = {
 
 		'expo-router',
 
-		'expo-localization',
-
 		'expo-audio',
+
+		/**
+		 * Enables setting the preferred app locale from the device settings.
+		 * @see https://docs.expo.dev/guides/localization/#enabling-per-app-language-selection-via-system-settings
+		 */
+		['expo-localization', {
+			supportedLocales: {
+				android: ['en', 'pt'],
+				ios: ['en', 'pt'],
+			},
+		}],
 
 		/**
 		 * Configures location permissions for the app.
