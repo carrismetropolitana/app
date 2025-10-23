@@ -67,10 +67,6 @@ export function StopDetailHeader() {
 						isActive={isFavoriteStop}
 						onToggle={handleToggleFavorite}
 					/>
-					<FavoriteToggle
-						isActive={isFavoriteStop}
-						onToggle={handleToggleFavorite}
-					/>
 				</View>
 			</View>
 
