@@ -1,5 +1,6 @@
 /* * */
 
+import { AccountContextProvider } from '@/contexts/Account.context';
 import { AlertsContextProvider } from '@/contexts/Alerts.context';
 import { DebugContextProvider } from '@/contexts/Debug.context';
 import { LinesContextProvider } from '@/contexts/Lines.context';
@@ -50,7 +51,9 @@ export function DataProviders({ children }: PropsWithChildren) {
 							<StopsContextProvider>
 								<LinesContextProvider>
 									<VehiclesContextProvider>
-										{children}
+										<AccountContextProvider>
+											{children}
+										</AccountContextProvider>
 									</VehiclesContextProvider>
 								</LinesContextProvider>
 							</StopsContextProvider>

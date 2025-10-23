@@ -3,7 +3,6 @@
 import { type MapOverlayStopsGeoJsonProperties, transformStopDataIntoGeoJsonFeature } from '@/components/map/overlays/MapOverlayStops';
 import { useAccessibilityContext } from '@/contexts/Accessibility.context';
 import { useAccountContext } from '@/contexts/Account.context';
-import { useFavoritesContext } from '@/contexts/Favorites.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useUserLocationContext } from '@/contexts/UserLocation.context';
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
@@ -61,7 +60,6 @@ export const StopSelectionContextProvider = ({ children }: PropsWithChildren) =>
 
 	const stopsContext = useStopsContext();
 	const accountContext = useAccountContext();
-	const favoritesContext = useFavoritesContext();
 	const userLocationContext = useUserLocationContext();
 	const accessibilityContext = useAccessibilityContext();
 
@@ -83,9 +81,9 @@ export const StopSelectionContextProvider = ({ children }: PropsWithChildren) =>
 	}, [accountContext.data.account?.preferences?.recent_stop_ids, stopsContext.data.stops]);
 
 	const favoriteStopsData: Stop[] = useMemo(() => {
-		const currentFavorites = new Set(favoritesContext.data.stop_ids || []);
+		const currentFavorites = new Set(accountContext.data.account?.favorites.stop_ids || []);
 		return stopsContext.data.stops.filter(stop => currentFavorites.has(stop.id));
-	}, [stopsContext.data.stops, favoritesContext.data.stop_ids]);
+	}, [stopsContext.data.stops, accountContext.data.account?.favorites.stop_ids]);
 
 	const favoriteStopsDataFC = useMemo(() => {
 		if (!favoriteStopsData) return;

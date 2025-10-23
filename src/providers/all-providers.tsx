@@ -1,7 +1,6 @@
 /* * */
 
 import { ThemeProvider } from '@/contexts/Theme.context';
-import { AccountProviders } from '@/providers/account-providers';
 import { DataProviders } from '@/providers/data-providers';
 import { MapProviders } from '@/providers/map-providers';
 import { NativeProviders } from '@/providers/native-providers';
@@ -15,13 +14,11 @@ export function AllProviders({ children }: PropsWithChildren) {
 		<NativeProviders>
 			<PrivacyProviders>
 				<DataProviders>
-					<AccountProviders>
-						<MapProviders>
-							<ThemeProvider>
-								{children}
-							</ThemeProvider>
-						</MapProviders>
-					</AccountProviders>
+					<MapProviders>
+						<ThemeProvider>
+							{children}
+						</ThemeProvider>
+					</MapProviders>
 				</DataProviders>
 			</PrivacyProviders>
 		</NativeProviders>

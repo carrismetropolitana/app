@@ -1,8 +1,8 @@
 /* * */
 
 import { WaypointSpineMarker } from '@/components/lines/waypoints/WaypointSpineMarker';
+import { useAccountContext } from '@/contexts/Account.context';
 import { useDebugContext } from '@/contexts/Debug.context';
-import { useFavoritesContext } from '@/contexts/Favorites.context';
 import { View } from 'react-native';
 
 import { useStyles } from './styles';
@@ -30,13 +30,13 @@ export function WaypointSpine({ backgroundColor, foregroundColor, isFirstStop, i
 
 	const styles = useStyles();
 
-	const favoritesContext = useFavoritesContext();
+	const accountContext = useAccountContext();
 	const debugContext = useDebugContext();
 
 	//
 	// B. Transform data
 
-	const isFavoriteStop = favoritesContext.data.stop_ids.includes(stopId);
+	const isFavoriteStop = accountContext.data.account?.favorites.stop_ids.includes(stopId);
 
 	//
 	// C. Render components

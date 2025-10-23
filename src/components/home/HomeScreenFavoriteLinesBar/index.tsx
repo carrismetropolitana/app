@@ -2,7 +2,7 @@
 
 import { LineBadge } from '@/components/lines/LineBadge';
 import { useAccessibilityContext } from '@/contexts/Accessibility.context';
-import { useFavoritesContext } from '@/contexts/Favorites.context';
+import { useAccountContext } from '@/contexts/Account.context';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { type Line } from '@carrismetropolitana/api-types/network';
 import { router } from 'expo-router';
@@ -24,7 +24,7 @@ export function HomeScreenFavoriteLinesBar() {
 	const styles = useStyles();
 
 	const linesContext = useLinesContext();
-	const favoritesContext = useFavoritesContext();
+	const accountContext = useAccountContext();
 	const accessibilityContext = useAccessibilityContext();
 
 	const { t } = useTranslation('translation', { keyPrefix: 'home.HomeScreenFavoriteLinesBar' });
@@ -34,12 +34,12 @@ export function HomeScreenFavoriteLinesBar() {
 
 	const favoriteLinesData = useMemo(() => {
 		const result: Line[] = [];
-		favoritesContext.data.line_ids.forEach((lineId) => {
+		accountContext.data.account?.favorites.line_ids.forEach((lineId) => {
 			const foundLineData = linesContext.actions.getLineDataById(lineId);
 			if (foundLineData) result.push(foundLineData);
 		});
 		return result.sort((a, b) => a.id.localeCompare(b.id));
-	}, [favoritesContext.data.line_ids, linesContext.data.lines]);
+	}, [accountContext.data.account?.favorites.line_ids, linesContext.data.lines]);
 
 	//
 	// C. Handle actions

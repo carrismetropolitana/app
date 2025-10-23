@@ -1,7 +1,6 @@
 /* * */
 
 import { useAccountContext } from '@/contexts/Account.context';
-import { useFavoritesContext } from '@/contexts/Favorites.context';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useUserLocationContext } from '@/contexts/UserLocation.context';
@@ -54,7 +53,6 @@ export const LineSelectionContextProvider = ({ children }: PropsWithChildren) =>
 	const linesContext = useLinesContext();
 	const stopsContext = useStopsContext();
 	const accountContext = useAccountContext();
-	const favoritesContext = useFavoritesContext();
 	const userLocationContext = useUserLocationContext();
 
 	const [filterBySearchState, setFilterBySearchState] = useState<LineSelectionContextState['filters']['by_search']>('');
@@ -73,9 +71,9 @@ export const LineSelectionContextProvider = ({ children }: PropsWithChildren) =>
 	}, [accountContext.data.account?.preferences?.recent_line_ids, linesContext.data.lines]);
 
 	const favoriteLinesData: Line[] = useMemo(() => {
-		const currentFavorites = new Set(favoritesContext.data.line_ids || []);
+		const currentFavorites = new Set(accountContext.data.account?.favorites.line_ids || []);
 		return linesContext.data.lines.filter(line => currentFavorites.has(line.id));
-	}, [linesContext.data.lines, favoritesContext.data.line_ids]);
+	}, [linesContext.data.lines, accountContext.data.account?.favorites.line_ids]);
 
 	const nearbyLinesData: Line[] = useMemo(() => {
 		// Skip if no stops are available
