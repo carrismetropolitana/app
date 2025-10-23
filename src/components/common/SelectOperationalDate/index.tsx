@@ -25,7 +25,7 @@ export function SelectOperationalDate() {
 
 	const operationalDateContext = useOperationalDateContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'common.SelectOperationalDate' });
+	const { t } = useTranslation();
 
 	const [showDatePicker, setShowDatePicker] = useState(false);
 
@@ -69,30 +69,30 @@ export function SelectOperationalDate() {
 			<View style={styles.container}>
 
 				<TouchableOpacity
-					accessibilityHint={t('today.accessibility_hint')}
+					accessibilityHint={t('common.SelectOperationalDate.today.accessibility_hint')}
 					accessibilityState={{ checked: isToday ? true : false }}
 					onPress={handleSelectToday}
 					style={[styles.button, isToday && styles.buttonIsSelected]}
 				>
 					<Text style={[styles.label, isToday && styles.labelIsSelected]}>
-						{t('today.label')}
+						{t('common.SelectOperationalDate.today.label')}
 					</Text>
 				</TouchableOpacity>
 
 				<TouchableOpacity
-					accessibilityHint={t('tomorrow.accessibility_hint')}
+					accessibilityHint={t('common.SelectOperationalDate.tomorrow.accessibility_hint')}
 					accessibilityState={{ checked: isTomorrow ? true : false }}
 					onPress={handleSelectTomorrow}
 					style={[styles.button, isTomorrow && styles.buttonIsSelected]}
 				>
 					<Text style={[styles.label, isTomorrow && styles.labelIsSelected]}>
-						{t('tomorrow.label')}
+						{t('common.SelectOperationalDate.tomorrow.label')}
 					</Text>
 				</TouchableOpacity>
 
 				<TouchableOpacity
-					accessibilityHint={t('other_date.accessibility_hint')}
-					accessibilityLabel={t('other_date.accessibility_label', { date: operationalDateContext.data.selected_date_display })}
+					accessibilityHint={t('common.SelectOperationalDate.other_date.accessibility_hint')}
+					accessibilityLabel={t('common.SelectOperationalDate.other_date.accessibility_label', { date: operationalDateContext.data.selected_date_display })}
 					onPress={() => setShowDatePicker(true)}
 					style={[styles.button, isOtherDate && styles.buttonIsSelected]}
 				>

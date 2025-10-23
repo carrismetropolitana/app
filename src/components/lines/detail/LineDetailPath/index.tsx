@@ -1,6 +1,6 @@
 /* * */
 
-import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
+import { NoDataLabel } from '@/components/common/NoDataLabel';
 import { Waypoint } from '@/components/lines/waypoints/Waypoint';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { getServiceUrl } from '@/settings/service-urls';

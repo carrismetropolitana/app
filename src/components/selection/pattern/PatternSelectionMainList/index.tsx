@@ -1,6 +1,6 @@
 /* * */
 
-import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
+import { NoDataLabel } from '@/components/common/NoDataLabel';
 import { ListTitle } from '@/components/list/ListTitle';
 import { usePatternSelectionContext } from '@/components/selection/pattern/context/PatternSelection.context';
 import { type PatternSelectionProps } from '@/components/selection/pattern/PatternSelection';

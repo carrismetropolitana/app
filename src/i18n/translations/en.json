@@ -282,6 +282,11 @@
 			"hours": "h",
 			"minutes": "min"
 		},
+		"NoDataLabel": {
+			"default": "No data available",
+			"noDataAccessibilityHint": "Indicates that there isn't any data available",
+			"noDataAccessibilityLabel": "No data available"
+		},
 		"SearchBar": {
 			"placeholder": "Search..."
 		},
@@ -406,33 +411,7 @@
 			"aria_label": "Profile"
 		}
 	},
-	"homepage": {
-		"SuggestionCard": {
-			"SuggestionCardDescription": "Interact with your profile (Button Below) to add your favorite widgets here.",
-			"SuggestionCardTitle": "Personalize your experience"
-		}
-	},
-	"layout": {
-		"NoDataLabel": {
-			"default": "No data available",
-			"noDataAccessibilityHint": "Indicates that there isn't any data available",
-			"noDataAccessibilityLabel": "No data available"
-		},
-		"TabStack": {
-			"Home": "Home",
-			"Lines": "Lines",
-			"More": "More",
-			"Stops": "Stops"
-		},
-		"linePageHeaderTitle": "Line",
-		"linelistChooserAccessibilityHint": "This element is where you can select a line",
-		"linelistChooserAccessibilityLabel": "Select a line",
-		"searchByNamePlaceholder": "Search by name"
-	},
 	"lines": {
-		"AlertsCarousel": {
-			"heading": "Service Alerts"
-		},
 		"LineBadge": {
 			"accessibility_hint": "Double tap to open this line's timetable",
 			"label": "Line {lineName}",

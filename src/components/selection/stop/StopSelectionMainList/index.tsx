@@ -1,6 +1,6 @@
 /* * */
 
-import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
+import { NoDataLabel } from '@/components/common/NoDataLabel';
 import { ListSectionItem } from '@/components/list/ListSectionItem';
 import { ListTitle } from '@/components/list/ListTitle';
 import { useStopSelectionContext } from '@/components/selection/stop/context/StopSelection.context';

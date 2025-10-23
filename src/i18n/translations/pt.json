@@ -296,6 +296,11 @@
 			"hours": "h",
 			"minutes": "min"
 		},
+		"NoDataLabel": {
+			"default": "Sem dados disponíveis",
+			"noDataAccessibilityHint": "Indica que não existem dados disponíveis",
+			"noDataAccessibilityLabel": "Sem dados disponíveis"
+		},
 		"SearchBar": {
 			"placeholder": "Pesquisar..."
 		},
@@ -425,29 +430,6 @@
 			"aria_label": "Perfil"
 		}
 	},
-	"homepage": {
-		"SuggestionCard": {
-			"SuggestionCardDescription": "Interaja com o seu perfil (Botão Abaixo) para adicionar os seus widgets favoritos aqui.",
-			"SuggestionCardTitle": "Personalize a sua experiência"
-		}
-	},
-	"layout": {
-		"NoDataLabel": {
-			"default": "Sem dados disponíveis",
-			"noDataAccessibilityHint": "Indica que não existem dados disponíveis",
-			"noDataAccessibilityLabel": "Sem dados disponíveis"
-		},
-		"TabStack": {
-			"Home": "ínicio",
-			"Lines": "Linhas",
-			"More": "Mais",
-			"Stops": "Paragens"
-		},
-		"linePageHeaderTitle": "Linha",
-		"linelistChooserAccessibilityHint": "Este elemento é onde pode para escolher uma linha",
-		"linelistChooserAccessibilityLabel": "Escolha uma linha",
-		"searchByNamePlaceholder": "Pesquiar por nome"
-	},
 	"lineWidgetCard": {
 		"lineAcessibilityHint": "Widget na página inicial da app para a linha {lineId} com destino a {title}",
 		"lineAcessibilityLabel": "Widget da linha {lineId} com destino a {title}"
@@ -458,9 +440,6 @@
 		"linesAccessibilityWithAlerts": "Contém Alertas"
 	},
 	"lines": {
-		"AlertsCarousel": {
-			"heading": "Alertas de Serviço"
-		},
 		"LineBadge": {
 			"accessibility_hint": "Duplo toque para abrir o horário desta linha",
 			"label": "Linha {lineName}",

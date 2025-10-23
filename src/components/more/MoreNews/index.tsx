@@ -1,6 +1,6 @@
 /* * */
 
-import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
+import { NoDataLabel } from '@/components/common/NoDataLabel';
 import { MoreNewsItem } from '@/components/more/MoreNewsItem';
 import { type News } from '@/types/news.types';
 import { router } from 'expo-router';

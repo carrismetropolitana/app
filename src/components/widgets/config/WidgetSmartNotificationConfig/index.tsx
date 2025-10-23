@@ -1,6 +1,6 @@
 /* * */
 
-import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
+import { NoDataLabel } from '@/components/common/NoDataLabel';
 import { Container } from '@/components/layout/Container';
 import { LargeButton } from '@/components/layout/LargeButton';
 import { LineSelectionTrigger } from '@/components/selection/line/LineSelectionTrigger';

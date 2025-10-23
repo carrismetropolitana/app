@@ -1,12 +1,13 @@
 /* * */
 
-import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
+import { NoDataLabel } from '@/components/common/NoDataLabel';
 import { ListSection } from '@/components/list/ListSection';
 import { type ListSectionItemProps } from '@/components/list/ListSectionItem';
 import { useAccountContext } from '@/contexts/Account.context';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { IconArrowLoopRight, IconBellRinging, IconBusStop } from '@tabler/icons-react-native';
+import { Route } from 'expo-router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -44,7 +45,7 @@ export function AccountViewWidgetsList() {
 						icon: <IconBusStop color="#FF6900" size={30} />,
 						key: widget._id,
 						label: widget.settings.label || stopData?.long_name || widget.properties.stop_id,
-						link: `/account/widgets/stop?widget_id=${widget._id}`,
+						link: `/account/widgets/stop?widget_id=${widget._id}` as Route,
 					};
 				}
 				if (widget.type === 'line') {
@@ -54,7 +55,7 @@ export function AccountViewWidgetsList() {
 						icon: <IconArrowLoopRight color="#C61D23" size={30} />,
 						key: widget._id,
 						label: widget.settings.label || lineData?.long_name || widget.properties.pattern_id,
-						link: `/account/widgets/line?widget_id=${widget._id}`,
+						link: `/account/widgets/line?widget_id=${widget._id}` as Route,
 					};
 				}
 				if (widget.type === 'smart_notification') {
@@ -64,7 +65,7 @@ export function AccountViewWidgetsList() {
 						icon: <IconBellRinging color="#0C807E" size={30} />,
 						key: widget._id,
 						label: widget.settings.label || stopData?.long_name || widget.properties.stop_id,
-						link: `/account/widgets/smart_notification?widget_id=${widget._id}`,
+						link: `/account/widgets/smart_notification?widget_id=${widget._id}` as Route,
 					};
 				}
 			})

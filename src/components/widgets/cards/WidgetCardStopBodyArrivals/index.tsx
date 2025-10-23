@@ -1,7 +1,7 @@
 /* * */
 
 import { ArrivalRow } from '@/components/arrivals/ArrivalRow';
-import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
+import { NoDataLabel } from '@/components/common/NoDataLabel';
 import { useArrivalsContext } from '@/contexts/Arrivals.context';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, View } from 'react-native';

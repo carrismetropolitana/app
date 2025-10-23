@@ -14,6 +14,7 @@ interface NoDataLabelProps {
 }
 
 /* * */
+
 export function NoDataLabel({ accessibilityHint, accessibilityLabel, text }: NoDataLabelProps) {
 	//
 
@@ -22,7 +23,7 @@ export function NoDataLabel({ accessibilityHint, accessibilityLabel, text }: NoD
 
 	const styles = useStyles();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'layout.NoDataLabel' });
+	const { t } = useTranslation();
 
 	//
 	// B. Render components
@@ -30,7 +31,7 @@ export function NoDataLabel({ accessibilityHint, accessibilityLabel, text }: NoD
 	return (
 		<View accessibilityHint={accessibilityHint} accessibilityLabel={accessibilityLabel} accessible>
 			<Text style={styles.text}>
-				{text || t('default')}
+				{text || t('common.NoDataLabel.default')}
 			</Text>
 		</View>
 	);

@@ -1,6 +1,6 @@
 /* * */
 
-import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
+import { NoDataLabel } from '@/components/common/NoDataLabel';
 import { LineBadge } from '@/components/lines/LineBadge';
 import { ListSection } from '@/components/list/ListSection';
 import { ListSectionItemProps } from '@/components/list/ListSectionItem';
