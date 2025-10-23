@@ -58,6 +58,8 @@ export const WidgetStopConfigContextProvider = ({ children, widgetId }: PropsWit
 	const accountContext = useAccountContext();
 	const operationalDateContext = useOperationalDateContext();
 
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+
 	const [selectedStopId, setSelectedStopId] = useState<string | undefined>();
 	const [selectedPatternIds, setSelectedPatternIds] = useState<string[] | undefined>();
 	const [selectedLabel, setSelectedLabel] = useState<string>('');
@@ -73,15 +75,22 @@ export const WidgetStopConfigContextProvider = ({ children, widgetId }: PropsWit
 	}, [selectedStopId]);
 
 	useEffect(() => {
-		(async () => {
-			if (!selectedStopData) return;
-			const fetchResult: Pattern[] = [];
-			for (const patternId of selectedStopData.pattern_ids) {
-				const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(patternId, operationalDateContext.data.today.operational_date);
-				if (validPatternData) fetchResult.push(validPatternData);
-			}
+		if (!selectedStopData) {
+			setAvailablePatternsData([]);
+			setIsLoading(false);
+			return;
+		}
+		let cancelled = false;
+		const promises = selectedStopData.pattern_ids.map(patternId => linesContext.actions.getValidPatternVersionForOperationalDate(patternId, operationalDateContext.data.today.operational_date));
+		Promise.all(promises).then((results) => {
+			if (cancelled) return;
+			const fetchResult = results.filter(Boolean) as Pattern[];
 			setAvailablePatternsData(fetchResult);
-		})();
+			setIsLoading(false);
+		});
+		return () => {
+			cancelled = true;
+		};
 	}, [selectedStopId, selectedStopData]);
 
 	const canSave = useMemo(() => {
@@ -192,7 +201,7 @@ export const WidgetStopConfigContextProvider = ({ children, widgetId }: PropsWit
 		},
 		flags: {
 			can_save: canSave,
-			loading: false,
+			loading: isLoading,
 		},
 	}), [
 		availablePatternsData,
@@ -200,6 +209,7 @@ export const WidgetStopConfigContextProvider = ({ children, widgetId }: PropsWit
 		selectedStopData,
 		selectedStopId,
 		selectedLabel,
+		isLoading,
 		canSave,
 	]);
 

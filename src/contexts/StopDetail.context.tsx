@@ -59,17 +59,23 @@ export const StopDetailContextProvider = ({ children, stopId }: PropsWithChildre
 	}, [stopId]);
 
 	useEffect(() => {
-		(async () => {
-			if (!selectedStopData) return;
-			setIsLoading(true);
-			const fetchResult: Pattern[] = [];
-			for (const patternId of selectedStopData.pattern_ids) {
-				const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(patternId);
-				if (validPatternData) fetchResult.push(validPatternData);
-			}
+		if (!selectedStopData) {
+			setAvailablePatternsData([]);
+			setIsLoading(false);
+			return;
+		}
+		let cancelled = false;
+		setIsLoading(true);
+		const promises = selectedStopData.pattern_ids.map(patternId => linesContext.actions.getValidPatternVersionForOperationalDate(patternId));
+		Promise.all(promises).then((results) => {
+			if (cancelled) return;
+			const fetchResult = results.filter(Boolean) as Pattern[];
 			setAvailablePatternsData(fetchResult);
 			setIsLoading(false);
-		})();
+		});
+		return () => {
+			cancelled = true;
+		};
 	}, [selectedStopData]);
 
 	useEffect(() => {
