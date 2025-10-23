@@ -30,7 +30,7 @@ export function WidgetLineConfig({ widgetId }: WidgetLineConfigProps) {
 
 	const widgetLineConfigContext = useWidgetLineConfigContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetLineConfig' });
+	const { t } = useTranslation();
 
 	//
 	// B. Handle actions
@@ -52,28 +52,28 @@ export function WidgetLineConfig({ widgetId }: WidgetLineConfigProps) {
 		<Container>
 
 			<WidgetConfigHeader
-				description={t('description')}
-				title={t('title')}
+				description={t('widgets.WidgetLineConfig.description')}
+				title={t('widgets.WidgetLineConfig.title')}
 				videoUrl="/account/widgets/line/video"
 			/>
 
 			{/* * */}
 
 			<LineSelectionTrigger
-				description={t('step_1.description')}
+				description={t('widgets.WidgetLineConfig.step_1.description')}
 				onSelect={widgetLineConfigContext.actions.selectLineId}
 				selectedLineId={widgetLineConfigContext.data.selected_line?.id}
-				title={t('step_1.title')}
+				title={t('widgets.WidgetLineConfig.step_1.title')}
 			/>
 
 			{/* * */}
 
 			<WidgetConfigSelectPattern
 				availablePatterns={widgetLineConfigContext.data.available_patterns}
-				description={t('step_2.description')}
+				description={t('widgets.WidgetLineConfig.step_2.description')}
 				onTogglePatternId={widgetLineConfigContext.actions.selectPatternId}
 				selectedPatternIds={widgetLineConfigContext.data.selected_pattern_id ? [widgetLineConfigContext.data.selected_pattern_id] : []}
-				title={t('step_2.title')}
+				title={t('widgets.WidgetLineConfig.step_2.title')}
 			/>
 
 			{/* * */}
@@ -81,20 +81,20 @@ export function WidgetLineConfig({ widgetId }: WidgetLineConfigProps) {
 			<View style={styles.buttonContainer}>
 				<LargeButton
 					disabled={!widgetLineConfigContext.flags.can_save}
-					label={t('actions.save')}
+					label={t('widgets.WidgetLineConfig.actions.save')}
 					onPress={handleSave}
 					type="primary"
 				/>
 				{!widgetId && (
 					<LargeButton
-						label={t('actions.cancel')}
+						label={t('widgets.WidgetLineConfig.actions.cancel')}
 						onPress={router.back}
 						type="secondary"
 					/>
 				)}
 				{widgetId && (
 					<LargeButton
-						label={t('actions.delete')}
+						label={t('widgets.WidgetLineConfig.actions.delete')}
 						onPress={handleDelete}
 						type="danger"
 					/>

@@ -929,11 +929,11 @@
 			},
 			"description": "Adicione a paragem da sua casa ou do seu trabalho como favorita. Assim, sempre que precisar, basta abrir a app para ver quais as próximas chegadas.",
 			"step_1": {
-				"description": "Escolha uma paragem para exibir na página principal",
-				"title": "Selecione uma paragem"
+				"description": "Escolha uma linha para exibir na página principal",
+				"title": "Selecione uma linha"
 			},
 			"step_2": {
-				"description": "Pode escolher qualquer número de destinos a partir desta paragem.",
+				"description": "Pode escolher apenas um destino para esta linha.",
 				"title": "Selecione um destino"
 			},
 			"title": "Widget de Linha"
