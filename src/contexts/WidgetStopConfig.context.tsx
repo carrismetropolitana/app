@@ -104,13 +104,14 @@ export const WidgetStopConfigContextProvider = ({ children, widgetId }: PropsWit
 		setSelectedLabel(existingWidget.settings.label || '');
 		setSelectedStopId(existingWidget.properties.stop_id);
 		setSelectedPatternIds(existingWidget.properties.pattern_ids);
-	}, [widgetId]);
+	}, [widgetId, accountContext.data.account]);
 
 	const selectLabel = (label: string) => {
 		setSelectedLabel(label.trim());
 	};
 
 	const selectStopId = (stopId: string) => {
+		if (stopId === selectedStopId) return;
 		setSelectedStopId(stopId);
 		setSelectedPatternIds(undefined);
 		setAvailablePatternsData([]);
@@ -194,11 +195,11 @@ export const WidgetStopConfigContextProvider = ({ children, widgetId }: PropsWit
 			loading: false,
 		},
 	}), [
-		selectedPatternIds,
-		selectedStopId,
 		availablePatternsData,
-		selectedLabel,
+		selectedPatternIds,
 		selectedStopData,
+		selectedStopId,
+		selectedLabel,
 		canSave,
 	]);
 
