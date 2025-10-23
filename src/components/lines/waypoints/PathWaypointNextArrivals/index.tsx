@@ -1,6 +1,6 @@
 /* * */
 
-import { LiveIcon } from '@/components/common/LiveIcon';
+import { LiveIcon } from '@/components/arrivals/LiveIcon';
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { Dates } from '@/core-replica';
 import { IconClockHour9 } from '@tabler/icons-react-native';
