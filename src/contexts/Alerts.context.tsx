@@ -1,8 +1,8 @@
 /* * */
 
+import { getServiceUrl } from '@/settings/service-urls';
 import { Alert, SimplifiedAlert } from '@/types/alerts.types';
 import convertToSimplifiedAlert from '@/utils/convertToSimplifiedAlert';
-import { Routes } from '@/utils/routes';
 import { getLocales } from 'expo-localization';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { ReactNode } from 'react';
@@ -52,7 +52,7 @@ export const AlertsContextProvider = ({ children }: { children: ReactNode }) => 
 	//
 	// B. Fetch data
 
-	const { data: allAlertsData, isLoading: allAlertsLoading } = useSWR<Alert[], Error>(`${Routes.API}/alerts`);
+	const { data: allAlertsData, isLoading: allAlertsLoading } = useSWR<Alert[], Error>(`${getServiceUrl('api')}/alerts`);
 
 	//
 	// C. Transform data

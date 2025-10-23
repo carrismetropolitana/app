@@ -1,8 +1,8 @@
 /* * */
 
-import { MapOverlayPath } from '@/components/map-new/overlays/MapOverlayPath';
-import { MapOverlayVehicles, mapOverlayVehicles_TopLayerId } from '@/components/map-new/overlays/MapOverlayVehicles';
-import { MapView } from '@/components/map-new/view/MapView';
+import { MapOverlayPath } from '@/components/map/overlays/MapOverlayPath';
+import { MapOverlayVehicles, mapOverlayVehicles_TopLayerId } from '@/components/map/overlays/MapOverlayVehicles';
+import { MapView } from '@/components/map/view/MapView';
 import { useVehicleDetailContext } from '@/contexts/VehicleDetail.context';
 import { type CameraRef } from '@maplibre/maplibre-react-native';
 import { bbox } from '@turf/turf';

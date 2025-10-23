@@ -1,10 +1,10 @@
 /* * */
 
-import { MapOverlayGeofence, mapOverlayGeofence_TopLayerId } from '@/components/map-new/overlays/MapOverlayGeofence';
-import { MapOverlayPath, type MapOverlayPathShapeGeoJsonProperties, type MapOverlayPathWaypointGeoJsonProperties, transformShapeDataIntoGeoJsonFeature, transformWaypointDataIntoGeoJsonFeature } from '@/components/map-new/overlays/MapOverlayPath';
-import { MapOverlaySelectedStops, mapOverlaySelectedStops_TopLayerId, type MapOverlaySelectedStopsGeoJsonProperties, transformSelectedStopDataIntoGeoJsonFeature } from '@/components/map-new/overlays/MapOverlaySelectedStops';
-import { MapOverlayVehicles, mapOverlayVehicles_TopLayerId } from '@/components/map-new/overlays/MapOverlayVehicles';
-import { MapView } from '@/components/map-new/view/MapView';
+import { MapOverlayGeofence, mapOverlayGeofence_TopLayerId } from '@/components/map/overlays/MapOverlayGeofence';
+import { MapOverlayPath, type MapOverlayPathShapeGeoJsonProperties, type MapOverlayPathWaypointGeoJsonProperties, transformShapeDataIntoGeoJsonFeature, transformWaypointDataIntoGeoJsonFeature } from '@/components/map/overlays/MapOverlayPath';
+import { MapOverlaySelectedStops, mapOverlaySelectedStops_TopLayerId, type MapOverlaySelectedStopsGeoJsonProperties, transformSelectedStopDataIntoGeoJsonFeature } from '@/components/map/overlays/MapOverlaySelectedStops';
+import { MapOverlayVehicles, mapOverlayVehicles_TopLayerId } from '@/components/map/overlays/MapOverlayVehicles';
+import { MapView } from '@/components/map/view/MapView';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useVehiclesContext } from '@/contexts/Vehicles.context';

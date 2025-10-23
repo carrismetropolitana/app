@@ -1,7 +1,7 @@
 /* * */
 
-import { MapOverlayStops, type MapOverlayStopsGeoJsonProperties } from '@/components/map-new/overlays/MapOverlayStops';
-import { MapView } from '@/components/map-new/view/MapView';
+import { MapOverlayStops, type MapOverlayStopsGeoJsonProperties } from '@/components/map/overlays/MapOverlayStops';
+import { MapView } from '@/components/map/view/MapView';
 import { useStopSelectionContext } from '@/components/selection/stop/context/StopSelection.context';
 import { type StopSelectionProps } from '@/components/selection/stop/StopSelection';
 import { type CameraRef } from '@maplibre/maplibre-react-native';

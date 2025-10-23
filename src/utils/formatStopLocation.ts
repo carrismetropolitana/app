@@ -1,5 +1,5 @@
 /**
- *
+ * Formats the location of a stop based on its locality and municipality.
  * @param locality Optional locality string for the stop.
  * @param municipality Optional municipality string for the stop.
  * @returns A string with the location of the stop, formatted as "locality, municipality" if both are defined, or just "locality" or "municipality" if only one is defined.

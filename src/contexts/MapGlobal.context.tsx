@@ -1,6 +1,6 @@
 /* * */
 
-import { type MapStyle } from '@/components/map-new/configs/map-styles';
+import { type MapStyle } from '@/components/map/configs/map-styles';
 import { createContext, type PropsWithChildren, useContext, useMemo } from 'react';
 
 /* * */

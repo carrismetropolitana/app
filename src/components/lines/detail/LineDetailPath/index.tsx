@@ -3,9 +3,9 @@
 import { NoDataLabel } from '@/components/common/layout/NoDataLabel';
 import { Waypoint } from '@/components/lines/waypoints/Waypoint';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
+import { getServiceUrl } from '@/settings/service-urls';
 import { NextArrival } from '@/types/timetables.types';
 import { type PatternRealtime } from '@/types/types';
-import { Routes } from '@/utils/routes';
 import { useMemo } from 'react';
 import { View } from 'react-native';
 import useSWR from 'swr';
@@ -27,7 +27,7 @@ export function LineDetailPath() {
 	//
 	// B. Fetch data
 
-	const { data: patternRealtimeData } = useSWR<PatternRealtime[]>(lineDetailContext.data.selected_pattern_id && `${Routes.API}/arrivals/by_pattern/${lineDetailContext.data.selected_pattern_id}`, { refreshInterval: 30_000 });
+	const { data: patternRealtimeData } = useSWR<PatternRealtime[]>(lineDetailContext.data.selected_pattern_id && `${getServiceUrl('api')}/arrivals/by_pattern/${lineDetailContext.data.selected_pattern_id}`, { refreshInterval: 30_000 });
 
 	//
 	// C. Transform data

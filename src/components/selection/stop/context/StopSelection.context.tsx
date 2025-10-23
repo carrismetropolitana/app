@@ -1,6 +1,6 @@
 /* * */
 
-import { type MapOverlayStopsGeoJsonProperties, transformStopDataIntoGeoJsonFeature } from '@/components/map-new/overlays/MapOverlayStops';
+import { type MapOverlayStopsGeoJsonProperties, transformStopDataIntoGeoJsonFeature } from '@/components/map/overlays/MapOverlayStops';
 import { useAccessibilityContext } from '@/contexts/Accessibility.context';
 import { useAccountContext } from '@/contexts/Account.context';
 import { useFavoritesContext } from '@/contexts/Favorites.context';

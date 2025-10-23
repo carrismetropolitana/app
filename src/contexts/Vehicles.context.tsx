@@ -1,6 +1,6 @@
 /* * */
 
-import { type MapOverlayVehiclesGeoJsonProperties, transformVehicleDataIntoGeoJsonFeature } from '@/components/map-new/overlays/MapOverlayVehicles';
+import { type MapOverlayVehiclesGeoJsonProperties, transformVehicleDataIntoGeoJsonFeature } from '@/components/map/overlays/MapOverlayVehicles';
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import { getServiceUrl } from '@/settings/service-urls';
 import { type Vehicle } from '@carrismetropolitana/api-types/vehicles';

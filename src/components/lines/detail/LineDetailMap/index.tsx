@@ -1,8 +1,8 @@
 /* * */
 
-import { MapOverlayPath, type MapOverlayPathShapeGeoJsonProperties, type MapOverlayPathWaypointGeoJsonProperties, transformShapeDataIntoGeoJsonFeature, transformWaypointDataIntoGeoJsonFeature } from '@/components/map-new/overlays/MapOverlayPath';
-import { MapOverlayVehicles, mapOverlayVehicles_TopLayerId } from '@/components/map-new/overlays/MapOverlayVehicles';
-import { MapView } from '@/components/map-new/view/MapView';
+import { MapOverlayPath, type MapOverlayPathShapeGeoJsonProperties, type MapOverlayPathWaypointGeoJsonProperties, transformShapeDataIntoGeoJsonFeature, transformWaypointDataIntoGeoJsonFeature } from '@/components/map/overlays/MapOverlayPath';
+import { MapOverlayVehicles, mapOverlayVehicles_TopLayerId } from '@/components/map/overlays/MapOverlayVehicles';
+import { MapView } from '@/components/map/view/MapView';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useVehiclesContext } from '@/contexts/Vehicles.context';

@@ -176,8 +176,6 @@ export const ConsentContextProvider = ({ children }: PropsWithChildren) => {
 		AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.decision_date);
 		AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.enabled_analytics);
 		AsyncStorage.removeItem(ASYNC_STORAGE_KEYS.enabled_functional);
-		// Clear cookies
-		// expireAllCookies();
 		// Reset local state
 		setAskForConsent(true);
 	};

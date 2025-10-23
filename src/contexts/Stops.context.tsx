@@ -1,9 +1,10 @@
 /* * */
 
-import { type MapOverlayStopsGeoJsonProperties, transformStopDataIntoGeoJsonFeature } from '@/components/map-new/overlays/MapOverlayStops';
+import { type MapOverlayStopsGeoJsonProperties, transformStopDataIntoGeoJsonFeature } from '@/components/map/overlays/MapOverlayStops';
 import { useLocationsContext } from '@/contexts/Locations.context';
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import { getServiceUrl } from '@/settings/service-urls';
+import { formatStopLocation } from '@/utils/formatStopLocation';
 import { type Stop } from '@carrismetropolitana/api-types/network';
 import { type FeatureCollection, type Point } from 'geojson';
 import { createContext, type PropsWithChildren, useContext, useMemo } from 'react';
@@ -73,9 +74,11 @@ export const StopsContextProvider = ({ children }: PropsWithChildren) => {
 	const getStopLocationById = (stopId: string): string | undefined => {
 		const foundStop = getStopById(stopId);
 		if (!foundStop) return;
-		const municipalityData = locationsContext.actions.getMunicipalityById(foundStop.municipality_id);
-		if (!municipalityData) return;
-		return municipalityData.name;
+		// Find municipality and locality
+		const foundMunicipality = locationsContext.actions.getMunicipalityById(foundStop.municipality_id);
+		const foundLocality = locationsContext.actions.getLocalityById(foundStop.locality_id);
+		// Format the location name
+		return formatStopLocation(foundLocality?.name, foundMunicipality?.name);
 	};
 
 	//
