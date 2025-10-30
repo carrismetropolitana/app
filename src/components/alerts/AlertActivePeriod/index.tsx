@@ -1,9 +1,9 @@
 /* * */
 
 import { useLocaleContext } from '@/contexts/Locale.context';
-import { Text } from '@rn-vui/themed';
 import { DateTime } from 'luxon';
 import { Trans, useTranslation } from 'react-i18next';
+import { Text } from 'react-native';
 
 import { styles } from './styles';
 

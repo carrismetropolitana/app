@@ -2,10 +2,10 @@
 
 /* * */
 
-import { VehiclesCounter } from '@/components/common/VehiclesCounter';
 import { MAP_STYLES } from '@/components/map/configs/map-styles';
 import { MAP_VIEWPORT } from '@/components/map/configs/map-viewport';
 import { MapViewUserLocationButton } from '@/components/map/view/MapViewUserLocationButton';
+import { VehiclesCounter } from '@/components/vehicles/common/VehiclesCounter';
 import { useMapGlobalContext } from '@/contexts/MapGlobal.context';
 import { useInterval } from '@/hooks/useInterval';
 import { Camera, type CameraRef, Images, type MapViewRef, MapView as RNMapView, UserLocation, UserTrackingMode } from '@maplibre/maplibre-react-native';

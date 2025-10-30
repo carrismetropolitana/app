@@ -1,7 +1,6 @@
 /* * */
 
-import { Text } from '@rn-vui/themed';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { useStyles } from './styles';
 

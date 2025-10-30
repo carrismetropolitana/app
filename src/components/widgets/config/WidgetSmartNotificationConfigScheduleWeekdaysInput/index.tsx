@@ -1,9 +1,8 @@
 /* * */
 
 import { type WidgetSmartNotification } from '@/types/widget.types';
-import { Text } from '@rn-vui/themed';
 import { useTranslation } from 'react-i18next';
-import { TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 
 import { useStyles } from './styles';
 

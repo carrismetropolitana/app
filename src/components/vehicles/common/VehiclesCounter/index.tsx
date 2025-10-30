@@ -2,9 +2,8 @@
 
 import { LiveIcon } from '@/components/arrivals/LiveIcon';
 import { useSystemVariables } from '@/theme/global';
-import { Text } from '@rn-vui/themed';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { useStyles } from './styles';
 
