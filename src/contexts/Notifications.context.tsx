@@ -1,7 +1,7 @@
 /* * */
 
 import Constants from 'expo-constants';
-import { isDevice } from 'expo-device';
+import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 import { Platform } from 'react-native';
@@ -40,7 +40,7 @@ export const NotificationsContextProvider = ({ children }: PropsWithChildren) =>
 	//
 	// A. Setup variables
 
-	const [expoPushToken, setExpoPushToken] = useState<string | undefined>(undefined);
+	const [expoPushToken, setExpoPushToken] = useState<string | undefined>();
 	const [permissionStatus, setPermissionStatus] = useState<Notifications.PermissionStatus | undefined>();
 
 	//
@@ -65,7 +65,7 @@ export const NotificationsContextProvider = ({ children }: PropsWithChildren) =>
 		// This function also creates a channel on Android
 		// (channels are required for Android 8.0 and above)
 		registerForPushNotificationsAsync()
-			.then(token => setExpoPushToken(token ?? ''))
+			.then(token => setExpoPushToken(token))
 			.catch(error => console.log(`${error}`));
 		// This listener is fired whenever a notification is received while the app is foregrounded
 		// (when the app is open and in use). You can use this to update your UI in response
@@ -98,14 +98,14 @@ export const NotificationsContextProvider = ({ children }: PropsWithChildren) =>
 		if (Platform.OS === 'android') {
 			await Notifications.setNotificationChannelAsync('default', {
 				importance: Notifications.AndroidImportance.MAX,
-				lightColor: '#FF231F7C',
+				lightColor: '#FFDD00',
 				name: 'default',
 				vibrationPattern: [0, 250, 250, 250],
 			});
 		}
 		// iOS and Android devices require
 		// a physical device for push notifications.
-		if (isDevice) {
+		if (Device.isDevice) {
 			// Check for existing permissions
 			const existingPermissions = await Notifications.getPermissionsAsync();
 			let finalStatus = existingPermissions.status;
@@ -127,6 +127,7 @@ export const NotificationsContextProvider = ({ children }: PropsWithChildren) =>
 			if (!projectId) console.log('Project ID not found');
 			try {
 				const expoPushToken = await Notifications.getExpoPushTokenAsync({ projectId });
+				console.log(`Expo push token: ${expoPushToken.data}`);
 				return expoPushToken.data;
 			}
 			catch (e: unknown) {
@@ -156,7 +157,7 @@ export const NotificationsContextProvider = ({ children }: PropsWithChildren) =>
 			token: expoPushToken,
 		},
 		flags: {
-			enabled: permissionStatus === 'granted',
+			enabled: permissionStatus === 'granted' && expoPushToken !== undefined,
 		},
 	}), [
 		expoPushToken,

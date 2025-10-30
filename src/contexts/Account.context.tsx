@@ -1,7 +1,7 @@
 /* * */
 
 import { useNotificationsContext } from '@/contexts/Notifications.context';
-import { Dates, type DotPath, HttpException, type PathValue, setValueAtPath } from '@/core-replica';
+import { Dates, type DotPath, generateRandomString, HttpException, type PathValue, setValueAtPath } from '@/core-replica';
 import { type Account } from '@/schemas/account';
 import { getServiceUrl } from '@/settings/service-urls';
 import { fetchData } from '@/utils/fetchData';
@@ -78,6 +78,9 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 	//
 	// C. Handle actions
 
+	/**
+	 * Update account data when fetched data changes.
+	 */
 	useEffect(() => {
 		// Skip if no fetched data
 		if (!fetchedAccountData) return;
@@ -86,6 +89,9 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		setAccountData(fetchedAccountData);
 	}, [fetchedAccountData]);
 
+	/**
+	 * Initialize Device ID from local storage.
+	 */
 	useEffect(() => {
 		(async () => {
 			// Skip if already initialized
@@ -126,6 +132,9 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		})();
 	}, [isInit]);
 
+	/**
+	 * Handle ACCOUNT_NOT_FOUND error.
+	 */
 	useEffect(() => {
 		// Skip if no error
 		if (!accountError) return;
@@ -137,6 +146,24 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		setIsInit(false);
 	}, [accountError]);
 
+	/**
+	 * Sync device details at regular intervals,
+	 * or whenever the device ID or notification token changes.
+	 */
+	useEffect(() => {
+		// Sync immediately
+		sync();
+		// Set interval to sync regularly
+		const interval = setInterval(() => sync(), 10_000); // Every 10 seconds
+		// Cleanup on unmount
+		return () => clearInterval(interval);
+	}, [deviceId, notificationsContext.data.token]);
+
+	/**
+	 * Update account data on the server.
+	 * @param updatedAccountData The account data to update.
+	 * @returns A promise that resolves to the updated account data from the server.
+	 */
 	async function updateAccountApi(updatedAccountData: Account): Promise<Account> {
 		const response = await fetchData<Account>(
 			`${getServiceUrl('accounts')}/accounts`,
@@ -148,6 +175,53 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		else throw new Error(response.error || 'Failed to update account');
 	};
 
+	/**
+	 * Sync device details with the server.
+	 * This function updates the device information on the server
+	 * with the notifications token and device info. It should be called
+	 * on a regular interval to keep the server updated.
+	 */
+	function sync() {
+		// Skip if no device ID
+		if (!deviceId) return;
+		// Skip if no account data
+		if (!accountRef.current) return;
+		// Get the current device index
+		const currentDeviceIndex = accountRef.current.devices.findIndex(d => d.device_id === deviceId);
+		if (currentDeviceIndex === -1) return;
+		// Update device details on every update
+		accountRef.current.devices[currentDeviceIndex].app_version = Constants.expoConfig?.version || null;
+		accountRef.current.devices[currentDeviceIndex].brand = Device.brand;
+		accountRef.current.devices[currentDeviceIndex].name = Device.deviceName || null;
+		accountRef.current.devices[currentDeviceIndex].push_token = notificationsContext.data.token || null;
+		accountRef.current.devices[currentDeviceIndex].seen_last_at = Dates.now('Europe/Lisbon').unix_timestamp;
+		// Update state with the updated account data
+		setAccountData(accountRef.current);
+		// Use SWR mutate to optimistically update the account data.
+		// SWR accepts a function that receives the most up-to-date data
+		// and returns the updated data to avoid stale data issues when
+		// mutating with React state.
+		accountMutate(async () => {
+			// Skip if no current data
+			if (!accountRef.current) return;
+			// Log the sync operation
+			console.log(generateRandomString(), 'Syncing account data with server...');
+			// Send the updated data to the server.
+			// Any errors will be handled by SWR revalidation.
+			return await updateAccountApi(accountRef.current);
+		}, {
+			populateCache: true,
+			revalidate: false,
+		});
+	};
+
+	/**
+	 * Update a specific path in the account data.
+	 * This function will optimistically update the account data in the client
+	 * and send the updated data to the server.
+	 * @param path The path to update.
+	 * @param value The new value to set.
+	 */
 	function update(path: DotPath<Account>, value: PathValue<Account, DotPath<Account>>) {
 		// Skip if no device ID
 		if (!deviceId) return;
@@ -155,34 +229,16 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		if (!accountRef.current) return;
 		// Transform the account data with the updated value
 		const updatedAccountData = setValueAtPath(Object.assign({}, accountRef.current), path, value);
-		// Get the current device index
-		const currentDeviceIndex = accountRef.current.devices.findIndex(d => d.device_id === deviceId);
-		if (currentDeviceIndex === -1) return;
-		// Update device details on every update
-		updatedAccountData.devices[currentDeviceIndex].app_version = Constants.expoConfig?.version || null;
-		updatedAccountData.devices[currentDeviceIndex].brand = Device.brand;
-		updatedAccountData.devices[currentDeviceIndex].name = Device.deviceName || null;
-		updatedAccountData.devices[currentDeviceIndex].push_token = notificationsContext.data.token || null;
-		updatedAccountData.devices[currentDeviceIndex].seen_last_at = Dates.now('Europe/Lisbon').unix_timestamp;
 		// Update refs and state immediately
 		accountRef.current = updatedAccountData;
 		setAccountData(updatedAccountData);
-		// Use SWR mutate to optimistically update the account data.
-		// SWR accepts a function that receives the most up-to-date data
-		// and returns the updated data to avoid stale data issues when
-		// mutating with React state.
-		accountMutate(async (current) => {
-			// Skip if no current data
-			if (!current) return current;
-			// Send the updated data to the server.
-			// Any errors will be handled by SWR revalidation.
-			return await updateAccountApi(updatedAccountData);
-		}, {
-			populateCache: true,
-			revalidate: false,
-		});
+		// Trigger a sync to update device details
+		sync();
 	};
 
+	/**
+	 * Create a new account on the server.
+	 */
 	const createAccount = async () => {
 		// Skip if already initialized
 		// or we have a Device ID
@@ -197,6 +253,9 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		setIsInit(true);
 	};
 
+	/**
+	 * Delete the current account from the server.
+	 */
 	const deleteAccount = async () => {
 		// Skip if no device ID
 		if (!deviceId) return;
@@ -216,6 +275,11 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		setIsInit(false);
 	};
 
+	/**
+	 * Manage favorite line IDs.
+	 * @param operation 'add' | 'remove' | 'toggle'
+	 * @param lineId The line ID to manage.
+	 */
 	const favoriteLineId = (operation: 'add' | 'remove' | 'toggle', lineId: string) => {
 		// Skip if no line ID
 		if (!lineId) return;
@@ -242,6 +306,11 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		}
 	};
 
+	/**
+	 * Manage favorite stop IDs.
+	 * @param operation 'add' | 'remove' | 'toggle'
+	 * @param stopId The stop ID to manage.
+	 */
 	const favoriteStopId = (operation: 'add' | 'remove' | 'toggle', stopId: string) => {
 		// Skip if no stop ID
 		if (!stopId) return;
