@@ -33,7 +33,7 @@ export default function Page() {
 
 	const handleSelect = (stopId: string) => {
 		router.dismissTo({
-			params: { stop_id: stopId },
+			params: { ...localSearchParams, return_to: undefined, stop_id: stopId },
 			pathname: localSearchParams.return_to,
 		} as unknown as Route); // FIXME: TypeScript issue
 	};

@@ -63,7 +63,7 @@ export function StopSelectionTrigger({ description, onSelect, selectedStopId, ti
 
 	const handleShowList = () => {
 		router.navigate({
-			params: { return_to: pathname },
+			params: { ...localSearchParams, return_to: pathname },
 			pathname: '/selection/stop',
 		});
 	};

@@ -71,13 +71,13 @@ export const ArrivalsContextProvider = ({ children, limit, onlyFuture, patternId
 		// Filter by only future arrivals
 		return filteredArrivalsByPatternIds.filter((arrival) => {
 			// If the arrival has an observed arrival time,
-			// then it means the vehicle has already passed the stop.
+			// then remove it as it means the vehicle has already passed the stop.
 			if (arrival.observed_arrival_unix) return false;
 			// If the arrival has an estimated arrival time,
-			// then include it in the past if the estimated arrival time is in the past.
+			// then remove it if the estimated arrival time is in the past.
 			if (arrival.estimated_arrival_unix && arrival.estimated_arrival_unix < nowInUnixSeconds) return false;
-			// If the arrival has no estimated arrival time but has a scheduled arrival time,
-			// then include it in the past if the scheduled arrival time is in the past.
+			// If the arrival only has a scheduled arrival time,
+			// then remove it if the scheduled arrival time is in the past.
 			if (arrival.scheduled_arrival_unix < nowInUnixSeconds) return false;
 			// Otherwise, include it.
 			return true;
@@ -87,12 +87,17 @@ export const ArrivalsContextProvider = ({ children, limit, onlyFuture, patternId
 	const sortedArrivalsData = useMemo(() => {
 		// Skip if no data
 		if (!filteredArrivalsByOnlyFuture) return [];
-		// Sort by estimated arrival time (or scheduled arrival time if no estimated arrival time)
-		const sorted = filteredArrivalsByOnlyFuture.sort((a, b) => {
-			const aArrival = a.estimated_arrival_unix || a.scheduled_arrival_unix;
-			const bArrival = b.estimated_arrival_unix || b.scheduled_arrival_unix;
-			return aArrival - bArrival;
-		});
+		// First sort by scheduled arrival time,
+		// then by estimated arrival time. The goal is to have arrivals
+		// with estimated times appear first, but still keep the overall
+		// order by scheduled time.
+		const sorted = filteredArrivalsByOnlyFuture
+			// .sort((a, b) => a.scheduled_arrival_unix - b.scheduled_arrival_unix)
+			.sort((a, b) => {
+				const aArrival = a.estimated_arrival_unix || a.scheduled_arrival_unix;
+				const bArrival = b.estimated_arrival_unix || b.scheduled_arrival_unix;
+				return aArrival - bArrival;
+			});
 		// Limit the number of arrivals if limit is set
 		return sorted.slice(0, limit || sorted.length);
 	}, [filteredArrivalsByOnlyFuture]);

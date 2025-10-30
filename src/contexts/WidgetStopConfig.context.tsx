@@ -113,7 +113,7 @@ export const WidgetStopConfigContextProvider = ({ children, widgetId }: PropsWit
 		setSelectedLabel(existingWidget.settings.label || '');
 		setSelectedStopId(existingWidget.properties.stop_id);
 		setSelectedPatternIds(existingWidget.properties.pattern_ids);
-	}, [widgetId, accountContext.data.account]);
+	}, [widgetId]);
 
 	const selectLabel = (label: string) => {
 		setSelectedLabel(label.trim());
