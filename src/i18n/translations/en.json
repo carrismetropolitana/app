@@ -182,6 +182,11 @@
 		"AccountViewAnonymous": {
 			"create_account": "Create New Account"
 		},
+		"AccountViewError": {
+			"message_1": "There was an error loading your account",
+			"message_2": "We're working to fix the issue as soon as possible.",
+			"message_3": "Thank you for your understanding."
+		},
 		"AccountViewInfo": {
 			"copied": "Identifier Copied"
 		},

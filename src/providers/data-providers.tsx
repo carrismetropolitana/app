@@ -20,6 +20,7 @@ export function DataProviders({ children }: PropsWithChildren) {
 	// A. Setup variables
 
 	const swrSettings: SWRConfiguration = {
+		errorRetryInterval: 5_000,
 		async fetcher(...args: Parameters<typeof fetch>) {
 			const res = await fetch(...args);
 			if (!res.ok) {

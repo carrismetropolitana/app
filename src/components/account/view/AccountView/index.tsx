@@ -1,6 +1,7 @@
 /* * */
 
 import { AccountViewAnonymous } from '@/components/account/view/AccountViewAnonymous';
+import { AccountViewError } from '@/components/account/view/AccountViewError';
 import { AccountViewInfo } from '@/components/account/view/AccountViewInfo';
 import { AccountViewPersona } from '@/components/account/view/AccountViewPersona';
 import { AccountViewWidgetsCreate } from '@/components/account/view/AccountViewWidgetsCreate';
@@ -9,7 +10,7 @@ import { Container } from '@/components/layout/Container';
 import { useAccountContext } from '@/contexts/Account.context';
 import { useNotificationsContext } from '@/contexts/Notifications.context';
 import { useEffect } from 'react';
-import { ActivityIndicator, Text } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 
 /* * */
 
@@ -51,7 +52,7 @@ export function AccountView() {
 	if (accountContext.flags.error) {
 		return (
 			<Container>
-				<Text>Error fetching account</Text>
+				<AccountViewError />
 			</Container>
 		);
 	}

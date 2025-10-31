@@ -1,5 +1,6 @@
 /* * */
 
+import { AccountViewError } from '@/components/account/view/AccountViewError';
 import { HomeScreenListEmpty } from '@/components/home/HomeScreenListEmpty';
 import { HomeScreenListFooter } from '@/components/home/HomeScreenListFooter';
 import { HomeScreenListHeader } from '@/components/home/HomeScreenListHeader';
@@ -72,6 +73,14 @@ export function HomeScreen() {
 		return (
 			<View style={styles.loading}>
 				<ActivityIndicator size="large" />
+			</View>
+		);
+	}
+
+	if (accountContext.flags.error) {
+		return (
+			<View style={styles.loading}>
+				<AccountViewError />
 			</View>
 		);
 	}

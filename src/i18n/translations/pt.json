@@ -196,6 +196,11 @@
 		"AccountViewAnonymous": {
 			"create_account": "Criar Nova Conta"
 		},
+		"AccountViewError": {
+			"message_1": "Ocorreu um erro ao carregar a sua conta",
+			"message_2": "Estamos a trabalhar para resolver o problema o mais rápido possível.",
+			"message_3": "Obrigado pela sua compreensão."
+		},
 		"AccountViewInfo": {
 			"copied": "Identificador Copiado"
 		},
