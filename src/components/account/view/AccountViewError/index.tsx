@@ -1,5 +1,6 @@
 /* * */
 
+import { AccountViewInfo } from '@/components/account/view/AccountViewInfo';
 import { NoDataLabel } from '@/components/common/NoDataLabel';
 import { useSystemVariables } from '@/theme/global';
 import { IconCloudExclamation } from '@tabler/icons-react-native';
@@ -30,6 +31,7 @@ export function AccountViewError() {
 			<NoDataLabel text={t('account.AccountViewError.message_1')} />
 			<Text style={styles.message}>{t('account.AccountViewError.message_2')}</Text>
 			<Text style={styles.thanks}>{t('account.AccountViewError.message_3')}</Text>
+			<AccountViewInfo />
 		</View>
 	);
 

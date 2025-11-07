@@ -355,7 +355,7 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		},
 		flags: {
 			anonymous: isInit && !deviceId,
-			error: !!accountError,
+			error: !!deviceId && !!accountError,
 			init: isInit,
 			loading: !isInit || accountLoading,
 		},

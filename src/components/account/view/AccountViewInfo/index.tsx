@@ -26,10 +26,8 @@ export function AccountViewInfo() {
 	// B. Transform data
 
 	const accountIdentifier = useMemo(() => {
-		if (!accountContext.data.account?._id) return null;
-		if (!accountContext.data.device_id) return null;
-		return `${accountContext.data.account._id} (...${accountContext.data.device_id.slice(-10)})`;
-	}, [accountContext?.data.account?._id]);
+		return `${accountContext.data.account?._id || 'N/A'} (...${accountContext.data.device_id?.slice(-10) || 'N/A'})`;
+	}, [accountContext?.data.account?._id, accountContext.data.device_id]);
 
 	//
 	// B. Handle actions
@@ -42,10 +40,6 @@ export function AccountViewInfo() {
 
 	//
 	// C. Render components
-
-	if (!accountIdentifier) {
-		return null;
-	}
 
 	return (
 		<View accessible={false} style={styles.container}>

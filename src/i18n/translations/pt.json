@@ -645,7 +645,8 @@
 		"MoreSectionSettings": {
 			"heading": "Definições",
 			"items": {
-				"locale": "Alterar Idioma"
+				"locale": "Alterar Idioma",
+				"reset": "Reset da App"
 			}
 		},
 		"MoreSectionSupport": {

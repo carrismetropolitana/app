@@ -22,7 +22,7 @@ export function AccountEditDelete() {
 	const { t } = useTranslation('translation', { keyPrefix: 'account.AccountEditDelete' });
 
 	//
-	// B. Render components
+	// B. Handle actions
 
 	const handlePress = () => {
 		Alert.alert(

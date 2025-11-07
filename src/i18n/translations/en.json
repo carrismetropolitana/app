@@ -610,7 +610,8 @@
 		"MoreSectionSettings": {
 			"heading": "Settings",
 			"items": {
-				"locale": "Change Language"
+				"locale": "Change Language",
+				"reset": "Reset App"
 			}
 		},
 		"MoreSectionSupport": {
