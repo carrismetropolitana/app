@@ -37,6 +37,7 @@ export function AppWebView({ mediaPlaybackRequiresUserAction = true, url }: AppW
 
 	return (
 		<WebView
+			decelerationRate="normal"
 			mediaPlaybackRequiresUserAction={mediaPlaybackRequiresUserAction}
 			source={{ uri: preparedUrl }}
 			style={{ backgroundColor: systemVariables.background[200] }}
