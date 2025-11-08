@@ -36,7 +36,7 @@ export function AccountEditDelete() {
 				{
 					onPress: async () => {
 						await accountContext.actions.deleteAccount();
-						router.replace('/');
+						router.dismissTo('/');
 					},
 					style: 'destructive',
 					text: t('account.AccountEditDelete.alert.confirm'),

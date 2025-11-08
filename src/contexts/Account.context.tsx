@@ -270,7 +270,10 @@ export const AccountContextProvider = ({ children }: PropsWithChildren) => {
 		setDeviceId(undefined);
 		await AsyncStorage.removeItem(LOCAL_STORAGE_KEYS.device_id);
 		await AsyncStorage.removeItem(LOCAL_STORAGE_KEYS.legacy_token);
-		await accountMutate(undefined, { revalidate: false });
+		await accountMutate();
+		// Clear refs and state
+		accountRef.current = undefined;
+		setAccountData(undefined);
 		// Reset initialization state
 		setIsInit(false);
 	};
