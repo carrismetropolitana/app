@@ -19,19 +19,19 @@ export function AccountEditDelete() {
 
 	const accountContext = useAccountContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'account.AccountEditDelete' });
+	const { t } = useTranslation();
 
 	//
 	// B. Handle actions
 
 	const handlePress = () => {
 		Alert.alert(
-			t('alert.title'),
-			t('alert.description'),
+			t('account.AccountEditDelete.alert.title'),
+			t('account.AccountEditDelete.alert.description'),
 			[
 				{
 					style: 'cancel',
-					text: t('alert.cancel'),
+					text: t('account.AccountEditDelete.alert.cancel'),
 				},
 				{
 					onPress: async () => {
@@ -39,19 +39,19 @@ export function AccountEditDelete() {
 						router.replace('/');
 					},
 					style: 'destructive',
-					text: t('alert.confirm'),
+					text: t('account.AccountEditDelete.alert.confirm'),
 				},
 			],
 		);
 	};
 
 	//
-	// B. Render components
+	// C. Render components
 
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity onPress={handlePress}>
-				<Text style={styles.button}>{t('label')}</Text>
+				<Text style={styles.button}>{t('account.AccountEditDelete.label')}</Text>
 			</TouchableOpacity>
 		</View>
 	);
