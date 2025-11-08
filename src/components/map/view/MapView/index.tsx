@@ -8,8 +8,8 @@ import { MapViewUserLocationButton } from '@/components/map/view/MapViewUserLoca
 import { VehiclesCounter } from '@/components/vehicles/common/VehiclesCounter';
 import { useMapGlobalContext } from '@/contexts/MapGlobal.context';
 import { useInterval } from '@/hooks/useInterval';
-import { Camera, type CameraRef, Images, type MapViewRef, MapView as RNMapView, UserLocation, UserTrackingMode } from '@maplibre/maplibre-react-native';
-import { type PropsWithChildren, useMemo, useRef, useState } from 'react';
+import { Camera, type CameraRef, Images, MapView as RNMapView, type MapViewRef as RNMapViewRef, UserLocation, UserTrackingMode } from '@maplibre/maplibre-react-native';
+import { forwardRef, type PropsWithChildren, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { View } from 'react-native';
 
 import { useStyles } from './styles';
@@ -47,7 +47,13 @@ interface MapViewProps {
 
 /* * */
 
-export function MapView({ children, onDidFinishLoadingMap, vehiclesCounterQty, withUserLocation }: PropsWithChildren<MapViewProps>) {
+export interface MapViewRef {
+	camera_ref: CameraRef | null
+}
+
+/* * */
+
+export const MapView = forwardRef<MapViewRef, PropsWithChildren<MapViewProps>>(({ children, onDidFinishLoadingMap, vehiclesCounterQty, withUserLocation }, ref) => {
 	//
 
 	//
@@ -55,7 +61,7 @@ export function MapView({ children, onDidFinishLoadingMap, vehiclesCounterQty, w
 
 	const styles = useStyles();
 
-	const mapViewRef = useRef<MapViewRef>(null);
+	const mapViewRef = useRef<RNMapViewRef>(null);
 	const cameraRef = useRef<CameraRef>(null);
 
 	const mapGlobalContext = useMapGlobalContext();
@@ -65,6 +71,10 @@ export function MapView({ children, onDidFinishLoadingMap, vehiclesCounterQty, w
 
 	//
 	// B. Transform data
+
+	useImperativeHandle(ref, () => ({
+		camera_ref: cameraRef.current,
+	}));
 
 	const mapStyleData = useMemo(() => {
 		return MAP_STYLES[mapGlobalContext.data.style];
@@ -156,4 +166,4 @@ export function MapView({ children, onDidFinishLoadingMap, vehiclesCounterQty, w
 	);
 
 	//
-}
+});
