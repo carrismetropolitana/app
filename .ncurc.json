@@ -1,6 +1,5 @@
 {
 	"reject": [
-		"zod",
-		"react-native"
+		"zod"
 	]
 }
