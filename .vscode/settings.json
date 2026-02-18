@@ -1,57 +1,57 @@
 {
 
-	"[css]": {
-		"editor.codeActionsOnSave": {
-			"source.fixAll.stylelint": "explicit"
-		},
-		"editor.defaultFormatter": "vscode.css-language-features"
-	},
+  "[css]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.stylelint": "explicit"
+    },
+    "editor.defaultFormatter": "vscode.css-language-features"
+  },
 
-	"[typescriptreact]": {
-		"editor.defaultFormatter": "vscode.typescript-language-features"
-	},
-	// Disable the default CSS formatter, use stylelint instead
-	"css.validate": false,
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  // Disable the default CSS formatter, use stylelint instead
+  "css.validate": false,
 
-	// Auto fix
-	"editor.codeActionsOnSave": {
-		"source.fixAll.eslint": "explicit"
-	},
-	"editor.defaultFormatter": "dbaeumer.vscode-eslint",
-	"editor.formatOnSave": false,
-	"editor.tabSize": 4,
+  // Auto fix
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.formatOnSave": false,
+  "editor.tabSize": 4,
 
-	"eslint.format.enable": true,
-	// Enable eslint for all supported languages
-	"eslint.validate": [
-		"javascript",
-		"javascriptreact",
-		"typescript",
-		"typescriptreact",
-		"vue",
-		"html",
-		"markdown",
-		"json",
-		"jsonc",
-		"yaml",
-		"toml",
-		"astro"
-	],
-	"eslint.workingDirectories": [{ "mode": "auto" }],
-	"files.eol": "\n",
+  "eslint.format.enable": true,
+  // Enable eslint for all supported languages
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue",
+    "html",
+    "markdown",
+    "json",
+    "jsonc",
+    "yaml",
+    "toml",
+    "astro"
+  ],
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "files.eol": "\n",
 
-	"less.validate": false,
-	// Disable the default formatter, use eslint instead
-	"prettier.enable": false,
-	"scss.validate": false,
+  "less.validate": false,
+  // Disable the default formatter, use eslint instead
+  "prettier.enable": false,
+  "scss.validate": false,
 
-	"svg.preview.background": "custom",
-	"workbench.editor.customLabels.enabled": true,
+  "svg.preview.background": "custom",
+  "workbench.editor.customLabels.enabled": true,
 
-	"workbench.editor.customLabels.patterns": {
-		"**/components/**/*.css": "${dirname} (${extname})",
-		"**/components/**/*.js": "${dirname} (${extname})",
-		"**/components/**/*.tsx": "${dirname} (${extname})"
-	}
+  "workbench.editor.customLabels.patterns": {
+    "**/components/**/*.css": "${dirname} (${extname})",
+    "**/components/**/*.js": "${dirname} (${extname})",
+    "**/components/**/*.tsx": "${dirname} (${extname})"
+  }
 
 }
