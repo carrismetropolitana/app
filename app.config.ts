@@ -133,6 +133,10 @@ const config: ExpoConfig = {
 
 		'expo-audio',
 
+		'expo-asset',
+
+		'@react-native-community/datetimepicker',
+
 		/**
 		 * Enables setting the preferred app locale from the device settings.
 		 * @see https://docs.expo.dev/guides/localization/#enabling-per-app-language-selection-via-system-settings
