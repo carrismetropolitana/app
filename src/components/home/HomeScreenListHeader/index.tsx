@@ -2,7 +2,6 @@
 
 import { HomeScreenFavoriteLinesBar } from '@/components/home/HomeScreenFavoriteLinesBar';
 import { HomeScreenGeneralStatus } from '@/components/home/HomeScreenGeneralStatus';
-import { HomeScreenTopBar } from '@/components/home/HomeScreenTopBar';
 import { useAccessibilityContext } from '@/contexts/Accessibility.context';
 import { useAccountContext } from '@/contexts/Account.context';
 import { useTranslation } from 'react-i18next';
@@ -30,7 +29,6 @@ export function HomeScreenListHeader() {
 
 	return (
 		<View style={styles.container}>
-			<HomeScreenTopBar />
 			<HomeScreenGeneralStatus />
 			<HomeScreenFavoriteLinesBar />
 
