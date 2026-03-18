@@ -29,37 +29,33 @@ export function WidgetSmartNotificationConfigSchedule({ endTime, onEndTimeChange
 
 	const styles = useStyles();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetSmartNotificationConfigSchedule' });
+	const { t } = useTranslation();
 
 	//
 	// B. Render components
 
 	return (
 		<View style={styles.container}>
-
 			<WidgetSmartNotificationConfigScheduleTimeInput
 				onChange={onStartTimeChange}
-				title={t('start_time_title')}
+				title={t($ => $.widgets.WidgetSmartNotificationConfigSchedule.start_time_title)}
 				value={startTime}
 			/>
 			<WidgetSmartNotificationConfigScheduleTimeInput
 				onChange={onEndTimeChange}
-				title={t('end_time_title')}
+				title={t($ => $.widgets.WidgetSmartNotificationConfigSchedule.end_time_title)}
 				value={endTime}
 			/>
-
 			{startTime >= endTime && (
 				<Text style={styles.error}>
-					{t('invalid_time_range')}
+					{t($ => $.widgets.WidgetSmartNotificationConfigSchedule.invalid_time_range)}
 				</Text>
 			)}
-
 			<WidgetSmartNotificationConfigScheduleWeekdaysInput
 				onToggleWeekday={onToggleWeekday}
 				selectedWeekdays={selectedWeekdays}
-				title={t('weekdays_title')}
+				title={t($ => $.widgets.WidgetSmartNotificationConfigSchedule.weekdays_title)}
 			/>
-
 		</View>
 	);
 

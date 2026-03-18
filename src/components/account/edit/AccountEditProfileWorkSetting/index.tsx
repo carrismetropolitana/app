@@ -16,7 +16,7 @@ export function AccountEditProfileWorkSetting() {
 
 	const accountContext = useAccountContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'account.AccountEditProfileWorkSetting' });
+	const { t } = useTranslation();
 
 	const [selectedWorkSetting, setSelectedWorkSetting] = useState<null | string>(accountContext.data.account?.profile.work_setting || null);
 
@@ -32,7 +32,7 @@ export function AccountEditProfileWorkSetting() {
 
 	return (
 		<View>
-			<ListTitle title={t('title')} />
+			<ListTitle title={t($ => $.account.AccountEditProfileWorkSetting.title)} />
 		</View>
 	);
 

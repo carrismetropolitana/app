@@ -29,12 +29,12 @@ export function NoDataLabel({ accessibilityHint, accessibilityLabel, text }: NoD
 	// B. Render components
 
 	return (
-		<View accessibilityHint={accessibilityHint} accessibilityLabel={accessibilityLabel} accessible>
-			<Text style={styles.text}>
-				{text || t('common.NoDataLabel.default')}
+        <View accessibilityHint={accessibilityHint} accessibilityLabel={accessibilityLabel} accessible>
+            <Text style={styles.text}>
+				{text || t($ => $.common.NoDataLabel.default)}
 			</Text>
-		</View>
-	);
+        </View>
+    );
 
 	//
 }

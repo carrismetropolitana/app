@@ -32,7 +32,7 @@ export function WidgetSmartNotificationConfigWarning({ selectedDistance, selecte
 
 	const stopsContext = useStopsContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetSmartNotificationConfigWarning' });
+	const { t } = useTranslation();
 
 	//
 	// B. Transform data
@@ -44,15 +44,15 @@ export function WidgetSmartNotificationConfigWarning({ selectedDistance, selecte
 		}
 		// If all days are selected
 		if (selectedWeekdays.length === 7) {
-			return t('weekdays.every_day');
+			return t($ => $.widgets.WidgetSmartNotificationConfigWarning.weekdays.every_day);
 		}
 		// If only weekdays are selected
 		if (selectedWeekdays.length === 5 && !selectedWeekdays.includes('saturday') && !selectedWeekdays.includes('sunday')) {
-			return t('weekdays.business_days');
+			return t($ => $.widgets.WidgetSmartNotificationConfigWarning.weekdays.business_days);
 		}
 		// If only weekend days are selected
 		if (selectedWeekdays.length === 2 && selectedWeekdays.includes('saturday') && selectedWeekdays.includes('sunday')) {
-			return t('weekdays.weekends');
+			return t($ => $.widgets.WidgetSmartNotificationConfigWarning.weekdays.weekends);
 		}
 		// Otherwise, list the selected days
 		return selectedWeekdays
@@ -60,7 +60,7 @@ export function WidgetSmartNotificationConfigWarning({ selectedDistance, selecte
 				const order = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 				return order.indexOf(a) - order.indexOf(b);
 			})
-			.map(day => t(`weekdays.${day}`)).join(', ');
+			.map(day => t($ => $.widgets.WidgetSmartNotificationConfigWarning.weekdays[day])).join(', ');
 	}, [selectedWeekdays, t]);
 
 	const stopNameDisplay = useMemo(() => {
@@ -68,7 +68,7 @@ export function WidgetSmartNotificationConfigWarning({ selectedDistance, selecte
 		const foundStop = stopsContext.actions.getStopById(selectedWaypoint.stop_id);
 		if (!foundStop) return null;
 		return foundStop.long_name;
-	}, [selectedWaypoint]);
+	}, [selectedWaypoint, stopsContext.actions]);
 
 	const startTimeDisplay = useMemo(() => {
 		// Convert seconds (0-86400) to HH:M
@@ -94,10 +94,10 @@ export function WidgetSmartNotificationConfigWarning({ selectedDistance, selecte
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>
-				{t('title')}
+				{t($ => $.widgets.WidgetSmartNotificationConfigWarning.title)}
 			</Text>
 			<Text style={styles.summary}>
-				{t('summary', {
+				{t($ => $.widgets.WidgetSmartNotificationConfigWarning.summary, {
 					distance: selectedDistance,
 					end_time: endTimeDisplay,
 					line_short_name: selectedLine.short_name,
@@ -107,7 +107,7 @@ export function WidgetSmartNotificationConfigWarning({ selectedDistance, selecte
 				})}
 			</Text>
 			<Text style={styles.disclaimer}>
-				{t('disclaimer')}
+				{t($ => $.widgets.WidgetSmartNotificationConfigWarning.disclaimer)}
 			</Text>
 		</View>
 	);

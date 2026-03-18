@@ -17,7 +17,7 @@ export function AccountEditProfileNotifications() {
 
 	const accountContext = useAccountContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'account.AccountEditProfileNotifications' });
+	const { t } = useTranslation();
 
 	const [enabledNotificationsAgency, setEnabledNotificationsAgency] = useState<boolean>(accountContext.data.account?.notifications.agency || false);
 	const [enabledNotificationsNetwork, setEnabledNotificationsNetwork] = useState<boolean>(accountContext.data.account?.notifications.network || false);
@@ -28,22 +28,22 @@ export function AccountEditProfileNotifications() {
 
 	useEffect(() => {
 		accountContext.actions.update('notifications.agency', enabledNotificationsAgency);
-	}, [enabledNotificationsAgency]);
+	}, [accountContext.actions, enabledNotificationsAgency]);
 
 	useEffect(() => {
 		accountContext.actions.update('notifications.network', enabledNotificationsNetwork);
-	}, [enabledNotificationsNetwork]);
+	}, [accountContext.actions, enabledNotificationsNetwork]);
 
 	useEffect(() => {
 		accountContext.actions.update('notifications.events', enabledNotificationsEvents);
-	}, [enabledNotificationsEvents]);
+	}, [accountContext.actions, enabledNotificationsEvents]);
 
 	//
 	// C. Render components
 
 	return (
 		<View>
-			<ListTitle title={t('title')} />
+			<ListTitle title={t($ => $.account.AccountEditProfileNotifications.title)} />
 		</View>
 	);
 

@@ -27,7 +27,7 @@ export function HomeScreenFavoriteLinesBar() {
 	const accountContext = useAccountContext();
 	const accessibilityContext = useAccessibilityContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'home.HomeScreenFavoriteLinesBar' });
+	const { t } = useTranslation();
 
 	//
 	// B. Transform data
@@ -39,7 +39,7 @@ export function HomeScreenFavoriteLinesBar() {
 			if (foundLineData) result.push(foundLineData);
 		});
 		return result.sort((a, b) => a.id.localeCompare(b.id));
-	}, [accountContext.data.account?.favorites.line_ids, linesContext.data.lines]);
+	}, [accountContext.data.account?.favorites.line_ids, linesContext.actions]);
 
 	//
 	// C. Handle actions
@@ -60,7 +60,10 @@ export function HomeScreenFavoriteLinesBar() {
 			<View style={styles.container}>
 
 				{accessibilityContext.flags.screen_reader && (
-					<Text style={styles.title}>{t('list', { count: favoriteLinesData.length })}</Text>
+					<Text style={styles.title}>{t($ => $.home.HomeScreenFavoriteLinesBar.list, {
+						count: favoriteLinesData.length,
+					})}
+					</Text>
 				)}
 
 				{favoriteLinesData.map(item => (

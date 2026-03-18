@@ -22,7 +22,7 @@ export function HomeScreenListHeader() {
 	const accountContext = useAccountContext();
 	const accessibilityContext = useAccessibilityContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'home.HomeScreenListHeader' });
+	const { t } = useTranslation();
 
 	//
 	// B. Render components
@@ -31,13 +31,13 @@ export function HomeScreenListHeader() {
 		<View style={styles.container}>
 			<HomeScreenGeneralStatus />
 			<HomeScreenFavoriteLinesBar />
-
 			{accessibilityContext.flags.screen_reader && (
 				<Text style={styles.title}>
-					{t('accessibility_label', { count: accountContext.data.account?.widgets.length || 0 })}
+					{t($ => $.home.HomeScreenListHeader.accessibility_label, {
+						count: accountContext.data.account?.widgets.length || 0,
+					})}
 				</Text>
 			)}
-
 		</View>
 	);
 

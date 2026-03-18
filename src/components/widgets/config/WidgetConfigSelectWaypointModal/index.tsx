@@ -7,7 +7,7 @@ import { useStopsContext } from '@/contexts/Stops.context';
 import { useSystemVariables } from '@/theme/global';
 import { type Waypoint } from '@carrismetropolitana/api-types/network';
 import { IconCircle, IconCircleCheckFilled, IconX } from '@tabler/icons-react-native';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Modal, ScrollView, View } from 'react-native';
 
@@ -39,10 +39,15 @@ export function WidgetConfigSelectWaypointModal({ availableWaypoints, descriptio
 
 	const stopsContext = useStopsContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetConfigSelectWaypointModal' });
+	const { t } = useTranslation();
 
 	//
 	// B. Transform data
+
+	const handlePressItem = useCallback((item: Waypoint) => {
+		onSelectWaypoint(item);
+		onClose();
+	}, [onSelectWaypoint, onClose]);
 
 	const availableWaypointsList: ListSectionItemProps[] = useMemo(() => {
 		// Skip if no waypoints are available
@@ -56,7 +61,10 @@ export function WidgetConfigSelectWaypointModal({ availableWaypoints, descriptio
 				const isSelected = selectedWaypoint?.stop_id === item.stop_id;
 				const isDisabled = disableFirst && index === 0;
 				return {
-					accessibilityLabel: t('items.accessibility_label', { index: item.stop_sequence, tts_name: stopData.tts_name }),
+					accessibilityLabel: t($ => $.widgets.WidgetConfigSelectWaypointModal.items.accessibility_label, {
+						index: item.stop_sequence,
+						tts_name: stopData.tts_name,
+					}),
 					disabled: isDisabled,
 					icon: <WidgetConfigSelectWaypointBadge sequence={item.stop_sequence} />,
 					key: `${item.stop_id}-${item.stop_sequence}`,
@@ -68,15 +76,7 @@ export function WidgetConfigSelectWaypointModal({ availableWaypoints, descriptio
 			.filter(item => !!item);
 		// Return valid waypoints only
 		return preparedWaypoints;
-	}, [availableWaypoints, selectedWaypoint]);
-
-	//
-	// C. Handle actions
-
-	const handlePressItem = (item: Waypoint) => {
-		onSelectWaypoint(item);
-		onClose();
-	};
+	}, [availableWaypoints, disableFirst, handlePressItem, selectedWaypoint?.stop_id, stopsContext.actions, systemVariables.status.ok, systemVariables.text, t]);
 
 	//
 	// C. Render components
@@ -93,7 +93,7 @@ export function WidgetConfigSelectWaypointModal({ availableWaypoints, descriptio
 			visible={isVisible}
 		>
 			<View style={styles.header}>
-				<Button onPress={onClose} title={t('close_button')} />
+				<Button onPress={onClose} title={t($ => $.widgets.WidgetConfigSelectWaypointModal.close_button)} />
 			</View>
 			<View style={styles.content}>
 				<ScrollView>

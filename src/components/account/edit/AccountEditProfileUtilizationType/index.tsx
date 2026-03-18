@@ -16,7 +16,7 @@ export function AccountEditProfileUtilizationType() {
 
 	const accountContext = useAccountContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'account.AccountEditProfileUtilizationType' });
+	const { t } = useTranslation();
 
 	const [selectedUtilizationType, setSelectedUtilizationType] = useState<null | string>(accountContext.data.account?.profile.utilization_type || null);
 
@@ -32,7 +32,7 @@ export function AccountEditProfileUtilizationType() {
 
 	return (
 		<View>
-			<ListTitle title={t('title')} />
+			<ListTitle title={t($ => $.account.AccountEditProfileUtilizationType.title)} />
 		</View>
 	);
 

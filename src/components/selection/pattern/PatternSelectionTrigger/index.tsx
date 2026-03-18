@@ -40,7 +40,7 @@ export function PatternSelectionTrigger({ description, onSelect, selectedLineId,
 
 	const [selectedPatternData, setSelectedPatternData] = useState<Pattern>();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'selection.PatternSelectionTrigger' });
+	const { t } = useTranslation();
 
 	//
 	// B. Transform data
@@ -52,7 +52,7 @@ export function PatternSelectionTrigger({ description, onSelect, selectedLineId,
 			if (!foundPatternData) return;
 			setSelectedPatternData(foundPatternData);
 		})();
-	}, [localSearchParams.pattern_id]);
+	}, [linesContext.actions, localSearchParams.pattern_id, selectedOperationalDate]);
 
 	const selectedPatternInitialStopName = useMemo(() => {
 		if (!selectedPatternData) return;
@@ -61,7 +61,7 @@ export function PatternSelectionTrigger({ description, onSelect, selectedLineId,
 		const stopData = stopsContext.actions.getStopById(sortedStops[0].stop_id);
 		if (!stopData) return;
 		return stopData.long_name;
-	}, [selectedPatternData, stopsContext.data.stops]);
+	}, [selectedPatternData, stopsContext.actions]);
 
 	//
 	// C. Handle actions
@@ -73,14 +73,14 @@ export function PatternSelectionTrigger({ description, onSelect, selectedLineId,
 		if (selectedPatternId === localSearchParams.pattern_id) return;
 		// Update the URL param to match the selected pattern
 		router.setParams({ pattern_id: selectedPatternId });
-	}, [selectedPatternId]);
+	}, [localSearchParams.pattern_id, selectedPatternId]);
 
 	useEffect(() => {
 		// Skip if no stop was selected
 		if (!localSearchParams.pattern_id) return;
 		// Trigger the onSelect callback with the selected stop ID
 		if (onSelect) onSelect(localSearchParams.pattern_id);
-	}, [localSearchParams.pattern_id]);
+	}, [localSearchParams.pattern_id, onSelect]);
 
 	const handleShowList = () => {
 		router.navigate({
@@ -98,7 +98,6 @@ export function PatternSelectionTrigger({ description, onSelect, selectedLineId,
 
 	return (
 		<>
-
 			{!selectedPatternData && (
 				<ListSection
 					description={description}
@@ -106,20 +105,23 @@ export function PatternSelectionTrigger({ description, onSelect, selectedLineId,
 					items={[{
 						icon: <IconArrowBarToRight color={systemVariables.text[100]} />,
 						key: 'select-pattern',
-						label: t('label'),
+						label: t($ => $.selection.PatternSelectionTrigger.label),
 						onPress: handleShowList,
 					}]}
 				/>
 			)}
-
 			{selectedPatternData && (
 				<ListSection
 					description={description}
 					title={title}
 					items={[{
-						accessibilityHint: t('selected.accessibility_hint'),
-						accessibilityLabel: t('selected.accessibility_label', { tts_headsign: selectedPatternData.tts_headsign }),
-						description: t('selected.description', { stop_name: selectedPatternInitialStopName }),
+						accessibilityHint: t($ => $.selection.PatternSelectionTrigger.selected.accessibility_hint),
+						accessibilityLabel: t($ => $.selection.PatternSelectionTrigger.selected.accessibility_label, {
+							tts_headsign: selectedPatternData.tts_headsign,
+						}),
+						description: t($ => $.selection.PatternSelectionTrigger.selected.description, {
+							stop_name: selectedPatternInitialStopName,
+						}),
 						icon: <IconArrowBarToRight color={systemVariables.text[100]} />,
 						key: 'selected-pattern',
 						label: selectedPatternData.headsign,
@@ -128,7 +130,6 @@ export function PatternSelectionTrigger({ description, onSelect, selectedLineId,
 					}]}
 				/>
 			)}
-
 		</>
 	);
 

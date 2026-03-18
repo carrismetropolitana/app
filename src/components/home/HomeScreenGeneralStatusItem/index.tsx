@@ -27,14 +27,14 @@ export function HomeScreenGeneralStatusItem({ data }: HomeScreenGeneralStatusIte
 
 	const [isExpanded, setIsExpanded] = useState(true);
 
-	const { t } = useTranslation('translation', { keyPrefix: 'home.HomeScreenGeneralStatusItem' });
+	const { t } = useTranslation();
 
 	//
 	// B. Handle actions
 
 	const handlePress = () => {
 		setIsExpanded(prev => !prev);
-		Haptics.selectionAsync();
+		void Haptics.selectionAsync();
 	};
 
 	//
@@ -47,7 +47,7 @@ export function HomeScreenGeneralStatusItem({ data }: HomeScreenGeneralStatusIte
 				{data.severity === 'info' && <IconInfoSquareFilled color="#ffffff" size={24} />}
 				{data.severity === 'warning' && <IconTrafficCone color="#ffffff" size={24} />}
 				{data.severity === 'danger' && <IconAlertOctagonFilled color="#ffffff" size={24} />}
-				<Text style={styles.label}>{t('label')}</Text>
+				<Text style={styles.label}>{t($ => $.home.HomeScreenGeneralStatusItem.label)}</Text>
 				{isExpanded ? <IconX color="#ffffff" opacity={0.75} size={24} /> : <IconPlus color="#ffffff" opacity={0.75} size={24} />}
 			</View>
 			{isExpanded && <Text style={styles.title}>{data.title}</Text>}

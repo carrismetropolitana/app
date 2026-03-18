@@ -26,13 +26,13 @@ export function WidgetConfigHeader({ description, title, videoUrl }: WidgetStopH
 
 	const styles = useStyles();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetConfigHeader' });
+	const { t } = useTranslation();
 
 	const LIST_ITEMS: ListSectionItemProps[] = [
 		{
 			icon: <IconPlayerPlayFilled color="#3D85C6" fill="#3D85C6" size={24} />,
 			key: 'video',
-			label: t('video_label'),
+			label: t($ => $.widgets.WidgetConfigHeader.video_label),
 			link: videoUrl,
 		},
 	];

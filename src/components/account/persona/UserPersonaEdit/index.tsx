@@ -22,7 +22,7 @@ export function UserPersonaEdit() {
 
 	const accountContext = useAccountContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'account.UserPersonaEdit' });
+	const { t } = useTranslation();
 
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -53,7 +53,7 @@ export function UserPersonaEdit() {
 		// Update state
 		setIsLoading(true);
 		// Get a copy of the current persona image and history
-		const currentHistory = [...accountContext.data.account?.persona.image_history ?? []];
+		const currentHistory = [...(accountContext.data.account?.persona.image_history ?? [])];
 		const currentImage = accountContext.data.account?.persona.image_id;
 		// Fetch a new random image from the API until it's different
 		// from the current one and not in the recent history
@@ -83,10 +83,9 @@ export function UserPersonaEdit() {
 
 	return (
 		<View style={styles.container}>
-
 			{historyEnabled && (
 				<TouchableOpacity
-					aria-label={t('go_back')}
+					aria-label={t($ => $.account.UserPersonaEdit.go_back)}
 					disabled={isLoading}
 					onPress={handleGoBack}
 					style={styles.button}
@@ -97,9 +96,8 @@ export function UserPersonaEdit() {
 					/>
 				</TouchableOpacity>
 			)}
-
 			<TouchableOpacity
-				aria-label={t('randomize')}
+				aria-label={t($ => $.account.UserPersonaEdit.randomize)}
 				disabled={isLoading}
 				onPress={handleRandomize}
 				style={styles.button}
@@ -109,9 +107,7 @@ export function UserPersonaEdit() {
 					size={26}
 				/>
 			</TouchableOpacity>
-
 			{/* {isLoading && <ActivityIndicator size="large" />} */}
-
 		</View>
 	);
 

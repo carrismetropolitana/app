@@ -26,12 +26,12 @@ export function AccountEditDelete() {
 
 	const handlePress = () => {
 		Alert.alert(
-			t('account.AccountEditDelete.alert.title'),
-			t('account.AccountEditDelete.alert.description'),
+			t($ => $.account.AccountEditDelete.alert.title),
+			t($ => $.account.AccountEditDelete.alert.description),
 			[
 				{
 					style: 'cancel',
-					text: t('account.AccountEditDelete.alert.cancel'),
+					text: t($ => $.account.AccountEditDelete.alert.cancel),
 				},
 				{
 					onPress: async () => {
@@ -39,7 +39,7 @@ export function AccountEditDelete() {
 						router.dismissTo('/');
 					},
 					style: 'destructive',
-					text: t('account.AccountEditDelete.alert.confirm'),
+					text: t($ => $.account.AccountEditDelete.alert.confirm),
 				},
 			],
 		);
@@ -49,12 +49,12 @@ export function AccountEditDelete() {
 	// C. Render components
 
 	return (
-		<View style={styles.container}>
-			<TouchableOpacity onPress={handlePress}>
-				<Text style={styles.button}>{t('account.AccountEditDelete.label')}</Text>
+        <View style={styles.container}>
+            <TouchableOpacity onPress={handlePress}>
+				<Text style={styles.button}>{t($ => $.account.AccountEditDelete.label)}</Text>
 			</TouchableOpacity>
-		</View>
-	);
+        </View>
+    );
 
 	//
 }

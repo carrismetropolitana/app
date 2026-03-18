@@ -28,7 +28,7 @@ export function SearchBar({ autoFocus, onBlur, onChange, onFocus, value }: Searc
 	const styles = useStyles();
 	const systemVariables = useSystemVariables();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'common.SearchBar' });
+	const { t } = useTranslation();
 
 	//
 	// B. Render components
@@ -45,7 +45,7 @@ export function SearchBar({ autoFocus, onBlur, onChange, onFocus, value }: Searc
 				onBlur={onBlur}
 				onChangeText={onChange}
 				onFocus={onFocus}
-				placeholder={t('placeholder')}
+				placeholder={t($ => $.common.SearchBar.placeholder)}
 				placeholderTextColor={systemVariables.text[400]}
 				style={styles.input}
 				value={value || ''}

@@ -1,6 +1,7 @@
 /* * */
 
 import { useAccountContext } from '@/contexts/Account.context';
+import { resources } from '@/i18n';
 import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 
@@ -8,7 +9,9 @@ import { useStyles } from './styles';
 
 /* * */
 
-const AVAILABLE_ACCENT_COLORS = [
+type AccentColor = keyof typeof resources['en']['translation']['account']['AccountEditPersonaAccent']['accent_colors'];
+
+const AVAILABLE_ACCENT_COLORS: { color_code: string, id: AccentColor }[] = [
 	{ color_code: '#3d85c6', id: 'proxima' },
 	{ color_code: '#c61d23', id: 'longa' },
 	{ color_code: '#fdb71a', id: 'rapida' },
@@ -29,17 +32,17 @@ export function AccountEditPersonaAccent() {
 
 	const accountContext = useAccountContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'account.AccountEditPersonaAccent' });
+	const { t } = useTranslation();
 
 	//
 	// B. Render components
 
 	return (
-		<View aria-label={t('label')} role="radiogroup" style={styles.container}>
+		<View aria-label={t($ => $.account.AccountEditPersonaAccent.label)} role="radiogroup" style={styles.container}>
 			{AVAILABLE_ACCENT_COLORS.map(item => (
 				<TouchableOpacity
 					key={item.id}
-					aria-label={t(`accent_colors.${item.id}`)}
+					aria-label={t($ => $.account.AccountEditPersonaAccent.accent_colors[item.id])}
 					disabled={accountContext.data.account?.persona?.accent_color === item.color_code}
 					onPress={() => accountContext.actions.update('persona.accent_color', item.color_code)}
 					role="radio"

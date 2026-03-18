@@ -18,7 +18,7 @@ export default function Page() {
 	const navigation = useNavigation();
 	const localSearchParams = useLocalSearchParams<{ line_id: string, operational_date: OperationalDate, pattern_id: string, return_to: Route }>();
 
-	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.selection/pattern' });
+	const { t } = useTranslation();
 
 	//
 	// B. Handle actions
@@ -27,10 +27,10 @@ export default function Page() {
 		navigation.setOptions({
 			headerRight: () => <CloseButton />,
 			headerShown: true,
-			headerTitle: t('title'),
+			headerTitle: t($ => $._app.sitemap['selection/pattern'].title),
 			presentation: 'modal',
 		});
-	}, [navigation]);
+	}, [navigation, t]);
 
 	const handleSelect = (patternId: string) => {
 		router.dismissTo({

@@ -15,14 +15,14 @@ export default function Page() {
 
 	const navigation = useNavigation();
 
-	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.(tabs)/home/account' });
+	const { t } = useTranslation();
 
 	//
 	// B. Handle actions
 
 	useEffect(() => {
-		navigation.setOptions({ headerShown: true, headerTitle: t('title') });
-	}, [navigation]);
+		navigation.setOptions({ headerShown: true, headerTitle: t($ => $._app.sitemap['(tabs)/home/account'].title) });
+	}, [navigation, t]);
 
 	//
 	// C. Render components

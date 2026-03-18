@@ -35,7 +35,7 @@ export const useStyles = () => {
 			justifyContent: 'center',
 		},
 		screen: {
-			backgroundColor: systemVariables.background[100],
+			backgroundColor: systemVariables.background[200],
 			flex: 1,
 		},
 	});

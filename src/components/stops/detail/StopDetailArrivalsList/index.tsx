@@ -31,16 +31,16 @@ export function StopDetailArrivalsList() {
 	}
 
 	return (
-		<>
-			<ListTitle title={t('stops.StopDetailArrivalsList.title')} />
-			<View style={styles.container}>
+        <>
+            <ListTitle title={t($ => $.stops.StopDetailArrivalsList.title)} />
+            <View style={styles.container}>
 				{arrivalsContext.data.arrivals.map((arrival, index) => (
 					<ArrivalRow key={index} data={arrival} />
 				))}
 			</View>
-			<ListFootnote text={t('stops.StopDetailArrivalsList.footnote')} />
-		</>
-	);
+            <ListFootnote text={t($ => $.stops.StopDetailArrivalsList.footnote)} />
+        </>
+    );
 
 	//
 }

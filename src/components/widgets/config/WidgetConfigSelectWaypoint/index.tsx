@@ -34,7 +34,7 @@ export function WidgetConfigSelectWaypoint({ availableWaypoints, description, on
 
 	const [modalVisible, setModalVisible] = useState(false);
 
-	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetConfigSelectWaypoint' });
+	const { t } = useTranslation();
 
 	//
 	// B. Transform data
@@ -45,7 +45,7 @@ export function WidgetConfigSelectWaypoint({ availableWaypoints, description, on
 		// Fetch stop data
 		const foundStopData = stopsContext.actions.getStopById(selectedWaypoint.stop_id);
 		if (foundStopData) return foundStopData;
-	}, [selectedWaypoint]);
+	}, [selectedWaypoint, stopsContext.actions]);
 
 	//
 	// B. Handle actions
@@ -60,7 +60,6 @@ export function WidgetConfigSelectWaypoint({ availableWaypoints, description, on
 
 	return (
 		<>
-
 			{!selectedWaypoint && (
 				<ListSection
 					description={description}
@@ -68,19 +67,20 @@ export function WidgetConfigSelectWaypoint({ availableWaypoints, description, on
 					items={[{
 						icon: <IconArrowLoopRight color="#FF6900" />,
 						key: 'select-waypoint',
-						label: t('label'),
+						label: t($ => $.widgets.WidgetConfigSelectWaypoint.label),
 						onPress: () => setModalVisible(true),
 					}]}
 				/>
 			)}
-
 			{selectedWaypoint && (
 				<ListSection
 					description={description}
 					title={title}
 					items={[{
-						accessibilityHint: t('selected.accessibility_hint'),
-						accessibilityLabel: t('selected.accessibility_label', { tts_name: stopData?.tts_name }),
+						accessibilityHint: t($ => $.widgets.WidgetConfigSelectWaypoint.selected.accessibility_hint),
+						accessibilityLabel: t($ => $.widgets.WidgetConfigSelectWaypoint.selected.accessibility_label, {
+							tts_name: stopData?.tts_name,
+						}),
 						icon: <WidgetConfigSelectWaypointBadge sequence={selectedWaypoint.stop_sequence} />,
 						key: 'selected-waypoint',
 						label: stopData?.long_name || selectedWaypoint.stop_id,
@@ -90,7 +90,6 @@ export function WidgetConfigSelectWaypoint({ availableWaypoints, description, on
 					}]}
 				/>
 			)}
-
 			<WidgetConfigSelectWaypointModal
 				availableWaypoints={availableWaypoints}
 				isVisible={modalVisible}
@@ -99,7 +98,6 @@ export function WidgetConfigSelectWaypoint({ availableWaypoints, description, on
 				selectedWaypoint={selectedWaypoint}
 				disableFirst
 			/>
-
 		</>
 	);
 

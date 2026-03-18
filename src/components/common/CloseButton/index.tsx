@@ -20,7 +20,7 @@ export function CloseButton({ onPress }: CloseButtonProps) {
 
 	const navigation = useNavigation();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'common.CloseButton' });
+	const { t } = useTranslation();
 
 	//
 	// B. Render components
@@ -28,7 +28,7 @@ export function CloseButton({ onPress }: CloseButtonProps) {
 	return (
 		<Button
 			onPress={onPress ?? (() => navigation.goBack())}
-			title={t('title')}
+			title={t($ => $.common.CloseButton.title)}
 		/>
 	);
 

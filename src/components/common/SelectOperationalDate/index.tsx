@@ -64,35 +64,36 @@ export function SelectOperationalDate() {
 	// D. Render components
 
 	return (
-		<>
-
-			<View style={styles.container}>
+        <>
+            <View style={styles.container}>
 
 				<TouchableOpacity
-					accessibilityHint={t('common.SelectOperationalDate.today.accessibility_hint')}
+					accessibilityHint={t($ => $.common.SelectOperationalDate.today.accessibility_hint)}
 					accessibilityState={{ checked: isToday ? true : false }}
 					onPress={handleSelectToday}
 					style={[styles.button, isToday && styles.buttonIsSelected]}
 				>
 					<Text style={[styles.label, isToday && styles.labelIsSelected]}>
-						{t('common.SelectOperationalDate.today.label')}
+						{t($ => $.common.SelectOperationalDate.today.label)}
 					</Text>
 				</TouchableOpacity>
 
 				<TouchableOpacity
-					accessibilityHint={t('common.SelectOperationalDate.tomorrow.accessibility_hint')}
+					accessibilityHint={t($ => $.common.SelectOperationalDate.tomorrow.accessibility_hint)}
 					accessibilityState={{ checked: isTomorrow ? true : false }}
 					onPress={handleSelectTomorrow}
 					style={[styles.button, isTomorrow && styles.buttonIsSelected]}
 				>
 					<Text style={[styles.label, isTomorrow && styles.labelIsSelected]}>
-						{t('common.SelectOperationalDate.tomorrow.label')}
+						{t($ => $.common.SelectOperationalDate.tomorrow.label)}
 					</Text>
 				</TouchableOpacity>
 
 				<TouchableOpacity
-					accessibilityHint={t('common.SelectOperationalDate.other_date.accessibility_hint')}
-					accessibilityLabel={t('common.SelectOperationalDate.other_date.accessibility_label', { date: operationalDateContext.data.selected_date_display })}
+					accessibilityHint={t($ => $.common.SelectOperationalDate.other_date.accessibility_hint)}
+					accessibilityLabel={t($ => $.common.SelectOperationalDate.other_date.accessibility_label, {
+                        date: operationalDateContext.data.selected_date_display
+                    })}
 					onPress={() => setShowDatePicker(true)}
 					style={[styles.button, isOtherDate && styles.buttonIsSelected]}
 				>
@@ -103,8 +104,7 @@ export function SelectOperationalDate() {
 				</TouchableOpacity>
 
 			</View>
-
-			<DateTimePickerModal
+            <DateTimePickerModal
 				date={operationalDateContext.data.selected_date?.js_date}
 				isVisible={showDatePicker}
 				minimumDate={minDate}
@@ -113,9 +113,8 @@ export function SelectOperationalDate() {
 				onConfirm={handleConfirm}
 				pickerStyleIOS={{ alignItems: 'center' }}
 			/>
-
-		</>
-	);
+        </>
+    );
 
 	//
 }

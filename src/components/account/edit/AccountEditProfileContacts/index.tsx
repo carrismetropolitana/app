@@ -17,7 +17,7 @@ export function AccountEditProfileContacts() {
 
 	const accountContext = useAccountContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'account.AccountEditProfileContacts' });
+	const { t } = useTranslation();
 
 	const [emailAddress, setEmailAddress] = useState<null | string>(accountContext.data.account?.profile.email || null);
 	const [phoneNumber, setPhoneNumber] = useState<null | string>(accountContext.data.account?.profile.phone || null);
@@ -27,30 +27,30 @@ export function AccountEditProfileContacts() {
 
 	useEffect(() => {
 		accountContext.actions.update('profile.email', emailAddress);
-	}, [emailAddress]);
+	}, [accountContext.actions, emailAddress]);
 
 	useEffect(() => {
 		accountContext.actions.update('profile.phone', phoneNumber);
-	}, [phoneNumber]);
+	}, [accountContext.actions, phoneNumber]);
 
 	//
 	// C. Render components
 
 	return (
 		<View>
-			<ListTitle title={t('title')} />
+			<ListTitle title={t($ => $.account.AccountEditProfileContacts.title)} />
 			<TextInputField
-				label={t('fields.email.label')}
+				label={t($ => $.account.AccountEditProfileContacts.fields.email.label)}
 				onChange={setEmailAddress}
-				placeholder={t('fields.email.placeholder')}
+				placeholder={t($ => $.account.AccountEditProfileContacts.fields.email.placeholder)}
 				value={emailAddress}
 				withBorderBottom
 				withBorderTop
 			/>
 			<TextInputField
-				label={t('fields.phone.label')}
+				label={t($ => $.account.AccountEditProfileContacts.fields.phone.label)}
 				onChange={setPhoneNumber}
-				placeholder={t('fields.phone.placeholder')}
+				placeholder={t($ => $.account.AccountEditProfileContacts.fields.phone.placeholder)}
 				value={phoneNumber}
 				withBorderBottom
 			/>

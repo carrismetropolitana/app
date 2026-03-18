@@ -16,31 +16,31 @@ export function MoreSectionFares() {
 
 	const systemVariables = useSystemVariables();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'more.MoreSectionFares' });
+	const { t } = useTranslation();
 
 	const LIST_ITEMS: ListSectionItemProps[] = [
 		{
 			icon: <IconTicket color={systemVariables.text[100]} size={32} />,
 			key: 'tickets',
-			label: t('items.tickets'),
+			label: t($ => $.more.MoreSectionFares.items.tickets),
 			link: '/more/fares/tickets',
 		},
 		{
 			icon: <IconCreditCardPay color={systemVariables.text[100]} size={32} />,
 			key: 'cards',
-			label: t('items.cards'),
+			label: t($ => $.more.MoreSectionFares.items.cards),
 			link: '/more/fares/cards',
 		},
 		{
 			icon: <IconMapQuestion color={systemVariables.text[100]} size={32} />,
 			key: 'helpdesks',
-			label: t('items.helpdesks'),
+			label: t($ => $.more.MoreSectionFares.items.helpdesks),
 			link: '/more/fares/helpdesks',
 		},
 		{
 			icon: <IconListSearch color={systemVariables.text[100]} size={32} />,
 			key: 'tap-and-ride',
-			label: t('items.tap-and-ride'),
+			label: t($ => $.more.MoreSectionFares.items['tap-and-ride']),
 			link: '/more/fares/tap-and-ride',
 		},
 	];
@@ -51,7 +51,7 @@ export function MoreSectionFares() {
 	return (
 		<ListSection
 			items={LIST_ITEMS}
-			title={t('heading')}
+			title={t($ => $.more.MoreSectionFares.heading)}
 		/>
 	);
 

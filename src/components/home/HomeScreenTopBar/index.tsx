@@ -18,22 +18,19 @@ export function HomeScreenTopBar() {
 	const styles = useStyles();
 	const colorScheme = useColorScheme();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'home.HomeScreenTopBar' });
+	const { t } = useTranslation();
 
 	//
 	// B. Render components
 
 	return (
 		<View style={styles.container}>
-
 			{colorScheme === 'light'
 				? <Image resizeMode="contain" source={{ uri: 'https://carrismetropolitana.pt/assets/header/static/cmet-header-light@3x.png' }} style={styles.logo} />
 				: <Image resizeMode="contain" source={{ uri: 'https://carrismetropolitana.pt/assets/header/static/cmet-header-dark@3x.png' }} style={styles.logo} />}
-
-			<TouchableOpacity aria-label={t('aria_label')} onPress={() => router.push('/account')}>
+			<TouchableOpacity aria-label={t($ => $.home.HomeScreenTopBar.aria_label)} onPress={() => router.push('/account')}>
 				<UserPersona size="md" />
 			</TouchableOpacity>
-
 		</View>
 	);
 

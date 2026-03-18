@@ -31,7 +31,7 @@ export function WidgetStopConfig({ widgetId }: WidgetStopConfigProps) {
 
 	const widgetStopConfigContext = useWidgetStopConfigContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetStopConfig' });
+	const { t } = useTranslation();
 
 	//
 	// B. Handle actions
@@ -51,67 +51,57 @@ export function WidgetStopConfig({ widgetId }: WidgetStopConfigProps) {
 
 	return (
 		<Container>
-
 			<WidgetConfigHeader
-				description={t('description')}
-				title={t('title')}
+				description={t($ => $.widgets.WidgetStopConfig.description)}
+				title={t($ => $.widgets.WidgetStopConfig.title)}
 				videoUrl="/account/widgets/stop/video"
 			/>
-
 			{/* * */}
-
 			<StopSelectionTrigger
-				description={t('step_1.description')}
+				description={t($ => $.widgets.WidgetStopConfig.step_1.description)}
 				onSelect={widgetStopConfigContext.actions.selectStopId}
 				selectedStopId={widgetStopConfigContext.data.selected_stop?.id}
-				title={t('step_1.title')}
+				title={t($ => $.widgets.WidgetStopConfig.step_1.title)}
 			/>
-
 			{/* * */}
-
 			<WidgetConfigSelectPattern
 				availablePatterns={widgetStopConfigContext.data.available_patterns}
-				description={t('step_2.description')}
+				description={t($ => $.widgets.WidgetStopConfig.step_2.description)}
 				onTogglePatternId={widgetStopConfigContext.actions.togglePatternId}
 				onToggleSelectAll={widgetStopConfigContext.actions.toggleSelectAll}
 				selectedPatternIds={widgetStopConfigContext.data.selected_pattern_ids}
-				title={t('step_2.title')}
+				title={t($ => $.widgets.WidgetStopConfig.step_2.title)}
 			/>
-
 			{/* * */}
-
 			<WidgetConfigLabelInput
-				description={t('step_3.description')}
+				description={t($ => $.widgets.WidgetStopConfig.step_3.description)}
 				onChange={widgetStopConfigContext.actions.selectLabel}
-				title={t('step_3.title')}
+				title={t($ => $.widgets.WidgetStopConfig.step_3.title)}
 				value={widgetStopConfigContext.data.selected_label}
 			/>
-
 			{/* * */}
-
 			<View style={styles.buttonContainer}>
 				<LargeButton
 					disabled={!widgetStopConfigContext.flags.can_save}
-					label={t('actions.save')}
+					label={t($ => $.widgets.WidgetStopConfig.actions.save)}
 					onPress={handleSave}
 					type="primary"
 				/>
 				{!widgetId && (
 					<LargeButton
-						label={t('actions.cancel')}
+						label={t($ => $.widgets.WidgetStopConfig.actions.cancel)}
 						onPress={router.back}
 						type="secondary"
 					/>
 				)}
 				{widgetId && (
 					<LargeButton
-						label={t('actions.delete')}
+						label={t($ => $.widgets.WidgetStopConfig.actions.delete)}
 						onPress={handleDelete}
 						type="danger"
 					/>
 				)}
 			</View>
-
 		</Container>
 	);
 

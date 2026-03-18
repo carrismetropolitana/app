@@ -16,7 +16,7 @@ export function HomeScreenCustomizeButton() {
 
 	const styles = useStyles();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'home.HomeScreenCustomizeButton' });
+	const { t } = useTranslation();
 
 	//
 	// B. Render components
@@ -24,7 +24,7 @@ export function HomeScreenCustomizeButton() {
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity onPress={() => router.push('/account')}>
-				<Text style={styles.button}>{t('label')}</Text>
+				<Text style={styles.button}>{t($ => $.home.HomeScreenCustomizeButton.label)}</Text>
 			</TouchableOpacity>
 		</View>
 	);

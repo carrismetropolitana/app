@@ -16,7 +16,7 @@ export default function Page() {
 
 	const navigation = useNavigation();
 
-	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.vehicles/[vehicle_id]' });
+	const { t } = useTranslation();
 
 	const { vehicle_id } = useLocalSearchParams<{ vehicle_id: string }>();
 
@@ -27,10 +27,10 @@ export default function Page() {
 		navigation.setOptions({
 			headerRight: () => <CloseButton />,
 			headerShown: true,
-			headerTitle: t('title'),
+			headerTitle: t($ => $._app.sitemap['vehicles/[vehicle_id]'].title),
 			presentation: 'modal',
 		});
-	}, [navigation]);
+	}, [navigation, t]);
 
 	//
 	// C. Render components

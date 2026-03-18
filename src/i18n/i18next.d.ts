@@ -1,11 +1,14 @@
 /* * */
 
-import { resourceKeys } from '@/i18n';
+import 'i18next';
+import type { DefaultResources } from './resources';
 
 /* * */
-
 declare module 'i18next' {
 	interface CustomTypeOptions {
-		resources: typeof resourceKeys['en']
+		defaultNS: 'translation'
+		enableSelector: 'optimize'
+		resources: DefaultResources
+		returnNull: false
 	}
 }

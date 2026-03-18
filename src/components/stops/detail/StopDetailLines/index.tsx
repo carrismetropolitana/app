@@ -40,15 +40,15 @@ export function StopDetailLines() {
 	// C. Render components
 
 	if (!availablePatternsList.length) {
-		return <NoDataLabel text={t('stops.StopDetailLines.no_data')} />;
+		return <NoDataLabel text={t($ => $.stops.StopDetailLines.no_data)} />;
 	}
 
 	return (
-		<ListSection
+        <ListSection
 			items={availablePatternsList}
-			title={t('stops.StopDetailLines.title')}
+			title={t($ => $.stops.StopDetailLines.title)}
 		/>
-	);
+    );
 
 	//
 }

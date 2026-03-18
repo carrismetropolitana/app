@@ -23,7 +23,7 @@ export function AccountViewWidgetsList() {
 	const stopsContext = useStopsContext();
 	const accountContext = useAccountContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'account.AccountViewWidgetsList' });
+	const { t } = useTranslation();
 
 	//
 	// B. Transform data
@@ -41,7 +41,7 @@ export function AccountViewWidgetsList() {
 				if (widget.type === 'stop') {
 					const stopData = stopsContext.actions.getStopById(widget.properties.stop_id);
 					return {
-						description: t('description.stop'),
+						description: t($ => $.account.AccountViewWidgetsList.description.stop),
 						icon: <IconBusStop color="#FF6900" size={30} />,
 						key: widget._id,
 						label: widget.settings.label || stopData?.long_name || widget.properties.stop_id,
@@ -51,7 +51,7 @@ export function AccountViewWidgetsList() {
 				if (widget.type === 'line') {
 					const lineData = linesContext.actions.getLineDataById(widget.properties.pattern_id.slice(0, 4));
 					return {
-						description: t('description.line'),
+						description: t($ => $.account.AccountViewWidgetsList.description.line),
 						icon: <IconArrowLoopRight color="#C61D23" size={30} />,
 						key: widget._id,
 						label: widget.settings.label || lineData?.long_name || widget.properties.pattern_id,
@@ -61,7 +61,7 @@ export function AccountViewWidgetsList() {
 				if (widget.type === 'smart_notification') {
 					const stopData = stopsContext.actions.getStopById(widget.properties.stop_id);
 					return {
-						description: t('description.smart_notification'),
+						description: t($ => $.account.AccountViewWidgetsList.description.smart_notification),
 						icon: <IconBellRinging color="#0C807E" size={30} />,
 						key: widget._id,
 						label: widget.settings.label || stopData?.long_name || widget.properties.stop_id,
@@ -70,19 +70,19 @@ export function AccountViewWidgetsList() {
 				}
 			})
 			.filter(item => !!item);
-	}, [accountContext.data.account?.widgets]);
+	}, [accountContext?.data?.account?.widgets, linesContext.actions, stopsContext.actions, t]);
 
 	//
 	// C. Render components
 
 	if (!listItems.length) {
-		return <NoDataLabel text={t('no_data')} />;
+		return <NoDataLabel text={t($ => $.account.AccountViewWidgetsList.no_data)} />;
 	}
 
 	return (
 		<ListSection
 			items={listItems}
-			title={t('title')}
+			title={t($ => $.account.AccountViewWidgetsList.title)}
 		/>
 	);
 

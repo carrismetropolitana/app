@@ -16,13 +16,13 @@ export function MoreSectionAlerts() {
 
 	const systemVariables = useSystemVariables();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'more.MoreSectionAlerts' });
+	const { t } = useTranslation();
 
 	const LIST_ITEMS: ListSectionItemProps[] = [
 		{
 			icon: <IconAlertTriangle color={systemVariables.text[100]} size={32} />,
 			key: 'alerts',
-			label: t('items.service_alerts'),
+			label: t($ => $.more.MoreSectionAlerts.items.service_alerts),
 			link: '/more/alerts',
 		},
 	];
@@ -33,7 +33,7 @@ export function MoreSectionAlerts() {
 	return (
 		<ListSection
 			items={LIST_ITEMS}
-			title={t('heading')}
+			title={t($ => $.more.MoreSectionAlerts.heading)}
 		/>
 	);
 

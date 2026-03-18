@@ -98,6 +98,9 @@
 		}
 	},
 	"account": {
+		"AccountEdit": {
+			"title": "Edit Profile"
+		},
 		"AccountEditDelete": {
 			"alert": {
 				"cancel": "Cancel",
@@ -106,6 +109,17 @@
 				"title": "Delete Account"
 			},
 			"label": "Delete Account"
+		},
+		"AccountEditPersonaAccent": {
+			"accent_colors": {
+				"inter-regional": "Purple, color of Inter-regional lines",
+				"longa": "Red, color of Long lines",
+				"mar": "Emerald blue, color of Sea lines",
+				"proxima": "Blue, color of Nearby lines",
+				"rapida": "Yellow, color of Rapid lines",
+				"turistica": "Orange, color of Tourist lines"
+			},
+			"label": "Set primary color"
 		},
 		"AccountEditProfileActivity": {
 			"fields": {
@@ -327,6 +341,11 @@
 			"stopSearchBarAcessibilityLabel": "Stops SearchBar"
 		},
 		"TimetableSchedules": {
+			"accessibility_hint": "Indicates the approximate times when the bus passes this stop. Swipe left or right to see more times.",
+			"accessibility_label": {
+				"exception": "Variant: {hour} hours and {minute} minutes. Attention: instead of the selected route, at this time the bus is headed to {destination} on the variant {route_long_name}.",
+				"primary": "{hour} hours and {minute} minutes"
+			},
 			"hours": "Time",
 			"minutes": "Min."
 		},
@@ -415,6 +434,15 @@
 		"HomeScreenTopBar": {
 			"aria_label": "Profile"
 		}
+	},
+	"lineWidgetCard": {
+		"lineAcessibilityHint": "Widget on the app home screen for line {lineId} headed to {title}",
+		"lineAcessibilityLabel": "Line {lineId} widget headed to {title}"
+	},
+	"linebadge": {
+		"lineAccessibilityHint": "Button to view line details by number",
+		"lineAccessibilityLabel": "Line",
+		"linesAccessibilityWithAlerts": "Contains alerts"
 	},
 	"lines": {
 		"LineBadge": {
@@ -505,6 +533,11 @@
 		"LinesListViewFavorites": {
 			"no_favorites": "No favorite lines yet"
 		},
+		"LinesScreen": {
+			"allLines": "All Lines",
+			"linesAroundMe": "Around me",
+			"recentLines": "Recent Lines"
+		},
 		"PathStopNextArrivals": {
 			"arriving": "Arriving",
 			"nextArrivalsRealtimeAccessibilityHint": "Next trip in real time",
@@ -527,6 +560,8 @@
 			"toggle": "What is the path/destination of a line?"
 		},
 		"TimetableExceptionsLink": {
+			"accessibility_hint": "Double tap to switch the destination and show this variant.",
+			"accessibility_label": "Item ({index}): Variant {route_long_name} to {destination}",
 			"direction_label": "to",
 			"route_label": "Route"
 		},
@@ -580,6 +615,9 @@
 			"hint": "Switch the app language",
 			"pt": "Português"
 		},
+		"MoreNews": {
+			"loading": "Loading news..."
+		},
 		"MoreSectionAbout": {
 			"heading": "Carris Metropolitana",
 			"items": {
@@ -622,7 +660,37 @@
 				"lost_and_found": "Lost and Found",
 				"stores": "Stores and Agents"
 			}
-		}
+		},
+		"Page": {
+			"title": "More"
+		},
+		"SupportList": {
+			"contacts": "Contacts",
+			"frequently_asked": "Frequently Asked Questions",
+			"heading": "Customer Support",
+			"lost_found": "Lost and Found",
+			"stores": "Stores and Agents",
+			"subheading": "Get answers about Carris Metropolitana or contact us."
+		},
+		"TarifsList": {
+			"heading": "Fares",
+			"monthly_tickets": "Monthly Tickets",
+			"ocasional_tickets": "Occasional Tickets",
+			"subheading": "Find out how much it costs to travel with CMetropolitana regularly or occasionally.",
+			"where_to_buy": "Where to buy"
+		},
+		"about_cm_list_hint": "This section contains links to pages with information about Carris Metropolitana",
+		"about_cm_list_label": "Useful links about Carris Metropolitana",
+		"alert_list_hint": "This section is related to alerts",
+		"alert_list_label": "Useful links about alerts",
+		"support_list_hint": "This section is related to customer support",
+		"support_list_label": "Useful links about customer support",
+		"tarifs_list_hint": "This section is related to fares",
+		"tarifs_list_label": "Useful links about fares",
+		"usefullLinksHint": "This link redirects to information related to {title}",
+		"usefullLinksLabel": "Links for {title}",
+		"version_hint": "Application version",
+		"version_label": "App version {version}"
 	},
 	"pathWaypoint": {
 		"headerFacilityAccessibilityHint": "This elemtn is a text that indicates the facilities available close to the stop ",

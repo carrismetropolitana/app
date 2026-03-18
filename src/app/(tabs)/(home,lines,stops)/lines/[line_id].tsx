@@ -18,16 +18,16 @@ export default function Page() {
 
 	const { line_id } = useLocalSearchParams<{ line_id: string }>();
 
-	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.(tabs)/lines/[line_id]' });
+	const { t } = useTranslation();
 
 	//
 	// B. Handle actions
 
 	useEffect(() => {
 		navigation.setOptions({
-			headerTitle: `${t('title')}`,
+			headerTitle: t($ => $._app.sitemap['(tabs)/lines/[line_id]'].title),
 		});
-	}, [navigation]);
+	}, [navigation, t]);
 
 	//
 	// C. Render components

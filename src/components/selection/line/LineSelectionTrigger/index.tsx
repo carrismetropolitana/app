@@ -33,7 +33,7 @@ export function LineSelectionTrigger({ description, onSelect, selectedLineId, ti
 	const pathname = usePathname();
 	const localSearchParams = useLocalSearchParams<{ line_id: string }>();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'selection.LineSelectionTrigger' });
+	const { t } = useTranslation();
 
 	//
 	// B. Transform data
@@ -74,7 +74,6 @@ export function LineSelectionTrigger({ description, onSelect, selectedLineId, ti
 
 	return (
 		<>
-
 			{!selectedLineData && (
 				<ListSection
 					description={description}
@@ -82,19 +81,20 @@ export function LineSelectionTrigger({ description, onSelect, selectedLineId, ti
 					items={[{
 						icon: <IconArrowLoopRight color="#C61D23" size={30} />,
 						key: 'select-line',
-						label: t('label'),
+						label: t($ => $.selection.LineSelectionTrigger.label),
 						onPress: handleShowList,
 					}]}
 				/>
 			)}
-
 			{selectedLineData && (
 				<ListSection
 					description={description}
 					title={title}
 					items={[{
-						accessibilityHint: t('selected.accessibility_hint'),
-						accessibilityLabel: t('selected.accessibility_label', { tts_name: selectedLineData.tts_name }),
+						accessibilityHint: t($ => $.selection.LineSelectionTrigger.selected.accessibility_hint),
+						accessibilityLabel: t($ => $.selection.LineSelectionTrigger.selected.accessibility_label, {
+							tts_name: selectedLineData.tts_name,
+						}),
 						icon: <LineBadge lineId={selectedLineData.id} withAlertIcon />,
 						key: 'selected-line',
 						label: selectedLineData.long_name,
@@ -103,7 +103,6 @@ export function LineSelectionTrigger({ description, onSelect, selectedLineId, ti
 					}]}
 				/>
 			)}
-
 		</>
 	);
 

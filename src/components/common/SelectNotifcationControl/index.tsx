@@ -23,14 +23,14 @@ export function SelectNotificationControl({ selectedSelector }: Props) {
 	//
 	// A. Setup variables
 
-	const { t } = useTranslation('translation', { keyPrefix: 'common.SelectNotificationControl' });
+	const { t } = useTranslation();
 
 	const [selectedIndex, setSelectedIndex] = useState(0);
 	const [selectedValue, setSelectedValue] = useState<string | undefined>();
 	const selectStyles = styles();
 
 	const buttons = [
-		{ element: () => <Text style={selectedIndex === 0 ? selectStyles.textSelected : selectStyles.text}>{t('meters')}</Text> },
+		{ element: () => <Text style={selectedIndex === 0 ? selectStyles.textSelected : selectStyles.text}>{t($ => $.common.SelectNotificationControl.meters)}</Text> },
 		// { element: () => <Text style={selectedIndex === 1 ? selectStyles.textSelected : selectStyles.text} disabled>{t('hours')}</Text> },
 	];
 
@@ -41,8 +41,7 @@ export function SelectNotificationControl({ selectedSelector }: Props) {
 		if (selectedIndex === 0) {
 			setSelectedValue('meters');
 			selectedSelector = 'meters';
-		}
-		else if (selectedIndex === 1) {
+		} else if (selectedIndex === 1) {
 			setSelectedValue('hours');
 			selectedSelector = 'hours';
 		}

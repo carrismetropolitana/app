@@ -17,7 +17,7 @@ export function AccountEditProfileBasicInfo() {
 
 	const accountContext = useAccountContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'account.AccountEditProfileBasicInfo' });
+	const { t } = useTranslation();
 
 	const [firstName, setFirstName] = useState<string>(accountContext.data.account?.profile.first_name || '');
 	const [lastName, setLastName] = useState<string>(accountContext.data.account?.profile.last_name || '');
@@ -27,30 +27,30 @@ export function AccountEditProfileBasicInfo() {
 
 	useEffect(() => {
 		accountContext.actions.update('profile.first_name', firstName);
-	}, [firstName]);
+	}, [accountContext.actions, firstName]);
 
 	useEffect(() => {
 		accountContext.actions.update('profile.last_name', lastName);
-	}, [lastName]);
+	}, [accountContext.actions, lastName]);
 
 	//
 	// C. Render components
 
 	return (
 		<View>
-			<ListTitle title={t('title')} />
+			<ListTitle title={t($ => $.account.AccountEditProfileBasicInfo.title)} />
 			<TextInputField
-				label={t('fields.first_name.label')}
+				label={t($ => $.account.AccountEditProfileBasicInfo.fields.first_name.label)}
 				onChange={setFirstName}
-				placeholder={t('fields.first_name.placeholder')}
+				placeholder={t($ => $.account.AccountEditProfileBasicInfo.fields.first_name.placeholder)}
 				value={firstName}
 				withBorderBottom
 				withBorderTop
 			/>
 			<TextInputField
-				label={t('fields.last_name.label')}
+				label={t($ => $.account.AccountEditProfileBasicInfo.fields.last_name.label)}
 				onChange={setLastName}
-				placeholder={t('fields.last_name.placeholder')}
+				placeholder={t($ => $.account.AccountEditProfileBasicInfo.fields.last_name.placeholder)}
 				value={lastName}
 				withBorderBottom
 			/>

@@ -31,7 +31,7 @@ export function LineBadge({ lineId, onPress, size = 'md', withAlertIcon }: LineB
 	const linesContext = useLinesContext();
 	const alertsContext = useAlertsContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'lines.LineBadge' });
+	const { t } = useTranslation();
 
 	//
 	// B. Transform data
@@ -39,18 +39,22 @@ export function LineBadge({ lineId, onPress, size = 'md', withAlertIcon }: LineB
 	const lineData = useMemo(() => {
 		if (!lineId) return;
 		return linesContext.actions.getLineDataById(lineId);
-	}, [lineId, linesContext.data.lines]);
+	}, [lineId, linesContext.actions]);
 
 	const hasAlert = useMemo(() => {
 		if (!lineId || !withAlertIcon) return false;
 		return alertsContext.actions.getSimplifiedAlertsByLineId(lineId).length > 0;
-	}, [alertsContext.data.alerts, lineData, lineId]);
+	}, [alertsContext.actions, lineId, withAlertIcon]);
 
 	const accessibilityLabel = useMemo(() => {
 		if (!lineData) return;
-		if (!hasAlert) return t('label', { lineName: lineData.short_name });
-		return t('with_alert', { lineName: lineData.short_name });
-	}, [lineData]);
+		if (!hasAlert) return t($ => $.lines.LineBadge.label, {
+			lineName: lineData.short_name,
+		});
+		return t($ => $.lines.LineBadge.with_alert, {
+			lineName: lineData.short_name,
+		});
+	}, [lineData, hasAlert, t]);
 
 	//
 	// C. Handle actions
@@ -114,7 +118,7 @@ export function LineBadge({ lineId, onPress, size = 'md', withAlertIcon }: LineB
 
 	return (
 		<TouchableOpacity
-			accessibilityHint={t('accessibility_hint')}
+			accessibilityHint={t($ => $.lines.LineBadge.accessibility_hint)}
 			accessibilityLabel={accessibilityLabel}
 			disabled={!onPress}
 			onPress={handlePress}
@@ -126,7 +130,6 @@ export function LineBadge({ lineId, onPress, size = 'md', withAlertIcon }: LineB
 				{ backgroundColor: lineData.color },
 			]}
 		>
-
 			<Text style={[
 				styles.label,
 				size === 'sm' && styles.labelSizeSm,
@@ -137,7 +140,6 @@ export function LineBadge({ lineId, onPress, size = 'md', withAlertIcon }: LineB
 			>
 				{lineData.short_name || '• • •'}
 			</Text>
-
 			{hasAlert && withAlertIcon && (
 				<View style={[
 					styles.alert,
@@ -153,7 +155,6 @@ export function LineBadge({ lineId, onPress, size = 'md', withAlertIcon }: LineB
 					/>
 				</View>
 			)}
-
 		</TouchableOpacity>
 	);
 

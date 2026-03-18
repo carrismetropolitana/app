@@ -15,7 +15,7 @@ export default function Page() {
 
 	const navigation = useNavigation();
 
-	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.(tabs)/home' });
+	const { t } = useTranslation();
 
 	//
 	// B. Handle actions
@@ -23,9 +23,9 @@ export default function Page() {
 	useEffect(() => {
 		navigation.setOptions({
 			headerShown: false,
-			title: t('title'),
+			title: t($ => $._app.sitemap['(tabs)/home'].title),
 		});
-	}, [navigation]);
+	}, [navigation, t]);
 
 	//
 	// C. Render components
