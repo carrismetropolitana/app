@@ -14,7 +14,7 @@ import { MoreSectionSupport } from '@/components/more/MoreSectionSupport';
 
 export function MoreScreen() {
 	return (
-		<Container safeTop>
+		<Container>
 			<MoreNews />
 			<MoreSectionAlerts />
 			<MoreSectionSupport />

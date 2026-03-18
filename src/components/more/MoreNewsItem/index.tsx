@@ -19,13 +19,13 @@ export function MoreNewsItem({ item, onClick }: MoreNewsItemProps) {
 		<TouchableOpacity
 			accessibilityRole="button"
 			aria-label={item.title}
-			onPress={() => onClick(item._id)}
+			onPress={() => onClick(item.id)}
 			role="button"
 			style={styles.container}
 		>
 			<Image
 				resizeMode="contain"
-				source={{ uri: item.cover_image_src }}
+				source={{ uri: item.featured_image?.thumbnailURL ?? item.featured_image?.url }}
 				style={styles.image}
 			/>
 		</TouchableOpacity>
