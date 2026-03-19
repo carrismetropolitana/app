@@ -67,7 +67,7 @@ export const MapView = forwardRef<MapViewRef, PropsWithChildren<MapViewProps>>((
 
 	const mapGlobalContext = useMapGlobalContext();
 
-	const [isFollowingUser, setIsFollowingUser] = useState(false);
+	const [trackingMode, setTrackingMode] = useState<'follow' | 'heading' | 'idle'>('idle');
 	const [hasLoadedMap, setHasLoadedMap] = useState(false);
 	const [hasHandledDidFinishLoadingMap, setHasHandledDidFinishLoadingMap] = useState(false);
 	const didFinishLoadingAttemptCountRef = useRef(0);
@@ -94,13 +94,21 @@ export const MapView = forwardRef<MapViewRef, PropsWithChildren<MapViewProps>>((
 		}
 	}, []);
 
+	const handleCycleTrackingMode = useCallback(() => {
+		setTrackingMode((prev) => {
+			if (prev === 'idle') return 'follow';
+			if (prev === 'follow') return 'heading';
+			return 'idle';
+		});
+	}, []);
+
 	const tryHandleDidFinishLoadingMap = useCallback(() => {
 		clearDidFinishLoadingRetry();
 
 		if (!hasLoadedMap) return;
 		if (hasHandledDidFinishLoadingMap) return;
 		if (!onDidFinishLoadingMap) return;
-		if (isFollowingUser) return;
+		if (trackingMode !== 'idle') return;
 		if (!cameraRef.current) {
 			didFinishLoadingAttemptCountRef.current += 1;
 			if (didFinishLoadingAttemptCountRef.current > 10) return;
@@ -117,7 +125,7 @@ export const MapView = forwardRef<MapViewRef, PropsWithChildren<MapViewProps>>((
 		didFinishLoadingAttemptCountRef.current += 1;
 		if (didFinishLoadingAttemptCountRef.current > 10) return;
 		didFinishLoadingRetryTimeoutRef.current = setTimeout(() => tryHandleDidFinishLoadingMapRef.current?.(), 150);
-	}, [clearDidFinishLoadingRetry, hasHandledDidFinishLoadingMap, hasLoadedMap, isFollowingUser, onDidFinishLoadingMap]);
+	}, [clearDidFinishLoadingRetry, hasHandledDidFinishLoadingMap, hasLoadedMap, trackingMode, onDidFinishLoadingMap]);
 
 	useEffect(() => {
 		tryHandleDidFinishLoadingMapRef.current = tryHandleDidFinishLoadingMap;
@@ -159,11 +167,16 @@ export const MapView = forwardRef<MapViewRef, PropsWithChildren<MapViewProps>>((
 				<Camera
 					ref={cameraRef}
 					animationMode="easeTo"
-					followUserLocation={isFollowingUser}
-					followUserMode={UserTrackingMode.FollowWithHeading}
+					followUserLocation={trackingMode !== 'idle'}
+					followUserMode={trackingMode === 'heading' ? UserTrackingMode.FollowWithHeading : UserTrackingMode.Follow}
 					maxZoomLevel={mapStyleData.max_zoom}
 					minZoomLevel={mapStyleData.min_zoom}
-					onUserTrackingModeChange={({ nativeEvent }) => setIsFollowingUser(nativeEvent.payload.followUserMode === UserTrackingMode.FollowWithHeading)}
+					onUserTrackingModeChange={({ nativeEvent }) => {
+						const newMode = nativeEvent.payload.followUserMode;
+						if (newMode !== UserTrackingMode.Follow && newMode !== UserTrackingMode.FollowWithHeading) {
+							setTrackingMode('idle');
+						}
+					}}
 				/>
 				{shouldRenderUserLocation && (
 					<UserLocation
@@ -187,8 +200,8 @@ export const MapView = forwardRef<MapViewRef, PropsWithChildren<MapViewProps>>((
 				<View style={styles.userLocationButtonWrapper}>
 					<MapViewUserLocationButton
 						cameraRef={cameraRef}
-						isFollowingUser={isFollowingUser}
-						onToggleFollowUser={setIsFollowingUser}
+						onCycleTrackingMode={handleCycleTrackingMode}
+						trackingMode={trackingMode}
 					/>
 				</View>
 			)}

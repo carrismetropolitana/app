@@ -13,13 +13,13 @@ import { useStyles } from './styles';
 
 interface MapViewUserLocationButtonProps {
 	cameraRef?: RefObject<CameraRef | null>
-	isFollowingUser?: boolean
-	onToggleFollowUser?: (value: boolean) => void
+	onCycleTrackingMode?: () => void
+	trackingMode?: 'follow' | 'heading' | 'idle'
 }
 
 /* * */
 
-export function MapViewUserLocationButton({ cameraRef, isFollowingUser, onToggleFollowUser }: MapViewUserLocationButtonProps) {
+export function MapViewUserLocationButton({ onCycleTrackingMode, trackingMode = 'idle' }: MapViewUserLocationButtonProps) {
 	//
 
 	//
@@ -34,15 +34,12 @@ export function MapViewUserLocationButton({ cameraRef, isFollowingUser, onToggle
 	// B. Handle actions
 
 	const handleCenterMap = async () => {
-		// Skip if no camera
-		if (!cameraRef?.current) return;
-		// Request location permission if not granted
-		if (!userLocationContext.flags.has_permission && userLocationContext.flags.can_request) {
+		// Request permission when transitioning out of idle with no permission
+		if (trackingMode === 'idle' && !userLocationContext.flags.has_permission && userLocationContext.flags.can_request) {
 			await userLocationContext.actions.requestPermission();
 			return;
 		}
-		// Trigger follow user action
-		if (onToggleFollowUser) onToggleFollowUser(true);
+		onCycleTrackingMode?.();
 	};
 
 	//
@@ -64,10 +61,18 @@ export function MapViewUserLocationButton({ cameraRef, isFollowingUser, onToggle
 		);
 	}
 
-	if (isFollowingUser) {
+	if (trackingMode === 'heading') {
 		return (
 			<TouchableOpacity onPress={handleCenterMap} style={[styles.container, styles.containerActive]}>
 				<IconNavigationTop color="#ffffff" size={32} />
+			</TouchableOpacity>
+		);
+	}
+
+	if (trackingMode === 'follow') {
+		return (
+			<TouchableOpacity onPress={handleCenterMap} style={[styles.container, styles.containerActive]}>
+				<IconCurrentLocationFilled color="#ffffff" size={32} />
 			</TouchableOpacity>
 		);
 	}

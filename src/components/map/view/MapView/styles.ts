@@ -20,7 +20,7 @@ export const useStyles = () => {
 			zIndex: 10,
 		},
 		vehiclesCounterWrapper: {
-			bottom: insets.bottom + 64,
+			bottom: 15,
 			display: 'flex',
 			left: 15,
 			position: 'absolute',
