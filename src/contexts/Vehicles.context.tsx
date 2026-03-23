@@ -6,7 +6,7 @@ import { getServiceUrl } from '@/settings/service-urls';
 import { type Vehicle } from '@carrismetropolitana/api-types/vehicles';
 import { type FeatureCollection, type Point } from 'geojson';
 import { DateTime } from 'luxon';
-import { createContext, type PropsWithChildren, useContext, useMemo } from 'react';
+import { createContext, type PropsWithChildren, useCallback, useContext, useMemo } from 'react';
 import useSWR from 'swr';
 
 /* * */
@@ -36,13 +36,13 @@ interface VehiclesContextState {
 
 const VehiclesContext = createContext<undefined | VehiclesContextState>(undefined);
 
-export function useVehiclesContext() {
+export const useVehiclesContext = () => {
 	const context = useContext(VehiclesContext);
 	if (!context) {
 		throw new Error('useVehiclesContext must be used within a VehiclesContextProvider');
 	}
 	return context;
-}
+};
 
 /* * */
 
@@ -52,7 +52,7 @@ export const VehiclesContextProvider = ({ children }: PropsWithChildren) => {
 	//
 	// A. Fetch data
 
-	const { data: allVehiclesData, isLoading: allVehiclesLoading } = useSWR<Vehicle[], Error>(`${getServiceUrl('api')}/v2/vehicles`, { refreshInterval: 3_000 });
+	const { data: allVehiclesData, isLoading: allVehiclesLoading } = useSWR<Vehicle[], Error>(`${getServiceUrl('api')}/vehicles`, { refreshInterval: 3_000 });
 
 	//
 	// B. Transform data
@@ -66,65 +66,65 @@ export const VehiclesContextProvider = ({ children }: PropsWithChildren) => {
 	//
 	// C. Handle actions
 
-	const getVehicleById = (vehicleId: string): undefined | Vehicle => {
+	const getVehicleById = useCallback((vehicleId: string): undefined | Vehicle => {
 		return allVehiclesData?.find(vehicle => vehicle.id === vehicleId);
-	};
+	}, [allVehiclesData]);
 
-	const getVehicleByIdGeoJsonFC = (vehicleId: string): FeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties> | undefined => {
+	const getVehicleByIdGeoJsonFC = useCallback((vehicleId: string): FeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties> | undefined => {
 		const vehicle = getVehicleById(vehicleId);
 		if (!vehicle) return;
 		const collection = getBaseGeoJsonFeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties>();
 		const feature = transformVehicleDataIntoGeoJsonFeature(vehicle);
 		if (feature) collection.features.push(feature);
 		return collection;
-	};
+	}, [getVehicleById]);
 
-	const getAllVehicles = (): undefined | Vehicle[] => {
+	const getAllVehicles = useCallback((): undefined | Vehicle[] => {
 		return allVehiclesData;
-	};
+	}, [allVehiclesData]);
 
-	const getAllVehiclesGeoJsonFC = () => {
+	const getAllVehiclesGeoJsonFC = useCallback(() => {
 		if (!allVehiclesData) return;
 		const collection = getBaseGeoJsonFeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties>();
 		collection.features = allVehiclesData.map(transformVehicleDataIntoGeoJsonFeature).filter(i => !!i);
 		return collection;
-	};
+	}, [allVehiclesData]);
 
-	const getVehiclesByLineId = (lineId: string): Vehicle[] => {
+	const getVehiclesByLineId = useCallback((lineId: string): Vehicle[] => {
 		return filteredVehiclesData?.filter(vehicle => vehicle.line_id === lineId) || [];
-	};
+	}, [filteredVehiclesData]);
 
-	const getVehiclesByLineIdGeoJsonFC = (lineId: string) => {
+	const getVehiclesByLineIdGeoJsonFC = useCallback((lineId: string) => {
 		const foundVehicles = getVehiclesByLineId(lineId);
 		if (!foundVehicles) return;
 		const collection = getBaseGeoJsonFeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties>();
 		collection.features = foundVehicles.map(transformVehicleDataIntoGeoJsonFeature).filter(i => !!i);
 		return collection;
-	};
+	}, [getVehiclesByLineId]);
 
-	const getVehiclesByPatternId = (patternId: string): Vehicle[] => {
+	const getVehiclesByPatternId = useCallback((patternId: string): Vehicle[] => {
 		return filteredVehiclesData?.filter(vehicle => vehicle.pattern_id === patternId) || [];
-	};
+	}, [filteredVehiclesData]);
 
-	const getVehiclesByPatternIdGeoJsonFC = (patternId: string) => {
+	const getVehiclesByPatternIdGeoJsonFC = useCallback((patternId: string) => {
 		const foundVehicles = getVehiclesByPatternId(patternId);
 		if (!foundVehicles) return;
 		const collection = getBaseGeoJsonFeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties>();
 		collection.features = foundVehicles.map(transformVehicleDataIntoGeoJsonFeature).filter(i => !!i);
 		return collection;
-	};
+	}, [getVehiclesByPatternId]);
 
-	const getVehiclesByTripId = (tripId: string): Vehicle[] => {
+	const getVehiclesByTripId = useCallback((tripId: string): Vehicle[] => {
 		return filteredVehiclesData?.filter(vehicle => vehicle.trip_id === tripId) || [];
-	};
+	}, [filteredVehiclesData]);
 
-	const getVehiclesByTripIdGeoJsonFC = (tripId: string) => {
+	const getVehiclesByTripIdGeoJsonFC = useCallback((tripId: string) => {
 		const foundVehicles = getVehiclesByTripId(tripId);
 		if (!foundVehicles) return;
 		const collection = getBaseGeoJsonFeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties>();
 		collection.features = foundVehicles.map(transformVehicleDataIntoGeoJsonFeature).filter(i => !!i);
 		return collection;
-	};
+	}, [getVehiclesByTripId]);
 
 	//
 	// D. Define context value
@@ -148,10 +148,7 @@ export const VehiclesContextProvider = ({ children }: PropsWithChildren) => {
 		flags: {
 			loading: allVehiclesLoading,
 		},
-	}), [
-		filteredVehiclesData,
-		allVehiclesLoading,
-	]);
+	}), [getAllVehicles, getAllVehiclesGeoJsonFC, getVehicleById, getVehicleByIdGeoJsonFC, getVehiclesByLineId, getVehiclesByLineIdGeoJsonFC, getVehiclesByPatternId, getVehiclesByPatternIdGeoJsonFC, getVehiclesByTripId, getVehiclesByTripIdGeoJsonFC, filteredVehiclesData, allVehiclesLoading]);
 
 	//
 	// E. Render components

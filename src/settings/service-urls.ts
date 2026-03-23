@@ -13,9 +13,9 @@ const SERVICE_URLS = Object.freeze({
 	},
 
 	api: {
-		development: 'https://api.carrismetropolitana.pt',
-		production: 'https://api.carrismetropolitana.pt',
-		staging: 'https://api.carrismetropolitana.pt',
+		development: 'https://api.carrismetropolitana.pt/v2',
+		production: 'https://api.carrismetropolitana.pt/v2',
+		staging: 'https://api.carrismetropolitana.pt/v2',
 	},
 
 	app_view: {
