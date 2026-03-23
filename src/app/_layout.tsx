@@ -48,7 +48,15 @@ export default function RootLayout() {
 					headerStyle: { backgroundColor: systemVariables.background[100] },
 					headerTitleStyle: { color: systemVariables.text[100] },
 				}}
-				/>
+				>
+					<Stack.Screen
+						name="alerts/[alert_id]"
+						options={{
+							headerTitle: '',
+							presentation: 'modal',
+						}}
+					/>
+				</Stack>
 			</AllProviders>
 		</AppSplashScreen>
 	);

@@ -1,18 +1,18 @@
 {
-  "extends": "expo/tsconfig.base",
-  "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    },
-    "strict": true
-  },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts"
-  ]
+	"extends": "expo/tsconfig.base",
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"paths": {
+			"@/*": [
+				"./src/*"
+			]
+		},
+		"strict": true
+	},
+	"include": [
+		"**/*.ts",
+		"**/*.tsx",
+		".expo/types/**/*.ts",
+		"expo-env.d.ts"
+	]
 }

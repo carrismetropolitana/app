@@ -12,7 +12,7 @@ export function LinesList() {
 	// A. Handle actions
 
 	const handleSelect = (lineId: string) => {
-		router.push(`/lines/${lineId}`);
+		router.push(`/(tabs)/(lines)/(line-modal)/${lineId}`);
 	};
 
 	//

@@ -26,6 +26,7 @@
 	"dependencies": {
 		"@amplitude/analytics-react-native": "1.5.39",
 		"@expo/vector-icons": "^15.1.1",
+		"@gorhom/bottom-sheet": "^5.2.8",
 		"@helperkits/timer": "20240627.34.23",
 		"@maplibre/maplibre-react-native": "11.0.0-alpha.5",
 		"@react-native-async-storage/async-storage": "2.2.0",

@@ -25,8 +25,13 @@ export function StopSelectionMain({ addToRecentsOnPress, onSelect, withSafeArea,
 	// B. Handle actions
 
 	const handleSelect = (stopId: string) => {
-		if (addToRecentsOnPress) stopsSelectionContext.actions.addToRecent(stopId);
-		if (onSelect) onSelect(stopId);
+		onSelect?.(stopId);
+
+		if (addToRecentsOnPress) {
+			requestAnimationFrame(() => {
+				stopsSelectionContext.actions.addToRecent(stopId);
+			});
+		}
 	};
 
 	//

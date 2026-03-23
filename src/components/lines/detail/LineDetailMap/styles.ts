@@ -15,7 +15,7 @@ export const useStyles = () => {
 			backgroundColor: systemVariables.background[100],
 			display: 'flex',
 			flex: 1,
-			height: 300,
+			height: 250,
 			width: '100%',
 		},
 		loading: {

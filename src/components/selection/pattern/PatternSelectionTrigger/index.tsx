@@ -7,7 +7,7 @@ import { useSystemVariables } from '@/theme/global';
 import { type Pattern } from '@carrismetropolitana/api-types/network';
 import { IconArrowBarToRight, IconArrowsRightLeft } from '@tabler/icons-react-native';
 import { type OperationalDate } from '@tmlmobilidade/types';
-import { router, useLocalSearchParams, usePathname } from 'expo-router';
+import { router } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -24,7 +24,7 @@ interface PatternSelectionTriggerProps {
 
 /* * */
 
-export function PatternSelectionTrigger({ description, onSelect, selectedLineId, selectedOperationalDate, selectedPatternId, title }: PatternSelectionTriggerProps) {
+export function PatternSelectionTrigger({ description, selectedLineId, selectedOperationalDate, selectedPatternId, title }: PatternSelectionTriggerProps) {
 	//
 
 	//
@@ -35,66 +35,48 @@ export function PatternSelectionTrigger({ description, onSelect, selectedLineId,
 	const linesContext = useLinesContext();
 	const stopsContext = useStopsContext();
 
-	const pathname = usePathname();
-	const localSearchParams = useLocalSearchParams<{ pattern_id: string }>();
-
 	const [selectedPatternData, setSelectedPatternData] = useState<Pattern>();
 
 	const { t } = useTranslation();
 
 	//
-	// B. Transform data
+	// B. Handle actions
 
 	useEffect(() => {
 		(async () => {
-			if (!localSearchParams.pattern_id) return;
-			const foundPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(localSearchParams.pattern_id, selectedOperationalDate);
-			if (!foundPatternData) return;
-			setSelectedPatternData(foundPatternData);
+			if (!selectedPatternId) {
+				setSelectedPatternData(undefined);
+				return;
+			}
+
+			const foundPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(
+				selectedPatternId,
+				selectedOperationalDate,
+			);
+
+			setSelectedPatternData(foundPatternData ?? undefined);
 		})();
-	}, [linesContext.actions, localSearchParams.pattern_id, selectedOperationalDate]);
+	}, [linesContext.actions, selectedOperationalDate, selectedPatternId]);
 
 	const selectedPatternInitialStopName = useMemo(() => {
 		if (!selectedPatternData) return;
-		const sortedStops = selectedPatternData.path.sort((a, b) => a.stop_sequence - b.stop_sequence);
-		if (!sortedStops || sortedStops.length === 0) return;
+
+		const sortedStops = [...selectedPatternData.path].sort((a, b) => a.stop_sequence - b.stop_sequence);
+		if (sortedStops.length === 0) return;
+
 		const stopData = stopsContext.actions.getStopById(sortedStops[0].stop_id);
-		if (!stopData) return;
-		return stopData.long_name;
+		return stopData?.long_name;
 	}, [selectedPatternData, stopsContext.actions]);
 
-	//
-	// C. Handle actions
-
-	useEffect(() => {
-		// Skip if no pattern is selected or if
-		// the selected pattern is the same as the param value
-		if (!selectedPatternId) return;
-		if (selectedPatternId === localSearchParams.pattern_id) return;
-		// Update the URL param to match the selected pattern
-		router.setParams({ pattern_id: selectedPatternId });
-	}, [localSearchParams.pattern_id, selectedPatternId]);
-
-	useEffect(() => {
-		// Skip if no stop was selected
-		if (!localSearchParams.pattern_id) return;
-		// Trigger the onSelect callback with the selected stop ID
-		if (onSelect) onSelect(localSearchParams.pattern_id);
-	}, [localSearchParams.pattern_id, onSelect]);
-
 	const handleShowList = () => {
-		router.navigate({
-			params: {
-				line_id: selectedLineId,
-				operational_date: selectedOperationalDate,
-				return_to: pathname,
-			},
-			pathname: '/selection/pattern',
+		router.push({
+			params: { line_id: selectedLineId ?? '', pattern_id: selectedPatternId ?? '' },
+			pathname: '/(tabs)/(lines)/(line-modal)/[line_id]/pattern',
 		});
 	};
 
 	//
-	// D. Render components
+	// C. Render components
 
 	return (
 		<>
