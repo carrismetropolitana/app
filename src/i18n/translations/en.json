@@ -74,6 +74,9 @@
 			"(tabs)/more/support/stores": {
 				"title": "Stores"
 			},
+			"(tabs)/search": {
+				"title": "Search"
+			},
 			"(tabs)/stops": {
 				"title": "Stops"
 			},
@@ -762,6 +765,27 @@
 	"profileImage": {
 		"accessibilityHint": "Persona for your profile is {profileImageDescription}",
 		"accessibilityLabel": "This image represents the persona of your profile"
+	},
+	"search": {
+		"OmniSearchScreen": {
+			"lines_results": {
+				"plural": "Found {count} Lines",
+				"singular": "Found 1 Line"
+			},
+			"news_results": {
+				"plural": "Found {count} News Articles",
+				"singular": "Found 1 News Article"
+			},
+			"no_results": "No results found",
+			"see_more": {
+				"plural": "See {count} more results",
+				"singular": "See 1 more result"
+			},
+			"stops_results": {
+				"plural": "Found {count} Stops",
+				"singular": "Found 1 Stop"
+			}
+		}
 	},
 	"selection": {
 		"LineSelectionMainList": {

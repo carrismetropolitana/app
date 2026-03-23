@@ -74,6 +74,9 @@
 			"(tabs)/more/support/stores": {
 				"title": "Lojas"
 			},
+			"(tabs)/search": {
+				"title": "Pesquisar"
+			},
 			"(tabs)/stops": {
 				"title": "Paragens"
 			},
@@ -762,6 +765,27 @@
 	"profileImage": {
 		"accessibilityHint": "Persona do seu perfil é {profileImageDescription}",
 		"accessibilityLabel": "Esta imagem representa a persona do seu perfil"
+	},
+	"search": {
+		"OmniSearchScreen": {
+			"lines_results": {
+				"plural": "Encontradas {count} Linhas",
+				"singular": "Encontrada 1 Linha"
+			},
+			"news_results": {
+				"plural": "Encontradas {count} Notícias",
+				"singular": "Encontrada 1 Notícia"
+			},
+			"no_results": "Nenhum resultado encontrado",
+			"see_more": {
+				"plural": "Ver mais {count} resultados",
+				"singular": "Ver mais 1 resultado"
+			},
+			"stops_results": {
+				"plural": "Encontradas {count} Paragens",
+				"singular": "Encontrada 1 Paragem"
+			}
+		}
 	},
 	"selection": {
 		"LineSelectionMainList": {

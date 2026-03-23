@@ -57,6 +57,8 @@ export function TabBar() {
 					sf={{ default: 'ellipsis.circle', selected: 'ellipsis.circle.fill' }}
 				/>
 			</NativeTabs.Trigger>
+
+			<NativeTabs.Trigger name="search" options={{ title: t($ => $._app.sitemap['(tabs)/search'].title) }} role="search" />
 		</NativeTabs>
 	);
 
