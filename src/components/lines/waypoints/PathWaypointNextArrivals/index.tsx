@@ -96,7 +96,7 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 
 				{scheduledArrivals.length > 0 && (
 					<View style={styles.scheduledArrivalsWrapper}>
-						<IconClockHour9 size={14} />
+						<IconClockHour9 color={styles.scheduledArrival.color} size={14} />
 						<View style={styles.scheduledArrivalsList}>
 							{scheduledArrivals.slice(0, realtimeArrivals.length > 0 ? 3 : 4).map(scheduledArrival => scheduledArrival !== undefined && (
 								<View key={scheduledArrival.unixTs}>

@@ -30,7 +30,7 @@ export function WaypointFacilities({ stopId }: WaypointFacilitiesProps) {
 
 	const facilitiesData = useMemo(() => {
 		return stopsContext.actions.getStopById(stopId)?.facilities ?? [];
-	}, [stopsContext.data.stops, stopId]);
+	}, [stopsContext.actions, stopId]);
 
 	//
 	// C. Render components
