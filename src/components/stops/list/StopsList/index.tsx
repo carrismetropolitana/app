@@ -12,7 +12,7 @@ export function StopsList() {
 	// A. Handle actions
 
 	const handleSelect = (stopId: string) => {
-		router.push(`/(tabs)/(stops)/(stop-modal)/${stopId}`);
+		router.push(`/(modals)/(stop-modal)/${stopId}`);
 	};
 
 	//

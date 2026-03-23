@@ -75,7 +75,7 @@ export function LineMapView({ isExpandable = false }: { isExpandable?: boolean }
 	}, [shapeDataFC]); // Only recreate if the data actually changes
 
 	const handleOpen = useCallback(() => {
-		router.push(`/(tabs)/(lines)/(line-modal)/${lineDetailContext.data.selected_line_id}/map`);
+		router.push(`/(modals)/(line-modal)/${lineDetailContext.data.selected_line_id}/map`);
 	}, [lineDetailContext.data.selected_line_id]);
 
 	//

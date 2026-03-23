@@ -30,13 +30,6 @@ export default function Layout() {
 					title: 'Linhas',
 				}}
 			/>
-			<Stack.Screen
-				name="(line-modal)"
-				options={{
-					headerShown: false,
-					presentation: 'modal',
-				}}
-			/>
 		</Stack>
 	);
 

@@ -71,7 +71,7 @@ export function PatternSelectionTrigger({ description, selectedLineId, selectedO
 	const handleShowList = () => {
 		router.push({
 			params: { line_id: selectedLineId ?? '', pattern_id: selectedPatternId ?? '' },
-			pathname: '/(tabs)/(lines)/(line-modal)/[line_id]/pattern',
+			pathname: '/(modals)/(line-modal)/[line_id]/pattern',
 		});
 	};
 
