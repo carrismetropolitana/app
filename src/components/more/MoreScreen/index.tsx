@@ -9,12 +9,13 @@ import { MoreSectionAlerts } from '@/components/more/MoreSectionAlerts';
 import { MoreSectionFares } from '@/components/more/MoreSectionFares';
 import { MoreSectionSettings } from '@/components/more/MoreSectionSettings';
 import { MoreSectionSupport } from '@/components/more/MoreSectionSupport';
+import { Platform } from 'react-native';
 
 /* * */
 
 export function MoreScreen() {
 	return (
-		<Container>
+		<Container safeTop={Platform.OS === 'android'}>
 			<MoreNews />
 			<MoreSectionAlerts />
 			<MoreSectionSupport />

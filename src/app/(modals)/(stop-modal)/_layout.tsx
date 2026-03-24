@@ -2,7 +2,9 @@
 
 import { StopDetailContextProvider } from '@/contexts/StopDetail.context';
 import { useSystemVariables } from '@/theme/global';
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { IconArrowLeft } from '@tabler/icons-react-native';
+import { router, Stack, useLocalSearchParams } from 'expo-router';
+import { Platform, TouchableOpacity } from 'react-native';
 
 /* * */
 
@@ -30,7 +32,15 @@ export default function Layout() {
 				<Stack.Screen
 					name="[stop_id]/index"
 					options={{
-						headerShown: false,
+						headerLeft: Platform.OS === 'android'
+							? () => (
+								<TouchableOpacity onPress={() => router.dismiss()} style={{ padding: 4 }}>
+									<IconArrowLeft color={systemVariables.text[100]} size={28} />
+								</TouchableOpacity>
+							)
+							: undefined,
+						headerShown: Platform.OS === 'android',
+						headerTitle: '',
 					}}
 				/>
 			</Stack>

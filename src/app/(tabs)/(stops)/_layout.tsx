@@ -30,13 +30,6 @@ export default function Layout() {
 					title: 'Paragens',
 				}}
 			/>
-			<Stack.Screen
-				name="(stop-modal)"
-				options={{
-					headerShown: false,
-					presentation: 'modal',
-				}}
-			/>
 		</Stack>
 	);
 

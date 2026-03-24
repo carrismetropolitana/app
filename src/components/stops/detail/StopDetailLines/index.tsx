@@ -32,7 +32,7 @@ export function StopDetailLines() {
 			icon: <LineBadge lineId={item.line_id} withAlertIcon />,
 			key: item.id,
 			label: item.headsign,
-			onPress: () => router.navigate(`/lines/${item.line_id}`),
+			onPress: () => router.navigate(`/(modals)/(line-modal)/${item.line_id}`),
 		}));
 	}, [stopDetailContext.data.available_patterns]);
 
@@ -44,11 +44,11 @@ export function StopDetailLines() {
 	}
 
 	return (
-        <ListSection
+		<ListSection
 			items={availablePatternsList}
 			title={t($ => $.stops.StopDetailLines.title)}
 		/>
-    );
+	);
 
 	//
 }

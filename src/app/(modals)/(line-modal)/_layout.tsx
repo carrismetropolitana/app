@@ -2,7 +2,9 @@
 
 import { LineDetailContextProvider } from '@/contexts/LineDetail.context';
 import { useSystemVariables } from '@/theme/global';
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { IconArrowLeft } from '@tabler/icons-react-native';
+import { router, Stack, useLocalSearchParams } from 'expo-router';
+import { Platform, TouchableOpacity } from 'react-native';
 
 /* * */
 
@@ -30,6 +32,13 @@ export default function Layout() {
 				<Stack.Screen
 					name="[line_id]/index"
 					options={{
+						headerLeft: Platform.OS === 'android'
+							? () => (
+								<TouchableOpacity onPress={() => router.dismiss()} style={{ padding: 4 }}>
+									<IconArrowLeft color={systemVariables.text[100]} size={28} />
+								</TouchableOpacity>
+							)
+							: undefined,
 						headerStyle: { backgroundColor: 'transparent' },
 						headerTitle: '',
 						headerTransparent: true,
@@ -40,7 +49,9 @@ export default function Layout() {
 					name="[line_id]/map"
 					options={{
 						headerBackButtonDisplayMode: 'minimal',
-						title: 'Mapa',
+						headerStyle: { backgroundColor: 'transparent' },
+						headerTitle: '',
+						headerTransparent: true,
 					}}
 				/>
 
