@@ -19,22 +19,18 @@ export function AccountViewAnonymous() {
 
 	const accountContext = useAccountContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'account.AccountViewAnonymous' });
+	const { t } = useTranslation();
 
 	//
 	// B. Render components
 
 	return (
 		<View style={styles.container}>
-
 			<UserPersona size="lg" />
-
 			<Text style={styles.displayName}>Olá 👋</Text>
-
 			<TouchableOpacity onPress={accountContext.actions.createAccount}>
-				<Text style={styles.button}>{t('create_account')}</Text>
+				<Text style={styles.button}>{t($ => $.account.AccountViewAnonymous.create_account)}</Text>
 			</TouchableOpacity>
-
 		</View>
 	);
 

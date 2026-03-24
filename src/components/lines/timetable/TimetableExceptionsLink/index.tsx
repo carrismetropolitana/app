@@ -25,7 +25,7 @@ export function TimetableExceptionsLink({ exceptionData }: TimetableExceptionsLi
 
 	const lineDetailContext = useLineDetailContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'lines.TimetableExceptionsLink' });
+	const { t } = useTranslation();
 
 	//
 	// B. Handle actions
@@ -39,9 +39,9 @@ export function TimetableExceptionsLink({ exceptionData }: TimetableExceptionsLi
 
 	return (
 		<TouchableOpacity
-			accessibilityHint={t('accessibility_hint')}
+			accessibilityHint={t($ => $.lines.TimetableExceptionsLink.accessibility_hint)}
 			onPress={handleExceptionClick}
-			accessibilityLabel={t('accessibility_label', {
+			accessibilityLabel={t($ => $.lines.TimetableExceptionsLink.accessibility_label, {
 				destination: exceptionData.pattern_headsign,
 				index: exceptionData.exception_id.toUpperCase(),
 				route_long_name: exceptionData.route_long_name,
@@ -50,11 +50,11 @@ export function TimetableExceptionsLink({ exceptionData }: TimetableExceptionsLi
 			<Text style={styles.text}>
 				<Text style={styles.id}>{exceptionData.exception_id + ')'}</Text>
 				<Text> </Text>
-				<Text>{t('route_label')}</Text>
+				<Text>{t($ => $.lines.TimetableExceptionsLink.route_label)}</Text>
 				<Text> </Text>
 				<Text style={styles.value}>{exceptionData.route_long_name}</Text>
 				<Text> </Text>
-				<Text>{t('direction_label')}</Text>
+				<Text>{t($ => $.lines.TimetableExceptionsLink.direction_label)}</Text>
 				<Text> </Text>
 				<Text style={[styles.value, { textDecorationLine: 'underline' }]}>{exceptionData.pattern_headsign}</Text>
 			</Text>

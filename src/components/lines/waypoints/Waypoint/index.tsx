@@ -43,36 +43,36 @@ export function Waypoint({ arrivals, isFirstStop, isLastStop, isSelected, stopCo
 	const lineDetailContext = useLineDetailContext();
 	const operationalDateContext = useOperationalDateContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'lines.Waypoint' });
+	const { t } = useTranslation();
 
 	//
 	// B. Transform data
 
 	const stopData = useMemo(() => {
 		return stopsContext.actions.getStopById(waypointData.stop_id);
-	}, [stopsContext.data.stops, waypointData.stop_id]);
+	}, [stopsContext.actions, waypointData.stop_id]);
 
 	const stopLocation = useMemo(() => {
 		return stopsContext.actions.getStopLocationById(waypointData.stop_id);
-	}, [waypointData.stop_id]);
+	}, [stopsContext.actions, waypointData.stop_id]);
 
 	const accessibilityLabel = useMemo(() => {
-		if (isFirstStop) return t('idle.accessibility_label.first_stop', {
-			stopCount: stopCount,
+		if (isFirstStop) return t($ => $.lines.Waypoint.idle.accessibility_label.first_stop, {
+			stopCount,
 			stopName: stopData?.tts_name || stopData?.long_name,
 			stopSequence: waypointData.stop_sequence,
 		});
-		if (isLastStop) return t('idle.accessibility_label.last_stop', {
-			stopCount: stopCount,
+		if (isLastStop) return t($ => $.lines.Waypoint.idle.accessibility_label.last_stop, {
+			stopCount,
 			stopName: stopData?.tts_name || stopData?.long_name,
 			stopSequence: waypointData.stop_sequence,
 		});
-		return t('idle.accessibility_label.other', {
-			stopCount: stopCount,
+		return t($ => $.lines.Waypoint.idle.accessibility_label.other, {
+			stopCount,
 			stopName: stopData?.tts_name || stopData?.long_name,
 			stopSequence: waypointData.stop_sequence,
 		});
-	}, [stopCount, stopData, waypointData.stop_sequence]);
+	}, [isFirstStop, isLastStop, stopCount, stopData?.long_name, stopData?.tts_name, t, waypointData.stop_sequence]);
 
 	const nextArrivals = arrivals?.filter(arrival => arrival.unixTs > now) || [];
 	const realtimeArrivals = nextArrivals.filter(arrival => arrival.type === 'realtime');
@@ -95,7 +95,7 @@ export function Waypoint({ arrivals, isFirstStop, isLastStop, isSelected, stopCo
 	if (!isSelected) {
 		return (
 			<TouchableOpacity
-				accessibilityHint={t('idle.accessibility_hint')}
+				accessibilityHint={t($ => $.lines.Waypoint.idle.accessibility_hint)}
 				accessibilityLabel={accessibilityLabel}
 				activeOpacity={0.6}
 				onPress={handleToggleWaypoint}
@@ -156,10 +156,12 @@ export function Waypoint({ arrivals, isFirstStop, isLastStop, isSelected, stopCo
 			]}
 			>
 				<TouchableOpacity
-					accessibilityHint={t('active.accessibility_hint')}
-					accessibilityLabel={t('active.accessibility_label', { stopName: stopData?.tts_name || stopData?.long_name })}
+					accessibilityHint={t($ => $.lines.Waypoint.active.accessibility_hint)}
 					activeOpacity={0.6}
 					onPress={handleToggleWaypoint}
+					accessibilityLabel={t($ => $.lines.Waypoint.active.accessibility_label, {
+						stopName: stopData?.tts_name || stopData?.long_name,
+					})}
 				>
 					<WaypointHeader
 						id={waypointData.stop_id}

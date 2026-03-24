@@ -19,20 +19,17 @@ export function LineDetailSelectOperationalDate() {
 
 	const accessibilityContext = useAccessibilityContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'lines.LineDetailSelectOperationalDate' });
+	const { t } = useTranslation();
 
 	//
 	// B. Render components
 
 	return (
 		<View style={styles.container}>
-
 			{accessibilityContext.flags.screen_reader && (
-				<Text style={styles.title}>{t('title')}</Text>
+				<Text style={styles.title}>{t($ => $.lines.LineDetailSelectOperationalDate.title)}</Text>
 			)}
-
 			<SelectOperationalDate />
-
 		</View>
 	);
 

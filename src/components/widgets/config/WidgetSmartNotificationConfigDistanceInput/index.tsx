@@ -22,7 +22,7 @@ export function WidgetSmartNotificationConfigDistanceInput({ onChange, value }: 
 
 	const styles = useStyles();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetSmartNotificationConfigDistanceInput' });
+	const { t } = useTranslation();
 
 	//
 	// B. Render components
@@ -35,7 +35,7 @@ export function WidgetSmartNotificationConfigDistanceInput({ onChange, value }: 
 				style={styles.input}
 				value={value ? value.toString() : ''}
 			/>
-			<Text style={styles.text}>{t('unit')}</Text>
+			<Text style={styles.text}>{t($ => $.widgets.WidgetSmartNotificationConfigDistanceInput.unit)}</Text>
 		</View>
 	);
 

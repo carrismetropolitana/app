@@ -1,6 +1,6 @@
 /* * */
 
-import { StopsList } from '@/components/stops/list/StopsList';
+import { LinesList } from '@/components/lines/list/LinesList';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -15,7 +15,7 @@ export default function Page() {
 
 	const navigation = useNavigation();
 
-	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.(tabs)/stops' });
+	const { t } = useTranslation();
 
 	//
 	// B. Handle actions
@@ -23,14 +23,14 @@ export default function Page() {
 	useEffect(() => {
 		navigation.setOptions({
 			headerShown: false,
-			headerTitle: t('title'),
+			headerTitle: t($ => $._app.sitemap['(tabs)/lines'].title),
 		});
-	}, [navigation]);
+	}, [navigation, t]);
 
 	//
 	// C. Render components
 
-	return <StopsList />;
+	return <LinesList />;
 
 	//
 };

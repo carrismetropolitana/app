@@ -20,7 +20,7 @@ export function AccountViewInfo() {
 
 	const accountContext = useAccountContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'account.AccountViewInfo' });
+	const { t } = useTranslation();
 
 	//
 	// B. Transform data
@@ -35,7 +35,7 @@ export function AccountViewInfo() {
 	const handlePressAccountId = async () => {
 		if (!accountIdentifier) return;
 		await Clipboard.setStringAsync(accountIdentifier);
-		alert(t('copied'));
+		alert(t($ => $.account.AccountViewInfo.copied));
 	};
 
 	//

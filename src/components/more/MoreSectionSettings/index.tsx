@@ -23,7 +23,7 @@ export function MoreSectionSettings() {
 		{
 			icon: <IconLanguage color={systemVariables.text[100]} size={32} />,
 			key: 'alerts',
-			label: t('more.MoreSectionSettings.items.locale'),
+			label: t($ => $.more.MoreSectionSettings.items.locale),
 			onPress: async () => await Linking.openSettings(),
 		},
 	];
@@ -32,11 +32,11 @@ export function MoreSectionSettings() {
 	// B. Render components
 
 	return (
-		<ListSection
+        <ListSection
 			items={LIST_ITEMS}
-			title={t('more.MoreSectionSettings.heading')}
+			title={t($ => $.more.MoreSectionSettings.heading)}
 		/>
-	);
+    );
 
 	//
 };

@@ -30,7 +30,7 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 
 	const now = Date.now();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'lines.PathStopNextArrivals' });
+	const { t } = useTranslation();
 
 	//
 	// B. Transform data
@@ -42,7 +42,7 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 		const hours = Math.floor(minutes / 60);
 
 		if (minutes <= 0) {
-			return t('arriving');
+			return t($ => $.lines.PathStopNextArrivals.arriving);
 		}
 
 		if (hours > 0) {
@@ -64,24 +64,24 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 	return (
 		<View style={styles.container}>
 			<Text
-				accessibilityHint={t('nextArrivalsTitleAccessibilityHint')}
-				accessibilityLabel={t('nextArrivalsTitleAccessibilityLabel')}
+				accessibilityHint={t($ => $.lines.PathStopNextArrivals.nextArrivalsTitleAccessibilityHint)}
+				accessibilityLabel={t($ => $.lines.PathStopNextArrivals.nextArrivalsTitleAccessibilityLabel)}
 				accessibilityLanguage={localeContext.data.locale}
 				accessibilityRole="header"
 				style={styles.title}
 			>
-				{t('title')}
+				{t($ => $.lines.PathStopNextArrivals.title)}
 			</Text>
 			<View style={styles.arrivalsWrapper}>
 				{realtimeArrivals.length > 0 && (
 					<View style={styles.realtimeArrivalsWrapper}>
 						<LiveIcon />
 						<View style={styles.realtimeArrivalsList}>
-							{realtimeArrivals.map(realtimeArrival => realtimeArrival != undefined && (
+							{realtimeArrivals.map(realtimeArrival => realtimeArrival !== undefined && (
 								<View key={realtimeArrival.unixTs}>
 									<Text
-										accessibilityHint={t('nextArrivalsRealtimeAccessibilityHint')}
-										accessibilityLabel={t('nextArrivalsRealtimeAccessibilityLabel', formatDelta(realtimeArrival.unixTs - now))}
+										accessibilityHint={t($ => $.lines.PathStopNextArrivals.nextArrivalsRealtimeAccessibilityHint)}
+										accessibilityLabel={t($ => $.lines.PathStopNextArrivals.nextArrivalsRealtimeAccessibilityLabel)}
 										accessibilityLanguage={localeContext.data.locale}
 										accessibilityRole="text"
 										style={styles.realtimeArrival}
@@ -96,13 +96,13 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 
 				{scheduledArrivals.length > 0 && (
 					<View style={styles.scheduledArrivalsWrapper}>
-						<IconClockHour9 size={14} />
+						<IconClockHour9 color={styles.scheduledArrival.color} size={14} />
 						<View style={styles.scheduledArrivalsList}>
-							{scheduledArrivals.slice(0, realtimeArrivals.length > 0 ? 3 : 4).map(scheduledArrival => scheduledArrival != undefined && (
+							{scheduledArrivals.slice(0, realtimeArrivals.length > 0 ? 3 : 4).map(scheduledArrival => scheduledArrival !== undefined && (
 								<View key={scheduledArrival.unixTs}>
 									<Text
-										accessibilityHint={t('nextArrivalsRealtimeAccessibilityHint')}
-										accessibilityLabel={t('nextArrivalsRealtimeAccessibilityLabel', Dates.fromUnixTimestamp(scheduledArrival.unixTs).toFormat('HH:mm'))}
+										accessibilityHint={t($ => $.lines.PathStopNextArrivals.nextArrivalsScheduledAccessibilityHint)}
+										accessibilityLabel={t($ => $.lines.PathStopNextArrivals.nextArrivalsScheduledAccessibilityLabel)}
 										accessibilityLanguage={localeContext.data.locale}
 										accessibilityRole="text"
 										style={styles.scheduledArrival}

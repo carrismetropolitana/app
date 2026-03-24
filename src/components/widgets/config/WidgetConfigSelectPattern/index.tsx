@@ -30,10 +30,15 @@ export function WidgetConfigSelectPattern({ availablePatterns, description, onTo
 
 	const systemVariables = useSystemVariables();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetConfigSelectPattern' });
+	const { t } = useTranslation();
 
 	//
 	// B. Transform data
+
+	const isAllSelected = useMemo(() => {
+		if (!availablePatterns || !selectedPatternIds) return false;
+		return availablePatterns.length === selectedPatternIds.length;
+	}, [availablePatterns, selectedPatternIds]);
 
 	const availablePatternsList: ListSectionItemProps[] = useMemo(() => {
 		// Skip if no patterns are available
@@ -51,17 +56,12 @@ export function WidgetConfigSelectPattern({ availablePatterns, description, onTo
 		// Add "select all" option at the top of the list
 		const selectAllListItem: ListSectionItemProps = {
 			key: 'select_all',
-			label: isAllSelected ? t('deselect_all') : t('select_all'),
+			label: isAllSelected ? t($ => $.widgets.WidgetConfigSelectPattern.deselect_all) : t($ => $.widgets.WidgetConfigSelectPattern.select_all),
 			onPress: onToggleSelectAll,
 			replaceChevron: <IconChecks color={systemVariables.text[100]} />,
 		};
 		return [selectAllListItem, ...preparedPatterns];
-	}, [availablePatterns, selectedPatternIds]);
-
-	const isAllSelected = useMemo(() => {
-		if (!availablePatterns || !selectedPatternIds) return false;
-		return availablePatterns.length === selectedPatternIds.length;
-	}, [availablePatterns, selectedPatternIds]);
+	}, [availablePatterns, isAllSelected, onTogglePatternId, onToggleSelectAll, selectedPatternIds, systemVariables.status.ok, systemVariables.text, t]);
 
 	//
 	// C. Render components

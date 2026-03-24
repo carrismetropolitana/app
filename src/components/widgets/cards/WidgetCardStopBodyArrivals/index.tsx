@@ -20,7 +20,7 @@ export function WidgetCardStopBodyArrivals() {
 
 	const arrivalsContext = useArrivalsContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetCardStopBodyArrivals' });
+	const { t } = useTranslation();
 
 	//
 	// B. Render components
@@ -36,7 +36,7 @@ export function WidgetCardStopBodyArrivals() {
 	if (!arrivalsContext.data.arrivals.length) {
 		return (
 			<View style={[styles.container, styles.noDataContainer]}>
-				<NoDataLabel text={t('no_data')} />
+				<NoDataLabel text={t($ => $.widgets.WidgetCardStopBodyArrivals.no_data)} />
 			</View>
 		);
 	}

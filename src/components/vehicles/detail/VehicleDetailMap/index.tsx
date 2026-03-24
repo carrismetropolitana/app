@@ -50,7 +50,6 @@ export function VehicleDetailMap() {
 			<MapView
 				onDidFinishLoadingMap={handleDidFinishLoadingMap}
 				vehiclesCounterQty={vehicleDetailContext.data.vehicle_fc?.features.length ?? 0}
-				withUserLocation
 			>
 				<MapOverlayPath
 					belowLayerId={mapOverlayVehicles_TopLayerId}

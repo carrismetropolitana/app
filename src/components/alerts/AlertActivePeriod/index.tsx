@@ -2,7 +2,7 @@
 
 import { useLocaleContext } from '@/contexts/Locale.context';
 import { DateTime } from 'luxon';
-import { Trans, useTranslation } from 'react-i18next';
+import { Trans } from 'react-i18next';
 import { Text } from 'react-native';
 
 import { styles } from './styles';
@@ -30,8 +30,6 @@ export function AlertActivePeriodEnd({ date, size = 'md' }: AlertActivePeriodEnd
 	const localeContext = useLocaleContext();
 	const resolvedLocale = ['pt', 'pt-PT'].includes(localeContext.data.locale) ? 'pt-PT' : 'en-GB';
 
-	const { t } = useTranslation('translation', { keyPrefix: 'alerts.AlertActivePeriod' });
-
 	//
 	// B. Render components
 
@@ -41,8 +39,7 @@ export function AlertActivePeriodEnd({ date, size = 'md' }: AlertActivePeriodEnd
 			<Text style={[alertActivePeriodStyles.text, alertActivePeriodStyles[size === 'md' ? 'sm' : size]]}>
 				<Trans
 					components={{ parsedDate: <Text /> }}
-					i18nKey={t('end')}
-					ns="alerts.AlertActivePeriod"
+					i18nKey={$ => $.alerts.AlertActivePeriod.end}
 					values={{ parsedDate: formatted }}
 				/>
 			</Text>
@@ -61,7 +58,6 @@ export function AlertActivePeriodStart({ date, size = 'md' }: AlertActivePeriodS
 	// A. Setup variables
 
 	const alertActivePeriodStyles = styles();
-	const { t } = useTranslation('translation', { keyPrefix: 'alerts.AlertActivePeriod' });
 	const localeContext = useLocaleContext();
 	const resolvedLocale = ['pt', 'pt-PT'].includes(localeContext.data.locale) ? 'pt-PT' : 'en-GB';
 
@@ -75,7 +71,7 @@ export function AlertActivePeriodStart({ date, size = 'md' }: AlertActivePeriodS
 			<Text style={[alertActivePeriodStyles.text, size && alertActivePeriodStyles.sm]}>
 				<Trans
 					components={{ parsedDate: <Text /> }}
-					i18nKey={t('start')}
+					i18nKey={$ => $.alerts.AlertActivePeriod.start}
 					values={{ parsedDate: formatted }}
 				/>
 			</Text>

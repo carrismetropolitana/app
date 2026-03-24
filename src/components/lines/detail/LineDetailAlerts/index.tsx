@@ -22,7 +22,7 @@ export function LineDetailAlerts() {
 	const alertsContext = useAlertsContext();
 	const lineDetailContext = useLineDetailContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'lines.LineDetailAlerts' });
+	const { t } = useTranslation();
 
 	//
 	// B. Transform data
@@ -30,7 +30,7 @@ export function LineDetailAlerts() {
 	const alertsData = useMemo(() => {
 		if (!lineDetailContext.data.selected_line_id) return [];
 		return alertsContext.actions.getSimplifiedAlertsByLineId(lineDetailContext.data.selected_line_id);
-	}, [alertsContext.data.alerts, lineDetailContext.data.selected_line_id]);
+	}, [alertsContext.actions, lineDetailContext.data.selected_line_id]);
 
 	//
 	// C. Render components
@@ -41,7 +41,7 @@ export function LineDetailAlerts() {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>{t('heading')}</Text>
+			<Text style={styles.title}>{t($ => $.lines.LineDetailAlerts.heading)}</Text>
 			<ScrollView showsHorizontalScrollIndicator={false} horizontal>
 				<View style={styles.alertsList}>
 					{alertsData.map(alert => (

@@ -24,7 +24,7 @@ export function WidgetSmartNotificationConfigScheduleWeekdaysInput({ onToggleWee
 
 	const styles = useStyles();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetSmartNotificationConfigScheduleWeekdaysInput' });
+	const { t } = useTranslation();
 
 	const availableWeekdays: WidgetSmartNotification['week_days'] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
@@ -38,13 +38,13 @@ export function WidgetSmartNotificationConfigScheduleWeekdaysInput({ onToggleWee
 				{availableWeekdays.map(item => (
 					<TouchableOpacity
 						key={item}
-						accessibilityLabel={t(`weekdays.long.${item}`)}
+						accessibilityLabel={t($ => $.widgets.WidgetSmartNotificationConfigScheduleWeekdaysInput.weekdays.long[item])}
 						accessibilityRole="togglebutton"
 						accessibilityState={{ checked: selectedWeekdays.includes(item) }}
 						onPress={() => onToggleWeekday(item)}
 					>
 						<Text style={[styles.weekday, selectedWeekdays.includes(item) && styles.weekdaySelected]}>
-							{t(`weekdays.short.${item}`)}
+							{t($ => $.widgets.WidgetSmartNotificationConfigScheduleWeekdaysInput.weekdays.short[item])}
 						</Text>
 					</TouchableOpacity>
 				))}

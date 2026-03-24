@@ -18,18 +18,18 @@ export function MoreDebugToggle() {
 
 	const debugContext = useDebugContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'more.MoreDebugToggle' });
+	const { t } = useTranslation();
 
 	//
 	// B. Render components
 
 	return (
 		<TouchableOpacity
-			accessibilityHint={t('hint')}
+			accessibilityHint={t($ => $.more.MoreDebugToggle.hint)}
 			onPress={debugContext.actions.toggleDebugMode}
 		>
 			<Text style={styles.toggle}>
-				{debugContext.flags.is_debug_mode ? `${t('active')}` : `${t('inactive')}`}
+				{debugContext.flags.is_debug_mode ? `${t($ => $.more.MoreDebugToggle.active)}` : `${t($ => $.more.MoreDebugToggle.inactive)}`}
 			</Text>
 		</TouchableOpacity>
 	);

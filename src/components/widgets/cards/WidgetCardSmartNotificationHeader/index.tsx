@@ -33,7 +33,7 @@ export function WidgetCardSmartNotificationHeader({ label, patternId, selectedEn
 
 	const linesContext = useLinesContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetCardSmartNotificationHeader' });
+	const { t } = useTranslation();
 
 	const [patternData, setPatternData] = useState<Pattern | undefined>(linesContext.data.patterns_cache[patternId]?.[0]);
 
@@ -74,16 +74,16 @@ export function WidgetCardSmartNotificationHeader({ label, patternId, selectedEn
 			.map(day => weekdaysOrder.indexOf(day))
 			.sort((a, b) => a - b);
 		// Check if all days are selected
-		if (selectedWeekdaysIndexes.length === 7) return t('weekdays.everyday');
+		if (selectedWeekdaysIndexes.length === 7) return t($ => $.widgets.WidgetCardSmartNotificationHeader.weekdays.everyday);
 		// Check if only weekends are selected
-		if (selectedWeekdaysIndexes.length === 2 && selectedWeekdaysIndexes.includes(5) && selectedWeekdaysIndexes.includes(6)) return t('weekdays.weekend');
+		if (selectedWeekdaysIndexes.length === 2 && selectedWeekdaysIndexes.includes(5) && selectedWeekdaysIndexes.includes(6)) return t($ => $.widgets.WidgetCardSmartNotificationHeader.weekdays.weekend);
 		// Check if only weekdays are selected
-		if (selectedWeekdaysIndexes.length === 5 && !selectedWeekdaysIndexes.includes(5) && !selectedWeekdaysIndexes.includes(6)) return t('weekdays.business_day');
+		if (selectedWeekdaysIndexes.length === 5 && !selectedWeekdaysIndexes.includes(5) && !selectedWeekdaysIndexes.includes(6)) return t($ => $.widgets.WidgetCardSmartNotificationHeader.weekdays.business_day);
 		// Use the abbreviated format if 3 or more days are selected
-		if (selectedWeekdaysIndexes.length > 3) return selectedWeekdaysIndexes.map(index => t(`weekdays_short.${weekdaysOrder[index]}`)).join(', ');
+		if (selectedWeekdaysIndexes.length > 3) return selectedWeekdaysIndexes.map(index => t($ => $.widgets.WidgetCardSmartNotificationHeader.weekdays_short[weekdaysOrder[index] as keyof typeof $.widgets.WidgetCardSmartNotificationHeader.weekdays_short])).join(', ');
 		// Use the full name format if less than 3 days are selected
-		return selectedWeekdaysIndexes.map(index => t(`weekdays.${weekdaysOrder[index]}`)).join(', ');
-	}, [selectedWeekdays]);
+		return selectedWeekdaysIndexes.map(index => t($ => $.widgets.WidgetCardSmartNotificationHeader.weekdays[weekdaysOrder[index] as keyof typeof $.widgets.WidgetCardSmartNotificationHeader.weekdays])).join(', ');
+	}, [selectedWeekdays, t]);
 
 	//
 	// C. Render components
@@ -96,7 +96,12 @@ export function WidgetCardSmartNotificationHeader({ label, patternId, selectedEn
 					{label && <Text style={styles.label}>{label}</Text>}
 					<LineBadge lineId={patternData?.line_id} size="sm" />
 				</View>
-				<Text style={styles.text}>{t('title', { end_time: endTimeDisplay, start_time: startTimeDisplay, weekdays: weekdaysDisplay })}</Text>
+				<Text style={styles.text}>{t($ => $.widgets.WidgetCardSmartNotificationHeader.title, {
+					end_time: endTimeDisplay,
+					start_time: startTimeDisplay,
+					weekdays: weekdaysDisplay,
+				})}
+				</Text>
 			</View>
 		</View>
 	);

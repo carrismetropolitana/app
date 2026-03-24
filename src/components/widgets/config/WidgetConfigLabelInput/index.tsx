@@ -25,7 +25,7 @@ export function WidgetConfigLabelInput({ description, onChange, title, value }: 
 
 	const styles = useStyles();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetConfigLabelInput' });
+	const { t } = useTranslation();
 
 	//
 	// B. Render components
@@ -34,11 +34,11 @@ export function WidgetConfigLabelInput({ description, onChange, title, value }: 
 		<>
 			{title && <ListTitle description={description} title={title} />}
 			<View accessibilityRole="text" style={styles.container}>
-				<Text accessible={false} style={styles.text}>{t('label')}</Text>
+				<Text accessible={false} style={styles.text}>{t($ => $.widgets.WidgetConfigLabelInput.label)}</Text>
 				<TextInput
-					accessibilityLabel={t('accessibility_label')}
+					accessibilityLabel={t($ => $.widgets.WidgetConfigLabelInput.accessibility_label)}
 					onChangeText={onChange}
-					placeholder={t('placeholder')}
+					placeholder={t($ => $.widgets.WidgetConfigLabelInput.placeholder)}
 					style={styles.input}
 					value={value ?? ''}
 				/>

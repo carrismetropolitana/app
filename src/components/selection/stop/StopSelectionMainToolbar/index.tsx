@@ -30,14 +30,14 @@ export function StopSelectionMainToolbar({ withSafeArea, withSearchAutoFocus }: 
 
 	const stopsSelectionContext = useStopSelectionContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'selection.StopSelectionMainToolbar' });
+	const { t } = useTranslation();
 
 	//
 	// B. Handle actions
 
 	const handleToggleViewMode = (mode: 'list' | 'map') => {
 		stopsSelectionContext.actions.toggleViewMode(mode);
-		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Rigid);
+		void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Rigid);
 	};
 
 	//
@@ -50,33 +50,29 @@ export function StopSelectionMainToolbar({ withSafeArea, withSearchAutoFocus }: 
 			stopsSelectionContext.flags.view_mode === 'map' && styles.rowMapOverlay,
 		]}
 		>
-
 			<SearchBar
 				autoFocus={withSearchAutoFocus}
 				onChange={stopsSelectionContext.actions.updateFilterBySearch}
 				value={stopsSelectionContext.filters.by_search}
 			/>
-
 			{stopsSelectionContext.flags.view_mode === 'list' && (
 				<TouchableOpacity
-					accessibilityLabel={t('toggle_to_map')}
+					accessibilityLabel={t($ => $.selection.StopSelectionMainToolbar.toggle_to_map)}
 					onPress={() => handleToggleViewMode('map')}
 					style={styles.toggle}
 				>
 					<IconMapSearch color={systemVariables.text[100]} size={32} />
 				</TouchableOpacity>
 			)}
-
 			{stopsSelectionContext.flags.view_mode === 'map' && (
 				<TouchableOpacity
-					accessibilityLabel={t('toggle_to_list')}
+					accessibilityLabel={t($ => $.selection.StopSelectionMainToolbar.toggle_to_list)}
 					onPress={() => handleToggleViewMode('list')}
 					style={styles.toggle}
 				>
 					<IconListSearch color={systemVariables.text[100]} size={32} />
 				</TouchableOpacity>
 			)}
-
 		</View>
 	);
 

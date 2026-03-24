@@ -4,7 +4,7 @@ import { Dates } from '@/core-replica';
 import { getServiceUrl } from '@/settings/service-urls';
 import { type Line, type Pattern, type Route, type Shape } from '@carrismetropolitana/api-types/network';
 import { type OperationalDate } from '@tmlmobilidade/types';
-import { createContext, type PropsWithChildren, useContext, useMemo, useState } from 'react';
+import { createContext, type PropsWithChildren, useCallback, useContext, useMemo, useState } from 'react';
 import useSWR from 'swr';
 
 /* * */
@@ -32,13 +32,14 @@ interface LinesContextState {
 /* * */
 
 const LinesContext = createContext<LinesContextState | undefined>(undefined);
-export function useLinesContext() {
+
+export const useLinesContext = () => {
 	const context = useContext(LinesContext);
 	if (!context) {
 		throw new Error('useLinesContext must be used within a LinesContextProvider');
 	}
 	return context;
-}
+};
 
 /* * */
 
@@ -54,36 +55,36 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 	//
 	// B. Fetch data
 
-	const { data: allLinesData, isLoading: allLinesLoading } = useSWR<Line[]>(`${getServiceUrl('api')}/v2/lines`);
-	const { data: allRoutesData, isLoading: allRoutesLoading } = useSWR<Route[]>(`${getServiceUrl('api')}/v2/routes`);
+	const { data: allLinesData, isLoading: allLinesLoading } = useSWR<Line[]>(`${getServiceUrl('api')}/lines`);
+	const { data: allRoutesData, isLoading: allRoutesLoading } = useSWR<Route[]>(`${getServiceUrl('api')}/routes`);
 
 	//
 	// C. Handle actions
 
-	const getLineDataById = (lineId: string) => {
+	const getLineDataById = useCallback((lineId: string) => {
 		if (!allLinesData) return;
 		return allLinesData.find(line => line.id === lineId);
-	};
+	}, [allLinesData]);
 
-	const getRouteDataById = (routeId: string) => {
+	const getRouteDataById = useCallback((routeId: string) => {
 		if (!allRoutesData) return;
 		return allRoutesData.find(route => route.id === routeId);
-	};
+	}, [allRoutesData]);
 
-	async function getPatternDataById(patternId: string): Promise<Pattern[] | undefined> {
+	const getPatternDataById = useCallback(async (patternId: string): Promise<Pattern[] | undefined> => {
 		// Check if pattern is in cache
 		if (patternsCache[patternId]) return patternsCache[patternId];
 		// If not, fetch pattern data
-		const response = await fetch(`${getServiceUrl('api')}/v2/patterns/${patternId}`);
+		const response = await fetch(`${getServiceUrl('api')}/patterns/${patternId}`);
 		const responseData = await response.json();
 		if (!responseData) return;
 		// Save pattern to cache
 		setPatternsCache(prev => ({ ...prev, [patternId]: responseData }));
 		// Return pattern data
 		return responseData;
-	};
+	}, [patternsCache]);
 
-	async function getPatternVersionById(patternId: string, version: string): Promise<Pattern | undefined> {
+	const getPatternVersionById = useCallback(async (patternId: string, version: string): Promise<Pattern | undefined> => {
 		// Get pattern data
 		const patternData = await getPatternDataById(patternId);
 		if (!patternData) return;
@@ -92,9 +93,9 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 		if (versionData) return versionData;
 		// Return pattern version data
 		return versionData;
-	};
+	}, [getPatternDataById]);
 
-	async function getValidPatternVersionForOperationalDate(patternId: string, operationalDate?: OperationalDate): Promise<Pattern | undefined> {
+	const getValidPatternVersionForOperationalDate = useCallback(async (patternId: string, operationalDate?: OperationalDate): Promise<Pattern | undefined> => {
 		// Skip if no operational date
 		if (!operationalDate) operationalDate = Dates.now('Europe/Lisbon').operational_date;
 		// Get pattern data
@@ -121,20 +122,20 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 		if (patternGroupWithClosestDate && !activePatterns.find(activePattern => activePattern.id === patternGroupWithClosestDate.id)) {
 			return patternGroupWithClosestDate;
 		}
-	};
+	}, [getPatternDataById]);
 
-	async function getShapeDataById(shapeId: string): Promise<Shape | undefined> {
+	const getShapeDataById = useCallback(async (shapeId: string): Promise<Shape | undefined> => {
 		// Check if shape is in cache
 		if (shapesCache[shapeId]) return shapesCache[shapeId];
 		// If not, fetch shape data
-		const response = await fetch(`${getServiceUrl('api')}/v2/shapes/${shapeId}`);
+		const response = await fetch(`${getServiceUrl('api')}/shapes/${shapeId}`);
 		const responseData = await response.json();
 		if (!responseData) return;
 		// Save shape to cache
 		setShapesCache(prev => ({ ...prev, [shapeId]: responseData }));
 		// Return shape data
 		return responseData;
-	};
+	}, [shapesCache]);
 
 	//
 	// D. Define context value
@@ -157,13 +158,7 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 		flags: {
 			loading: allLinesLoading || allRoutesLoading,
 		},
-	}), [
-		allLinesData,
-		patternsCache,
-		allRoutesData,
-		allLinesLoading,
-		allRoutesLoading,
-	]);
+	}), [getLineDataById, getPatternDataById, getPatternVersionById, getRouteDataById, getShapeDataById, getValidPatternVersionForOperationalDate, allLinesData, patternsCache, allRoutesData, shapesCache, allLinesLoading, allRoutesLoading]);
 
 	//
 	// E. Render components

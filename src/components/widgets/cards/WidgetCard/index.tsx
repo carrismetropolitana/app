@@ -35,7 +35,7 @@ export function WidgetCard({ data, isDragging, onDragStart }: WidgetCardProps) {
 
 	const accountContext = useAccountContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'widgets.WidgetCard' });
+	const { t } = useTranslation();
 
 	//
 	// B. Handle actions
@@ -57,9 +57,8 @@ export function WidgetCard({ data, isDragging, onDragStart }: WidgetCardProps) {
 
 	return (
 		<View style={[styles.container, isDragging && styles.containerIsDragging]}>
-
 			<TouchableOpacity
-				accessibilityHint={data.settings.is_open ? t('accessibility_hint.expanded') : t('accessibility_hint.collapsed')}
+				accessibilityHint={data.settings.is_open ? t($ => $.widgets.WidgetCard.accessibility_hint.expanded) : t($ => $.widgets.WidgetCard.accessibility_hint.collapsed)}
 				accessibilityState={{ expanded: data.settings.is_open }}
 				onLongPress={handleDragStart}
 				onPress={handleToggleOpen}
@@ -70,7 +69,6 @@ export function WidgetCard({ data, isDragging, onDragStart }: WidgetCardProps) {
 				{data.type === 'smart_notification' && <WidgetCardSmartNotificationHeader label={data.settings.label} patternId={data.properties.pattern_id} selectedEndTime={data.properties.end_time} selectedStartTime={data.properties.start_time} selectedWeekdays={data.properties.weekdays} /> }
 				<WidgetCardOpenToggle isOpen={data.settings.is_open} />
 			</TouchableOpacity>
-
 			{data.settings.is_open && (
 				<View>
 					{data.type === 'stop' && <WidgetCardStopBody data={data} />}
@@ -78,7 +76,6 @@ export function WidgetCard({ data, isDragging, onDragStart }: WidgetCardProps) {
 					{data.type === 'smart_notification' && <WidgetCardSmartNotificationBody data={data} />}
 				</View>
 			)}
-
 		</View>
 	);
 

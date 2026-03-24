@@ -12,6 +12,7 @@ import { useMemo } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import DraggableFlatList, { type DragEndParams, type RenderItemParams } from 'react-native-draggable-flatlist';
 
+import { HomeScreenTopBar } from '../HomeScreenTopBar';
 import { useStyles } from './styles';
 
 /* * */
@@ -31,7 +32,7 @@ export function HomeScreen() {
 
 	const sortedWidgetsList = useMemo(() => {
 		if (!accountContext.data.account?.widgets.length) return [];
-		return accountContext.data.account.widgets.sort((a, b) => (a.settings.display_order ?? 0) - (b.settings.display_order ?? 0));
+		return [...accountContext.data.account.widgets].sort((a, b) => (a.settings.display_order ?? 0) - (b.settings.display_order ?? 0));
 	}, [accountContext.data.account?.widgets]);
 
 	//
@@ -39,17 +40,20 @@ export function HomeScreen() {
 
 	function handlePlaceholderIndexChange() {
 		// Provide haptic feedback on reorder event
-		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+		void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 	}
 
 	function handleDragEnd({ data }: DragEndParams<Widget>) {
 		// Provide haptic feedback on ending reorder
-		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+		void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 		// Create a copy of the current widgets list
-		const updatedList = data.map((widget, index) => {
-			widget.settings.display_order = index;
-			return widget;
-		});
+		const updatedList = data.map((widget, index) => ({
+			...widget,
+			settings: {
+				...widget.settings,
+				display_order: index,
+			},
+		}));
 		// Update the account to re-render the list
 		accountContext.actions.update('widgets', updatedList);
 	}
@@ -86,19 +90,28 @@ export function HomeScreen() {
 	}
 
 	return (
-		<DraggableFlatList
-			contentContainerStyle={styles.contentContainer}
-			data={sortedWidgetsList}
-			keyExtractor={item => item._id}
-			ListEmptyComponent={<HomeScreenListEmpty />}
-			ListFooterComponent={<HomeScreenListFooter />}
-			ListHeaderComponent={<HomeScreenListHeader />}
-			onDragEnd={handleDragEnd}
-			onPlaceholderIndexChange={handlePlaceholderIndexChange}
-			renderItem={renderItem}
-			stickyHeaderIndices={[0]}
-			style={styles.container}
-		/>
+		<View style={styles.screen}>
+			<HomeScreenTopBar />
+
+			<View style={styles.listWrapper}>
+				<DraggableFlatList
+					data={sortedWidgetsList}
+					keyExtractor={item => item._id}
+					ListEmptyComponent={<HomeScreenListEmpty />}
+					ListFooterComponent={<HomeScreenListFooter />}
+					ListHeaderComponent={<HomeScreenListHeader />}
+					onDragEnd={handleDragEnd}
+					onPlaceholderIndexChange={handlePlaceholderIndexChange}
+					renderItem={renderItem}
+					showsVerticalScrollIndicator={false}
+					contentContainerStyle={[
+						styles.contentContainer,
+						sortedWidgetsList.length === 0 && styles.contentContainerEmpty,
+					]}
+				/>
+			</View>
+		</View>
+
 	);
 
 	//

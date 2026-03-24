@@ -19,10 +19,18 @@ export default function Layout() {
 	return (
 		<Stack screenOptions={{
 			contentStyle: { backgroundColor: systemVariables.background[200] },
+			headerShadowVisible: false,
 			headerStyle: { backgroundColor: systemVariables.background[100] },
 			headerTitleStyle: { color: systemVariables.text[100] },
 		}}
-		/>
+		>
+			<Stack.Screen
+				name="index"
+				options={{
+					title: 'Linhas',
+				}}
+			/>
+		</Stack>
 	);
 
 	//

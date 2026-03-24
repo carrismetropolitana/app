@@ -5,6 +5,7 @@ import { ListTitle } from '@/components/list/ListTitle';
 import { usePatternSelectionContext } from '@/components/selection/pattern/context/PatternSelection.context';
 import { type PatternSelectionProps } from '@/components/selection/pattern/PatternSelection';
 import { PatternSelectionMainListItem } from '@/components/selection/pattern/PatternSelectionMainListItem';
+import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { type Pattern } from '@carrismetropolitana/api-types/network';
 import { useMemo } from 'react';
@@ -24,6 +25,7 @@ export function PatternSelectionMainList({ onSelect, replaceChevron }: PatternSe
 
 	const linesContext = useLinesContext();
 	const patternSelectionContext = usePatternSelectionContext();
+	const lineDetailContext = useLineDetailContext();
 
 	//
 	// B. Transform data
@@ -51,10 +53,7 @@ export function PatternSelectionMainList({ onSelect, replaceChevron }: PatternSe
 					title: routeData ? routeData.long_name : routeId,
 				};
 			});
-	}, [
-		patternSelectionContext.data.available,
-		linesContext.data.routes,
-	]);
+	}, [patternSelectionContext.data.available, linesContext.actions]);
 
 	//
 	// C. Render components
@@ -63,6 +62,7 @@ export function PatternSelectionMainList({ onSelect, replaceChevron }: PatternSe
 		return (
 			<PatternSelectionMainListItem
 				key={item.id}
+				isSelected={item.id === lineDetailContext.data.selected_pattern_id}
 				item={item}
 				onSelect={onSelect}
 				replaceChevron={replaceChevron}

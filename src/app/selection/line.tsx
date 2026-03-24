@@ -17,7 +17,7 @@ export default function Page() {
 	const navigation = useNavigation();
 	const localSearchParams = useLocalSearchParams<{ return_to: Route }>();
 
-	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.selection/line' });
+	const { t } = useTranslation();
 
 	//
 	// B. Handle actions
@@ -26,10 +26,10 @@ export default function Page() {
 		navigation.setOptions({
 			headerRight: () => <CloseButton />,
 			headerShown: true,
-			headerTitle: t('title'),
+			headerTitle: t($ => $._app.sitemap['selection/line'].title),
 			presentation: 'modal',
 		});
-	}, [navigation]);
+	}, [navigation, t]);
 
 	const handleSelect = (lineId: string) => {
 		router.dismissTo({

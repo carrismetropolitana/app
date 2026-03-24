@@ -25,7 +25,7 @@ export function StopSelectionMainList({ onSelect, replaceChevron }: StopSelectio
 
 	const stopsSelectionContext = useStopSelectionContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'selection.StopSelectionMainList' });
+	const { t } = useTranslation();
 
 	//
 	// B. Transform data
@@ -33,14 +33,16 @@ export function StopSelectionMainList({ onSelect, replaceChevron }: StopSelectio
 	const listSections = useMemo(() => {
 		// Setup a final variable to add the sections
 		const regularSections = [
-			{ data: stopsSelectionContext.data.recent, key: 'recent', title: t('recent.title') },
-			{ data: stopsSelectionContext.data.favorites, key: 'favorites', title: t('favorites.title') },
-			{ data: stopsSelectionContext.data.nearby, key: 'nearby', title: t('nearby.title') },
-			{ data: stopsSelectionContext.data.filtered, key: 'filtered', title: t('all.title') },
+			{ data: stopsSelectionContext.data.recent, key: 'recent', title: t($ => $.selection.StopSelectionMainList.recent.title) },
+			{ data: stopsSelectionContext.data.favorites, key: 'favorites', title: t($ => $.selection.StopSelectionMainList.favorites.title) },
+			{ data: stopsSelectionContext.data.nearby, key: 'nearby', title: t($ => $.selection.StopSelectionMainList.nearby.title) },
+			{ data: stopsSelectionContext.data.filtered, key: 'filtered', title: t($ => $.selection.StopSelectionMainList.all.title) },
 		];
 		// Filter out empty sections
 		const searchResultsSection = [
-			{ data: stopsSelectionContext.data.filtered, key: 'search_results', title: stopsSelectionContext.data.filtered.length === 1 ? t('search_results.title.singular') : t('search_results.title.plural', { count: stopsSelectionContext.data.filtered.length || 0 }) },
+			{ data: stopsSelectionContext.data.filtered, key: 'search_results', title: stopsSelectionContext.data.filtered.length === 1 ? t($ => $.selection.StopSelectionMainList.search_results.title.singular) : t($ => $.selection.StopSelectionMainList.search_results.title.plural, {
+				count: stopsSelectionContext.data.filtered.length || 0,
+			}) },
 		];
 		// If search is active, show only the search results section
 		if (stopsSelectionContext.filters.by_search) return searchResultsSection;
@@ -63,24 +65,35 @@ export function StopSelectionMainList({ onSelect, replaceChevron }: StopSelectio
 			return (
 				<ListSectionItem
 					key={item.id}
-					accessibilityHint={t('items.accessibility_hint', { id: item.id })}
-					accessibilityLabel={t('items.accessibility_label.nearby', { distance: nearbyItem.distance?.toFixed(0), index: index + 1, tts_name: item.tts_name })}
 					description={`${nearbyItem.distance?.toFixed(0)} m • ${item.id}`}
 					label={item.long_name}
 					onPress={() => onSelect(item.id)}
 					replaceChevron={replaceChevron}
+					accessibilityHint={t($ => $.selection.StopSelectionMainList.items.accessibility_hint, {
+						id: item.id,
+					})}
+					accessibilityLabel={t($ => $.selection.StopSelectionMainList.items.accessibility_label.nearby, {
+						distance: nearbyItem.distance?.toFixed(0),
+						index: index + 1,
+						tts_name: item.tts_name,
+					})}
 				/>
 			);
 		}
 		return (
 			<ListSectionItem
 				key={item.id}
-				accessibilityHint={t('items.accessibility_hint', { id: item.id })}
-				accessibilityLabel={t('items.accessibility_label.default', { index: index + 1, tts_name: item.tts_name })}
 				description={item.id}
 				label={item.long_name}
 				onPress={() => onSelect(item.id)}
 				replaceChevron={replaceChevron}
+				accessibilityHint={t($ => $.selection.StopSelectionMainList.items.accessibility_hint, {
+					id: item.id,
+				})}
+				accessibilityLabel={t($ => $.selection.StopSelectionMainList.items.accessibility_label.default, {
+					index: index + 1,
+					tts_name: item.tts_name,
+				})}
 			/>
 		);
 	};

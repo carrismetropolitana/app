@@ -16,7 +16,7 @@ export function AccountEditProfileActivity() {
 
 	const accountContext = useAccountContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'account.AccountEditProfileActivity' });
+	const { t } = useTranslation();
 
 	const [selectedActivity, setSelectedActivity] = useState<null | string>(accountContext.data.account?.profile.activity ?? null);
 
@@ -25,14 +25,14 @@ export function AccountEditProfileActivity() {
 
 	useEffect(() => {
 		accountContext.actions.update('profile.activity', selectedActivity);
-	}, [selectedActivity]);
+	}, [accountContext.actions, selectedActivity]);
 
 	//
 	// C. Render components
 
 	return (
 		<View>
-			<ListTitle title={t('title')} />
+			<ListTitle title={t($ => $.account.AccountEditProfileActivity.title)} />
 		</View>
 	);
 

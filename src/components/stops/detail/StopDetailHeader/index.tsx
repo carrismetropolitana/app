@@ -59,7 +59,7 @@ export function StopDetailHeader() {
 			<View style={styles.row}>
 				<View style={styles.detailsWrapper}>
 					<Text style={styles.name}>{stopDetailContext.data.selected_stop.long_name}</Text>
-					<Text style={styles.location}>{stopLocation}</Text>
+					{stopLocation && <Text style={styles.location}>{stopLocation}</Text>}
 				</View>
 				<View style={styles.actionsWrapper}>
 					<StopDisplayTts stopId={stopDetailContext.data.selected_stop.id} />

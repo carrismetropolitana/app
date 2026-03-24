@@ -17,7 +17,7 @@ export default function Page() {
 	const navigation = useNavigation();
 	const localSearchParams = useLocalSearchParams<{ return_to: Route }>();
 
-	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.selection/stop' });
+	const { t } = useTranslation();
 
 	//
 	// B. Handle actions
@@ -26,10 +26,10 @@ export default function Page() {
 		navigation.setOptions({
 			headerRight: () => <CloseButton />,
 			headerShown: true,
-			headerTitle: t('title'),
+			headerTitle: t($ => $._app.sitemap['selection/stop'].title),
 			presentation: 'modal',
 		});
-	}, [navigation]);
+	}, [navigation, t]);
 
 	const handleSelect = (stopId: string) => {
 		router.dismissTo({

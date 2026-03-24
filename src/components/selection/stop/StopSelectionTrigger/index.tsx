@@ -32,7 +32,7 @@ export function StopSelectionTrigger({ description, onSelect, selectedStopId, ti
 	const pathname = usePathname();
 	const localSearchParams = useLocalSearchParams<{ stop_id: string }>();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'selection.StopSelectionTrigger' });
+	const { t } = useTranslation();
 
 	//
 	// B. Transform data
@@ -40,7 +40,7 @@ export function StopSelectionTrigger({ description, onSelect, selectedStopId, ti
 	const selectedStopData = useMemo(() => {
 		if (!localSearchParams.stop_id) return;
 		return stopsContext.actions.getStopById(localSearchParams.stop_id);
-	}, [localSearchParams.stop_id]);
+	}, [localSearchParams.stop_id, stopsContext.actions]);
 
 	//
 	// C. Handle actions
@@ -52,14 +52,14 @@ export function StopSelectionTrigger({ description, onSelect, selectedStopId, ti
 		if (selectedStopId === localSearchParams.stop_id) return;
 		// Update the URL param to match the selected stop
 		router.setParams({ stop_id: selectedStopId });
-	}, [selectedStopId]);
+	}, [localSearchParams.stop_id, selectedStopId]);
 
 	useEffect(() => {
 		// Skip if no stop was selected
 		if (!localSearchParams.stop_id) return;
 		// Trigger the onSelect callback with the selected stop ID
 		if (onSelect) onSelect(localSearchParams.stop_id);
-	}, [localSearchParams.stop_id]);
+	}, [localSearchParams.stop_id, onSelect]);
 
 	const handleShowList = () => {
 		router.navigate({
@@ -73,7 +73,6 @@ export function StopSelectionTrigger({ description, onSelect, selectedStopId, ti
 
 	return (
 		<>
-
 			{!selectedStopData && (
 				<ListSection
 					description={description}
@@ -81,19 +80,20 @@ export function StopSelectionTrigger({ description, onSelect, selectedStopId, ti
 					items={[{
 						icon: <IconBusStop color="#FF6900" />,
 						key: 'select-stop',
-						label: t('label'),
+						label: t($ => $.selection.StopSelectionTrigger.label),
 						onPress: handleShowList,
 					}]}
 				/>
 			)}
-
 			{selectedStopData && (
 				<ListSection
 					description={description}
 					title={title}
 					items={[{
-						accessibilityHint: t('selected.accessibility_hint'),
-						accessibilityLabel: t('selected.accessibility_label', { tts_name: selectedStopData.tts_name }),
+						accessibilityHint: t($ => $.selection.StopSelectionTrigger.selected.accessibility_hint),
+						accessibilityLabel: t($ => $.selection.StopSelectionTrigger.selected.accessibility_label, {
+							tts_name: selectedStopData.tts_name,
+						}),
 						description: selectedStopData.id,
 						key: 'selected-stop',
 						label: selectedStopData.long_name,
@@ -102,7 +102,6 @@ export function StopSelectionTrigger({ description, onSelect, selectedStopId, ti
 					}]}
 				/>
 			)}
-
 		</>
 	);
 

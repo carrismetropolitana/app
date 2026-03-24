@@ -17,7 +17,7 @@ export default function Page() {
 	const navigation = useNavigation();
 	const searchParams = useLocalSearchParams();
 
-	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.alerts/[alert_id]' });
+	const { t } = useTranslation();
 
 	//
 	// B. Transform data
@@ -25,9 +25,9 @@ export default function Page() {
 	useEffect(() => {
 		navigation.setOptions({
 			headerShown: true,
-			headerTitle: t('title'),
+			headerTitle: t($ => $._app.sitemap['alerts/[alert_id]'].title),
 		});
-	}, [navigation]);
+	}, [navigation, t]);
 
 	const preparedAlertId = useMemo(() => {
 		if (!searchParams.alert_id) return;

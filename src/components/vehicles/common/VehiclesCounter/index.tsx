@@ -25,7 +25,7 @@ export function VehiclesCounter({ qty, visibleIfZero }: VehiclesCounterProps) {
 	const styles = useStyles();
 	const systemVariables = useSystemVariables();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'common.VehiclesCounter' });
+	const { t } = useTranslation();
 
 	//
 	// B. Render components
@@ -38,7 +38,7 @@ export function VehiclesCounter({ qty, visibleIfZero }: VehiclesCounterProps) {
 		return (
 			<View style={styles.container}>
 				<LiveIcon status="inactive" />
-				<Text style={[styles.label, { color: systemVariables.text[300] }]}>{t('label.zero')}</Text>
+				<Text style={[styles.label, { color: systemVariables.text[300] }]}>{t($ => $.common.VehiclesCounter.label.zero)}</Text>
 			</View>
 		);
 	}
@@ -47,7 +47,7 @@ export function VehiclesCounter({ qty, visibleIfZero }: VehiclesCounterProps) {
 		return (
 			<View style={styles.container}>
 				<LiveIcon />
-				<Text style={[styles.label, { color: systemVariables.status.live }]}>{t('label.single')}</Text>
+				<Text style={[styles.label, { color: systemVariables.status.live }]}>{t($ => $.common.VehiclesCounter.label.single)}</Text>
 			</View>
 		);
 	}
@@ -55,7 +55,10 @@ export function VehiclesCounter({ qty, visibleIfZero }: VehiclesCounterProps) {
 	return (
 		<View style={styles.container}>
 			<LiveIcon />
-			<Text style={[styles.label, { color: systemVariables.status.live }]}>{t('label.plural', { count: qty })}</Text>
+			<Text style={[styles.label, { color: systemVariables.status.live }]}>{t($ => $.common.VehiclesCounter.label.plural, {
+				count: qty,
+			})}
+			</Text>
 		</View>
 	);
 

@@ -47,7 +47,7 @@ export const ArrivalsContextProvider = ({ children, limit, onlyFuture, patternId
 	//
 	// A. Fetch data
 
-	const { data: arrivalsData, isLoading: arrivalsLoading } = useSWR<Arrival[], HttpException>(`${getServiceUrl('api')}/v2/arrivals/by_stop/${stopId}`, { refreshInterval: 30_000 });
+	const { data: arrivalsData, isLoading: arrivalsLoading } = useSWR<Arrival[], HttpException>(`${getServiceUrl('api')}/arrivals/by_stop/${stopId}`, { refreshInterval: 30_000 });
 
 	//
 	// B. Transform data

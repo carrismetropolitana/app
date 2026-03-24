@@ -17,7 +17,7 @@ import { styles } from './styles';
 export function WaypointTimetable() {
 	//
 
-	const { t } = useTranslation('translation', { keyPrefix: 'lines.WaypointTimetable' });
+	const { t } = useTranslation();
 	const lineDetailContext = useLineDetailContext();
 	const operationalDateContext = useOperationalDateContext();
 	const timeTableStyles = styles();
@@ -41,24 +41,26 @@ export function WaypointTimetable() {
 		}
 		if (showVariantsOnTimetable) {
 			return createTimetable(activePatternGroup, secondaryPatternGroups, mentionedRoutes, selectedStopId, selectedStopSequence, selectedOperationalDate);
-		}
-		else {
+		} else {
 			return createTimetable(activePatternGroup, [], [], selectedStopId, selectedStopSequence, selectedOperationalDate);
 		}
-	}, [lineDetailContext.data.selected_pattern, lineDetailContext.data.available_routes, lineDetailContext.data.available_patterns, lineDetailContext.data.selected_waypoint, operationalDateContext.data.selected_date]);
+	}, [lineDetailContext.data.selected_pattern, lineDetailContext.data.available_patterns, lineDetailContext.data.available_routes, lineDetailContext.data.selected_waypoint?.stop_id, lineDetailContext.data.selected_waypoint?.stop_sequence, operationalDateContext.data.selected_date?.operational_date, showVariantsOnTimetable]);
 
-	function handleNextDateClick(date: string) {
+	const handleNextDateClick = (date: string) => {
 		operationalDateContext.actions.updateSelectedDateFromFormat(date, OPERATIONAL_DATE_FORMAT);
-	}
+	};
 
 	if (!timetableData || typeof timetableData === 'string') {
 		const nextDate = timetableData && DateTime.fromFormat(timetableData, 'yyyyMMdd').toJSDate();
 		return (
 			<View style={timeTableStyles.container}>
-				<Text style={timeTableStyles.noData}>{t('no_data')}</Text>
+				<Text style={timeTableStyles.noData}>{t($ => $.lines.WaypointTimetable.no_data)}</Text>
 				{nextDate && (
 					<Pressable onPress={() => handleNextDateClick(timetableData)} style={({ pressed }) => [{ opacity: pressed ? 0.8 : 1 }]}>
-						<Text style={timeTableStyles.nextDate}>{t('next_date', { value: nextDate })}</Text>
+						<Text style={timeTableStyles.nextDate}>{t($ => $.lines.WaypointTimetable.next_date, {
+							value: nextDate,
+						})}
+						</Text>
 					</Pressable>
 				)}
 			</View>
@@ -67,7 +69,7 @@ export function WaypointTimetable() {
 
 	return (
 		<View style={timeTableStyles.container}>
-			<Text style={timeTableStyles.title}>{t('title')}</Text>
+			<Text style={timeTableStyles.title}>{t($ => $.lines.WaypointTimetable.title)}</Text>
 			<Timetable timetableData={timetableData} />
 		</View>
 	);

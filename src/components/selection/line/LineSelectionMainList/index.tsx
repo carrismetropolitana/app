@@ -25,7 +25,7 @@ export function LineSelectionMainList({ onSelect, replaceChevron }: LineSelectio
 
 	const lineSelectionContext = useLineSelectionContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'selection.LineSelectionMainList' });
+	const { t } = useTranslation();
 
 	//
 	// B. Transform data
@@ -33,26 +33,22 @@ export function LineSelectionMainList({ onSelect, replaceChevron }: LineSelectio
 	const listSections = useMemo(() => {
 		// Setup a final variable to add the sections
 		const regularSections = [
-			{ data: lineSelectionContext.data.recent, key: 'recent', title: t('recent.title') },
-			{ data: lineSelectionContext.data.favorites, key: 'favorites', title: t('favorites.title') },
-			{ data: lineSelectionContext.data.nearby, key: 'nearby', title: t('nearby.title') },
-			{ data: lineSelectionContext.data.filtered, key: 'filtered', title: t('all.title') },
+			{ data: lineSelectionContext.data.recent, key: 'recent', title: t($ => $.selection.LineSelectionMainList.recent.title) },
+			{ data: lineSelectionContext.data.favorites, key: 'favorites', title: t($ => $.selection.LineSelectionMainList.favorites.title) },
+			{ data: lineSelectionContext.data.nearby, key: 'nearby', title: t($ => $.selection.LineSelectionMainList.nearby.title) },
+			{ data: lineSelectionContext.data.filtered, key: 'filtered', title: t($ => $.selection.LineSelectionMainList.all.title) },
 		];
 		// Filter out empty sections
 		const searchResultsSection = [
-			{ data: lineSelectionContext.data.filtered, key: 'search_results', title: lineSelectionContext.data.filtered.length === 1 ? t('search_results.title.singular') : t('search_results.title.plural', { count: lineSelectionContext.data.filtered.length || 0 }) },
+			{ data: lineSelectionContext.data.filtered, key: 'search_results', title: lineSelectionContext.data.filtered.length === 1 ? t($ => $.selection.LineSelectionMainList.search_results.title.singular) : t($ => $.selection.LineSelectionMainList.search_results.title.plural, {
+				count: lineSelectionContext.data.filtered.length || 0,
+			}) },
 		];
 		// If search is active, show only the search results section
 		if (lineSelectionContext.filters.by_search) return searchResultsSection;
 		// Otherwise, return only sections with data
 		return regularSections.filter(section => section.data.length > 0);
-	}, [
-		lineSelectionContext.data.favorites,
-		lineSelectionContext.data.recent,
-		lineSelectionContext.data.filtered,
-		lineSelectionContext.data.nearby,
-		lineSelectionContext.filters.by_search,
-	]);
+	}, [lineSelectionContext.data.recent, lineSelectionContext.data.favorites, lineSelectionContext.data.nearby, lineSelectionContext.data.filtered, lineSelectionContext.filters.by_search, t]);
 
 	//
 	// C. Render components
@@ -61,13 +57,18 @@ export function LineSelectionMainList({ onSelect, replaceChevron }: LineSelectio
 		return (
 			<ListSectionItem
 				key={item.id}
-				accessibilityHint={t('items.accessibility_hint', { id: item.id })}
-				accessibilityLabel={t('items.accessibility_label', { index: index + 1, tts_name: item.tts_name })}
 				icon={<LineBadge lineId={item.id} withAlertIcon />}
 				label={item.long_name}
 				onPress={() => onSelect(item.id)}
 				replaceChevron={replaceChevron}
 				size="sm"
+				accessibilityHint={t($ => $.selection.LineSelectionMainList.items.accessibility_hint, {
+					id: item.id,
+				})}
+				accessibilityLabel={t($ => $.selection.LineSelectionMainList.items.accessibility_label, {
+					index: index + 1,
+					tts_name: item.tts_name,
+				})}
 			/>
 		);
 	};

@@ -1,13 +1,9 @@
 /* * */
 
 import { useSystemVariables } from '@/theme/global';
-import { IconArrowLoopRight, IconDots, IconMap, IconUserCircle } from '@tabler/icons-react-native';
-import * as Haptics from 'expo-haptics';
-import { Tabs } from 'expo-router';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { Icon, Label, NativeTabs, VectorIcon } from 'expo-router/unstable-native-tabs';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
-
-import { useStyles } from './styles';
 
 /* * */
 
@@ -16,82 +12,38 @@ export function TabBar() {
 
 	//
 	// A. Setup variables
-
-	const styles = useStyles();
 	const systemVariables = useSystemVariables();
-
-	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap' });
-
-	//
-	// B. Handle actions
-
-	const handleTouchStart = async () => {
-		await Haptics.selectionAsync();
-	};
-
+	const { t } = useTranslation();
 	//
 	// C. Render components
-
 	return (
-		<Tabs
-			screenOptions={{
-				headerShown: false,
-				sceneStyle: { backgroundColor: systemVariables.background[200] },
-				tabBarActiveTintColor: systemVariables.text[100],
-				tabBarItemStyle: styles.item,
-				tabBarShowLabel: false,
-				tabBarStyle: styles.container,
-			}}
-		>
-			<Tabs.Screen
-				name="(home)"
-				options={{
-					tabBarAccessibilityLabel: t('(tabs)/home.title'),
-					tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
-						<View onTouchStart={handleTouchStart} style={[styles.button, focused && styles.buttonIsFocused]}>
-							<IconUserCircle color={focused ? 'black' : color} size={30} />
-						</View>
-					),
-					tabBarLabel: t('(tabs)/home.title'),
-				}}
-			/>
-			<Tabs.Screen
-				name="(lines)"
-				options={{
-					tabBarAccessibilityLabel: t('(tabs)/lines.title'),
-					tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
-						<View onTouchStart={handleTouchStart} style={[styles.button, focused && styles.buttonIsFocused]}>
-							<IconArrowLoopRight color={focused ? 'black' : color} size={30} />
-						</View>
-					),
-					tabBarLabel: t('(tabs)/lines.title'),
-				}}
-			/>
-			<Tabs.Screen
-				name="(stops)"
-				options={{
-					tabBarAccessibilityLabel: t('(tabs)/stops.title'),
-					tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
-						<View onTouchStart={handleTouchStart} style={[styles.button, focused && styles.buttonIsFocused]}>
-							<IconMap color={focused ? 'black' : color} size={30} />
-						</View>
-					),
-					tabBarLabel: t('(tabs)/stops.title'),
-				}}
-			/>
-			<Tabs.Screen
-				name="more"
-				options={{
-					tabBarAccessibilityLabel: t('(tabs)/more.title'),
-					tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
-						<View onTouchStart={handleTouchStart} style={[styles.button, focused && styles.buttonIsFocused]}>
-							<IconDots color={focused ? 'black' : color} size={30} />
-						</View>
-					),
-					tabBarLabel: t('(tabs)/more.title'),
-				}}
-			/>
-		</Tabs>
+		<NativeTabs tintColor={systemVariables.text[100]}>
+			<NativeTabs.Trigger name="(home)" options={{ title: t($ => $._app.sitemap['(tabs)/home'].title) }}>
+				<Label>{t($ => $._app.sitemap['(tabs)/home'].title)}</Label>
+				<Icon
+					androidSrc={<VectorIcon family={MaterialIcons} name="person" />}
+					sf={{ default: 'person.circle', selected: 'person.circle.fill' }}
+				/>
+			</NativeTabs.Trigger>
+			<NativeTabs.Trigger name="(lines)" options={{ title: t($ => $._app.sitemap['(tabs)/lines'].title) }}>
+				<Label>{t($ => $._app.sitemap['(tabs)/lines'].title)}</Label>
+				<Icon androidSrc={<VectorIcon family={MaterialIcons} name="swap-calls" />} sf="arrow.trianglehead.swap" />
+			</NativeTabs.Trigger>
+			<NativeTabs.Trigger name="(stops)" options={{ title: t($ => $._app.sitemap['(tabs)/stops'].title) }}>
+				<Label>{t($ => $._app.sitemap['(tabs)/stops'].title)}</Label>
+				<Icon
+					androidSrc={<VectorIcon family={MaterialIcons} name="map" />}
+					sf={{ default: 'map', selected: 'map.fill' }}
+				/>
+			</NativeTabs.Trigger>
+			<NativeTabs.Trigger name="more" options={{ title: t($ => $._app.sitemap['(tabs)/more'].title) }}>
+				<Label>{t($ => $._app.sitemap['(tabs)/more'].title)}</Label>
+				<Icon
+					androidSrc={<VectorIcon family={MaterialIcons} name="more-horiz" />}
+					sf={{ default: 'ellipsis.circle', selected: 'ellipsis.circle.fill' }}
+				/>
+			</NativeTabs.Trigger>
+		</NativeTabs>
 	);
 
 	//

@@ -1,10 +1,11 @@
 /* * */
 
+import { SafePressable } from '@/components/common/SafePressable';
 import { useSystemVariables } from '@/theme/global';
 import { IconChevronRight } from '@tabler/icons-react-native';
 import { type Route, useRouter } from 'expo-router';
 import { type ReactNode } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { useStyles } from './styles';
 
@@ -50,28 +51,8 @@ export function ListSectionItem({ accessibilityHint, accessibilityLabel, accessi
 	//
 	// C. Render components
 
-	if (label && description) {
-		return (
-			<TouchableOpacity
-				accessibilityHint={accessibilityHint}
-				accessibilityLabel={accessibilityLabel}
-				accessibilityLanguage={accessibilityLanguage}
-				disabled={disabled}
-				onPress={handlePress}
-				style={[styles.container, disabled && styles.containerDisabled]}
-			>
-				{icon && <View style={styles.icon}>{icon}</View>}
-				<View style={styles.contentWrapper}>
-					<Text style={[styles.label, styles.labelSm]}>{label}</Text>
-					<Text style={styles.description}>{description}</Text>
-				</View>
-				{replaceChevron ? replaceChevron : <IconChevronRight color={systemVariables.text[400]} size={24} />}
-			</TouchableOpacity>
-		);
-	}
-
 	return (
-		<TouchableOpacity
+		<SafePressable
 			accessibilityHint={accessibilityHint}
 			accessibilityLabel={accessibilityLabel}
 			accessibilityLanguage={accessibilityLanguage}
@@ -81,10 +62,11 @@ export function ListSectionItem({ accessibilityHint, accessibilityLabel, accessi
 		>
 			{icon && <View style={styles.icon}>{icon}</View>}
 			<View style={styles.contentWrapper}>
-				<Text style={[styles.label, size === 'md' ? styles.labelMd : styles.labelSm]}>{label}</Text>
+				<Text style={[styles.label, description ? styles.labelSm : (size === 'md' ? styles.labelMd : styles.labelSm)]}>{label}</Text>
+				{!!description && <Text style={styles.description}>{description}</Text>}
 			</View>
 			{replaceChevron ? replaceChevron : <IconChevronRight color={systemVariables.text[400]} size={24} />}
-		</TouchableOpacity>
+		</SafePressable>
 	);
 
 	//

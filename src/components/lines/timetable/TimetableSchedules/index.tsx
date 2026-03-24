@@ -27,7 +27,7 @@ export function TimetableSchedules({ data, onSelectTripIds, selectedTripIds }: T
 
 	const accessibilityContext = useAccessibilityContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'common.TimetableSchedules' });
+	const { t } = useTranslation();
 
 	//
 	// B. Render components
@@ -38,7 +38,6 @@ export function TimetableSchedules({ data, onSelectTripIds, selectedTripIds }: T
 			accessibilityContext.flags.screen_reader && styles.containerVertical,
 		]}
 		>
-
 			<View style={[
 				styles.column,
 				accessibilityContext.flags.screen_reader && styles.columnVertical,
@@ -52,11 +51,10 @@ export function TimetableSchedules({ data, onSelectTripIds, selectedTripIds }: T
 						accessibilityContext.flags.screen_reader && styles.hourVertical,
 					]}
 				>
-					{t('hours')}
+					{t($ => $.common.TimetableSchedules.hours)}
 				</Text>
-				<Text accessible={false} style={styles.minuteBase}>{t('minutes')}</Text>
+				<Text accessible={false} style={styles.minuteBase}>{t($ => $.common.TimetableSchedules.minutes)}</Text>
 			</View>
-
 			{data.hours.map((hourData, index) => (
 				<View
 					key={hourData.hour_value}
@@ -80,11 +78,19 @@ export function TimetableSchedules({ data, onSelectTripIds, selectedTripIds }: T
 					{hourData.minutes.map(minuteData => (
 						<Pressable
 							key={minuteData.minute_value}
-							accessibilityHint={t('accessibility_hint')}
+							accessibilityHint={t($ => $.common.TimetableSchedules.accessibility_hint)}
 							onPress={() => onSelectTripIds(minuteData.trip_ids)}
 							accessibilityLabel={minuteData.exception_ids?.length > 0
-								? t('accessibility_label.exception', { destination: data.exceptions.find(exception => exception.exception_id === minuteData.exception_ids[0])?.pattern_headsign, hour: hourData.hour_label, minute: minuteData.minute_label, route_long_name: data.exceptions.find(exception => exception.exception_id === minuteData.exception_ids[0])?.route_long_name })
-								: t('accessibility_label.primary', { hour: hourData.hour_label, minute: minuteData.minute_label })}
+								? t($ => $.common.TimetableSchedules.accessibility_label.exception, {
+									destination: data.exceptions.find(exception => exception.exception_id === minuteData.exception_ids[0])?.pattern_headsign,
+									hour: hourData.hour_label,
+									minute: minuteData.minute_label,
+									route_long_name: data.exceptions.find(exception => exception.exception_id === minuteData.exception_ids[0])?.route_long_name,
+								})
+								: t($ => $.common.TimetableSchedules.accessibility_label.primary, {
+									hour: hourData.hour_label,
+									minute: minuteData.minute_label,
+								})}
 							style={[
 								styles.minuteContainer,
 								selectedTripIds && selectedTripIds.length > 0 && minuteData.trip_ids?.some(tripId => selectedTripIds.includes(tripId)) && styles.minuteContainerIsSelected,
@@ -112,7 +118,6 @@ export function TimetableSchedules({ data, onSelectTripIds, selectedTripIds }: T
 
 				</View>
 			))}
-
 		</View>
 	);
 

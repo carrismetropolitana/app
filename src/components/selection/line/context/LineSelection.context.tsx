@@ -7,7 +7,7 @@ import { useUserLocationContext } from '@/contexts/UserLocation.context';
 import createDocCollection from '@/hooks/useOtheSearch';
 import { type Line } from '@carrismetropolitana/api-types/network';
 import { distance } from '@turf/turf';
-import { createContext, type PropsWithChildren, useContext, useMemo, useState } from 'react';
+import { createContext, type PropsWithChildren, useCallback, useContext, useMemo, useState } from 'react';
 
 /* * */
 
@@ -34,13 +34,13 @@ interface LineSelectionContextState {
 
 const LineSelectionContext = createContext<LineSelectionContextState | undefined>(undefined);
 
-export function useLineSelectionContext() {
+export const useLineSelectionContext = () => {
 	const context = useContext(LineSelectionContext);
 	if (!context) {
 		throw new Error('useLineSelectionContext must be used within a LineSelectionContextProvider');
 	}
 	return context;
-}
+};
 
 /* * */
 
@@ -111,12 +111,12 @@ export const LineSelectionContextProvider = ({ children }: PropsWithChildren) =>
 			tts_name: 3,
 		});
 		return searchHook.search(filterBySearchState);
-	}, [linesContext.data.lines, filterBySearchState]);
+	}, [filterBySearchState, linesContext.data.lines, accountContext.data.account?.favorites.line_ids]);
 
 	//
 	// D. Handle actions
 
-	const addToRecent = (lineId: string) => {
+	const addToRecent = useCallback((lineId: string) => {
 		// Get current recent lines from user preferences
 		const currentRecentLines = new Set(accountContext.data.account?.preferences?.recent_line_ids || []);
 		// If the item is already in recent, remove it (to re-add it at the top)
@@ -127,7 +127,7 @@ export const LineSelectionContextProvider = ({ children }: PropsWithChildren) =>
 		const limitedRecentLines = Array.from(currentRecentLines).slice(-3);
 		// Update user preferences
 		accountContext.actions.update('preferences.recent_line_ids', limitedRecentLines);
-	};
+	}, [accountContext.actions, accountContext.data.account?.preferences?.recent_line_ids]);
 
 	const updateFilterBySearch = (value: string) => {
 		setFilterBySearchState(value);
@@ -153,14 +153,7 @@ export const LineSelectionContextProvider = ({ children }: PropsWithChildren) =>
 		flags: {
 			loading: linesContext.flags.loading,
 		},
-	}), [
-		recentLinesData,
-		favoriteLinesData,
-		nearbyLinesData,
-		filteredLinesData,
-		filterBySearchState,
-		linesContext.flags.loading,
-	]);
+	}), [addToRecent, favoriteLinesData, filteredLinesData, nearbyLinesData, recentLinesData, filterBySearchState, linesContext.flags.loading]);
 
 	//
 	// F. Render components

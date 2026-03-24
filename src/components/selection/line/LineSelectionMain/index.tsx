@@ -19,8 +19,13 @@ export function LineSelectionMain({ addToRecentsOnPress, onSelect, withSafeArea,
 	// B. Handle actions
 
 	const handleSelect = (lineId: string) => {
-		if (addToRecentsOnPress) lineSelectionContext.actions.addToRecent(lineId);
-		if (onSelect) onSelect(lineId);
+		onSelect?.(lineId);
+
+		if (addToRecentsOnPress) {
+			requestAnimationFrame(() => {
+				lineSelectionContext.actions.addToRecent(lineId);
+			});
+		}
 	};
 
 	//

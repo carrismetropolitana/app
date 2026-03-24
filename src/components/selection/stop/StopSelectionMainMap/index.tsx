@@ -4,7 +4,7 @@ import { MapOverlayStops, type MapOverlayStopsGeoJsonProperties } from '@/compon
 import { MapView, MapViewRef } from '@/components/map/view/MapView';
 import { useStopSelectionContext } from '@/components/selection/stop/context/StopSelection.context';
 import { type StopSelectionProps } from '@/components/selection/stop/StopSelection';
-import { type CameraRef } from '@maplibre/maplibre-react-native';
+import { type CameraRef, Location } from '@maplibre/maplibre-react-native';
 import { bbox } from '@turf/turf';
 import * as Haptics from 'expo-haptics';
 import { useEffect, useRef } from 'react';
@@ -23,6 +23,8 @@ export function StopSelectionMainMap({ onSelect }: StopSelectionProps) {
 	const styles = useStyles();
 
 	const mapViewRef = useRef<MapViewRef>(null);
+	const hasCenteredOnUserRef = useRef(false);
+	const lastFittedSearchRef = useRef('');
 
 	const stopsSelectionContext = useStopSelectionContext();
 
@@ -32,42 +34,45 @@ export function StopSelectionMainMap({ onSelect }: StopSelectionProps) {
 	const handleSelectStop = (item: MapOverlayStopsGeoJsonProperties) => {
 		if (!onSelect) return;
 		onSelect(item.id);
-		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+		void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 	};
 
-	const handleDidFinishLoadingMap = (cameraRef: CameraRef) => {
-		// Skip if no shape data
-		if (!stopsSelectionContext.data.filtered_fc) return false;
-		// Calculate feature bounds
-		const featureBounds = bbox(stopsSelectionContext.data.filtered_fc);
-		// Fit map to bounds
-		cameraRef.fitBounds(
-			[featureBounds[2], featureBounds[3]],
-			[featureBounds[0], featureBounds[1]],
-			10, // padding around bounds
-			1000, // animation duration in ms
-		);
-		// Return true to indicate success
-		// and avoid further attempts
-		return true;
+	const handleUserLocationUpdate = (location: Location) => {
+		if (hasCenteredOnUserRef.current) return;
+		const cameraRef = mapViewRef.current?.camera_ref;
+		const coords = location?.coords;
+		if (!cameraRef || !coords) return;
+
+		cameraRef.setCamera({
+			animationDuration: 1000,
+			centerCoordinate: [coords.longitude, coords.latitude],
+			zoomLevel: 15,
+		});
+
+		hasCenteredOnUserRef.current = true;
 	};
 
 	useEffect(() => {
-		// Skip if no ref or no data
-		if (!mapViewRef.current?.camera_ref) return;
-		if (!stopsSelectionContext.data.filtered_fc) return;
-		// Skip if no search filter (user likely wants to see all data)
-		if (!stopsSelectionContext.filters.by_search) return;
-		// Calculate feature bounds
-		const featureBounds = bbox(stopsSelectionContext.data.filtered_fc);
-		// Fit map to bounds
-		mapViewRef.current.camera_ref.fitBounds(
+		const cameraRef = mapViewRef.current?.camera_ref;
+		const search = stopsSelectionContext.filters.by_search.trim();
+		const fc = stopsSelectionContext.data.filtered_fc;
+
+		if (!cameraRef) return;
+		if (!search) return;
+		if (!fc?.features?.length) return;
+		if (lastFittedSearchRef.current === search) return;
+
+		const featureBounds = bbox(fc);
+
+		cameraRef.fitBounds(
 			[featureBounds[2], featureBounds[3]],
 			[featureBounds[0], featureBounds[1]],
-			50, // padding around bounds
-			500, // animation duration in ms
+			50,
+			500,
 		);
-	}, [stopsSelectionContext.filters.by_search]);
+
+		lastFittedSearchRef.current = search;
+	}, [stopsSelectionContext.filters.by_search, stopsSelectionContext.data.filtered_fc]);
 
 	//
 	// C. Render components
@@ -76,7 +81,7 @@ export function StopSelectionMainMap({ onSelect }: StopSelectionProps) {
 		<View style={styles.container}>
 			<MapView
 				ref={mapViewRef}
-				onDidFinishLoadingMap={handleDidFinishLoadingMap}
+				onUserLocationUpdate={handleUserLocationUpdate}
 				withUserLocation
 			>
 				<MapOverlayStops

@@ -1,6 +1,8 @@
 /* * */
 
+import { useThemeContext } from '@/contexts/Theme.context';
 import { useSystemVariables } from '@/theme/global';
+import { theming } from '@/theme/Variables';
 import { StyleSheet } from 'react-native';
 
 /* * */
@@ -9,6 +11,11 @@ export const useStyles = () => {
 	//
 
 	const systemVariables = useSystemVariables();
+	const { theme } = useThemeContext();
+	const isLight = theme.mode === 'light';
+	const fontColor = isLight
+		? theming.colorSystemText100
+		: theming.colorSystemText300;
 
 	return StyleSheet.create({
 		arrivalsWrapper: {
@@ -60,7 +67,7 @@ export const useStyles = () => {
 			justifyContent: 'flex-start',
 		},
 		title: {
-			color: systemVariables.text[100],
+			color: fontColor,
 			fontSize: 12,
 			fontStyle: 'italic',
 			fontWeight: 500,

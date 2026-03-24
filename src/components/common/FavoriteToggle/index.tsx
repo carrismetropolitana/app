@@ -31,7 +31,7 @@ export function FavoriteToggle({ color, isActive, onToggle }: FavoriteToggleProp
 
 	const accountContext = useAccountContext();
 
-	const { t } = useTranslation('translation', { keyPrefix: 'common.FavoriteToggle' });
+	const { t } = useTranslation();
 
 	const [localState, setLocalState] = useState(isActive ? true : false);
 
@@ -52,22 +52,22 @@ export function FavoriteToggle({ color, isActive, onToggle }: FavoriteToggleProp
 
 	const handleSetupAccount = () => {
 		Alert.alert(
-			t('alert.title'),
-			t('alert.description'),
+			t($ => $.common.FavoriteToggle.alert.title),
+			t($ => $.common.FavoriteToggle.alert.description),
 			[
 				{
 					style: 'cancel',
-					text: t('alert.cancel') },
+					text: t($ => $.common.FavoriteToggle.alert.cancel) },
 				{
 					onPress: accountContext.actions.createAccount,
-					text: t('alert.confirm'),
+					text: t($ => $.common.FavoriteToggle.alert.confirm),
 				},
 			],
 		);
 	};
 
 	const handleToggle = () => {
-		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+		void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 		setLocalState(prev => !prev);
 	};
 
@@ -77,8 +77,8 @@ export function FavoriteToggle({ color, isActive, onToggle }: FavoriteToggleProp
 	if (accountContext.flags.anonymous) {
 		return (
 			<TouchableOpacity
-				accessibilityHint={t('anonymous.accessibility_hint')}
-				accessibilityLabel={t('anonymous.accessibility_label')}
+				accessibilityHint={t($ => $.common.FavoriteToggle.anonymous.accessibility_hint)}
+				accessibilityLabel={t($ => $.common.FavoriteToggle.anonymous.accessibility_label)}
 				accessibilityRole="togglebutton"
 				onPressIn={handleSetupAccount}
 				style={styles.container}
@@ -91,8 +91,8 @@ export function FavoriteToggle({ color, isActive, onToggle }: FavoriteToggleProp
 	if (localState) {
 		return (
 			<TouchableOpacity
-				accessibilityHint={t('enabled.accessibility_hint')}
-				accessibilityLabel={t('enabled.accessibility_label')}
+				accessibilityHint={t($ => $.common.FavoriteToggle.enabled.accessibility_hint)}
+				accessibilityLabel={t($ => $.common.FavoriteToggle.enabled.accessibility_label)}
 				accessibilityRole="togglebutton"
 				accessibilityState={{ checked: true }}
 				onPressIn={handleToggle}
@@ -105,8 +105,8 @@ export function FavoriteToggle({ color, isActive, onToggle }: FavoriteToggleProp
 
 	return (
 		<TouchableOpacity
-			accessibilityHint={t('disabled.accessibility_hint')}
-			accessibilityLabel={t('disabled.accessibility_label')}
+			accessibilityHint={t($ => $.common.FavoriteToggle.disabled.accessibility_hint)}
+			accessibilityLabel={t($ => $.common.FavoriteToggle.disabled.accessibility_label)}
 			accessibilityRole="togglebutton"
 			accessibilityState={{ checked: false }}
 			onPressIn={handleToggle}

@@ -27,13 +27,13 @@ interface PatternSelectionContextState {
 
 const PatternSelectionContext = createContext<PatternSelectionContextState | undefined>(undefined);
 
-export function usePatternSelectionContext() {
+export const usePatternSelectionContext = () => {
 	const context = useContext(PatternSelectionContext);
 	if (!context) {
 		throw new Error('usePatternSelectionContext must be used within a PatternSelectionContextProvider');
 	}
 	return context;
-}
+};
 
 /* * */
 
@@ -54,7 +54,7 @@ export const PatternSelectionContextProvider = ({ children, selectedLineId, sele
 	const selectedLineData = useMemo(() => {
 		if (!selectedLineId) return;
 		return linesContext.actions.getLineDataById(selectedLineId);
-	}, [selectedLineId]);
+	}, [linesContext.actions, selectedLineId]);
 
 	useEffect(() => {
 		(async () => {
@@ -65,10 +65,10 @@ export const PatternSelectionContextProvider = ({ children, selectedLineId, sele
 				const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(patternId, selectedOperationalDate);
 				if (validPatternData) fetchResult.push(validPatternData);
 			}
-			setAvailablePatternsData(fetchResult);
+			setAvailablePatternsData(fetchResult.sort((a, b) => a.id.localeCompare(b.id)));
 			setIsLoading(false);
 		})();
-	}, [selectedLineData, selectedOperationalDate]);
+	}, [linesContext.actions, selectedLineData, selectedOperationalDate]);
 
 	//
 	// C. Define context value

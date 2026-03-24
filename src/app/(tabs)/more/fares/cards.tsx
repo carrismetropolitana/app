@@ -16,7 +16,7 @@ export default function Page() {
 
 	const navigation = useNavigation();
 
-	const { t } = useTranslation('translation', { keyPrefix: '_app.sitemap.(tabs)/more/fares/cards' });
+	const { t } = useTranslation();
 
 	//
 	// B. Transform data
@@ -24,9 +24,9 @@ export default function Page() {
 	useEffect(() => {
 		navigation.setOptions({
 			headerShown: true,
-			headerTitle: t('title'),
+			headerTitle: t($ => $._app.sitemap['(tabs)/more/fares/cards'].title),
 		});
-	}, [navigation]);
+	}, [navigation, t]);
 
 	//
 	// C. Render components
