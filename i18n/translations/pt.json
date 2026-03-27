@@ -513,10 +513,11 @@
 		"PathStopNextArrivals": {
 			"arriving": "A chegar",
 			"nextArrivalsRealtimeAccessibilityHint": "Próxima passagem em tempo real",
-			"nextArrivalsRealtimeAccessibilityLabel": "Esta passagem passa em {time} minutos",
-			"nextArrivalsScheduledAccessibilityHint": "Esta passagem está agendada para as {hours} horas e {minutes} minutos",
-			"nextArrivalsScheduledAccessibilityLabel": "Próxima passagem para {headsign} às {hours} horas e {minutes} minutos",
-			"nextArrivalsTitleAccessibilityHint": "Este elemento é um texto que indica as próximas circulações",
+			"nextArrivalsRealtimeAccessibilityLabel": "Chega em {hours} h {minutes} min, tempo real",
+			"nextArrivalsRealtimeAccessibilityLabelMinutesOnly": "Chega em {minutes} min, tempo real",
+			"nextArrivalsScheduledAccessibilityHint": "Próxima passagem agendada",
+			"nextArrivalsScheduledAccessibilityLabel": "Agendada para as {hours}:{minutes}",
+			"nextArrivalsTitleAccessibilityHint": "Indica as passagens do autocarro que chegam a esta paragem dentro de menos tempo",
 			"nextArrivalsTitleAccessibilityLabel": "Próximas circulações",
 			"title": "Próximas circulações"
 		},

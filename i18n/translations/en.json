@@ -512,10 +512,11 @@
       "title": "Next circulations",
       "arriving": "Arriving",
       "nextArrivalsRealtimeAccessibilityHint": "Next trip in real time",
-      "nextArrivalsRealtimeAccessibilityLabel": "This arrival is in {time} minutes",
-      "nextArrivalsScheduledAccessibilityHint": "This arrival is scheduled ot {hours} and {minutes}",
-      "nextArrivalsScheduledAccessibilityLabel": "Next trip to {headsign} at {hours} hours and {minutes} minutes",
-      "nextArrivalsTitleAccessibilityHint": "This element is a text that indicates the next circulations",
+      "nextArrivalsRealtimeAccessibilityLabel": "Arrives in {hours} h {minutes} min, real-time",
+      "nextArrivalsRealtimeAccessibilityLabelMinutesOnly": "Arrives in {minutes} min, real-time",
+      "nextArrivalsScheduledAccessibilityHint": "Next scheduled trip",
+      "nextArrivalsScheduledAccessibilityLabel": "Scheduled at {hours}:{minutes}",
+      "nextArrivalsTitleAccessibilityHint": "Shows the bus arrivals coming soonest to this stop",
       "nextArrivalsTitleAccessibilityLabel": "Next circulations"
     },
     "PathStopTimetable": {

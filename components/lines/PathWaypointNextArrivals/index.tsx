@@ -47,6 +47,17 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 		return toReturn;
 	};
 
+	const getRealtimeAccessibilityLabel = (unixTs: number) => {
+		const deltaMs = unixTs - now;
+		const totalMinutes = Math.floor(deltaMs / 1000 / 60);
+		const hours = Math.floor(totalMinutes / 60);
+		const minutes = totalMinutes % 60;
+
+		if (totalMinutes <= 0) return t('arriving');
+		if (hours > 0) return t('nextArrivalsRealtimeAccessibilityLabel', { hours, minutes });
+		return t('nextArrivalsRealtimeAccessibilityLabelMinutesOnly', { minutes });
+	};
+
 	//
 	// C. Render components
 
@@ -72,14 +83,14 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 						<View style={pathWaypointNextArrivalsStyles.realtimeArrivalsList}>
 							{realtimeArrivals.map(realtimeArrival => realtimeArrival != undefined && (
 								<View key={realtimeArrival.unixTs}>
-									<Text
-										accessibilityHint={t('nextArrivalsRealtimeAccessibilityHint')}
-										accessibilityLabel={t('nextArrivalsRealtimeAccessibilityLabel', formatDelta(realtimeArrival.unixTs - now))}
-										accessibilityLanguage={localeContext.locale}
-										accessibilityRole="text"
-										style={pathWaypointNextArrivalsStyles.realtimeArrival}
-									>
-										{formatDelta(realtimeArrival.unixTs - now)}
+								<Text
+									accessibilityHint={t('nextArrivalsRealtimeAccessibilityHint')}
+									accessibilityLabel={getRealtimeAccessibilityLabel(realtimeArrival.unixTs)}
+									accessibilityLanguage={localeContext.locale}
+									accessibilityRole="text"
+									style={pathWaypointNextArrivalsStyles.realtimeArrival}
+								>
+									{formatDelta(realtimeArrival.unixTs - now)}
 									</Text>
 								</View>
 							))}
@@ -93,13 +104,13 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 						<View style={pathWaypointNextArrivalsStyles.scheduledArrivalsList}>
 							{scheduledArrivals.slice(0, realtimeArrivals.length > 0 ? 3 : 4).map(scheduledArrival => scheduledArrival != undefined && (
 								<View key={scheduledArrival.unixTs}>
-									<Text
-										accessibilityHint={t('nextArrivalsRealtimeAccessibilityHint')}
-										accessibilityLabel={t('nextArrivalsRealtimeAccessibilityLabel', dayjs(scheduledArrival.unixTs).format('HH:mm'))}
-										accessibilityLanguage={localeContext.locale}
-										accessibilityRole="text"
-										style={pathWaypointNextArrivalsStyles.scheduledArrival}
-									>
+								<Text
+									accessibilityHint={t('nextArrivalsScheduledAccessibilityHint')}
+									accessibilityLabel={t('nextArrivalsScheduledAccessibilityLabel', { hours: dayjs(scheduledArrival.unixTs).format('HH'), minutes: dayjs(scheduledArrival.unixTs).format('mm') })}
+									accessibilityLanguage={localeContext.locale}
+									accessibilityRole="text"
+									style={pathWaypointNextArrivalsStyles.scheduledArrival}
+								>
 										{dayjs(scheduledArrival.unixTs).format('HH:mm')}
 									</Text>
 								</View>
