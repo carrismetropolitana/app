@@ -22,6 +22,12 @@ export const useStyles = () => {
 		fullscreenContainer: {
 			flex: 1,
 		},
+		loadingOverlay: {
+			alignItems: 'center',
+			backgroundColor: systemVariables.background[100],
+			justifyContent: 'center',
+			zIndex: 10,
+		},
 		previewContainer: {
 			height: 250,
 			overflow: 'hidden',

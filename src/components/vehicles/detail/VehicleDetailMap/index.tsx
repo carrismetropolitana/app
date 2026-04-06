@@ -6,6 +6,7 @@ import { MapView } from '@/components/map/view/MapView';
 import { useVehicleDetailContext } from '@/contexts/VehicleDetail.context';
 import { type CameraRef } from '@maplibre/maplibre-react-native';
 import { bbox } from '@turf/turf';
+import { useCallback } from 'react';
 import { View } from 'react-native';
 
 import { useStyles } from './styles';
@@ -25,7 +26,7 @@ export function VehicleDetailMap() {
 	//
 	// B. Handle actions
 
-	const handleDidFinishLoadingMap = (cameraRef: CameraRef) => {
+	const handleDidFinishLoadingMap = useCallback((cameraRef: CameraRef) => {
 		// Skip if no shape data
 		if (!vehicleDetailContext.data.shape_fc) return false;
 		// Calculate feature bounds
@@ -40,7 +41,7 @@ export function VehicleDetailMap() {
 		// Return true to indicate success
 		// and avoid further attempts
 		return true;
-	};
+	}, [vehicleDetailContext.data.shape_fc]);
 
 	//
 	// C. Render components

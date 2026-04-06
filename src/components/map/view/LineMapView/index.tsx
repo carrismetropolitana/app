@@ -12,8 +12,8 @@ import { IconArrowsMaximize } from '@tabler/icons-react-native';
 import { bbox } from '@turf/turf';
 import { router } from 'expo-router';
 import { type LineString, type Point } from 'geojson';
-import { useCallback, useMemo } from 'react';
-import { Pressable, View } from 'react-native';
+import { useCallback, useMemo, useState } from 'react';
+import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
 
 import { useStyles } from './styles';
 
@@ -62,6 +62,8 @@ export function LineMapView({ isExpandable = false }: { isExpandable?: boolean }
 	//
 	// C. Handle actions
 
+	const [isMapPositioned, setIsMapPositioned] = useState(false);
+
 	const handleDidFinishLoadingMap = useCallback((cameraRef: CameraRef) => {
 		if (!shapeDataFC) return false;
 		const featureBounds = bbox(shapeDataFC);
@@ -71,8 +73,9 @@ export function LineMapView({ isExpandable = false }: { isExpandable?: boolean }
 			[featureBounds[0], featureBounds[1]],
 			50, 0,
 		);
+		setIsMapPositioned(true);
 		return true;
-	}, [shapeDataFC]); // Only recreate if the data actually changes
+	}, [shapeDataFC]);
 
 	const handleOpen = useCallback(() => {
 		router.push(`/(modals)/(line-modal)/${lineDetailContext.data.selected_line_id}/map`);
@@ -121,6 +124,11 @@ export function LineMapView({ isExpandable = false }: { isExpandable?: boolean }
 				</MapView>
 			)}
 
+			{!isMapPositioned && (
+				<View style={[StyleSheet.absoluteFill, styles.loadingOverlay]}>
+					<ActivityIndicator size="large" />
+				</View>
+			)}
 		</View>
 	);
 

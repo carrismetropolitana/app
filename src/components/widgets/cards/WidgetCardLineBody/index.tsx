@@ -60,11 +60,9 @@ export function WidgetCardLineBody({ data }: WidgetCardLineBodyProps) {
 				const shapeData = await linesContext.actions.getShapeDataById(validPatternData.shape_id);
 				if (!shapeData) return;
 				setCurrentShapeData(shapeData);
-			}
-			catch (err) {
+			} catch (err) {
 				console.error(err);
-			}
-			finally {
+			} finally {
 				setIsLoading(false);
 			}
 		})();
@@ -84,7 +82,7 @@ export function WidgetCardLineBody({ data }: WidgetCardLineBodyProps) {
 		const feature = transformShapeDataIntoGeoJsonFeature(currentShapeData, currentPatternData?.color, currentPatternData?.text_color);
 		if (feature) collection.features.push(feature);
 		return collection;
-	}, [currentShapeData]);
+	}, [currentShapeData, currentPatternData?.color, currentPatternData?.text_color]);
 
 	const waypointsDataFC = useMemo(() => {
 		if (!currentPatternData?.path) return;
@@ -96,7 +94,7 @@ export function WidgetCardLineBody({ data }: WidgetCardLineBodyProps) {
 			})
 			.filter(i => !!i);
 		return collection;
-	}, [currentShapeData]);
+	}, [currentPatternData, stopsContext.actions]);
 
 	//
 	// D. Handle actions

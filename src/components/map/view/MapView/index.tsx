@@ -3,6 +3,7 @@
 /* * */
 
 import { MAP_STYLES } from '@/components/map/configs/map-styles';
+import { MAP_VIEWPORT } from '@/components/map/configs/map-viewport';
 import { MapViewUserLocationButton } from '@/components/map/view/MapViewUserLocationButton';
 import { VehiclesCounter } from '@/components/vehicles/common/VehiclesCounter';
 import { useMapGlobalContext } from '@/contexts/MapGlobal.context';
@@ -167,6 +168,7 @@ export const MapView = forwardRef<MapViewRef, PropsWithChildren<MapViewProps>>((
 				<Camera
 					ref={cameraRef}
 					animationMode="easeTo"
+					defaultSettings={{ centerCoordinate: MAP_VIEWPORT.center as [number, number], zoomLevel: MAP_VIEWPORT.zoom }}
 					followUserLocation={trackingMode !== 'idle'}
 					followUserMode={trackingMode === 'heading' ? UserTrackingMode.FollowWithHeading : UserTrackingMode.Follow}
 					maxZoomLevel={mapStyleData.max_zoom}
