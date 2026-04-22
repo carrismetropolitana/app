@@ -73,7 +73,12 @@ export const useStyles = () => {
 			position: 'relative',
 		},
 		minuteContainerIsSelected: {
-			paddingHorizontal: 4,
+			alignItems: 'center',
+			backgroundColor: systemVariables.brand.cm,
+			borderRadius: 999,
+			height: 28,
+			justifyContent: 'center',
+			paddingHorizontal: 0,
 			position: 'relative',
 		},
 		minuteException: {
@@ -88,6 +93,12 @@ export const useStyles = () => {
 			position: 'absolute',
 			right: -1,
 			top: 0,
+		},
+		minuteExceptionIsSelected: {
+			color: systemVariables.text[100],
+		},
+		minuteIsSelected: {
+			color: systemVariables.text[400],
 		},
 		minuteLast: {
 			borderBottomRightRadius: 999,
