@@ -15,13 +15,14 @@ export default function Layout() {
 	// A. Setup variables
 
 	const systemVariables = useSystemVariables();
-	const { line_id } = useLocalSearchParams<{ line_id: string }>();
+	const { line_id, pattern_id } = useLocalSearchParams<{ line_id: string, pattern_id?: string | string[] }>();
+	const initialPatternId = Array.isArray(pattern_id) ? pattern_id[0] : pattern_id;
 
 	//
 	// B. Render components
 
 	return (
-		<LineDetailContextProvider lineId={line_id}>
+		<LineDetailContextProvider initialPatternId={initialPatternId} lineId={line_id}>
 			<Stack screenOptions={{
 				contentStyle: { backgroundColor: systemVariables.background[200] },
 				headerShadowVisible: false,

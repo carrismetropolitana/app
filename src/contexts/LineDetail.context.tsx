@@ -43,7 +43,7 @@ export const useLineDetailContext = () => {
 
 /* * */
 
-export const LineDetailContextProvider = ({ children, lineId }: PropsWithChildren<{ lineId: string }>) => {
+export const LineDetailContextProvider = ({ children, initialPatternId, lineId }: PropsWithChildren<{ initialPatternId?: string, lineId: string }>) => {
 	//
 
 	//
@@ -56,7 +56,7 @@ export const LineDetailContextProvider = ({ children, lineId }: PropsWithChildre
 
 	const [availablePatternsData, setAvailablePatternsData] = useState<Pattern[]>([]);
 
-	const [selectedPatternId, setSelectedPatternId] = useState<string | undefined>();
+	const [selectedPatternId, setSelectedPatternId] = useState<string | undefined>(initialPatternId);
 	const [selectedTripIds, setSelectedTripIds] = useState<string[] | undefined>();
 
 	const [selectedPatternData, setSelectedPatternData] = useState<Pattern | undefined>();
@@ -118,8 +118,9 @@ export const LineDetailContextProvider = ({ children, lineId }: PropsWithChildre
 	useEffect(() => {
 		// Return early if no patterns are available
 		if (!availablePatternsData?.length) return;
-		// Pre-select the first pattern of the valid patterns if there is no filter value
-		if (!selectedPatternId) {
+		// Keep selected pattern only if still valid for current line/date.
+		const isSelectedPatternValid = selectedPatternId && availablePatternsData.some(pattern => pattern.id === selectedPatternId);
+		if (!isSelectedPatternValid) {
 			setSelectedPatternId(availablePatternsData[0].id);
 		}
 	}, [availablePatternsData, selectedPatternId]);

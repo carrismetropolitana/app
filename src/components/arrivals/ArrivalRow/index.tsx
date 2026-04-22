@@ -48,9 +48,14 @@ export function ArrivalRow({ data }: ArrivalRowProps) {
 	//
 	// C. Handle actions
 
-	const handlePress = () => {
+	const handleRealtimePress = () => {
 		if (!data.vehicle_id) return;
 		router.push(`/(modals)/(vehicle-modal)/${data.vehicle_id}`);
+	};
+
+	const handleScheduledPress = () => {
+		if (!data.trip_id) return;
+		router.push(`/(modals)/(line-modal)/${data.line_id}?pattern_id=${data.pattern_id}`);
 	};
 
 	//
@@ -58,7 +63,7 @@ export function ArrivalRow({ data }: ArrivalRowProps) {
 
 	if (data.status === 'realtime') {
 		return (
-			<TouchableOpacity onPress={handlePress} style={styles.container}>
+			<TouchableOpacity onPress={handleRealtimePress} style={styles.container}>
 				<LineBadge lineId={lineData?.id} size="sm" />
 				<Text numberOfLines={1} style={styles.title}>{data.headsign}</Text>
 				<ArrivalTime status="realtime" time={data.estimated_arrival_unix} />
@@ -69,7 +74,7 @@ export function ArrivalRow({ data }: ArrivalRowProps) {
 
 	if (data.status === 'scheduled') {
 		return (
-			<TouchableOpacity activeOpacity={1} onPress={() => null} style={styles.container}>
+			<TouchableOpacity activeOpacity={1} onPress={handleScheduledPress} style={styles.container}>
 				<LineBadge lineId={lineData?.id} size="sm" />
 				<Text numberOfLines={1} style={styles.title}>{data.headsign}</Text>
 				<ArrivalTime status="scheduled" time={data.scheduled_arrival_unix} />
