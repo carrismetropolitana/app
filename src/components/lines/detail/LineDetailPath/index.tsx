@@ -44,8 +44,7 @@ export function LineDetailPath() {
 			if (!result[objectKey]) result[objectKey] = [];
 			if (arrivalData.estimated_arrival_unix) {
 				result[objectKey]?.push({ type: 'realtime', unixTs: arrivalData.estimated_arrival_unix * 1000 });
-			}
-			else {
+			} else {
 				result[objectKey]?.push({ type: 'scheduled', unixTs: arrivalData.scheduled_arrival_unix * 1000 });
 			}
 		});

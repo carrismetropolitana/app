@@ -43,7 +43,7 @@ export const useLineDetailContext = () => {
 
 /* * */
 
-export const LineDetailContextProvider = ({ children, initialPatternId, lineId }: PropsWithChildren<{ initialPatternId?: string, lineId: string }>) => {
+export const LineDetailContextProvider = ({ children, initialPatternId, initialTripIds, lineId }: PropsWithChildren<{ initialPatternId?: string, initialTripIds?: string[], lineId: string }>) => {
 	//
 
 	//
@@ -57,7 +57,7 @@ export const LineDetailContextProvider = ({ children, initialPatternId, lineId }
 	const [availablePatternsData, setAvailablePatternsData] = useState<Pattern[]>([]);
 
 	const [selectedPatternId, setSelectedPatternId] = useState<string | undefined>(initialPatternId);
-	const [selectedTripIds, setSelectedTripIds] = useState<string[] | undefined>();
+	const [selectedTripIds, setSelectedTripIds] = useState<string[] | undefined>(initialTripIds);
 
 	const [selectedPatternData, setSelectedPatternData] = useState<Pattern | undefined>();
 	const [selectedWaypointData, setSelectedWaypointData] = useState<undefined | Waypoint>();
