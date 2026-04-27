@@ -8,6 +8,7 @@ import { WaypointTimetable } from '@/components/lines/waypoints/WaypointTimetabl
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { useStopsContext } from '@/contexts/Stops.context';
+import { Dates } from '@/core-replica';
 import { type Waypoint } from '@carrismetropolitana/api-types/network';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -35,7 +36,7 @@ export function Waypoint({ arrivals, isFirstStop, isLastStop, isSelected, stopCo
 	//
 	// A. Setup variables
 
-	const now = Date.now();
+	const now = Dates.now('Europe/Lisbon').unix_timestamp;
 
 	const styles = useStyles();
 

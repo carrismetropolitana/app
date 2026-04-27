@@ -28,7 +28,7 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 
 	const localeContext = useLocaleContext();
 
-	const now = Date.now();
+	const now = Dates.now('Europe/Lisbon').unix_timestamp;
 
 	const { t } = useTranslation();
 
@@ -107,7 +107,10 @@ export function PathWaypointNextArrivals({ realtimeArrivals, scheduledArrivals }
 										accessibilityRole="text"
 										style={styles.scheduledArrival}
 									>
-										{Dates.fromUnixTimestamp(scheduledArrival.unixTs).toFormat('HH:mm')}
+										{Dates
+											.fromUnixTimestamp(scheduledArrival.unixTs)
+											.setZone('Europe/Lisbon', 'offset_only')
+											.toFormat('HH:mm')}
 									</Text>
 								</View>
 							))}
