@@ -127,6 +127,10 @@ const config: ExpoConfig = {
 
 	plugins: [
 
+		'expo-build-properties',
+
+		'expo-status-bar',
+
 		'@maplibre/maplibre-react-native',
 
 		'expo-router',
