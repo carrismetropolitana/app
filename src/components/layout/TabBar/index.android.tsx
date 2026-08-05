@@ -5,7 +5,7 @@ import { IconArrowLoopRight, IconDots, IconMap, IconUserCircle } from '@tabler/i
 import * as Haptics from 'expo-haptics';
 import { Tabs } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { type ColorValue, View } from 'react-native';
 
 import { useStyles } from './styles';
 
@@ -47,7 +47,7 @@ export function TabBar() {
 				name="(home)"
 				options={{
 					tabBarAccessibilityLabel: t($ => $._app.sitemap['(tabs)/home'].title),
-					tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
+					tabBarIcon: ({ color, focused }: { color: ColorValue, focused: boolean, size: number }) => (
 						<View onTouchStart={handleTouchStart} style={[styles.button, focused && styles.buttonIsFocused]}>
 							<IconUserCircle color={focused ? 'black' : color} size={30} />
 						</View>
@@ -59,7 +59,7 @@ export function TabBar() {
 				name="(lines)"
 				options={{
 					tabBarAccessibilityLabel: t($ => $._app.sitemap['(tabs)/lines'].title),
-					tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
+					tabBarIcon: ({ color, focused }: { color: ColorValue, focused: boolean, size: number }) => (
 						<View onTouchStart={handleTouchStart} style={[styles.button, focused && styles.buttonIsFocused]}>
 							<IconArrowLoopRight color={focused ? 'black' : color} size={30} />
 						</View>
@@ -71,7 +71,7 @@ export function TabBar() {
 				name="(stops)"
 				options={{
 					tabBarAccessibilityLabel: t($ => $._app.sitemap['(tabs)/stops'].title),
-					tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
+					tabBarIcon: ({ color, focused }: { color: ColorValue, focused: boolean, size: number }) => (
 						<View onTouchStart={handleTouchStart} style={[styles.button, focused && styles.buttonIsFocused]}>
 							<IconMap color={focused ? 'black' : color} size={30} />
 						</View>
@@ -83,7 +83,7 @@ export function TabBar() {
 				name="more"
 				options={{
 					tabBarAccessibilityLabel: t($ => $._app.sitemap['(tabs)/more'].title),
-					tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
+					tabBarIcon: ({ color, focused }: { color: ColorValue, focused: boolean, size: number }) => (
 						<View onTouchStart={handleTouchStart} style={[styles.button, focused && styles.buttonIsFocused]}>
 							<IconDots color={focused ? 'black' : color} size={30} />
 						</View>

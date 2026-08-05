@@ -38,7 +38,7 @@ export const useStyles = () => {
 			minHeight: 1,
 		},
 		previewOverlay: {
-			...StyleSheet.absoluteFillObject,
+			...StyleSheet.absoluteFill,
 			alignItems: 'flex-end',
 			justifyContent: 'flex-end',
 			padding: 12,
