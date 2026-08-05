@@ -3,8 +3,9 @@
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import { useSystemVariables } from '@/theme/global';
 import { type Stop } from '@carrismetropolitana/api-types/network';
-import { CircleLayer, type OnPressEvent, ShapeSource, SymbolLayer } from '@maplibre/maplibre-react-native';
+import { GeoJSONSource, Layer, type PressEventWithFeatures } from '@maplibre/maplibre-react-native';
 import { type Feature, type FeatureCollection, type Point } from 'geojson';
+import { type NativeSyntheticEvent } from 'react-native';
 
 /* * */
 
@@ -41,11 +42,11 @@ export function MapOverlaySelectedStops({ belowLayerId, onSelectFeature, selecte
 	//
 	// B. Handle actions
 
-	const handlePress = (event: OnPressEvent) => {
+	const handlePress = (event: NativeSyntheticEvent<PressEventWithFeatures>) => {
 		// Skip if no callback
 		if (!onSelectFeature) return;
 		// Get feature and call callback
-		const matchingFeature = event.features.find(f => f.properties?.id) as Feature<Point, MapOverlaySelectedStopsGeoJsonProperties> | undefined;
+		const matchingFeature = event.nativeEvent.features.find(f => f.properties?.id) as Feature<Point, MapOverlaySelectedStopsGeoJsonProperties> | undefined;
 		if (matchingFeature) onSelectFeature(matchingFeature.properties);
 	};
 
@@ -53,10 +54,11 @@ export function MapOverlaySelectedStops({ belowLayerId, onSelectFeature, selecte
 	// C. Render components
 
 	return (
-		<ShapeSource id="source-selected-stops-all" onPress={handlePress} shape={selectedStopsData ?? baseStopsFC}>
-			<SymbolLayer
-				belowLayerID={belowLayerId}
+		<GeoJSONSource data={selectedStopsData ?? baseStopsFC} id="source-selected-stops-all" onPress={handlePress}>
+			<Layer
+				beforeId={belowLayerId}
 				id={mapOverlaySelectedStops_TopLayerId}
+				type="symbol"
 				style={{
 					iconAllowOverlap: true,
 					iconAnchor: 'bottom',
@@ -85,9 +87,10 @@ export function MapOverlaySelectedStops({ belowLayerId, onSelectFeature, selecte
 					visibility: selectedStopsData ? 'visible' : 'none',
 				}}
 			/>
-			<CircleLayer
-				belowLayerID={mapOverlaySelectedStops_TopLayerId}
+			<Layer
+				beforeId={mapOverlaySelectedStops_TopLayerId}
 				id="selected-stops-circle-layer"
+				type="circle"
 				style={{
 					circleColor: systemVariables.brand.cm,
 					circlePitchAlignment: 'map',
@@ -119,7 +122,7 @@ export function MapOverlaySelectedStops({ belowLayerId, onSelectFeature, selecte
 					visibility: selectedStopsData ? 'visible' : 'none',
 				}}
 			/>
-		</ShapeSource>
+		</GeoJSONSource>
 	);
 
 	//

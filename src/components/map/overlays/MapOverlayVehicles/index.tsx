@@ -2,8 +2,9 @@
 
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import { type Vehicle } from '@carrismetropolitana/api-types/vehicles';
-import { OnPressEvent, ShapeSource, SymbolLayer } from '@maplibre/maplibre-react-native';
+import { GeoJSONSource, Layer, type PressEventWithFeatures } from '@maplibre/maplibre-react-native';
 import { type Feature, type FeatureCollection, type Point } from 'geojson';
+import { type NativeSyntheticEvent } from 'react-native';
 
 /* * */
 
@@ -40,8 +41,8 @@ export function MapOverlayVehicles({ belowLayerId, onVehiclePress, vehiclesDataF
 	//
 	// A. Handle actions
 
-	const handlePress = (e: OnPressEvent) => {
-		const featureId = e.features?.[0]?.properties?.id;
+	const handlePress = (e: NativeSyntheticEvent<PressEventWithFeatures>) => {
+		const featureId = e.nativeEvent.features?.[0]?.properties?.id;
 		if (!featureId || !onVehiclePress) return;
 		onVehiclePress(featureId);
 	};
@@ -50,14 +51,15 @@ export function MapOverlayVehicles({ belowLayerId, onVehiclePress, vehiclesDataF
 	// B. Render components
 
 	return (
-		<ShapeSource
+		<GeoJSONSource
+			data={vehiclesDataFC ?? baseVehiclesFC}
 			id="source-vehicles"
 			onPress={handlePress}
-			shape={vehiclesDataFC ?? baseVehiclesFC}
 		>
-			<SymbolLayer
-				belowLayerID={mapOverlayVehicles_TopLayerId}
+			<Layer
+				beforeId={mapOverlayVehicles_TopLayerId}
 				id="layer-vehicles-delay"
+				type="symbol"
 				style={{
 					iconAllowOverlap: true,
 					iconAnchor: 'center',
@@ -87,9 +89,10 @@ export function MapOverlayVehicles({ belowLayerId, onVehiclePress, vehiclesDataF
 					symbolPlacement: 'point',
 				}}
 			/>
-			<SymbolLayer
-				belowLayerID={belowLayerId}
+			<Layer
+				beforeId={belowLayerId}
 				id={mapOverlayVehicles_TopLayerId}
+				type="symbol"
 				style={{
 					iconAllowOverlap: true,
 					iconAnchor: 'center',
@@ -110,7 +113,7 @@ export function MapOverlayVehicles({ belowLayerId, onVehiclePress, vehiclesDataF
 					symbolPlacement: 'point',
 				}}
 			/>
-		</ShapeSource>
+		</GeoJSONSource>
 	);
 
 	//

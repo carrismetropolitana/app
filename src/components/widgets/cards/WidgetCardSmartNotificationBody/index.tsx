@@ -62,11 +62,9 @@ export function WidgetCardSmartNotificationBody({ data }: WidgetCardSmartNotific
 				const shapeData = await linesContext.actions.getShapeDataById(validPatternData.shape_id);
 				if (!shapeData) return;
 				setCurrentShapeData(shapeData);
-			}
-			catch (err) {
+			} catch (err) {
 				console.error(err);
-			}
-			finally {
+			} finally {
 				setIsLoading(false);
 			}
 		})();
@@ -121,10 +119,11 @@ export function WidgetCardSmartNotificationBody({ data }: WidgetCardSmartNotific
 		const featureBounds = bbox(data.properties.geojson);
 		// Fit map to data.properties.geojson
 		cameraRef.fitBounds(
-			[featureBounds[2], featureBounds[3]],
-			[featureBounds[0], featureBounds[1]],
-			50, // padding around bounds
-			0, // animation duration in ms
+			[featureBounds[0], featureBounds[1], featureBounds[2], featureBounds[3]],
+			{
+				duration: 0,
+				padding: { bottom: 50, left: 50, right: 50, top: 50 },
+			},
 		);
 		// Return true to indicate success
 		// and avoid further attempts
