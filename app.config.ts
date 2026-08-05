@@ -127,6 +127,8 @@ const config: ExpoConfig = {
 
 	plugins: [
 
+		'expo-ios-scene-lifecycle-plugin',
+
 		'expo-build-properties',
 
 		'expo-status-bar',
