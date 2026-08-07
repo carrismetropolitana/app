@@ -102,7 +102,7 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 	}, [getPatternDataById]);
 
 	const getValidPatternVersionForOperationalDate = useCallback(async (patternId: string, operationalDate?: OperationalDateInt): Promise<HubPattern | undefined> => {
-		const selectedDate = operationalDate ? validateOperationalDateInt(operationalDate) : Dates.fromUnixTimestamp(operation);
+		const selectedDate = operationalDate ? operationalDate : Dates.now('Europe/Lisbon').operational_date_int;
 		// Get pattern data
 		const patternData = await getPatternDataById(patternId);
 		if (!patternData?.length) return;
