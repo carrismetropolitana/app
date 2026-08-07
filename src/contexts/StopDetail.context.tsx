@@ -67,7 +67,7 @@ export const StopDetailContextProvider = ({ children, stopId }: PropsWithChildre
 		setIsLoading(true);
 		const promises = selectedStopData.pattern_ids.map(patternId => linesContext.actions.getValidPatternVersionForOperationalDate(patternId));
 		Promise.all(promises).then((results) => {
-			// if (cancelled) return;
+			if (cancelled) return;
 			const fetchResult = results.filter(Boolean) as HubPattern[];
 			setAvailablePatternsData(fetchResult);
 			setIsLoading(false);

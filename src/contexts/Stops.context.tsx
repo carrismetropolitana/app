@@ -58,7 +58,10 @@ export const StopsContextProvider = ({ children }: PropsWithChildren) => {
 
 	const getStopById = useCallback((stopId: string): HubStop | undefined => {
 		if (!allStopsData) return;
-		return allStopsData.find(stop => stop._id.toString() === stopId);
+		return allStopsData.find((stop) => {
+			const id = stop._id ?? (stop as HubStop & { id?: number | string }).id;
+			return id?.toString() === stopId;
+		});
 	}, [allStopsData]);
 
 	const getStopByIdGeoJsonFC = useCallback((stopId: string): FeatureCollection<Point, MapOverlayStopsGeoJsonProperties> | undefined => {
