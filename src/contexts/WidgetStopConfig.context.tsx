@@ -21,7 +21,7 @@ interface WidgetStopConfigContextState {
 		toggleSelectAll: () => void 
 	} 
 	data: {
-		available_patterns: HubPattern[]a
+		available_patterns: HubPattern[]
 		selected_label: string
 		selected_pattern_ids: string[] | undefined
 		selected_stop: HubStop | undefined
