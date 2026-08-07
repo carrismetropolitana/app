@@ -29,7 +29,7 @@ export function LineDetailAlerts() {
 
 	const alertsData = useMemo(() => {
 		if (!lineDetailContext.data.selected_line_id) return [];
-		return alertsContext.actions.getSimplifiedAlertsByLineId(lineDetailContext.data.selected_line_id);
+		return alertsContext.actions.getAlertsByLineId(lineDetailContext.data.selected_line_id);
 	}, [alertsContext.actions, lineDetailContext.data.selected_line_id]);
 
 	//
@@ -45,7 +45,7 @@ export function LineDetailAlerts() {
 			<ScrollView showsHorizontalScrollIndicator={false} horizontal>
 				<View style={styles.alertsList}>
 					{alertsData.map(alert => (
-						<AlertItem key={alert.alert_id} data={alert} />
+						<AlertItem key={alert._id} data={alert} />
 					))}
 				</View>
 			</ScrollView>

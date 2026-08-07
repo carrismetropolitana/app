@@ -1,7 +1,8 @@
 /* * */
 
+import type { HubAlert } from '@tmlmobilidade/go-types-public-info';
+
 import { AlertActivePeriodStart } from '@/components/alerts/AlertActivePeriod';
-import { type SimplifiedAlert } from '@/types/alerts.types';
 import { router } from 'expo-router';
 import { Text, TouchableOpacity } from 'react-native';
 
@@ -10,7 +11,7 @@ import { useStyles } from './styles';
 /* * */
 
 interface AlertItemProps {
-	data: SimplifiedAlert
+	data: HubAlert
 }
 
 /* * */
@@ -27,8 +28,8 @@ export function AlertItem({ data }: AlertItemProps) {
 	// B. Handle actions
 
 	const handlePress = () => {
-		if (!data.alert_id) return;
-		router.push(`/alerts/${data.alert_id}`);
+		if (!data._id) return;
+		router.push(`/alerts/${data._id}`);
 	};
 
 	//
@@ -36,7 +37,7 @@ export function AlertItem({ data }: AlertItemProps) {
 
 	return (
 		<TouchableOpacity onPress={handlePress} style={styles.container}>
-			<AlertActivePeriodStart date={data.start_date} size="sm" />
+			<AlertActivePeriodStart date={new Date(data.active_period_start_date)} size="sm" />
 			<Text style={styles.title}>{data.title}</Text>
 		</TouchableOpacity>
 	);
