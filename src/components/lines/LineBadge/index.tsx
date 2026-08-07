@@ -43,7 +43,7 @@ export function LineBadge({ lineId, onPress, size = 'md', withAlertIcon }: LineB
 
 	const hasAlert = useMemo(() => {
 		if (!lineId || !withAlertIcon) return false;
-		return alertsContext.actions.getSimplifiedAlertsByLineId(lineId).length > 0;
+		return alertsContext.actions.getAlertsByLineId(lineId).length > 0;
 	}, [alertsContext.actions, lineId, withAlertIcon]);
 
 	const accessibilityLabel = useMemo(() => {
