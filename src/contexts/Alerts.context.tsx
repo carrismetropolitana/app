@@ -18,7 +18,7 @@ interface AlertsContextState {
 	}
 	data: {
 		alerts: Alert[]
-		simplified: SimplifiedAlert[]
+		simplified: SimplifiedAlert[] 
 	}
 	flags: {
 		is_loading: boolean
