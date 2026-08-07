@@ -1,7 +1,7 @@
 'use client';
 
 import type { ApiResponse } from '@tmlmobilidade/types';
-import type { HubLine, HubRoute, HubStop} from '@tmlmobilidade/go-types-public-info'
+import type { HubLine, HubRoute, HubStop } from '@tmlmobilidade/go-types-public-info';
 
 import { CARRIS_METROPOLITANA_AGENCY_IDS } from '@/settings/agencies.settings';
 
@@ -20,12 +20,14 @@ interface UseFilterByAgencyIdsOptions<T> {
 
 /* * */
 
-export function useFilterByAgencyIds<T>(response?: ApiResponse<T[]>, options: UseFilterByAgencyIdsOptions<T> = {}): ApiResponse<T[]> {
+export function useFilterByAgencyIds<T>(response: ApiResponse<T[]>, options: UseFilterByAgencyIdsOptions<T> = {}): ApiResponse<T[]> {
 	const agencyIds = options.agencyIds || CARRIS_METROPOLITANA_AGENCY_IDS;
 	const dataType = options.dataType;
 	const getAgencyIds = options.getAgencyIds;
 
 	return useMemo(() => {
+		if (response.error !== null) return response;
+
 		const allowedAgencyIds = new Set(agencyIds.map(String));
 		const normalizeLineId = (lineId: string) => lineId.replace(/^\[[^\]]+\]/, '');
 		const normalizeData = (item: T): T => {
@@ -62,16 +64,12 @@ export function useFilterByAgencyIds<T>(response?: ApiResponse<T[]>, options: Us
 			}
 		};
 
-		const filteredData = (response?.data || []).filter((item) => {
+		const filteredData = response.data.filter((item) => {
 			const itemAgencyIds = getAgencyIds ? getAgencyIds(item) : (item as Partial<Pick<HubLine, 'agency_id'>>).agency_id;
 			const normalizedItemAgencyIds = Array.isArray(itemAgencyIds) ? itemAgencyIds : [itemAgencyIds];
 			return normalizedItemAgencyIds.some(itemAgencyId => itemAgencyId !== undefined && itemAgencyId !== null && allowedAgencyIds.has(String(itemAgencyId)));
 		}).map(normalizeData);
 
-		return {
-			data: filteredData || [],
-			error: response?.error || ' ',
-			status_code: response?.status_code || '500',
-		};
+		return { ...response, data: filteredData };
 	}, [response, agencyIds, dataType, getAgencyIds]);
 }
