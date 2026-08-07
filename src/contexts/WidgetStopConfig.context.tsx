@@ -6,7 +6,7 @@ import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { generateRandomString } from '@/core-replica';
 import { WidgetSchema } from '@/schemas/widgets';
-import { Pattern, type Stop } from '@carrismetropolitana/api-types/network';
+import { HubStop, type HubPattern } from '@tmlmobilidade/go-types-public-info';
 import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
 /* * */
@@ -18,13 +18,13 @@ interface WidgetStopConfigContextState {
 		selectLabel: (label: string) => void
 		selectStopId: (stopId: string) => void
 		togglePatternId: (patternId: string) => void
-		toggleSelectAll: () => void
-	}
+		toggleSelectAll: () => void 
+	} 
 	data: {
-		available_patterns: Pattern[]
+		available_patterns: HubPattern[]a
 		selected_label: string
 		selected_pattern_ids: string[] | undefined
-		selected_stop: Stop | undefined
+		selected_stop: HubStop | undefined
 		selected_stop_id: string | undefined
 	}
 	flags: {
@@ -64,7 +64,7 @@ export const WidgetStopConfigContextProvider = ({ children, widgetId }: PropsWit
 	const [selectedPatternIds, setSelectedPatternIds] = useState<string[] | undefined>();
 	const [selectedLabel, setSelectedLabel] = useState<string>('');
 
-	const [availablePatternsData, setAvailablePatternsData] = useState<Pattern[]>([]);
+	const [availablePatternsData, setAvailablePatternsData] = useState<HubPattern[]>([]);
 
 	//
 	// B. Transform data
@@ -84,7 +84,7 @@ export const WidgetStopConfigContextProvider = ({ children, widgetId }: PropsWit
 		const promises = selectedStopData.pattern_ids.map(patternId => linesContext.actions.getValidPatternVersionForOperationalDate(patternId, operationalDateContext.data.today.operational_date));
 		Promise.all(promises).then((results) => {
 			if (cancelled) return;
-			const fetchResult = results.filter(Boolean) as Pattern[];
+			const fetchResult = results.filter(Boolean) as HubPattern[];
 			setAvailablePatternsData(fetchResult);
 			setIsLoading(false);
 		});
@@ -138,7 +138,7 @@ export const WidgetStopConfigContextProvider = ({ children, widgetId }: PropsWit
 	const toggleSelectAll = () => {
 		setSelectedPatternIds((prev) => {
 			if (prev && prev.length === availablePatternsData.length) return [];
-			return availablePatternsData.map(pattern => pattern.id);
+			return availablePatternsData.map(pattern => pattern._id);
 		});
 	};
 

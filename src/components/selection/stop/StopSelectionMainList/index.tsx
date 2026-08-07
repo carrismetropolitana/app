@@ -5,8 +5,8 @@ import { ListSectionItem } from '@/components/list/ListSectionItem';
 import { ListTitle } from '@/components/list/ListTitle';
 import { useStopSelectionContext } from '@/components/selection/stop/context/StopSelection.context';
 import { type StopSelectionProps } from '@/components/selection/stop/StopSelection';
-import { type StopWithDistance } from '@/schemas/stop-with-distance';
-import { type Stop } from '@carrismetropolitana/api-types/network';
+ import { type StopWithDistance } from '@/schemas/stop-with-distance';
+ import { type HubStop } from '@tmlmobilidade/go-types-public-info';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SectionList, View } from 'react-native';
@@ -59,18 +59,18 @@ export function StopSelectionMainList({ onSelect, replaceChevron }: StopSelectio
 	//
 	// C. Render components
 
-	const renderSectionItem = ({ index, item, section }: { index: number, item: Stop | StopWithDistance, section: { data: (Stop | StopWithDistance)[], key: string, title: string } }) => {
+	const renderSectionItem = ({ index, item, section }: { index: number, item: HubStop | StopWithDistance, section: { data: (HubStop | StopWithDistance)[], key: string, title: string } }) => {
 		if (section.key === 'nearby') {
 			const nearbyItem = item as StopWithDistance;
 			return (
 				<ListSectionItem
-					key={item.id}
-					description={`${nearbyItem.distance?.toFixed(0)} m • ${item.id}`}
-					label={item.long_name}
-					onPress={() => onSelect(item.id)}
+					key={item._id.toString()}
+					description={`${nearbyItem.distance?.toFixed(0)} m • ${item._id.toString()}`}
+					label={item.name}
+					onPress={() => onSelect(item._id.toString())}
 					replaceChevron={replaceChevron}
 					accessibilityHint={t($ => $.selection.StopSelectionMainList.items.accessibility_hint, {
-						id: item.id,
+						id: item._id.toString(),
 					})}
 					accessibilityLabel={t($ => $.selection.StopSelectionMainList.items.accessibility_label.nearby, {
 						distance: nearbyItem.distance?.toFixed(0),
@@ -82,13 +82,13 @@ export function StopSelectionMainList({ onSelect, replaceChevron }: StopSelectio
 		}
 		return (
 			<ListSectionItem
-				key={item.id}
-				description={item.id}
-				label={item.long_name}
-				onPress={() => onSelect(item.id)}
+				key={item._id.toString()}
+				description={item._id.toString()}
+				label={item.name}
+				onPress={() => onSelect(item._id.toString())}
 				replaceChevron={replaceChevron}
 				accessibilityHint={t($ => $.selection.StopSelectionMainList.items.accessibility_hint, {
-					id: item.id,
+					id: item._id.toString(),
 				})}
 				accessibilityLabel={t($ => $.selection.StopSelectionMainList.items.accessibility_label.default, {
 					index: index + 1,
