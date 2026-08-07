@@ -69,7 +69,7 @@ export const LineDetailContextProvider = ({children,initialPatternId,initialTrip
     
     const availableRoutesData = useMemo(() => {
         if (!selectedLineData) return [];
-        return (linesContext.data?.routes.filter((route) => selectedLineData.route_ids.includes(route.id)) ?? []);
+        return (linesContext.data?.routes.filter((route) => selectedLineData.route_ids.includes(route._id)) ?? []);
     }, [linesContext.data?.routes, selectedLineData]);
     
     useEffect(() => {
@@ -79,7 +79,7 @@ export const LineDetailContextProvider = ({children,initialPatternId,initialTrip
             setIsLoading(true);
             const fetchResult: HubPattern[] = [];
             for (const patternId of selectedLineData.pattern_ids) {
-                const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(patternId, operationalDateContext.data.selected_date.operational_date);
+                const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(patternId, operationalDateContext.data.selected_date.operational_date_int);
                 if (validPatternData) fetchResult.push(validPatternData);
             }
             const sortedResult = fetchResult.sort((a, b) => a._id.toString().localeCompare(b._id.toString()));
@@ -93,7 +93,7 @@ export const LineDetailContextProvider = ({children,initialPatternId,initialTrip
                 // Skip if no pattern id or no operational date
                 if (!selectedPatternId || !operationalDateContext.data.selected_date?.operational_date) return;
                 // Get current pattern version for the selected operational date
-                const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(selectedPatternId, operationalDateContext.data.selected_date.operational_date);
+                const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(selectedPatternId, operationalDateContext.data.selected_date.operational_date_int);
                 if (!validPatternData) return;
                 setSelectedPatternData(validPatternData);
                 // Skip if no shape id

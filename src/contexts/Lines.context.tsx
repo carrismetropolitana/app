@@ -1,29 +1,31 @@
 /* * */
 
-import { Dates } from '@/core-replica';
+
+import type { HubLine, HubPattern, HubRoute, HubShape } from '@tmlmobilidade/go-types-public-info';
+import { type ApiResponse, type OperationalDateInt, validateOperationalDateInt } from '@tmlmobilidade/types';
+
+import { useFilterByAgencyIds } from '@/hooks/useFilterByAgencyIds';
 import { getServiceUrl } from '@/settings/service-urls';
-import { type Line, type Pattern, type Route, type Shape } from '@carrismetropolitana/api-types/network';
-import { HubPattern } from '@tmlmobilidade/go-types-public-info';
-import { type OperationalDate } from '@tmlmobilidade/types';
 import { createContext, type PropsWithChildren, useCallback, useContext, useMemo, useState } from 'react';
+import  { Dates } from '@tmlmobilidade/dates';
 import useSWR from 'swr';
 
 /* * */
 
 interface LinesContextState {
 	actions: {
-		getLineDataById: (lineId: string) => Line | undefined
-		getPatternDataById: (patternId: string) => Promise<Pattern[] | undefined>
-		getPatternVersionById: (patternId: string, version: string) => Promise<Pattern | undefined>
-		getRouteDataById: (routeId: string) => Route | undefined
-		getShapeDataById: (shapeId: string) => Promise<Shape | undefined>
-		getValidPatternVersionForOperationalDate: (patternId: string, operationalDate?: OperationalDate) => Promise<HubPattern | undefined>
+		getLineDataById: (lineId: string) => HubLine | undefined
+		getPatternDataById: (patternId: string) => Promise<HubPattern[] | undefined>
+		getPatternVersionById: (patternId: string, version: string) => Promise<HubPattern | undefined>
+		getRouteDataById: (routeId: string) => HubRoute | undefined
+		getShapeDataById: (shapeId: string) => Promise<HubShape | undefined>
+		getValidPatternVersionForOperationalDate: (patternId: string, operationalDate?: OperationalDateInt) => Promise<HubPattern | undefined>
 	}
 	data: {
-		lines: Line[]
-		patterns_cache: Record<string, Pattern[]>
-		routes: Route[]
-		shapes_cache: Record<string, Shape>
+		lines: HubLine[]
+		patterns_cache: Record<string, HubPattern[]>
+		routes: HubRoute[]
+		shapes_cache: Record<string, HubShape>
 	}
 	flags: {
 		loading: boolean
@@ -50,33 +52,36 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 	//
 	// A. Setup variables
 
-	const [patternsCache, setPatternsCache] = useState<Record<string, Pattern[]>>({});
-	const [shapesCache, setShapesCache] = useState<Record<string, Shape>>({});
+	const [patternsCache, setPatternsCache] = useState<Record<string, HubPattern[]>>({});
+	const [shapesCache, setShapesCache] = useState<Record<string, HubShape>>({});
 
 	//
 	// B. Fetch data
 
-	const { data: allLinesData, isLoading: allLinesLoading } = useSWR<Line[]>(`${getServiceUrl('api')}/lines`);
-	const { data: allRoutesData, isLoading: allRoutesLoading } = useSWR<Route[]>(`${getServiceUrl('api')}/routes`);
+	const { data: linesResponse, isLoading: allLinesLoading } = useSWR<ApiResponse<HubLine[]>, Error>(`${getServiceUrl('api')}/lines`, { refreshInterval: 900000 }); // 15 minutes
+	const { data: routesResponse, isLoading: allRoutesLoading } = useSWR<ApiResponse<HubRoute[]>, Error>(`${getServiceUrl('api')}/routes`, { refreshInterval: 900000 }); // 15 minutes
+
+	const linesData = useFilterByAgencyIds(linesResponse, { dataType: 'line' }).data;
+	const routesData = useFilterByAgencyIds(routesResponse, { dataType: 'route' }).data;
 
 	//
 	// C. Handle actions
 
 	const getLineDataById = useCallback((lineId: string) => {
-		if (!allLinesData) return;
-		return allLinesData.find(line => line.id === lineId);
-	}, [allLinesData]);
+		if (!linesData) return;
+		return linesData.find(line => line._id === lineId);
+	}, [linesData]);
 
 	const getRouteDataById = useCallback((routeId: string) => {
-		if (!allRoutesData) return;
-		return allRoutesData.find(route => route.id === routeId);
-	}, [allRoutesData]);
+		if (!routesData) return;
+		return routesData.find(route => route._id === routeId);
+	}, [routesData]);
 
-	const getPatternDataById = useCallback(async (patternId: string): Promise<Pattern[] | undefined> => {
+	const getPatternDataById = useCallback(async (patternId: string): Promise<HubPattern[] | undefined> => {
 		// Check if pattern is in cache
 		if (patternsCache[patternId]) return patternsCache[patternId];
 		// If not, fetch pattern data
-		const response = await fetch(`${getServiceUrl('api')}/patterns/${patternId}`);
+		const response = await fetch(`${getServiceUrl('go_api_url')}/hub/api/v1/network/patterns/${patternId}`);
 		const responseData = await response.json();
 		if (!responseData) return;
 		// Save pattern to cache
@@ -85,7 +90,7 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 		return responseData;
 	}, [patternsCache]);
 
-	const getPatternVersionById = useCallback(async (patternId: string, version: string): Promise<Pattern | undefined> => {
+	const getPatternVersionById = useCallback(async (patternId: string, version: string): Promise<HubPattern | undefined> => {
 		// Get pattern data
 		const patternData = await getPatternDataById(patternId);
 		if (!patternData) return;
@@ -96,36 +101,30 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 		return versionData;
 	}, [getPatternDataById]);
 
-	const getValidPatternVersionForOperationalDate = useCallback(async (patternId: string, operationalDate?: OperationalDate): Promise<Pattern | undefined> => {
-		// Skip if no operational date
-		if (!operationalDate) operationalDate = Dates.now('Europe/Lisbon').operational_date;
+	const getValidPatternVersionForOperationalDate = useCallback(async (patternId: string, operationalDate?: OperationalDateInt): Promise<HubPattern | undefined> => {
+		const selectedDate = operationalDate ? validateOperationalDateInt(operationalDate) : Dates.fromUnixTimestamp(operation);
 		// Get pattern data
 		const patternData = await getPatternDataById(patternId);
 		if (!patternData?.length) return;
-		const activePatterns: Pattern[] = [];
-		let closestDateSoFar: null | string = null;
-		let patternGroupWithClosestDate: null | Pattern = null;
+		let closestDateSoFar: OperationalDateInt | null = null;
+		let patternGroupWithClosestDate: null | HubPattern = null;
 		for (const patternGroup of patternData) {
-			const selectedDate = operationalDate;
-			if (!selectedDate) return;
 			// Find the closest valid date
-			const closestDate = patternGroup.valid_on.reduce((acc, curr) => {
-				if (selectedDate <= curr && (acc === '' || curr < acc)) return curr;
+			const closestDate = patternGroup.valid_on.reduce<OperationalDateInt | null>((acc, curr) => {
+				const currentDate = Number(curr) as OperationalDateInt;
+				if (selectedDate <= currentDate && (acc === null || currentDate < acc)) return currentDate;
 				return acc;
-			}, '');
-			if (!closestDateSoFar) closestDateSoFar = closestDate;
-			if (closestDate && closestDate <= closestDateSoFar) {
+			}, null);
+			if (closestDate !== null && (closestDateSoFar === null || closestDate <= closestDateSoFar)) {
 				patternGroupWithClosestDate = patternGroup;
 				closestDateSoFar = closestDate;
 			}
 		}
 		// If the closest date is valid, add the pattern group to the list
-		if (patternGroupWithClosestDate && !activePatterns.find(activePattern => activePattern.id === patternGroupWithClosestDate.id)) {
-			return patternGroupWithClosestDate;
-		}
+		return patternGroupWithClosestDate ?? undefined;
 	}, [getPatternDataById]);
 
-	const getShapeDataById = useCallback(async (shapeId: string): Promise<Shape | undefined> => {
+	const getShapeDataById = useCallback(async (shapeId: string): Promise<HubShape | undefined> => {
 		// Check if shape is in cache
 		if (shapesCache[shapeId]) return shapesCache[shapeId];
 		// If not, fetch shape data
@@ -151,15 +150,15 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 			getValidPatternVersionForOperationalDate,
 		},
 		data: {
-			lines: allLinesData ?? [],
+			lines: linesData ?? [],
 			patterns_cache: patternsCache,
-			routes: allRoutesData ?? [],
+			routes: routesData ?? [],
 			shapes_cache: shapesCache,
 		},
 		flags: {
 			loading: allLinesLoading || allRoutesLoading,
 		},
-	}), [getLineDataById, getPatternDataById, getPatternVersionById, getRouteDataById, getShapeDataById, getValidPatternVersionForOperationalDate, allLinesData, patternsCache, allRoutesData, shapesCache, allLinesLoading, allRoutesLoading]);
+	}), [getLineDataById, getPatternDataById, getPatternVersionById, getRouteDataById, getShapeDataById, getValidPatternVersionForOperationalDate, linesData, patternsCache, routesData, shapesCache, allLinesLoading, allRoutesLoading]);
 
 	//
 	// E. Render components
