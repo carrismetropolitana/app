@@ -1,6 +1,7 @@
 'use client';
 
-import type{ HubLine, HubRoute, HubStop} from '@tmlmobilidade/types'
+import type { ApiResponse } from '@tmlmobilidade/types';
+import type { HubLine, HubRoute, HubStop} from '@tmlmobilidade/go-types-public-info'
 
 import { CARRIS_METROPOLITANA_AGENCY_IDS } from '@/settings/agencies.settings';
 
@@ -19,7 +20,7 @@ interface UseFilterByAgencyIdsOptions<T> {
 
 /* * */
 
-export function useFilterByAgencyIds<T>(response?: GoApiResponse<T[]>, options: UseFilterByAgencyIdsOptions<T> = {}): GoApiResponse<T[]> {
+export function useFilterByAgencyIds<T>(response?: ApiResponse<T[]>, options: UseFilterByAgencyIdsOptions<T> = {}): ApiResponse<T[]> {
 	const agencyIds = options.agencyIds || CARRIS_METROPOLITANA_AGENCY_IDS;
 	const dataType = options.dataType;
 	const getAgencyIds = options.getAgencyIds;
@@ -68,9 +69,9 @@ export function useFilterByAgencyIds<T>(response?: GoApiResponse<T[]>, options: 
 		}).map(normalizeData);
 
 		return {
-			data: filteredData,
-			error: response?.error || '',
-			status_code: response?.status_code || '',
+			data: filteredData || [],
+			error: response?.error || ' ',
+			status_code: response?.status_code || '500',
 		};
 	}, [response, agencyIds, dataType, getAgencyIds]);
 }
