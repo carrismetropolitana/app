@@ -22,7 +22,7 @@ export function PatternSelection(props: PatternSelectionProps) {
 	return (
 		<PatternSelectionContextProvider
 			selectedLineId={props.selectedLineId}
-			selectedOperationalDate={props.selectedOperationalDate?.js_date}
+			selectedOperationalDate={props.selectedOperationalDate}
 		>
 			<PatternSelectionMain {...props} />
 		</PatternSelectionContextProvider>

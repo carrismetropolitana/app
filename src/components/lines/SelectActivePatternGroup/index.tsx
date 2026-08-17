@@ -35,7 +35,7 @@ export function SelectActivePatternGroup() {
 		<PatternSelection 
 			onSelect={lineDetailContext.actions.selectPatternId}
 			selectedLineId={lineDetailContext.data.selected_line_id?.toString()}
-			selectedOperationalDate={operationalDateContext.data.selected_date?.jsDate}
+			selectedOperationalDate={operationalDateContext.data.selected_date}
 			selectedPatternId={lineDetailContext.data.selected_pattern_id?.toString()}
 		/>
 	);
