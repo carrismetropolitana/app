@@ -42,11 +42,6 @@ interface StopSelectionContextState {
 
 const StopSelectionContext = createContext<StopSelectionContextState | undefined>(undefined);
 
-function getStopId(stop: HubStop): string | undefined {
-	const id = stop._id ?? (stop as HubStop & { id?: number | string }).id;
-	return id?.toString();
-}
-
 export function useStopSelectionContext() {
 	const context = useContext(StopSelectionContext);
 	if (!context) {
@@ -80,15 +75,15 @@ export const StopSelectionContextProvider = ({ children }: PropsWithChildren) =>
 		const recentStopIds = new Set(accountContext.data.account?.preferences?.recent_stop_ids || []);
 		// Map IDs to stop data
 		return Array.from(recentStopIds)
-			.map(id => stopsContext.data.stops.find(stop => getStopId(stop) === id))
+			.map(id => stopsContext.data.stops.find(stop => stop._id?.toString() === id))
 			.filter(item => !!item)
-			.sort((a, b) => (getStopId(a) ?? '').localeCompare(getStopId(b) ?? ''));
+			.sort((a, b) => (a?._id?.toString() ?? '').localeCompare(b?._id?.toString() ?? ''));
 	}, [accountContext.data.account?.preferences?.recent_stop_ids, stopsContext.data.stops]);
 
 	const favoriteStopsData: HubStop[] = useMemo(() => {
 		const currentFavorites = new Set(accountContext.data.account?.favorites.stop_ids || []);
 		return stopsContext.data.stops.filter((stop) => {
-			const stopId = getStopId(stop);
+			const stopId = stop._id?.toString();
 			return !!stopId && currentFavorites.has(stopId);
 		});
 	}, [stopsContext.data.stops, accountContext.data.account?.favorites.stop_ids]);
@@ -128,8 +123,8 @@ export const StopSelectionContextProvider = ({ children }: PropsWithChildren) =>
 		// Give extra weight to favorite stops
 		const boostedData = stopsContext.data.stops.map(stop => ({
 			...stop,
-			boost: accountContext.data.account?.favorites.stop_ids.includes(getStopId(stop) ?? '') ? true : false,
-			id: getStopId(stop) ?? '',
+			boost: accountContext.data.account?.favorites.stop_ids.includes(stop._id?.toString() ?? '') ? true : false,
+			id: stop._id?.toString() ?? '',
 		}));
 		const searchHook = createDocCollection(boostedData, {
 			id: 4,

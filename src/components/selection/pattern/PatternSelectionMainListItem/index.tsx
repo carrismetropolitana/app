@@ -54,7 +54,7 @@ export function PatternSelectionMainListItem({ isSelected, item, onSelect, repla
 				tts_headsign: item.tts_headsign,
 			})}
 			description={t($ => $.selection.PatternSelectionMainListItem.description, {
-				stop_name: selectedPatternInitialStopData?.long_name ?? '-',
+				stop_name: selectedPatternInitialStopData?.name ?? '-',
 			})}
 		/>
 	);

@@ -65,7 +65,7 @@ export function StopSelectionMainList({ onSelect, replaceChevron }: StopSelectio
 			return (
 				<ListSectionItem
 					key={item._id.toString()}
-					description={`${nearbyItem.distance?.toFixed(0)} m • ${item._id.toString()}`}
+					description={`${nearbyItem.distance?.toFixed(0)} m • ${item._id}`}
 					label={item.name}
 					onPress={() => onSelect(item._id.toString())}
 					replaceChevron={replaceChevron}

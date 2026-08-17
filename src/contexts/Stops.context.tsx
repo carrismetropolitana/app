@@ -6,6 +6,7 @@ import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import { getServiceUrl } from '@/settings/service-urls';
 import { formatStopLocation } from '@/utils/formatStopLocation';
 import { type HubStop } from '@tmlmobilidade/go-types-public-info';
+import { type ApiResponse } from '@tmlmobilidade/types';
 import { type FeatureCollection, type Point } from 'geojson';
 import { createContext, type PropsWithChildren, useCallback, useContext, useMemo } from 'react';
 import useSWR from 'swr';
@@ -51,16 +52,15 @@ export const StopsContextProvider = ({ children }: PropsWithChildren) => {
 	//
 	// A. Fetch data
 
-	const { data: allStopsData, isLoading: allStopsLoading } = useSWR<HubStop[], Error>(`${getServiceUrl('api')}/stops`);
+	const { data: allStopsResponse, isLoading: allStopsLoading } = useSWR<ApiResponse<HubStop[]>, Error>(`${getServiceUrl('go_api_url')}/hub/api/v1/network/stops`);
+	const allStopsData = allStopsResponse?.data ?? [];
 
 	//
 	// B. Handle actions
 
 	const getStopById = useCallback((stopId: string): HubStop | undefined => {
-		if (!allStopsData) return;
 		return allStopsData.find((stop) => {
-			const id = stop._id ?? (stop as HubStop & { id?: number | string }).id;
-			return id?.toString() === stopId;
+			return stop._id.toString() === stopId;
 		});
 	}, [allStopsData]);
 
