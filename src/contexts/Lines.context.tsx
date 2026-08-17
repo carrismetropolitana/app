@@ -128,7 +128,7 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 		// Check if shape is in cache
 		if (shapesCache[shapeId]) return shapesCache[shapeId];
 		// If not, fetch shape data
-		const response = await fetch(`${getServiceUrl('api')}/shapes/${shapeId}`);
+		const response = await fetch(`${getServiceUrl('go_api_url')}/hub/api/v1/network/shapes/${shapeId}`);
 		const responseData = await response.json();
 		if (!responseData) return;
 		// Save shape to cache

@@ -11,6 +11,7 @@ import { View } from 'react-native';
 import useSWR from 'swr';
 
 import { useStyles } from './styles';
+import { ApiResponse } from '@tmlmobilidade/types';
 
 /* * */
 
@@ -27,7 +28,7 @@ export function LineDetailPath() {
 	//
 	// B. Fetch data
 
-	const { data: patternRealtimeData } = useSWR<PatternRealtime[]>(lineDetailContext.data.selected_pattern_id && `${getServiceUrl('api')}/arrivals/by_pattern/${lineDetailContext.data.selected_pattern_id}`, { refreshInterval: 30_000 });
+	const { data: patternRealtimeData } = useSWR<ApiResponse<PatternRealtime[]>>(lineDetailContext.data.selected_pattern_id && `${getServiceUrl('go_api_url')}/hub/api/v1/arrivals/by_pattern/${lineDetailContext.data.selected_pattern_id}`, { refreshInterval: 30_000 });
 
 	//
 	// C. Transform data
@@ -36,7 +37,7 @@ export function LineDetailPath() {
 		// Return early if there is no patternRealtimeData
 		if (!patternRealtimeData) return {};
 		// Filter arrrivals for the current pattern
-		const arrivalsForCurrentPattern = patternRealtimeData.filter(arrivalData => arrivalData.pattern_id === lineDetailContext.data.selected_pattern_id) || [];
+		const arrivalsForCurrentPattern = patternRealtimeData.data?.filter(arrivalData => arrivalData.pattern_id === lineDetailContext.data.selected_pattern_id) ?? [];
 		// Organize arrivals by Stop ID
 		const result: Record<string, NextArrival[]> = {};
 		arrivalsForCurrentPattern.forEach((arrivalData) => {

@@ -3,6 +3,7 @@
 import { Dates, type HttpException } from '@/core-replica';
 import { type Arrival } from '@/schemas/realtime-arrival';
 import { getServiceUrl } from '@/settings/service-urls';
+import { ApiResponse } from '@tmlmobilidade/types';
 import { createContext, type PropsWithChildren, useContext, useMemo } from 'react';
 import useSWR from 'swr';
 
@@ -47,7 +48,7 @@ export const ArrivalsContextProvider = ({ children, limit, onlyFuture, patternId
 	//
 	// A. Fetch data
 
-	const { data: arrivalsData, isLoading: arrivalsLoading } = useSWR<Arrival[], HttpException>(`${getServiceUrl('api')}/arrivals/by_stop/${stopId}`, { refreshInterval: 30_000 });
+	const { data: arrivalsData, isLoading: arrivalsLoading } = useSWR<ApiResponse<Arrival[]>, HttpException>(`${getServiceUrl('go_api_url')}/hub/api/v1/arrivals/by_stop/${stopId}`, { refreshInterval: 30_000 });
 
 	//
 	// B. Transform data
@@ -58,7 +59,7 @@ export const ArrivalsContextProvider = ({ children, limit, onlyFuture, patternId
 		// Skip if no pattern IDs to filter by
 		if (!patternIds || patternIds.length === 0) return arrivalsData;
 		// Filter by pattern IDs
-		return arrivalsData.filter(arrival => patternIds.includes(arrival.pattern_id));
+		return arrivalsData.data?.filter(arrival => patternIds.includes(arrival.pattern_id)) ?? [];
 	}, [arrivalsData, patternIds]);
 
 	const filteredArrivalsByOnlyFuture = useMemo(() => {
