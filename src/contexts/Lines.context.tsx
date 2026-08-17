@@ -58,8 +58,8 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 	//
 	// B. Fetch data
 
-	const { data: linesResponse, isLoading: allLinesLoading } = useSWR<ApiResponse<HubLine[]>, Error>(`${getServiceUrl('api')}/lines`, { refreshInterval: 900000 }); // 15 minutes
-	const { data: routesResponse, isLoading: allRoutesLoading } = useSWR<ApiResponse<HubRoute[]>, Error>(`${getServiceUrl('api')}/routes`, { refreshInterval: 900000 }); // 15 minutes
+	const { data: linesResponse, isLoading: allLinesLoading } = useSWR<ApiResponse<HubLine[]>, Error>(`${getServiceUrl('go_api_url')}/hub/api/v1/network/lines`, { refreshInterval: 900000 }); // 15 minutes
+	const { data: routesResponse, isLoading: allRoutesLoading } = useSWR<ApiResponse<HubRoute[]>, Error>(`${getServiceUrl('go_api_url')}/hub/api/v1/network/routes`, { refreshInterval: 900000 }); // 15 minutes
 
 	const linesData = useFilterByAgencyIds(linesResponse, { dataType: 'line' }).data;
 	const routesData = useFilterByAgencyIds(routesResponse, { dataType: 'route' }).data;
