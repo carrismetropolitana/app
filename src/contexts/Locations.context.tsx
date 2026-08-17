@@ -50,7 +50,7 @@ export const LocationsContextProvider = ({ children }: PropsWithChildren) => {
 	const { data: fetchedMunicipalitiesData, isLoading: fetchedMunicipalitiesLoading } = useSWR<ApiResponse<Municipality[]>, Error>(`${getServiceUrl('go_api_url')}/locations/api/locations/municipalities`, { refreshInterval: 900000 }); // 15 minutes
 	const { data: fetchedParishesData, isLoading: fetchedParishesLoading } = useSWR<ApiResponse<Parish[]>, Error>(`${getServiceUrl('go_api_url')}/locations/api/locations/parishes`, { refreshInterval: 900000 }); // 15 minutes
 	const { data: fetchedLocalitiesData, isLoading: fetchedLocalitiesLoading } = useSWR<ApiResponse<Locality[]>, Error>(`${getServiceUrl('go_api_url')}/locations/api/locations/localities`, { refreshInterval: 900000 }); // 15 minutes
-getServiceUrl
+	
 	//
 	// B. Transform data
 
