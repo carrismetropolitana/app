@@ -2,7 +2,7 @@
 
 import { PatternSelectionContextProvider } from '@/components/selection/pattern/context/PatternSelection.context';
 import { PatternSelectionMain } from '@/components/selection/pattern/PatternSelectionMain';
-import { type OperationalDate } from '@tmlmobilidade/types';
+import { Dates } from '@tmlmobilidade/dates';
 
 /* * */
 
@@ -10,7 +10,7 @@ export interface PatternSelectionProps {
 	onSelect: (patternId: string) => void
 	replaceChevron?: React.ReactNode
 	selectedLineId?: string
-	selectedOperationalDate?: OperationalDate
+	selectedOperationalDate?: Dates
 	selectedPatternId?: string
 	withSafeArea?: boolean
 	withSearchAutoFocus?: boolean
@@ -22,7 +22,7 @@ export function PatternSelection(props: PatternSelectionProps) {
 	return (
 		<PatternSelectionContextProvider
 			selectedLineId={props.selectedLineId}
-			selectedOperationalDate={props.selectedOperationalDate}
+			selectedOperationalDate={props.selectedOperationalDate?.js_date}
 		>
 			<PatternSelectionMain {...props} />
 		</PatternSelectionContextProvider>

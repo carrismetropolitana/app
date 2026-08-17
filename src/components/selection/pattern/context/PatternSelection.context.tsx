@@ -1,22 +1,22 @@
 /* * */
 
 import { useLinesContext } from '@/contexts/Lines.context';
-import { type Pattern } from '@carrismetropolitana/api-types/network';
-import { type OperationalDate } from '@tmlmobilidade/types';
+import { Dates } from '@tmlmobilidade/dates';
+import {type HubPattern } from '@tmlmobilidade/go-types-public-info';
 import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
 /* * */
 
 interface PatternSelectionContextProviderProps {
 	selectedLineId?: string
-	selectedOperationalDate?: OperationalDate
+	selectedOperationalDate?: Dates
 }
 
 /* * */
 
 interface PatternSelectionContextState {
 	data: {
-		available: Pattern[]
+		available: HubPattern[]
 	}
 	flags: {
 		loading: boolean
@@ -46,7 +46,7 @@ export const PatternSelectionContextProvider = ({ children, selectedLineId, sele
 	const linesContext = useLinesContext();
 
 	const [isLoading, setIsLoading] = useState(false);
-	const [availablePatternsData, setAvailablePatternsData] = useState<Pattern[]>([]);
+	const [availablePatternsData, setAvailablePatternsData] = useState<HubPattern[]>([]);
 
 	//
 	// B. Transform data
@@ -60,12 +60,12 @@ export const PatternSelectionContextProvider = ({ children, selectedLineId, sele
 		(async () => {
 			if (!selectedLineData) return;
 			setIsLoading(true);
-			const fetchResult: Pattern[] = [];
+			const fetchResult: HubPattern[] = [];
 			for (const patternId of selectedLineData.pattern_ids) {
-				const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(patternId, selectedOperationalDate);
+				const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(patternId, selectedOperationalDate?.operational_date_int);
 				if (validPatternData) fetchResult.push(validPatternData);
 			}
-			setAvailablePatternsData(fetchResult.sort((a, b) => a.id.localeCompare(b.id)));
+			setAvailablePatternsData(fetchResult.sort((a, b) => a._id.localeCompare(b._id)));
 			setIsLoading(false);
 		})();
 	}, [linesContext.actions, selectedLineData, selectedOperationalDate]);
