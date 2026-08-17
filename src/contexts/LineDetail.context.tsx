@@ -82,16 +82,28 @@ export const LineDetailContextProvider = ({children,initialPatternId,initialTrip
                 const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(patternId, operationalDateContext.data.selected_date.operational_date_int);
                 if (validPatternData) fetchResult.push(validPatternData);
             }
-            const sortedResult = fetchResult.sort((a, b) => a._id.toString().localeCompare(b._id.toString()));
-            setAvailablePatternsData(sortedResult);
+
+            const sortedPatterns = fetchResult.sort((a, b) => String(a._id).localeCompare(String(b._id)));
+            setAvailablePatternsData(sortedPatterns);
+            setSelectedPatternId(currentPatternId => {
+                const isCurrentPatternValid = currentPatternId && sortedPatterns.some(pattern => String(pattern._id) === currentPatternId);
+                return isCurrentPatternValid ? currentPatternId : sortedPatterns[0]?._id;
+            });
             setIsLoading(false);
-        })}, [linesContext.actions, operationalDateContext.data.selected_date, selectedLineData]);
+        })();
+    }, [linesContext.actions, operationalDateContext.data.selected_date, selectedLineData]);
     
     useEffect(() => {
         (async () => {
             try {
                 // Skip if no pattern id or no operational date
-                if (!selectedPatternId || !operationalDateContext.data.selected_date?.operational_date) return;
+                if (!selectedPatternId || !operationalDateContext.data.selected_date?.operational_date_int) {
+                    setSelectedPatternData(undefined);
+                    setSelectedShapeData(undefined);
+                    return;
+                }
+                setSelectedPatternData(undefined);
+                setSelectedShapeData(undefined);
                 // Get current pattern version for the selected operational date
                 const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(selectedPatternId, operationalDateContext.data.selected_date.operational_date_int);
                 if (!validPatternData) return;
@@ -103,20 +115,17 @@ export const LineDetailContextProvider = ({children,initialPatternId,initialTrip
                 setSelectedShapeData(shapeData);
             } catch (err) {
                 console.error(err);
-            }})}, [ selectedPatternId,operationalDateContext?.data?.selected_date?.operational_date,linesContext.actions]);
+            }
+        })();
+    }, [linesContext.actions, operationalDateContext.data.selected_date, selectedPatternId]);
 
     //
     // D. Handle actions
 
-    useEffect(() => {
-        // Return early if no patterns are available
-        if (!availablePatternsData?.length) return;
-        // Keep selected pattern only if still valid for current line/date.
-        const isSelectedPatternValid = selectedPatternId && availablePatternsData.some((pattern) => pattern._id === selectedPatternId);
-        if (!isSelectedPatternValid) {
-            setSelectedPatternId(availablePatternsData[0]._id);
-        }}, [availablePatternsData, selectedPatternId]);
-        const selectPatternId = (patternId: string) => {setSelectedPatternId(patternId)};
+    const selectPatternId = (patternId: string) => {
+        setSelectedPatternId(patternId);
+        setSelectedWaypointData(undefined);
+    };
         const selectTripIds = (tripIds: string[] | undefined) => {setSelectedTripIds(tripIds)};
         const selectWaypointId = useCallback(
         (stopId?: string, stopSequence?: number) => {
