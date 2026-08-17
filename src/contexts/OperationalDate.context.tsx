@@ -2,7 +2,7 @@
 
 import { Dates } from '@tmlmobilidade/dates';
 import { type OperationalDateInt, validateOperationalDateInt } from '@tmlmobilidade/types';
-
+import { Dates as ReplicaDates } from '@/core-replica/dates';
 import { useLocalSearchParams } from 'expo-router';
 import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
@@ -128,7 +128,7 @@ export const OperationalDateContextProvider = ({ children }: PropsWithChildren) 
 		},
 		data: {
 			selected_date: selectedDate,
-			selected_date_display: selectedDate?.toFormat('d LLL'),
+			selected_date_display: ReplicaDates.fromOperationalDate(String(selectedDate?.operational_date_int), 'Europe/Lisbon').set({ hour: 15 }).toFormat('d MMM'),
 			today: todayDate,
 			tomorrow: tomorrowDate,
 		},

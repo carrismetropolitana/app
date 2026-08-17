@@ -69,7 +69,8 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 
 	const getLineDataById = useCallback((lineId: string) => {
 		if (!linesData) return;
-		return linesData.find(line => line._id === lineId);
+		const normalizedLineId = lineId.replace(/^\[[^\]]+\]/, '');
+		return linesData.find(line => line._id === lineId || line._id === normalizedLineId);
 	}, [linesData]);
 
 	const getRouteDataById = useCallback((routeId: string) => {
@@ -83,11 +84,12 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 		// If not, fetch pattern data
 		const response = await fetch(`${getServiceUrl('go_api_url')}/hub/api/v1/network/patterns/${patternId}`);
 		const responseData = await response.json();
-		if (!responseData) return;
+		const patternData = responseData?.data;
+		if (!patternData) return;
 		// Save pattern to cache
-		setPatternsCache(prev => ({ ...prev, [patternId]: responseData }));
+		setPatternsCache(prev => ({ ...prev, [patternId]: patternData }));
 		// Return pattern data
-		return responseData;
+		return patternData;
 	}, [patternsCache]);
 
 	const getPatternVersionById = useCallback(async (patternId: string, version: string): Promise<HubPattern | undefined> => {
@@ -130,11 +132,12 @@ export const LinesContextProvider = ({ children }: PropsWithChildren) => {
 		// If not, fetch shape data
 		const response = await fetch(`${getServiceUrl('go_api_url')}/hub/api/v1/network/shapes/${shapeId}`);
 		const responseData = await response.json();
-		if (!responseData) return;
+		const shapeData = responseData?.data;
+		if (!shapeData) return;
 		// Save shape to cache
-		setShapesCache(prev => ({ ...prev, [shapeId]: responseData }));
+		setShapesCache(prev => ({ ...prev, [shapeId]: shapeData }));
 		// Return shape data
-		return responseData;
+		return shapeData;
 	}, [shapesCache]);
 
 	//

@@ -7,7 +7,7 @@ import { type PatternSelectionProps } from '@/components/selection/pattern/Patte
 import { PatternSelectionMainListItem } from '@/components/selection/pattern/PatternSelectionMainListItem';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useLinesContext } from '@/contexts/Lines.context';
-import { type Pattern } from '@carrismetropolitana/api-types/network';
+import { type HubPattern } from '@tmlmobilidade/go-types-public-info';
 import { useMemo } from 'react';
 import { SectionList, View } from 'react-native';
 
@@ -33,7 +33,7 @@ export function PatternSelectionMainList({ onSelect, replaceChevron }: PatternSe
 	const listSections = useMemo(() => {
 		// Separate available patterns into different sections
 		// based on their given route_id
-		const sectionsByRouteId: Record<string, Pattern[]> = {};
+		const sectionsByRouteId: Record<string, HubPattern[]> = {};
 		patternSelectionContext.data.available.forEach((pattern) => {
 			if (!sectionsByRouteId[pattern.route_id]) {
 				sectionsByRouteId[pattern.route_id] = [];
@@ -48,7 +48,7 @@ export function PatternSelectionMainList({ onSelect, replaceChevron }: PatternSe
 			.map(([routeId, patterns]) => {
 				const routeData = linesContext.actions.getRouteDataById(routeId);
 				return {
-					data: patterns.sort((a, b) => a.id.localeCompare(b.id)),
+					data: patterns.sort((a, b) => a._id.localeCompare(b._id)),
 					key: routeId,
 					title: routeData ? routeData.long_name : routeId,
 				};
@@ -58,11 +58,11 @@ export function PatternSelectionMainList({ onSelect, replaceChevron }: PatternSe
 	//
 	// C. Render components
 
-	const renderSectionItem = ({ item }: { item: Pattern }) => {
+	const renderSectionItem = ({ item }: { item: HubPattern }) => {
 		return (
 			<PatternSelectionMainListItem
-				key={item.id}
-				isSelected={item.id === lineDetailContext.data.selected_pattern_id}
+				key={item._id}
+				isSelected={item._id === lineDetailContext.data.selected_pattern_id}
 				item={item}
 				onSelect={onSelect}
 				replaceChevron={replaceChevron}
