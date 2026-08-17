@@ -22,6 +22,15 @@ export function LineDetail() {
 	// A. Setup variables
 
 	const lineDetailContext = useLineDetailContext();
+
+
+
+
+	 //
+
+
+
+	 
 	const accessibilityContext = useAccessibilityContext();
 
 	//
