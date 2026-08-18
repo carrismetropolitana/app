@@ -125,10 +125,12 @@ export const StopSelectionContextProvider = ({ children }: PropsWithChildren) =>
 			...stop,
 			boost: accountContext.data.account?.favorites.stop_ids.includes(stop._id?.toString() ?? '') ? true : false,
 			id: stop._id?.toString() ?? '',
+			stop_code: stop.name.replace(/^\[[^\]]+\]\s*/, ''),
 		}));
 		const searchHook = createDocCollection(boostedData, {
 			id: 4,
 			name: 2,
+			stop_code: 4,
 			tts_name: 3,
 		});
 		return searchHook.search(filterBySearchState);
