@@ -1,8 +1,11 @@
 /* * */
 
-import { ListSection } from '@/components/list/ListSection';
+import { type Href } from 'expo-router';
 import { type ListSectionItemProps } from '@/components/list/ListSectionItem';
+
+import { ListSection } from '@/components/list/ListSection';
 import { IconPlayerPlayFilled } from '@tabler/icons-react-native';
+
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
@@ -13,7 +16,7 @@ import { useStyles } from './styles';
 interface WidgetStopHeaderProps {
 	description: string
 	title: string
-	videoUrl: string
+	videoUrl: Href
 }
 
 /* * */
