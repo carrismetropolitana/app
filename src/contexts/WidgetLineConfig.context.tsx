@@ -5,7 +5,7 @@ import { useLinesContext } from '@/contexts/Lines.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { generateRandomString } from '@/core-replica';
 import { WidgetSchema } from '@/schemas/widgets';
-import { type Line, type Pattern } from '@carrismetropolitana/api-types/network';
+import { type HubLine, type HubPattern } from '@tmlmobilidade/go-types-public-info';
 import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
 /* * */
@@ -18,8 +18,8 @@ interface WidgetLineConfigContextState {
 		selectPatternId: (patternId: string) => void
 	}
 	data: {
-		available_patterns: Pattern[]
-		selected_line: Line | undefined
+		available_patterns: HubPattern[]
+		selected_line: HubLine | undefined
 		selected_line_id: string | undefined
 		selected_pattern_id: string | undefined
 	}
@@ -56,7 +56,7 @@ export const WidgetLineConfigContextProvider = ({ children, widgetId }: PropsWit
 	const [selectedLineId, setSelectedLineId] = useState<string | undefined>();
 	const [selectedPatternId, setSelectedPatternId] = useState<string | undefined>();
 
-	const [availablePatternsData, setAvailablePatternsData] = useState<Pattern[]>([]);
+	const [availablePatternsData, setAvailablePatternsData] = useState<HubPattern[]>([]);
 
 	//
 	// B. Transform data
@@ -69,9 +69,9 @@ export const WidgetLineConfigContextProvider = ({ children, widgetId }: PropsWit
 	useEffect(() => {
 		(async () => {
 			if (!selectedLineData) return;
-			const fetchResult: Pattern[] = [];
+			const fetchResult: HubPattern[] = [];
 			for (const patternId of selectedLineData.pattern_ids) {
-				const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(patternId, operationalDateContext.data.today.operational_date);
+				const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(patternId, operationalDateContext.data.today.operational_date_int);
 				if (validPatternData) fetchResult.push(validPatternData);
 			}
 			setAvailablePatternsData(fetchResult);

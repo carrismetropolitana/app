@@ -81,7 +81,7 @@ export const WidgetStopConfigContextProvider = ({ children, widgetId }: PropsWit
 			return;
 		}
 		let cancelled = false;
-		const promises = selectedStopData.pattern_ids.map(patternId => linesContext.actions.getValidPatternVersionForOperationalDate(patternId, operationalDateContext.data.today.operational_date));
+		const promises = selectedStopData.pattern_ids.map(patternId => linesContext.actions.getValidPatternVersionForOperationalDate(patternId, operationalDateContext.data.today.operational_date_int));
 		Promise.all(promises).then((results) => {
 			if (cancelled) return;
 			const fetchResult = results.filter(Boolean) as HubPattern[];
