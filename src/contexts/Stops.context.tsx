@@ -3,6 +3,7 @@
 import { type MapOverlayStopsGeoJsonProperties, transformStopDataIntoGeoJsonFeature } from '@/components/map/overlays/MapOverlayStops';
 import { useLocationsContext } from '@/contexts/Locations.context';
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
+import { useFilterByAgencyIds } from '@/hooks/useFilterByAgencyIds';
 import { getServiceUrl } from '@/settings/service-urls';
 import { formatStopLocation } from '@/utils/formatStopLocation';
 import { type HubStop } from '@tmlmobilidade/go-types-public-info';
@@ -53,7 +54,7 @@ export const StopsContextProvider = ({ children }: PropsWithChildren) => {
 	// A. Fetch data
 
 	const { data: allStopsResponse, isLoading: allStopsLoading } = useSWR<ApiResponse<HubStop[]>, Error>(`${getServiceUrl('go_api_url')}/hub/api/v1/network/stops`);
-	const allStopsData = allStopsResponse?.data ?? [];
+	const allStopsData = useFilterByAgencyIds(allStopsResponse, { dataType: 'stop' }).data ?? [];
 
 	//
 	// B. Handle actions

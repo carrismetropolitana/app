@@ -2,8 +2,9 @@
 
 import { normalizeReferenceId } from '@/utils/alerts';
 import { getBaseGeoJsonFeatureCollection } from '@/utils/map.utils';
-import { CARRIS_METROPOLITANA_AGENCY_IDS } from '@/settings/agencies.settings';
+import { useFilterByAgencyIds, getAgencyIdFromPrefixedId } from '@/hooks/useFilterByAgencyIds';
 import { type HubAlert } from '@tmlmobilidade/go-types-public-info';
+import { type ApiResponse } from '@tmlmobilidade/types';
 import { createContext, type PropsWithChildren, useContext, useMemo } from 'react';
 import useSWR from 'swr';
 import { getServiceUrl } from '@/settings/service-urls';
@@ -46,17 +47,13 @@ export function AlertsContextProvider({ children }: PropsWithChildren) {
 	//
 	// A. Fetch data
 
-	const { data: allAlertsData, isLoading: allAlertsLoading } = useSWR<{ data: HubAlert[] }>(`${getServiceUrl('go_api_url')}/hub/api/v1/alerts`, { refreshInterval: 180000 }); // 3 minutes
-	const filteredAlertsData = useMemo(() => {
-		const allowedAgencyIds = new Set<string>(CARRIS_METROPOLITANA_AGENCY_IDS);
-		return (allAlertsData?.data ?? []).filter((alertData) => {
-			if (allowedAgencyIds.has(String(alertData.agency_id))) return true;
-			return alertData.references.some((reference) => {
-				const referenceIds = [reference.parent_id, ...reference.child_ids];
-				return referenceIds.some(referenceId => CARRIS_METROPOLITANA_AGENCY_IDS.some(agencyId => String(referenceId).trim().startsWith(`[${agencyId}]`)));
-			});
-		});
-	}, [allAlertsData?.data]);
+	const { data: alertsResponse, isLoading: allAlertsLoading } = useSWR<ApiResponse<HubAlert[]>, Error>(`${getServiceUrl('go_api_url')}/hub/api/v1/alerts`, { refreshInterval: 180000 }); // 3 minutes
+	const filteredAlertsData = useFilterByAgencyIds(alertsResponse, {
+		getAgencyIds: (alertData) => [
+			alertData.agency_id,
+			...alertData.references.flatMap(reference => [reference.parent_id, ...reference.child_ids].map(getAgencyIdFromPrefixedId)),
+		].filter((agencyId): agencyId is string => Boolean(agencyId)),
+	}).data ?? [];
 
 	//
 	// B. Transform data

@@ -1,6 +1,7 @@
 /* * */
 
 import { Dates, type HttpException } from '@/core-replica';
+import { getAgencyIdFromPrefixedId, useFilterByAgencyIds } from '@/hooks/useFilterByAgencyIds';
 import { type Arrival } from '@/schemas/realtime-arrival';
 import { getServiceUrl } from '@/settings/service-urls';
 import { ApiResponse } from '@tmlmobilidade/types';
@@ -48,7 +49,10 @@ export const ArrivalsContextProvider = ({ children, limit, onlyFuture, patternId
 	//
 	// A. Fetch data
 
-	const { data: arrivalsData, isLoading: arrivalsLoading } = useSWR<ApiResponse<Arrival[]>, HttpException>(`${getServiceUrl('go_api_url')}/hub/api/v1/arrivals/by_stop/${stopId}`, { refreshInterval: 30_000 });
+	const { data: arrivalsResponse, isLoading: arrivalsLoading } = useSWR<ApiResponse<Arrival[]>, HttpException>(`${getServiceUrl('go_api_url')}/hub/api/v1/arrivals/by_stop/${stopId}`, { refreshInterval: 30_000 });
+	const arrivalsData = useFilterByAgencyIds(arrivalsResponse, {
+		getAgencyIds: arrival => getAgencyIdFromPrefixedId(arrival.line_id) ?? getAgencyIdFromPrefixedId(arrival.pattern_id),
+	}).data ?? [];
 
 	//
 	// B. Transform data
@@ -59,7 +63,7 @@ export const ArrivalsContextProvider = ({ children, limit, onlyFuture, patternId
 		// Skip if no pattern IDs to filter by
 		if (!patternIds || patternIds.length === 0) return arrivalsData;
 		// Filter by pattern IDs
-		return arrivalsData.data?.filter(arrival => patternIds.includes(arrival.pattern_id)) ?? [];
+		return arrivalsData.filter(arrival => patternIds.includes(arrival.pattern_id));
 	}, [arrivalsData, patternIds]);
 
 	const filteredArrivalsByOnlyFuture = useMemo(() => {
