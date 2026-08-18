@@ -47,7 +47,7 @@ export function WidgetConfigSelectPattern({ availablePatterns, description, onTo
 		// Prepare patterns list
 		const preparedPatterns = availablePatterns.map(item => ({
 			icon: <LineBadge lineId={item.line_id} withAlertIcon />,
-			key: item.id,
+			key: item._id,
 			label: item.headsign,
 			onPress: () => onTogglePatternId(item._id),
 			replaceChevron: selectedPatternIds?.includes(item._id) ? <IconCircleCheckFilled color={systemVariables.status.ok} /> : <IconCircle color={systemVariables.text[200]} />,

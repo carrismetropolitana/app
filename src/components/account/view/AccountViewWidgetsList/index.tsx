@@ -44,7 +44,7 @@ export function AccountViewWidgetsList() {
 						description: t($ => $.account.AccountViewWidgetsList.description.stop),
 						icon: <IconBusStop color="#FF6900" size={30} />,
 						key: widget._id,
-						label: widget.settings.label || stopData?.long_name || widget.properties.stop_id,
+						label: widget.settings.label || stopData?.name || widget.properties.stop_id,
 						link: `/account/widgets/stop?widget_id=${widget._id}` as Href,
 					};
 				}
@@ -64,7 +64,7 @@ export function AccountViewWidgetsList() {
 						description: t($ => $.account.AccountViewWidgetsList.description.smart_notification),
 						icon: <IconBellRinging color="#0C807E" size={30} />,
 						key: widget._id,
-						label: widget.settings.label || stopData?.long_name || widget.properties.stop_id,
+						label: widget.settings.label || stopData?.name || widget.properties.stop_id,
 						link: `/account/widgets/smart_notification?widget_id=${widget._id}` as Href,
 					};
 				}

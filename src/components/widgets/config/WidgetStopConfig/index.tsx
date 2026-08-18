@@ -60,7 +60,7 @@ export function WidgetStopConfig({ widgetId }: WidgetStopConfigProps) {
 			<StopSelectionTrigger
 				description={t($ => $.widgets.WidgetStopConfig.step_1.description)}
 				onSelect={widgetStopConfigContext.actions.selectStopId}
-				selectedStopId={widgetStopConfigContext.data.selected_stop?.id}
+				selectedStopId={String(widgetStopConfigContext.data.selected_stop?._id)}
 				title={t($ => $.widgets.WidgetStopConfig.step_1.title)}
 			/>
 			{/* * */}

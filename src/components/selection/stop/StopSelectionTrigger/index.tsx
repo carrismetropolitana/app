@@ -49,9 +49,9 @@ export function StopSelectionTrigger({ description, onSelect, selectedStopId, ti
 		// Skip if no stop is selected or if
 		// the selected stop is the same as the param value
 		if (!selectedStopId) return;
-		if (selectedStopId === localSearchParams.stop_id) return;
+		if (String(selectedStopId) === localSearchParams.stop_id) return;
 		// Update the URL param to match the selected stop
-		router.setParams({ stop_id: selectedStopId });
+		router.setParams({ stop_id: String(selectedStopId) });
 	}, [localSearchParams.stop_id, selectedStopId]);
 
 	useEffect(() => {
@@ -94,9 +94,9 @@ export function StopSelectionTrigger({ description, onSelect, selectedStopId, ti
 						accessibilityLabel: t($ => $.selection.StopSelectionTrigger.selected.accessibility_label, {
 							tts_name: selectedStopData.tts_name,
 						}),
-						description: selectedStopData.id,
+						description: String(selectedStopData._id),
 						key: 'selected-stop',
-						label: selectedStopData.long_name,
+						label: selectedStopData.name,
 						onPress: handleShowList,
 						replaceChevron: <IconArrowsRightLeft color={systemVariables.text[100]} />,
 					}]}

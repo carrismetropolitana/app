@@ -25,7 +25,7 @@ export const AccountSchema = DocumentSchema.extend({
 	devices: z.array(DeviceSchema).default([]),
 	favorites: FavoritesSchema.default({}),
 	notifications: NotificationsSchema.default({}),
-	persona: PersonaSchema.default({}),
+	persona: PersonaSchema.default({ image_id: '' }),
 	preferences: PreferencesSchema.default({}),
 	profile: ProfileSchema.default({}),
 	role: AccountRoleSchema.default('user'),
