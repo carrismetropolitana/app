@@ -1,9 +1,10 @@
 /* * */
 
+import { type HubPattern } from '@tmlmobilidade/go-types-public-info';
+
 import { LineBadge } from '@/components/lines/LineBadge';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { WidgetSmartNotification } from '@/schemas/widgets';
-import { type Pattern } from '@carrismetropolitana/api-types/network';
 import { IconBellRinging } from '@tabler/icons-react-native';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -35,13 +36,13 @@ export function WidgetCardSmartNotificationHeader({ label, patternId, selectedEn
 
 	const { t } = useTranslation();
 
-	const [patternData, setPatternData] = useState<Pattern | undefined>(linesContext.data.patterns_cache[patternId]?.[0]);
+	const [patternData, setPatternData] = useState<HubPattern | undefined>(linesContext.data.patterns_cache[patternId]?.[0]);
 
 	//
 	// B. Transform data
 
 	useEffect(() => {
-		if (patternData?.id === patternId) return;
+		if (patternData?._id === patternId) return;
 		linesContext.actions.getValidPatternVersionForOperationalDate(patternId).then((data) => {
 			if (!data) return setPatternData(undefined);
 			setPatternData(data);
