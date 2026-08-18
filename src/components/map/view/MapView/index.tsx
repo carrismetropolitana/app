@@ -178,6 +178,7 @@ export const MapView = forwardRef<MapViewRef, PropsWithChildren<MapViewProps>>((
 				<Images images={{
 					'bus-delay': require('#/map/bus-delay.png'),
 					'bus-error': require('#/map/bus-error.png'),
+					'bus-cut': require('#/map/bus-cut.png'),
 					'bus-regular': require('#/map/bus-regular.png'),
 					'shape-direction': require('#/map/shape-direction.png'),
 					'stop-pole': require('#/map/stop-pole.png'),
