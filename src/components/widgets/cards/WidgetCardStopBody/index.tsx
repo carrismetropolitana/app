@@ -18,7 +18,6 @@ export function WidgetCardStopBody({ data }: WidgetCardStopBodyProps) {
 			limit={5}
 			patternIds={data.properties.pattern_ids}
 			stopId={data.properties.stop_id}
-			onlyFuture
 		>
 			<WidgetCardStopBodyArrivals />
 		</ArrivalsContextProvider>

@@ -26,7 +26,6 @@ export function StopDetailArrivals() {
 			limit={5}
 			patternIds={stopDetailContext.data.selected_stop.pattern_ids.map(patternId => patternId.toString())}
 			stopId={stopDetailContext.data.selected_stop_id}
-			onlyFuture
 		>
 			<StopDetailArrivalsList />
 		</ArrivalsContextProvider>
