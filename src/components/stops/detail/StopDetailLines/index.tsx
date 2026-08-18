@@ -30,7 +30,7 @@ export function StopDetailLines() {
 		// Prepare patterns list
 		return stopDetailContext.data.available_patterns.map(item => ({
 			icon: <LineBadge lineId={item.line_id} withAlertIcon />,
-			key: item.id,
+			key: item._id.toString(),
 			label: item.headsign,
 			onPress: () => router.navigate(`/(modals)/(line-modal)/${item.line_id}`),
 		}));

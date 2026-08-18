@@ -35,10 +35,10 @@ export function VehiclesDetailOverview() {
 	return (
 		<View style={styles.container}>
 			<VehiclesDetailOverviewPattern patternData={vehicleDetailContext.data.pattern} />
-			<VehiclesDetailOverviewMetadata vehicleData={vehicleDetailContext.data.vehicle} />
+			<VehiclesDetailOverviewMetadata metadata={vehicleDetailContext.data.metadata} />
 			<View style={styles.row}>
-				<WheelchairIndicator enabled={vehicleDetailContext.data.vehicle?.wheelchair_accessible} />
-				<OccupancyIndicator status={vehicleDetailContext.data.vehicle?.occupancy_status} />
+				<WheelchairIndicator enabled={vehicleDetailContext.data.metadata?.wheelchair} />
+				<OccupancyIndicator />
 			</View>
 		</View>
 	);

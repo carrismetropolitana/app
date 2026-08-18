@@ -20,14 +20,14 @@ function VehicleDetailPath() {
 	const patternData = vehicleDetailContext.data.pattern;
 	const tripId = vehicleDetailContext.data.vehicle?.trip_id;
 
-	if (!patternData?.id || !patternData?.line_id) {
+	if (!patternData?._id || !patternData.line_id) {
 		return null;
 	}
 
 	return (
 		<LineDetailContextProvider
-			key={`${patternData.id}-${tripId ?? 'none'}`}
-			initialPatternId={patternData.id}
+			key={`${patternData._id}-${tripId}`}
+			initialPatternId={patternData._id}
 			initialTripIds={tripId ? [tripId] : undefined}
 			lineId={patternData.line_id}
 		>

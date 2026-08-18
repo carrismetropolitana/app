@@ -2,11 +2,12 @@
 
 import { type MapOverlayPathShapeGeoJsonProperties, MapOverlayPathWaypointGeoJsonProperties, transformShapeDataIntoGeoJsonFeature, transformWaypointDataIntoGeoJsonFeature } from '@/components/map/overlays/MapOverlayPath';
 import { type MapOverlayVehiclesGeoJsonProperties } from '@/components/map/overlays/MapOverlayVehicles';
+import { useVehicleMetadata } from '@/hooks/useVehicleMetadata';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useVehiclesContext } from '@/contexts/Vehicles.context';
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
-import { type Pattern, type Shape } from '@carrismetropolitana/api-types/network';
-import { type Vehicle } from '@carrismetropolitana/api-types/vehicles';
+import { type HubVehicleMetadata } from '@/types/vehicles.types';
+import { type HubPattern, type HubShape, type HubVehiclePosition } from '@tmlmobilidade/go-types-public-info';
 import { type FeatureCollection, type LineString, type Point } from 'geojson';
 import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
@@ -16,9 +17,10 @@ import { useStopsContext } from './Stops.context';
 
 interface VehicleDetailContextState {
 	data: {
-		pattern: Pattern | undefined
+		metadata: HubVehicleMetadata | null
+		pattern: HubPattern | undefined
 		shape_fc: FeatureCollection<LineString, MapOverlayPathShapeGeoJsonProperties> | undefined
-		vehicle: undefined | Vehicle
+		vehicle: undefined | HubVehiclePosition
 		vehicle_fc: FeatureCollection<Point, MapOverlayVehiclesGeoJsonProperties> | undefined
 		waypoints_fc: FeatureCollection<Point, MapOverlayPathWaypointGeoJsonProperties> | undefined
 	}
@@ -50,11 +52,12 @@ export const VehicleDetailContextProvider = ({ children, vehicleId }: PropsWithC
 	const linesContext = useLinesContext();
 	const stopsContext = useStopsContext();
 	const vehiclesContext = useVehiclesContext();
+	const vehicleMetadata = useVehicleMetadata();
 
 	const [isLoading, setIsLoading] = useState(true);
 
-	const [currentPatternData, setCurrentPatternData] = useState<Pattern | undefined>(undefined);
-	const [currentShapeData, setCurrentShapeData] = useState<Shape | undefined>(undefined);
+	const [currentPatternData, setCurrentPatternData] = useState<HubPattern | undefined>(undefined);
+	const [currentShapeData, setCurrentShapeData] = useState<HubShape | undefined>(undefined);
 
 	//
 	// B. Transform data
@@ -69,13 +72,17 @@ export const VehicleDetailContextProvider = ({ children, vehicleId }: PropsWithC
 		return vehiclesContext.actions.getVehicleByIdGeoJsonFC(vehicleId);
 	}, [vehicleId, vehiclesContext.data.vehicles]);
 
+	const metadataData = useMemo(() => {
+		return vehicleMetadata.actions.getMetadataForVehicleId(vehicleData?.vehicle_id ?? vehicleId) ?? null;
+	}, [vehicleData?.vehicle_id, vehicleId, vehicleMetadata.actions]);
+
 	useEffect(() => {
 		(async () => {
 			try {
 				// Skip if no vehicle data or pattern id
 				if (!vehicleData?.pattern_id) return;
 				// Get current pattern version for today
-				const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(vehicleData.pattern_id);
+				const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(vehicleData.pattern_id.toString());
 				if (!validPatternData) return;
 				setCurrentPatternData(validPatternData);
 				// Skip if no shape id
@@ -100,7 +107,7 @@ export const VehicleDetailContextProvider = ({ children, vehicleId }: PropsWithC
 		const feature = transformShapeDataIntoGeoJsonFeature(currentShapeData, currentPatternData?.color, currentPatternData?.text_color);
 		if (feature) collection.features.push(feature);
 		return collection;
-	}, [currentShapeData]);
+	}, [currentPatternData, currentShapeData]);
 
 	const waypointsDataFC = useMemo(() => {
 		if (!currentPatternData?.path) return;
@@ -112,13 +119,14 @@ export const VehicleDetailContextProvider = ({ children, vehicleId }: PropsWithC
 			})
 			.filter(i => !!i);
 		return collection;
-	}, [currentShapeData]);
+	}, [currentPatternData, stopsContext.actions]);
 
 	//
 	// C. Define context value
 
 	const contextValue: VehicleDetailContextState = useMemo(() => ({
 		data: {
+			metadata: metadataData,
 			pattern: currentPatternData,
 			shape_fc: shapeDataFC,
 			vehicle: vehicleData,
@@ -126,15 +134,17 @@ export const VehicleDetailContextProvider = ({ children, vehicleId }: PropsWithC
 			waypoints_fc: waypointsDataFC,
 		},
 		flags: {
-			loading: vehiclesContext.flags.loading || isLoading,
+			loading: vehicleMetadata.flags.isLoading || vehiclesContext.flags.loading || isLoading,
 		},
 	}), [
 		vehicleData,
 		vehicleDataFC,
+		metadataData,
 		isLoading,
 		shapeDataFC,
 		currentPatternData,
 		vehiclesContext.flags.loading,
+		vehicleMetadata.flags.isLoading,
 	]);
 
 	//
