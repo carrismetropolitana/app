@@ -83,7 +83,7 @@ export function WidgetConfigSelectWaypoint({ availableWaypoints, description, on
 						}),
 						icon: <WidgetConfigSelectWaypointBadge sequence={selectedWaypoint.stop_sequence} />,
 						key: 'selected-waypoint',
-						label: stopData?.long_name || selectedWaypoint.stop_id,
+						label: stopData?.name || selectedWaypoint.stop_id,
 						onPress: () => setModalVisible(true),
 						replaceChevron: <IconArrowsRightLeft color={systemVariables.text[100]} />,
 						size: 'sm',

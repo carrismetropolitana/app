@@ -6,13 +6,14 @@ import { ListSectionItemProps } from '@/components/list/ListSectionItem';
 import { useSystemVariables } from '@/theme/global';
 import { type Pattern } from '@carrismetropolitana/api-types/network';
 import { IconChecks, IconCircle, IconCircleCheckFilled } from '@tabler/icons-react-native';
+import { HubPattern } from '@tmlmobilidade/go-types-public-info';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 /* * */
 
 interface WidgetConfigSelectPatternProps {
-	availablePatterns?: Pattern[]
+	availablePatterns?: HubPattern[]
 	description?: string
 	onTogglePatternId: (patternId: string) => void
 	onToggleSelectAll?: () => void
@@ -48,8 +49,8 @@ export function WidgetConfigSelectPattern({ availablePatterns, description, onTo
 			icon: <LineBadge lineId={item.line_id} withAlertIcon />,
 			key: item.id,
 			label: item.headsign,
-			onPress: () => onTogglePatternId(item.id),
-			replaceChevron: selectedPatternIds?.includes(item.id) ? <IconCircleCheckFilled color={systemVariables.status.ok} /> : <IconCircle color={systemVariables.text[200]} />,
+			onPress: () => onTogglePatternId(item._id),
+			replaceChevron: selectedPatternIds?.includes(item._id) ? <IconCircleCheckFilled color={systemVariables.status.ok} /> : <IconCircle color={systemVariables.text[200]} />,
 		}));
 		// Check if "select all" option should be added
 		if (!onToggleSelectAll || preparedPatterns?.length <= 1) return preparedPatterns;
