@@ -1,5 +1,10 @@
 /* * */
 
+import { type WidgetLine } from '@/schemas/widgets';
+import { type HubPattern, type HubShape } from '@tmlmobilidade/go-types-public-info';
+import { type LineString, type Point } from 'geojson';
+import { type CameraRef } from '@maplibre/maplibre-react-native';
+
 import { MapOverlayPath, type MapOverlayPathShapeGeoJsonProperties, type MapOverlayPathWaypointGeoJsonProperties, transformShapeDataIntoGeoJsonFeature, transformWaypointDataIntoGeoJsonFeature } from '@/components/map/overlays/MapOverlayPath';
 import { MapOverlayVehicles, mapOverlayVehicles_TopLayerId } from '@/components/map/overlays/MapOverlayVehicles';
 import { MapView } from '@/components/map/view/MapView';
@@ -7,11 +12,9 @@ import { useLinesContext } from '@/contexts/Lines.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useVehiclesContext } from '@/contexts/Vehicles.context';
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
-import { type WidgetLine } from '@/schemas/widgets';
-import { type Pattern, type Shape } from '@carrismetropolitana/api-types/network';
-import { type CameraRef } from '@maplibre/maplibre-react-native';
+
 import { bbox } from '@turf/turf';
-import { type LineString, type Point } from 'geojson';
+
 import { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
@@ -39,8 +42,8 @@ export function WidgetCardLineBody({ data }: WidgetCardLineBodyProps) {
 
 	const [isLoading, setIsLoading] = useState(true);
 
-	const [currentPatternData, setCurrentPatternData] = useState<Pattern | undefined>(undefined);
-	const [currentShapeData, setCurrentShapeData] = useState<Shape | undefined>(undefined);
+	const [currentPatternData, setCurrentPatternData] = useState<HubPattern | undefined>(undefined);
+	const [currentShapeData, setCurrentShapeData] = useState<HubShape | undefined>(undefined);
 
 	//
 	// B. Fetch data
