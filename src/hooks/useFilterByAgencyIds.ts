@@ -12,6 +12,10 @@ import { useMemo } from 'react';
 type AgencyId = HubLine['agency_id'] | HubStop['agency_ids'][number];
 type FilterDataType = 'line' | 'route' | 'stop';
 
+export function getAgencyIdFromPrefixedId(value: null | string | undefined): string | undefined {
+	return value?.match(/^\[([^\]]+)\]/)?.[1];
+}
+
 interface UseFilterByAgencyIdsOptions<T> {
 	agencyIds?: readonly AgencyId[]
 	dataType?: FilterDataType
@@ -66,7 +70,11 @@ export function useFilterByAgencyIds<T>(response: ApiResponse<T[]> | undefined, 
 		};
 
 		const filteredData = response.data.filter((item) => {
-			const itemAgencyIds = getAgencyIds ? getAgencyIds(item) : (item as Partial<Pick<HubLine, 'agency_id'>>).agency_id;
+			const itemAgencyIds = getAgencyIds
+				? getAgencyIds(item)
+				: dataType === 'stop'
+					? (item as Pick<HubStop, 'agency_ids'>).agency_ids
+					: (item as Partial<Pick<HubLine, 'agency_id'>>).agency_id;
 			const normalizedItemAgencyIds = Array.isArray(itemAgencyIds) ? itemAgencyIds : [itemAgencyIds];
 			return normalizedItemAgencyIds.some(itemAgencyId => itemAgencyId !== undefined && itemAgencyId !== null && allowedAgencyIds.has(String(itemAgencyId)));
 		}).map(normalizeData);

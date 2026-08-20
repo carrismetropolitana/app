@@ -37,10 +37,10 @@ export function WidgetCardStopHeader({ label, stopId }: WidgetCardStopHeaderProp
 
 	const locationName = useMemo(() => {
 		// Skip if no stop data is available
-		if (!stopData?.id) return;
+		if (!stopData?._id) return;
 		// Return formatted location or fallback
-		return stopsContext.actions.getStopLocationById(stopData.id);
-	}, [stopData?.id, stopsContext.actions]);
+		return stopsContext.actions.getStopLocationById(stopData._id.toString());
+	}, [stopData?._id, stopsContext.actions]);
 
 	//
 	// C. Render components
@@ -48,7 +48,7 @@ export function WidgetCardStopHeader({ label, stopId }: WidgetCardStopHeaderProp
 	return (
 		<View style={styles.container}>
 			{label && <Text style={styles.label}>{label}</Text>}
-			<Text accessibilityLabel={stopData?.tts_name ?? t($ => $.widgets.WidgetCardStopHeader.no_name)} style={styles.stopName}>{stopData?.long_name ?? t($ => $.widgets.WidgetCardStopHeader.no_name)}</Text>
+			<Text accessibilityLabel={stopData?.tts_name ?? t($ => $.widgets.WidgetCardStopHeader.no_name)} style={styles.stopName}>{stopData?.name ?? t($ => $.widgets.WidgetCardStopHeader.no_name)}</Text>
 			{locationName && <Text style={styles.locationName}>{locationName}</Text>}
 		</View>
 	);

@@ -5,7 +5,7 @@ import { useLinesContext } from '@/contexts/Lines.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { generateRandomString } from '@/core-replica';
 import { WidgetSchema, WidgetSmartNotification } from '@/schemas/widgets';
-import { type Line, type Pattern, type Waypoint } from '@carrismetropolitana/api-types/network';
+import { HubLine, HubPattern, HubWaypoint } from '@tmlmobilidade/go-types-public-info';
 import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
 /* * */
@@ -20,20 +20,20 @@ interface WidgetSmartNotificationConfigContextState {
 		selectLineId: (lineId: string) => void
 		selectPatternId: (patternId: string) => void
 		selectStartTime: (timeInSeconds: number) => void
-		selectWaypoint: (waypoint: Waypoint) => void
+		selectWaypoint: (waypoint: HubWaypoint) => void
 		selectWeekday: (weekday: WidgetSmartNotification['properties']['weekdays'][number]) => void
 	}
 	data: {
-		available_patterns: Pattern[]
-		available_waypoints: Waypoint[]
+		available_patterns: HubPattern[]
+		available_waypoints: HubWaypoint[]
 		selected_distance: number
 		selected_end_time: number
 		selected_label: string
-		selected_line: Line | undefined
+		selected_line: HubLine | undefined
 		selected_line_id: string | undefined
 		selected_pattern_id: string | undefined
 		selected_start_time: number
-		selected_waypoint: undefined | Waypoint
+		selected_waypoint: undefined | HubWaypoint
 		selected_weekdays: WidgetSmartNotification['properties']['weekdays'][number][]
 	}
 	flags: {
@@ -68,14 +68,14 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children, widgetI
 
 	const [selectedLineId, setSelectedLineId] = useState<string | undefined>();
 	const [selectedPatternId, setSelectedPatternId] = useState<string | undefined>();
-	const [selectedWaypoint, setSelectedWaypoint] = useState<undefined | Waypoint>();
+	const [selectedWaypoint, setSelectedWaypoint] = useState<undefined | HubWaypoint>();
 	const [selectedDistance, setSelectedDistance] = useState<number>(500);
 	const [selectedWeekdays, setSelectedWeekdays] = useState<WidgetSmartNotification['properties']['weekdays'][number][]>([]);
 	const [selectedStartTime, setSelectedStartTime] = useState<number>(0);
 	const [selectedEndTime, setSelectedEndTime] = useState<number>(86399);
 	const [selectedLabel, setSelectedLabel] = useState<string>('');
 
-	const [availablePatternsData, setAvailablePatternsData] = useState<Pattern[]>([]);
+	const [availablePatternsData, setAvailablePatternsData] = useState<HubPattern[]>([]);
 
 	//
 	// B. Transform data
@@ -88,9 +88,9 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children, widgetI
 	useEffect(() => {
 		(async () => {
 			if (!selectedLineData) return;
-			const fetchResult: Pattern[] = [];
+			const fetchResult: HubPattern[] = [];
 			for (const patternId of selectedLineData.pattern_ids) {
-				const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(patternId, operationalDateContext.data.today.operational_date);
+				const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(patternId, operationalDateContext.data.today.operational_date_int);
 				if (validPatternData) fetchResult.push(validPatternData);
 			}
 			setAvailablePatternsData(fetchResult);
@@ -99,7 +99,7 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children, widgetI
 
 	const availableWaypointsData = useMemo(() => {
 		if (!selectedPatternId) return [];
-		const selectedPattern = availablePatternsData.find(item => item.id === selectedPatternId);
+		const selectedPattern = availablePatternsData.find(item => item._id === selectedPatternId);
 		if (!selectedPattern) return [];
 		return selectedPattern.path;
 	}, [availablePatternsData, selectedPatternId]);
@@ -165,7 +165,7 @@ export const WidgetSmartNotificationConfigContextProvider = ({ children, widgetI
 		setSelectedWaypoint(undefined);
 	};
 
-	const selectWaypoint = (waypoint: Waypoint) => {
+	const selectWaypoint = (waypoint: HubWaypoint) => {
 		setSelectedWaypoint(waypoint);
 	};
 

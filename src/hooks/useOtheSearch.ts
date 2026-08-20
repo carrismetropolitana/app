@@ -87,10 +87,10 @@ export default function createDocCollection<T extends SearchableDocument<T>>(doc
 		for (const key in scoring) {
 			const v = doc[key];
 			if (typeof v === 'string') {
-				normalizedDoc[key] = normalizeString(v);
+				normalizedDoc[key as KeyWithStringOrStringArrayValue<T>] = normalizeString(v);
 			}
 			else if (Array.isArray(v)) {
-				normalizedDoc[key] = (v as string[]).filter(v => v != null).map(normalizeString);
+				normalizedDoc[key as KeyWithStringOrStringArrayValue<T>] = (v as string[]).filter(v => v != null).map(normalizeString);
 			}
 		}
 		return { doc, normalized: normalizedDoc };

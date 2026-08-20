@@ -1,7 +1,7 @@
 /* * */
 
 import { LineBadge } from '@/components/lines/LineBadge';
-import { type Pattern } from '@carrismetropolitana/api-types/network';
+import { type HubPattern } from '@tmlmobilidade/go-types-public-info';
 import { Text, View } from 'react-native';
 
 import { useStyles } from './styles';
@@ -9,7 +9,7 @@ import { useStyles } from './styles';
 /* * */
 
 interface VehiclesDetailOverviewPatternProps {
-	patternData?: Pattern
+	patternData?: HubPattern
 }
 
 /* * */

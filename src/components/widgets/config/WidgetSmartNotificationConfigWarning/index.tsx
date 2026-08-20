@@ -1,8 +1,8 @@
 /* * */
 
 import { useStopsContext } from '@/contexts/Stops.context';
+import { type HubWaypoint, type HubLine } from '@tmlmobilidade/go-types-public-info';
 import { WidgetSmartNotification } from '@/schemas/widgets';
-import { type Line, type Waypoint } from '@carrismetropolitana/api-types/network';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
@@ -14,9 +14,9 @@ import { useStyles } from './styles';
 interface WidgetSmartNotificationConfigWarningProps {
 	selectedDistance: number
 	selectedEndTime: number
-	selectedLine?: Line
+	selectedLine?: HubLine
 	selectedStartTime: number
-	selectedWaypoint?: Waypoint
+	selectedWaypoint?: HubWaypoint
 	selectedWeekdays: WidgetSmartNotification['properties']['weekdays'][number][]
 }
 
@@ -67,7 +67,7 @@ export function WidgetSmartNotificationConfigWarning({ selectedDistance, selecte
 		if (!selectedWaypoint) return null;
 		const foundStop = stopsContext.actions.getStopById(selectedWaypoint.stop_id);
 		if (!foundStop) return null;
-		return foundStop.long_name;
+		return foundStop.name;
 	}, [selectedWaypoint, stopsContext.actions]);
 
 	const startTimeDisplay = useMemo(() => {

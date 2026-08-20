@@ -68,7 +68,7 @@ export function WidgetConfigSelectWaypointModal({ availableWaypoints, descriptio
 					disabled: isDisabled,
 					icon: <WidgetConfigSelectWaypointBadge sequence={item.stop_sequence} />,
 					key: `${item.stop_id}-${item.stop_sequence}`,
-					label: stopData.long_name,
+					label: stopData.name,
 					onPress: () => !isDisabled && handlePressItem(item),
 					replaceChevron: isDisabled ? <IconX color={systemVariables.text[200]} /> : isSelected ? <IconCircleCheckFilled color={systemVariables.status.ok} /> : <IconCircle color={systemVariables.text[200]} />,
 				};

@@ -1,8 +1,8 @@
 /* * */
 
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
-import { type Vehicle } from '@carrismetropolitana/api-types/vehicles';
 import { GeoJSONSource, Layer, type PressEventWithFeatures } from '@maplibre/maplibre-react-native';
+import { type HubVehiclePosition } from '@tmlmobilidade/go-types-public-info';
 import { type Feature, type FeatureCollection, type Point } from 'geojson';
 import { type NativeSyntheticEvent } from 'react-native';
 
@@ -16,6 +16,7 @@ export const mapOverlayVehicles_InteractiveLayerIds = [mapOverlayVehicles_TopLay
 export interface MapOverlayVehiclesGeoJsonProperties {
 	_type: 'vehicle'
 	bearing?: number
+	contactless?: boolean
 	delay?: number
 	id: string
 }
@@ -97,7 +98,13 @@ export function MapOverlayVehicles({ belowLayerId, onVehiclePress, vehiclesDataF
 					iconAllowOverlap: true,
 					iconAnchor: 'center',
 					iconIgnorePlacement: true,
-					iconImage: 'bus-regular',
+					iconImage: [
+						'match',
+						['to-string', ['get', 'contactless']],
+						'true',
+						'bus-cut',
+						'bus-regular',
+					],
 					iconOffset: [0, 0],
 					iconRotate: ['coalesce', ['get', 'bearing'], 0],
 					iconRotationAlignment: 'map',
@@ -105,10 +112,8 @@ export function MapOverlayVehicles({ belowLayerId, onVehiclePress, vehiclesDataF
 						'interpolate',
 						['linear'],
 						['zoom'],
-						10,
-						0.07,
-						20,
-						0.15,
+						10, ['match', ['to-string', ['get', 'contactless']], 'true', 0.09, 0.07],
+						20, ['match', ['to-string', ['get', 'contactless']], 'true', 0.3, 0.15],
 					],
 					symbolPlacement: 'point',
 				}}
@@ -121,21 +126,22 @@ export function MapOverlayVehicles({ belowLayerId, onVehiclePress, vehiclesDataF
 
 /* * */
 
-export function transformVehicleDataIntoGeoJsonFeature(vehicleData: Vehicle): Feature<Point, MapOverlayVehiclesGeoJsonProperties> | undefined {
+export function transformVehicleDataIntoGeoJsonFeature(vehicleData: HubVehiclePosition, contactless = false): Feature<Point, MapOverlayVehiclesGeoJsonProperties> | undefined {
 	// Validate input
-	if (!vehicleData.lon) return;
-	if (!vehicleData.lat) return;
+	if (!Number.isFinite(vehicleData.longitude)) return;
+	if (!Number.isFinite(vehicleData.latitude)) return;
 	// Transform and return
 	return {
 		geometry: {
-			coordinates: [vehicleData.lon, vehicleData.lat],
+			coordinates: [vehicleData.longitude, vehicleData.latitude],
 			type: 'Point',
 		},
 		properties: {
 			_type: 'vehicle',
-			bearing: vehicleData.bearing,
-			delay: Math.floor(Date.now() / 1000) - (vehicleData.timestamp || 0),
-			id: vehicleData.id,
+			bearing: vehicleData.bearing ?? undefined,
+			contactless,
+			delay: Math.floor((Date.now() - (vehicleData.received_at || 0)) / 1000),
+			id: vehicleData.vehicle_id,
 		},
 		type: 'Feature',
 	};

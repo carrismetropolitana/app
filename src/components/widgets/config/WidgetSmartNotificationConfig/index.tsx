@@ -67,7 +67,7 @@ export function WidgetSmartNotificationConfig({ widgetId }: WidgetSmartNotificat
 			<Text style={styles.text}>{t($ => $.widgets.WidgetSmartNotificationConfig.step_1.title)}</Text>
 			<LineSelectionTrigger
 				onSelect={widgetSmartNotificationConfigContext.actions.selectLineId}
-				selectedLineId={widgetSmartNotificationConfigContext.data.selected_line?.id}
+				selectedLineId={widgetSmartNotificationConfigContext.data.selected_line?._id}
 			/>
 			{/* * */}
 			<WidgetSmartNotificationConfigSeparator style="middle" />

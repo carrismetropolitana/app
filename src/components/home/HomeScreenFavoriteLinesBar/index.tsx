@@ -4,7 +4,7 @@ import { LineBadge } from '@/components/lines/LineBadge';
 import { useAccessibilityContext } from '@/contexts/Accessibility.context';
 import { useAccountContext } from '@/contexts/Account.context';
 import { useLinesContext } from '@/contexts/Lines.context';
-import { type Line } from '@carrismetropolitana/api-types/network';
+import { type HubLine } from '@tmlmobilidade/go-types-public-info';
 import { router } from 'expo-router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -33,12 +33,12 @@ export function HomeScreenFavoriteLinesBar() {
 	// B. Transform data
 
 	const favoriteLinesData = useMemo(() => {
-		const result: Line[] = [];
+		const result: HubLine[] = [];
 		accountContext.data.account?.favorites.line_ids.forEach((lineId) => {
 			const foundLineData = linesContext.actions.getLineDataById(lineId);
 			if (foundLineData) result.push(foundLineData);
 		});
-		return result.sort((a, b) => a.id.localeCompare(b.id));
+		return result.sort((a, b) => a._id.localeCompare(b._id));
 	}, [accountContext.data.account?.favorites.line_ids, linesContext.actions]);
 
 	//
@@ -68,8 +68,8 @@ export function HomeScreenFavoriteLinesBar() {
 
 				{favoriteLinesData.map(item => (
 					<LineBadge
-						key={item.id}
-						lineId={item.id}
+						key={item._id}
+						lineId={item._id}
 						onPress={handlePress}
 						withAlertIcon
 					/>

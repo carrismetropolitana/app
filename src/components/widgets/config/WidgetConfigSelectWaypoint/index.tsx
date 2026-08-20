@@ -5,18 +5,18 @@ import { WidgetConfigSelectWaypointBadge } from '@/components/widgets/config/Wid
 import { WidgetConfigSelectWaypointModal } from '@/components/widgets/config/WidgetConfigSelectWaypointModal';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useSystemVariables } from '@/theme/global';
-import { type Waypoint } from '@carrismetropolitana/api-types/network';
 import { IconArrowLoopRight, IconArrowsRightLeft } from '@tabler/icons-react-native';
+import { type HubWaypoint } from '@tmlmobilidade/go-types-public-info';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 /* * */
 
 interface WidgetConfigSelectWaypointProps {
-	availableWaypoints?: Waypoint[]
+	availableWaypoints?: HubWaypoint[]
 	description?: string
-	onSelectWaypoint: (waypoint: Waypoint) => void
-	selectedWaypoint?: Waypoint
+	onSelectWaypoint: (waypoint: HubWaypoint) => void
+	selectedWaypoint?: HubWaypoint
 	title?: string
 }
 
@@ -50,7 +50,7 @@ export function WidgetConfigSelectWaypoint({ availableWaypoints, description, on
 	//
 	// B. Handle actions
 
-	const handleSelectWaypoint = (waypoint: Waypoint) => {
+	const handleSelectWaypoint = (waypoint: HubWaypoint) => {
 		onSelectWaypoint(waypoint);
 		setModalVisible(false);
 	};
@@ -83,7 +83,7 @@ export function WidgetConfigSelectWaypoint({ availableWaypoints, description, on
 						}),
 						icon: <WidgetConfigSelectWaypointBadge sequence={selectedWaypoint.stop_sequence} />,
 						key: 'selected-waypoint',
-						label: stopData?.long_name || selectedWaypoint.stop_id,
+						label: stopData?.name || selectedWaypoint.stop_id,
 						onPress: () => setModalVisible(true),
 						replaceChevron: <IconArrowsRightLeft color={systemVariables.text[100]} />,
 						size: 'sm',

@@ -59,7 +59,7 @@ export function WidgetLineConfig({ widgetId }: WidgetLineConfigProps) {
             <LineSelectionTrigger
 				description={t($ => $.widgets.WidgetLineConfig.step_1.description)}
 				onSelect={widgetLineConfigContext.actions.selectLineId}
-				selectedLineId={widgetLineConfigContext.data.selected_line?.id}
+				selectedLineId={widgetLineConfigContext.data.selected_line?._id}
 				title={t($ => $.widgets.WidgetLineConfig.step_1.title)}
 			/>
             {/* * */}

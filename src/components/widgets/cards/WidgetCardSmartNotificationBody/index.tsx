@@ -6,6 +6,7 @@ import { MapOverlaySelectedStops, mapOverlaySelectedStops_TopLayerId, type MapOv
 import { MapOverlayVehicles, mapOverlayVehicles_TopLayerId } from '@/components/map/overlays/MapOverlayVehicles';
 import { MapView } from '@/components/map/view/MapView';
 import { useLinesContext } from '@/contexts/Lines.context';
+import { type HubPattern, type HubShape } from '@tmlmobilidade/go-types-public-info';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useVehiclesContext } from '@/contexts/Vehicles.context';
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
@@ -18,6 +19,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
 import { useStyles } from './styles';
+import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 
 /* * */
 
@@ -38,11 +40,12 @@ export function WidgetCardSmartNotificationBody({ data }: WidgetCardSmartNotific
 	const linesContext = useLinesContext();
 	const stopsContext = useStopsContext();
 	const vehiclesContext = useVehiclesContext();
+	const operationalDateContext = useOperationalDateContext();
 
 	const [isLoading, setIsLoading] = useState(true);
 
-	const [currentPatternData, setCurrentPatternData] = useState<Pattern | undefined>(undefined);
-	const [currentShapeData, setCurrentShapeData] = useState<Shape | undefined>(undefined);
+	const [currentPatternData, setCurrentPatternData] = useState<HubPattern | undefined>(undefined);
+	const [currentShapeData, setCurrentShapeData] = useState<HubShape | undefined>(undefined);
 
 	//
 	// C. Fetch data
@@ -53,7 +56,7 @@ export function WidgetCardSmartNotificationBody({ data }: WidgetCardSmartNotific
 				// Skip if no vehicle data or pattern id
 				if (!data.properties.pattern_id) return;
 				// Get current pattern version for today
-				const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(data.properties.pattern_id);
+				const validPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(data.properties.pattern_id, operationalDateContext.data.today.operational_date_int);
 				if (!validPatternData) return;
 				setCurrentPatternData(validPatternData);
 				// Skip if no shape id

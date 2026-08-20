@@ -30,7 +30,7 @@ export function StopDetailHeader() {
 
 	const isFavoriteStop = useMemo(() => {
 		if (!stopDetailContext.data.selected_stop) return;
-		return accountContext.data.ref.current?.favorites.stop_ids.includes(stopDetailContext.data.selected_stop.id);
+		return accountContext.data.ref.current?.favorites.stop_ids.includes(stopDetailContext.data.selected_stop._id.toString());
 	}, [accountContext.data.ref.current?.favorites.stop_ids, stopDetailContext.data.selected_stop]);
 
 	const stopLocation = useMemo(() => {
@@ -43,7 +43,7 @@ export function StopDetailHeader() {
 
 	const handleToggleFavorite = (value: boolean) => {
 		if (!stopDetailContext.data.selected_stop) return;
-		accountContext.actions.favoriteStopId(value ? 'add' : 'remove', stopDetailContext.data.selected_stop.id);
+		accountContext.actions.favoriteStopId(value ? 'add' : 'remove', stopDetailContext.data.selected_stop._id.toString());
 	};
 
 	//
@@ -58,11 +58,11 @@ export function StopDetailHeader() {
 
 			<View style={styles.row}>
 				<View style={styles.detailsWrapper}>
-					<Text style={styles.name}>{stopDetailContext.data.selected_stop.long_name}</Text>
+					<Text style={styles.name}>{stopDetailContext.data.selected_stop.name}</Text>
 					{stopLocation && <Text style={styles.location}>{stopLocation}</Text>}
 				</View>
 				<View style={styles.actionsWrapper}>
-					<StopDisplayTts stopId={stopDetailContext.data.selected_stop.id} />
+					<StopDisplayTts stopId={stopDetailContext.data.selected_stop._id.toString()} />
 					<FavoriteToggle
 						isActive={isFavoriteStop}
 						onToggle={handleToggleFavorite}
@@ -72,16 +72,16 @@ export function StopDetailHeader() {
 
 			<View style={styles.row}>
 				<Text style={styles.metadata}>#{stopDetailContext.data.selected_stop_id}</Text>
-				<Text style={styles.metadata}>{stopDetailContext.data.selected_stop.lat}, {stopDetailContext.data.selected_stop.lon}</Text>
+				<Text style={styles.metadata}>{stopDetailContext.data.selected_stop.latitude}, {stopDetailContext.data.selected_stop.longitude}</Text>
 			</View>
 
-			{stopDetailContext.data.selected_stop.facilities.length > 0 && (
+			{stopDetailContext.data.selected_stop.flags.length > 0 && (
 				<View style={styles.facilitiesWrapper}>
-					{stopDetailContext.data.selected_stop.facilities.map(facility => (
+					{stopDetailContext.data.selected_stop.flags.map(flag => (
 						<IconDisplay
-							key={facility}
+							key={flag.stop_id}
 							category="facilities"
-							name={facility}
+							name={flag.short_name}
 						/>
 					))}
 					<View />

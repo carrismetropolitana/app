@@ -2,11 +2,11 @@
 
 import { LineBadge } from '@/components/lines/LineBadge';
 import { useLinesContext } from '@/contexts/Lines.context';
-import { type Pattern } from '@carrismetropolitana/api-types/network';
 import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 
 import { useStyles } from './styles';
+import { HubPattern } from '@tmlmobilidade/go-types-public-info';
 
 /* * */
 
@@ -26,13 +26,13 @@ export function WidgetCardLineHeader({ patternId }: WidgetCardLineHeaderProps) {
 
 	const linesContext = useLinesContext();
 
-	const [patternData, setPatternData] = useState<Pattern | undefined>(linesContext.data.patterns_cache[patternId]?.[0]);
+	const [patternData, setPatternData] = useState<HubPattern | undefined >(linesContext.data.patterns_cache[patternId]?.[0]);
 
 	//
 	// B. Transform data
 
 	useEffect(() => {
-		if (patternData?.id === patternId) return;
+		if (patternData?._id === patternId) return;
 		linesContext.actions.getValidPatternVersionForOperationalDate(patternId).then((data) => {
 			if (!data) return setPatternData(undefined);
 			setPatternData(data);
