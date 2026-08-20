@@ -3,6 +3,7 @@
 import { Dates } from '@/core-replica';
 import { getServiceUrl } from '@/settings/service-urls';
 import { type Line, type Pattern, type Route, type Shape } from '@carrismetropolitana/api-types/network';
+import { HubPattern } from '@tmlmobilidade/go-types-public-info';
 import { type OperationalDate } from '@tmlmobilidade/types';
 import { createContext, type PropsWithChildren, useCallback, useContext, useMemo, useState } from 'react';
 import useSWR from 'swr';
@@ -16,7 +17,7 @@ interface LinesContextState {
 		getPatternVersionById: (patternId: string, version: string) => Promise<Pattern | undefined>
 		getRouteDataById: (routeId: string) => Route | undefined
 		getShapeDataById: (shapeId: string) => Promise<Shape | undefined>
-		getValidPatternVersionForOperationalDate: (patternId: string, operationalDate?: OperationalDate) => Promise<Pattern | undefined>
+		getValidPatternVersionForOperationalDate: (patternId: string, operationalDate?: OperationalDate) => Promise<HubPattern | undefined>
 	}
 	data: {
 		lines: Line[]

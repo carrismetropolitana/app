@@ -1,9 +1,9 @@
 /* * */
 
-import { type Stop } from '@carrismetropolitana/api-types/network';
+import { type HubStop } from '@tmlmobilidade/go-types-public-info';
 
 /* * */
 
-export interface StopWithDistance extends Stop {
+export interface StopWithDistance extends HubStop {
 	distance?: number
 };

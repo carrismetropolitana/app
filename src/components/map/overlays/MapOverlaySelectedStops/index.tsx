@@ -2,7 +2,7 @@
 
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import { useSystemVariables } from '@/theme/global';
-import { type Stop } from '@carrismetropolitana/api-types/network';
+import { type HubStop } from '@tmlmobilidade/go-types-public-info';
 import { GeoJSONSource, Layer, type PressEventWithFeatures } from '@maplibre/maplibre-react-native';
 import { type Feature, type FeatureCollection, type Point } from 'geojson';
 import { type NativeSyntheticEvent } from 'react-native';
@@ -130,19 +130,19 @@ export function MapOverlaySelectedStops({ belowLayerId, onSelectFeature, selecte
 
 /* * */
 
-export function transformSelectedStopDataIntoGeoJsonFeature(stopData: Stop): Feature<Point, MapOverlaySelectedStopsGeoJsonProperties> | undefined {
+export function transformSelectedStopDataIntoGeoJsonFeature(stopData: HubStop): Feature<Point, MapOverlaySelectedStopsGeoJsonProperties> | undefined {
 	// Validate input
-	if (!stopData.lon) return;
-	if (!stopData.lat) return;
+	if (!stopData.longitude) return;
+	if (!stopData.latitude) return;
 	// Transform and return
 	return {
 		geometry: {
-			coordinates: [stopData.lon, stopData.lat],
+			coordinates: [stopData.longitude, stopData.latitude],
 			type: 'Point',
 		},
 		properties: {
 			_type: 'selected-stop',
-			id: stopData.id,
+			id: stopData._id.toString(),
 		},
 		type: 'Feature',
 	};

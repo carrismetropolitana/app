@@ -1,7 +1,8 @@
 /* * */
 
+import { type HubStop, type HubWaypoint, type HubShape } from '@tmlmobilidade/go-types-public-info';
+
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
-import { type Shape, type Stop, type Waypoint } from '@carrismetropolitana/api-types/network';
 import { GeoJSONSource, Layer } from '@maplibre/maplibre-react-native';
 import { type Feature, type FeatureCollection, type LineString, type Point } from 'geojson';
 
@@ -134,7 +135,7 @@ export function MapOverlayPath({ belowLayerId, shapeData, waypointsData }: MapOv
 
 /* * */
 
-export function transformShapeDataIntoGeoJsonFeature(shapeData: Shape, color?: string, textColor?: string): Feature<LineString, MapOverlayPathShapeGeoJsonProperties> | undefined {
+export function transformShapeDataIntoGeoJsonFeature(shapeData: HubShape, color?: string, textColor?: string): Feature<LineString, MapOverlayPathShapeGeoJsonProperties> | undefined {
 	// Validate input
 	if (!shapeData.geojson) return;
 	// Transform and return
@@ -143,23 +144,23 @@ export function transformShapeDataIntoGeoJsonFeature(shapeData: Shape, color?: s
 		properties: {
 			_type: 'path:shape',
 			color: color,
-			id: shapeData.shape_id,
+			id: shapeData._id,
 			text_color: textColor,
 		},
 		type: 'Feature',
 	};
 }
 
-export function transformWaypointDataIntoGeoJsonFeature(waypointData: undefined | Waypoint, stopData: Stop | undefined, color?: string, textColor?: string): Feature<Point, MapOverlayPathWaypointGeoJsonProperties> | undefined {
+export function transformWaypointDataIntoGeoJsonFeature(waypointData: undefined | HubWaypoint, stopData: HubStop | undefined, color?: string, textColor?: string): Feature<Point, MapOverlayPathWaypointGeoJsonProperties> | undefined {
 	// Validate input
 	if (!waypointData) return;
 	if (!stopData) return;
-	if (!stopData.lon) return;
-	if (!stopData.lat) return;
+	if (!stopData.longitude) return;
+	if (!stopData.latitude) return;
 	// Transform and return
 	return {
 		geometry: {
-			coordinates: [stopData.lon, stopData.lat],
+			coordinates: [stopData.longitude, stopData.latitude],
 			type: 'Point',
 		},
 		properties: {

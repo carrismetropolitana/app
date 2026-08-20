@@ -8,7 +8,7 @@ import { useUserLocationContext } from '@/contexts/UserLocation.context';
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import createDocCollection from '@/hooks/useOtheSearch';
 import { type StopWithDistance } from '@/schemas/stop-with-distance';
-import { type Stop } from '@carrismetropolitana/api-types/network';
+import { type HubStop } from '@tmlmobilidade/go-types-public-info';
 import { distance } from '@turf/turf';
 import { type FeatureCollection, type Point } from 'geojson';
 import { createContext, type PropsWithChildren, useContext, useMemo, useState } from 'react';
@@ -22,12 +22,12 @@ interface StopSelectionContextState {
 		updateFilterBySearch: (value: string) => void
 	}
 	data: {
-		favorites: Stop[]
+		favorites: HubStop[]
 		favorites_fc: FeatureCollection<Point, MapOverlayStopsGeoJsonProperties> | undefined
-		filtered: Stop[]
+		filtered: HubStop[]
 		filtered_fc: FeatureCollection<Point, MapOverlayStopsGeoJsonProperties> | undefined
 		nearby: StopWithDistance[]
-		recent: Stop[]
+		recent: HubStop[]
 	}
 	filters: {
 		by_search: string
@@ -41,6 +41,11 @@ interface StopSelectionContextState {
 /* * */
 
 const StopSelectionContext = createContext<StopSelectionContextState | undefined>(undefined);
+
+function getStopId(stop: HubStop): string | undefined {
+	const id = stop._id ?? (stop as HubStop & { id?: number | string }).id;
+	return id?.toString();
+}
 
 export function useStopSelectionContext() {
 	const context = useContext(StopSelectionContext);
@@ -70,19 +75,22 @@ export const StopSelectionContextProvider = ({ children }: PropsWithChildren) =>
 	//
 	// B. Transform data
 
-	const recentStopsData: Stop[] = useMemo(() => {
+	const recentStopsData: HubStop[] = useMemo(() => {
 		// Get recent stop IDs from user preferences
 		const recentStopIds = new Set(accountContext.data.account?.preferences?.recent_stop_ids || []);
 		// Map IDs to stop data
 		return Array.from(recentStopIds)
-			.map(id => stopsContext.data.stops.find(stop => stop.id === id))
+			.map(id => stopsContext.data.stops.find(stop => getStopId(stop) === id))
 			.filter(item => !!item)
-			.sort((a, b) => a.id.localeCompare(b.id));
+			.sort((a, b) => (getStopId(a) ?? '').localeCompare(getStopId(b) ?? ''));
 	}, [accountContext.data.account?.preferences?.recent_stop_ids, stopsContext.data.stops]);
 
-	const favoriteStopsData: Stop[] = useMemo(() => {
+	const favoriteStopsData: HubStop[] = useMemo(() => {
 		const currentFavorites = new Set(accountContext.data.account?.favorites.stop_ids || []);
-		return stopsContext.data.stops.filter(stop => currentFavorites.has(stop.id));
+		return stopsContext.data.stops.filter((stop) => {
+			const stopId = getStopId(stop);
+			return !!stopId && currentFavorites.has(stopId);
+		});
 	}, [stopsContext.data.stops, accountContext.data.account?.favorites.stop_ids]);
 
 	const favoriteStopsDataFC = useMemo(() => {
@@ -103,7 +111,7 @@ export const StopSelectionContextProvider = ({ children }: PropsWithChildren) =>
 			.map((stop) => {
 				const meters = distance(
 					{ coordinates: [userLocation.longitude, userLocation.latitude], type: 'Point' },
-					{ coordinates: [stop.lon, stop.lat], type: 'Point' },
+					{ coordinates: [stop.longitude, stop.latitude], type: 'Point' },
 					{ units: 'meters' },
 				);
 				return { ...stop, distance: meters };
@@ -114,14 +122,18 @@ export const StopSelectionContextProvider = ({ children }: PropsWithChildren) =>
 		return stopsWithinRadius.slice(0, 25);
 	}, [stopsContext.data.stops, userLocationContext.data.location]);
 
-	const filteredStopsData: Stop[] = useMemo(() => {
+	const filteredStopsData: HubStop[] = useMemo(() => {
 		// Skip if no filters are applied
 		if (!filterBySearchState) return stopsContext.data.stops;
 		// Give extra weight to favorite stops
-		const boostedData = stopsContext.data.stops.map(stop => ({ ...stop, boost: accountContext.data.account?.favorites.stop_ids.includes(stop.id) ? true : false }));
+		const boostedData = stopsContext.data.stops.map(stop => ({
+			...stop,
+			boost: accountContext.data.account?.favorites.stop_ids.includes(getStopId(stop) ?? '') ? true : false,
+			id: getStopId(stop) ?? '',
+		}));
 		const searchHook = createDocCollection(boostedData, {
 			id: 4,
-			long_name: 2,
+			name: 2,
 			tts_name: 3,
 		});
 		return searchHook.search(filterBySearchState);

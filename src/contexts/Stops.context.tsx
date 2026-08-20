@@ -5,7 +5,7 @@ import { useLocationsContext } from '@/contexts/Locations.context';
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import { getServiceUrl } from '@/settings/service-urls';
 import { formatStopLocation } from '@/utils/formatStopLocation';
-import { type Stop } from '@carrismetropolitana/api-types/network';
+import { type HubStop } from '@tmlmobilidade/go-types-public-info';
 import { type FeatureCollection, type Point } from 'geojson';
 import { createContext, type PropsWithChildren, useCallback, useContext, useMemo } from 'react';
 import useSWR from 'swr';
@@ -14,12 +14,12 @@ import useSWR from 'swr';
 
 interface StopsContextState {
 	actions: {
-		getStopById: (stopId: string) => Stop | undefined
+		getStopById: (stopId: string) => HubStop | undefined
 		getStopByIdGeoJsonFC: (stopId: string) => FeatureCollection<Point, MapOverlayStopsGeoJsonProperties> | undefined
 		getStopLocationById: (stopId: string) => string | undefined
 	}
 	data: {
-		stops: Stop[]
+		stops: HubStop[]
 	}
 	flags: {
 		loading: boolean
@@ -51,14 +51,17 @@ export const StopsContextProvider = ({ children }: PropsWithChildren) => {
 	//
 	// A. Fetch data
 
-	const { data: allStopsData, isLoading: allStopsLoading } = useSWR<Stop[], Error>(`${getServiceUrl('api')}/stops`);
+	const { data: allStopsData, isLoading: allStopsLoading } = useSWR<HubStop[], Error>(`${getServiceUrl('api')}/stops`);
 
 	//
 	// B. Handle actions
 
-	const getStopById = useCallback((stopId: string): Stop | undefined => {
+	const getStopById = useCallback((stopId: string): HubStop | undefined => {
 		if (!allStopsData) return;
-		return allStopsData.find(stop => stop.id === stopId);
+		return allStopsData.find((stop) => {
+			const id = stop._id ?? (stop as HubStop & { id?: number | string }).id;
+			return id?.toString() === stopId;
+		});
 	}, [allStopsData]);
 
 	const getStopByIdGeoJsonFC = useCallback((stopId: string): FeatureCollection<Point, MapOverlayStopsGeoJsonProperties> | undefined => {
@@ -76,7 +79,7 @@ export const StopsContextProvider = ({ children }: PropsWithChildren) => {
 		if (!foundStop) return;
 		// Find municipality and locality
 		const foundMunicipality = locationsContext.actions.getMunicipalityById(foundStop.municipality_id);
-		const foundLocality = locationsContext.actions.getLocalityById(foundStop.locality_id);
+		const foundLocality = locationsContext.actions.getLocalityById(foundStop.locality_id ?? '');
 		// Format the location name
 		return formatStopLocation(foundLocality?.name, foundMunicipality?.name);
 	}, [getStopById, locationsContext.actions]);
