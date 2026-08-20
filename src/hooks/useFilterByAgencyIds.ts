@@ -20,12 +20,13 @@ interface UseFilterByAgencyIdsOptions<T> {
 
 /* * */
 
-export function useFilterByAgencyIds<T>(response: ApiResponse<T[]>, options: UseFilterByAgencyIdsOptions<T> = {}): ApiResponse<T[]> {
+export function useFilterByAgencyIds<T>(response: ApiResponse<T[]> | undefined, options: UseFilterByAgencyIdsOptions<T> = {}): ApiResponse<T[]> {
 	const agencyIds = options.agencyIds || CARRIS_METROPOLITANA_AGENCY_IDS;
 	const dataType = options.dataType;
 	const getAgencyIds = options.getAgencyIds;
 
 	return useMemo(() => {
+		if (!response) return { data: [], error: null, status_code: '200' };
 		if (response.error !== null) return response;
 
 		const allowedAgencyIds = new Set(agencyIds.map(String));

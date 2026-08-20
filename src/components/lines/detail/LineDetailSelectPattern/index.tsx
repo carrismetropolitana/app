@@ -22,7 +22,7 @@ export function LineDetailSelectPattern() {
 		<PatternSelectionTrigger
 			onSelect={lineDetailContext.actions.selectPatternId}
 			selectedLineId={lineDetailContext.data.selected_line_id}
-			selectedOperationalDate={operationalDateContext.data.selected_date?.operational_date}
+			selectedOperationalDate={operationalDateContext.data.selected_date}
 			selectedPatternId={lineDetailContext.data.selected_pattern_id}
 		/>
 	);

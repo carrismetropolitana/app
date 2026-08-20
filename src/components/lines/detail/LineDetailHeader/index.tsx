@@ -27,7 +27,7 @@ export function LineDetailHeader() {
 
 	const isFavoriteLine = useMemo(() => {
 		if (!lineDetailContext.data.selected_line) return;
-		return accountContext.data.ref.current?.favorites.line_ids.includes(lineDetailContext.data.selected_line.id);
+		return accountContext.data.ref.current?.favorites.line_ids.includes(lineDetailContext.data.selected_line._id);
 	}, [accountContext.data.ref.current?.favorites.line_ids, lineDetailContext.data.selected_line]);
 
 	//
@@ -35,7 +35,7 @@ export function LineDetailHeader() {
 
 	const handleToggleFavorite = (value: boolean) => {
 		if (!lineDetailContext.data.selected_line) return;
-		accountContext.actions.favoriteLineId(value ? 'add' : 'remove', lineDetailContext.data.selected_line.id);
+	accountContext.actions.favoriteLineId(value ? 'add' : 'remove', lineDetailContext.data.selected_line._id);
 	};
 
 	//
@@ -49,7 +49,7 @@ export function LineDetailHeader() {
 		<View style={styles.container}>
 			<View style={styles.row}>
 				<LineBadge
-					lineId={lineDetailContext.data.selected_line.id}
+					lineId={lineDetailContext.data.selected_line._id}
 					size="lg"
 				/>
 				<FavoriteToggle

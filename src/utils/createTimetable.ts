@@ -1,7 +1,7 @@
 /* * */
 
 import type { Timetable } from '@/types/timetables.types';
-import type { Pattern, Route } from '@carrismetropolitana/api-types/network';
+import type { HubPattern, HubRoute } from '@tmlmobilidade/go-types-public-info';
 
 /* * */
 
@@ -17,7 +17,7 @@ import type { Pattern, Route } from '@carrismetropolitana/api-types/network';
  * @param operationalDate The day for which the timetable will be composed.
  * @returns The timetable for the given patterns and stop.
  */
-export default function createTimetable(primaryPatternGroup: Pattern, secondaryPatternGroups: Pattern[], mentionedRoutes: Route[], stopId: string, stopSequence: number, operationalDate: string): Timetable {
+export default function createTimetable(primaryPatternGroup: HubPattern, secondaryPatternGroups: HubPattern[], mentionedRoutes: HubRoute[], stopId: string, stopSequence: number, operationalDate: string): Timetable {
 	//
 
 	// 1.
@@ -33,7 +33,7 @@ export default function createTimetable(primaryPatternGroup: Pattern, secondaryP
 	// Extract the currently valid Pattern Group from the primary and secondary patterns.
 	// To check if a pattern is valid for the given date, we need to check if the date is included in the pattern's dates array.
 
-	const validSecondaryPatternGroups: Pattern[] = secondaryPatternGroups.flat().filter(patternGroup => patternGroup.valid_on.includes(operationalDate) && patternGroup.direction_id === primaryPatternGroup.direction_id);
+	const validSecondaryPatternGroups: HubPattern[] = secondaryPatternGroups.filter(patternGroup => patternGroup.valid_on.includes(operationalDate) && patternGroup.direction_id === primaryPatternGroup.direction_id);
 
 	// 3.
 	// Create the timetable for the primary pattern first
@@ -87,14 +87,14 @@ export default function createTimetable(primaryPatternGroup: Pattern, secondaryP
 				// Find or create the minute entry in the timetable
 				const minuteEntry = hourEntry.minutes.find(m => m.minute_value === minuteValue && m.exception_ids === undefined);
 				// Since we're processing secondary Patterns, we have to reuse or create exceptions for each minute entry.
-				let existingException = timetableResult.exceptions.find(exception => exception.pattern_id === patternGroup.id);
+				let existingException = timetableResult.exceptions.find(exception => exception.pattern_id === patternGroup._id);
 				// Create a new exception if it doesn't exist yet
 				if (!existingException) {
-					const mentionedRoute = mentionedRoutes.find(route => route.id === patternGroup.route_id);
+					const mentionedRoute = mentionedRoutes.find(route => route._id === patternGroup.route_id);
 					existingException = {
 						exception_id: String.fromCharCode(97 + timetableResult.exceptions.length), // 'a' is 97 in ASCII
 						pattern_headsign: patternGroup.headsign,
-						pattern_id: patternGroup.id,
+						pattern_id: patternGroup._id,
 						pattern_version_id: patternGroup.version_id,
 						route_long_name: mentionedRoute?.long_name ?? '-',
 						type: 'variant',

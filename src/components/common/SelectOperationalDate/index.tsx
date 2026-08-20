@@ -36,11 +36,9 @@ export function SelectOperationalDate() {
 	const isTomorrow = operationalDateContext.flags.tomorrow;
 	const isOtherDate = !isToday && !isTomorrow;
 
-	const minDate = useMemo(() => {
-		return Dates
-			.fromOperationalDate(operationalDateContext.data.today.operational_date, 'Europe/Lisbon')
-			.js_date;
-	}, [operationalDateContext.data.today]);
+	// const minDate = useMemo(() => {
+	// 	return Dates.fromOperationalDate(operationalDateContext.data.today.operational_date)
+	// }, [operationalDateContext.data.today]);
 
 	//
 	// C. Handle actions
@@ -107,7 +105,7 @@ export function SelectOperationalDate() {
             <DateTimePickerModal
 				date={operationalDateContext.data.selected_date?.js_date}
 				isVisible={showDatePicker}
-				minimumDate={minDate}
+				minimumDate={operationalDateContext.data.today.js_date}
 				mode="date"
 				onCancel={() => setShowDatePicker(false)}
 				onConfirm={handleConfirm}

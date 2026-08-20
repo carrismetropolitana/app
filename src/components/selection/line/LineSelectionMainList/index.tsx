@@ -6,7 +6,7 @@ import { ListSectionItem } from '@/components/list/ListSectionItem';
 import { ListTitle } from '@/components/list/ListTitle';
 import { useLineSelectionContext } from '@/components/selection/line/context/LineSelection.context';
 import { type LineSelectionProps } from '@/components/selection/line/LineSelection';
-import { type Line } from '@carrismetropolitana/api-types/network';
+import { type HubLine } from '@tmlmobilidade/go-types-public-info';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SectionList, View } from 'react-native';
@@ -53,17 +53,17 @@ export function LineSelectionMainList({ onSelect, replaceChevron }: LineSelectio
 	//
 	// C. Render components
 
-	const renderSectionItem = ({ index, item }: { index: number, item: Line }) => {
+	const renderSectionItem = ({ index, item }: { index: number, item: HubLine }) => {
 		return (
 			<ListSectionItem
-				key={item.id}
-				icon={<LineBadge lineId={item.id} withAlertIcon />}
+				key={item._id}
+				icon={<LineBadge lineId={item._id} withAlertIcon />}
 				label={item.long_name}
-				onPress={() => onSelect(item.id)}
+				onPress={() => onSelect(item._id)}
 				replaceChevron={replaceChevron}
 				size="sm"
 				accessibilityHint={t($ => $.selection.LineSelectionMainList.items.accessibility_hint, {
-					id: item.id,
+					id: item._id,
 				})}
 				accessibilityLabel={t($ => $.selection.LineSelectionMainList.items.accessibility_label, {
 					index: index + 1,

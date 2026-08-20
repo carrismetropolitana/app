@@ -9,7 +9,7 @@ import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { Dates } from '@/core-replica';
-import { type Waypoint } from '@carrismetropolitana/api-types/network';
+import { type HubWaypoint } from '@tmlmobilidade/go-types-public-info';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
@@ -25,7 +25,7 @@ interface WaypointProps {
 	isNextStop?: boolean
 	isSelected?: boolean
 	stopCount?: number
-	waypointData: Waypoint
+	waypointData: HubWaypoint
 }
 
 /* * */
@@ -60,20 +60,20 @@ export function Waypoint({ arrivals, isFirstStop, isLastStop, isSelected, stopCo
 	const accessibilityLabel = useMemo(() => {
 		if (isFirstStop) return t($ => $.lines.Waypoint.idle.accessibility_label.first_stop, {
 			stopCount,
-			stopName: stopData?.tts_name || stopData?.long_name,
+			stopName: stopData?.tts_name || stopData?.name,
 			stopSequence: waypointData.stop_sequence,
 		});
 		if (isLastStop) return t($ => $.lines.Waypoint.idle.accessibility_label.last_stop, {
 			stopCount,
-			stopName: stopData?.tts_name || stopData?.long_name,
+			stopName: stopData?.tts_name || stopData?.name,
 			stopSequence: waypointData.stop_sequence,
 		});
 		return t($ => $.lines.Waypoint.idle.accessibility_label.other, {
 			stopCount,
-			stopName: stopData?.tts_name || stopData?.long_name,
+			stopName: stopData?.tts_name || stopData?.name,
 			stopSequence: waypointData.stop_sequence,
 		});
-	}, [isFirstStop, isLastStop, stopCount, stopData?.long_name, stopData?.tts_name, t, waypointData.stop_sequence]);
+	}, [isFirstStop, isLastStop, stopCount, stopData?.name, stopData?.tts_name, t, waypointData.stop_sequence]);
 
 	const nextArrivals = arrivals?.filter(arrival => arrival.unixTs > now) || [];
 	const realtimeArrivals = nextArrivals.filter(arrival => arrival.type === 'realtime');
@@ -125,7 +125,7 @@ export function Waypoint({ arrivals, isFirstStop, isLastStop, isSelected, stopCo
 						<WaypointHeader
 							id={waypointData.stop_id}
 							location={stopLocation}
-							name={stopData.long_name || '-'}
+							name={stopData.name || '-'}
 						/>
 					</View>
 				</View>
@@ -161,13 +161,13 @@ export function Waypoint({ arrivals, isFirstStop, isLastStop, isSelected, stopCo
 					activeOpacity={0.6}
 					onPress={handleToggleWaypoint}
 					accessibilityLabel={t($ => $.lines.Waypoint.active.accessibility_label, {
-						stopName: stopData?.tts_name || stopData?.long_name,
+						stopName: stopData?.tts_name || stopData?.name,
 					})}
 				>
 					<WaypointHeader
 						id={waypointData.stop_id}
 						location={stopLocation}
-						name={stopData.long_name || '-'}
+						name={stopData.name || '-'}
 						ttsName={stopData.tts_name || '-'}
 					/>
 				</TouchableOpacity>

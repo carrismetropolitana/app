@@ -5,7 +5,7 @@ import { useLinesContext } from '@/contexts/Lines.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useUserLocationContext } from '@/contexts/UserLocation.context';
 import createDocCollection from '@/hooks/useOtheSearch';
-import { type Line } from '@carrismetropolitana/api-types/network';
+import { HubLine } from '@tmlmobilidade/go-types-public-info';
 import { distance } from '@turf/turf';
 import { createContext, type PropsWithChildren, useCallback, useContext, useMemo, useState } from 'react';
 
@@ -17,10 +17,10 @@ interface LineSelectionContextState {
 		updateFilterBySearch: (value: string) => void
 	}
 	data: {
-		favorites: Line[]
-		filtered: Line[]
-		nearby: Line[]
-		recent: Line[]
+		favorites: HubLine[]
+		filtered: HubLine[]
+		nearby: HubLine[]
+		recent: HubLine[]
 	}
 	filters: {
 		by_search: string
@@ -60,22 +60,22 @@ export const LineSelectionContextProvider = ({ children }: PropsWithChildren) =>
 	//
 	// B. Transform data
 
-	const recentLinesData: Line[] = useMemo(() => {
+	const recentLinesData: HubLine[] = useMemo(() => {
 		// Get recent line IDs from user preferences
 		const recentLineIds = new Set(accountContext.data.account?.preferences?.recent_line_ids || []);
 		// Map IDs to line data
 		return Array.from(recentLineIds)
-			.map(id => linesContext.data.lines.find(line => line.id === id))
+			.map(id => linesContext.data.lines.find(line => line._id === id))
 			.filter(item => !!item)
-			.sort((a, b) => a.id.localeCompare(b.id));
+			.sort((a, b) => a._id.localeCompare(b._id));
 	}, [accountContext.data.account?.preferences?.recent_line_ids, linesContext.data.lines]);
 
-	const favoriteLinesData: Line[] = useMemo(() => {
+	const favoriteLinesData: HubLine[] = useMemo(() => {
 		const currentFavorites = new Set(accountContext.data.account?.favorites.line_ids || []);
-		return linesContext.data.lines.filter(line => currentFavorites.has(line.id));
+		return linesContext.data.lines.filter(line => currentFavorites.has(line._id));
 	}, [linesContext.data.lines, accountContext.data.account?.favorites.line_ids]);
 
-	const nearbyLinesData: Line[] = useMemo(() => {
+	const nearbyLinesData: HubLine[] = useMemo(() => {
 		// Skip if no stops are available
 		if (!stopsContext.data.stops.length) return [];
 		// Get user location
@@ -85,7 +85,7 @@ export const LineSelectionContextProvider = ({ children }: PropsWithChildren) =>
 		const stopsWithinRadius = stopsContext.data.stops.filter((stop) => {
 			const meters = distance(
 				{ coordinates: [userLocation.longitude, userLocation.latitude], type: 'Point' },
-				{ coordinates: [stop.lon, stop.lat], type: 'Point' },
+				{ coordinates: [stop.longitude, stop.latitude], type: 'Point' },
 				{ units: 'meters' },
 			);
 			return meters <= 500;
@@ -93,18 +93,18 @@ export const LineSelectionContextProvider = ({ children }: PropsWithChildren) =>
 		// Get unique line IDs from nearby stops
 		return Array
 			.from(new Set(stopsWithinRadius.flatMap(stop => stop.line_ids)))
-			.map(id => linesContext.data.lines.find(line => line.id === id))
-			.filter((l): l is Line => Boolean(l))
+			.map(id => linesContext.data.lines.find(line => line._id === id))
+			.filter((l): l is HubLine => Boolean(l))
 			.slice(0, 5); // Limit to 5 items
 	}, [stopsContext.data.stops, userLocationContext.data.location, linesContext.data.lines]);
 
-	const filteredLinesData: Line[] = useMemo(() => {
+	const filteredLinesData: HubLine[] = useMemo(() => {
 		// Skip if no filters are applied
 		if (!filterBySearchState) return linesContext.data.lines;
 		// Give extra weight to favorite lines
-		const boostedData = linesContext.data.lines.map(line => ({ ...line, boost: accountContext.data.account?.favorites.line_ids.includes(line.id) ? true : false }));
+		const boostedData = linesContext.data.lines.map(line => ({ ...line, boost: accountContext.data.account?.favorites.line_ids.includes(line._id) ? true : false }));
 		const searchHook = createDocCollection(boostedData, {
-			id: 4,
+			_id: 4,
 			// locality_ids: 1,
 			long_name: 2,
 			short_name: 4,

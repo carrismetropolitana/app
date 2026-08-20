@@ -4,9 +4,9 @@ import { ListSection } from '@/components/list/ListSection';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useStopsContext } from '@/contexts/Stops.context';
 import { useSystemVariables } from '@/theme/global';
-import { type Pattern } from '@carrismetropolitana/api-types/network';
+import { type HubPattern } from '@tmlmobilidade/go-types-public-info';
 import { IconArrowBarToRight, IconArrowsRightLeft } from '@tabler/icons-react-native';
-import { type OperationalDate } from '@tmlmobilidade/types';
+import { Dates } from '@tmlmobilidade/dates';
 import { router } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +17,7 @@ interface PatternSelectionTriggerProps {
 	description?: string
 	onSelect?: (patternId: string) => void
 	selectedLineId?: string
-	selectedOperationalDate?: OperationalDate
+	selectedOperationalDate?: Dates
 	selectedPatternId?: string
 	title?: string
 }
@@ -35,7 +35,7 @@ export function PatternSelectionTrigger({ description, selectedLineId, selectedO
 	const linesContext = useLinesContext();
 	const stopsContext = useStopsContext();
 
-	const [selectedPatternData, setSelectedPatternData] = useState<Pattern>();
+	const [selectedPatternData, setSelectedPatternData] = useState<HubPattern>();
 
 	const { t } = useTranslation();
 
@@ -51,7 +51,7 @@ export function PatternSelectionTrigger({ description, selectedLineId, selectedO
 
 			const foundPatternData = await linesContext.actions.getValidPatternVersionForOperationalDate(
 				selectedPatternId,
-				selectedOperationalDate,
+				selectedOperationalDate?.operational_date_int,
 			);
 
 			setSelectedPatternData(foundPatternData ?? undefined);
@@ -65,7 +65,7 @@ export function PatternSelectionTrigger({ description, selectedLineId, selectedO
 		if (sortedStops.length === 0) return;
 
 		const stopData = stopsContext.actions.getStopById(sortedStops[0].stop_id);
-		return stopData?.long_name;
+		return stopData?.name;
 	}, [selectedPatternData, stopsContext.actions]);
 
 	const handleShowList = () => {

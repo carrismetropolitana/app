@@ -1,7 +1,8 @@
 /* * */
 
-import { SelectPattern } from '@/components/common/SelectPattern';
+import { PatternSelection } from '@/components/selection/pattern/PatternSelection';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
+import { useOperationalDateContext } from '@/contexts/OperationalDate.context';
 import { useMemo } from 'react';
 
 /* * */
@@ -11,15 +12,17 @@ export function SelectActivePatternGroup() {
 
 	//
 	// A. Setup variables
+
 	const lineDetailContext = useLineDetailContext();
+	const operationalDateContext = useOperationalDateContext();
 
 	//
 	// B. Transform data
 
 	const validPatternGroupsSelectOptions = useMemo(() => {
-		if (!lineDetailContext.data.valid_patterns) return [];
-		return lineDetailContext.data.valid_patterns;
-	}, [lineDetailContext.data.valid_patterns]);
+		if (!lineDetailContext.data.available_patterns) return [];
+		return lineDetailContext.data.available_patterns;
+	}, [lineDetailContext.data.available_patterns]);
 
 	//
 	// C. Render components
@@ -29,7 +32,12 @@ export function SelectActivePatternGroup() {
 	}
 
 	return (
-		<SelectPattern />
+		<PatternSelection 
+			onSelect={lineDetailContext.actions.selectPatternId}
+			selectedLineId={lineDetailContext.data.selected_line_id?.toString()}
+			selectedOperationalDate={operationalDateContext.data.selected_date}
+			selectedPatternId={lineDetailContext.data.selected_pattern_id?.toString()}
+		/>
 	);
 
 	//

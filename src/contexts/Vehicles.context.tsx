@@ -52,7 +52,7 @@ export const VehiclesContextProvider = ({ children }: PropsWithChildren) => {
 	//
 	// A. Fetch data
 
-	const { data: allVehiclesData, isLoading: allVehiclesLoading } = useSWR<Vehicle[], Error>(`${getServiceUrl('api')}/vehicles`, { refreshInterval: 3_000 });
+	const { data: allVehiclesData, isLoading: allVehiclesLoading } = useSWR<Vehicle[], Error>(`${getServiceUrl('go_api_url')}/hub/api/v1/vehicles`, { refreshInterval: 3_000 });
 
 	//
 	// B. Transform data

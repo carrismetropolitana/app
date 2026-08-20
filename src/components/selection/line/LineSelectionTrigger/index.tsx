@@ -41,7 +41,7 @@ export function LineSelectionTrigger({ description, onSelect, selectedLineId, ti
 	const selectedLineData = useMemo(() => {
 		if (!localSearchParams.line_id) return;
 		return linesContext.actions.getLineDataById(localSearchParams.line_id);
-	}, [localSearchParams.line_id]);
+	}, [linesContext.actions, localSearchParams.line_id]);
 
 	//
 	// C. Handle actions
@@ -95,7 +95,7 @@ export function LineSelectionTrigger({ description, onSelect, selectedLineId, ti
 						accessibilityLabel: t($ => $.selection.LineSelectionTrigger.selected.accessibility_label, {
 							tts_name: selectedLineData.tts_name,
 						}),
-						icon: <LineBadge lineId={selectedLineData.id} withAlertIcon />,
+						icon: <LineBadge lineId={selectedLineData._id} withAlertIcon />,
 						key: 'selected-line',
 						label: selectedLineData.long_name,
 						onPress: handleShowList,
