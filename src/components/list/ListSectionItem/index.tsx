@@ -3,7 +3,7 @@
 import { SafePressable } from '@/components/common/SafePressable';
 import { useSystemVariables } from '@/theme/global';
 import { IconChevronRight } from '@tabler/icons-react-native';
-import { type Route, useRouter } from 'expo-router';
+import { type Href, useRouter } from 'expo-router';
 import { type ReactNode } from 'react';
 import { Text, View } from 'react-native';
 
@@ -20,7 +20,7 @@ export interface ListSectionItemProps {
 	icon?: ReactNode
 	key: string
 	label: string
-	link?: Route
+	link?: Href
 	onPress?: () => void
 	replaceChevron?: ReactNode
 	size?: 'md' | 'sm'

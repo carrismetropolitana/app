@@ -7,7 +7,7 @@ import { MAP_VIEWPORT } from '@/components/map/configs/map-viewport';
 import { VehiclesCounter } from '@/components/vehicles/common/VehiclesCounter';
 import { useMapGlobalContext } from '@/contexts/MapGlobal.context';
 import { useUserLocationContext } from '@/contexts/UserLocation.context';
-import { Camera, type CameraRef, Images, type Location, MapView as RNMapView, type MapViewRef as RNMapViewRef, UserLocation } from '@maplibre/maplibre-react-native';
+import { Camera, type CameraRef, type GeolocationPosition, Images, NativeUserLocation, Map as RNMap, type MapRef as RNMapRef, useCurrentPosition } from '@maplibre/maplibre-react-native';
 import { forwardRef, type PropsWithChildren, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { View } from 'react-native';
 
@@ -19,7 +19,7 @@ export type MapStyle = 'map' | 'satellite';
 
 interface MapViewProps {
 	onDidFinishLoadingMap?: (cameraRef: CameraRef) => boolean | undefined
-	onUserLocationUpdate?: (location: Location) => void
+	onUserLocationUpdate?: (location: GeolocationPosition) => void
 	vehiclesCounterQty?: number
 	withUserLocation?: boolean
 }
@@ -41,7 +41,7 @@ export const MapView = forwardRef<MapViewRef, PropsWithChildren<MapViewProps>>((
 }, ref) => {
 	const styles = useStyles();
 
-	const mapViewRef = useRef<RNMapViewRef>(null);
+	const mapViewRef = useRef<RNMapRef>(null);
 	const cameraRef = useRef<CameraRef>(null);
 	const [followUserLocation, setFollowUserLocation] = useState(true);
 
@@ -50,6 +50,7 @@ export const MapView = forwardRef<MapViewRef, PropsWithChildren<MapViewProps>>((
 	const didFinishLoadingAttemptCountRef = useRef(0);
 	const didFinishLoadingRetryTimeoutRef = useRef<null | ReturnType<typeof setTimeout>>(null);
 	const tryHandleDidFinishLoadingMapRef = useRef<(() => void) | null>(null);
+	const onUserLocationUpdateRef = useRef(onUserLocationUpdate);
 
 	const mapGlobalContext = useMapGlobalContext();
 	const { flags } = useUserLocationContext();
@@ -66,6 +67,8 @@ export const MapView = forwardRef<MapViewRef, PropsWithChildren<MapViewProps>>((
 
 	const shouldRenderUserLocation = (withUserLocation || !!onUserLocationUpdate) && flags.has_permission;
 	const shouldFollowUser = withUserLocation && flags.has_permission && followUserLocation;
+
+	const currentPosition = useCurrentPosition({ enabled: shouldRenderUserLocation });
 
 	const clearDidFinishLoadingRetry = useCallback(() => {
 		if (didFinishLoadingRetryTimeoutRef.current) {
@@ -100,6 +103,15 @@ export const MapView = forwardRef<MapViewRef, PropsWithChildren<MapViewProps>>((
 	}, [clearDidFinishLoadingRetry, hasHandledDidFinishLoadingMap, hasLoadedMap, shouldFollowUser, onDidFinishLoadingMap]);
 
 	useEffect(() => {
+		onUserLocationUpdateRef.current = onUserLocationUpdate;
+	}, [onUserLocationUpdate]);
+
+	useEffect(() => {
+		if (!currentPosition) return;
+		onUserLocationUpdateRef.current?.(currentPosition);
+	}, [currentPosition]);
+
+	useEffect(() => {
 		tryHandleDidFinishLoadingMapRef.current = tryHandleDidFinishLoadingMap;
 		return () => {
 			tryHandleDidFinishLoadingMapRef.current = null;
@@ -114,10 +126,10 @@ export const MapView = forwardRef<MapViewRef, PropsWithChildren<MapViewProps>>((
 
 	return (
 		<View style={styles.container}>
-			<RNMapView
+			<RNMap
 				ref={mapViewRef}
-				attributionEnabled={false}
-				compassEnabled={false}
+				attribution={false}
+				compass={false}
 				mapStyle={mapStyleData.value}
 				onDidFinishLoadingMap={() => setHasLoadedMap(true)}
 				style={{ flex: 1 }}
@@ -133,30 +145,23 @@ export const MapView = forwardRef<MapViewRef, PropsWithChildren<MapViewProps>>((
 
 				<Camera
 					ref={cameraRef}
-					animationMode="easeTo"
-					defaultSettings={{ centerCoordinate: MAP_VIEWPORT.center as [number, number], zoomLevel: MAP_VIEWPORT.zoom }}
-					followUserLocation={shouldFollowUser}
-					maxZoomLevel={mapStyleData.max_zoom}
-					minZoomLevel={mapStyleData.min_zoom}
-					onUserTrackingModeChange={(event) => {
-						if (!event.nativeEvent.payload.followUserLocation) {
+					initialViewState={{ center: MAP_VIEWPORT.center as [number, number], zoom: MAP_VIEWPORT.zoom }}
+					maxZoom={mapStyleData.max_zoom}
+					minZoom={mapStyleData.min_zoom}
+					trackUserLocation={shouldFollowUser ? 'default' : undefined}
+					onTrackUserLocationChange={(event) => {
+						if (event.nativeEvent.trackUserLocation == null) {
 							setFollowUserLocation(false);
 						}
 					}}
 				/>
 
 				{shouldRenderUserLocation && (
-					<UserLocation
-						onUpdate={onUserLocationUpdate}
-						renderMode="native"
-						animated
-						showsUserHeadingIndicator
-						visible
-					/>
+					<NativeUserLocation mode="heading" />
 				)}
 
 				{children}
-			</RNMapView>
+			</RNMap>
 
 			{vehiclesCounterQty !== undefined && (
 				<View style={styles.vehiclesCounterWrapper}>

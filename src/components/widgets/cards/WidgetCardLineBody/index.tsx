@@ -106,10 +106,11 @@ export function WidgetCardLineBody({ data }: WidgetCardLineBodyProps) {
 		const featureBounds = bbox(shapeDataFC);
 		// Fit map to bounds
 		cameraRef.fitBounds(
-			[featureBounds[2], featureBounds[3]],
-			[featureBounds[0], featureBounds[1]],
-			50, // padding around bounds
-			0, // animation duration in ms
+			[featureBounds[0], featureBounds[1], featureBounds[2], featureBounds[3]],
+			{
+				duration: 0,
+				padding: { bottom: 50, left: 50, right: 50, top: 50 },
+			},
 		);
 		// Return true to indicate success
 		// and avoid further attempts

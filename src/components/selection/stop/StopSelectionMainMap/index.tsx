@@ -4,7 +4,7 @@ import { MapOverlayStops, type MapOverlayStopsGeoJsonProperties } from '@/compon
 import { MapView, MapViewRef } from '@/components/map/view/MapView';
 import { useStopSelectionContext } from '@/components/selection/stop/context/StopSelection.context';
 import { type StopSelectionProps } from '@/components/selection/stop/StopSelection';
-import { type CameraRef, Location } from '@maplibre/maplibre-react-native';
+import { type GeolocationPosition } from '@maplibre/maplibre-react-native';
 import { bbox } from '@turf/turf';
 import * as Haptics from 'expo-haptics';
 import { useEffect, useRef } from 'react';
@@ -37,16 +37,16 @@ export function StopSelectionMainMap({ onSelect }: StopSelectionProps) {
 		void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 	};
 
-	const handleUserLocationUpdate = (location: Location) => {
+	const handleUserLocationUpdate = (location: GeolocationPosition) => {
 		if (hasCenteredOnUserRef.current) return;
 		const cameraRef = mapViewRef.current?.camera_ref;
 		const coords = location?.coords;
 		if (!cameraRef || !coords) return;
 
-		cameraRef.setCamera({
-			animationDuration: 1000,
-			centerCoordinate: [coords.longitude, coords.latitude],
-			zoomLevel: 15,
+		cameraRef.easeTo({
+			center: [coords.longitude, coords.latitude],
+			duration: 1000,
+			zoom: 15,
 		});
 
 		hasCenteredOnUserRef.current = true;
@@ -65,10 +65,11 @@ export function StopSelectionMainMap({ onSelect }: StopSelectionProps) {
 		const featureBounds = bbox(fc);
 
 		cameraRef.fitBounds(
-			[featureBounds[2], featureBounds[3]],
-			[featureBounds[0], featureBounds[1]],
-			50,
-			500,
+			[featureBounds[0], featureBounds[1], featureBounds[2], featureBounds[3]],
+			{
+				duration: 500,
+				padding: { bottom: 50, left: 50, right: 50, top: 50 },
+			},
 		);
 
 		lastFittedSearchRef.current = search;

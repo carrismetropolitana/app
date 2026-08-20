@@ -3,8 +3,9 @@
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import { useSystemVariables } from '@/theme/global';
 import { type Stop } from '@carrismetropolitana/api-types/network';
-import { CircleLayer, type OnPressEvent, ShapeSource } from '@maplibre/maplibre-react-native';
+import { GeoJSONSource, Layer, type PressEventWithFeatures } from '@maplibre/maplibre-react-native';
 import { type Feature, type FeatureCollection, type Point } from 'geojson';
+import { type NativeSyntheticEvent } from 'react-native';
 
 /* * */
 
@@ -41,11 +42,11 @@ export function MapOverlayStops({ belowLayerId, onSelectStop, stopsData }: MapOv
 	//
 	// B. Handle actions
 
-	const handlePress = (event: OnPressEvent) => {
+	const handlePress = (event: NativeSyntheticEvent<PressEventWithFeatures>) => {
 		// Skip if no callback
 		if (!onSelectStop) return;
 		// Get feature and call callback
-		const matchingFeature = event.features.find(f => f.properties?.id) as Feature<Point, MapOverlayStopsGeoJsonProperties> | undefined;
+		const matchingFeature = event.nativeEvent.features.find(f => f.properties?.id) as Feature<Point, MapOverlayStopsGeoJsonProperties> | undefined;
 		if (matchingFeature) onSelectStop(matchingFeature.properties);
 	};
 
@@ -53,10 +54,11 @@ export function MapOverlayStops({ belowLayerId, onSelectStop, stopsData }: MapOv
 	// C. Render components
 
 	return (
-		<ShapeSource id="source-stops-all" onPress={handlePress} shape={stopsData ?? baseStopsFC}>
-			<CircleLayer
-				belowLayerID={belowLayerId}
+		<GeoJSONSource data={stopsData ?? baseStopsFC} id="source-stops-all" onPress={handlePress}>
+			<Layer
+				beforeId={belowLayerId}
 				id={mapOverlayStops_TopLayerId}
+				type="circle"
 				style={{
 					circleColor: [
 						'match',
@@ -92,7 +94,7 @@ export function MapOverlayStops({ belowLayerId, onSelectStop, stopsData }: MapOv
 					visibility: stopsData ? 'visible' : 'none',
 				}}
 			/>
-		</ShapeSource>
+		</GeoJSONSource>
 	);
 
 	//

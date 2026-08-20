@@ -3,17 +3,17 @@
 import { useAlertsContext } from '@/contexts/Alerts.context';
 import { useLinesContext } from '@/contexts/Lines.context';
 import { useStopsContext } from '@/contexts/Stops.context';
-import { type SimplifiedAlert } from '@/types/alerts.types';
-import { type Pattern, type Stop } from '@carrismetropolitana/api-types/network';
+import { normalizeReferenceId } from '@/utils/alerts';
+import type { HubAlert, HubPattern, HubStop } from '@tmlmobilidade/go-types-public-info';
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 
 /* * */
 
 interface StopDetailContextState {
 	data: {
-		active_alerts: SimplifiedAlert[]
-		available_patterns: Pattern[]
-		selected_stop: Stop | undefined
+		active_alerts: HubAlert[]
+		available_patterns: HubPattern[]
+		selected_stop: HubStop | undefined
 		selected_stop_id: string | undefined
 	}
 	flags: {
@@ -45,8 +45,7 @@ export const StopDetailContextProvider = ({ children, stopId }: PropsWithChildre
 	const linesContext = useLinesContext();
 	const alertsContext = useAlertsContext();
 
-	const [availablePatternsData, setAvailablePatternsData] = useState<Pattern[]>([]);
-	const [activeAlertsState, setActiveAlertsState] = useState<SimplifiedAlert[]>([]);
+	const [availablePatternsData, setAvailablePatternsData] = useState<HubPattern[]>([]);
 
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -69,7 +68,7 @@ export const StopDetailContextProvider = ({ children, stopId }: PropsWithChildre
 		const promises = selectedStopData.pattern_ids.map(patternId => linesContext.actions.getValidPatternVersionForOperationalDate(patternId));
 		Promise.all(promises).then((results) => {
 			if (cancelled) return;
-			const fetchResult = results.filter(Boolean) as Pattern[];
+			const fetchResult = results.filter(Boolean) as HubPattern[];
 			setAvailablePatternsData(fetchResult);
 			setIsLoading(false);
 		});
@@ -78,26 +77,32 @@ export const StopDetailContextProvider = ({ children, stopId }: PropsWithChildre
 		};
 	}, [selectedStopData]);
 
-	useEffect(() => {
-		if (!alertsContext.data.simplified) return;
-		const activeAlerts = alertsContext.data.simplified.filter((simplifiedAlertData) => {
-			return simplifiedAlertData.informed_entity.some((informedEntity) => {
-				if (!informedEntity.stop_id && !informedEntity.route_id) return false;
-				const hasMatchingStop = informedEntity.stop_id === selectedStopData?.id;
-				const hasMatchingRoute = selectedStopData?.route_ids.includes(informedEntity.route_id || '');
-				const isActive = simplifiedAlertData.end_date ? simplifiedAlertData.end_date >= new Date() : true;
-				return (hasMatchingStop || hasMatchingRoute) && isActive;
+	const activeAlertsData = useMemo(() => {
+		if (!selectedStopData) return [];
+
+		const normalizedStopId = normalizeReferenceId(stopId);
+		const normalizedLineIds = new Set(selectedStopData.line_ids.map(normalizeReferenceId));
+
+		return alertsContext.data.alerts.filter((alert) => {
+			const hasMatchingReference = alert.references.some((reference) => {
+				if (alert.reference_type === 'stops') return normalizeReferenceId(reference.parent_id) === normalizedStopId;
+				if (alert.reference_type !== 'lines') return false;
+
+				const hasMatchingLine = normalizedLineIds.has(normalizeReferenceId(reference.parent_id));
+				const hasMatchingStop = reference.child_ids.some(childId => normalizeReferenceId(childId) === normalizedStopId);
+				return hasMatchingLine || hasMatchingStop;
 			});
+			const isActive = !alert.active_period_end_date || alert.active_period_end_date >= Date.now();
+			return hasMatchingReference && isActive;
 		});
-		setActiveAlertsState(activeAlerts);
-	}, [alertsContext.data.simplified, selectedStopData]);
+	}, [alertsContext.data.alerts, selectedStopData, stopId]);
 
 	//
 	// C. Define context value
 
 	const contextValue: StopDetailContextState = useMemo(() => ({
 		data: {
-			active_alerts: activeAlertsState,
+			active_alerts: activeAlertsData,
 			available_patterns: availablePatternsData,
 			selected_stop: selectedStopData,
 			selected_stop_id: stopId,
@@ -109,6 +114,7 @@ export const StopDetailContextProvider = ({ children, stopId }: PropsWithChildre
 		isLoading,
 		selectedStopData,
 		availablePatternsData,
+		activeAlertsData,
 	]);
 
 	//

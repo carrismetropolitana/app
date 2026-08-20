@@ -2,7 +2,7 @@
 
 import { CloseButton } from '@/components/common/CloseButton';
 import { LineSelection } from '@/components/selection/line/LineSelection';
-import { type Route, router, useLocalSearchParams, useNavigation } from 'expo-router';
+import { type Href, type RoutePath, router, useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -15,7 +15,7 @@ export default function Page() {
 	// A. Setup variables
 
 	const navigation = useNavigation();
-	const localSearchParams = useLocalSearchParams<{ return_to: Route }>();
+	const localSearchParams = useLocalSearchParams<{ return_to: RoutePath }>();
 
 	const { t } = useTranslation();
 
@@ -35,7 +35,7 @@ export default function Page() {
 		router.dismissTo({
 			params: { ...localSearchParams, line_id: lineId, return_to: undefined },
 			pathname: localSearchParams.return_to,
-		} as unknown as Route); // FIXME: TypeScript issue
+		} as unknown as Href); // FIXME: TypeScript issue
 	};
 
 	//

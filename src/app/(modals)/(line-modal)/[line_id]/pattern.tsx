@@ -3,7 +3,7 @@
 import { PatternSelection } from '@/components/selection/pattern/PatternSelection';
 import { useLineDetailContext } from '@/contexts/LineDetail.context';
 import { type OperationalDate } from '@tmlmobilidade/types';
-import { type Route, router, useLocalSearchParams } from 'expo-router';
+import { type RoutePath, router, useLocalSearchParams } from 'expo-router';
 
 /* * */
 
@@ -14,7 +14,7 @@ export default function Page() {
 	// A. Setup variables
 
 	const lineDetailContext = useLineDetailContext();
-	const localSearchParams = useLocalSearchParams<{ line_id: string, operational_date: OperationalDate, pattern_id: string, return_to: Route }>();
+	const localSearchParams = useLocalSearchParams<{ line_id: string, operational_date: OperationalDate, pattern_id: string, return_to: RoutePath }>();
 
 	//
 	// B. Handle actions

@@ -2,7 +2,7 @@
 
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import { type Shape, type Stop, type Waypoint } from '@carrismetropolitana/api-types/network';
-import { CircleLayer, LineLayer, ShapeSource, SymbolLayer } from '@maplibre/maplibre-react-native';
+import { GeoJSONSource, Layer } from '@maplibre/maplibre-react-native';
 import { type Feature, type FeatureCollection, type LineString, type Point } from 'geojson';
 
 /* * */
@@ -51,10 +51,11 @@ export function MapOverlayPath({ belowLayerId, shapeData, waypointsData }: MapOv
 	return (
 		<>
 
-			<ShapeSource id="path-shape-source" shape={shapeData ?? baseShapeFC}>
-				<LineLayer
-					belowLayerID="path-shape-padding-layer"
+			<GeoJSONSource data={shapeData ?? baseShapeFC} id="path-shape-source">
+				<Layer
+					beforeId="path-shape-padding-layer"
 					id="path-shape-shadow-layer"
+					type="line"
 					style={{
 						lineBlur: 15,
 						lineCap: 'round',
@@ -65,9 +66,10 @@ export function MapOverlayPath({ belowLayerId, shapeData, waypointsData }: MapOv
 						visibility: shapeData ? 'visible' : 'none',
 					}}
 				/>
-				<LineLayer
-					belowLayerID="path-shape-line-layer"
+				<Layer
+					beforeId="path-shape-line-layer"
 					id="path-shape-padding-layer"
+					type="line"
 					style={{
 						lineCap: 'round',
 						lineColor: '#FFFFFF',
@@ -76,9 +78,10 @@ export function MapOverlayPath({ belowLayerId, shapeData, waypointsData }: MapOv
 						visibility: shapeData ? 'visible' : 'none',
 					}}
 				/>
-				<LineLayer
-					belowLayerID="path-shape-direction-layer"
+				<Layer
+					beforeId="path-shape-direction-layer"
 					id="path-shape-line-layer"
+					type="line"
 					style={{
 						lineCap: 'round',
 						lineColor: ['get', 'color'],
@@ -87,9 +90,10 @@ export function MapOverlayPath({ belowLayerId, shapeData, waypointsData }: MapOv
 						visibility: shapeData ? 'visible' : 'none',
 					}}
 				/>
-				<SymbolLayer
-					belowLayerID={mapOverlayPath_TopLayerId}
+				<Layer
+					beforeId={mapOverlayPath_TopLayerId}
 					id="path-shape-direction-layer"
+					type="symbol"
 					style={{
 						iconAllowOverlap: true,
 						iconAnchor: 'center',
@@ -104,12 +108,13 @@ export function MapOverlayPath({ belowLayerId, shapeData, waypointsData }: MapOv
 						visibility: shapeData ? 'visible' : 'none',
 					}}
 				/>
-			</ShapeSource>
+			</GeoJSONSource>
 
-			<ShapeSource id="path-waypoints-source" shape={waypointsData ?? baseWaypointsFC}>
-				<CircleLayer
-					belowLayerID={belowLayerId}
+			<GeoJSONSource data={waypointsData ?? baseWaypointsFC} id="path-waypoints-source">
+				<Layer
+					beforeId={belowLayerId}
 					id={mapOverlayPath_TopLayerId}
+					type="circle"
 					style={{
 						circleColor: ['get', 'text_color'],
 						circlePitchAlignment: 'map',
@@ -119,7 +124,7 @@ export function MapOverlayPath({ belowLayerId, shapeData, waypointsData }: MapOv
 						visibility: waypointsData ? 'visible' : 'none',
 					}}
 				/>
-			</ShapeSource>
+			</GeoJSONSource>
 
 		</>
 	);

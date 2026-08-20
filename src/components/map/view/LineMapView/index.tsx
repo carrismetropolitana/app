@@ -69,9 +69,11 @@ export function LineMapView({ isExpandable = false }: { isExpandable?: boolean }
 		const featureBounds = bbox(shapeDataFC);
 		if (featureBounds.some(coord => !isFinite(coord))) return false;
 		cameraRef.fitBounds(
-			[featureBounds[2], featureBounds[3]],
-			[featureBounds[0], featureBounds[1]],
-			50, 0,
+			[featureBounds[0], featureBounds[1], featureBounds[2], featureBounds[3]],
+			{
+				duration: 0,
+				padding: { bottom: 50, left: 50, right: 50, top: 50 },
+			},
 		);
 		setIsMapPositioned(true);
 		return true;

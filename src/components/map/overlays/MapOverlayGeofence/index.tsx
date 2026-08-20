@@ -2,7 +2,7 @@
 
 import { getBaseGeoJsonFeatureCollection } from '@/core-replica';
 import { useSystemVariables } from '@/theme/global';
-import { FillLayer, LineLayer, ShapeSource } from '@maplibre/maplibre-react-native';
+import { GeoJSONSource, Layer } from '@maplibre/maplibre-react-native';
 import { type Feature, type Polygon } from 'geojson';
 
 /* * */
@@ -40,19 +40,21 @@ export function MapOverlayGeofence({ belowLayerId, geofenceData }: MapOverlayGeo
 	// B. Render components
 
 	return (
-		<ShapeSource id="geofence-source" shape={geofenceData ?? baseGeofenceFC}>
-			<FillLayer
-				belowLayerID={mapOverlayGeofence_TopLayerId}
+		<GeoJSONSource data={geofenceData ?? baseGeofenceFC} id="geofence-source">
+			<Layer
+				beforeId={mapOverlayGeofence_TopLayerId}
 				id="geofence-fill-layer"
+				type="fill"
 				style={{
 					fillColor: systemVariables.status.active,
 					fillOpacity: 0.25,
 					visibility: geofenceData ? 'visible' : 'none',
 				}}
 			/>
-			<LineLayer
-				belowLayerID={belowLayerId}
+			<Layer
+				beforeId={belowLayerId}
 				id={mapOverlayGeofence_TopLayerId}
+				type="line"
 				style={{
 					lineCap: 'round',
 					lineColor: systemVariables.status.active,
@@ -61,7 +63,7 @@ export function MapOverlayGeofence({ belowLayerId, geofenceData }: MapOverlayGeo
 					visibility: geofenceData ? 'visible' : 'none',
 				}}
 			/>
-		</ShapeSource>
+		</GeoJSONSource>
 	);
 
 	//

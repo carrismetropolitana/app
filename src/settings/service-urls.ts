@@ -6,6 +6,12 @@ import { type Environment, getCurrentEnvironment } from '@/core-replica';
 
 const SERVICE_URLS = Object.freeze({
 
+	go_api_url: {
+		development: 'https://go.carrismetropolitana.pt/api/v1',
+		production: 'https://go.carrismetropolitana.pt/api/v1',
+		staging: 'https://go.carrismetropolitana.pt/api/v1',
+	},
+
 	accounts: {
 		development: 'https://accounts.carrismetropolitana.pt/v1',
 		production: 'https://accounts.carrismetropolitana.pt/v1',

@@ -27,7 +27,6 @@ const config: ExpoConfig = {
 	/* * */
 
 	experiments: {
-		reactCanary: true,
 		typedRoutes: true,
 	},
 
@@ -126,6 +125,12 @@ const config: ExpoConfig = {
 	/* * */
 
 	plugins: [
+
+		'expo-ios-scene-lifecycle-plugin',
+
+		'expo-build-properties',
+
+		'expo-status-bar',
 
 		'@maplibre/maplibre-react-native',
 
